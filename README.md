@@ -9,8 +9,8 @@ When a user suddenly needs their medication (e.g. if they had an anaphylactic sh
 
 
 ## The Team
-- Wiam Eddahri (wiam,eddahri@epfl.ch)
-- Hind El-Bouchrifi (hind.elvouchrifi@epfl.ch)
+- Wiam Eddahri (wiam.eddahri@epfl.ch)
+- Hind El Bouchrifi (hind.elbouchrifi@epfl.ch)
 - Adrien Nelson Rey (adrien.rey@epfl.ch)
 - Alexis Schlomer (alexis.schlomer@epfl.ch)
 - Alexandre Michel Hayderi (alexandre.hayderi@epfl.ch)
