@@ -1,3 +1,9 @@
+![Last commit](https://img.shields.io/github/last-commit/H3LP3RS/HELP)
+![Contributors](https://img.shields.io/github/contributors/H3LP3RS/HELP)
+[![Build Status](https://api.cirrus-ci.com/github/H3LP3RS/HELP.svg)](https://cirrus-ci.com/github/H3LP3RS/HELP)
+[![Maintainability](https://api.codeclimate.com/v1/badges/14ec7e18db1effc26145/maintainability)](https://codeclimate.com/github/H3LP3RS/HELP/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/14ec7e18db1effc26145/test_coverage)](https://codeclimate.com/github/H3LP3RS/HELP/test_coverage)
+
 # H3lp!
  
  This android application is developed for the project course  [CS-306 Software Development Project ](https://dslab.epfl.ch/teaching/sweng/proj) at  EPFL. 
