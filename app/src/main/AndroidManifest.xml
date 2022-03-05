@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.H3LP">
         <activity
+            android:name=".SignInActivity"
+            android:exported="false" />
+        <activity
             android:name=".GreetingActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity" />
