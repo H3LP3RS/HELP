@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "899579782202",
+    "project_id": "h3lp-signin",
+    "storage_bucket": "h3lp-signin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:899579782202:android:95ef111989952854b70103",
+        "android_client_info": {
+          "package_name": "com.github.h3lp3rs.h3lp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "899579782202-s1c1itavinln60f9eopphbahsl92p9ju.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.github.h3lp3rs.h3lp",
+            "certificate_hash": "5e3712da8086ba224455e546181988531b64fb22"
+          }
+        },
+        {
+          "client_id": "899579782202-blsb707d6hq0b8aha68gaghlipp286s2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVEk0MYh1TTxGeRBEoLmalCwBvpV6v7us"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "899579782202-blsb707d6hq0b8aha68gaghlipp286s2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
