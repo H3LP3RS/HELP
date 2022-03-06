@@ -6,48 +6,50 @@
     android:layout_height="match_parent"
     android:background="@color/dark_red"
     tools:context=".MainPageActivity">
+
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
         <RelativeLayout
-            android:background="@drawable/blue_background"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@color/light_blue">
+
             <TextView
                 android:id="@+id/Hello_text"
-                android:text="Hello, Wiam!"
-                android:textSize="25sp"
-                android:layout_marginTop="5dp"
-                android:textColor="@color/dark_blue"
-                android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                ></TextView>
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:text="Hello, Wiam!"
+                android:textColor="@color/dark_blue"
+                android:textSize="25sp"></TextView>
+
             <TextView
                 android:id="@+id/Welcome_text"
-                android:text="Welcome to the H3LP app."
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/Hello_text"
-                android:textSize="20sp"
-                android:textColor="@color/dark_blue"
                 android:layout_centerHorizontal="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                ></TextView>
+                android:text="Welcome to the H3LP app."
+                android:textColor="@color/dark_blue"
+                android:textSize="20sp"></TextView>
+
             <TextView
-                android:text="Stay safe!"
-                android:layout_below="@+id/Welcome_text"
-                android:textSize="20sp"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/dark_blue"
-                android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                ></TextView>
+                android:layout_below="@+id/Welcome_text"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:text="Stay safe!"
+                android:textColor="@color/dark_blue"
+                android:textSize="20sp"></TextView>
 
             <ImageButton
                 android:id="@+id/menuButton"
@@ -62,15 +64,214 @@
 
             <ImageButton
                 android:id="@+id/tutorialButton"
-                android:adjustViewBounds="true"
-                android:scaleType="centerInside"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="5dp"
                 android:layout_width="62dp"
                 android:layout_height="62dp"
                 android:layout_alignParentRight="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
+                android:adjustViewBounds="true"
                 android:background="@null"
+                android:scaleType="centerInside"
                 android:src="@drawable/tutorial"></ImageButton>
+
+
+            <SearchView
+                android:id="@+id/search_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="150dp"
+                android:layout_marginEnd="3dp"
+                android:background="@color/light_grey"
+                android:iconifiedByDefault="false"
+                android:queryHint="Search..."></SearchView>
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/search_bar"
+                    android:layout_marginTop="50dp"
+                    android:background="@color/white"
+
+                    >
+                <!-- first button in scroll view -->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/outermost_layout"
+                        android:layout_width="117dp"
+                        android:layout_height="117dp"
+                        android:background="@color/blue"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/inside_layout"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_marginLeft="8.5dp"
+                            android:layout_marginTop="8.5dp"
+                            android:background="@color/white"
+                            android:orientation="vertical">
+
+                            <ImageButton
+                                android:layout_width="70dp"
+                                android:layout_height="70dp"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="5dp"
+                                android:background="@drawable/hospital" />
+
+                            <TextView
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:gravity="center"
+                                android:text="@string/hospital"
+                                android:textColor="@color/dark_blue"
+                                android:textSize="11dp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+                    <!-- second button in scroll view -->
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/outermost_layout2"
+                            android:layout_width="117dp"
+                            android:layout_height="117dp"
+                            android:background="@color/blue"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:id="@+id/inside_layout2"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
+                                android:layout_marginLeft="8.5dp"
+                                android:layout_marginTop="8.5dp"
+                                android:background="@color/white"
+                                android:orientation="vertical">
+
+                                <ImageButton
+                                    android:layout_width="70dp"
+                                    android:layout_height="70dp"
+                                    android:layout_gravity="center"
+                                    android:layout_marginTop="5dp"
+                                    android:background="@drawable/defribillator" />
+
+                                <TextView
+                                    android:id="@+id/textView2"
+                                    android:layout_width="100dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:gravity="center"
+                                    android:text="@string/defibrillator"
+                                    android:textColor="@color/dark_blue"
+                                    android:textSize="11dp"
+                                    android:textStyle="bold" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+                        <!-- third button in scroll view -->
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:id="@+id/outermost_layout3"
+                                android:layout_width="117dp"
+                                android:layout_height="117dp"
+                                android:background="@color/blue"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:id="@+id/inside_layout3"
+                                    android:layout_width="100dp"
+                                    android:layout_height="100dp"
+                                    android:layout_marginLeft="8.5dp"
+                                    android:layout_marginTop="8.5dp"
+                                    android:background="@color/white"
+                                    android:orientation="vertical">
+
+                                    <ImageButton
+                                        android:layout_width="70dp"
+                                        android:layout_height="70dp"
+                                        android:layout_gravity="center"
+                                        android:layout_marginTop="5dp"
+                                        android:background="@drawable/pharmacy" />
+
+                                    <TextView
+                                        android:id="@+id/textView3"
+                                        android:layout_width="100dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="10dp"
+                                        android:gravity="center"
+                                        android:text="@string/pharmacy"
+                                        android:textColor="@color/dark_blue"
+                                        android:textSize="11dp"
+                                        android:textStyle="bold" />
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+                        </LinearLayout>
+                        <!-- fourth button in scroll view -->
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:id="@+id/outermost_layout4"
+                                android:layout_width="117dp"
+                                android:layout_height="117dp"
+                                android:background="@color/blue"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:id="@+id/inside_layout4"
+                                    android:layout_width="100dp"
+                                    android:layout_height="100dp"
+                                    android:layout_marginLeft="8.5dp"
+                                    android:layout_marginTop="8.5dp"
+                                    android:background="@color/white"
+                                    android:orientation="vertical">
+
+                                    <ImageButton
+                                        android:layout_width="70dp"
+                                        android:layout_height="70dp"
+                                        android:layout_gravity="center"
+                                        android:layout_marginTop="5dp"
+                                        android:background="@drawable/education" />
+
+                                    <TextView
+                                        android:layout_width="100dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="10dp"
+                                        android:gravity="center"
+                                        android:text="@string/first_aid"
+                                        android:textColor="@color/dark_blue"
+                                        android:textSize="11dp"
+                                        android:textStyle="bold" />
+                                </LinearLayout>
+
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+        </HorizontalScrollView>
 
         </RelativeLayout>
 

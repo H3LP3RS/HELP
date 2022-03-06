@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">H3LP</string>
+    <string name="hospital">Nearby Hospitals</string>
+    <string name="pharmacy">Nearby Pharmacies</string>
+    <string name="defibrillator">Nearby Defibrillators</string>
+    <string name="first_aid">First Aid Tips</string>
+
 </resources>
