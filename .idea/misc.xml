@@ -5,6 +5,11 @@
       <map>
         <entry key="..\:/Users/Alexis/AndroidStudioProjects/H3LP/app/src/main/res/layout/activity_greeting.xml" value="0.13020833333333334" />
         <entry key="..\:/Users/Alexis/AndroidStudioProjects/H3LP/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.198" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.198" />
+        <entry key="app/src/main/res/layout/activity_greeting.xml" value="0.2749094202898551" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.2749094202898551" />
+        <entry key="app/src/main/res/layout/activity_main_page.xml" value="0.23746643066406253" />
       </map>
     </option>
   </component>

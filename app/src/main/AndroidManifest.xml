@@ -10,11 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.H3LP">
         <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+        <activity
             android:name=".GreetingActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".MainActivity"
+            android:name=".MainPageActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
