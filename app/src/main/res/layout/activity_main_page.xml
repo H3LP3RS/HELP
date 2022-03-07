@@ -100,9 +100,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/search_bar"
                 android:layout_marginTop="50dp"
-                android:background="@color/white"
-
-                >
+                android:background="@color/light_blue">
                 <!-- first button in scroll view -->
 
                 <LinearLayout
@@ -110,19 +108,19 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:id="@+id/outermost_layout"
                         android:layout_width="117dp"
                         android:layout_height="117dp"
-                        android:background="@color/blue"
+                        android:background="@drawable/round_style"
+                        android:backgroundTint="@color/blue"
                         android:orientation="vertical">
 
                         <LinearLayout
                             android:id="@+id/inside_layout"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:layout_marginStart="8.5dp"
-                            android:layout_marginTop="8.5dp"
+                            android:layout_width="105dp"
+                            android:layout_height="105dp"
+                            android:layout_centerInParent="true"
                             android:background="@drawable/round_style"
                             android:backgroundTint="@color/white"
 
@@ -147,7 +145,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
 
-                    </LinearLayout>
+                    </RelativeLayout>
                     <!-- second button in scroll view -->
 
                     <LinearLayout
@@ -155,19 +153,19 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <LinearLayout
+                        <RelativeLayout
                             android:id="@+id/outermost_layout2"
                             android:layout_width="117dp"
                             android:layout_height="117dp"
-                            android:background="@color/blue"
+                            android:background="@drawable/round_style"
+                            android:backgroundTint="@color/blue"
                             android:orientation="vertical">
 
                             <LinearLayout
                                 android:id="@+id/inside_layout2"
-                                android:layout_width="100dp"
-                                android:layout_height="100dp"
-                                android:layout_marginStart="8.5dp"
-                                android:layout_marginTop="8.5dp"
+                                android:layout_width="105dp"
+                                android:layout_height="105dp"
+                                android:layout_centerInParent="true"
                                 android:background="@drawable/round_style"
                                 android:backgroundTint="@color/white"
                                 android:orientation="vertical">
@@ -192,7 +190,7 @@
 
                             </LinearLayout>
 
-                        </LinearLayout>
+                        </RelativeLayout>
                         <!-- third button in scroll view -->
 
                         <LinearLayout
@@ -200,19 +198,19 @@
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
-                            <LinearLayout
+                            <RelativeLayout
                                 android:id="@+id/outermost_layout3"
                                 android:layout_width="117dp"
                                 android:layout_height="117dp"
-                                android:background="@color/blue"
+                                android:background="@drawable/round_style"
+                                android:backgroundTint="@color/blue"
                                 android:orientation="vertical">
 
                                 <LinearLayout
                                     android:id="@+id/inside_layout3"
-                                    android:layout_width="100dp"
-                                    android:layout_height="100dp"
-                                    android:layout_marginStart="8.5dp"
-                                    android:layout_marginTop="8.5dp"
+                                    android:layout_width="105dp"
+                                    android:layout_height="105dp"
+                                    android:layout_centerInParent="true"
                                     android:background="@drawable/round_style"
                                     android:backgroundTint="@color/white"
                                     android:orientation="vertical">
@@ -238,7 +236,7 @@
                                         android:textStyle="bold" />
 
                                 </LinearLayout>
-                            </LinearLayout>
+                            </RelativeLayout>
                         </LinearLayout>
                     </LinearLayout>
                     <!-- fourth button in scroll view -->
@@ -248,19 +246,19 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <LinearLayout
+                        <RelativeLayout
                             android:id="@+id/outermost_layout4"
                             android:layout_width="117dp"
                             android:layout_height="117dp"
-                            android:background="@color/blue"
+                            android:background="@drawable/round_style"
+                            android:backgroundTint="@color/blue"
                             android:orientation="vertical">
 
                             <LinearLayout
                                 android:id="@+id/inside_layout4"
-                                android:layout_width="100dp"
-                                android:layout_height="100dp"
-                                android:layout_marginStart="8.5dp"
-                                android:layout_marginTop="8.5dp"
+                                android:layout_width="105dp"
+                                android:layout_height="105dp"
+                                android:layout_centerInParent="true"
                                 android:background="@drawable/round_style"
                                 android:backgroundTint="@color/white"
                                 android:orientation="vertical">
@@ -284,23 +282,22 @@
                                     android:textStyle="bold" />
                             </LinearLayout>
 
-                        </LinearLayout>
+                        </RelativeLayout>
                         <!-- Fifth button in scroll view -->
 
-
-                        <LinearLayout
+                        <RelativeLayout
                             android:id="@+id/CPR_rate"
                             android:layout_width="117dp"
                             android:layout_height="117dp"
-                            android:background="@color/blue"
+                            android:background="@drawable/round_style"
+                            android:backgroundTint="@color/blue"
                             android:orientation="vertical">
 
                             <LinearLayout
                                 android:id="@+id/inside_layout5"
-                                android:layout_width="100dp"
-                                android:layout_height="100dp"
-                                android:layout_marginStart="8.5dp"
-                                android:layout_marginTop="8.5dp"
+                                android:layout_width="105dp"
+                                android:layout_height="105dp"
+                                android:layout_centerInParent="true"
                                 android:background="@drawable/round_style"
                                 android:backgroundTint="@color/white"
                                 android:orientation="vertical">
@@ -326,7 +323,7 @@
 
                             </LinearLayout>
 
-                        </LinearLayout>
+                        </RelativeLayout>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -368,7 +365,7 @@
                 <LinearLayout
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:background="@color/light_grey"
                     android:orientation="vertical">
 
@@ -393,7 +390,7 @@
                 </LinearLayout>
             </RelativeLayout>
 
-
+            
         </RelativeLayout>
 
     </LinearLayout>

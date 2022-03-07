@@ -16,6 +16,7 @@
     <string name="pharmacy_button">Pharmacy Button</string>
     <string name="tips_button">First Aid Tips Button</string>
     <string name="cpr_rate_button">CPR Rate Button</string>
+    <string name="help_button">CPR Help Button</string>
 
 
 </resources>
