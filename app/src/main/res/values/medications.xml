@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="epipen">Epipen</string>
+    <string name="cpr">CPR</string>
+    <string name="med_pro">Medical Professional</string>
+    <string name="Insulin">Insulin</string>
+    <string name="asthma_med">Ventolin</string>
+    <string name="first_aid_kit">First help kit and Bandages</string>
+    <string-array name="help_meds_and_skills">
+        <item>@string/epipen</item>
+        <item>@string/cpr</item>
+        <item>@string/med_pro</item>
+        <item>@string/Insulin</item>
+        <item>@string/asthma_med</item>
+        <item>@string/first_aid_kit</item>
+    </string-array>
+</resources>
