@@ -390,7 +390,13 @@
                 </LinearLayout>
             </RelativeLayout>
 
-            
+            <ImageButton
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="460dp"
+                android:background="@drawable/help_button"
+                android:contentDescription="@string/help_button" />
         </RelativeLayout>
 
     </LinearLayout>
