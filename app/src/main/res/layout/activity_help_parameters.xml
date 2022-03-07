@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HelpParametersActivity"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="-15dp">
+
+
+    <ToggleButton
+        android:id="@+id/toggleButton16"
+        style="@style/TextAppearance.AppCompat.Widget.Switch"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="60dp"
+        android:background="@drawable/select_meds_button"
+        android:checked="false"
+        android:filterTouchesWhenObscured="false"
+        android:textOff="@string/first_aid_kit"
+        android:textOn="@string/first_aid_kit"
+        app:layout_constraintBottom_toTopOf="@+id/main_call_button"
+        app:layout_constraintEnd_toStartOf="@+id/toggleButton17"
+        app:layout_constraintStart_toEndOf="@+id/toggleButton15"
+        app:layout_constraintTop_toBottomOf="@+id/toggleButton14" />
+
+    <ToggleButton
+        android:id="@+id/toggleButton15"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="60dp"
+        android:background="@drawable/select_meds_button"
+        android:checked="false"
+        android:textOff="@string/cpr"
+        android:textOn="@string/cpr"
+        app:layout_constraintBottom_toTopOf="@+id/main_call_button"
+        app:layout_constraintEnd_toStartOf="@+id/toggleButton16"
+        app:layout_constraintHorizontal_bias="0.848"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toggleButton10" />
+
+    <ToggleButton
+        android:id="@+id/toggleButton10"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="224dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="2dp"
+        android:background="@drawable/select_meds_button"
+        android:checked="false"
+        android:textOff="@string/epipen"
+        android:textOn="@string/epipen"
+        app:layout_constraintBottom_toTopOf="@+id/toggleButton15"
+        app:layout_constraintEnd_toStartOf="@+id/toggleButton14"
+        app:layout_constraintHorizontal_bias="0.7"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.787" />
+
+    <ToggleButton
+        android:id="@+id/toggleButton17"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="60dp"
+        android:background="@drawable/select_meds_button"
+        android:checked="false"
+        android:textOff="@string/med_pro"
+        android:textOn="@string/med_pro"
+        app:layout_constraintBottom_toTopOf="@+id/main_call_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/toggleButton16"
+        app:layout_constraintTop_toBottomOf="@+id/toggleButton13" />
+
+    <ToggleButton
+        android:id="@+id/toggleButton13"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="224dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="2dp"
+        android:background="@drawable/select_meds_button"
+        android:button="@drawable/select_meds_button"
+        android:checked="false"
+        android:textOff="@string/Insulin"
+        android:textOn="@string/Insulin"
+        app:layout_constraintBottom_toTopOf="@+id/toggleButton17"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/toggleButton14"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.777" />
+
+    <ToggleButton
+        android:id="@+id/toggleButton14"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="224dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="2dp"
+        android:background="@drawable/select_meds_button"
+        android:checked="false"
+        android:textOff="@string/asthma_med"
+        android:textOn="@string/asthma_med"
+        app:layout_constraintBottom_toTopOf="@+id/toggleButton16"
+        app:layout_constraintEnd_toStartOf="@+id/toggleButton13"
+        app:layout_constraintStart_toEndOf="@+id/toggleButton10"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.777" />
+
+    <ImageView
+        android:id="@+id/main_call_button"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="76dp"
+        android:layout_marginBottom="80dp"
+        android:onClick="emergencyCall"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_phone"
+        tools:ignore="MissingConstraints,RedundantDescriptionCheck"
+        android:contentDescription="@string/phone_icon_description" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="145dp"
+        android:layout_height="77dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="68dp"
+        android:backgroundTint="#DD1818"
+        android:text="@string/search_help_button"
+        android:onClick="searchHelp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.531"
+        app:layout_constraintStart_toEndOf="@+id/main_call_button" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:text="@string/call_emergency_button"
+        android:textColor="#175A04"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_call_button"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/help_breath_text"
+        android:layout_width="282dp"
+        android:layout_height="144dp"
+        android:text="@string/keep_calm_meds_selection_msg"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="#FF1100"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.059" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
