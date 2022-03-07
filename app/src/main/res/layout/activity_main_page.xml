@@ -25,11 +25,11 @@
             <TextView
                 android:id="@+id/Hello_text"
                 android:layout_width="wrap_content"
-                android:layout_below="@+id/menuButton"
-                android:gravity="center"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/menuButton"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
+                android:gravity="center"
                 android:text="@string/hello"
                 android:textColor="@color/dark_blue"
                 android:textSize="25sp" />
@@ -307,7 +307,8 @@
                                     android:layout_gravity="center"
                                     android:layout_marginTop="5dp"
                                     android:background="@drawable/cpr_rate"
-                                    android:contentDescription="@string/cpr_rate_button" />
+                                    android:contentDescription="@string/cpr_rate_button"
+                                    android:onClick="goToCprActivity" />
 
                                 <TextView
                                     android:id="@+id/textView5"
