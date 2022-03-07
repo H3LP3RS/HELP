@@ -7,6 +7,9 @@
     <string name="hello">Hello Wiam!</string>
     <string name="welcome_text">Welcome to the H3LP app!</string>
     <string name="stay_safe">Stay safe!</string>
+    <string name="cpr_rate">CPR rate</string>
+    <string name="profile_button">My Profile</string>
+    <string name="skills_button">My skills/SOS Kit</string>
 
 
 </resources>
