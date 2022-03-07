@@ -219,7 +219,8 @@
                                         android:layout_gravity="center"
                                         android:layout_marginTop="5dp"
                                         android:background="@drawable/pharmacy"
-                                        android:contentDescription="@string/pharmacy_button" />
+                                        android:contentDescription="@string/pharmacy_button"
+                                        tools:ignore="TooDeepLayout" />
 
                                     <TextView
                                         android:id="@+id/textView3"
