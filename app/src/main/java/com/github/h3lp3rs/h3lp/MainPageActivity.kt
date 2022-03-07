@@ -8,8 +8,7 @@ import android.view.WindowManager
 class MainPageActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //hide the title bar
-        getSupportActionBar()?.hide()
+
         //show the activity in full screen
         this.getWindow().setFlags(
             WindowManager.LayoutParams.FLAG_FULLSCREEN,

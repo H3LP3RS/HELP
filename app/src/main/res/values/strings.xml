@@ -4,5 +4,9 @@
     <string name="pharmacy">Nearby Pharmacies</string>
     <string name="defibrillator">Nearby Defibrillators</string>
     <string name="first_aid">First Aid Tips</string>
+    <string name="hello">Hello Wiam!</string>
+    <string name="welcome_text">Welcome to the H3LP app!</string>
+    <string name="stay_safe">Stay safe!</string>
+
 
 </resources>

@@ -75,6 +75,7 @@
                 android:src="@drawable/tutorial"></ImageButton>
 
 
+
             <SearchView
                 android:id="@+id/search_bar"
                 android:layout_width="match_parent"
@@ -86,14 +87,14 @@
                 android:iconifiedByDefault="false"
                 android:queryHint="Search..."></SearchView>
 
-                <HorizontalScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/search_bar"
-                    android:layout_marginTop="50dp"
-                    android:background="@color/white"
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/search_bar"
+                android:layout_marginTop="50dp"
+                android:background="@color/white"
 
-                    >
+                >
                 <!-- first button in scroll view -->
 
                 <LinearLayout
@@ -271,7 +272,7 @@
                     </LinearLayout>
                 </LinearLayout>
 
-        </HorizontalScrollView>
+            </HorizontalScrollView>
 
         </RelativeLayout>
 
