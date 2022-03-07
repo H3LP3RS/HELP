@@ -4,12 +4,18 @@
     <string name="pharmacy">Nearby Pharmacies</string>
     <string name="defibrillator">Nearby Defibrillators</string>
     <string name="first_aid">First Aid Tips</string>
-    <string name="hello">Hello Wiam!</string>
+    <string name="hello">Hello!</string>
     <string name="welcome_text">Welcome to the H3LP app!</string>
     <string name="stay_safe">Stay safe!</string>
     <string name="cpr_rate">CPR rate</string>
     <string name="profile_button">My Profile</string>
     <string name="skills_button">My skills/SOS Kit</string>
+    <string name="tutorial_button">Tutorial</string>
+    <string name="hospital_button">Hospital Button</string>
+    <string name="defibrillator_button">Defibrillator Button</string>
+    <string name="pharmacy_button">Pharmacy Button</string>
+    <string name="tips_button">First Aid Tips Button</string>
+    <string name="cpr_rate_button">CPR Rate Button</string>
 
 
 </resources>

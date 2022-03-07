@@ -32,7 +32,6 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                 android:text="@string/hello"
-                android:inputType="textMultiLine"
                 android:textColor="@color/dark_blue"
                 android:textSize="25sp" />
 
@@ -44,7 +43,7 @@
                 android:layout_centerHorizontal="true"
                 android:text="@string/welcome_text"
                 android:textColor="@color/dark_blue"
-                android:textSize="20sp"></TextView>
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/stay_safe"
@@ -55,31 +54,32 @@
                 android:layout_marginTop="10dp"
                 android:text="@string/stay_safe"
                 android:textColor="@color/dark_blue"
-                android:textSize="20sp"></TextView>
+                android:textSize="20sp" />
 
             <ImageButton
                 android:id="@+id/menuButton"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_marginTop="5dp"
                 android:adjustViewBounds="true"
                 android:background="@null"
                 android:scaleType="centerInside"
                 android:src="@drawable/menu"
-                tools:ignore="ContentDescription"></ImageButton>
+                tools:ignore="ContentDescription" />
 
             <ImageButton
                 android:id="@+id/tutorialButton"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_marginTop="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginEnd="5dp"
                 android:adjustViewBounds="true"
                 android:background="@null"
                 android:scaleType="centerInside"
-                android:src="@drawable/tutorial"></ImageButton>
+                android:src="@drawable/tutorial"
+                android:contentDescription="@string/tutorial_button" />
 
 
             <SearchView
@@ -93,7 +93,7 @@
                 android:background="@color/light_grey"
                 android:iconifiedByDefault="false"
                 android:queryHint="Search..."
-                android:searchIcon="@drawable/loupe"></SearchView>
+                android:searchIcon="@drawable/search" />
 
             <HorizontalScrollView
                 android:layout_width="match_parent"
@@ -106,7 +106,7 @@
                 <!-- first button in scroll view -->
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
@@ -121,7 +121,7 @@
                             android:id="@+id/inside_layout"
                             android:layout_width="100dp"
                             android:layout_height="100dp"
-                            android:layout_marginLeft="8.5dp"
+                            android:layout_marginStart="8.5dp"
                             android:layout_marginTop="8.5dp"
                             android:background="@color/white"
                             android:orientation="vertical">
@@ -131,7 +131,8 @@
                                 android:layout_height="70dp"
                                 android:layout_gravity="center"
                                 android:layout_marginTop="5dp"
-                                android:background="@drawable/hospital" />
+                                android:background="@drawable/hospital"
+                                android:contentDescription="@string/hospital_button" />
 
                             <TextView
                                 android:layout_width="100dp"
@@ -140,7 +141,7 @@
                                 android:gravity="center"
                                 android:text="@string/hospital"
                                 android:textColor="@color/dark_blue"
-                                android:textSize="9dp"
+                                android:textSize="11sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
 
@@ -163,7 +164,7 @@
                                 android:id="@+id/inside_layout2"
                                 android:layout_width="100dp"
                                 android:layout_height="100dp"
-                                android:layout_marginLeft="8.5dp"
+                                android:layout_marginStart="8.5dp"
                                 android:layout_marginTop="8.5dp"
                                 android:background="@color/white"
                                 android:orientation="vertical">
@@ -173,17 +174,17 @@
                                     android:layout_height="70dp"
                                     android:layout_gravity="center"
                                     android:layout_marginTop="5dp"
-                                    android:background="@drawable/defribillator" />
+                                    android:background="@drawable/defibrillator"
+                                    android:contentDescription="@string/defibrillator_button" />
 
                                 <TextView
                                     android:id="@+id/textView2"
                                     android:layout_width="100dp"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="10dp"
                                     android:gravity="center"
                                     android:text="@string/defibrillator"
                                     android:textColor="@color/dark_blue"
-                                    android:textSize="9dp"
+                                    android:textSize="11sp"
                                     android:textStyle="bold" />
 
                             </LinearLayout>
@@ -207,7 +208,7 @@
                                     android:id="@+id/inside_layout3"
                                     android:layout_width="100dp"
                                     android:layout_height="100dp"
-                                    android:layout_marginLeft="8.5dp"
+                                    android:layout_marginStart="8.5dp"
                                     android:layout_marginTop="8.5dp"
                                     android:background="@color/white"
                                     android:orientation="vertical">
@@ -217,7 +218,8 @@
                                         android:layout_height="70dp"
                                         android:layout_gravity="center"
                                         android:layout_marginTop="5dp"
-                                        android:background="@drawable/pharmacy" />
+                                        android:background="@drawable/pharmacy"
+                                        android:contentDescription="@string/pharmacy_button" />
 
                                     <TextView
                                         android:id="@+id/textView3"
@@ -227,7 +229,7 @@
                                         android:gravity="center"
                                         android:text="@string/pharmacy"
                                         android:textColor="@color/dark_blue"
-                                        android:textSize="9dp"
+                                        android:textSize="11sp"
                                         android:textStyle="bold" />
 
                                 </LinearLayout>
@@ -252,7 +254,7 @@
                                 android:id="@+id/inside_layout4"
                                 android:layout_width="100dp"
                                 android:layout_height="100dp"
-                                android:layout_marginLeft="8.5dp"
+                                android:layout_marginStart="8.5dp"
                                 android:layout_marginTop="8.5dp"
                                 android:background="@color/white"
                                 android:orientation="vertical">
@@ -262,7 +264,8 @@
                                     android:layout_height="70dp"
                                     android:layout_gravity="center"
                                     android:layout_marginTop="5dp"
-                                    android:background="@drawable/education" />
+                                    android:background="@drawable/education"
+                                    android:contentDescription="@string/tips_button" />
 
                                 <TextView
                                     android:layout_width="100dp"
@@ -271,7 +274,7 @@
                                     android:gravity="center"
                                     android:text="@string/first_aid"
                                     android:textColor="@color/dark_blue"
-                                    android:textSize="9dp"
+                                    android:textSize="11sp"
                                     android:textStyle="bold" />
                             </LinearLayout>
 
@@ -290,7 +293,7 @@
                                 android:id="@+id/inside_layout5"
                                 android:layout_width="100dp"
                                 android:layout_height="100dp"
-                                android:layout_marginLeft="8.5dp"
+                                android:layout_marginStart="8.5dp"
                                 android:layout_marginTop="8.5dp"
                                 android:background="@color/white"
                                 android:orientation="vertical">
@@ -300,7 +303,8 @@
                                     android:layout_height="70dp"
                                     android:layout_gravity="center"
                                     android:layout_marginTop="5dp"
-                                    android:background="@drawable/cpr_rate" />
+                                    android:background="@drawable/cpr_rate"
+                                    android:contentDescription="@string/cpr_rate_button" />
 
                                 <TextView
                                     android:id="@+id/textView5"
@@ -310,7 +314,7 @@
                                     android:gravity="center"
                                     android:text="@string/cpr_rate"
                                     android:textColor="@color/dark_blue"
-                                    android:textSize="9dp"
+                                    android:textSize="11sp"
                                     android:textStyle="bold" />
 
                             </LinearLayout>
