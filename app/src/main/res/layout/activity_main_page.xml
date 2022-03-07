@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_red"
+    android:background="@color/light_blue"
     tools:context=".MainPageActivity">
 
     <LinearLayout
@@ -25,8 +25,7 @@
             <TextView
                 android:id="@+id/Hello_text"
                 android:layout_width="wrap_content"
-                android:layout_toStartOf="@+id/tutorialButton"
-                android:layout_toEndOf="@+id/menuButton"
+                android:layout_below="@+id/menuButton"
                 android:gravity="center"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
