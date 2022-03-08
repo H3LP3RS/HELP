@@ -77,6 +77,7 @@
             android:searchIcon="@drawable/search" />
 
         <HorizontalScrollView
+            android:id="@+id/horizontalScrollView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/search_bar"
@@ -259,6 +260,7 @@
                         android:orientation="vertical">
 
                         <ImageButton
+                            android:id="@+id/CPR_rate_button"
                             android:layout_width="@dimen/image_button_home_page"
                             android:layout_height="@dimen/image_button_home_page"
                             android:layout_gravity="center_horizontal"
