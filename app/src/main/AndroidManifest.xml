@@ -9,15 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.H3LP">
-
-        <activity android:name=".CprRateActivity"
-            android:parentActivityName=".MainPageActivity">
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainPageActivity" />
-        </activity>
-
+        <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
