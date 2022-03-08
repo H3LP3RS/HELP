@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="icon">48dp</dimen>
+    <dimen name="image_button_scroll_view">70dp</dimen>
+    <dimen name="app_margin">5dp</dimen>
+    <dimen name="scroll_view_outside_layout">117dp</dimen>
+    <dimen name="scroll_view_inside_layout">105dp</dimen>
+
+
+</resources>

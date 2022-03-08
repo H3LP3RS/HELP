@@ -8,15 +8,18 @@
     <string name="welcome_text">Welcome to the H3LP app!</string>
     <string name="stay_safe">Stay safe!</string>
     <string name="cpr_rate">CPR rate</string>
-    <string name="profile_button">My Profile</string>
-    <string name="skills_button">My skills/SOS Kit</string>
+    <string name="profile">My Profile</string>
+    <string name="profile_button">Profile</string>
+    <string name="skills">My skills/SOS Kit</string>
     <string name="tutorial_button">Tutorial</string>
-    <string name="hospital_button">Hospital Button</string>
-    <string name="defibrillator_button">Defibrillator Button</string>
-    <string name="pharmacy_button">Pharmacy Button</string>
-    <string name="tips_button">First Aid Tips Button</string>
-    <string name="cpr_rate_button">CPR Rate Button</string>
-    <string name="help_button">CPR Help Button</string>
+    <string name="hospital_button">Hospital</string>
+    <string name="defibrillator_button">Defibrillator</string>
+    <string name="pharmacy_button">Pharmacy</string>
+    <string name="tips_button">First Aid</string>
+    <string name="cpr_rate_button">CPR Rate</string>
+    <string name="help_button">CPR Help</string>
+    <string name="menu_button">Menu</string>
+    <string name="skills_button">Skills</string>
 
 
 </resources>

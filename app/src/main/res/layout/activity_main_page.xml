@@ -4,111 +4,137 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_blue"
+    android:background="@color/app_background"
     tools:context=".MainPageActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_marginLeft="@dimen/app_margin"
+        android:layout_marginTop="@dimen/app_margin"
+        android:layout_marginRight="@dimen/app_margin"
+        android:layout_marginBottom="@dimen/app_margin"
+        android:background="@color/app_background">
 
-        <RelativeLayout
+        <ImageButton
+            android:id="@+id/menuButton"
+            android:layout_width="@dimen/icon"
+            android:layout_height="@dimen/icon"
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:src="@drawable/menu"
+            android:contentDescription="@string/menu_button" />
+
+        <ImageButton
+            android:id="@+id/tutorialButton"
+            android:layout_width="@dimen/icon"
+            android:layout_height="@dimen/icon"
+            android:layout_alignParentEnd="true"
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:src="@drawable/tutorial"
+            android:contentDescription="@string/tutorial_button"/>
+
+        <TextView
+            android:id="@+id/Hello_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/menuButton"
+            android:layout_centerHorizontal="true"
+            android:text="@string/hello"
+            android:textColor="@color/dark_blue"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/Welcome_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/Hello_text"
+            android:layout_centerHorizontal="true"
+            android:text="@string/welcome_text"
+            android:textColor="@color/dark_blue"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/stay_safe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/Welcome_text"
+            android:layout_centerHorizontal="true"
+            android:text="@string/stay_safe"
+            android:textColor="@color/dark_blue"
+            android:textSize="20sp" />
+
+        <SearchView
+            android:id="@+id/search_bar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginBottom="5dp"
-            android:background="@color/light_blue"
-            tools:ignore="UselessParent">
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/stay_safe"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="50dp"
+            android:background="@color/light_grey"
+            android:iconifiedByDefault="false"
+            android:queryHint="Search..."
+            android:searchIcon="@drawable/search" />
 
-            <TextView
-                android:id="@+id/Hello_text"
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/search_bar"
+            android:layout_marginTop="50dp"
+            android:background="@color/app_background">
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/menuButton"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:text="@string/hello"
-                android:textColor="@color/dark_blue"
-                android:textSize="25sp" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/Welcome_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/Hello_text"
-                android:layout_centerHorizontal="true"
-                android:text="@string/welcome_text"
-                android:textColor="@color/dark_blue"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/stay_safe"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/Welcome_text"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:text="@string/stay_safe"
-                android:textColor="@color/dark_blue"
-                android:textSize="20sp" />
-
-            <ImageButton
-                android:id="@+id/menuButton"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
-                android:adjustViewBounds="true"
-                android:background="@null"
-                android:scaleType="centerInside"
-                android:src="@drawable/menu"
-                tools:ignore="ContentDescription" />
-
-            <ImageButton
-                android:id="@+id/tutorialButton"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
-                android:adjustViewBounds="true"
-                android:background="@null"
-                android:scaleType="centerInside"
-                android:src="@drawable/tutorial"
-                android:contentDescription="@string/tutorial_button" />
-
-
-            <SearchView
-                android:id="@+id/search_bar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_below="@+id/stay_safe"
-                android:layout_marginTop="50dp"
-                android:layout_marginEnd="1dp"
-                android:background="@color/light_grey"
-                android:iconifiedByDefault="false"
-                android:queryHint="Search..."
-                android:searchIcon="@drawable/search" />
-
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/search_bar"
-                android:layout_marginTop="50dp"
-                android:background="@color/light_blue">
                 <!-- first button in scroll view -->
 
+                <RelativeLayout
+                    android:layout_width="@dimen/scroll_view_outside_layout"
+                    android:layout_height="@dimen/scroll_view_outside_layout"
+                    android:background="@drawable/round_style"
+                    android:backgroundTint="@color/blue"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="@dimen/scroll_view_inside_layout"
+                        android:layout_height="@dimen/scroll_view_inside_layout"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/round_style"
+                        android:backgroundTint="@color/white"
+                        android:orientation="vertical">
+
+                        <ImageButton
+                            android:layout_width="@dimen/image_button_scroll_view"
+                            android:layout_height="@dimen/image_button_scroll_view"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/hospital"
+                            android:contentDescription="@string/hospital_button" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center"
+                            android:text="@string/hospital"
+                            android:textColor="@color/dark_blue"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                </RelativeLayout>
+                <!-- second button in scroll view -->
+
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
                     <RelativeLayout
-                        android:id="@+id/outermost_layout"
+                        android:id="@+id/outermost_layout2"
                         android:layout_width="117dp"
                         android:layout_height="117dp"
                         android:background="@drawable/round_style"
@@ -116,289 +142,240 @@
                         android:orientation="vertical">
 
                         <LinearLayout
-                            android:id="@+id/inside_layout"
+                            android:id="@+id/inside_layout2"
                             android:layout_width="105dp"
                             android:layout_height="105dp"
                             android:layout_centerInParent="true"
                             android:background="@drawable/round_style"
                             android:backgroundTint="@color/white"
-
                             android:orientation="vertical">
 
                             <ImageButton
-                                android:layout_width="70dp"
-                                android:layout_height="70dp"
+                                android:layout_width="@dimen/image_button_scroll_view"
+                                android:layout_height="@dimen/image_button_scroll_view"
                                 android:layout_gravity="center"
                                 android:layout_marginTop="5dp"
-                                android:background="@drawable/hospital"
-                                android:contentDescription="@string/hospital_button" />
+                                android:background="@drawable/defibrillator"
+                                android:contentDescription="@string/defibrillator_button" />
+
+                            <TextView
+                                android:id="@+id/textView2"
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="@string/defibrillator"
+                                android:textColor="@color/dark_blue"
+                                android:textSize="11sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+                    <!-- third button in scroll view -->
+
+
+                    <RelativeLayout
+                        android:id="@+id/outermost_layout3"
+                        android:layout_width="117dp"
+                        android:layout_height="117dp"
+                        android:background="@drawable/round_style"
+                        android:backgroundTint="@color/blue"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/inside_layout3"
+                            android:layout_width="105dp"
+                            android:layout_height="105dp"
+                            android:layout_centerInParent="true"
+                            android:background="@drawable/round_style"
+                            android:backgroundTint="@color/white"
+                            android:orientation="vertical">
+
+                            <ImageButton
+                                android:layout_width="@dimen/image_button_scroll_view"
+                                android:layout_height="@dimen/image_button_scroll_view"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="5dp"
+                                android:background="@drawable/pharmacy"
+                                android:contentDescription="@string/pharmacy_button"
+                                tools:ignore="TooDeepLayout,ImageContrastCheck" />
+
+                            <TextView
+                                android:id="@+id/textView3"
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:gravity="center"
+                                android:text="@string/pharmacy"
+                                android:textColor="@color/dark_blue"
+                                android:textSize="11sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                </LinearLayout>
+                <!-- fourth button in scroll view -->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:id="@+id/outermost_layout4"
+                        android:layout_width="117dp"
+                        android:layout_height="117dp"
+                        android:background="@drawable/round_style"
+                        android:backgroundTint="@color/blue"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/inside_layout4"
+                            android:layout_width="105dp"
+                            android:layout_height="105dp"
+                            android:layout_centerInParent="true"
+                            android:background="@drawable/round_style"
+                            android:backgroundTint="@color/white"
+                            android:orientation="vertical">
+
+                            <ImageButton
+                                android:layout_width="@dimen/image_button_scroll_view"
+                                android:layout_height="@dimen/image_button_scroll_view"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="5dp"
+                                android:background="@drawable/education"
+                                android:contentDescription="@string/tips_button" />
 
                             <TextView
                                 android:layout_width="100dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
                                 android:gravity="center"
-                                android:text="@string/hospital"
+                                android:text="@string/first_aid"
                                 android:textColor="@color/dark_blue"
                                 android:textSize="11sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
 
                     </RelativeLayout>
-                    <!-- second button in scroll view -->
+                    <!-- Fifth button in scroll view -->
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <RelativeLayout
-                            android:id="@+id/outermost_layout2"
-                            android:layout_width="117dp"
-                            android:layout_height="117dp"
-                            android:background="@drawable/round_style"
-                            android:backgroundTint="@color/blue"
-                            android:orientation="vertical">
-
-                            <LinearLayout
-                                android:id="@+id/inside_layout2"
-                                android:layout_width="105dp"
-                                android:layout_height="105dp"
-                                android:layout_centerInParent="true"
-                                android:background="@drawable/round_style"
-                                android:backgroundTint="@color/white"
-                                android:orientation="vertical">
-
-                                <ImageButton
-                                    android:layout_width="70dp"
-                                    android:layout_height="70dp"
-                                    android:layout_gravity="center"
-                                    android:layout_marginTop="5dp"
-                                    android:background="@drawable/defibrillator"
-                                    android:contentDescription="@string/defibrillator_button" />
-
-                                <TextView
-                                    android:id="@+id/textView2"
-                                    android:layout_width="100dp"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:text="@string/defibrillator"
-                                    android:textColor="@color/dark_blue"
-                                    android:textSize="11sp"
-                                    android:textStyle="bold" />
-
-                            </LinearLayout>
-
-                        </RelativeLayout>
-                        <!-- third button in scroll view -->
+                    <RelativeLayout
+                        android:id="@+id/CPR_rate"
+                        android:layout_width="117dp"
+                        android:layout_height="117dp"
+                        android:background="@drawable/round_style"
+                        android:backgroundTint="@color/blue"
+                        android:orientation="vertical">
 
                         <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:id="@+id/inside_layout5"
+                            android:layout_width="105dp"
+                            android:layout_height="105dp"
+                            android:layout_centerInParent="true"
+                            android:background="@drawable/round_style"
+                            android:backgroundTint="@color/white"
+                            android:orientation="vertical">
 
-                            <RelativeLayout
-                                android:id="@+id/outermost_layout3"
-                                android:layout_width="117dp"
-                                android:layout_height="117dp"
-                                android:background="@drawable/round_style"
-                                android:backgroundTint="@color/blue"
-                                android:orientation="vertical">
+                            <ImageButton
+                                android:layout_width="@dimen/image_button_scroll_view"
+                                android:layout_height="@dimen/image_button_scroll_view"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="5dp"
+                                android:background="@drawable/cpr_rate"
+                                android:contentDescription="@string/cpr_rate_button"
+                                android:onClick="goToCprActivity" />
 
-                                <LinearLayout
-                                    android:id="@+id/inside_layout3"
-                                    android:layout_width="105dp"
-                                    android:layout_height="105dp"
-                                    android:layout_centerInParent="true"
-                                    android:background="@drawable/round_style"
-                                    android:backgroundTint="@color/white"
-                                    android:orientation="vertical">
+                            <TextView
+                                android:id="@+id/textView5"
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:gravity="center"
+                                android:text="@string/cpr_rate"
+                                android:textColor="@color/dark_blue"
+                                android:textSize="11sp"
+                                android:textStyle="bold" />
 
-                                    <ImageButton
-                                        android:layout_width="70dp"
-                                        android:layout_height="70dp"
-                                        android:layout_gravity="center"
-                                        android:layout_marginTop="5dp"
-                                        android:background="@drawable/pharmacy"
-                                        android:contentDescription="@string/pharmacy_button"
-                                        tools:ignore="TooDeepLayout" />
-
-                                    <TextView
-                                        android:id="@+id/textView3"
-                                        android:layout_width="100dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="10dp"
-                                        android:gravity="center"
-                                        android:text="@string/pharmacy"
-                                        android:textColor="@color/dark_blue"
-                                        android:textSize="11sp"
-                                        android:textStyle="bold" />
-
-                                </LinearLayout>
-                            </RelativeLayout>
                         </LinearLayout>
-                    </LinearLayout>
-                    <!-- fourth button in scroll view -->
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <RelativeLayout
-                            android:id="@+id/outermost_layout4"
-                            android:layout_width="117dp"
-                            android:layout_height="117dp"
-                            android:background="@drawable/round_style"
-                            android:backgroundTint="@color/blue"
-                            android:orientation="vertical">
-
-                            <LinearLayout
-                                android:id="@+id/inside_layout4"
-                                android:layout_width="105dp"
-                                android:layout_height="105dp"
-                                android:layout_centerInParent="true"
-                                android:background="@drawable/round_style"
-                                android:backgroundTint="@color/white"
-                                android:orientation="vertical">
-
-                                <ImageButton
-                                    android:layout_width="70dp"
-                                    android:layout_height="70dp"
-                                    android:layout_gravity="center"
-                                    android:layout_marginTop="5dp"
-                                    android:background="@drawable/education"
-                                    android:contentDescription="@string/tips_button" />
-
-                                <TextView
-                                    android:layout_width="100dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="10dp"
-                                    android:gravity="center"
-                                    android:text="@string/first_aid"
-                                    android:textColor="@color/dark_blue"
-                                    android:textSize="11sp"
-                                    android:textStyle="bold" />
-                            </LinearLayout>
-
-                        </RelativeLayout>
-                        <!-- Fifth button in scroll view -->
-
-                        <RelativeLayout
-                            android:id="@+id/CPR_rate"
-                            android:layout_width="117dp"
-                            android:layout_height="117dp"
-                            android:background="@drawable/round_style"
-                            android:backgroundTint="@color/blue"
-                            android:orientation="vertical">
-
-                            <LinearLayout
-                                android:id="@+id/inside_layout5"
-                                android:layout_width="105dp"
-                                android:layout_height="105dp"
-                                android:layout_centerInParent="true"
-                                android:background="@drawable/round_style"
-                                android:backgroundTint="@color/white"
-                                android:orientation="vertical">
-
-                                <ImageButton
-                                    android:layout_width="70dp"
-                                    android:layout_height="70dp"
-                                    android:layout_gravity="center"
-                                    android:layout_marginTop="5dp"
-                                    android:background="@drawable/cpr_rate"
-                                    android:contentDescription="@string/cpr_rate_button"
-                                    android:onClick="goToCprActivity" />
-
-                                <TextView
-                                    android:id="@+id/textView5"
-                                    android:layout_width="100dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="10dp"
-                                    android:gravity="center"
-                                    android:text="@string/cpr_rate"
-                                    android:textColor="@color/dark_blue"
-                                    android:textSize="11sp"
-                                    android:textStyle="bold" />
-
-                            </LinearLayout>
-
-                        </RelativeLayout>
-                    </LinearLayout>
+                    </RelativeLayout>
                 </LinearLayout>
+            </LinearLayout>
 
-            </HorizontalScrollView>
+        </HorizontalScrollView>
 
-            <RelativeLayout
-                android:id="@+id/bottom_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:background="@color/light_grey">
+        <RelativeLayout
+            android:id="@+id/bottom_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/light_grey">
 
-                <LinearLayout
+            <LinearLayout
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@color/light_grey"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:layout_width="@dimen/image_button_scroll_view"
+                    android:layout_height="@dimen/image_button_scroll_view"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/profile"
+                    android:contentDescription="@string/profile_button" />
+
+                <TextView
                     android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:background="@color/light_grey"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:text="@string/profile"
+                    android:textColor="@color/dark_blue"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
 
-                    <ImageButton
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="5dp"
-                        android:background="@drawable/profile"
-                        android:contentDescription="@string/profile_button" />
+            </LinearLayout>
 
-                    <TextView
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:gravity="center"
-                        android:text="@string/profile_button"
-                        android:textColor="@color/dark_blue"
-                        android:textSize="11sp"
-                        android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_alignParentEnd="true"
+                android:background="@color/light_grey"
+                android:orientation="vertical">
 
-                </LinearLayout>
+                <ImageButton
+                    android:layout_width="@dimen/image_button_scroll_view"
+                    android:layout_height="@dimen/image_button_scroll_view"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/medication"
+                    android:contentDescription="@string/skills_button"
+                    tools:ignore="ImageContrastCheck" />
 
-                <LinearLayout
+                <TextView
                     android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_alignParentEnd="true"
-                    android:background="@color/light_grey"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:text="@string/skills"
+                    android:textColor="@color/dark_blue"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
 
-                    <ImageButton
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="5dp"
-                        android:background="@drawable/medication"
-                        android:contentDescription="@string/skills_button" />
-
-                    <TextView
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:gravity="center"
-                        android:text="@string/skills_button"
-                        android:textColor="@color/dark_blue"
-                        android:textSize="11sp"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-            </RelativeLayout>
-
-            <ImageButton
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="460dp"
-                android:background="@drawable/help_button"
-                android:contentDescription="@string/help_button" />
+            </LinearLayout>
         </RelativeLayout>
 
-    </LinearLayout>
+        <ImageButton
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="460dp"
+            android:background="@drawable/help_button"
+            android:contentDescription="@string/help_button" />
+    </RelativeLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
