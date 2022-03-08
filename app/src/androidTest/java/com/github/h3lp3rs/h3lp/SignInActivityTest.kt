@@ -32,7 +32,7 @@ class SignInActivityTest {
         onView(withId(R.id.signInButton))
             .check(matches(isDisplayed()));
 
-        //onView(withId(R.id.signInButton)).perform(ViewActions.click()).check(matches(not(isEnabled())));
+        onView(withId(R.id.signInButton)).perform(ViewActions.click()).check(matches((isEnabled())));
     }
 
 }
