@@ -54,6 +54,21 @@ class MainPageTestActivity {
         Intents.release()
     }
 
-   
+    @Test
+    fun clickingOnHelpButtonWorksAndSendsIntent() {
+        Intents.init()
+        val intent = Intent()
+        val intentResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
+        Intents.intending(IntentMatchers.anyIntent()).respondWith(intentResult)
+
+        onView(withId(R.id.HELP)).perform(click())
+
+        Intents.intended(
+            Matchers.allOf(
+                IntentMatchers.hasComponent(HelpParametersActivity::class.java.name))
+        )
+        Intents.release()
+    }
+
 
 }
