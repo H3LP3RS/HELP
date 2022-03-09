@@ -10,14 +10,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import android.widget.ToggleButton
 
+const val EMERGENCY_NUMBER = 112
 
 class HelpParametersActivity : AppCompatActivity() {
-
-    val EMERGENCY_NUMBER = 112
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_help_parameters)
+
     }
 
     /**
@@ -34,8 +34,28 @@ class HelpParametersActivity : AppCompatActivity() {
      *  Called when the user presses the "search for help" button after selecting their need.
      */
     fun searchHelp(view: View) {
+        val meds = retrieveSelectedMedication(view)
 
-        // retrieve selected medications
+        if (meds.isEmpty()) {
+            Toast.makeText(
+                applicationContext,
+                "Please select at least one item", Toast.LENGTH_SHORT
+            ).show()
+        } else {
+
+            val b = Bundle()
+            b.putStringArrayList(EXTRA_NEEDED_MEDICATION, meds)
+            val intent = Intent(this, AwaitHelpActivity::class.java)
+            intent.putExtras(b)
+
+            startActivity(intent)
+        }
+    }
+
+    /**
+     * Auxiliary function to retrieve the selected meds on the page
+     */
+    private fun retrieveSelectedMedication(view: View): ArrayList<String> {
         val viewGroup = view.parent as ViewGroup
 
         val meds = arrayListOf<String>()
@@ -49,18 +69,6 @@ class HelpParametersActivity : AppCompatActivity() {
             }
         }
 
-        if (meds.isEmpty()) {
-            Toast.makeText(
-                applicationContext,
-                "Please select at least one item", Toast.LENGTH_SHORT
-            ).show()
-        } else {
-            val b = Bundle()
-            b.putStringArrayList(EXTRA_NEEDED_MEDICATION, meds)
-            val intent = Intent(this, AwaitHelpActivity::class.java)
-            intent.putExtras(b)
-
-            startActivity(intent)
-        }
+        return meds
     }
 }
