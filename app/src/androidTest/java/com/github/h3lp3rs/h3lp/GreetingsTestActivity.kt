@@ -23,4 +23,4 @@ class GreetingsTestActivity {
             onView(withId(R.id.textView)).check(matches(withText(name)))
         }
     }
-}
+} 
