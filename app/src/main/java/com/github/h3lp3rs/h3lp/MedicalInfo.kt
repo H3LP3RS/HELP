@@ -14,12 +14,11 @@ import com.google.android.material.textfield.TextInputLayout
 import android.widget.AutoCompleteTextView
 
 import android.widget.ArrayAdapter
-
-
+import java.time.Year
+import java.time.ZoneId
 
 
 class MedicalInfo : AppCompatActivity() {
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_medical_info)
@@ -32,7 +31,6 @@ class MedicalInfo : AppCompatActivity() {
     }
 
 
-    @RequiresApi(Build.VERSION_CODES.N)
     private fun createBirthField() {
         val birthTxt = findViewById<EditText>(R.id.medicalInfoBirthEditTxt)
         val birthLayout = findViewById<TextInputLayout>(R.id.medicalInfoBirthTxtLayout)
@@ -41,7 +39,7 @@ class MedicalInfo : AppCompatActivity() {
                 text!!.isEmpty() -> {
                     birthLayout.error = null
                 }
-                text.toString().toInt() > Calendar.getInstance().get(Calendar.YEAR) -> {
+                text.toString().toInt() > 2022 -> {
                     birthLayout.error = getString(R.string.yearTooRecent)
                 }
                 text.toString().toInt() < 1900 -> {
