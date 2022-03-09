@@ -3,6 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/41798/HELP/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2703125" />
+        <entry key="..\:/Users/41798/HELP/app/src/main/res/drawable/ic_error.xml" value="0.14635416666666667" />
+        <entry key="..\:/Users/41798/HELP/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2703125" />
+        <entry key="..\:/Users/41798/HELP/app/src/main/res/drawable/round_corner.xml" value="0.14635416666666667" />
+        <entry key="..\:/Users/41798/HELP/app/src/main/res/layout/activity_greeting.xml" value="0.264" />
+        <entry key="..\:/Users/41798/HELP/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Users/41798/HELP/app/src/main/res/layout/activity_medical_info.xml" value="0.25263157894736843" />
+        <entry key="..\:/Users/41798/HELP/app/src/main/res/layout/dropdown_menu_popup.xml" value="0.12360688956433637" />
         <entry key="..\:/Users/Alexis/AndroidStudioProjects/H3LP/app/src/main/res/layout/activity_greeting.xml" value="0.13020833333333334" />
         <entry key="..\:/Users/Alexis/AndroidStudioProjects/H3LP/app/src/main/res/layout/activity_main.xml" value="0.1" />
       </map>
@@ -13,5 +21,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.2" />
+      </ProjectState>
+    </option>
   </component>
 </project>
