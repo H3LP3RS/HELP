@@ -299,11 +299,13 @@
                 android:orientation="vertical">
 
                 <ImageButton
+                    android:id="@+id/profile"
                     android:layout_width="@dimen/image_button_home_page"
                     android:layout_height="@dimen/image_button_home_page"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/margin_image_inside_layout"
                     android:background="@drawable/profile"
+                    android:onClick="goToProfileActivity"
                     android:contentDescription="@string/profile_button" />
 
                 <TextView
@@ -348,11 +350,13 @@
         </RelativeLayout>
 
         <ImageButton
+            android:id="@+id/HELP"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="460dp"
             android:background="@drawable/help_button"
+            android:onClick="goToHelpParametersActivity"
             android:contentDescription="@string/help_button" />
     </RelativeLayout>
 

@@ -4,11 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CprRateActivity">
+    tools:context=".ProfileActivity">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/help_button"
-        ></ImageView>
 </androidx.constraintlayout.widget.ConstraintLayout>

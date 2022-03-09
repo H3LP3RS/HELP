@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.H3LP">
         <activity
+            android:name=".ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HelpParametersActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity

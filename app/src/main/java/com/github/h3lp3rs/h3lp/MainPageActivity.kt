@@ -11,10 +11,12 @@ class MainPageActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //show the activity in full screen
-        this.getWindow().setFlags(
+        /**
+         * show the activity in full screen
+         */
+        window.setFlags(
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
         setContentView(R.layout.activity_main_page)
     }
@@ -22,6 +24,18 @@ class MainPageActivity : AppCompatActivity() {
     /** Called when the user taps the cpr rate button */
     fun goToCprActivity(view: View) {
         val intent = Intent(this, CprRateActivity::class.java)
+        startActivity(intent)
+    }
+
+    /** Called when the user taps the help page button */
+    fun goToHelpParametersActivity(view: View) {
+        val intent = Intent(this, HelpParametersActivity::class.java)
+        startActivity(intent)
+    }
+
+    /** Called when the user taps the profile page button */
+    fun goToProfileActivity(view: View) {
+        val intent = Intent(this, ProfileActivity::class.java)
         startActivity(intent)
     }
 }
