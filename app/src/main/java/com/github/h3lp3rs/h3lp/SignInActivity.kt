@@ -6,7 +6,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.WindowInsetsController
 import android.view.WindowManager
 import android.widget.ImageButton
 import android.widget.Toast
@@ -19,7 +18,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import kotlin.math.sign
 
 class SignInActivity : AppCompatActivity() {
 
@@ -29,7 +27,14 @@ class SignInActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        // Check if user is signed in (non-null) and change activity accordingly.
+
+        check()
+    }
+
+    /**
+     * Check if the current user is already signed in and update activity accordingly
+     */
+    private fun check() {
         val currentUser = auth.currentUser
         if (currentUser != null) {
             val intent = Intent(this, HomeActivity::class.java)
@@ -41,11 +46,6 @@ class SignInActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
 
-        //optional
-        getSupportActionBar()?.hide()//hide the title bar
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN); //show the activity in full screen
-
         // Initialize Firebase Auth
         auth = Firebase.auth
 
@@ -54,8 +54,10 @@ class SignInActivity : AppCompatActivity() {
         findViewById<ImageButton>(R.id.signInButton).setOnClickListener{ signIn() }
     }
 
+    /**
+     * Configure Google Sign In and build a Google sign in client with the options specified
+     */
     private fun makeRequest() {
-        // Configure Google Sign In
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(serverClientId)
             .requestEmail()
@@ -64,12 +66,15 @@ class SignInActivity : AppCompatActivity() {
         googleSignInClient = GoogleSignIn.getClient(this, gso)
     }
 
+    /**
+     * Launch the Google sign in request
+     */
     private fun signIn() {
         val signInIntent = googleSignInClient.signInIntent
         resultLauncher.launch(signInIntent)
-        //startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
+    // Handle sign in request result
     private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
         result ->
             if(result.resultCode == Activity.RESULT_OK){
@@ -87,6 +92,11 @@ class SignInActivity : AppCompatActivity() {
             }
     }
 
+    /**
+     * Authenticate account with Firebase
+     *
+     * @param idToken account's token Id
+     */
     private fun firebaseAuthWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         auth.signInWithCredential(credential)
