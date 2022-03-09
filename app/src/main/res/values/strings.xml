@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">H3LP</string>
+    <string name="cpr_rate_button_start">START</string>
+    <string name="cpr_rate_button_stop">STOP</string>
 </resources>
