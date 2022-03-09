@@ -32,17 +32,8 @@ class MainActivityTest {
     @Test
     fun enterNameWorksAndSendsIntent() {
         Intents.init()
-        val intent = Intent()
-        val intentResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
-        intending(anyIntent()).respondWith(intentResult)
-        val textField = onView(withId(R.id.mainName))
-        textField.check(matches(isDisplayed()))
-        textField.perform(clearText())
-        val name = "Alexis"
-        textField.perform(typeText(name))
-        closeSoftKeyboard()
         onView(withId(R.id.mainGoButton)).perform(click())
-        intended(allOf(hasComponent(GreetingActivity::class.java.name), hasExtra(EXTRA_MESSAGE, name)))
+        intended(allOf(hasComponent(MedicalInfo::class.java.name)))
         Intents.release()
     }
 }
