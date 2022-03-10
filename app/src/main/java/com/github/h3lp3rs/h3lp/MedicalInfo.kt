@@ -97,7 +97,7 @@ class MedicalInfo : AppCompatActivity() {
     }
 
     private fun createBloodField(){
-        val bloodType = arrayOf("A+","A-","AB+","AB-","B+","B-","O+","O-","Unknown")
+        val bloodType = BloodType.values().map{it.type}
         val adapter = ArrayAdapter(
             this,
             R.layout.dropdown_menu_popup,
@@ -110,7 +110,7 @@ class MedicalInfo : AppCompatActivity() {
     }
 
     private fun createGenderField(){
-        val bloodType = arrayOf("Female","Male")
+        val bloodType = Gender.values().map{it.sex}
         val adapter = ArrayAdapter(
             this,
             R.layout.dropdown_menu_popup,

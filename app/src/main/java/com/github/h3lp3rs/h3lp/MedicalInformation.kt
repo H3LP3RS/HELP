@@ -25,8 +25,8 @@ class MedicalInformation(
 
 }
 
-enum class Gender {
-    Man,Woman
+enum class Gender(val sex : String) {
+    Man("Male"),Woman("Female")
 }
 
 enum class BloodType(val type : String){
