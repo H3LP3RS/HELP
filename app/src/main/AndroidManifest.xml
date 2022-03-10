@@ -19,14 +19,18 @@
             android:name=".PresentationActivity1"
             android:exported="false" />
         <activity
+            android:name=".AwaitHelpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HelpParametersActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>
-
 </manifest>

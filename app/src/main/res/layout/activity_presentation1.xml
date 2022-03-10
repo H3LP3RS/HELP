@@ -14,7 +14,7 @@
         android:layout_height="113dp"
         android:fontFamily="sans-serif"
         android:gravity="center"
-        android:text=" H3LP"
+        android:text="@string/app_name"
         android:textAlignment="center"
         android:textSize="48sp"
         android:textStyle="bold"
@@ -36,14 +36,14 @@
         app:layout_constraintVertical_bias="0.112"
         android:src="@drawable/swiss_flag"
         tools:src="@drawable/swiss_flag"
-        android:contentDescription="H3lp logo" />
+        android:contentDescription="@string/h3lp_logo" />
 
     <TextView
         android:id="@+id/pres1_textView2"
         android:layout_width="336dp"
         android:layout_height="85dp"
         android:gravity="center"
-        android:text="The app that will safe your life!"
+        android:text="@string/the_app_that_will_safe_your_life"
         android:textAlignment="center"
         android:textSize="24sp"
         android:textStyle="italic"
@@ -59,7 +59,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="© SafeLives: All rights reserved"
+        android:text="@string/safelives_all_rights_reserved"
         android:textAlignment="center"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -75,7 +75,7 @@
         android:layout_height="120dp"
         android:fontFamily="casual"
         android:gravity="center"
-        android:text="⟩"
+        android:text="@string/ascii_right_arrow"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/pres1_textView3"
         app:layout_constraintEnd_toEndOf="parent"

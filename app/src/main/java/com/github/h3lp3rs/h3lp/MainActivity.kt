@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 
+const val EXTRA_NEEDED_MEDICATION = "needed_meds_key"
+
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,5 +21,13 @@ class MainActivity : AppCompatActivity() {
         val i = Intent(this, PresentationActivity1::class.java)
         startActivity(i)
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+    }
+
+    /**
+     * Called when the user taps the help page button
+     */
+    fun goHelp(view: View) {
+        val intent = Intent(this, HelpParametersActivity::class.java)
+        startActivity(intent)
     }
 }

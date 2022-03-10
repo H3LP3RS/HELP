@@ -1,3 +1,27 @@
 <resources>
     <string name="app_name">H3LP</string>
+    <string name="phone_icon_description">Phone icon</string>
+    <string name="keep_calm_meds_selection_msg">Keep Calm and select what you need</string>
+    <string name="search_help_button">Search Help Nearby</string>
+    <string name="call_emergency_button">Call Emergency Services</string>
+    <string name="help_might_arrive">Help might arrive</string>
+    <string name="ok">OK</string>
+    <string name="h3lp_doesn_t_allow_you_to">H3LP doesn\'t allow you to</string>
+    <string name="ascii_left_arrow">⟨</string>
+    <string name="presentation_placeholder_bad_3">Placeholder 3</string>
+    <string name="presentation_placeholder_bad_2">Placeholder 2</string>
+    <string name="presentation_placeholder_bad_1">Placeholder 1</string>
+    <string name="red_cross">Red cross</string>
+    <string name="info_box">Info box</string>
+    <string name="help_page">Help page</string>
+    <string name="h3lp_logo">H3lp logo</string>
+    <string name="the_app_that_will_safe_your_life">The app that will safe your life!</string>
+    <string name="safelives_all_rights_reserved">© SafeLives: All rights reserved</string>
+    <string name="ascii_right_arrow">⟩</string>
+    <string name="ascii_both_arrows">⟨ ⟩</string>
+    <string name="green_tick">Green tick</string>
+    <string name="h3lp_allows_you_to">H3LP allows you to</string>
+    <string name="presentation_placeholder_good_1">Placeholder 1</string>
+    <string name="presentation_placeholder_good_2">Placeholder 2</string>
+    <string name="presentation_placeholder_good_3">Placeholder 3</string>
 </resources>

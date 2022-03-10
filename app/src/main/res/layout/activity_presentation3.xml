@@ -10,7 +10,7 @@
         android:id="@+id/pres3_textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Placeholder 1"
+        android:text="@string/presentation_placeholder_bad_1"
         android:textAllCaps="false"
         android:textSize="20sp"
         android:textStyle="italic"
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:layout_marginEnd="132dp"
-        android:text="Placeholder 2"
+        android:text="@string/presentation_placeholder_bad_2"
         android:textSize="20sp"
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -42,7 +42,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="144dp"
-        android:text="Placeholder 3"
+        android:text="@string/presentation_placeholder_bad_3"
         android:textSize="20sp"
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -58,7 +58,7 @@
         android:layout_height="108dp"
         android:fontFamily="casual"
         android:gravity="center"
-        android:text="⟨"
+        android:text="@string/ascii_left_arrow"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/pres3_textView6"
         app:layout_constraintEnd_toEndOf="parent"
@@ -71,7 +71,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="© SafeLives: All rights reserved"
+        android:text="@string/safelives_all_rights_reserved"
         android:textAlignment="center"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -86,7 +86,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="H3LP doesn't allow you to"
+        android:text="@string/h3lp_doesn_t_allow_you_to"
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -101,7 +101,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="sendApproval"
-        android:text="OK"
+        android:text="@string/ok"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -120,7 +120,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.298"
         app:srcCompat="@drawable/red_cross"
-        android:contentDescription="Red cross" />
+        android:contentDescription="@string/red_cross" />
 
     <ImageView
         android:id="@+id/pres3_imageView2"
@@ -133,7 +133,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.446"
         app:srcCompat="@drawable/red_cross"
-        android:contentDescription="Red cross" />
+        android:contentDescription="@string/red_cross" />
 
     <ImageView
         android:id="@+id/pres3_imageView3"
@@ -146,6 +146,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.593"
         app:srcCompat="@drawable/red_cross"
-        android:contentDescription="Red cross" />
+        android:contentDescription="@string/red_cross" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
