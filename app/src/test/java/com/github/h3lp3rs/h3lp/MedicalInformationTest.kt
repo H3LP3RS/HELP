@@ -1,7 +1,5 @@
 package com.github.h3lp3rs.h3lp
 
-import android.content.Context
-import androidx.test.core.app.ApplicationProvider
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -40,10 +38,10 @@ class MedicalInformationTest {
     @Test
     fun validMedicalInfoWork(){
         val medicalInformation = MedicalInformation(MedicalInformation.MAX_HEIGHT-1,MedicalInformation.MAX_WEIGHT-1,Gender.Man,
-            Calendar.getInstance().get(Calendar.YEAR)+1,"condition","allergy","treatment",BloodType.ABn)
+            Calendar.getInstance().get(Calendar.YEAR)-1,"condition","treatment","allergy",BloodType.ABn)
         assertEquals(medicalInformation.weight,MedicalInformation.MAX_WEIGHT-1)
         assertEquals(medicalInformation.gender,Gender.Man)
-        assertEquals(medicalInformation.yearOfBirth,Calendar.getInstance().get(Calendar.YEAR)+1)
+        assertEquals(medicalInformation.yearOfBirth,Calendar.getInstance().get(Calendar.YEAR)-1)
         assertEquals(medicalInformation.allergy,"allergy")
         assertEquals(medicalInformation.conditions,"condition")
         assertEquals(medicalInformation.actualTreatment,"treatment")
