@@ -45,4 +45,6 @@
     <string name="help_button">CPR Help</string>
     <string name="menu_button">Menu</string>
     <string name="skills_button">Skills</string>
+    <string name="cpr_rate_button_start">START</string>
+    <string name="cpr_rate_button_stop">STOP</string>
 </resources>

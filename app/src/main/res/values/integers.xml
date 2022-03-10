@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="optimal_cpr_interval">280</integer>
+</resources>
