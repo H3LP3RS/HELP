@@ -18,7 +18,8 @@
         app:layout_constraintHeight_percent=".27"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0" />
+        app:layout_constraintVertical_bias="0"
+        android:contentDescription="@string/backround_image_description"/>
 
 
     <ImageButton
@@ -31,7 +32,8 @@
         android:onClick="backHome"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_back" />
+        app:srcCompat="@drawable/ic_back"
+        android:contentDescription="@string/back_button_description"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/medicalInfoconstraintLayout"

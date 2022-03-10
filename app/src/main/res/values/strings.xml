@@ -15,6 +15,8 @@
     <string name="Allergy">Allergy </string>
     <string name="CurrentTreatment">Current Treatment </string>
     <string name="bloodType">Blood type</string>
+    <string name="back_button_description">Back home button</string>
+    <string name="backround_image_description">Backround image</string>
 
 
 </resources>
