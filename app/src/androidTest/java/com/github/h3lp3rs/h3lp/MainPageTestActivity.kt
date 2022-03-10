@@ -66,7 +66,7 @@ class MainPageTestActivity {
 
     @Test
     fun clickingOnHelpButtonWorksAndSendsIntent() {
-        clickingOnButtonWorksAndSendsIntent(HelpParametersActivity::class.java, withId(R.id.HELP), false)
+        clickingOnButtonWorksAndSendsIntent(HelpParametersActivity::class.java, withId(R.id.HELP_button), false)
 
     }
 

@@ -35,7 +35,7 @@
             android:contentDescription="@string/tutorial_button"/>
 
         <TextView
-            android:id="@+id/Hello_text"
+            android:id="@+id/HelloText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/menuButton"
@@ -45,10 +45,10 @@
             android:textSize="25sp" />
 
         <TextView
-            android:id="@+id/Welcome_text"
+            android:id="@+id/welcomeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/Hello_text"
+            android:layout_below="@+id/HelloText"
             android:layout_centerHorizontal="true"
             android:text="@string/welcome_text"
             android:textColor="@color/dark_blue"
@@ -58,14 +58,14 @@
             android:id="@+id/stay_safe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/Welcome_text"
+            android:layout_below="@+id/welcomeText"
             android:layout_centerHorizontal="true"
             android:text="@string/stay_safe"
             android:textColor="@color/dark_blue"
             android:textSize="20sp" />
 
         <SearchView
-            android:id="@+id/search_bar"
+            android:id="@+id/SearchBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/stay_safe"
@@ -80,7 +80,7 @@
             android:id="@+id/horizontalScrollView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/search_bar"
+            android:layout_below="@+id/SearchBar"
             android:layout_marginTop="50dp"
             android:background="@color/app_background">
 
@@ -350,9 +350,9 @@
         </RelativeLayout>
 
         <ImageButton
-            android:id="@+id/HELP"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:id="@+id/HELP_button"
+            android:layout_width="@dimen/help_button"
+            android:layout_height="@dimen/help_button"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="460dp"
             android:background="@drawable/help_button"
