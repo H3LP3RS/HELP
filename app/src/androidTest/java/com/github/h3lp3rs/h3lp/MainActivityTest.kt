@@ -1,13 +1,11 @@
 package com.github.h3lp3rs.h3lp
 
 import android.app.Activity
-import android.app.Instrumentation
+import android.app.Instrumentation.*
 import android.content.Intent
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.intent.Intents
-import androidx.test.espresso.intent.Intents.intended
-import androidx.test.espresso.intent.Intents.intending
+import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.anyIntent
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers.*
@@ -25,12 +23,12 @@ class MainActivityTest {
 
     @Test
     fun pushingInfoButtonLaunchesPresentation() {
-        Intents.init()
+        init()
         val intent = Intent()
-        val intentResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
+        val intentResult = ActivityResult(Activity.RESULT_OK, intent)
         intending(anyIntent()).respondWith(intentResult)
         onView(withId(R.id.main_imageButton)).perform(click())
         intended(allOf(hasComponent(PresentationActivity1::class.java.name)))
-        Intents.release()
+        release()
     }
 }
