@@ -17,7 +17,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 
-/*CIRRUS not working*/
+/* CIRRUS not working
 @RunWith(AndroidJUnit4::class)
 
 class PresentationActivity2Test {
@@ -58,4 +58,4 @@ class PresentationActivity2Test {
         intended(allOf(hasComponent(PresentationActivity1::class.java.name)))
         release()
     }
-}
+}*/
