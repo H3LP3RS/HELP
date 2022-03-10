@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">H3LP</string>
+    <string name="welcome_msg">Welcome to H3LP</string>
     <string name="phone_icon_description">Phone icon</string>
     <string name="keep_calm_meds_selection_msg">Keep Calm and select what you need</string>
     <string name="search_help_button">Search Help Nearby</string>
@@ -24,4 +25,24 @@
     <string name="presentation_placeholder_good_1">Placeholder 1</string>
     <string name="presentation_placeholder_good_2">Placeholder 2</string>
     <string name="presentation_placeholder_good_3">Placeholder 3</string>
+    <string name="hospital">Nearby Hospitals</string>
+    <string name="pharmacy">Nearby Pharmacies</string>
+    <string name="defibrillator">Nearby Defibrillators</string>
+    <string name="first_aid">First Aid Tips</string>
+    <string name="hello">Hello!</string>
+    <string name="welcome_text">Welcome to the H3LP app!</string>
+    <string name="stay_safe">Stay safe!</string>
+    <string name="cpr_rate">CPR rate</string>
+    <string name="profile">My Profile</string>
+    <string name="profile_button">Profile</string>
+    <string name="skills">My skills/SOS Kit</string>
+    <string name="tutorial_button">Tutorial</string>
+    <string name="hospital_button">Hospital</string>
+    <string name="defibrillator_button">Defibrillator</string>
+    <string name="pharmacy_button">Pharmacy</string>
+    <string name="tips_button">First Aid</string>
+    <string name="cpr_rate_button">CPR Rate</string>
+    <string name="help_button">CPR Help</string>
+    <string name="menu_button">Menu</string>
+    <string name="skills_button">Skills</string>
 </resources>

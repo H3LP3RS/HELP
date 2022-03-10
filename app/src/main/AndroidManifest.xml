@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.github.h3lp3rs.h3lp">
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,6 +8,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.H3LP">
+        <activity
+            android:name=".AwaitHelpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HelpParametersActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CprRateActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainPageActivity"
+            android:exported="true"/>
         <activity
             android:name=".PresentationActivity3"
             android:exported="false" />
@@ -19,18 +33,18 @@
             android:name=".PresentationActivity1"
             android:exported="false" />
         <activity
-            android:name=".AwaitHelpActivity"
+            android:name=".HomeActivity"
             android:exported="false" />
         <activity
-            android:name=".HelpParametersActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="true">
+            android:name=".SignInActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"/>
     </application>
 </manifest>

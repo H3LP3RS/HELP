@@ -9,4 +9,10 @@
     <color name="white">#FFFFFFFF</color>
     <color name="select_meds_unchecked">#258EC6</color>
     <color name="select_meds_checked">#64AACF</color>
+    <color name="dark_blue">#192841</color>
+    <color name="light_grey">#E7DEDE</color>
+    <color name="app_background">#D6E3EF</color>
+    <color name="blue">#6E85C8</color>
+
+
 </resources>
