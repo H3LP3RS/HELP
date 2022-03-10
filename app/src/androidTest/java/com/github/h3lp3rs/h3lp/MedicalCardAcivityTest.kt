@@ -107,7 +107,7 @@ class MedicalCardAcivityTest {
     @Test
     fun tooSmallHeightLeadToError() {
         onView(withId(R.id.medicalInfoHeightEditTxt))
-            .perform(typeText("30"))
+            .perform(typeText("20"))
         onView(withId(R.id.medicalInfoHeightTxtLayout)).check(matches(
             hasInputLayoutError()
         ))

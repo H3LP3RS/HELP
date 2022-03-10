@@ -27,6 +27,7 @@ class MedicalCardAcivity : AppCompatActivity() {
         createWeightField()
         createBloodField()
         createGenderField()
+
     }
 
 
@@ -42,7 +43,7 @@ class MedicalCardAcivity : AppCompatActivity() {
                 text.toString().toInt() > Calendar.getInstance().get(Calendar.YEAR) -> {
                     birthLayout.error = getString(R.string.yearTooRecent)
                 }
-                text.toString().toInt() < R.integer.minYear -> {
+                text.toString().toInt() < resources.getInteger(R.integer.minYear)  -> {
                     birthLayout.error = getString(R.string.yearTooOld)
                 }
                 else -> {
@@ -60,10 +61,10 @@ class MedicalCardAcivity : AppCompatActivity() {
                 text!!.isEmpty() -> {
                     heightLayout.error = null
                 }
-                text.toString().toInt() > R.integer.maxHeight -> {
+                text.toString().toInt() >  resources.getInteger(R.integer.maxHeight) -> {
                     heightLayout.error = getString(R.string.heightTooBig)
                 }
-                text.toString().toInt() < R.integer.minHeight -> {
+                text.toString().toInt() <  resources.getInteger(R.integer.minHeight) -> {
                     heightLayout.error = getString(R.string.heightTooShort)
                 }
                 else -> {
@@ -81,10 +82,10 @@ class MedicalCardAcivity : AppCompatActivity() {
                 text!!.isEmpty() -> {
                     weightLayout.error = null
                 }
-                text.toString().toInt() < R.integer.minWeight -> {
+                text.toString().toInt() <  resources.getInteger(R.integer.minWeight) -> {
                     weightLayout.error = getString(R.string.weightTooLight)
                 }
-                text.toString().toInt() > R.integer.maxWeight -> {
+                text.toString().toInt() >  resources.getInteger(R.integer.maxWeight) -> {
                     weightLayout.error = getString(R.string.weightTooHeavy)
                 }
                 else -> {
