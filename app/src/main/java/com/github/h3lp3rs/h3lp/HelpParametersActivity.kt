@@ -73,5 +73,6 @@ class HelpParametersActivity : AppCompatActivity() {
         }
 
         return meds
+
     }
 }
