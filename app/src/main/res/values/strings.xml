@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">H3LP</string>
-    <string name="welcomeMsg">Welcome to H3LPgit add:</string>
+    <string name="welcome_msg">Welcome to H3LPgit add:</string>
 
 </resources>
