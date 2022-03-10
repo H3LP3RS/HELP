@@ -1,45 +1,49 @@
 package com.github.h3lp3rs.h3lp
 
+import android.content.Context
+import androidx.test.core.app.ApplicationProvider
 import org.junit.Test
 
 import org.junit.Assert.*
+import java.util.*
 
 class MedicalInformationTest {
+
     @Test
     fun badSizeThrowIAE() {
         assertThrows(IllegalArgumentException::class.java) {
-            MedicalInformation(10,70,Gender.Man,2000,"","","",BloodType.ABn)
+            MedicalInformation(MedicalInformation.MIN_HEIGHT-1,MedicalInformation.MAX_WEIGHT-1,Gender.Man,MedicalInformation.MIN_YEAR+1,"","","",BloodType.ABn)
         }
         assertThrows(IllegalArgumentException::class.java) {
-            MedicalInformation(300,70,Gender.Man,2000,"","","",BloodType.ABn)
+            MedicalInformation(MedicalInformation.MAX_HEIGHT+1,MedicalInformation.MAX_WEIGHT-1,Gender.Man,MedicalInformation.MIN_YEAR+1,"","","",BloodType.ABn)
         }
     }
     @Test
     fun badWeightThrowIAE() {
         assertThrows(IllegalArgumentException::class.java) {
-            MedicalInformation(150,10,Gender.Man,2000,"","","",BloodType.ABn)
+            MedicalInformation(MedicalInformation.MAX_HEIGHT-1,MedicalInformation.MIN_WEIGHT-1,Gender.Man,MedicalInformation.MIN_YEAR+1,"","","",BloodType.ABn)
         }
         assertThrows(IllegalArgumentException::class.java) {
-            MedicalInformation(150,505,Gender.Man,2000,"","","",BloodType.ABn)
+            MedicalInformation(MedicalInformation.MAX_HEIGHT-1,MedicalInformation.MAX_WEIGHT+1,Gender.Man,MedicalInformation.MIN_YEAR+1,"","","",BloodType.ABn)
         }
     }
     @Test
     fun badYearThrowIAE() {
         assertThrows(IllegalArgumentException::class.java) {
-            MedicalInformation(150,70,Gender.Man,1890,"","","",BloodType.ABn)
+            MedicalInformation(MedicalInformation.MAX_HEIGHT-1,MedicalInformation.MAX_WEIGHT-1,Gender.Man,MedicalInformation.MIN_YEAR-1,"","","",BloodType.ABn)
         }
         assertThrows(IllegalArgumentException::class.java) {
-            MedicalInformation(150,70,Gender.Man,2032,"","","",BloodType.ABn)
+            MedicalInformation(MedicalInformation.MAX_HEIGHT-1,MedicalInformation.MAX_WEIGHT-1,Gender.Man,Calendar.getInstance().get(Calendar.YEAR)+1,"","","",BloodType.ABn)
         }
     }
 
     @Test
     fun validMedicalInfoWork(){
-        val medicalInformation = MedicalInformation(150,70,Gender.Man,2000,"condition","treatment","allergy",BloodType.ABn)
-        assertEquals(medicalInformation.size,150)
-        assertEquals(medicalInformation.weight,70)
+        val medicalInformation = MedicalInformation(MedicalInformation.MAX_HEIGHT-1,MedicalInformation.MAX_WEIGHT-1,Gender.Man,
+            Calendar.getInstance().get(Calendar.YEAR)+1,"condition","allergy","treatment",BloodType.ABn)
+        assertEquals(medicalInformation.weight,MedicalInformation.MAX_WEIGHT-1)
         assertEquals(medicalInformation.gender,Gender.Man)
-        assertEquals(medicalInformation.yearOfBirth,2000)
+        assertEquals(medicalInformation.yearOfBirth,Calendar.getInstance().get(Calendar.YEAR)+1)
         assertEquals(medicalInformation.allergy,"allergy")
         assertEquals(medicalInformation.conditions,"condition")
         assertEquals(medicalInformation.actualTreatment,"treatment")

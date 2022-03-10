@@ -2,9 +2,12 @@ package com.github.h3lp3rs.h3lp
 
 
 import android.app.Activity
+import android.app.Application
 import android.app.Instrumentation
+import android.content.Context
 import android.content.Intent
 import android.view.View
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.typeText
@@ -23,10 +26,13 @@ import org.hamcrest.TypeSafeMatcher
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.util.*
 
 
 @RunWith(AndroidJUnit4::class)
 class MedicalCardAcivityTest {
+
+    private val ctx: Context = ApplicationProvider.getApplicationContext()
 
     @get:Rule
     val testRule = ActivityScenarioRule(
@@ -35,29 +41,29 @@ class MedicalCardAcivityTest {
     @Test
     fun oldYearNumberLeadToError() {
         onView(withId(R.id.medicalInfoBirthEditTxt))
-            .perform(typeText("200"))
+            .perform(typeText( (ctx.resources.getInteger(R.integer.minYear) - 1).toString()))
         onView(withId(R.id.medicalInfoBirthTxtLayout)).check(matches(
             hasInputLayoutError()
         ))
         onView(withId(R.id.medicalInfoBirthTxtLayout)).check(matches(
-            hasTextInputLayoutError("Invalid year : You seem too old to be alive")
+            hasTextInputLayoutError(ctx.resources.getString(R.string.yearTooOld))
         ))
     }
     @Test
     fun futureYearNumberLeadToError() {
         onView(withId(R.id.medicalInfoBirthEditTxt))
-            .perform(typeText("2024"))
+            .perform(typeText((Calendar.getInstance().get(Calendar.YEAR)+1).toString()))
         onView(withId(R.id.medicalInfoBirthTxtLayout)).check(matches(
             hasInputLayoutError()
         ))
         onView(withId(R.id.medicalInfoBirthTxtLayout)).check(matches(
-            hasTextInputLayoutError("Invalid year : You can not be born in the future")
+            hasTextInputLayoutError(ctx.resources.getString(R.string.yearTooRecent))
         ))
     }
     @Test
     fun validYearNumberDontLeadToError() {
         onView(withId(R.id.medicalInfoBirthEditTxt))
-            .perform(typeText("2000"))
+            .perform(typeText(Calendar.getInstance().get(Calendar.YEAR).toString()))
         onView(withId(R.id.medicalInfoBirthTxtLayout)).check(matches(
             not(hasInputLayoutError())
         ))
@@ -66,29 +72,29 @@ class MedicalCardAcivityTest {
     @Test
     fun tooHeavyWeightLeadToError() {
         onView(withId(R.id.medicalInfoWeightEditTxt))
-            .perform(typeText("800"))
+            .perform(typeText((ctx.resources.getInteger(R.integer.maxWeight) + 1).toString()))
         onView(withId(R.id.medicalInfoWeightTxtLayout)).check(matches(
             hasInputLayoutError()
         ))
         onView(withId(R.id.medicalInfoWeightTxtLayout)).check(matches(
-            hasTextInputLayoutError("Invalid weight : You seem too heavy")
+            hasTextInputLayoutError(ctx.resources.getString(R.string.weightTooHeavy))
         ))
     }
     @Test
     fun tooLightWeightLeadToError() {
         onView(withId(R.id.medicalInfoWeightEditTxt))
-            .perform(typeText("10"))
+            .perform(typeText((ctx.resources.getInteger(R.integer.minWeight) - 1).toString()))
         onView(withId(R.id.medicalInfoWeightTxtLayout)).check(matches(
             hasInputLayoutError()
         ))
         onView(withId(R.id.medicalInfoWeightTxtLayout)).check(matches(
-            hasTextInputLayoutError("Invalid weight : You seem too light")
+            hasTextInputLayoutError(ctx.resources.getString(R.string.weightTooLight))
         ))
     }
     @Test
     fun appropriateWeightWeightDontLeadToError() {
         onView(withId(R.id.medicalInfoWeightEditTxt))
-            .perform(typeText("80"))
+            .perform(typeText((ctx.resources.getInteger(R.integer.maxWeight) - 1).toString()))
         onView(withId(R.id.medicalInfoWeightTxtLayout)).check(matches(
             not(hasInputLayoutError())
         ))
@@ -96,29 +102,29 @@ class MedicalCardAcivityTest {
     @Test
     fun tooBigHeightLeadToError() {
         onView(withId(R.id.medicalInfoHeightEditTxt))
-            .perform(typeText("300"))
+            .perform(typeText((ctx.resources.getInteger(R.integer.maxHeight) + 1).toString()))
         onView(withId(R.id.medicalInfoHeightTxtLayout)).check(matches(
             hasInputLayoutError()
         ))
         onView(withId(R.id.medicalInfoHeightTxtLayout)).check(matches(
-            hasTextInputLayoutError("Invalid height : You seem too big")
+            hasTextInputLayoutError(ctx.resources.getString(R.string.heightTooBig))
         ))
     }
     @Test
     fun tooSmallHeightLeadToError() {
         onView(withId(R.id.medicalInfoHeightEditTxt))
-            .perform(typeText("20"))
+            .perform(typeText((ctx.resources.getInteger(R.integer.minWeight) - 1).toString()))
         onView(withId(R.id.medicalInfoHeightTxtLayout)).check(matches(
             hasInputLayoutError()
         ))
         onView(withId(R.id.medicalInfoHeightTxtLayout)).check(matches(
-            hasTextInputLayoutError("Invalid height : You seem too short")
+            hasTextInputLayoutError(ctx.resources.getString(R.string.heightTooShort))
         ))
     }
     @Test
     fun appropriateHeightDontLeadToError() {
         onView(withId(R.id.medicalInfoHeightEditTxt))
-            .perform(typeText("180"))
+            .perform(typeText((ctx.resources.getInteger(R.integer.maxHeight) - 1).toString()))
         onView(withId(R.id.medicalInfoHeightTxtLayout)).check(matches(
             not(hasInputLayoutError())
         ))
