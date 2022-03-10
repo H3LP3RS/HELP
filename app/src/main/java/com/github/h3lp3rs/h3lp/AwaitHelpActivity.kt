@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.widget.TextView
 import android.widget.Toast
 
-
+/**
+ * Activity during which the user waits for help from other user.
+ */
 class AwaitHelpActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
