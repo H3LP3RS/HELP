@@ -40,7 +40,7 @@ class PresentationActivity3 : AppCompatActivity() {
      */
     fun sendApproval(view: View) {
         // Simply go back to the main activity for now
-        val i = Intent(this, MainActivity::class.java)
+        val i = Intent(this, MainPageActivity::class.java)
         startActivity(i)
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
     }

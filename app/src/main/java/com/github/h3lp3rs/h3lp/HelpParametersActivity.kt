@@ -11,6 +11,7 @@ import android.widget.Toast
 import android.widget.ToggleButton
 
 const val EMERGENCY_NUMBER = 112
+const val EXTRA_NEEDED_MEDICATION = "needed_meds_key"
 
 /**
  * Activity in which the user can select the medications they need urgently
