@@ -10,30 +10,38 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.H3LP">
         <activity
-            android:name=".ProfileActivity"
+            android:name=".AwaitHelpActivity"
             android:exported="false" />
         <activity
             android:name=".HelpParametersActivity"
             android:exported="false" />
         <activity
+            android:name=".ProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".CprRateActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".MainPageActivity"
+            android:exported="true"/>
+        <activity
+            android:name=".HomeActivity"
             android:exported="false" />
         <activity
-            android:name=".GreetingActivity"
-            android:exported="false"
-            android:parentActivityName=".MainActivity" />
-        <activity
-            android:name=".MainPageActivity"
-            android:exported="true">
+            android:name=".SignInActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".GreetingActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"/>
     </application>
-
 </manifest>

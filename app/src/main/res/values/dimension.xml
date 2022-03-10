@@ -10,6 +10,7 @@
     <dimen name="margin_image_inside_layout">5dp</dimen>
     <dimen name="scroll_view_margin_text">10dp</dimen>
     <dimen name="help_button">150dp</dimen>
+    <dimen name="select_meds_button">110dp</dimen>
 
 
 </resources>

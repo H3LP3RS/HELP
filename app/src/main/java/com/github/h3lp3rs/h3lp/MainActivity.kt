@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.EditText
 
 const val EXTRA_MESSAGE = "KEY"
+const val EXTRA_NEEDED_MEDICATION = "needed_meds_key"
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,6 +22,12 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, GreetingActivity::class.java).apply {
             putExtra(EXTRA_MESSAGE, message)
         }
+        startActivity(intent)
+    }
+
+    /** Called when the user taps the help page button */
+    fun goHelp(view: View) {
+        val intent = Intent(this, HelpParametersActivity::class.java)
         startActivity(intent)
     }
 }

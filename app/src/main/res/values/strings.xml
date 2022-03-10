@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">H3LP</string>
+
+    <string name="welcome_msg">Welcome to H3LP</string>
+    <string name="phone_icon_description">Phone icon</string>
+    <string name="keep_calm_meds_selection_msg">Keep Calm and select what you need</string>
+    <string name="search_help_button">Search Help Nearby</string>
+    <string name="call_emergency_button">Call Emergency Services</string>
     <string name="hospital">Nearby Hospitals</string>
     <string name="pharmacy">Nearby Pharmacies</string>
     <string name="defibrillator">Nearby Defibrillators</string>
@@ -20,6 +26,5 @@
     <string name="help_button">CPR Help</string>
     <string name="menu_button">Menu</string>
     <string name="skills_button">Skills</string>
-
 
 </resources>

@@ -29,6 +29,7 @@ class MainActivityTest {
     val testRule = ActivityScenarioRule(
         MainActivity::class.java
     )
+
     @Test
     fun enterNameWorksAndSendsIntent() {
         Intents.init()
