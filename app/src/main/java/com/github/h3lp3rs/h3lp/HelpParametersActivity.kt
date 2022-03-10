@@ -12,6 +12,9 @@ import android.widget.ToggleButton
 
 const val EMERGENCY_NUMBER = 112
 
+/**
+ * Activity in which the user can select the medications they need urgently
+ */
 class HelpParametersActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
