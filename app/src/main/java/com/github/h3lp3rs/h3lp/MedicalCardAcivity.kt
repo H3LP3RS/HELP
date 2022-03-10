@@ -123,7 +123,7 @@ class MedicalCardAcivity : AppCompatActivity() {
 
 
     fun backHome( view: View){
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, MainPageActivity::class.java)
         startActivity(intent)
     }
 }

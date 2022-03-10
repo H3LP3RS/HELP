@@ -38,6 +38,6 @@ class MainPageActivity : AppCompatActivity() {
 
     /** Called when the user taps the profile page button */
     fun goToProfileActivity(view: View) {
-        goToActivity(ProfileActivity::class.java)
+        goToActivity(MedicalCardAcivity::class.java)
     }
 }
