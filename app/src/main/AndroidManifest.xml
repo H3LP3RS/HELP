@@ -10,9 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.H3LP">
         <activity
-            android:name=".GreetingActivity"
-            android:exported="false"
-            android:parentActivityName=".MainActivity" />
+            android:name=".PresentationActivity3"
+            android:exported="false" />
+        <activity
+            android:name=".PresentationActivity2"
+            android:exported="false" />
+        <activity
+            android:name=".PresentationActivity1"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
