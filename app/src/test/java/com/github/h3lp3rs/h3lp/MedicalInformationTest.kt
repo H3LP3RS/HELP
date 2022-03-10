@@ -33,4 +33,33 @@ class MedicalInformationTest {
         }
     }
 
+    @Test
+    fun validMedicalInfoWork(){
+        val medicalInformation = MedicalInformation(150,70,Gender.Man,2000,"condition","treatment","allergy",BloodType.ABn)
+        assertEquals(medicalInformation.size,150)
+        assertEquals(medicalInformation.weight,70)
+        assertEquals(medicalInformation.gender,Gender.Man)
+        assertEquals(medicalInformation.yearOfBirth,2000)
+        assertEquals(medicalInformation.allergy,"allergy")
+        assertEquals(medicalInformation.conditions,"condition")
+        assertEquals(medicalInformation.actualTreatment,"treatment")
+        assertEquals(medicalInformation.bloodType,BloodType.ABn)
+    }
+    @Test
+    fun bloodTypeStringWork(){
+        assertEquals(BloodType.ABn.type,"AB-")
+        assertEquals(BloodType.Op.type,"O+")
+        assertEquals(BloodType.An.type,"A-")
+    }
+
+    @Test
+    fun genderTypeStringWork(){
+        assertEquals(Gender.Man.sex,"Male")
+        assertEquals(Gender.Woman.sex,"Female")
+    }
+
+
+
+
+
 }
