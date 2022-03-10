@@ -6,14 +6,7 @@ import java.time.Year
 
 @RequiresApi(Build.VERSION_CODES.O)
 class MedicalInformation(
-    val size: Int,
-    val weight: Int,
-    val gender: Gender,
-    val yearOfBirth: Int,
-    val conditions: String,
-    val actualTreatment: String,
-    val allergy: String,
-    val bloodType: BloodType,
+    val size: Int,val weight: Int,val gender: Gender, val yearOfBirth: Int, val conditions: String, val actualTreatment: String, val allergy: String, val bloodType: BloodType,
 ){
     init {
         require(size in 30..240)
@@ -30,8 +23,5 @@ enum class Gender(val sex : String) {
 }
 
 enum class BloodType(val type : String){
-    Op("O+"),On("O-"),
-    Ap("A+"),An("A-"),
-    ABp("AB+"),ABn("AB-"),
-    Bp("B+"),Bn("B-"),Unkown("Unknown")
+    Op("O+"),On("O-"), Ap("A+"),An("A-"), ABp("AB+"),ABn("AB-"), Bp("B+"),Bn("B-"),Unkown("Unknown")
 }
