@@ -3,6 +3,7 @@ package com.github.h3lp3rs.h3lp
 import android.app.Activity
 import android.app.Instrumentation
 import android.content.Intent
+import android.view.View
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
@@ -11,7 +12,9 @@ import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.hamcrest.Matcher
 import org.hamcrest.Matchers
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -24,53 +27,47 @@ class MainPageTestActivity {
         MainPageActivity::class.java
     )
 
-   
-    @Test
-    fun clickingOnCPRButtonWorksAndSendsIntent() {
+    @Before
+    fun setup() {
         Intents.init()
         val intent = Intent()
         val intentResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
         Intents.intending(IntentMatchers.anyIntent()).respondWith(intentResult)
+    }
 
-        onView(withId(R.id.CPR_rate_button)).perform(ViewActions.scrollTo(), click())
+    @After
+    fun release() {
+        Intents.release()
+    }
 
+
+    private fun clickingOnButtonWorksAndSendsIntent(ActivityName: Class<*>?, id: Matcher<View>, isInScrollView: Boolean) {
+        if (isInScrollView) {
+            onView(id).perform(ViewActions.scrollTo(), click())
+        } else {
+            onView(id).perform(click())
+        }
         Intents.intended(
             Matchers.allOf(
-                IntentMatchers.hasComponent(CprRateActivity::class.java.name))
+                IntentMatchers.hasComponent(ActivityName!!.name)
             )
-        Intents.release()
+        )
+    }
+
+    @Test
+    fun clickingOnCPRButtonWorksAndSendsIntent() {
+        clickingOnButtonWorksAndSendsIntent(CprRateActivity::class.java, withId(R.id.CPR_rate_button), true)
     }
 
     @Test
     fun clickingOnProfileButtonWorksAndSendsIntent() {
-        Intents.init()
-        val intent = Intent()
-        val intentResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
-        Intents.intending(IntentMatchers.anyIntent()).respondWith(intentResult)
-
-        onView(withId(R.id.profile)).perform(click())
-
-        Intents.intended(
-            Matchers.allOf(
-                IntentMatchers.hasComponent(ProfileActivity::class.java.name))
-        )
-        Intents.release()
+        clickingOnButtonWorksAndSendsIntent(ProfileActivity::class.java, withId(R.id.profile), false)
     }
 
     @Test
     fun clickingOnHelpButtonWorksAndSendsIntent() {
-        Intents.init()
-        val intent = Intent()
-        val intentResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
-        Intents.intending(IntentMatchers.anyIntent()).respondWith(intentResult)
+        clickingOnButtonWorksAndSendsIntent(HelpParametersActivity::class.java, withId(R.id.HELP), false)
 
-        onView(withId(R.id.HELP)).perform(click())
-
-        Intents.intended(
-            Matchers.allOf(
-                IntentMatchers.hasComponent(HelpParametersActivity::class.java.name))
-        )
-        Intents.release()
     }
 
 
