@@ -14,6 +14,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
+import org.hamcrest.core.AllOf
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -40,7 +41,6 @@ class MainPageTestActivity {
         Intents.release()
     }
 
-
     private fun clickingOnButtonWorksAndSendsIntent(ActivityName: Class<*>?, id: Matcher<View>, isInScrollView: Boolean) {
         if (isInScrollView) {
             onView(id).perform(ViewActions.scrollTo(), click())
@@ -52,6 +52,11 @@ class MainPageTestActivity {
                 IntentMatchers.hasComponent(ActivityName!!.name)
             )
         )
+    }
+
+    @Test
+    fun pushingInfoButtonLaunchesPresentation() {
+        clickingOnButtonWorksAndSendsIntent(PresentationActivity1::class.java, withId(R.id.tutorialButton), false)
     }
 
     @Test
@@ -69,6 +74,4 @@ class MainPageTestActivity {
         clickingOnButtonWorksAndSendsIntent(HelpParametersActivity::class.java, withId(R.id.HELP_button), false)
 
     }
-
-
 }

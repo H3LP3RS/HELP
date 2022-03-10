@@ -23,7 +23,7 @@ class AwaitHelpActivityTest {
             putExtras(b)
         }
 
-        ActivityScenario.launch<GreetingActivity>(intent).use {
+        ActivityScenario.launch<AwaitHelpActivity>(intent).use {
             Espresso.onView(ViewMatchers.withId(R.id.selected_items_text))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
             Espresso.onView(ViewMatchers.withId(R.id.selected_items_text))

@@ -30,9 +30,10 @@
             android:layout_height="@dimen/top_banner_icon"
             android:layout_alignParentEnd="true"
             android:background="@null"
+            android:contentDescription="@string/tutorial_button"
+            android:onClick="viewPresentation"
             android:scaleType="centerInside"
-            android:src="@drawable/tutorial"
-            android:contentDescription="@string/tutorial_button"/>
+            android:src="@drawable/tutorial" />
 
         <TextView
             android:id="@+id/HelloText"

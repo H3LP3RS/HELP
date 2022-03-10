@@ -14,9 +14,10 @@ class MainPageActivity : AppCompatActivity() {
 
     /** Starts the activity by sending intent */
     private fun goToActivity(ActivityName: Class<*>?){
-        val intent = Intent(this,ActivityName)
+        val intent = Intent(this, ActivityName)
         startActivity(intent)
     }
+
     /** Called when the user taps the cpr rate button */
     fun goToCprActivity(view: View) {
         goToActivity(CprRateActivity::class.java)
@@ -24,11 +25,19 @@ class MainPageActivity : AppCompatActivity() {
 
     /** Called when the user taps the help page button */
     fun goToHelpParametersActivity(view: View) {
-        goToActivity( HelpParametersActivity::class.java)
+        goToActivity(HelpParametersActivity::class.java)
+    }
+
+    /**
+     * Called when the user taps on the info button
+     * Starts the presentation of the app
+     */
+    fun viewPresentation(view: View) {
+        goToActivity(PresentationActivity1::class.java)
     }
 
     /** Called when the user taps the profile page button */
     fun goToProfileActivity(view: View) {
-        goToActivity( ProfileActivity::class.java)
+        goToActivity(ProfileActivity::class.java)
     }
 }

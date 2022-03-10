@@ -9,11 +9,11 @@
     android:orientation="horizontal">
 
     <TextView
-        android:id="@+id/await_helpl_stand_by_text"
+        android:id="@+id/await_help_stand_by_text"
         android:layout_width="328dp"
         android:layout_height="85dp"
         android:layout_weight="1"
-        android:text="Help might arrive"
+        android:text="@string/help_might_arrive"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="#FA0202"
@@ -31,6 +31,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/await_helpl_stand_by_text"
+        app:layout_constraintTop_toBottomOf="@+id/await_help_stand_by_text"
         app:layout_constraintVertical_bias="0.113" />
 </androidx.constraintlayout.widget.ConstraintLayout>

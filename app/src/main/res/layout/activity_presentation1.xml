@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animationCache="false"
+    tools:context=".PresentationActivity1">
+
+    <TextView
+        android:id="@+id/pres1_textView1"
+        style="@style/Widget.AppCompat.TextView"
+        android:layout_width="264dp"
+        android:layout_height="113dp"
+        android:fontFamily="sans-serif"
+        android:gravity="center"
+        android:text="@string/app_name"
+        android:textAlignment="center"
+        android:textSize="48sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.119" />
+
+    <ImageView
+        android:id="@+id/pres1_imageView1"
+        android:layout_width="140dp"
+        android:layout_height="146dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pres1_textView1"
+        app:layout_constraintVertical_bias="0.112"
+        android:src="@drawable/swiss_flag"
+        tools:src="@drawable/swiss_flag"
+        android:contentDescription="@string/h3lp_logo" />
+
+    <TextView
+        android:id="@+id/pres1_textView2"
+        android:layout_width="336dp"
+        android:layout_height="85dp"
+        android:gravity="center"
+        android:text="@string/the_app_that_will_safe_your_life"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pres1_imageView1"
+        app:layout_constraintVertical_bias="0.157" />
+
+    <TextView
+        android:id="@+id/pres1_textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/safelives_all_rights_reserved"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pres1_textView2"
+        app:layout_constraintVertical_bias="0.814" />
+
+    <TextView
+        android:id="@+id/pres1_textView4"
+        android:layout_width="415dp"
+        android:layout_height="120dp"
+        android:fontFamily="casual"
+        android:gravity="center"
+        android:text="@string/ascii_right_arrow"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/pres1_textView3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pres1_textView2" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
