@@ -19,5 +19,50 @@
     <string name="backround_image_description">Backround image</string>
 
 
+    <string name="welcome_msg">Welcome to H3LP</string>
+    <string name="phone_icon_description">Phone icon</string>
+    <string name="keep_calm_meds_selection_msg">Keep Calm and select what you need</string>
+    <string name="search_help_button">Search Help Nearby</string>
+    <string name="call_emergency_button">Call Emergency Services</string>
+    <string name="help_might_arrive">Help might arrive</string>
+    <string name="ok">OK</string>
+    <string name="h3lp_doesn_t_allow_you_to">H3LP doesn\'t allow you to</string>
+    <string name="ascii_left_arrow">⟨</string>
+    <string name="presentation_placeholder_bad_3">Placeholder 3</string>
+    <string name="presentation_placeholder_bad_2">Placeholder 2</string>
+    <string name="presentation_placeholder_bad_1">Placeholder 1</string>
+    <string name="red_cross">Red cross</string>
+    <string name="info_box">Info box</string>
+    <string name="help_page">Help page</string>
+    <string name="h3lp_logo">H3lp logo</string>
+    <string name="the_app_that_will_safe_your_life">The app that will safe your life!</string>
+    <string name="safelives_all_rights_reserved">© SafeLives: All rights reserved</string>
+    <string name="ascii_right_arrow">⟩</string>
+    <string name="ascii_both_arrows">⟨ ⟩</string>
+    <string name="green_tick">Green tick</string>
+    <string name="h3lp_allows_you_to">H3LP allows you to</string>
+    <string name="presentation_placeholder_good_1">Placeholder 1</string>
+    <string name="presentation_placeholder_good_2">Placeholder 2</string>
+    <string name="presentation_placeholder_good_3">Placeholder 3</string>
+    <string name="hospital">Nearby Hospitals</string>
+    <string name="pharmacy">Nearby Pharmacies</string>
+    <string name="defibrillator">Nearby Defibrillators</string>
+    <string name="first_aid">First Aid Tips</string>
+    <string name="hello">Hello!</string>
+    <string name="welcome_text">Welcome to the H3LP app!</string>
+    <string name="stay_safe">Stay safe!</string>
+    <string name="cpr_rate">CPR rate</string>
+    <string name="profile">My Profile</string>
+    <string name="profile_button">Profile</string>
+    <string name="skills">My skills/SOS Kit</string>
+    <string name="tutorial_button">Tutorial</string>
+    <string name="hospital_button">Hospital</string>
+    <string name="defibrillator_button">Defibrillator</string>
+    <string name="pharmacy_button">Pharmacy</string>
+    <string name="tips_button">First Aid</string>
+    <string name="cpr_rate_button">CPR Rate</string>
+    <string name="help_button">CPR Help</string>
+    <string name="menu_button">Menu</string>
+    <string name="skills_button">Skills</string>
 </resources>
 

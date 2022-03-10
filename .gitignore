@@ -102,6 +102,7 @@ captures/
 *~
 *.swp
 .cxx
+.idea
 
 # Keystore files
 *.jks
