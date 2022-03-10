@@ -42,7 +42,7 @@ class MedicalCardAcivity : AppCompatActivity() {
                 text.toString().toInt() > Calendar.getInstance().get(Calendar.YEAR) -> {
                     birthLayout.error = getString(R.string.yearTooRecent)
                 }
-                text.toString().toInt() < 1900 -> {
+                text.toString().toInt() < R.integer.minYear -> {
                     birthLayout.error = getString(R.string.yearTooOld)
                 }
                 else -> {
@@ -60,10 +60,10 @@ class MedicalCardAcivity : AppCompatActivity() {
                 text!!.isEmpty() -> {
                     heightLayout.error = null
                 }
-                text.toString().toInt() > 250 -> {
+                text.toString().toInt() > R.integer.maxHeight -> {
                     heightLayout.error = getString(R.string.heightTooBig)
                 }
-                text.toString().toInt() < 80 -> {
+                text.toString().toInt() < R.integer.minHeight -> {
                     heightLayout.error = getString(R.string.heightTooShort)
                 }
                 else -> {
@@ -81,10 +81,10 @@ class MedicalCardAcivity : AppCompatActivity() {
                 text!!.isEmpty() -> {
                     weightLayout.error = null
                 }
-                text.toString().toInt() < 20 -> {
+                text.toString().toInt() < R.integer.minWeight -> {
                     weightLayout.error = getString(R.string.weightTooLight)
                 }
-                text.toString().toInt() > 500 -> {
+                text.toString().toInt() > R.integer.maxWeight -> {
                     weightLayout.error = getString(R.string.weightTooHeavy)
                 }
                 else -> {

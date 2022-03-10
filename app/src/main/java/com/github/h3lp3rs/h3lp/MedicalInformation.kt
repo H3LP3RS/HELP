@@ -9,13 +9,10 @@ class MedicalInformation(
     val size: Int,val weight: Int,val gender: Gender, val yearOfBirth: Int, val conditions: String, val actualTreatment: String, val allergy: String, val bloodType: BloodType,
 ){
     init {
-        require(size in 30..240)
-        require(weight in 30..500)
-        require(yearOfBirth in 1900..Year.now().value)
+        require(size in R.integer.minHeight..R.integer.maxHeight)
+        require(weight in R.integer.minWeight..R.integer.maxWeight)
+        require(yearOfBirth in R.integer.minYear..Year.now().value)
     }
-
-
-
 }
 
 enum class Gender(val sex : String) {
