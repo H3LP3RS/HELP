@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.H3LP">
         <activity
-            android:name=".MedicalInfo"
+            android:name=".MedicalCardAcivity"
             android:exported="false" />
         <activity
             android:name=".GreetingActivity"

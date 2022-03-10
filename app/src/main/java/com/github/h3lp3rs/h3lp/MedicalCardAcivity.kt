@@ -14,15 +14,13 @@ import com.google.android.material.textfield.TextInputLayout
 import android.widget.AutoCompleteTextView
 
 import android.widget.ArrayAdapter
-import java.time.Year
-import java.time.ZoneId
 
 
-class MedicalInfo : AppCompatActivity() {
+class MedicalCardAcivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_medical_info)
+        setContentView(R.layout.activity_card)
 
         createBirthField()
         createHeightField()
