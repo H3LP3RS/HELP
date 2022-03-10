@@ -16,12 +16,12 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
+/*@Test CIRRUS not working*/
 @RunWith(AndroidJUnit4::class)
 class PresentationActivity3Test {
     @get:Rule
     val testRule = ActivityScenarioRule(PresentationActivity3::class.java)
 
-    /*@Test CIRRUS not working
     fun successfulDisplay() {
         onView(withId(R.id.pres3_textView1)).check(matches(isDisplayed()))
         onView(withId(R.id.pres3_textView2)).check(matches(isDisplayed()))
@@ -41,7 +41,7 @@ class PresentationActivity3Test {
         val intentResult = ActivityResult(Activity.RESULT_OK, intent)
         intending(anyIntent()).respondWith(intentResult)
         onView(withId(R.id.pres3_button)).perform(click())
-        intended(allOf(hasComponent(MainActivity::class.java.name)))
+        intended(allOf(hasComponent(MainPageActivity::class.java.name)))
         release()
     }
 
@@ -54,5 +54,5 @@ class PresentationActivity3Test {
         onView(withId(R.id.pres3_textView5)).perform(swipeRight())
         intended(allOf(hasComponent(PresentationActivity2::class.java.name)))
         release()
-    }*/
+    }
 }

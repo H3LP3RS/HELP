@@ -16,12 +16,14 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
+
+/*CIRRUS not working*/
 @RunWith(AndroidJUnit4::class)
+
 class PresentationActivity2Test {
     @get:Rule
     val testRule = ActivityScenarioRule(PresentationActivity2::class.java)
 
-    /*CIRRUS not working
     @Test
     fun successfulDisplay() {
         onView(withId(R.id.pres2_textView1)).check(matches(isDisplayed()))
@@ -55,5 +57,5 @@ class PresentationActivity2Test {
         onView(withId(R.id.pres2_textView6)).perform(swipeRight())
         intended(allOf(hasComponent(PresentationActivity1::class.java.name)))
         release()
-    }*/
+    }
 }
