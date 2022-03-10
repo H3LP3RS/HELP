@@ -17,7 +17,7 @@ import android.widget.ArrayAdapter
 
 
 class MedicalCardAcivity : AppCompatActivity() {
-    @RequiresApi(Build.VERSION_CODES.O)
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_card)
@@ -43,7 +43,7 @@ class MedicalCardAcivity : AppCompatActivity() {
                 text.toString().toInt() > Calendar.getInstance().get(Calendar.YEAR) -> {
                     birthLayout.error = getString(R.string.yearTooRecent)
                 }
-                text.toString().toInt() < MedicalInformation.MIN_YEAR  -> {
+                text.toString().toInt() < resources.getInteger(R.integer.minYear)  -> {
                     birthLayout.error = getString(R.string.yearTooOld)
                 }
                 else -> {
@@ -53,7 +53,6 @@ class MedicalCardAcivity : AppCompatActivity() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun createHeightField() {
         val heightTxt = findViewById<EditText>(R.id.medicalInfoHeightEditTxt)
         val heightLayout = findViewById<TextInputLayout>(R.id.medicalInfoHeightTxtLayout)
@@ -62,10 +61,10 @@ class MedicalCardAcivity : AppCompatActivity() {
                 text!!.isEmpty() -> {
                     heightLayout.error = null
                 }
-                text.toString().toInt() >  MedicalInformation.MAX_HEIGHT -> {
+                text.toString().toInt() >  resources.getInteger(R.integer.maxHeight) -> {
                     heightLayout.error = getString(R.string.heightTooBig)
                 }
-                text.toString().toInt() <  MedicalInformation.MIN_HEIGHT -> {
+                text.toString().toInt() <  resources.getInteger(R.integer.minHeight) -> {
                     heightLayout.error = getString(R.string.heightTooShort)
                 }
                 else -> {
@@ -75,7 +74,6 @@ class MedicalCardAcivity : AppCompatActivity() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun createWeightField() {
         val weightTxt = findViewById<EditText>(R.id.medicalInfoWeightEditTxt)
         val weightLayout = findViewById<TextInputLayout>(R.id.medicalInfoWeightTxtLayout)
@@ -84,10 +82,10 @@ class MedicalCardAcivity : AppCompatActivity() {
                 text!!.isEmpty() -> {
                     weightLayout.error = null
                 }
-                text.toString().toInt() <  MedicalInformation.MIN_WEIGHT -> {
+                text.toString().toInt() <  resources.getInteger(R.integer.minWeight) -> {
                     weightLayout.error = getString(R.string.weightTooLight)
                 }
-                text.toString().toInt() >  MedicalInformation.MAX_WEIGHT -> {
+                text.toString().toInt() >  resources.getInteger(R.integer.maxWeight) -> {
                     weightLayout.error = getString(R.string.weightTooHeavy)
                 }
                 else -> {
