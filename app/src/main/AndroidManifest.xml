@@ -36,9 +36,6 @@
                 android:name=".PresentationActivity1"
                 android:exported="false" />
         <activity
-                android:name=".HomeActivity"
-                android:exported="false" />
-        <activity
                 android:name=".SignInActivity"
                 android:exported="true" >
             <intent-filter>

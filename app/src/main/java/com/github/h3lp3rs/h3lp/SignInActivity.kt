@@ -37,7 +37,7 @@ class SignInActivity : AppCompatActivity() {
     private fun check() {
         val currentUser = auth.currentUser
         if (currentUser != null) {
-            val intent = Intent(this, HomeActivity::class.java)
+            val intent = Intent(this, MainPageActivity::class.java)
             startActivity(intent)
         }
     }
@@ -101,7 +101,7 @@ class SignInActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update activity with the signed-in user's information
-                    val intent = Intent(this, HomeActivity::class.java)
+                    val intent = Intent(this, MainPageActivity::class.java)
                     startActivity(intent)
                 } else {
                     // If sign in fails, display a message to the user.
