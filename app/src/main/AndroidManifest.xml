@@ -12,10 +12,6 @@
             android:name=".MedicalCardAcivity"
             android:exported="false" />
         <activity
-            android:name=".GreetingActivity"
-            android:exported="false"
-            android:parentActivityName=".MainActivity" />
-        <activity
             android:name=".AwaitHelpActivity"
             android:exported="false" />
         <activity
