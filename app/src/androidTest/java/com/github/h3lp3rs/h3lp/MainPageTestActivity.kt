@@ -66,7 +66,7 @@ class MainPageTestActivity {
 
     @Test
     fun clickingOnProfileButtonWorksAndSendsIntent() {
-        clickingOnButtonWorksAndSendsIntent(ProfileActivity::class.java, withId(R.id.profile), false)
+        clickingOnButtonWorksAndSendsIntent(MedicalCardAcivity::class.java, withId(R.id.profile), false)
     }
 
     @Test
