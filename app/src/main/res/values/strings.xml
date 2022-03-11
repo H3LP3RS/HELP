@@ -1,5 +1,24 @@
 <resources>
     <string name="app_name">H3LP</string>
+    <string name="medicalCard">Your Medical Card</string>
+    <string name="YearOfBirth">Year of birth</string>
+    <string name="gender">Gender</string>
+    <string name="height">Height</string>
+    <string name="weight">Weight</string>
+    <string name="yearTooRecent">Invalid year : You can not be born in the future </string>
+    <string name="yearTooOld">Invalid year : You seem too old to be alive </string>
+    <string name="heightTooShort">Invalid height : You seem too short </string>
+    <string name="heightTooBig">Invalid height : You seem too big </string>
+    <string name="weightTooLight">Invalid weight : You seem too light </string>
+    <string name="weightTooHeavy">Invalid weight : You seem too heavy </string>
+    <string name="Condition">Conditions </string>
+    <string name="Allergy">Allergy </string>
+    <string name="CurrentTreatment">Current Treatment </string>
+    <string name="bloodType">Blood type</string>
+    <string name="back_button_description">Back home button</string>
+    <string name="backround_image_description">Backround image</string>
+
+
     <string name="welcome_msg">Welcome to H3LP</string>
     <string name="phone_icon_description">Phone icon</string>
     <string name="keep_calm_meds_selection_msg">Keep Calm and select what you need</string>
@@ -46,3 +65,4 @@
     <string name="menu_button">Menu</string>
     <string name="skills_button">Skills</string>
 </resources>
+
