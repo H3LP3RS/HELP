@@ -24,14 +24,7 @@
             android:textStyle="bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="200dp"
+            android:layout_marginTop="250dp"
             android:backgroundTint="@color/design_default_color_secondary_variant"
             android:id="@+id/startRateButton" />
-
-    <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/help_button"
-            ></ImageView>
-
 </LinearLayout>
