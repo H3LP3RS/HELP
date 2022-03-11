@@ -1,5 +1,6 @@
 package com.github.h3lp3rs.h3lp
 
+import android.content.Context
 import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Build
@@ -14,6 +15,9 @@ import com.google.android.material.textfield.TextInputLayout
 import android.widget.AutoCompleteTextView
 
 import android.widget.ArrayAdapter
+import androidx.core.content.ContextCompat
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
 
 
 class MedicalCardAcivity : AppCompatActivity() {
@@ -28,6 +32,23 @@ class MedicalCardAcivity : AppCompatActivity() {
         createBloodField()
         createGenderField()
 
+        createHelpField(findViewById(R.id.medicalInfoConditionTxtLayout), getString(R.string.condition_help_msg))
+        createHelpField(findViewById(R.id.medicalInfoTreatmentTxtLayout), getString(R.string.treatment_help_msg))
+        createHelpField(findViewById(R.id.medicalInfoAllergyTxtLayout), getString(R.string.allergy_help_msg))
+
+
+    }
+
+    private fun createHelpField(
+        textLayout: TextInputLayout,
+        str: String
+    ) {
+        textLayout.setEndIconOnClickListener {
+            val snack = Snackbar.make(it, str, Snackbar.LENGTH_LONG)
+            snack.animationMode = BaseTransientBottomBar.ANIMATION_MODE_SLIDE
+            snack.setBackgroundTint(ContextCompat.getColor(this,R.color.teal_400))
+            snack.show()
+        }
     }
 
 

@@ -79,7 +79,9 @@
                         android:layout_marginTop="0dp"
                         android:hint="@string/gender"
                         app:boxStrokeColor="@color/teal_200"
-                        app:hintTextColor="@color/teal_700">
+                        app:hintTextColor="@color/teal_700"
+                        >
+
 
 
                         <AutoCompleteTextView
@@ -133,7 +135,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/medicalInfoBirthTxtLayout"
                     app:startIconDrawable="@drawable/ic_measure_height"
-                    app:suffixText="cm">
+                    app:suffixText="cm"
+                    >
 
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -217,7 +220,10 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/medicalInfoWeightTxtLayout"
-                    app:startIconDrawable="@drawable/ic_health">
+                    app:startIconDrawable="@drawable/ic_health"
+                    app:endIconMode="custom"
+                    app:endIconDrawable="@drawable/ic_question_mark"
+                    >
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/medicalInfoConditionEditTxt"
@@ -247,7 +253,9 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/medicalInfoConditionTxtLayout"
-                    app:startIconDrawable="@drawable/ic_allergy">
+                    app:startIconDrawable="@drawable/ic_allergy"
+                    app:endIconMode="custom"
+                    app:endIconDrawable="@drawable/ic_question_mark">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/medicalInfoAllergyEditTxt"
@@ -277,7 +285,9 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/medicalInfoAllergyTxtLayout"
-                    app:startIconDrawable="@drawable/ic_medicine">
+                    app:startIconDrawable="@drawable/ic_medicine"
+                    app:endIconMode="custom"
+                    app:endIconDrawable="@drawable/ic_question_mark">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/medicalInfoTreatmentEditTxt"
