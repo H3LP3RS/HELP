@@ -139,7 +139,7 @@ class MedicalCardAcivityTest {
         onView(withId(R.id.medicalInfoBackButton)).perform(click())
         Intents.intended(
             Matchers.allOf(
-                IntentMatchers.hasComponent(MainActivity::class.java.name),
+                IntentMatchers.hasComponent(MainPageActivity::class.java.name),
             )
         )
         Intents.release()
