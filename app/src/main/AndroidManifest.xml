@@ -9,8 +9,11 @@
             android:supportsRtl="true"
             android:theme="@style/Theme.H3LP">
         <activity
-                android:name=".AwaitHelpActivity"
-                android:exported="false" />
+            android:name=".MedicalCardAcivity"
+            android:exported="false" />
+        <activity
+            android:name=".AwaitHelpActivity"
+            android:exported="false" />
         <activity
                 android:name=".HelpParametersActivity"
                 android:exported="false" />
