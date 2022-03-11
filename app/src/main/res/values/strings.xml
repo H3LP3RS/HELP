@@ -17,8 +17,6 @@
     <string name="bloodType">Blood type</string>
     <string name="back_button_description">Back home button</string>
     <string name="backround_image_description">Backround image</string>
-
-
     <string name="welcome_msg">Welcome to H3LP</string>
     <string name="phone_icon_description">Phone icon</string>
     <string name="keep_calm_meds_selection_msg">Keep Calm and select what you need</string>
@@ -64,5 +62,6 @@
     <string name="help_button">CPR Help</string>
     <string name="menu_button">Menu</string>
     <string name="skills_button">Skills</string>
+    <string name="cpr_rate_button_start">START</string>
+    <string name="cpr_rate_button_stop">STOP</string>
 </resources>
-

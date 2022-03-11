@@ -133,6 +133,7 @@ obj/
 .idea/tasks.xml
 .idea/.name
 .idea/compiler.xml
+.idea/deploymentTargetDropDown.xml
 .idea/copyright/profiles_settings.xml
 .idea/encodings.xml
 .idea/misc.xml

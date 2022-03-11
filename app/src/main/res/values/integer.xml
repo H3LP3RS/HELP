@@ -5,4 +5,5 @@
     <integer name="maxHeight">240</integer>
     <integer name="minHeight">30</integer>
     <integer name="minYear">1900</integer>
+    <integer name="optimal_cpr_interval">280</integer>
 </resources>
