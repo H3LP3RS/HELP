@@ -3,7 +3,6 @@ package com.github.h3lp3rs.h3lp
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 
@@ -26,8 +25,7 @@ class MainPageActivity : AppCompatActivity() {
 
     /** Called when the user taps the help page button */
     fun goToHelpParametersActivity(view: View) {
-        Toast.makeText(this, "bonjour j'aime android", Toast.LENGTH_LONG).show()
-        //goToActivity(HelpParametersActivity::class.java)
+         goToActivity(HelpParametersActivity::class.java)
     }
 
     /**

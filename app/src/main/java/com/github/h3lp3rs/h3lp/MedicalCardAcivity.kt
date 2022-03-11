@@ -1,6 +1,5 @@
 package com.github.h3lp3rs.h3lp
 
-import android.content.Context
 import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Build
@@ -52,93 +51,60 @@ class MedicalCardAcivity : AppCompatActivity() {
     }
 
 
-    @RequiresApi(Build.VERSION_CODES.N)
-    private fun createBirthField() {
-        val birthTxt = findViewById<EditText>(R.id.medicalInfoBirthEditTxt)
-        val birthLayout = findViewById<TextInputLayout>(R.id.medicalInfoBirthTxtLayout)
-        birthTxt.doOnTextChanged { text, _, _, _ ->
+    private fun createTestField(
+        idEditText: Int, idTextInputLayout: Int , min : Int  , max : Int, minErrorMsg : String, maxErrorMsg : String
+    ) {
+        val editText = findViewById<EditText>(idEditText)
+        val textInputLayout = findViewById<TextInputLayout>(idTextInputLayout)
+        editText.doOnTextChanged { text, _, _, _ ->
             when {
                 text!!.isEmpty() -> {
-                    birthLayout.error = null
+                    textInputLayout.error = null
                 }
-                text.toString().toInt() > Calendar.getInstance().get(Calendar.YEAR) -> {
-                    birthLayout.error = getString(R.string.yearTooRecent)
+                text.toString().toInt() > max -> {
+                    textInputLayout.error = maxErrorMsg
                 }
-                text.toString().toInt() < resources.getInteger(R.integer.minYear)  -> {
-                    birthLayout.error = getString(R.string.yearTooOld)
+                text.toString().toInt() < min -> {
+                    textInputLayout.error = minErrorMsg
                 }
                 else -> {
-                    birthLayout.error = null
+                    textInputLayout.error = null
                 }
             }
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun createBirthField() {
+        createTestField(R.id.medicalInfoBirthEditTxt, R.id.medicalInfoBirthTxtLayout,
+            resources.getInteger(R.integer.minYear),Calendar.getInstance().get(Calendar.YEAR),
+            getString(R.string.yearTooOld), getString(R.string.yearTooRecent))
     }
 
     private fun createHeightField() {
-        val heightTxt = findViewById<EditText>(R.id.medicalInfoHeightEditTxt)
-        val heightLayout = findViewById<TextInputLayout>(R.id.medicalInfoHeightTxtLayout)
-        heightTxt.doOnTextChanged { text, _, _, _ ->
-            when {
-                text!!.isEmpty() -> {
-                    heightLayout.error = null
-                }
-                text.toString().toInt() >  resources.getInteger(R.integer.maxHeight) -> {
-                    heightLayout.error = getString(R.string.heightTooBig)
-                }
-                text.toString().toInt() <  resources.getInteger(R.integer.minHeight) -> {
-                    heightLayout.error = getString(R.string.heightTooShort)
-                }
-                else -> {
-                    heightLayout.error = null
-                }
-            }
-        }
+        createTestField(R.id.medicalInfoHeightEditTxt, R.id.medicalInfoHeightTxtLayout,
+            resources.getInteger(R.integer.minHeight),resources.getInteger(R.integer.maxHeight),
+            getString(R.string.heightTooShort), getString(R.string.heightTooBig))
     }
 
     private fun createWeightField() {
-        val weightTxt = findViewById<EditText>(R.id.medicalInfoWeightEditTxt)
-        val weightLayout = findViewById<TextInputLayout>(R.id.medicalInfoWeightTxtLayout)
-        weightTxt.doOnTextChanged { text, _, _, _ ->
-            when {
-                text!!.isEmpty() -> {
-                    weightLayout.error = null
-                }
-                text.toString().toInt() <  resources.getInteger(R.integer.minWeight) -> {
-                    weightLayout.error = getString(R.string.weightTooLight)
-                }
-                text.toString().toInt() >  resources.getInteger(R.integer.maxWeight) -> {
-                    weightLayout.error = getString(R.string.weightTooHeavy)
-                }
-                else -> {
-                    weightLayout.error = null
-                }
-            }
-        }
+        createTestField(R.id.medicalInfoWeightEditTxt, R.id.medicalInfoWeightTxtLayout,
+            resources.getInteger(R.integer.minWeight),resources.getInteger(R.integer.maxWeight),
+            getString(R.string.weightTooLight), getString(R.string.weightTooHeavy))
+
     }
 
     private fun createBloodField(){
         val bloodType = BloodType.values().map{it.type}
-        val adapter = ArrayAdapter(
-            this,
-            R.layout.dropdown_menu_popup,
-            bloodType
-        )
-
-        val editTextFilledExposedDropdown =
-            findViewById<AutoCompleteTextView>(R.id.medicalInfoBloodDropdown)
+        val adapter = ArrayAdapter(this, R.layout.dropdown_menu_popup, bloodType)
+        val editTextFilledExposedDropdown = findViewById<AutoCompleteTextView>(R.id.medicalInfoBloodDropdown)
         editTextFilledExposedDropdown.setAdapter(adapter)
     }
 
     private fun createGenderField(){
         val bloodType = Gender.values().map{it.sex}
-        val adapter = ArrayAdapter(
-            this,
-            R.layout.dropdown_menu_popup,
-            bloodType
-        )
-
-        val editTextFilledExposedDropdown =
-            findViewById<AutoCompleteTextView>(R.id.medicalInfoGenderDropdown)
+        val adapter = ArrayAdapter(this, R.layout.dropdown_menu_popup, bloodType)
+        val editTextFilledExposedDropdown = findViewById<AutoCompleteTextView>(R.id.medicalInfoGenderDropdown)
         editTextFilledExposedDropdown.setAdapter(adapter)
     }
 
