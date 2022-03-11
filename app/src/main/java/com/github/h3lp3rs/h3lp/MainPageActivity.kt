@@ -1,15 +1,27 @@
 package com.github.h3lp3rs.h3lp
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageButton
+import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.drawerlayout.widget.DrawerLayout
+import com.google.android.material.navigation.NavigationView
 
 
 class MainPageActivity : AppCompatActivity() {
+    //@SuppressLint("ResourceType")
+   // val drawerLayout: DrawerLayout=findViewById<DrawerLayout>(R.layout.activity_main_page)
+    //val navigationView:NavigationView=findViewById(R.id.nav_view)
+    //val toolBar:ImageButton=findViewById(R.id.menuButton)
+
+   // @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_page)
+
     }
 
     /** Starts the activity by sending intent */

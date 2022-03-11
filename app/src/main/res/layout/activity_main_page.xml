@@ -1,33 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_background"
+    android:fitsSystemWindows="true"
     tools:context=".MainPageActivity">
 
     <com.google.android.material.navigation.NavigationView
-        
+        android:id="@+id/nav_view"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"></com.google.android.material.navigation.NavigationView>
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/header_side_navigation_bar"
+        app:menu="@menu/side_navigation_bar" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/app_margin"
-        android:layout_marginTop="@dimen/app_margin"
-        android:layout_marginRight="@dimen/app_margin"
-        android:layout_marginBottom="@dimen/app_margin"
         android:background="@color/app_background">
 
-        <ImageButton
-            android:id="@+id/menuButton"
-            android:layout_width="@dimen/top_banner_icon"
-            android:layout_height="@dimen/top_banner_icon"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/bar_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
             android:background="@null"
-            android:scaleType="centerInside"
-            android:src="@drawable/menu"
-            android:contentDescription="@string/menu_button" />
+            app:elevation="0dp">
+
+            <Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true">
+
+                <ImageButton
+                    android:id="@+id/menuButton"
+                    android:layout_width="@dimen/top_banner_icon"
+                    android:layout_height="@dimen/top_banner_icon"
+                    android:background="@null"
+                    android:contentDescription="@string/menu_button"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/menu" />
+            </Toolbar>
+        </com.google.android.material.appbar.AppBarLayout>
 
         <ImageButton
             android:id="@+id/tutorialButton"
@@ -44,7 +62,7 @@
             android:id="@+id/HelloText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/menuButton"
+            android:layout_below="@+id/tutorialButton"
             android:layout_centerHorizontal="true"
             android:text="@string/hello"
             android:textColor="@color/dark_blue"
@@ -124,10 +142,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:textSize="@dimen/icon_font"
                             android:layout_marginTop="@dimen/scroll_view_margin_text"
                             android:text="@string/hospital"
                             android:textColor="@color/dark_blue"
+                            android:textSize="@dimen/icon_font"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -162,10 +180,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:textSize="@dimen/icon_font"
                             android:layout_marginTop="@dimen/scroll_view_margin_text"
                             android:text="@string/defibrillator"
                             android:textColor="@color/dark_blue"
+                            android:textSize="@dimen/icon_font"
                             android:textStyle="bold" />
 
                     </LinearLayout>
@@ -202,10 +220,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:textSize="@dimen/icon_font"
                             android:layout_marginTop="@dimen/scroll_view_margin_text"
                             android:text="@string/pharmacy"
                             android:textColor="@color/dark_blue"
+                            android:textSize="@dimen/icon_font"
                             android:textStyle="bold" />
 
                     </LinearLayout>
@@ -240,10 +258,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:textSize="@dimen/icon_font"
                             android:layout_marginTop="@dimen/scroll_view_margin_text"
                             android:text="@string/first_aid"
                             android:textColor="@color/dark_blue"
+                            android:textSize="@dimen/icon_font"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -279,10 +297,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:textSize="@dimen/icon_font"
                             android:layout_marginTop="@dimen/scroll_view_margin_text"
                             android:text="@string/cpr_rate"
                             android:textColor="@color/dark_blue"
+                            android:textSize="@dimen/icon_font"
                             android:textStyle="bold" />
 
                     </LinearLayout>
@@ -311,14 +329,14 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/margin_image_inside_layout"
                     android:background="@drawable/profile"
-                    android:onClick="goToProfileActivity"
-                    android:contentDescription="@string/profile_button" />
+                    android:contentDescription="@string/profile_button"
+                    android:onClick="goToProfileActivity" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/scroll_view_margin_text"
                     android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/scroll_view_margin_text"
                     android:text="@string/profile"
                     android:textColor="@color/dark_blue"
                     android:textSize="@dimen/icon_font"
@@ -345,8 +363,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/scroll_view_margin_text"
                     android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/scroll_view_margin_text"
                     android:text="@string/skills"
                     android:textColor="@color/dark_blue"
                     android:textSize="@dimen/icon_font"
@@ -362,8 +380,8 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="460dp"
             android:background="@drawable/help_button"
-            android:onClick="goToHelpParametersActivity"
-            android:contentDescription="@string/help_button" />
+            android:contentDescription="@string/help_button"
+            android:onClick="goToHelpParametersActivity" />
     </RelativeLayout>
 
 

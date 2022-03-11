@@ -4,20 +4,17 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:title="Home"
             android:icon="@drawable/ic_home_page_icon"
-            />
+            android:title="Home" />
         <item
-            android:id="@+id/nav_idk"
-            android:title="Idk"
-            android:icon="@drawable/ic_home_page_icon"
-            />
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings_icon"
+            android:title="Settings" />
 
     </group>
 
     <group android:checkableBehavior="single">
-        <item
-            android:title="Profile" >
+        <item android:title="Profile">
             <menu>
 
                 <item
@@ -25,37 +22,33 @@
                     android:icon="@drawable/ic_login_icon"
                     android:title="Login" />
                 <item
-                    android:id="@+id/nav_logout"
-                    android:title="Logout"
-                    android:icon="@drawable/ic_logout_icon"
-                    />
-                <item
                     android:id="@+id/nav_profile"
-                    android:title="Profile"
                     android:icon="@drawable/ic_profile_icon"
-                    />
+                    android:title="Profile" />
+                <item
+                    android:id="@+id/nav_logout"
+                    android:icon="@drawable/ic_logout_icon"
+                    android:title="Logout" />
+
 
             </menu>
-
 
 
         </item>
 
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="H3LP3RS">
 
         <menu>
             <item
                 android:id="@+id/nav_about_us"
-                android:title="About us"
                 android:icon="@drawable/ic_about_us_icon"
-                ></item>
+                android:title="About us"></item>
             <item
                 android:id="@+id/nav_rate_us"
-                android:title="Rate us"
                 android:icon="@drawable/ic_rate_us_icon"
-                ></item>
+                android:title="Rate us"></item>
 
         </menu>
 
