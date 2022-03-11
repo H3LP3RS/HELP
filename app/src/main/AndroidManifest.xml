@@ -18,9 +18,6 @@
                 android:name=".HelpParametersActivity"
                 android:exported="false" />
         <activity
-                android:name=".ProfileActivity"
-                android:exported="false" />
-        <activity
                 android:name=".CprRateActivity"
                 android:exported="false" />
         <activity
