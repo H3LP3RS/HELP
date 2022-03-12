@@ -44,11 +44,13 @@ class SwipeListener(
     override fun onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
         val diffY = e2.y - e1.y
         val diffX = e2.x - e1.x
-        return if (abs(diffX) > abs(diffY)) {
+        /*return if (abs(diffX) > abs(diffY)) {
             detectSwipeDirectionAndDo(diffX, velocityX, onSwipeRight, onSwipeLeft)
         } else {
             detectSwipeDirectionAndDo(diffY, velocityY, onSwipeBottom, onSwipeTop)
-        }
+        }*/
+        onSwipeLeft()
+        return true
     }
 
     /**

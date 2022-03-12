@@ -1,4 +1,4 @@
-package com.github.h3lp3rs.h3lp
+package com.github.h3lp3rs.h3lp.presentation
 
 import android.app.Activity
 import android.app.Instrumentation.*
@@ -11,8 +11,7 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.*
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
-import com.github.h3lp3rs.h3lp.presentation.PresRelevantActivity
+import com.github.h3lp3rs.h3lp.R
 import org.hamcrest.core.AllOf.*
 import org.junit.Rule
 import org.junit.Test

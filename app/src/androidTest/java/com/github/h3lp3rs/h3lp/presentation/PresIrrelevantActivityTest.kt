@@ -1,4 +1,4 @@
-package com.github.h3lp3rs.h3lp
+package com.github.h3lp3rs.h3lp.presentation
 
 import android.app.Activity
 import android.app.Instrumentation.*
@@ -16,35 +16,33 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-
 /* CIRRUS not working
 @RunWith(AndroidJUnit4::class)
-
-class PresentationActivity2Test {
+class PresentationActivity3Test {
     @get:Rule
-    val testRule = ActivityScenarioRule(PresentationActivity2::class.java)
+    val testRule = ActivityScenarioRule(PresentationActivity3::class.java)
 
     @Test
     fun successfulDisplay() {
-        onView(withId(R.id.pres2_textView1)).check(matches(isDisplayed()))
-        onView(withId(R.id.pres2_textView2)).check(matches(isDisplayed()))
-        onView(withId(R.id.pres2_textView3)).check(matches(isDisplayed()))
-        onView(withId(R.id.pres2_textView4)).check(matches(isDisplayed()))
-        onView(withId(R.id.pres2_textView5)).check(matches(isDisplayed()))
-        onView(withId(R.id.pres2_textView6)).check(matches(isDisplayed()))
-        onView(withId(R.id.pres2_imageView1)).check(matches(isDisplayed()))
-        onView(withId(R.id.pres2_imageView2)).check(matches(isDisplayed()))
-        onView(withId(R.id.pres2_imageView3)).check(matches(isDisplayed()))
+        onView(withId(R.id.pres3_textView1)).check(matches(isDisplayed()))
+        onView(withId(R.id.pres3_textView2)).check(matches(isDisplayed()))
+        onView(withId(R.id.pres3_textView3)).check(matches(isDisplayed()))
+        onView(withId(R.id.pres3_textView4)).check(matches(isDisplayed()))
+        onView(withId(R.id.pres3_textView5)).check(matches(isDisplayed()))
+        onView(withId(R.id.pres3_textView6)).check(matches(isDisplayed()))
+        onView(withId(R.id.pres3_imageView1)).check(matches(isDisplayed()))
+        onView(withId(R.id.pres3_imageView2)).check(matches(isDisplayed()))
+        onView(withId(R.id.pres3_imageView3)).check(matches(isDisplayed()))
     }
 
     @Test
-    fun successfulSlideLeft() {
+    fun successfulApprovalButton() {
         init()
         val intent = Intent()
         val intentResult = ActivityResult(Activity.RESULT_OK, intent)
         intending(anyIntent()).respondWith(intentResult)
-        onView(withId(R.id.pres2_textView6)).perform(swipeLeft())
-        intended(allOf(hasComponent(PresentationActivity3::class.java.name)))
+        onView(withId(R.id.pres3_button)).perform(click())
+        intended(allOf(hasComponent(MainPageActivity::class.java.name)))
         release()
     }
 
@@ -54,8 +52,8 @@ class PresentationActivity2Test {
         val intent = Intent()
         val intentResult = ActivityResult(Activity.RESULT_OK, intent)
         intending(anyIntent()).respondWith(intentResult)
-        onView(withId(R.id.pres2_textView6)).perform(swipeRight())
-        intended(allOf(hasComponent(PresentationActivity1::class.java.name)))
+        onView(withId(R.id.pres3_textView5)).perform(swipeRight())
+        intended(allOf(hasComponent(PresentationActivity2::class.java.name)))
         release()
     }
 }*/
