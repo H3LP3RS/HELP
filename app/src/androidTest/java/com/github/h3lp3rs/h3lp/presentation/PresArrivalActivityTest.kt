@@ -4,10 +4,6 @@ import android.app.Activity
 import android.app.Instrumentation.*
 import android.content.Intent
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.GeneralLocation
-import androidx.test.espresso.action.GeneralSwipeAction
-import androidx.test.espresso.action.Press
-import androidx.test.espresso.action.Swipe
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents.*
@@ -15,8 +11,8 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.*
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.rule.ActivityTestRule
 import com.github.h3lp3rs.h3lp.R
+import com.github.h3lp3rs.h3lp.testutils.ViewWaiter
 import org.hamcrest.core.AllOf.*
 import org.junit.Rule
 import org.junit.Test
@@ -44,7 +40,8 @@ class PresArrivalActivityTest {
         val intentResult = ActivityResult(Activity.RESULT_OK, intent)
         intending(anyIntent()).respondWith(intentResult)
         onView(withId(R.id.pres1_textView4)).perform(swipeLeft())
-        Thread.sleep(1000)
+        Thread.sleep(10000L)
+        //onView(isRoot()).perform(ViewWaiter(10000L, R.id.pres2_imageView1))
         intended(allOf(hasComponent(PresRelevantActivity::class.java.name)))
         release()
     }
