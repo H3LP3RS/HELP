@@ -4,6 +4,10 @@ import android.app.Activity
 import android.app.Instrumentation.*
 import android.content.Intent
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.GeneralLocation
+import androidx.test.espresso.action.GeneralSwipeAction
+import androidx.test.espresso.action.Press
+import androidx.test.espresso.action.Swipe
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents.*
@@ -22,7 +26,7 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class PresArrivalActivityTest {
     @get:Rule
-    val testRule = ActivityTestRule(PresArrivalActivity::class.java)
+    val testRule = ActivityScenarioRule(PresArrivalActivity::class.java)
 
     @Test
     fun successfulDisplay() {
@@ -40,6 +44,7 @@ class PresArrivalActivityTest {
         val intentResult = ActivityResult(Activity.RESULT_OK, intent)
         intending(anyIntent()).respondWith(intentResult)
         onView(withId(R.id.pres1_textView4)).perform(swipeLeft())
+        Thread.sleep(1000)
         intended(allOf(hasComponent(PresRelevantActivity::class.java.name)))
         release()
     }
