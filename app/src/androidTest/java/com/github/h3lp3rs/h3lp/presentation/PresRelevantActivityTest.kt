@@ -36,23 +36,23 @@ class PresRelevantActivityTest {
 
     @Test
     fun successfulSlideLeft() {
-        init()
-        val intent = Intent()
-        val intentResult = ActivityResult(Activity.RESULT_OK, intent)
-        intending(anyIntent()).respondWith(intentResult)
+        // init()
+        // val intent = Intent()
+        // val intentResult = ActivityResult(Activity.RESULT_OK, intent)
+        // intending(anyIntent()).respondWith(intentResult)
         onView(withId(R.id.pres2_textView6)).perform(swipeLeft())
         // intended(allOf(hasComponent(PresIrrelevantActivityTest::class.java.name))) Cirrus broken
-        release()
+        // release()
     }
 
     @Test
     fun successfulSlideRight() {
-        init()
-        val intent = Intent()
-        val intentResult = ActivityResult(Activity.RESULT_OK, intent)
-        intending(anyIntent()).respondWith(intentResult)
+        // init()
+        // val intent = Intent()
+        // val intentResult = ActivityResult(Activity.RESULT_OK, intent)
+        // intending(anyIntent()).respondWith(intentResult)
         onView(withId(R.id.pres2_textView6)).perform(swipeRight())
         // intended(allOf(hasComponent(PresArrivalActivity::class.java.name))) Cirrus broken
-        release()
+        // release()
     }
 }
