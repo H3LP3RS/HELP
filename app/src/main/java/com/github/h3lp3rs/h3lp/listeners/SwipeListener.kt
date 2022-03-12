@@ -1,7 +1,10 @@
 package com.github.h3lp3rs.h3lp.listeners
 
+import android.content.Intent
 import android.view.GestureDetector
 import android.view.MotionEvent
+import androidx.appcompat.app.AppCompatActivity
+import com.github.h3lp3rs.h3lp.R
 import kotlin.math.abs
 
 /**
@@ -45,6 +48,25 @@ class SwipeListener(
             detectSwipeDirectionAndDo(diffX, velocityX, onSwipeRight, onSwipeLeft)
         } else {
             detectSwipeDirectionAndDo(diffY, velocityY, onSwipeBottom, onSwipeTop)
+        }
+    }
+
+    /**
+     * Allows to build swipe actions easier
+     */
+    companion object {
+        enum class SlideDirection(val slideIn: Int, val slideOut: Int) {
+            LEFT(R.anim.slide_in_right, R.anim.slide_out_left),
+            RIGHT(R.anim.slide_in_left, R.anim.slide_out_right);
+        }
+
+        fun swipeToNextActivity(curr: AppCompatActivity, dir: SlideDirection,
+                                ActivityName: Class<*>?): () -> Unit {
+            return {
+                val i = Intent(curr, ActivityName)
+                curr.startActivity(i)
+                curr.overridePendingTransition(dir.slideIn, dir.slideOut)
+            }
         }
     }
 }

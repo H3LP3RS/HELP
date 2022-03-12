@@ -9,19 +9,14 @@ import android.view.View
 import com.github.h3lp3rs.h3lp.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.listeners.SwipeListener
+import com.github.h3lp3rs.h3lp.listeners.SwipeListener.Companion.SlideDirection.*
+import com.github.h3lp3rs.h3lp.listeners.SwipeListener.Companion.swipeToNextActivity
 
 /**
  * Class representing the third page of the app presentation
  * The purpose of this activity is to explain what H3LP ought not to be confused with
  */
 class PresIrrelevantActivity : AppCompatActivity() {
-    private val onSwipeRight: () -> Unit = {
-        // Go to previous page
-        val i = Intent(this, PresRelevantActivity::class.java)
-        startActivity(i)
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
-    }
-
     /**
      * Creates the third presentation page activity
      * Nothing should be done when a click is detected, this is handled by the swipe listener
@@ -31,7 +26,8 @@ class PresIrrelevantActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_presentation3)
         // Set correct swipe listeners
-        val gestureDetector = GestureDetector(this, SwipeListener(onSwipeRight, {}, {}, {}))
+        val gestureDetector = GestureDetector(this, SwipeListener(
+            swipeToNextActivity(this, RIGHT, PresRelevantActivity::class.java), {}, {}, {}))
         findViewById<View>(R.id.pres3_textView5).setOnTouchListener { _, event ->
             gestureDetector.onTouchEvent(event)
         }
