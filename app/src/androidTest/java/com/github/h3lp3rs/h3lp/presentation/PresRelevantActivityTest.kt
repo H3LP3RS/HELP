@@ -34,7 +34,7 @@ class PresRelevantActivityTest {
         onView(withId(R.id.pres2_imageView3)).check(matches(isDisplayed()))
     }
 
-    @Test
+    /*@Test
     fun successfulSlideLeft() {
         // init()
         // val intent = Intent()
@@ -54,5 +54,5 @@ class PresRelevantActivityTest {
         onView(withId(R.id.pres2_textView6)).perform(swipeRight())
         // intended(allOf(hasComponent(PresArrivalActivity::class.java.name))) Cirrus broken
         // release()
-    }
+    }*/
 }

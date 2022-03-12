@@ -19,7 +19,6 @@ class PresRelevantActivity : AppCompatActivity() {
      * Creates the second presentation page activity
      * Nothing should be done when a click is detected, this is handled by the swipe listener
      */
-    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_presentation_relevant)
@@ -27,7 +26,8 @@ class PresRelevantActivity : AppCompatActivity() {
         val gestureDetector = GestureDetector(this, SwipeListener(
             swipeToNextActivity(this, RIGHT, PresArrivalActivity::class.java),
             swipeToNextActivity(this, LEFT, PresIrrelevantActivity::class.java), {}, {}))
-        findViewById<View>(R.id.pres2_textView6).setOnTouchListener { _, event ->
+        findViewById<View>(R.id.pres2_textView6).setOnTouchListener { view, event ->
+            view.performClick()
             gestureDetector.onTouchEvent(event)
         }
     }

@@ -47,7 +47,7 @@ class PresIrrelevantActivityTest {
         release()
     }
 
-    @Test
+    /*@Test
     fun successfulSlideRight() {
         // init()
         // val intent = Intent()
@@ -56,5 +56,5 @@ class PresIrrelevantActivityTest {
         onView(withId(R.id.pres3_textView5)).perform(swipeRight())
         // intended(allOf(hasComponent(PresRelevantActivity::class.java.name))) Cirrus broken
         // release()
-    }
+    }*/
 }
