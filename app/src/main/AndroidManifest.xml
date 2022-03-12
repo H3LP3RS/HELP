@@ -24,13 +24,13 @@
                 android:name=".MainPageActivity"
                 android:exported="true"/>
         <activity
-                android:name=".PresentationActivity3"
+                android:name=".presentation.PresIrrelevantActivity"
                 android:exported="false" />
         <activity
-                android:name=".PresentationActivity2"
+                android:name=".presentation.PresRelevantActivity"
                 android:exported="false" />
         <activity
-                android:name=".PresentationActivity1"
+                android:name=".presentation.PresArrivalActivity"
                 android:exported="false" />
         <activity
                 android:name=".SignInActivity"

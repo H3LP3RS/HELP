@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
 
 
 class MainPageActivity : AppCompatActivity() {
@@ -33,7 +34,7 @@ class MainPageActivity : AppCompatActivity() {
      * Starts the presentation of the app
      */
     fun viewPresentation(view: View) {
-        goToActivity(PresentationActivity1::class.java)
+        goToActivity(PresArrivalActivity::class.java)
     }
 
     /** Called when the user taps the profile page button */
