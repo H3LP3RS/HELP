@@ -12,6 +12,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
+import com.github.h3lp3rs.h3lp.presentation.PresRelevantActivity
 import org.hamcrest.core.AllOf.*
 import org.junit.Rule
 import org.junit.Test
@@ -31,7 +32,7 @@ class PresArrivalActivityTest {
         onView(withId(R.id.pres1_textView4)).check(matches(isDisplayed()))
         onView(withId(R.id.pres1_imageView1)).check(matches(isDisplayed()))
     }
-/* CIRRUS not working
+
     @Test
     fun successfulSlideLeft() {
         init()
@@ -39,7 +40,7 @@ class PresArrivalActivityTest {
         val intentResult = ActivityResult(Activity.RESULT_OK, intent)
         intending(anyIntent()).respondWith(intentResult)
         onView(withId(R.id.pres1_textView4)).perform(swipeLeft())
-        intended(allOf(hasComponent(PresentationActivity2::class.java.name)))
+        intended(allOf(hasComponent(PresRelevantActivity::class.java.name)))
         release()
-    }*/
+    }
 }

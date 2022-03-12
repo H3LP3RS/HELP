@@ -19,13 +19,13 @@ class PresArrivalActivity : AppCompatActivity() {
      * Creates the first presentation page activity
      * Nothing should be done when a click is detected, this is handled by the swipe listener
      */
-    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_presentation1)
         val gestureDetector = GestureDetector(this, SwipeListener({},
             swipeToNextActivity(this, LEFT, PresRelevantActivity::class.java), {}, {}))
-        findViewById<View>(R.id.pres1_textView4).setOnTouchListener { _, event ->
+        findViewById<View>(R.id.pres1_textView4).setOnTouchListener { view, event ->
+            view.performClick()
             gestureDetector.onTouchEvent(event)
         }
     }
