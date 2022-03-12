@@ -11,6 +11,7 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.*
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.rule.ActivityTestRule
 import com.github.h3lp3rs.h3lp.R
 import org.hamcrest.core.AllOf.*
 import org.junit.Rule
@@ -21,7 +22,7 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class PresArrivalActivityTest {
     @get:Rule
-    val testRule = ActivityScenarioRule(PresArrivalActivity::class.java)
+    val testRule = ActivityTestRule(PresArrivalActivity::class.java)
 
     @Test
     fun successfulDisplay() {
@@ -33,7 +34,7 @@ class PresArrivalActivityTest {
     }
 
     @Test
-    fun successfulSlideLeft() {
+    fun successfulSwipeLeft() {
         init()
         val intent = Intent()
         val intentResult = ActivityResult(Activity.RESULT_OK, intent)

@@ -22,7 +22,7 @@ class PresRelevantActivity : AppCompatActivity() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_presentation2)
+        setContentView(R.layout.activity_presentation_relevant)
         // Set correct swipe listeners
         val gestureDetector = GestureDetector(this, SwipeListener(
             swipeToNextActivity(this, RIGHT, PresArrivalActivity::class.java),
