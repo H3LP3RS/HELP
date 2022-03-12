@@ -11,6 +11,10 @@ import org.hamcrest.Matcher
 import org.hamcrest.Matchers.any
 import java.util.concurrent.TimeoutException
 
+/**
+ * Utility test class to wait for a view to appear in case of asynchronous events
+ * TODO: This has not yet been tested
+ */
 class ViewWaiter(private val timeout: Long, private val targetViewId: Int) : ViewAction {
 
     override fun getConstraints(): Matcher<View> {
