@@ -40,4 +40,8 @@ class MainPageActivity : AppCompatActivity() {
     fun goToProfileActivity(view: View) {
         goToActivity(MedicalCardAcivity::class.java)
     }
+
+    fun goToNearbyUtilities(view: View) {
+        goToActivity(NearbyUtilitiesActivity::class.java)
+    }
 }

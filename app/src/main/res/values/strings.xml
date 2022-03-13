@@ -64,4 +64,5 @@
     <string name="skills_button">Skills</string>
     <string name="cpr_rate_button_start">START</string>
     <string name="cpr_rate_button_stop">STOP</string>
+    <string name="title_activity_nearby_utilities">NearbyUtilitiesActivity</string>
 </resources>

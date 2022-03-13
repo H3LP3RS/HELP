@@ -191,7 +191,8 @@
                             android:layout_marginTop="@dimen/margin_image_inside_layout"
                             android:background="@drawable/pharmacy"
                             android:contentDescription="@string/pharmacy_button"
-                            tools:ignore="TooDeepLayout,ImageContrastCheck" />
+                            tools:ignore="TooDeepLayout,ImageContrastCheck"
+                            android:onClick="goToNearbyUtilities"/>
 
                         <TextView
                             android:layout_width="wrap_content"
