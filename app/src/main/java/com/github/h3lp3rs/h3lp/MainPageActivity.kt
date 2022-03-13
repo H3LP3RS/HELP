@@ -1,31 +1,74 @@
 package com.github.h3lp3rs.h3lp
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
-import android.widget.ImageButton
-import android.widget.Toolbar
+import android.widget.Toast
+import android.widget.Toast.LENGTH_SHORT
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 
 
 class MainPageActivity : AppCompatActivity() {
-    //@SuppressLint("ResourceType")
-   // val drawerLayout: DrawerLayout=findViewById<DrawerLayout>(R.layout.activity_main_page)
+    lateinit var toggle: ActionBarDrawerToggle
+
+    // val drawerLayout: DrawerLayout=findViewById<DrawerLayout>(R.layout.activity_main_page)
     //val navigationView:NavigationView=findViewById(R.id.nav_view)
     //val toolBar:ImageButton=findViewById(R.id.menuButton)
-
-   // @SuppressLint("ResourceType")
+    /*
+    val drawerToggle by lazy{
+        ActionBarDrawerToggle(this,findViewById(R.id.bar_layout),findViewById(R.id.toolbar),R.string.drawer_open,R.string.drawer_closed)
+    }
+*/
+    //private var mDrawerToggle: ActionBarDrawerToggle?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_page)
+        // setSupportActionBar(findViewById(R.id.toolbar))
+        //findViewById<DrawerLayout>(R.id.bar_layout).addDrawerListener(drawerToggle)
+        //mDrawerToggle= ActionBarDrawerToggle(this,findViewById<DrawerLayout>(R.id.drawer_layout),findViewById(R.id.toolbar),R.string.drawer_open,R.string.drawer_closed)
+        //mDrawerToggle!!.syncState()
+
+        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
+        val navView: NavigationView = findViewById(R.id.nav_view)
+        toggle =
+            ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_open, R.string.drawer_closed)
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        navView.setNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.nav_profile -> goToProfileActivity(findViewById(R.id.profile))
+                else -> Toast.makeText(applicationContext, "template", LENGTH_SHORT).show()
+            }
+            true
+        }
 
     }
 
+    /*
+        override fun onPostCreate(savedInstanceState: Bundle?) {
+            super.onPostCreate(savedInstanceState)
+            drawerToggle.syncState()
+        }
+
+        override fun onConfigurationChanged(newConfig: Configuration) {
+            super.onConfigurationChanged(newConfig)
+            drawerToggle.onConfigurationChanged(newConfig)
+        }
+    */
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return if (toggle.onOptionsItemSelected(item)) true else super.onOptionsItemSelected(item)
+    }
+
+
     /** Starts the activity by sending intent */
-    private fun goToActivity(ActivityName: Class<*>?){
+    private fun goToActivity(ActivityName: Class<*>?) {
         val intent = Intent(this, ActivityName)
         startActivity(intent)
     }

@@ -65,4 +65,6 @@
     <string name="cpr_rate_button_start">START</string>
     <string name="cpr_rate_button_stop">STOP</string>
     <string name="app_slogan">The app that will save your life</string>
+    <string name="drawer_open">Open Navigation Drawer</string>
+    <string name="drawer_closed">Close navigation drawer</string>
 </resources>
