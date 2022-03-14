@@ -15,6 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/app_background">
+        <!--
         <ImageButton
             android:id="@+id/menuButton"
             android:layout_width="@dimen/top_banner_icon"
@@ -23,7 +24,7 @@
             android:contentDescription="@string/menu_button"
             android:scaleType="centerInside"
             android:src="@drawable/menu" />
-
+-->
         <ImageButton
             android:id="@+id/tutorialButton"
             android:layout_width="@dimen/top_banner_icon"

@@ -13,7 +13,7 @@ import com.google.android.material.navigation.NavigationView
 
 
 class MainPageActivity : AppCompatActivity() {
-    lateinit var toggle: ActionBarDrawerToggle
+    private lateinit var toggle: ActionBarDrawerToggle
 
     // val drawerLayout: DrawerLayout=findViewById<DrawerLayout>(R.layout.activity_main_page)
     //val navigationView:NavigationView=findViewById(R.id.nav_view)
@@ -44,7 +44,7 @@ class MainPageActivity : AppCompatActivity() {
         navView.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.nav_profile -> goToProfileActivity(findViewById(R.id.profile))
-                else -> Toast.makeText(applicationContext, "template", LENGTH_SHORT).show()
+                else -> Toast.makeText(applicationContext, "TODO", LENGTH_SHORT).show()
             }
             true
         }
@@ -63,6 +63,7 @@ class MainPageActivity : AppCompatActivity() {
         }
     */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
         return if (toggle.onOptionsItemSelected(item)) true else super.onOptionsItemSelected(item)
     }
 

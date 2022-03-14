@@ -4,25 +4,31 @@ import android.app.Activity
 import android.app.Instrumentation
 import android.content.Intent
 import android.view.View
+import android.widget.ImageButton
+import androidx.appcompat.widget.AppCompatImageButton
+import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
-import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
-import org.hamcrest.core.AllOf
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.util.EnumSet.allOf
+import java.util.concurrent.CompletableFuture.anyOf
+
 
 @RunWith(AndroidJUnit4::class)
 class MainPageTestActivity {
+
     @get:Rule
     val testRule = ActivityScenarioRule(
         MainPageActivity::class.java
