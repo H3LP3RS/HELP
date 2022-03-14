@@ -47,7 +47,7 @@ class MainPageTestActivity {
         Intents.release()
     }
 
-    private fun clickingOnButtonWorksAndSendsIntent(ActivityName: Class<*>?, id: Matcher<View>, isInScrollView: Boolean) {
+    private fun  clickingOnButtonWorksAndSendsIntent(ActivityName: Class<*>?, id: Matcher<View>, isInScrollView: Boolean) {
         if (isInScrollView) {
             onView(id).perform(ViewActions.scrollTo(), click())
         } else {

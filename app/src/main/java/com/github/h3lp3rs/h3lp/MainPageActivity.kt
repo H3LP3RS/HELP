@@ -8,6 +8,7 @@ import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 
@@ -44,7 +45,12 @@ class MainPageActivity : AppCompatActivity() {
         navView.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.nav_profile -> goToProfileActivity(findViewById(R.id.profile))
-                else -> Toast.makeText(applicationContext, "TODO", LENGTH_SHORT).show()
+                R.id.nav_home -> findViewById<DrawerLayout>(R.id.drawer_layout).closeDrawer(
+                    GravityCompat.START)
+                else ->{
+                    // Toast.makeText(applicationContext, "TODO", LENGTH_SHORT).show()
+                    true
+                }
             }
             true
         }
