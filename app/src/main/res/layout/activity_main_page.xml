@@ -315,7 +315,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/scroll_view_margin_text"
-                    android:text="@string/profile"
+                    android:text="@string/my_profile"
                     android:textColor="@color/dark_blue"
                     android:textSize="@dimen/icon_font"
                     android:textStyle="bold" />

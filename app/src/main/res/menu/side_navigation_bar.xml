@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="navigation_view"
 
     >
 
@@ -10,30 +8,30 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_home_page_icon"
-            android:title="Home" />
+            android:title="@string/home" />
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_settings_icon"
-            android:title="Settings" />
+            android:title="@string/settings" />
 
     </group>
 
     <group android:checkableBehavior="single">
-        <item android:title="Profile">
+        <item android:title="@string/profile">
             <menu>
 
                 <item
                     android:id="@+id/nav_login"
                     android:icon="@drawable/ic_login_icon"
-                    android:title="Login" />
+                    android:title="@string/login" />
                 <item
                     android:id="@+id/nav_profile"
                     android:icon="@drawable/ic_profile_icon"
-                    android:title="Profile" />
+                    android:title="@string/profile" />
                 <item
                     android:id="@+id/nav_logout"
                     android:icon="@drawable/ic_logout_icon"
-                    android:title="Logout" />
+                    android:title="@string/logout" />
 
 
             </menu>
@@ -43,17 +41,17 @@
 
     </group>
 
-    <item android:title="H3LP3RS">
+    <item android:title="@string/h3lp3rs">
 
         <menu>
             <item
                 android:id="@+id/nav_about_us"
                 android:icon="@drawable/ic_about_us_icon"
-                android:title="About us"></item>
+                android:title="@string/about_us" />
             <item
                 android:id="@+id/nav_rate_us"
                 android:icon="@drawable/ic_rate_us_icon"
-                android:title="Rate us"></item>
+                android:title="@string/rate_us" />
 
         </menu>
 

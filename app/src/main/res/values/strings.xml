@@ -16,7 +16,7 @@
     <string name="CurrentTreatment">Current Treatment </string>
     <string name="bloodType">Blood type</string>
     <string name="back_button_description">Back home button</string>
-    <string name="backround_image_description">Backround image</string>
+    <string name="background_image_description">Background image</string>
     <string name="welcome_msg">Welcome to H3LP</string>
     <string name="phone_icon_description">Phone icon</string>
     <string name="keep_calm_meds_selection_msg">Keep Calm and select what you need</string>
@@ -33,7 +33,7 @@
     <string name="info_box">Info box</string>
     <string name="help_page">Help page</string>
     <string name="h3lp_logo">H3lp logo</string>
-    <string name="the_app_that_will_safe_your_life">The app that will safe your life!</string>
+    <string name="the_app_that_will_safe_your_life">The app that will save your life!</string>
     <string name="safelives_all_rights_reserved">© SafeLives: All rights reserved</string>
     <string name="ascii_right_arrow">⟩</string>
     <string name="ascii_both_arrows">⟨ ⟩</string>
@@ -50,7 +50,7 @@
     <string name="welcome_text">Welcome to the H3LP app!</string>
     <string name="stay_safe">Stay safe!</string>
     <string name="cpr_rate">CPR rate</string>
-    <string name="profile">My Profile</string>
+    <string name="my_profile">My Profile</string>
     <string name="profile_button">Profile</string>
     <string name="skills">My skills/SOS Kit</string>
     <string name="tutorial_button">Tutorial</string>
@@ -67,4 +67,12 @@
     <string name="app_slogan">The app that will save your life</string>
     <string name="drawer_open">Open Navigation Drawer</string>
     <string name="drawer_closed">Close navigation drawer</string>
+    <string name="h3lp3rs">H3LP3RS</string>
+    <string name="about_us">About us</string>
+    <string name="rate_us">Rate us</string>
+    <string name="logout">Logout</string>
+    <string name="profile">Profile</string>
+    <string name="login">Login</string>
+    <string name="settings">Settings</string>
+    <string name="home">Home</string>
 </resources>
