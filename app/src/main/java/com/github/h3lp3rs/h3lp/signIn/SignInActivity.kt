@@ -21,7 +21,7 @@ import com.google.firebase.ktx.Firebase
 class SignInActivity : AppCompatActivity() {
 
     private lateinit var googleSignInClient: GoogleSignInClient
-    private lateinit var auth: FirebaseAuth
+    private lateinit var auth: AuthenticatorInterface
     private val serverClientId = "899579782202-t3orsbp6aov3i91c99r72kc854og8jad.apps.googleusercontent.com"
 
     override fun onStart() {
@@ -34,8 +34,7 @@ class SignInActivity : AppCompatActivity() {
      * Check if the current user is already signed in and update activity accordingly
      */
     private fun check() {
-        val currentUser = auth.currentUser
-        if (currentUser != null) {
+        if (auth.isSignedIn()) {
             val intent = Intent(this, MainPageActivity::class.java)
             startActivity(intent)
         }
@@ -46,7 +45,7 @@ class SignInActivity : AppCompatActivity() {
         setContentView(R.layout.activity_sign_in)
 
         // Initialize Firebase Auth
-        auth = Firebase.auth
+        auth = Authenticator.get()
 
         makeRequest()
 
