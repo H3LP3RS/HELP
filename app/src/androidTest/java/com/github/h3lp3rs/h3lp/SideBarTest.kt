@@ -78,7 +78,7 @@ class SideBarTest {
         drawerLayout?.check(matches(isClosed(Gravity.LEFT)))
     }
 
-    /*
+
     @Test
     fun clickingOnHomeIconSendsToHome() {
 
@@ -90,8 +90,6 @@ class SideBarTest {
 
 
     }
-    
-     */
 
     @Test
     fun clickingOnProfileIconSendsToProfilePage() {

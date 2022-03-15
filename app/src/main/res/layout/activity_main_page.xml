@@ -356,7 +356,7 @@
             android:layout_width="@dimen/help_button"
             android:layout_height="@dimen/help_button"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="460dp"
+            android:layout_marginTop="430dp"
             android:background="@drawable/help_button"
             android:contentDescription="@string/help_button"
             android:onClick="goToHelpParametersActivity" />
