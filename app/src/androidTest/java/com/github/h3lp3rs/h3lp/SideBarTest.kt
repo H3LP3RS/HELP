@@ -1,10 +1,17 @@
 package com.github.h3lp3rs.h3lp
 
+
 import android.app.Activity
 import android.app.Instrumentation
 import android.content.Intent
 import android.view.Gravity
+import android.view.View
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.IdlingRegistry
+import androidx.test.espresso.UiController
+import androidx.test.espresso.ViewAction
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.DrawerActions
@@ -13,9 +20,11 @@ import androidx.test.espresso.contrib.DrawerMatchers.isOpen
 import androidx.test.espresso.contrib.NavigationViewActions
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
+import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 import org.junit.After
 import org.junit.Before
@@ -44,6 +53,7 @@ class SideBarTest {
     fun release() {
         Intents.release()
     }
+
 
     private val drawerLayout: ViewInteraction? = onView(withId(R.id.drawer_layout))
 
@@ -75,9 +85,9 @@ class SideBarTest {
         openDrawerLayout()
         onView(withId(R.id.nav_view))
             .perform(NavigationViewActions.navigateTo(R.id.nav_home))
-        //wait until the drawer is closed
         Thread.sleep(500)
         drawerLayout?.check(matches(isClosed()))
+
 
     }
 
@@ -100,7 +110,7 @@ class SideBarTest {
      * dummy function for coverage, will be deleted later
      */
     @Test
-    fun clickingOnIconDoesNothing() {
+    fun clickingOnIconSendsDoesNothing() {
         openDrawerLayout()
 
         onView(withId(R.id.nav_view))
