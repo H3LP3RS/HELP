@@ -2,15 +2,10 @@ package com.github.h3lp3rs.h3lp
 
 import android.app.Activity
 import android.app.Instrumentation
-import android.app.PendingIntent.getActivity
 import android.content.Intent
 import android.view.Gravity
-import androidx.test.InstrumentationRegistry.getTargetContext
-import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu
 import androidx.test.espresso.ViewInteraction
-import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.DrawerActions
 import androidx.test.espresso.contrib.DrawerMatchers.isClosed
@@ -21,7 +16,6 @@ import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.platform.app.InstrumentationRegistry
 import org.hamcrest.Matchers
 import org.junit.After
 import org.junit.Before
