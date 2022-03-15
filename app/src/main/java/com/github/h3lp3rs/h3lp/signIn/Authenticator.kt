@@ -2,7 +2,7 @@ package com.github.h3lp3rs.h3lp.signIn
 
 object Authenticator {
     private var currentAuthenticator: AuthenticatorInterface? = null
-    fun  get(): AuthenticatorInterface {
+    fun get(): AuthenticatorInterface {
         currentAuthenticator = currentAuthenticator ?: FirebaseAuthAdaptor
         return currentAuthenticator!!
     }
