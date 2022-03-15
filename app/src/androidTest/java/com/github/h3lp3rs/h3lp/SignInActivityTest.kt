@@ -18,14 +18,17 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.signIn.AuthenticatorInterface
+import com.github.h3lp3rs.h3lp.signIn.FirebaseAuthAdaptor
 import com.github.h3lp3rs.h3lp.signIn.SignInActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import org.hamcrest.Matchers
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when` as When
 
@@ -65,7 +68,7 @@ class SignInActivityTest {
         Intents.release()
     }
 
-    @Test
+    /*@Test
     fun test(){
         val context : Context =  ApplicationProvider.getApplicationContext()
         val intent : Intent= Intent(context, SignInActivity::class.java)
@@ -81,10 +84,24 @@ class SignInActivityTest {
             }
             Intents.release()
         }
+    }*/
+
+    @Test
+    fun test(){
+        val firebaseAuthMock = mock(AuthenticatorInterface::class.java)
+        Mockito.`when`(firebaseAuthMock.isSignedIn()).thenReturn(true)
+        Intents.init()
+       // onView(withId(R.id.signInButton)).check(matches(isDisplayed())).perform(ViewActions.click())
+        Intents.intended(
+            Matchers.allOf(
+                IntentMatchers.hasComponent(MainPageActivity::class.java.name)
+            )
+        )
+        Intents.release()
 
     }
 
-    
+
 
 
 }
