@@ -78,11 +78,6 @@ class SignInActivityTest {
             scenario.onActivity { a ->
                 a.firebaseAuthWithGoogle("")
             }
-            Intents.intended(
-                Matchers.allOf(
-                    IntentMatchers.toPackage("com.github.fribourgsdp.radio")
-                )
-            )
             Intents.release()
         }
 
