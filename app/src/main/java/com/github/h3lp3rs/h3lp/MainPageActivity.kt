@@ -68,8 +68,8 @@ class MainPageActivity : AppCompatActivity() {
             drawerToggle.onConfigurationChanged(newConfig)
         }
     */
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return if (toggle.onOptionsItemSelected(item)) true else super.onOptionsItemSelected(item)
     }
 
