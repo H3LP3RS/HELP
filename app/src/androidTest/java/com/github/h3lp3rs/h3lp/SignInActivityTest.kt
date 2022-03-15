@@ -17,6 +17,7 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.anyIntent
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.github.h3lp3rs.h3lp.signIn.AuthenticatorInterface
 import com.github.h3lp3rs.h3lp.signIn.SignInActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -82,6 +83,8 @@ class SignInActivityTest {
         }
 
     }
+
+    
 
 
 }
