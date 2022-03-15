@@ -5,6 +5,7 @@ import android.app.Application
 import android.app.Instrumentation
 import android.content.Context
 import android.content.Intent
+import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
@@ -36,6 +37,9 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when` as When
+import androidx.test.core.app.ActivityScenario.launch
+import org.junit.After
+import org.junit.Before
 
 @RunWith(AndroidJUnit4::class)
 class SignInActivityTest {
@@ -45,6 +49,34 @@ class SignInActivityTest {
     val testRule = ActivityScenarioRule(
         SignInActivity::class.java
     )
+
+    @Before
+    @Test
+    fun alreadySignInAccountGoesToMainPage(){
+        val firebaseAuthMock = mock(AuthenticatorInterface::class.java)
+        Mockito.`when`(firebaseAuthMock.isSignedIn()).thenReturn(true)
+        Authenticator.set(firebaseAuthMock)
+        assertEquals(Authenticator.get().isSignedIn(), true)
+        Intents.init()
+
+        //onView(withId(R.id.signInButton)).check(matches(isDisplayed()))
+
+        Intents.intended(
+            Matchers.allOf(
+                IntentMatchers.hasComponent(MainPageActivity::class.java.name)
+            )
+        )
+
+        //assertEquals(MainPageActivity::class.java, ApplicationProvider.getApplicationContext<Context?>().)
+
+    }
+
+    @After
+    fun dosomething() {
+        Intents.release()
+    }
+
+
 
     @Test
     fun loginButtonLaunchesIntent() {
@@ -91,27 +123,6 @@ class SignInActivityTest {
         }
     }*/
 
-
-    @Test
-    fun alreadySignInAccountGoesToMainPage(){
-        val firebaseAuthMock = mock(AuthenticatorInterface::class.java)
-        Mockito.`when`(firebaseAuthMock.isSignedIn()).thenReturn(true)
-        Authenticator.set(firebaseAuthMock)
-        assertEquals(Authenticator.get().isSignedIn(), true)
-        Intents.init()
-
-        //onView(withId(R.id.signInButton)).check(matches(isDisplayed()))
-
-        Intents.intended(
-            Matchers.allOf(
-                IntentMatchers.hasComponent(MainPageActivity::class.java.name)
-            )
-        )
-
-        //assertEquals(MainPageActivity::class.java, ApplicationProvider.getApplicationContext<Context?>().)
-        Intents.release()
-
-    }
 
 
 
