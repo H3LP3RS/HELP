@@ -38,22 +38,19 @@ class MedicalCardAcivity : AppCompatActivity() {
 
     }
 
-    private fun createHelpField(
-        textLayout: TextInputLayout,
-        str: String
-    ) {
-        textLayout.setEndIconOnClickListener {
-            val snack = Snackbar.make(it, str, Snackbar.LENGTH_LONG)
-            snack.animationMode = BaseTransientBottomBar.ANIMATION_MODE_SLIDE
-            snack.setBackgroundTint(ContextCompat.getColor(this,R.color.teal_400))
-            snack.show()
-        }
+    private fun createHelpField( textLayout: TextInputLayout, str: String) {
+        textLayout.setEndIconOnClickListener { createSnackbar(it, str) }
+    }
+
+    private fun createSnackbar(it: View, str: String) {
+        val snack = Snackbar.make(it, str, Snackbar.LENGTH_LONG)
+        snack.animationMode = BaseTransientBottomBar.ANIMATION_MODE_SLIDE
+        snack.setBackgroundTint(ContextCompat.getColor(this, R.color.teal_400))
+        snack.show()
     }
 
 
-    private fun createTestField(
-        idEditText: Int, idTextInputLayout: Int , min : Int  , max : Int, minErrorMsg : String, maxErrorMsg : String
-    ) {
+    private fun createTestField( idEditText: Int, idTextInputLayout: Int , min : Int  , max : Int, minErrorMsg : String, maxErrorMsg : String) {
         val editText = findViewById<EditText>(idEditText)
         val textInputLayout = findViewById<TextInputLayout>(idTextInputLayout)
         editText.doOnTextChanged { text, _, _, _ ->
