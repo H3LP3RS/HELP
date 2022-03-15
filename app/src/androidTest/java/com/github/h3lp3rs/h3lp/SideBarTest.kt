@@ -51,7 +51,6 @@ class SideBarTest {
         Intents.release()
     }
 
-
     private val drawerLayout: ViewInteraction? = onView(withId(R.id.drawer_layout))
 
     private fun closeDrawerLayout() {
@@ -114,6 +113,6 @@ class SideBarTest {
             .perform(NavigationViewActions.navigateTo(R.id.nav_rate_us))
 
     }
-   
+
 
 }
