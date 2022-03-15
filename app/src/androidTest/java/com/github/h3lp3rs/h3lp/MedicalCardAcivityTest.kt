@@ -9,8 +9,7 @@ import android.content.Intent
 import android.view.View
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.typeText
+import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
@@ -41,7 +40,7 @@ class MedicalCardAcivityTest {
     @Test
     fun oldYearNumberLeadToError() {
         onView(withId(R.id.medicalInfoBirthEditTxt))
-            .perform(typeText( (ctx.resources.getInteger(R.integer.minYear) - 1).toString()))
+            .perform(replaceText( (ctx.resources.getInteger(R.integer.minYear) - 1).toString()))
         onView(withId(R.id.medicalInfoBirthTxtLayout)).check(matches(
             hasInputLayoutError()
         ))
@@ -52,7 +51,7 @@ class MedicalCardAcivityTest {
     @Test
     fun futureYearNumberLeadToError() {
         onView(withId(R.id.medicalInfoBirthEditTxt))
-            .perform(typeText((Calendar.getInstance().get(Calendar.YEAR)+1).toString()))
+            .perform(replaceText((Calendar.getInstance().get(Calendar.YEAR)+1).toString()))
         onView(withId(R.id.medicalInfoBirthTxtLayout)).check(matches(
             hasInputLayoutError()
         ))
@@ -63,7 +62,7 @@ class MedicalCardAcivityTest {
     @Test
     fun validYearNumberDontLeadToError() {
         onView(withId(R.id.medicalInfoBirthEditTxt))
-            .perform(typeText(Calendar.getInstance().get(Calendar.YEAR).toString()))
+            .perform(replaceText(Calendar.getInstance().get(Calendar.YEAR).toString()))
         onView(withId(R.id.medicalInfoBirthTxtLayout)).check(matches(
             not(hasInputLayoutError())
         ))
@@ -72,7 +71,7 @@ class MedicalCardAcivityTest {
     @Test
     fun tooHeavyWeightLeadToError() {
         onView(withId(R.id.medicalInfoWeightEditTxt))
-            .perform(typeText((ctx.resources.getInteger(R.integer.maxWeight) + 1).toString()))
+            .perform(replaceText((ctx.resources.getInteger(R.integer.maxWeight) + 1).toString()))
         onView(withId(R.id.medicalInfoWeightTxtLayout)).check(matches(
             hasInputLayoutError()
         ))
@@ -83,7 +82,7 @@ class MedicalCardAcivityTest {
     @Test
     fun tooLightWeightLeadToError() {
         onView(withId(R.id.medicalInfoWeightEditTxt))
-            .perform(typeText((ctx.resources.getInteger(R.integer.minWeight) - 1).toString()))
+            .perform(replaceText((ctx.resources.getInteger(R.integer.minWeight) - 1).toString()))
         onView(withId(R.id.medicalInfoWeightTxtLayout)).check(matches(
             hasInputLayoutError()
         ))
@@ -94,7 +93,7 @@ class MedicalCardAcivityTest {
     @Test
     fun appropriateWeightWeightDontLeadToError() {
         onView(withId(R.id.medicalInfoWeightEditTxt))
-            .perform(typeText((ctx.resources.getInteger(R.integer.maxWeight) - 1).toString()))
+            .perform(replaceText((ctx.resources.getInteger(R.integer.maxWeight) - 1).toString()))
         onView(withId(R.id.medicalInfoWeightTxtLayout)).check(matches(
             not(hasInputLayoutError())
         ))
@@ -102,7 +101,7 @@ class MedicalCardAcivityTest {
     @Test
     fun tooBigHeightLeadToError() {
         onView(withId(R.id.medicalInfoHeightEditTxt))
-            .perform(typeText((ctx.resources.getInteger(R.integer.maxHeight) + 1).toString()))
+            .perform(replaceText((ctx.resources.getInteger(R.integer.maxHeight) + 1).toString()))
         onView(withId(R.id.medicalInfoHeightTxtLayout)).check(matches(
             hasInputLayoutError()
         ))
@@ -113,7 +112,7 @@ class MedicalCardAcivityTest {
     @Test
     fun tooSmallHeightLeadToError() {
         onView(withId(R.id.medicalInfoHeightEditTxt))
-            .perform(typeText((ctx.resources.getInteger(R.integer.minWeight) - 1).toString()))
+            .perform(replaceText((ctx.resources.getInteger(R.integer.minWeight) - 1).toString()))
         onView(withId(R.id.medicalInfoHeightTxtLayout)).check(matches(
             hasInputLayoutError()
         ))
@@ -124,7 +123,7 @@ class MedicalCardAcivityTest {
     @Test
     fun appropriateHeightDontLeadToError() {
         onView(withId(R.id.medicalInfoHeightEditTxt))
-            .perform(typeText((ctx.resources.getInteger(R.integer.maxHeight) - 1).toString()))
+            .perform(replaceText((ctx.resources.getInteger(R.integer.maxHeight) - 1).toString()))
         onView(withId(R.id.medicalInfoHeightTxtLayout)).check(matches(
             not(hasInputLayoutError())
         ))

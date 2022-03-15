@@ -9,7 +9,7 @@
             android:supportsRtl="true"
             android:theme="@style/Theme.H3LP">
         <activity
-            android:name=".MedicalCardAcivity"
+            android:name=".presentation.PresArrivalActivity"
             android:exported="false" />
         <activity
             android:name=".AwaitHelpActivity"
@@ -22,7 +22,7 @@
                 android:exported="false" />
         <activity
                 android:name=".MainPageActivity"
-                android:exported="true"/>
+                android:exported="false"/>
         <activity
                 android:name=".presentation.PresIrrelevantActivity"
                 android:exported="false" />
@@ -33,7 +33,7 @@
                 android:name=".SignInActivity"
                 android:exported="false" />
         <activity
-                android:name=".presentation.PresArrivalActivity"
+                android:name=".MedicalCardAcivity"
                 android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

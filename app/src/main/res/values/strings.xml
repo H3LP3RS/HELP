@@ -64,4 +64,11 @@
     <string name="skills_button">Skills</string>
     <string name="cpr_rate_button_start">START</string>
     <string name="cpr_rate_button_stop">STOP</string>
+    <string name="save_changes">Save changes</string>
+    <string name="changes_saved">Changes saved</string>
+    <string name="invalid_field_msg">ERROR : Some field aren\'t fill correctly</string>
+    <string name="privacy_policy_not_acceptes">ERROR : You must accepted our privacy policy first</string>
+    <string name="info_saved">Your information have been saved</string>
+    <string name="medical_info_prefs"> medicalInfoPrefs</string>
+    <string name="medical_info_key">MEDICAL_INFO_KEY</string>
 </resources>
