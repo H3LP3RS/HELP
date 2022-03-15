@@ -95,7 +95,7 @@ class SignInActivity : AppCompatActivity() {
      *
      * @param idToken account's token Id
      */
-    private fun firebaseAuthWithGoogle(idToken: String) {
+    fun firebaseAuthWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
