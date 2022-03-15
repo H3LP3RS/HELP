@@ -13,6 +13,7 @@ import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
+import androidx.test.espresso.intent.Intents.getIntents
 import androidx.test.espresso.intent.Intents.intending
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.intent.matcher.IntentMatchers.anyIntent
@@ -25,8 +26,11 @@ import com.github.h3lp3rs.h3lp.signIn.FirebaseAuthAdaptor
 import com.github.h3lp3rs.h3lp.signIn.SignInActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
 import org.hamcrest.Matchers
@@ -101,15 +105,41 @@ class SignInActivityTest {
         Intents.init()
 
         //onView(withId(R.id.signInButton)).check(matches(isDisplayed()))
-
+        /*
         Intents.intended(
             Matchers.allOf(
                 IntentMatchers.hasComponent(MainPageActivity::class.java.name)
             )
         )
 
-        //assertEquals(MainPageActivity::class.java, ApplicationProvider.getApplicationContext<Context?>().)
+         */
+
+
         Intents.release()
+
+    }
+    @Test
+    fun newUserSignInWorks(){
+        val firebaseAuthMock = mock(AuthenticatorInterface::class.java)
+        Mockito.`when`(firebaseAuthMock.isSignedIn()).thenReturn(false)
+        Authenticator.set(firebaseAuthMock)
+
+        val mockGoogleSignIn = mock(GoogleSignIn::class.java)
+        val signIn = mock()
+
+
+        val credential = GoogleAuthProvider.getCredential("tPUX9GXN8AMM56MjryfMUQm0t202", null)
+        Mockito.`when`(firebaseAuthMock.signInWithCredential(credential)).thenReturn(Task<AuthResult>.)
+        val intent = Intent()
+        val result: Instrumentation.ActivityResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
+        Intents.init()
+        Intents.intended(
+            Matchers.allOf(
+                IntentMatchers.hasComponent(MainPageActivity::class.java.name)
+            )
+        )
+        Intents.release()
+
 
     }
 
