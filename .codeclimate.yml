@@ -1,3 +1,23 @@
+checks:
+  complex-logic:
+    config:
+      threshold: 50
+  file-lines:
+    config:
+      threshold: 500
+  method-complexity:
+    config:
+      threshold: 50
+  method-lines:
+    config:
+      threshold: 50
+  similar-code:
+    config:
+      threshold: 8
+  identical-code:
+    config:
+      threshold: 8
+
 exclude_patterns:
   - "**/test/"
   - "**/androidTest/"
