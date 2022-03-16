@@ -113,7 +113,8 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="@dimen/margin_image_inside_layout"
                             android:background="@drawable/hospital"
-                            android:contentDescription="@string/hospital_button" />
+                            android:contentDescription="@string/hospital_button"
+                            android:onClick="goToNearbyHospitals"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -192,7 +193,7 @@
                             android:background="@drawable/pharmacy"
                             android:contentDescription="@string/pharmacy_button"
                             tools:ignore="TooDeepLayout,ImageContrastCheck"
-                            android:onClick="goToNearbyUtilities"/>
+                            android:onClick="goToNearbyPharmacies"/>
 
                         <TextView
                             android:layout_width="wrap_content"

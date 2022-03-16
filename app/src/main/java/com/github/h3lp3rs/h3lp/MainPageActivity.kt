@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 
+const val EXTRA_NEARBY_UTILITIES = "nearby_utilities"
 
 class MainPageActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +42,18 @@ class MainPageActivity : AppCompatActivity() {
         goToActivity(MedicalCardAcivity::class.java)
     }
 
-    fun goToNearbyUtilities(view: View) {
-        goToActivity(NearbyUtilitiesActivity::class.java)
+    fun goToNearbyHospitals(view: View) {
+        goToNearbyUtilities(resources.getString(R.string.nearby_hospitals))
+    }
+
+    fun goToNearbyPharmacies(view: View) {
+        goToNearbyUtilities(resources.getString(R.string.nearby_phamacies))
+    }
+
+    fun goToNearbyUtilities(utility: String) {
+        val intent = Intent(this, NearbyUtilitiesActivity::class.java).apply{
+            putExtra(EXTRA_NEARBY_UTILITIES, utility)
+        }
+        startActivity(intent)
     }
 }
