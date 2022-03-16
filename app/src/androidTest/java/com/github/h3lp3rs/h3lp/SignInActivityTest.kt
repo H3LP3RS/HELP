@@ -2,35 +2,44 @@ package com.github.h3lp3rs.h3lp
 
 import android.app.Activity
 import android.app.Instrumentation
+import android.content.ContentValues.TAG
 import android.content.Intent
+import android.util.Log
+import androidx.activity.result.ActivityResult
+import androidx.core.content.ContextCompat.startActivity
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intending
 import androidx.test.espresso.intent.matcher.IntentMatchers
-import androidx.test.espresso.intent.matcher.IntentMatchers.anyIntent
+import androidx.test.espresso.intent.matcher.IntentMatchers.*
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.android.dx.command.Main
+import com.github.h3lp3rs.h3lp.signIn.GoogleSignInAdaptor
+import com.github.h3lp3rs.h3lp.signIn.SignIn
 import com.github.h3lp3rs.h3lp.signIn.SignInActivity
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import junit.framework.Assert.assertEquals
+import com.github.h3lp3rs.h3lp.signIn.SignInInterface
+import com.google.android.gms.auth.api.identity.SignInClient
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthResult
+import junit.framework.Assert.*
 import org.hamcrest.Matchers
+import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
+import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
-import org.junit.After
-import org.junit.Before
+import org.mockito.junit.MockitoJUnit.rule
+
 
 @RunWith(AndroidJUnit4::class)
 class SignInActivityTest {
-    private val serverClientId = "899579782202-t3orsbp6aov3i91c99r72kc854og8jad.apps.googleusercontent.com"
 
     @get:Rule
     val testRule = ActivityScenarioRule(
@@ -38,75 +47,35 @@ class SignInActivityTest {
     )
 
     @Before
+    fun setUp(){
+        Intents.init()
+
+        val signInMock = mock(SignInInterface::class.java)
+        `when`(signInMock.isSignedIn()).thenReturn(false)
+
+        testRule.scenario.onActivity { activity ->
+            val intent  = GoogleSignInAdaptor.signIn(activity)
+            val activityResult = ActivityResult(Activity.RESULT_OK, intent)
+            val taskMock = mock(Task::class.java)
+            `when`(taskMock.isSuccessful).thenReturn(true)
+            `when`(signInMock.signIn(activity)).thenReturn(intent)
+            `when`(signInMock.authenticate(activityResult, activity)).thenReturn(taskMock)
+        }
+
+        SignIn.set(signInMock as SignInInterface<AuthResult>)
+    }
+
     @Test
-    fun alreadySignInAccountGoesToMainPage(){
-//        val firebaseAuthMock = mock(AuthenticatorInterface::class.java)
-//        Mockito.`when`(firebaseAuthMock.isSignedIn()).thenReturn(true)
-//        Authenticator.set(firebaseAuthMock)
-//        assertEquals(Authenticator.get().isSignedIn(), true)
-//        Intents.init()
-//
-//        //onView(withId(R.id.signInButton)).check(matches(isDisplayed()))
-//
-//        Intents.intended(
-//            Matchers.allOf(
-//                IntentMatchers.hasComponent(MainPageActivity::class.java.name)
-//            )
-//        )
-
-        //assertEquals(MainPageActivity::class.java, ApplicationProvider.getApplicationContext<Context?>().)
-
+    fun signInButtonLaunchesCorrectIntent(){
+        onView(withId(R.id.signInButton)).perform(click())
+        Intents.intended(hasPackage("com.github.h3lp3rs.h3lp"))
+        assertNotNull(GoogleSignInAdaptor.gso)
     }
 
     @After
-    fun dosomething() {
+    fun cleanUp(){
         Intents.release()
     }
-
-
-
-    @Test
-    fun loginButtonLaunchesIntent() {
-        Intents.init()
-        onView(withId(R.id.signInButton)).check(matches(isDisplayed())).perform(ViewActions.click())
-        Intents.intended(IntentMatchers.hasPackage("com.google.android.gms"))
-        Intents.release()
-    }
-
-    @Test
-    fun connectWithNonExistentAccount(){
-        if(GoogleSignIn.getLastSignedInAccount(ApplicationProvider.getApplicationContext()) != null){
-            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(serverClientId)
-                .requestEmail()
-                .build()
-
-            GoogleSignIn.getClient(ApplicationProvider.getApplicationContext(), gso).signOut()
-
-        }
-        Intents.init()
-        val intent = Intent()
-        val result: Instrumentation.ActivityResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
-        intending(anyIntent()).respondWith(result)
-        onView(withId(R.id.signInButton)).perform(click())
-        Intents.release()
-    }
-
-    /*@Test
-    fun test(){
-        val context : Context =  ApplicationProvider.getApplicationContext()
-        val intent : Intent= Intent(context, SignInActivity::class.java)
-        ActivityScenario.launch<SignInActivity>(intent).use { scenario ->
-            val mockFirebaseAuth = mock(FirebaseAuth::class.java)
-            val mockAuthResult = mock(AuthResult::class.java)
-            When(mockFirebaseAuth.currentUser).thenReturn(null)
-            Intents.init()
-            scenario.onActivity { a ->
-                a.firebaseAuthWithGoogle("")
-            }
-            Intents.release()
-        }
-    }*/
 }
 
 

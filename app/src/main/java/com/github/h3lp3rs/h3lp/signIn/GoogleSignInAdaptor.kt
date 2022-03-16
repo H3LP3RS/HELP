@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
+import androidx.core.content.ContextCompat.startActivity
+import com.github.h3lp3rs.h3lp.MainPageActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
@@ -16,7 +18,7 @@ import com.google.firebase.ktx.Firebase
 
 object GoogleSignInAdaptor: SignInInterface<AuthResult> {
     private var auth: FirebaseAuth = Firebase.auth
-    private lateinit var gso: GoogleSignInOptions
+    lateinit var gso: GoogleSignInOptions
 
     private const val SERVER_CLIENT_ID =
     "899579782202-t3orsbp6aov3i91c99r72kc854og8jad.apps.googleusercontent.com"

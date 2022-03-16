@@ -3,18 +3,18 @@ package com.github.h3lp3rs.h3lp.signIn
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageButton
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
+import com.google.firebase.auth.AuthResult
 
 class SignInActivity : AppCompatActivity() {
-    private val signInClient = SignIn.get()
+    lateinit var signInClient : SignInInterface<AuthResult>
 
     override fun onStart() {
         super.onStart()
-        checkIfSignedIn()
+        //checkIfSignedIn()
     }
 
     /**
@@ -32,14 +32,18 @@ class SignInActivity : AppCompatActivity() {
         setContentView(R.layout.activity_sign_in)
 
         // Initialize Firebase Auth
-        val signInIntent = signInClient.signIn(this)
-
         findViewById<ImageButton>(R.id.signInButton).setOnClickListener{
-            // Launch the sign in request
-            resultLauncher.launch(signInIntent)
+            launchSignIn()
         }
     }
 
+    private fun launchSignIn(){
+        signInClient = SignIn.get()
+        checkIfSignedIn()
+        val signInIntent = signInClient.signIn(this)
+        // Launch the sign in request
+        resultLauncher.launch(signInIntent)
+    }
 
     // Handle sign in request result
     private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
