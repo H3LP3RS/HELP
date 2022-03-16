@@ -139,7 +139,7 @@ class NearbyUtilitiesActivity : AppCompatActivity(), OnMapReadyCallback,
             // Enable the my location layer if the permission has been granted.
             setupMap()
         } else {
-            // Permission was denied. Display an error message
+            // Permission was denied.
             // Display the missing permission error dialog when the fragments resume.
             permissionDenied = true
         }
