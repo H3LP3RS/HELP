@@ -258,8 +258,7 @@ class MedicalCardActivity : AppCompatActivity() {
     /**
      * Check that the policy was accepted
      */
-    private fun checkPoliciy(): Boolean{
-        return findViewById<CheckBox>(R.id.medicalInfoPrivacyCheck).isChecked
+    private fun checkPoliciy() = findViewById<CheckBox>(R.id.medicalInfoPrivacyCheck).isChecked
     }
 
     /**
