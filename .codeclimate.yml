@@ -13,10 +13,10 @@ checks:
       threshold: 50
   similar-code:
     config:
-      threshold: 8
+      threshold: 120
   identical-code:
     config:
-      threshold: 8
+      threshold: 120
 
 exclude_patterns:
   - "**/test/"
