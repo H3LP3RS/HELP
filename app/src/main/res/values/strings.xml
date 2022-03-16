@@ -71,4 +71,11 @@
     <string name="info_saved">Your information have been saved</string>
     <string name="medical_info_prefs"> medicalInfoPrefs</string>
     <string name="medical_info_key">MEDICAL_INFO_KEY</string>
+    <string name="privacy_policy">Privacy policy</string>
+    <string name="medical_info_privacy_policy">
+        We know how medical information are important and we take care of your privacy. Indeed your medical data are only stored on your phone.\n In case of an emergency only your helper will received your info so he/she can help you in the best condition. After the intervention, your info will then be deleted from your helper\'s phone and you will again be the only owner of your information</string>
+    <string name="condition_help_msg">This Field is dedicated to any illness or diseases that a caregiver should know in case of emergency</string>
+    <string name="treatment_help_msg">This Field is dedicated to any medication your are taking that a caregiver should know in case of emergency</string>
+    <string name="allergy_help_msg">This Field is dedicated to any allergy you suffer from that a caregiver should know in case of emergency</string>
+
 </resources>

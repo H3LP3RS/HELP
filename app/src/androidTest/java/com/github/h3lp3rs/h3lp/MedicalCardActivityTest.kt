@@ -2,7 +2,6 @@ package com.github.h3lp3rs.h3lp
 
 
 import android.app.Activity
-import android.app.Application
 import android.app.Instrumentation
 import android.content.Context
 import android.content.Intent
@@ -13,7 +12,7 @@ import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
-import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.android.material.textfield.TextInputLayout
@@ -29,13 +28,13 @@ import java.util.*
 
 
 @RunWith(AndroidJUnit4::class)
-class MedicalCardAcivityTest {
+class MedicalCardActivityTest {
 
     private val ctx: Context = ApplicationProvider.getApplicationContext()
 
     @get:Rule
     val testRule = ActivityScenarioRule(
-        MedicalCardAcivity::class.java
+        MedicalCardActivity::class.java
     )
     @Test
     fun oldYearNumberLeadToError() {
@@ -128,6 +127,62 @@ class MedicalCardAcivityTest {
             not(hasInputLayoutError())
         ))
     }
+    private fun fillCorrectInfo(){
+        onView(withId(R.id.medicalInfoHeightEditTxt))
+            .perform(replaceText((ctx.resources.getInteger(R.integer.maxHeight) - 1).toString()))
+        onView(withId(R.id.medicalInfoWeightEditTxt))
+            .perform(replaceText((ctx.resources.getInteger(R.integer.maxWeight) - 1).toString()))
+        onView(withId(R.id.medicalInfoHeightEditTxt))
+            .perform(replaceText((ctx.resources.getInteger(R.integer.minYear) + 1).toString()))
+        onView(withId(R.id.medicalInfoBloodDropdown))
+            .perform(replaceText(BloodType.ABn.type))
+        onView(withId(R.id.medicalInfoGenderDropdown))
+            .perform(replaceText(Gender.Male.name))
+    }
+
+
+
+    @Test
+    fun savingChangeWithErrorshowSnack() {
+        fillCorrectInfo()
+        onView(withId(R.id.medicalInfoHeightEditTxt))
+            .perform(replaceText((ctx.resources.getInteger(R.integer.maxHeight) + 1).toString()))
+
+        onView(withId(R.id.medicalInfoSaveButton))
+            .perform(scrollTo(), click())
+
+       onView(withText(R.string.invalid_field_msg))
+           .check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
+
+    }
+    @Test
+    fun savingChangeWithoutAccetptingPrivacyshowSnack() {
+        fillCorrectInfo()
+
+        onView(withId(R.id.medicalInfoSaveButton))
+            .perform(scrollTo(), click())
+
+        onView(withText(R.string.privacy_policy_not_acceptes))
+            .check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
+
+    }
+
+    @Test
+    fun savingChangeWitouErrorAndTickingPolicyWork() {
+       fillCorrectInfo()
+
+        onView(withId(R.id.medicalInfoSaveButton))
+            .perform(scrollTo(), click())
+
+        onView(withId(R.id.medicalInfoPrivacyCheck))
+            .perform(scrollTo(), click())
+
+        onView(withText(R.string.privacy_policy_not_acceptes))
+            .check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
+
+    }
+
+
 
     @Test
     fun backButtonWork(){

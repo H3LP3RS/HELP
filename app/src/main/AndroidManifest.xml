@@ -33,7 +33,7 @@
                 android:name=".SignInActivity"
                 android:exported="false" />
         <activity
-                android:name=".MedicalCardAcivity"
+                android:name=".MedicalCardActivity"
                 android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

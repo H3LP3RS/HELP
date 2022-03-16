@@ -6,6 +6,12 @@ import android.icu.util.Calendar
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.TextPaint
+import android.text.TextUtils
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.view.View
 import android.widget.EditText
 import androidx.annotation.RequiresApi
@@ -15,13 +21,15 @@ import com.google.android.material.textfield.TextInputLayout
 import android.widget.AutoCompleteTextView
 
 import android.widget.ArrayAdapter
+import android.widget.CheckBox
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 
 
-class MedicalCardAcivity : AppCompatActivity() {
+class MedicalCardActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,81 +42,75 @@ class MedicalCardAcivity : AppCompatActivity() {
         createWeightField()
         createBloodField()
         createGenderField()
+        createPrivacyCheckBox()
+
+        createHelpField(findViewById(R.id.medicalInfoConditionTxtLayout), getString(R.string.condition_help_msg))
+        createHelpField(findViewById(R.id.medicalInfoTreatmentTxtLayout), getString(R.string.treatment_help_msg))
+        createHelpField(findViewById(R.id.medicalInfoAllergyTxtLayout), getString(R.string.allergy_help_msg))
 
     }
 
 
+    /**
+     * create an Field that test input and write error 7
+     * @param idEditText the id of the editText to test value
+     * @param idTextInputLayout the Layout where to display erro
+     * @param min the min margin
+     * @param max the max margin
+     * @param minErrorMsg the message to display if smallest than min
+     * @param maxErrorMsg the message to display if biggest than min
+     */
+    private fun createTestField( idEditText: Int, idTextInputLayout: Int , min : Int  , max : Int, minErrorMsg : String, maxErrorMsg : String) {
+        val editText = findViewById<EditText>(idEditText)
+        val textInputLayout = findViewById<TextInputLayout>(idTextInputLayout)
+        editText.doOnTextChanged { text, _, _, _ ->
+            when {
+                text.toString().toInt() > max -> {
+                    textInputLayout.error = maxErrorMsg
+                }
+                text.toString().toInt() < min -> {
+                    textInputLayout.error = minErrorMsg
+                }
+                else -> {
+                    textInputLayout.error = null
+                }
+            }
+        }
+    }
+
+
+    /**
+     * create the field for the birth year with input check
+     */
     @RequiresApi(Build.VERSION_CODES.N)
     private fun createBirthField() {
-        val birthTxt = findViewById<EditText>(R.id.medicalInfoBirthEditTxt)
-        val birthLayout = findViewById<TextInputLayout>(R.id.medicalInfoBirthTxtLayout)
-        birthTxt.doOnTextChanged { text, _, _, _ ->
-            when {
-                text!!.isEmpty() -> {
-                    birthLayout.error = null
-                }
-                text.toString().toInt() > Calendar.getInstance().get(Calendar.YEAR) -> {
-                    birthLayout.error = getString(R.string.yearTooRecent)
-                }
-                text.toString().toInt() < resources.getInteger(R.integer.minYear)  -> {
-                    birthLayout.error = getString(R.string.yearTooOld)
-                }
-                else -> {
-                    birthLayout.error = null
-                }
-            }
-        }
+        createTestField(R.id.medicalInfoBirthEditTxt, R.id.medicalInfoBirthTxtLayout,
+            resources.getInteger(R.integer.minYear),Calendar.getInstance().get(Calendar.YEAR),
+            getString(R.string.yearTooOld), getString(R.string.yearTooRecent))
     }
 
-    private fun createSnackbar(it: View, str: String) {
-        val snack = Snackbar.make(it, str, Snackbar.LENGTH_LONG)
-        snack.animationMode = BaseTransientBottomBar.ANIMATION_MODE_SLIDE
-        snack.setBackgroundTint(ContextCompat.getColor(this, R.color.teal_200))
-        snack.show()
-    }
-
+    /**
+     * create the field for the height with input check
+     */
     private fun createHeightField() {
-        val heightTxt = findViewById<EditText>(R.id.medicalInfoHeightEditTxt)
-        val heightLayout = findViewById<TextInputLayout>(R.id.medicalInfoHeightTxtLayout)
-        heightTxt.doOnTextChanged { text, _, _, _ ->
-            when {
-                text!!.isEmpty() -> {
-                    heightLayout.error = null
-                }
-                text.toString().toInt() >  resources.getInteger(R.integer.maxHeight) -> {
-                    heightLayout.error = getString(R.string.heightTooBig)
-                }
-                text.toString().toInt() <  resources.getInteger(R.integer.minHeight) -> {
-                    heightLayout.error = getString(R.string.heightTooShort)
-                }
-                else -> {
-                    heightLayout.error = null
-                }
-            }
-        }
+        createTestField(R.id.medicalInfoHeightEditTxt, R.id.medicalInfoHeightTxtLayout,
+            resources.getInteger(R.integer.minHeight),resources.getInteger(R.integer.maxHeight),
+            getString(R.string.heightTooShort), getString(R.string.heightTooBig))
     }
 
+    /**
+     * create the field for the weight with input check
+     */
     private fun createWeightField() {
-        val weightTxt = findViewById<EditText>(R.id.medicalInfoWeightEditTxt)
-        val weightLayout = findViewById<TextInputLayout>(R.id.medicalInfoWeightTxtLayout)
-        weightTxt.doOnTextChanged { text, _, _, _ ->
-            when {
-                text!!.isEmpty() -> {
-                    weightLayout.error = null
-                }
-                text.toString().toInt() <  resources.getInteger(R.integer.minWeight) -> {
-                    weightLayout.error = getString(R.string.weightTooLight)
-                }
-                text.toString().toInt() >  resources.getInteger(R.integer.maxWeight) -> {
-                    weightLayout.error = getString(R.string.weightTooHeavy)
-                }
-                else -> {
-                    weightLayout.error = null
-                }
-            }
-        }
+        createTestField(R.id.medicalInfoWeightEditTxt, R.id.medicalInfoWeightTxtLayout,
+            resources.getInteger(R.integer.minWeight),resources.getInteger(R.integer.maxWeight),
+            getString(R.string.weightTooLight), getString(R.string.weightTooHeavy))
+
     }
 
+    /**
+     * create Blood type dropDown menu in an InputTextLayout
+     */
     private fun createBloodField(){
         val bloodType = BloodType.values().map{it.type}
         val adapter = ArrayAdapter(
@@ -122,6 +124,9 @@ class MedicalCardAcivity : AppCompatActivity() {
         editTextFilledExposedDropdown.setAdapter(adapter)
     }
 
+    /**
+     * create Gender dropDown menu in an InputTextLayout
+     */
     private fun createGenderField(){
         val bloodType = Gender.values().map{it.name}
         val adapter = ArrayAdapter(
@@ -136,15 +141,74 @@ class MedicalCardAcivity : AppCompatActivity() {
     }
 
 
+    /**
+     * Create an help button at the en of the text layout with
+     * @param textLayout TeytInputLayout
+     * @param str the help message
+     */
+    private fun createHelpField( textLayout: TextInputLayout, str: String) {
+        textLayout.setEndIconOnClickListener { createSnackbar(it, str) }
+    }
+
+
+    /**
+     * Create a stylized Snacckbar
+     * @param it the view in wich the snack should appeared
+     * @param str the message to display
+     */
+    private fun createSnackbar(it: View, str: String) {
+        val snack = Snackbar.make(it, str, Snackbar.LENGTH_LONG)
+        snack.animationMode = BaseTransientBottomBar.ANIMATION_MODE_SLIDE
+        snack.setBackgroundTint(ContextCompat.getColor(this, R.color.teal_200))
+        snack.show()
+    }
+
+    /**
+     * Create a PrivacyCheckbox with a clickable link sending to the policy
+     */
+    private fun createPrivacyCheckBox() {
+        val checkBox = findViewById<CheckBox>(R.id.medicalInfoPrivacyCheck)
+
+        val clickableSpan: ClickableSpan = object : ClickableSpan() {
+            override fun onClick(widget: View) {
+                widget.cancelPendingInputEvents()
+                // Do action for link text...
+                showPolicy()
+            }
+            override fun updateDrawState(ds: TextPaint) {
+                super.updateDrawState(ds)
+                ds.isUnderlineText = true
+            }
+        }
+        val linkText = SpannableString(getString(R.string.privacy_policy))
+        linkText.setSpan(clickableSpan, 0, linkText.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        val cs = TextUtils.expandTemplate("I accept the ^1", linkText)
+        checkBox.text = cs
+        checkBox.movementMethod = LinkMovementMethod.getInstance()
+    }
+
+    private fun showPolicy(){
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(getString(R.string.privacy_policy))
+            .setMessage(getString(R.string.medical_info_privacy_policy))
+            .show()
+    }
+
+    /**
+     * Send back to MainPageActivity
+     */
     fun backHome( view: View){
         val intent = Intent(this, MainPageActivity::class.java)
         startActivity(intent)
     }
 
 
+    /**
+     * Load medical card data
+     */
     private fun loadData(){
-        val preferences = getSharedPreferences("medicalInfoPrefs", MODE_PRIVATE)
-        val json = preferences.getString("MEDICAL_INFO_KEY",null)
+        val preferences = getSharedPreferences(getString(R.string.medical_info_prefs), MODE_PRIVATE)
+        val json = preferences.getString(getString(R.string.medical_info_key),null)
         val gson = Gson()
         val medicalInformation = gson.fromJson(json, MedicalInformation::class.java) ?: return
 
@@ -161,8 +225,11 @@ class MedicalCardAcivity : AppCompatActivity() {
 
     }
 
+    /**
+     * Check the validity of the field and that the policy is checked and then save the data
+     */
     @RequiresApi(Build.VERSION_CODES.O)
-    fun CheckAndSaveChanges(view: View){
+    fun checkAndSaveChanges(view: View){
 
         if(!checkField()){
             createSnackbar(view,getString(R.string.invalid_field_msg))
@@ -176,6 +243,9 @@ class MedicalCardAcivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Check validity of the field
+     */
     private fun checkField(): Boolean{
         val size  = findViewById<TextInputLayout>(R.id.medicalInfoHeightTxtLayout)
         val year  = findViewById<TextInputLayout>(R.id.medicalInfoBirthTxtLayout)
@@ -184,10 +254,17 @@ class MedicalCardAcivity : AppCompatActivity() {
         val bloodType = findViewById<AutoCompleteTextView>(R.id.medicalInfoBloodDropdown)
         return size.error==null && year.error==null && weight.error==null && gender.text!=null && bloodType!=null
     }
+
+    /**
+     * Check that the policy was accepted
+     */
     private fun checkPoliciy(): Boolean{
-        return true
+        return findViewById<CheckBox>(R.id.medicalInfoPrivacyCheck).isChecked
     }
 
+    /**
+     * Save the medical card information
+     */
     @RequiresApi(Build.VERSION_CODES.O)
     private fun saveChanges(){
         val size : Int = findViewById<EditText>(R.id.medicalInfoHeightEditTxt).text.toString().toInt()
