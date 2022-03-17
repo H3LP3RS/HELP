@@ -33,9 +33,6 @@
                 android:name=".presentation.PresRelevantActivity"
                 android:exported="false" />
         <activity
-                android:name=".SignInActivity"
-                android:exported="false" />
-        <activity
 
                 android:name=".presentation.PresArrivalActivity"
                 android:exported="true" >
