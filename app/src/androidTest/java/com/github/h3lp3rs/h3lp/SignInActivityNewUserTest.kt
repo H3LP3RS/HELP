@@ -4,11 +4,11 @@ import android.app.Activity
 import android.content.Intent
 import androidx.activity.result.ActivityResult
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso
-import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.signIn.SignIn
@@ -22,6 +22,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
+import org.mockito.Mockito.`when`
 import org.mockito.kotlin.anyOrNull
 
 @RunWith(AndroidJUnit4::class)
@@ -40,14 +41,15 @@ class SignInActivityNewUserTest {
         Intents.init()
 
         val signInMock = Mockito.mock(SignInInterface::class.java)
-        Mockito.`when`(signInMock.isSignedIn()).thenReturn(false)
+        `when`(signInMock.isSignedIn()).thenReturn(false)
 
         testRule.scenario.onActivity { activity ->
             intent  = Intent(ApplicationProvider.getApplicationContext(), activity.javaClass)
             val taskMock = Mockito.mock(Task::class.java)
-            Mockito.`when`(taskMock.isSuccessful).thenReturn(true)
-            Mockito.`when`(signInMock.signIn(activity)).thenReturn(intent)
-            Mockito.`when`(signInMock.authenticate(anyOrNull(), anyOrNull())).thenAnswer{
+            `when`(taskMock.isSuccessful).thenReturn(true)
+            `when`(taskMock.isComplete).thenReturn(true)
+            `when`(signInMock.signIn(activity)).thenReturn(intent)
+            `when`(signInMock.authenticate(anyOrNull(), anyOrNull())).thenAnswer{
                 authenticationStarted = true
                 taskMock
             }
@@ -57,20 +59,24 @@ class SignInActivityNewUserTest {
     }
 
     @Test
-    fun newUserSignInTriggersCorrectIntent(){
-        Espresso.onView(ViewMatchers.withId(R.id.signInButton)).perform(ViewActions.click())
+    fun newUserSignInLaunchesCorrectIntent(){
+        clickSignInButton()
         Intents.intended(IntentMatchers.hasComponent(SignInActivity::class.java.name))
     }
 
     @Test
-    fun newUserSignInTriggersAuthenticationProcess(){
+    fun newUserSignInLaunchesAuthenticationProcess(){
         /*val resultData = Intent()
         val result = Instrumentation.ActivityResult(Activity.RESULT_OK, resultData)
         intending(anyIntent()).respondWith(result)
 */
-        Espresso.onView(ViewMatchers.withId(R.id.signInButton)).perform(ViewActions.click())
+        clickSignInButton()
         testRule.scenario.onActivity { activity -> activity.authenticateUser(ActivityResult(Activity.RESULT_OK,intent),activity)}
         assert(authenticationStarted)
+    }
+
+    private fun clickSignInButton(){
+        onView(withId(R.id.signInButton)).perform(click())
     }
 
     @After

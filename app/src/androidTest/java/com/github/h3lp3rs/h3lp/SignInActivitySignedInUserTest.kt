@@ -1,14 +1,12 @@
 package com.github.h3lp3rs.h3lp
 
-import android.app.Activity
 import android.content.Intent
-import androidx.activity.result.ActivityResult
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso
-import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.signIn.SignIn
@@ -22,6 +20,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
+import org.mockito.Mockito.`when`
 import org.mockito.kotlin.anyOrNull
 
 @RunWith(AndroidJUnit4::class)
@@ -37,14 +36,15 @@ class SignInActivitySignedInUserTest {
         Intents.init()
 
         val signInMock = Mockito.mock(SignInInterface::class.java)
-        Mockito.`when`(signInMock.isSignedIn()).thenReturn(true)
+        `when`(signInMock.isSignedIn()).thenReturn(true)
 
         testRule.scenario.onActivity { activity ->
             val intent  = Intent(ApplicationProvider.getApplicationContext(), activity.javaClass)
             val taskMock = Mockito.mock(Task::class.java)
-            Mockito.`when`(taskMock.isSuccessful).thenReturn(true)
-            Mockito.`when`(signInMock.signIn(activity)).thenReturn(intent)
-            Mockito.`when`(signInMock.authenticate(anyOrNull(), anyOrNull())).thenReturn(taskMock)
+            `when`(taskMock.isSuccessful).thenReturn(true)
+            `when`(taskMock.isComplete).thenReturn(true)
+            `when`(signInMock.signIn(activity)).thenReturn(intent)
+            `when`(signInMock.authenticate(anyOrNull(), anyOrNull())).thenReturn(taskMock)
         }
 
         SignIn.set(signInMock as SignInInterface<AuthResult>)
@@ -52,7 +52,7 @@ class SignInActivitySignedInUserTest {
 
     @Test
     fun signedInUserMoveToMainPageDirectly(){
-        Espresso.onView(ViewMatchers.withId(R.id.signInButton)).perform(ViewActions.click())
+        onView(withId(R.id.signInButton)).perform(click())
         Intents.intended(IntentMatchers.hasComponent(MainPageActivity::class.java.name))
     }
 

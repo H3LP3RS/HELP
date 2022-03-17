@@ -46,11 +46,11 @@ class SignInActivity : AppCompatActivity() {
     private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result -> authenticateUser(result,this) }
 
     fun authenticateUser(result: ActivityResult, activity: Activity){
-        signInClient.authenticate(result, this)
-            ?.addOnCompleteListener(this) { task ->
+        signInClient.authenticate(result, activity)
+            ?.addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update activity with the signed-in user's information
-                    val intent = Intent(this, MainPageActivity::class.java)
+                    val intent = Intent(activity, MainPageActivity::class.java)
                     startActivity(intent)
                 }
             }
