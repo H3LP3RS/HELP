@@ -33,7 +33,7 @@
                 android:name=".presentation.PresArrivalActivity"
                 android:exported="false" />
         <activity
-                android:name=".signIn.SignInActivity"
+                android:name=".signin.SignInActivity"
                 android:exported="true"  >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,4 +1,4 @@
-package com.github.h3lp3rs.h3lp.signIn
+package com.github.h3lp3rs.h3lp.signin
 
 import android.app.Activity
 import android.content.Intent

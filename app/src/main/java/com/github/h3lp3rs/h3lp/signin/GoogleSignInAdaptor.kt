@@ -1,11 +1,9 @@
-package com.github.h3lp3rs.h3lp.signIn
+package com.github.h3lp3rs.h3lp.signin
 
 import android.app.Activity
 import android.content.Intent
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
-import androidx.core.content.ContextCompat.startActivity
-import com.github.h3lp3rs.h3lp.MainPageActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
@@ -16,6 +14,10 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
+/**
+ * This object adapts the Google sign in and Firebase authentication to our general SignInInterface.
+ * It is used as the central sign in interface in the app.
+ */
 object GoogleSignInAdaptor: SignInInterface<AuthResult> {
     private var auth: FirebaseAuth = Firebase.auth
     lateinit var gso: GoogleSignInOptions

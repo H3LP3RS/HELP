@@ -1,10 +1,14 @@
-package com.github.h3lp3rs.h3lp.signIn
+package com.github.h3lp3rs.h3lp.signin
 
 import android.app.Activity
 import android.content.Intent
 import androidx.activity.result.ActivityResult
 import com.google.android.gms.tasks.Task
 
+/**
+ * General interface displaying the different methods required to sign in with a remote service
+ * (ex: Google, Facebook, ...) in the context of the app.
+ */
 interface SignInInterface<T> {
     /**
      * Configures the sign in and builds the sign in client
@@ -13,6 +17,11 @@ interface SignInInterface<T> {
      * @return An intent to launch the sign in client
      */
     fun signIn(currentActivity: Activity): Intent
+
+    /**
+     * Returns a boolean saying if a user is currently signed in or not
+     */
+    fun isSignedIn(): Boolean
 
     /**
      * Authenticates the user with the sign in client
@@ -27,9 +36,4 @@ interface SignInInterface<T> {
      * Signs the current user out
      */
     fun signOut()
-
-    /**
-     * Returns a boolean saying if a user is currently signed in or not
-     */
-    fun isSignedIn(): Boolean
 }
