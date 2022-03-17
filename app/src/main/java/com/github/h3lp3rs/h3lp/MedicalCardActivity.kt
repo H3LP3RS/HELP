@@ -112,31 +112,30 @@ class MedicalCardActivity : AppCompatActivity() {
      * create Blood type dropDown menu in an InputTextLayout
      */
     private fun createBloodField(){
-        val bloodType = BloodType.values().map{it.type}
-        val adapter = ArrayAdapter(
-            this,
-            R.layout.dropdown_menu_popup,
-            bloodType
-        )
-
-        val editTextFilledExposedDropdown =
-            findViewById<AutoCompleteTextView>(R.id.medicalInfoBloodDropdown)
-        editTextFilledExposedDropdown.setAdapter(adapter)
+        createDropdownField(BloodType.values().map{it.type},R.id.medicalInfoBloodDropdown)
     }
 
     /**
      * create Gender dropDown menu in an InputTextLayout
      */
     private fun createGenderField(){
-        val bloodType = Gender.values().map{it.name}
+        createDropdownField(Gender.values().map{it.name}, R.id.medicalInfoGenderDropdown)
+    }
+
+    /**
+     * create Dropdown menu compatible with a TextInputLayout using autocomplete
+     * @param list list of element of the dropdown
+     * @param dropdownId of the dropdown layout
+     */
+    private fun createDropdownField(list : List<String>, dropdownId : Int){
         val adapter = ArrayAdapter(
             this,
             R.layout.dropdown_menu_popup,
-            bloodType
+            list
         )
 
         val editTextFilledExposedDropdown =
-            findViewById<AutoCompleteTextView>(R.id.medicalInfoGenderDropdown)
+            findViewById<AutoCompleteTextView>(dropdownId)
         editTextFilledExposedDropdown.setAdapter(adapter)
     }
 
@@ -204,23 +203,29 @@ class MedicalCardActivity : AppCompatActivity() {
     /**
      * Load medical card data
      */
-    private fun loadData(){
+    private fun loadData() {
         val preferences = getSharedPreferences(getString(R.string.medical_info_prefs), MODE_PRIVATE)
-        val json = preferences.getString(getString(R.string.medical_info_key),null)
+        val json = preferences.getString(getString(R.string.medical_info_key), null)
         val gson = Gson()
         val medicalInformation = gson.fromJson(json, MedicalInformation::class.java) ?: return
 
 
 
-        findViewById<EditText>(R.id.medicalInfoHeightEditTxt).setText(medicalInformation.size.toString())
-        findViewById<EditText>(R.id.medicalInfoBirthEditTxt).setText(medicalInformation.yearOfBirth.toString())
-        findViewById<EditText>(R.id.medicalInfoWeightEditTxt).setText(medicalInformation.weight.toString())
-        findViewById<EditText>(R.id.medicalInfoConditionEditTxt).setText(medicalInformation.conditions)
-        findViewById<EditText>(R.id.medicalInfoTreatmentEditTxt).setText(medicalInformation.actualTreatment)
-        findViewById<EditText>(R.id.medicalInfoAllergyEditTxt).setText(medicalInformation.allergy)
-        findViewById<AutoCompleteTextView>(R.id.medicalInfoGenderDropdown).setText(medicalInformation.gender.name)
-        findViewById<AutoCompleteTextView>(R.id.medicalInfoBloodDropdown).setText(medicalInformation.bloodType.type)
+        loadTo(medicalInformation.size, R.id.medicalInfoHeightEditTxt)
+        loadTo(medicalInformation.yearOfBirth, R.id.medicalInfoBirthEditTxt)
+        loadTo(medicalInformation.weight, R.id.medicalInfoWeightEditTxt)
+        loadTo(medicalInformation.conditions, R.id.medicalInfoConditionEditTxt)
+        loadTo(medicalInformation.actualTreatment, R.id.medicalInfoTreatmentEditTxt)
+        loadTo(medicalInformation.allergy, R.id.medicalInfoAllergyEditTxt)
+        loadTo(medicalInformation.gender.name, R.id.medicalInfoGenderDropdown)
+        loadTo(medicalInformation.bloodType.type, R.id.medicalInfoBloodDropdown)
+    }
 
+    private fun loadTo(data: String, editTxtId: Int){
+        findViewById<EditText>(editTxtId).setText(data)
+    }
+    private fun loadTo(data : Int, editTxtId: Int) {
+        loadTo(data.toString(),editTxtId)
     }
 
     /**
@@ -265,12 +270,12 @@ class MedicalCardActivity : AppCompatActivity() {
      */
     @RequiresApi(Build.VERSION_CODES.O)
     private fun saveChanges(){
-        val size : Int = findViewById<EditText>(R.id.medicalInfoHeightEditTxt).text.toString().toInt()
-        val year : Int = findViewById<EditText>(R.id.medicalInfoBirthEditTxt).text.toString().toInt()
-        val weight : Int = findViewById<EditText>(R.id.medicalInfoWeightEditTxt).text.toString().toInt()
-        val condition : String = findViewById<EditText>(R.id.medicalInfoConditionEditTxt).text.toString()
-        val treatment : String = findViewById<EditText>(R.id.medicalInfoTreatmentEditTxt).text.toString()
-        val allergy : String = findViewById<EditText>(R.id.medicalInfoAllergyEditTxt).text.toString()
+        val size : Int = getIntFromId(R.id.medicalInfoHeightEditTxt)
+        val year : Int = getIntFromId(R.id.medicalInfoBirthEditTxt)
+        val weight : Int = getIntFromId(R.id.medicalInfoWeightEditTxt)
+        val condition : String = getStringFromId(R.id.medicalInfoConditionEditTxt)
+        val treatment : String = getStringFromId(R.id.medicalInfoTreatmentEditTxt)
+        val allergy : String = getStringFromId(R.id.medicalInfoAllergyEditTxt)
         val gender : Gender = Gender.valueOf(findViewById<AutoCompleteTextView>(R.id.medicalInfoGenderDropdown).text.toString())
         val bloodType : BloodType = BloodType.valueOf(findViewById<AutoCompleteTextView>(R.id.medicalInfoBloodDropdown).text.toString()
             .replace('-','n').replace('+','p'))
@@ -281,6 +286,12 @@ class MedicalCardActivity : AppCompatActivity() {
         val gson = Gson()
         val json = gson.toJson(medicalInformation)
         preferencesEditor.putString(getString(R.string.medical_info_key),json).apply()
+    }
 
+    private fun getStringFromId(editTxtId: Int):String{
+        return findViewById<EditText>(editTxtId).text.toString()
+    }
+    private fun getIntFromId(editTxtId: Int):Int{
+        return getStringFromId(editTxtId).toInt()
     }
 }

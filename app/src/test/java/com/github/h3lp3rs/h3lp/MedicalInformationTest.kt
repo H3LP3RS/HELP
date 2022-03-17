@@ -54,14 +54,4 @@ class MedicalInformationTest {
         assertEquals(BloodType.An.type,"A-")
     }
 
-    @Test
-    fun testing(){
-
-        assertEquals(BloodType.ABn,BloodType.valueOf("ABn"))
-    }
-
-
-
-
-
 }
