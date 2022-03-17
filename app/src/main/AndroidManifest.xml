@@ -12,9 +12,6 @@
             android:name=".SignInActivity"
             android:exported="false" />
         <activity
-            android:name=".MedicalCardAcivity"
-            android:exported="false" />
-        <activity
             android:name=".AwaitHelpActivity"
             android:exported="false" />
         <activity
@@ -33,7 +30,9 @@
                 android:name=".presentation.PresRelevantActivity"
                 android:exported="false" />
         <activity
-
+                android:name=".MedicalCardAcivity"
+                android:exported="false" />
+        <activity
                 android:name=".presentation.PresArrivalActivity"
                 android:exported="true" >
             <intent-filter>
