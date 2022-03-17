@@ -13,7 +13,7 @@
             android:exported="false" />
         <activity
             android:name=".MedicalCardAcivity"
-            android:exported="false" >
+            android:exported="false" />
         <activity
             android:name=".AwaitHelpActivity"
             android:exported="false" />
