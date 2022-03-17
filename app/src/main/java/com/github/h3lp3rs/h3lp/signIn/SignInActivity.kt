@@ -34,17 +34,25 @@ class SignInActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Initialize client and launch the sign in request
+     */
     private fun launchSignIn(){
         signInClient = SignIn.get()
         checkIfSignedIn()
         val signInIntent = signInClient.signIn(this)
-        // Launch the sign in request
         resultLauncher.launch(signInIntent)
     }
 
     // Handle sign in request result
     private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result -> authenticateUser(result,this) }
 
+    /**
+     * Authenticate user
+     *
+     * @param result sign in intent result containing the user account
+     * @param activity current activity
+     */
     fun authenticateUser(result: ActivityResult, activity: Activity){
         signInClient.authenticate(result, activity)
             ?.addOnCompleteListener(activity) { task ->
