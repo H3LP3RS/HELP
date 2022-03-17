@@ -32,8 +32,8 @@ import androidx.test.espresso.action.Tap
 import androidx.test.espresso.action.GeneralClickAction
 
 import androidx.test.espresso.ViewAction
-
-
+import com.github.h3lp3rs.h3lp.signin.ORIGIN
+import com.github.h3lp3rs.h3lp.signin.SignInActivity
 
 
 @RunWith(AndroidJUnit4::class)
