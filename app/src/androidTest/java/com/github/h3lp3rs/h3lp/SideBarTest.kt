@@ -92,7 +92,7 @@ class SideBarTest {
 
         Intents.intended(
             Matchers.allOf(
-                IntentMatchers.hasComponent(MedicalCardAcivity::class.java.name)
+                IntentMatchers.hasComponent(MedicalCardActivity::class.java.name)
             )
         )
 

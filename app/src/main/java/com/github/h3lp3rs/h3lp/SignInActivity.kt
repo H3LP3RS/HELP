@@ -10,6 +10,11 @@ import android.view.WindowManager
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import com.github.h3lp3rs.h3lp.preferences.Preferences
+import com.github.h3lp3rs.h3lp.preferences.Preferences.Companion.Files
+import com.github.h3lp3rs.h3lp.preferences.Preferences.Companion.Files.*
+import com.github.h3lp3rs.h3lp.preferences.Preferences.Companion.USER_AGREE
+import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -19,6 +24,8 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
+// TODO: We should reach a consensus on where to put these things
+const val ORIGIN: String = "ORIGIN"
 class SignInActivity : AppCompatActivity() {
 
     private lateinit var googleSignInClient: GoogleSignInClient
@@ -27,7 +34,6 @@ class SignInActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-
         check()
     }
 
@@ -45,6 +51,13 @@ class SignInActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
+        // First check ToS agreement
+        if(!Preferences(PRESENTATION, this).getBoolOrDefault(USER_AGREE, false)) {
+            val i = Intent(this, PresArrivalActivity::class.java)
+                .putExtra(ORIGIN, SignInActivity::class.qualifiedName)
+            startActivity(i)
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+        }
 
         // Initialize Firebase Auth
         auth = Firebase.auth

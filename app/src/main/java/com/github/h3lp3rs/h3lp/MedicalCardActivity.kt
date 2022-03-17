@@ -16,7 +16,7 @@ import android.widget.AutoCompleteTextView
 import android.widget.ArrayAdapter
 
 
-class MedicalCardAcivity : AppCompatActivity() {
+class MedicalCardActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
