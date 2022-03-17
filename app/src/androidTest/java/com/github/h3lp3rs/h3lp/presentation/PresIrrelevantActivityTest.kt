@@ -1,4 +1,4 @@
-package com.github.h3lp3rs.h3lp
+package com.github.h3lp3rs.h3lp.presentation
 
 import android.app.Activity
 import android.app.Instrumentation.*
@@ -11,16 +11,17 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.*
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.github.h3lp3rs.h3lp.MainPageActivity
+import com.github.h3lp3rs.h3lp.R
 import org.hamcrest.core.AllOf.*
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-/* CIRRUS not working
 @RunWith(AndroidJUnit4::class)
-class PresentationActivity3Test {
+class PresIrrelevantActivityTest {
     @get:Rule
-    val testRule = ActivityScenarioRule(PresentationActivity3::class.java)
+    val testRule = ActivityScenarioRule(PresIrrelevantActivity::class.java)
 
     @Test
     fun successfulDisplay() {
@@ -46,14 +47,14 @@ class PresentationActivity3Test {
         release()
     }
 
-    @Test
+    /*@Test
     fun successfulSlideRight() {
-        init()
-        val intent = Intent()
-        val intentResult = ActivityResult(Activity.RESULT_OK, intent)
-        intending(anyIntent()).respondWith(intentResult)
+        // init()
+        // val intent = Intent()
+        // val intentResult = ActivityResult(Activity.RESULT_OK, intent)
+        // intending(anyIntent()).respondWith(intentResult)
         onView(withId(R.id.pres3_textView5)).perform(swipeRight())
-        intended(allOf(hasComponent(PresentationActivity2::class.java.name)))
-        release()
-    }
-}*/
+        // intended(allOf(hasComponent(PresRelevantActivity::class.java.name))) Cirrus broken
+        // release()
+    }*/
+}

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animationCache="false"
-    tools:context=".PresentationActivity1">
+    tools:context=".presentation.PresArrivalActivity">
 
     <TextView
         android:id="@+id/pres1_textView1"
