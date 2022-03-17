@@ -9,7 +9,7 @@
             android:supportsRtl="true"
             android:theme="@style/Theme.H3LP">
         <activity
-            android:name=".presentation.PresArrivalActivity"
+            android:name=".MedicalCardActivity"
             android:exported="false" />
         <activity
             android:name=".AwaitHelpActivity"
@@ -33,7 +33,7 @@
                 android:name=".SignInActivity"
                 android:exported="false" />
         <activity
-                android:name=".MedicalCardActivity"
+                android:name=".presentation.PresArrivalActivity"
                 android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
