@@ -8,12 +8,13 @@ import android.content.Intent
 import android.view.View
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.*
+
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
-import androidx.test.espresso.matcher.RootMatchers.isDialog
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.android.material.textfield.TextInputLayout
@@ -40,7 +41,7 @@ class MedicalCardActivityTest {
     @Test
     fun oldYearNumberLeadToError() {
         onView(withId(R.id.medicalInfoBirthEditTxt))
-            .perform(replaceText( (ctx.resources.getInteger(R.integer.minYear) - 1).toString()))
+            .perform(typeText( (ctx.resources.getInteger(R.integer.minYear) - 1).toString()))
         onView(withId(R.id.medicalInfoBirthTxtLayout)).check(matches(
             hasInputLayoutError()
         ))
@@ -51,7 +52,8 @@ class MedicalCardActivityTest {
     @Test
     fun futureYearNumberLeadToError() {
         onView(withId(R.id.medicalInfoBirthEditTxt))
-            .perform(replaceText((Calendar.getInstance().get(Calendar.YEAR)+1).toString()))
+            .perform(typeText((Calendar.getInstance().get(Calendar.YEAR)+1).toString()))
+
         onView(withId(R.id.medicalInfoBirthTxtLayout)).check(matches(
             hasInputLayoutError()
         ))
@@ -62,7 +64,8 @@ class MedicalCardActivityTest {
     @Test
     fun validYearNumberDontLeadToError() {
         onView(withId(R.id.medicalInfoBirthEditTxt))
-            .perform(replaceText(Calendar.getInstance().get(Calendar.YEAR).toString()))
+            .perform(typeText(Calendar.getInstance().get(Calendar.YEAR).toString()))
+
         onView(withId(R.id.medicalInfoBirthTxtLayout)).check(matches(
             not(hasInputLayoutError())
         ))
@@ -71,7 +74,8 @@ class MedicalCardActivityTest {
     @Test
     fun tooHeavyWeightLeadToError() {
         onView(withId(R.id.medicalInfoWeightEditTxt))
-            .perform(replaceText((ctx.resources.getInteger(R.integer.maxWeight) + 1).toString()))
+            .perform(typeText((ctx.resources.getInteger(R.integer.maxWeight) + 1).toString()))
+
         onView(withId(R.id.medicalInfoWeightTxtLayout)).check(matches(
             hasInputLayoutError()
         ))
@@ -82,7 +86,7 @@ class MedicalCardActivityTest {
     @Test
     fun tooLightWeightLeadToError() {
         onView(withId(R.id.medicalInfoWeightEditTxt))
-            .perform(replaceText((ctx.resources.getInteger(R.integer.minWeight) - 1).toString()))
+            .perform(typeText((ctx.resources.getInteger(R.integer.minWeight) - 1).toString()))
         onView(withId(R.id.medicalInfoWeightTxtLayout)).check(matches(
             hasInputLayoutError()
         ))
@@ -93,16 +97,17 @@ class MedicalCardActivityTest {
     @Test
     fun appropriateWeightWeightDontLeadToError() {
         onView(withId(R.id.medicalInfoWeightEditTxt))
-            .perform(replaceText((ctx.resources.getInteger(R.integer.maxWeight) - 1).toString()))
+            .perform(typeText((ctx.resources.getInteger(R.integer.maxWeight) - 1).toString()))
+
         onView(withId(R.id.medicalInfoWeightTxtLayout)).check(matches(
             not(hasInputLayoutError())
         ))
     }
     @Test
     fun tooBigHeightLeadToError() {
-        onView(withId(R.id.medicalInfoHeightEditTxt))
-            .perform(replaceText((ctx.resources.getInteger(R.integer.maxHeight) + 1).toString()))
-        onView(withId(R.id.medicalInfoHeightTxtLayout)).check(matches(
+            .perform(typeText((ctx.resources.getInteger(R.integer.maxHeight) + 1).toString()))
+
+      onView(withId(R.id.medicalInfoHeightTxtLayout)).check(matches(
             hasInputLayoutError()
         ))
         onView(withId(R.id.medicalInfoHeightTxtLayout)).check(matches(
@@ -112,7 +117,8 @@ class MedicalCardActivityTest {
     @Test
     fun tooSmallHeightLeadToError() {
         onView(withId(R.id.medicalInfoHeightEditTxt))
-            .perform(replaceText((ctx.resources.getInteger(R.integer.minWeight) - 1).toString()))
+            .perform(typeText((ctx.resources.getInteger(R.integer.minWeight) - 1).toString()))
+
         onView(withId(R.id.medicalInfoHeightTxtLayout)).check(matches(
             hasInputLayoutError()
         ))
@@ -123,82 +129,10 @@ class MedicalCardActivityTest {
     @Test
     fun appropriateHeightDontLeadToError() {
         onView(withId(R.id.medicalInfoHeightEditTxt))
-            .perform(replaceText((ctx.resources.getInteger(R.integer.maxHeight) - 1).toString()))
+            .perform(typeText((ctx.resources.getInteger(R.integer.maxHeight) - 1).toString()))
         onView(withId(R.id.medicalInfoHeightTxtLayout)).check(matches(
             not(hasInputLayoutError())
         ))
-    }
-    private fun fillCorrectInfo(){
-        onView(withId(R.id.medicalInfoHeightEditTxt))
-            .perform(replaceText((ctx.resources.getInteger(R.integer.maxHeight) - 1).toString()))
-        onView(withId(R.id.medicalInfoWeightEditTxt))
-            .perform(replaceText((ctx.resources.getInteger(R.integer.maxWeight) - 1).toString()))
-        onView(withId(R.id.medicalInfoBirthEditTxt))
-            .perform(replaceText((ctx.resources.getInteger(R.integer.minYear) + 1).toString()))
-        onView(withId(R.id.medicalInfoBloodDropdown))
-            .perform(replaceText(BloodType.ABn.type))
-        onView(withId(R.id.medicalInfoGenderDropdown))
-            .perform(replaceText(Gender.Male.name))
-    }
-
-
-
-    @Test
-    fun savingChangeWithErrorshowSnack() {
-        fillCorrectInfo()
-        onView(withId(R.id.medicalInfoHeightEditTxt))
-            .perform(replaceText((ctx.resources.getInteger(R.integer.maxHeight) + 1).toString()))
-
-        onView(withId(R.id.medicalInfoSaveButton))
-            .perform(scrollTo(), click())
-
-       onView(withText(R.string.invalid_field_msg))
-           .check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
-
-    }
-    @Test
-    fun savingChangeWithoutAccetptingPrivacyshowSnack() {
-        fillCorrectInfo()
-
-        onView(withId(R.id.medicalInfoSaveButton))
-            .perform(scrollTo(), click())
-
-
-
-        onView(withText(R.string.privacy_policy_not_acceptes))
-            .check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
-
-    }
-
-    @Test
-    fun clickingOnPolicyDisplayDialogue() {
-
-        onView(withId(R.id.medicalInfoPrivacyCheck))
-            .perform(scrollTo(), click())
-
-        onView(withText(R.string.privacy_policy))
-            .inRoot(isDialog())
-            .check(matches(isDisplayed()))
-    }
-
-    @Test
-    fun savingChangeWitouErrorAndTickingPolicyWork() {
-        fillCorrectInfo()
-
-        onView(withId(R.id.medicalInfoPrivacyCheck))
-            .perform(scrollTo(), click())
-
-        onView(withText(R.string.privacy_policy))
-            .inRoot(isDialog())
-            .perform(pressBack())
-
-        onView(withId(R.id.medicalInfoSaveButton))
-            .perform(scrollTo(), click())
-
-        onView(withText(R.string.changes_saved))
-            .check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
-
-
     }
 
 

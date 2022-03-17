@@ -2,6 +2,7 @@ package com.github.h3lp3rs.h3lp
 
 import android.content.Intent
 import android.content.SharedPreferences
+
 import android.icu.util.Calendar
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +13,7 @@ import android.text.TextPaint
 import android.text.TextUtils
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
+
 import android.view.View
 import android.widget.EditText
 import androidx.annotation.RequiresApi
@@ -29,6 +31,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 
 
+
 class MedicalCardActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,6 +40,7 @@ class MedicalCardActivity : AppCompatActivity() {
 
         loadData()
 
+
         createBirthField()
         createHeightField()
         createWeightField()
@@ -44,11 +48,16 @@ class MedicalCardActivity : AppCompatActivity() {
         createGenderField()
         createPrivacyCheckBox()
 
+
         createHelpField(findViewById(R.id.medicalInfoConditionTxtLayout), getString(R.string.condition_help_msg))
         createHelpField(findViewById(R.id.medicalInfoTreatmentTxtLayout), getString(R.string.treatment_help_msg))
         createHelpField(findViewById(R.id.medicalInfoAllergyTxtLayout), getString(R.string.allergy_help_msg))
 
+
+
     }
+
+
 
 
     /**
@@ -136,12 +145,13 @@ class MedicalCardActivity : AppCompatActivity() {
 
         val editTextFilledExposedDropdown =
             findViewById<AutoCompleteTextView>(dropdownId)
+
         editTextFilledExposedDropdown.setAdapter(adapter)
     }
 
 
     /**
-     * Create an help button at the en of the text layout with
+     * Create an help button at the end of the text layout with
      * @param textLayout TeytInputLayout
      * @param str the help message
      */
@@ -194,6 +204,7 @@ class MedicalCardActivity : AppCompatActivity() {
     /**
      * Send back to MainPageActivity
      */
+
     fun backHome( view: View){
         val intent = Intent(this, MainPageActivity::class.java)
         startActivity(intent)
@@ -300,4 +311,5 @@ class MedicalCardActivity : AppCompatActivity() {
     private fun getIntFromId(editTxtId: Int):Int{
         return getStringFromId(editTxtId).toInt()
     }
+
 }
