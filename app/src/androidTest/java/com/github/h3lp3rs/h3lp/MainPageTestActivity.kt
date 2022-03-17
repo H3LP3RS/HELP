@@ -76,11 +76,8 @@ class MainPageTestActivity {
 
     @Test
     fun clickingOnProfileButtonWorksAndSendsIntent() {
-        clickingOnButtonWorksAndSendsIntent(
-            MedicalCardAcivity::class.java,
-            withId(R.id.profile),
-            false
-        )
+        clickingOnButtonWorksAndSendsIntent(MedicalCardActivity::class.java, withId(R.id.profile),
+            false)
     }
 
     @Test
@@ -90,7 +87,5 @@ class MainPageTestActivity {
             withId(R.id.HELP_button),
             false
         )
-
     }
-
 }

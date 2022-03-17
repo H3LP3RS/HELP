@@ -12,8 +12,9 @@ import com.google.android.material.navigation.NavigationView
 
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
 
-
-
+/**
+ * Main page of the app
+ */
 class MainPageActivity : AppCompatActivity() {
     private lateinit var toggle: ActionBarDrawerToggle
 
@@ -72,11 +73,12 @@ class MainPageActivity : AppCompatActivity() {
      * Starts the presentation of the app
      */
     fun viewPresentation(view: View) {
-        goToActivity(PresArrivalActivity::class.java)
+        startActivity(Intent(this, PresArrivalActivity::class.java)
+            .putExtra(ORIGIN, MainPageActivity::class.qualifiedName))
     }
 
     /** Called when the user taps the profile page button */
     fun goToProfileActivity(view: View) {
-        goToActivity(MedicalCardAcivity::class.java)
+        goToActivity(MedicalCardActivity::class.java)
     }
 }
