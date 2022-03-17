@@ -99,6 +99,9 @@
     <string name="skills_button">Skills</string>
     <string name="cpr_rate_button_start">START</string>
     <string name="cpr_rate_button_stop">STOP</string>
+    <string name="condition_help_msg">This Field is dedicated to any illness or diseases that a caregiver should know in case of emergency</string>
+    <string name="treatment_help_msg">This Field is dedicated to any medication your are taking that a caregiver should know in case of emergency</string>
+    <string name="allergy_help_msg">This Field is dedicated to any allergy you suffer from that a caregiver should know in case of emergency</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 

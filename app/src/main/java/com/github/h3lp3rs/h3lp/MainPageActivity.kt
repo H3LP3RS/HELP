@@ -65,7 +65,7 @@ class MainPageActivity : AppCompatActivity() {
 
     /** Called when the user taps the help page button */
     fun goToHelpParametersActivity(view: View) {
-        goToActivity(HelpParametersActivity::class.java)
+         goToActivity(HelpParametersActivity::class.java)
     }
 
     /**
