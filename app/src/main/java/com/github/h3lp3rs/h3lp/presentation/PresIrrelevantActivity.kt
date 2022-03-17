@@ -8,7 +8,6 @@ import android.view.View
 import android.widget.CheckBox
 import com.github.h3lp3rs.h3lp.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.SignInActivity
 import com.github.h3lp3rs.h3lp.listeners.SwipeListener
 import com.github.h3lp3rs.h3lp.listeners.SwipeListener.Companion.SlideDirection.*
 import com.github.h3lp3rs.h3lp.listeners.SwipeListener.Companion.swipeToNextActivity
@@ -25,8 +24,9 @@ import android.text.SpannableString
 import android.text.TextPaint
 
 import android.text.style.ClickableSpan
-import com.github.h3lp3rs.h3lp.ORIGIN
 import com.github.h3lp3rs.h3lp.preferences.Preferences.Companion.USER_AGREE
+import com.github.h3lp3rs.h3lp.signin.ORIGIN
+import com.github.h3lp3rs.h3lp.signin.SignInActivity
 
 /**
  * Class representing the third page of the app presentation

@@ -11,6 +11,8 @@ import com.github.h3lp3rs.h3lp.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
 import com.google.firebase.auth.AuthResult
 
+const val ORIGIN: String = "ORIGIN"
+
 class SignInActivity : AppCompatActivity() {
     lateinit var signInClient : SignInInterface<AuthResult>
 

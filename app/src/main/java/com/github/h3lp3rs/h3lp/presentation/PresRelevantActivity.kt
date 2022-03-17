@@ -5,11 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.GestureDetector
 import android.view.View
-import com.github.h3lp3rs.h3lp.ORIGIN
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.listeners.SwipeListener
 import com.github.h3lp3rs.h3lp.listeners.SwipeListener.Companion.SlideDirection.*
 import com.github.h3lp3rs.h3lp.listeners.SwipeListener.Companion.swipeToNextActivity
+import com.github.h3lp3rs.h3lp.signin.ORIGIN
 
 /**
  * Class representing the second page of the app presentation
