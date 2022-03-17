@@ -47,10 +47,8 @@ class GPlaceJsonParser {
      * @return a list of places in the form of maps, with {lat,lng,name} as keys
      */
     fun parseResult(obj: JSONObject): List<HashMap<String, String>> {
-        var jsonArray: JSONArray? = null
-
         return try {
-            jsonArray = obj.getJSONArray("results")
+            val jsonArray = obj.getJSONArray("results")
             parseJsonArray(jsonArray)
         } catch(e: JSONException) {
             arrayListOf()
