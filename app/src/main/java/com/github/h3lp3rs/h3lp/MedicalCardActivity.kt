@@ -221,9 +221,15 @@ class MedicalCardActivity : AppCompatActivity() {
         loadTo(medicalInformation.bloodType.type, R.id.medicalInfoBloodDropdown)
     }
 
+    /**
+     * load sting in an editTxt
+     */
     private fun loadTo(data: String, editTxtId: Int){
         findViewById<EditText>(editTxtId).setText(data)
     }
+    /**
+     * load int in an editTxt
+     */
     private fun loadTo(data : Int, editTxtId: Int) {
         loadTo(data.toString(),editTxtId)
     }
