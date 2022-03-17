@@ -45,7 +45,8 @@ class SignInActivity : AppCompatActivity() {
     }
 
     // Handle sign in request result
-    private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result -> authenticateUser(result,this) }
+    private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+        { result -> authenticateUser(result,this) }
 
     /**
      * Authenticate user

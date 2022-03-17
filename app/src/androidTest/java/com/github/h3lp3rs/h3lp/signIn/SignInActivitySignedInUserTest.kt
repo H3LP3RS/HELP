@@ -11,9 +11,6 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.signIn.SignIn
-import com.github.h3lp3rs.h3lp.signIn.SignInActivity
-import com.github.h3lp3rs.h3lp.signIn.SignInInterface
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import org.junit.After
