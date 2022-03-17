@@ -10,7 +10,6 @@ import android.view.View
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 
-
 class ToSActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {

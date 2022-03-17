@@ -13,7 +13,6 @@ import com.github.h3lp3rs.h3lp.listeners.SwipeListener
 import com.github.h3lp3rs.h3lp.listeners.SwipeListener.Companion.SlideDirection.*
 import com.github.h3lp3rs.h3lp.listeners.SwipeListener.Companion.swipeToNextActivity
 import com.github.h3lp3rs.h3lp.preferences.Preferences
-import com.github.h3lp3rs.h3lp.preferences.Preferences.*
 import com.github.h3lp3rs.h3lp.preferences.Preferences.Companion.Files.*
 import android.text.method.LinkMovementMethod
 
@@ -28,7 +27,6 @@ import android.text.TextPaint
 import android.text.style.ClickableSpan
 import com.github.h3lp3rs.h3lp.ORIGIN
 import com.github.h3lp3rs.h3lp.preferences.Preferences.Companion.USER_AGREE
-
 
 /**
  * Class representing the third page of the app presentation
@@ -64,9 +62,9 @@ class PresIrrelevantActivity : AppCompatActivity() {
                 ds.isUnderlineText = true
             }
         }
-        val linkText = SpannableString("ToS")
+        val linkText = SpannableString(getString(R.string.clickable_ToS_text))
         linkText.setSpan(clickableSpan, 0, linkText.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-        val cs = TextUtils.expandTemplate("Accept our ^1", linkText)
+        val cs = TextUtils.expandTemplate(getString(R.string.accept_ToS), linkText)
         checkBox.text = cs
         checkBox.movementMethod = LinkMovementMethod.getInstance()
         // 3. Set correct swipe listeners

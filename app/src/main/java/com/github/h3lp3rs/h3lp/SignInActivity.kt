@@ -53,11 +53,11 @@ class SignInActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
         // TODO: Clear all pref to get a fresh app every time (manual testing code!)
-        Preferences.clearAllPreferences(this) // TODO: Remove line for production
+        // Preferences.clearAllPreferences(this) // TODO: Remove line for production
         // First check ToS agreement
         if(!Preferences(PRESENTATION, this).getBoolOrDefault(USER_AGREE, false)) {
             val i = Intent(this, PresArrivalActivity::class.java)
-                .putExtra(ORIGIN, MainPageActivity::class.qualifiedName) // TODO: Change to SignIn later
+                .putExtra(ORIGIN, SignInActivity::class.qualifiedName)
             startActivity(i)
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }

@@ -26,5 +26,4 @@ class SignInActivityTest {
         Intents.intended(IntentMatchers.hasPackage("com.google.android.gms"))
         Intents.release()
     }
-
 }
