@@ -13,6 +13,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.preferences.Preferences
 import com.github.h3lp3rs.h3lp.preferences.Preferences.Companion.Files.*
 import com.github.h3lp3rs.h3lp.preferences.Preferences.Companion.USER_AGREE
+import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

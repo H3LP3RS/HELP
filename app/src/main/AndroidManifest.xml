@@ -26,7 +26,7 @@
             android:exported="false" />
         <activity
                 android:name=".MainPageActivity"
-                android:exported="true"/>
+                android:exported="false"/>
         <activity
             android:name=".presentation.PresIrrelevantActivity"
             android:exported="false" />
@@ -34,11 +34,11 @@
             android:name=".presentation.PresRelevantActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.PresArrivalActivity"
-            android:exported="false" />
+                android:name=".presentation.PresArrivalActivity"
+                android:exported="false" />
         <activity
-            android:name=".SignInActivity"
-            android:exported="true">
+                android:name=".signin.SignInActivity"
+                android:exported="true"  >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

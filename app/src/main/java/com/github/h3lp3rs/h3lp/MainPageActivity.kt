@@ -11,6 +11,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
+import com.github.h3lp3rs.h3lp.signin.ORIGIN
 
 /**
  * Main page of the app

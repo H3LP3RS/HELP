@@ -4,8 +4,8 @@ import android.content.Intent
 import android.view.GestureDetector
 import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
-import com.github.h3lp3rs.h3lp.ORIGIN
 import com.github.h3lp3rs.h3lp.R
+import com.github.h3lp3rs.h3lp.signin.ORIGIN
 import kotlin.math.abs
 
 /**
