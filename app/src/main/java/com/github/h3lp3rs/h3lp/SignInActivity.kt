@@ -34,7 +34,6 @@ class SignInActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-
         check()
     }
 
@@ -52,8 +51,6 @@ class SignInActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
-        // TODO: Clear all pref to get a fresh app every time (manual testing code!)
-        // Preferences.clearAllPreferences(this) // TODO: Remove line for production
         // First check ToS agreement
         if(!Preferences(PRESENTATION, this).getBoolOrDefault(USER_AGREE, false)) {
             val i = Intent(this, PresArrivalActivity::class.java)

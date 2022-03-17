@@ -191,4 +191,5 @@
     <string name="action_settings">Settings</string>
     <string name="clickable_ToS_text">ToS</string>
     <string name="accept_ToS">Accept our ^1</string>
+    <string name="tosbox">ToSBox</string>
 </resources>

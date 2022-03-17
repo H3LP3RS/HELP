@@ -45,9 +45,44 @@ class PresIrrelevantActivity : AppCompatActivity() {
         if(Preferences(PRESENTATION, this).getBoolOrDefault(USER_AGREE, false)) {
             checkBox.isChecked = true
         }
-        val tosIntent = Intent(this, ToSActivity::class.java)
         // 2. Add clickable text using the code of:
         // (https://stackoverflow.com/questions/8184597/how-do-i-make-a-portion-of-a-checkboxs-text-clickable)
+        addClickableText(Intent(this, ToSActivity::class.java), checkBox)
+        // 3. Set correct swipe listeners
+        val gestureDetector = GestureDetector(this, SwipeListener(
+            swipeToNextActivity(this, RIGHT, PresRelevantActivity::class.java, intent.getStringExtra(ORIGIN)), {}, {}, {}))
+        findViewById<View>(R.id.pres3_textView5).setOnTouchListener { view, event ->
+            view.performClick()
+            gestureDetector.onTouchEvent(event)
+        }
+    }
+
+    /**
+     * Function called when the user presses the approval button
+     */
+    fun sendApproval(view: View) {
+        val checkBox = findViewById<View>(R.id.pres3_checkBox) as CheckBox
+        if(checkBox.isChecked) {
+            Preferences(PRESENTATION, this).setBool(USER_AGREE, true)
+            val i = Intent(this, findDest(intent.getStringExtra(ORIGIN)))
+            startActivity(i)
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+        }
+    }
+
+    private fun findDest(name: String?): Class<*>? {
+        return when (name) {
+            SignInActivity::class.qualifiedName -> {
+                SignInActivity::class.java
+            }
+            MainPageActivity::class.qualifiedName -> {
+                MainPageActivity::class.java
+            }
+            else -> null
+        }
+    }
+
+    private fun addClickableText(tosIntent: Intent, checkBox: CheckBox) {
         val clickableSpan: ClickableSpan = object : ClickableSpan() {
             override fun onClick(widget: View) {
                 // Prevent CheckBox state from being toggled when link is clicked
@@ -67,37 +102,5 @@ class PresIrrelevantActivity : AppCompatActivity() {
         val cs = TextUtils.expandTemplate(getString(R.string.accept_ToS), linkText)
         checkBox.text = cs
         checkBox.movementMethod = LinkMovementMethod.getInstance()
-        // 3. Set correct swipe listeners
-        val gestureDetector = GestureDetector(this, SwipeListener(
-            swipeToNextActivity(this, RIGHT, PresRelevantActivity::class.java, intent.getStringExtra(ORIGIN)), {}, {}, {}))
-        findViewById<View>(R.id.pres3_textView5).setOnTouchListener { view, event ->
-            view.performClick()
-            gestureDetector.onTouchEvent(event)
-        }
-    }
-
-    private fun findDest(name: String?): Class<*>? {
-        return when (name) {
-            SignInActivity::class.qualifiedName -> {
-                SignInActivity::class.java
-            }
-            MainPageActivity::class.qualifiedName -> {
-                MainPageActivity::class.java
-            }
-            else -> null
-        }
-    }
-
-    /**
-     * Function called when the user presses the approval button
-     */
-    fun sendApproval(view: View) {
-        val checkBox = findViewById<View>(R.id.pres3_checkBox) as CheckBox
-        if(checkBox.isChecked) {
-            Preferences(PRESENTATION, this).setBool(USER_AGREE, true)
-            val i = Intent(this, findDest(intent.getStringExtra(ORIGIN)))
-            startActivity(i)
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-        }
     }
 }
