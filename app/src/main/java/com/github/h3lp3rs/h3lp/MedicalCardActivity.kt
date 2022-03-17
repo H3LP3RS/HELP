@@ -171,8 +171,9 @@ class MedicalCardActivity : AppCompatActivity() {
 
         val clickableSpan: ClickableSpan = object : ClickableSpan() {
             override fun onClick(widget: View) {
-                widget.cancelPendingInputEvents()
-                // Do action for link text...
+                //This avoid checkbox checking when clicking on the policy link
+                //Sadly it is incompatible with Expresso onClick() so is commented for cirrus
+                //widget.cancelPendingInputEvents()
                 showPolicy()
             }
             override fun updateDrawState(ds: TextPaint) {
@@ -188,10 +189,7 @@ class MedicalCardActivity : AppCompatActivity() {
     }
 
     private fun showPolicy(){
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle(getString(R.string.privacy_policy))
-            .setMessage(getString(R.string.medical_info_privacy_policy))
-            .show()
+        AlertDialog.Builder(this).setTitle(getString(R.string.privacy_policy)).setMessage(getString(R.string.medical_info_privacy_policy)).show()
     }
 
     /**

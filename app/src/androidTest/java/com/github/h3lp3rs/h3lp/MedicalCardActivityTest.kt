@@ -12,6 +12,7 @@ import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
+import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -162,26 +163,43 @@ class MedicalCardActivityTest {
         onView(withId(R.id.medicalInfoSaveButton))
             .perform(scrollTo(), click())
 
+
+
         onView(withText(R.string.privacy_policy_not_acceptes))
             .check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
 
     }
 
     @Test
-    fun savingChangeWitouErrorAndTickingPolicyWork() {
-       fillCorrectInfo()
-
-        onView(withId(R.id.medicalInfoSaveButton))
-            .perform(scrollTo(), click())
+    fun clickingOnPolicyDisplayDialogue() {
 
         onView(withId(R.id.medicalInfoPrivacyCheck))
             .perform(scrollTo(), click())
 
-        onView(withText(R.string.privacy_policy_not_acceptes))
-            .check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
-
+        onView(withText(R.string.privacy_policy))
+            .inRoot(isDialog())
+            .check(matches(isDisplayed()))
     }
 
+    @Test
+    fun savingChangeWitouErrorAndTickingPolicyWork() {
+        fillCorrectInfo()
+
+        onView(withId(R.id.medicalInfoPrivacyCheck))
+            .perform(scrollTo(), click())
+
+        onView(withText(R.string.privacy_policy))
+            .inRoot(isDialog())
+            .perform(pressBack())
+
+        onView(withId(R.id.medicalInfoSaveButton))
+            .perform(scrollTo(), click())
+
+        onView(withText(R.string.changes_saved))
+            .check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
+
+
+    }
 
 
     @Test
