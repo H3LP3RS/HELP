@@ -12,6 +12,9 @@
             android:name=".SignInActivity"
             android:exported="false" />
         <activity
+            android:name=".MedicalCardAcivity"
+            android:exported="false" >
+        <activity
             android:name=".AwaitHelpActivity"
             android:exported="false" />
         <activity
