@@ -6,14 +6,14 @@ import androidx.activity.result.ActivityResult
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.intent.Intents
-import androidx.test.espresso.intent.matcher.IntentMatchers.*
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasPackage
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.R
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
-import junit.framework.Assert.*
+import junit.framework.Assert.assertNotNull
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -26,7 +26,7 @@ import org.mockito.kotlin.anyOrNull
 
 @RunWith(AndroidJUnit4::class)
 class SignInWithGoogleTest {
-    private lateinit var intent : Intent
+    private lateinit var intent: Intent
     private val googleSignInPackageName = "com.google.android.gms"
     private var authenticationStarted = false
 
@@ -36,20 +36,19 @@ class SignInWithGoogleTest {
     )
 
     @Before
-    fun setUp(){
+    fun setUp() {
         Intents.init()
 
         val signInMock = Mockito.mock(SignInInterface::class.java)
         `when`(signInMock.isSignedIn()).thenReturn(false)
 
         testRule.scenario.onActivity { activity ->
-            intent  = GoogleSignInAdaptor.signIn(activity)
-            val taskG = GoogleSignInAdaptor.authenticate(ActivityResult(Activity.RESULT_OK,intent),activity)
+            intent = GoogleSignInAdaptor.signIn(activity)
             val taskMock = Mockito.mock(Task::class.java)
             `when`(taskMock.isSuccessful).thenReturn(true)
             `when`(taskMock.isComplete).thenReturn(true)
             `when`(signInMock.signIn(activity)).thenReturn(intent)
-            `when`(signInMock.authenticate(anyOrNull(), anyOrNull())).thenAnswer{
+            `when`(signInMock.authenticate(anyOrNull(), anyOrNull())).thenAnswer {
                 authenticationStarted = true
                 taskMock
             }
@@ -59,25 +58,29 @@ class SignInWithGoogleTest {
     }
 
     @Test
-    fun signInWithGoogleLaunchesCorrectIntent(){
+    fun signInWithGoogleLaunchesCorrectIntent() {
         clickSignInButton()
         Intents.intended(hasPackage(googleSignInPackageName))
     }
 
     @Test
-    fun signInWithGoogleLaunchesAuthenticationProcess(){
+    fun signInWithGoogleLaunchesAuthenticationProcess() {
         clickSignInButton()
         assertNotNull(GoogleSignInAdaptor.gso)
-        testRule.scenario.onActivity { activity -> activity.authenticateUser(ActivityResult(Activity.RESULT_OK,intent),activity)}
+        testRule.scenario.onActivity { activity ->
+            activity.authenticateUser(
+                ActivityResult(Activity.RESULT_OK, intent), activity
+            )
+        }
         assert(authenticationStarted)
     }
 
-    private fun clickSignInButton(){
+    private fun clickSignInButton() {
         onView(withId(R.id.signInButton)).perform(click())
     }
 
     @After
-    fun cleanUp(){
+    fun cleanUp() {
         Intents.release()
     }
 }

@@ -31,14 +31,14 @@ class SignInActivitySignedInUserTest {
     )
 
     @Before
-    fun setUp(){
+    fun setUp() {
         Intents.init()
 
         val signInMock = Mockito.mock(SignInInterface::class.java)
         `when`(signInMock.isSignedIn()).thenReturn(true)
 
         testRule.scenario.onActivity { activity ->
-            val intent  = Intent(ApplicationProvider.getApplicationContext(), activity.javaClass)
+            val intent = Intent(ApplicationProvider.getApplicationContext(), activity.javaClass)
             val taskMock = Mockito.mock(Task::class.java)
             `when`(taskMock.isSuccessful).thenReturn(true)
             `when`(taskMock.isComplete).thenReturn(true)
@@ -50,13 +50,13 @@ class SignInActivitySignedInUserTest {
     }
 
     @Test
-    fun signedInUserMoveToMainPageDirectly(){
+    fun signedInUserMovesToMainPageDirectly() {
         onView(withId(R.id.signInButton)).perform(click())
         Intents.intended(IntentMatchers.hasComponent(MainPageActivity::class.java.name))
     }
 
     @After
-    fun cleanUp(){
+    fun cleanUp() {
         Intents.release()
     }
 }

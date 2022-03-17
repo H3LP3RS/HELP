@@ -35,19 +35,19 @@ class SignInActivityNewUserTest {
     )
 
     @Before
-    fun setUp(){
+    fun setUp() {
         Intents.init()
 
         val signInMock = Mockito.mock(SignInInterface::class.java)
         `when`(signInMock.isSignedIn()).thenReturn(false)
 
         testRule.scenario.onActivity { activity ->
-            intent  = Intent(ApplicationProvider.getApplicationContext(), activity.javaClass)
+            intent = Intent(ApplicationProvider.getApplicationContext(), activity.javaClass)
             val taskMock = Mockito.mock(Task::class.java)
             `when`(taskMock.isSuccessful).thenReturn(true)
             `when`(taskMock.isComplete).thenReturn(true)
             `when`(signInMock.signIn(activity)).thenReturn(intent)
-            `when`(signInMock.authenticate(anyOrNull(), anyOrNull())).thenAnswer{
+            `when`(signInMock.authenticate(anyOrNull(), anyOrNull())).thenAnswer {
                 authenticationStarted = true
                 taskMock
             }
@@ -57,28 +57,31 @@ class SignInActivityNewUserTest {
     }
 
     @Test
-    fun newUserSignInLaunchesCorrectIntent(){
+    fun newUserSignInLaunchesCorrectIntent() {
         clickSignInButton()
         Intents.intended(IntentMatchers.hasComponent(SignInActivity::class.java.name))
     }
 
     @Test
-    fun newUserSignInLaunchesAuthenticationProcess(){
-        /*val resultData = Intent()
-        val result = Instrumentation.ActivityResult(Activity.RESULT_OK, resultData)
-        intending(anyIntent()).respondWith(result)
-*/
+    fun newUserSignInLaunchesAuthenticationProcess() {
         clickSignInButton()
-        testRule.scenario.onActivity { activity -> activity.authenticateUser(ActivityResult(Activity.RESULT_OK,intent),activity)}
+        testRule.scenario.onActivity { activity ->
+            activity.authenticateUser(
+                ActivityResult(
+                    Activity.RESULT_OK,
+                    intent
+                ), activity
+            )
+        }
         assert(authenticationStarted)
     }
 
-    private fun clickSignInButton(){
+    private fun clickSignInButton() {
         onView(withId(R.id.signInButton)).perform(click())
     }
 
     @After
-    fun cleanUp(){
+    fun cleanUp() {
         Intents.release()
     }
 }
