@@ -1,4 +1,4 @@
-package com.github.h3lp3rs.h3lp
+package com.github.h3lp3rs.h3lp.presentation
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -6,31 +6,29 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.GestureDetector
 import android.view.View
+import com.github.h3lp3rs.h3lp.MainPageActivity
+import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.listeners.SwipeListener
+import com.github.h3lp3rs.h3lp.listeners.SwipeListener.Companion.SlideDirection.*
+import com.github.h3lp3rs.h3lp.listeners.SwipeListener.Companion.swipeToNextActivity
 
 /**
  * Class representing the third page of the app presentation
  * The purpose of this activity is to explain what H3LP ought not to be confused with
  */
-class PresentationActivity3 : AppCompatActivity() {
-    private val onSwipeRight: () -> Unit = {
-        // Go to previous page
-        val i = Intent(this, PresentationActivity2::class.java)
-        startActivity(i)
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
-    }
-
+class PresIrrelevantActivity : AppCompatActivity() {
     /**
      * Creates the third presentation page activity
      * Nothing should be done when a click is detected, this is handled by the swipe listener
      */
-    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_presentation3)
+        setContentView(R.layout.activity_presentation_irrelevant)
         // Set correct swipe listeners
-        val gestureDetector = GestureDetector(this, SwipeListener(onSwipeRight, {}, {}, {}))
-        findViewById<View>(R.id.pres3_textView5).setOnTouchListener { _, event ->
+        val gestureDetector = GestureDetector(this, SwipeListener(
+            swipeToNextActivity(this, RIGHT, PresRelevantActivity::class.java), {}, {}, {}))
+        findViewById<View>(R.id.pres3_textView5).setOnTouchListener { view, event ->
+            view.performClick()
             gestureDetector.onTouchEvent(event)
         }
     }

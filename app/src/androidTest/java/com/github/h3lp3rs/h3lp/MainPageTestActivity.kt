@@ -12,6 +12,7 @@ import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 import org.junit.After
@@ -61,11 +62,7 @@ class MainPageTestActivity {
 
     @Test
     fun pushingInfoButtonLaunchesPresentation() {
-        clickingOnButtonWorksAndSendsIntent(
-            PresentationActivity1::class.java,
-            withId(R.id.tutorialButton),
-            false
-        )
+        clickingOnButtonWorksAndSendsIntent(PresArrivalActivity::class.java, withId(R.id.tutorialButton), false)
     }
 
     @Test

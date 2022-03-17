@@ -12,6 +12,9 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 
+import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
+
+
 
 class MainPageActivity : AppCompatActivity() {
     private lateinit var toggle: ActionBarDrawerToggle
@@ -72,7 +75,7 @@ class MainPageActivity : AppCompatActivity() {
      * Starts the presentation of the app
      */
     fun viewPresentation(view: View) {
-        goToActivity(PresentationActivity1::class.java)
+        goToActivity(PresArrivalActivity::class.java)
     }
 
     /** Called when the user taps the profile page button */

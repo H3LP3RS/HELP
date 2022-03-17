@@ -1,5 +1,6 @@
 check_android_task:
   name: Run Android tests
+  use_compute_credits: $CIRRUS_USER_COLLABORATOR == 'true'
   env:
     API_LEVEL: 30
     TARGET: google_apis
