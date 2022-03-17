@@ -22,9 +22,13 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
+import org.mockito.kotlin.anyOrNull
 
 @RunWith(AndroidJUnit4::class)
 class SignInActivityNewUserTest {
+
+    private lateinit var intent: Intent
+    private var authenticationStarted = false
 
     @get:Rule
     val testRule = ActivityScenarioRule(
@@ -37,27 +41,36 @@ class SignInActivityNewUserTest {
 
         val signInMock = Mockito.mock(SignInInterface::class.java)
         Mockito.`when`(signInMock.isSignedIn()).thenReturn(false)
-        val intent  = Intent(ApplicationProvider.getApplicationContext(), MainPageActivity::class.java)
-        val activityResult = ActivityResult(Activity.RESULT_OK, intent)
-        val taskMock = Mockito.mock(Task::class.java)
-        Mockito.`when`(taskMock.isSuccessful).thenReturn(true)
 
         testRule.scenario.onActivity { activity ->
+            intent  = Intent(ApplicationProvider.getApplicationContext(), activity.javaClass)
+            val taskMock = Mockito.mock(Task::class.java)
+            Mockito.`when`(taskMock.isSuccessful).thenReturn(true)
             Mockito.`when`(signInMock.signIn(activity)).thenReturn(intent)
-            Mockito.`when`(signInMock.authenticate(activityResult, activity)).thenReturn(taskMock)
+            Mockito.`when`(signInMock.authenticate(anyOrNull(), anyOrNull())).thenAnswer{
+                authenticationStarted = true
+                taskMock
+            }
         }
 
         SignIn.set(signInMock as SignInInterface<AuthResult>)
     }
 
     @Test
-    fun newUserSignInCorrectly(){
+    fun newUserSignInTriggersCorrectIntent(){
+        Espresso.onView(ViewMatchers.withId(R.id.signInButton)).perform(ViewActions.click())
+        Intents.intended(IntentMatchers.hasComponent(SignInActivity::class.java.name))
+    }
+
+    @Test
+    fun newUserSignInTriggersAuthenticationProcess(){
         /*val resultData = Intent()
         val result = Instrumentation.ActivityResult(Activity.RESULT_OK, resultData)
         intending(anyIntent()).respondWith(result)
 */
         Espresso.onView(ViewMatchers.withId(R.id.signInButton)).perform(ViewActions.click())
-        Intents.intended(IntentMatchers.hasComponent(MainPageActivity::class.java.name))
+        testRule.scenario.onActivity { activity -> activity.authenticateUser(ActivityResult(Activity.RESULT_OK,intent),activity)}
+        assert(authenticationStarted)
     }
 
     @After

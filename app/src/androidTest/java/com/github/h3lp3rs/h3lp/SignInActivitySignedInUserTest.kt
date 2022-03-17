@@ -22,9 +22,11 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
+import org.mockito.kotlin.anyOrNull
 
 @RunWith(AndroidJUnit4::class)
 class SignInActivitySignedInUserTest {
+
     @get:Rule
     val testRule = ActivityScenarioRule(
         SignInActivity::class.java
@@ -36,14 +38,13 @@ class SignInActivitySignedInUserTest {
 
         val signInMock = Mockito.mock(SignInInterface::class.java)
         Mockito.`when`(signInMock.isSignedIn()).thenReturn(true)
-        val intent  = Intent(ApplicationProvider.getApplicationContext(), SignInActivity::class.java)
-        val activityResult = ActivityResult(Activity.RESULT_OK, intent)
-        val taskMock = Mockito.mock(Task::class.java)
-        Mockito.`when`(taskMock.isSuccessful).thenReturn(true)
 
         testRule.scenario.onActivity { activity ->
+            val intent  = Intent(ApplicationProvider.getApplicationContext(), activity.javaClass)
+            val taskMock = Mockito.mock(Task::class.java)
+            Mockito.`when`(taskMock.isSuccessful).thenReturn(true)
             Mockito.`when`(signInMock.signIn(activity)).thenReturn(intent)
-            Mockito.`when`(signInMock.authenticate(activityResult, activity)).thenReturn(taskMock)
+            Mockito.`when`(signInMock.authenticate(anyOrNull(), anyOrNull())).thenReturn(taskMock)
         }
 
         SignIn.set(signInMock as SignInInterface<AuthResult>)

@@ -1,8 +1,10 @@
 package com.github.h3lp3rs.h3lp.signIn
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageButton
+import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.MainPageActivity
@@ -11,11 +13,6 @@ import com.google.firebase.auth.AuthResult
 
 class SignInActivity : AppCompatActivity() {
     lateinit var signInClient : SignInInterface<AuthResult>
-
-    override fun onStart() {
-        super.onStart()
-        //checkIfSignedIn()
-    }
 
     /**
      * Check if the current user is already signed in and update activity accordingly
@@ -46,8 +43,9 @@ class SignInActivity : AppCompatActivity() {
     }
 
     // Handle sign in request result
-    private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-            result ->
+    private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result -> authenticateUser(result,this) }
+
+    fun authenticateUser(result: ActivityResult, activity: Activity){
         signInClient.authenticate(result, this)
             ?.addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
