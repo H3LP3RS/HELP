@@ -6,7 +6,6 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
 
-
 class MainPageActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,11 +33,12 @@ class MainPageActivity : AppCompatActivity() {
      * Starts the presentation of the app
      */
     fun viewPresentation(view: View) {
-        goToActivity(PresArrivalActivity::class.java)
+        startActivity(Intent(this, PresArrivalActivity::class.java)
+            .putExtra(ORIGIN, MainPageActivity::class.qualifiedName))
     }
 
     /** Called when the user taps the profile page button */
     fun goToProfileActivity(view: View) {
-        goToActivity(MedicalCardAcivity::class.java)
+        goToActivity(MedicalCardActivity::class.java)
     }
 }

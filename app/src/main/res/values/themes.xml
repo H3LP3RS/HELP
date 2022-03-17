@@ -14,5 +14,14 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="Theme.H3LP.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.H3LP.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.H3LP.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
 
 </resources>

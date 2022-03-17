@@ -2,7 +2,6 @@ package com.github.h3lp3rs.h3lp
 
 
 import android.app.Activity
-import android.app.Application
 import android.app.Instrumentation
 import android.content.Context
 import android.content.Intent
@@ -30,13 +29,13 @@ import java.util.*
 
 
 @RunWith(AndroidJUnit4::class)
-class MedicalCardAcivityTest {
+class MedicalCardActivityTest {
 
     private val ctx: Context = ApplicationProvider.getApplicationContext()
 
     @get:Rule
     val testRule = ActivityScenarioRule(
-        MedicalCardAcivity::class.java
+        MedicalCardActivity::class.java
     )
     @Test
     fun oldYearNumberLeadToError() {
