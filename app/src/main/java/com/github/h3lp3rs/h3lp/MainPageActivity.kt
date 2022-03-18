@@ -86,7 +86,7 @@ class MainPageActivity : AppCompatActivity() {
                 if (searchBarElements.contains(query)) {
                     adapter.filter.filter(query)
                 } else {
-                    Toast.makeText(applicationContext, "Oops... no match found", Toast.LENGTH_LONG).show()
+                    //Toast.makeText(applicationContext, "Oops... no match found", Toast.LENGTH_LONG).show()
                 }
                 return false
             }
@@ -108,7 +108,7 @@ class MainPageActivity : AppCompatActivity() {
         listView.setOnItemClickListener { _, view, position, _ ->
 
             val listItem = listView.getItemAtPosition(position).toString()
-            Toast.makeText(this, "Selected item : $listItem", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "Selected item : $listItem", Toast.LENGTH_SHORT).show()
             findActivity(listItem,view)
 
         }

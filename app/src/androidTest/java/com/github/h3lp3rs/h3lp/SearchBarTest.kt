@@ -118,36 +118,11 @@ class SearchBarTest {
     @Test
     fun searchingForNonexistentItemShowsMessageAndStaysOnActivity() {
 
-
-        //onView(withText(R.string.TOAST_STRING)).inRoot(withDecorView(not(is(getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()))
-
-        /*
-
-        val activity: MainPageActivity = MainPageActivity::class.java
-        onView(withText("hal")).inRoot(
-            withDecorView(
-                not(
-                    `is`(
-                        activity.window.decorView
-                    )
-                )
-            )
-        ).check(
-            matches(
-                isDisplayed()
-            )
-        )
-         */
-
         onView(withId(R.id.searchBar)).perform(click())
         onView(isAssignableFrom(AutoCompleteTextView::class.java)).perform(typeText(NONEXISTENT_ITEM))
             .perform(
                 pressKey(KeyEvent.KEYCODE_ENTER)
             )
-
-        // Is toast displayed and is the message correct?
-        //  onView(withText(buildToastMessage())).inRoot(ToastMatcher())
-        //  .check(matches(isDisplayed()))
     }
 
 }
