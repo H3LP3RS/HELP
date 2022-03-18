@@ -3,8 +3,10 @@ package com.github.h3lp3rs.h3lp
 import android.Manifest
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ActivityScenario.*
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.*
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.rules.ActivityScenarioRule
@@ -49,9 +51,9 @@ class NearbyUtilitiesActivityTest {
     }
 
     private fun canLaunchMap(intent: Intent) {
-        ActivityScenario.launch<NearbyUtilitiesActivity>(intent).use {
-            ActivityScenario.launch<NearbyUtilitiesActivity>(intent).use {
-                Espresso.onView(ViewMatchers.withId(R.id.map))
+        launch<NearbyUtilitiesActivity>(intent).use {
+            launch<NearbyUtilitiesActivity>(intent).use {
+                onView(ViewMatchers.withId(R.id.map))
                     .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
             }
         }
