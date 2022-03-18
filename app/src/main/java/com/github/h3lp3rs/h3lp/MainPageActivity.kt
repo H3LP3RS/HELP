@@ -20,9 +20,9 @@ import com.github.h3lp3rs.h3lp.signin.ORIGIN
 const val EXTRA_NEARBY_UTILITIES = "nearby_utilities"
 
 //
-private const val  PROFILE = "Profile"
-private const val CPR_RATE = "CPR rate"
-private const val TUTORIAL = "Tutorial"
+const val  PROFILE = "Profile"
+const val CPR_RATE = "CPR rate"
+const val TUTORIAL = "Tutorial"
 /**
  * Main page of the app
  */
