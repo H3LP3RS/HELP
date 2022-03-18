@@ -109,12 +109,14 @@
                         android:orientation="vertical">
 
                         <ImageButton
+                            android:id="@+id/hospital_button"
                             android:layout_width="@dimen/image_button_home_page"
                             android:layout_height="@dimen/image_button_home_page"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="@dimen/margin_image_inside_layout"
                             android:background="@drawable/hospital"
-                            android:contentDescription="@string/hospital_button" />
+                            android:contentDescription="@string/hospital_button"
+                            android:onClick="goToNearbyHospitals" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -186,12 +188,14 @@
                         android:orientation="vertical">
 
                         <ImageButton
+                            android:id="@+id/pharmacy_button"
                             android:layout_width="@dimen/image_button_home_page"
                             android:layout_height="@dimen/image_button_home_page"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="@dimen/margin_image_inside_layout"
                             android:background="@drawable/pharmacy"
                             android:contentDescription="@string/pharmacy_button"
+                            android:onClick="goToNearbyPharmacies"
                             tools:ignore="TooDeepLayout,ImageContrastCheck" />
 
                         <TextView

@@ -2,14 +2,33 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.github.h3lp3rs.h3lp">
 
-    <application
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="com.javapapers.android.googleplacesdetail.permission.MAPS_RECEIVE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+    <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.H3LP">
+
+        <!--
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".NearbyUtilitiesActivity"
+            android:exported="false" />
         <activity
             android:name=".presentation.ToSActivity"
             android:exported="false" />
@@ -27,7 +46,7 @@
             android:exported="false" />
         <activity
                 android:name=".MainPageActivity"
-                android:exported="false"/>
+                android:exported="true"/>
         <activity
             android:name=".presentation.PresIrrelevantActivity"
             android:exported="false" />
@@ -42,10 +61,8 @@
                 android:exported="true"  >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>
-
 </manifest>

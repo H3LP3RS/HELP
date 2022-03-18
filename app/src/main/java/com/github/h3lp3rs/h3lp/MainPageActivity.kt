@@ -13,6 +13,8 @@ import com.google.android.material.navigation.NavigationView
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
 import com.github.h3lp3rs.h3lp.signin.ORIGIN
 
+const val EXTRA_NEARBY_UTILITIES = "nearby_utilities"
+
 /**
  * Main page of the app
  */
@@ -81,5 +83,22 @@ class MainPageActivity : AppCompatActivity() {
     /** Called when the user taps the profile page button */
     fun goToProfileActivity(view: View) {
         goToActivity(MedicalCardActivity::class.java)
+    }
+
+    /** Called when the user taps the nearby hospitals button */
+    fun goToNearbyHospitals(view: View) {
+        goToNearbyUtilities(resources.getString(R.string.nearby_hospitals))
+    }
+
+    /** Called when the user taps the nearby pharmacies button */
+    fun goToNearbyPharmacies(view: View) {
+        goToNearbyUtilities(resources.getString(R.string.nearby_phamacies))
+    }
+
+    private fun goToNearbyUtilities(utility: String) {
+        val intent = Intent(this, NearbyUtilitiesActivity::class.java).apply{
+            putExtra(EXTRA_NEARBY_UTILITIES, utility)
+        }
+        startActivity(intent)
     }
 }

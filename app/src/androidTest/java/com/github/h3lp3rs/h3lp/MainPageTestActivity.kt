@@ -88,4 +88,14 @@ class MainPageTestActivity {
             false
         )
     }
+
+    @Test
+    fun clickingOnHospitalButtonWorksAndSendsIntent() {
+        clickingOnButtonWorksAndSendsIntent(NearbyUtilitiesActivity::class.java, withId(R.id.hospital_button), true)
+    }
+
+    @Test
+    fun clickingOnPharmacyButtonWorksAndSendsIntent() {
+        clickingOnButtonWorksAndSendsIntent(NearbyUtilitiesActivity::class.java, withId(R.id.pharmacy_button), true)
+    }
 }
