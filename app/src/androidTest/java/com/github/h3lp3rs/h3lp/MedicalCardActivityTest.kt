@@ -126,7 +126,7 @@ class MedicalCardActivityTest {
             .perform(replaceText((ctx.resources.getInteger(R.integer.maxHeight) - 1).toString()))
         onView(withId(R.id.medicalInfoWeightEditTxt))
             .perform(replaceText((ctx.resources.getInteger(R.integer.maxWeight) - 1).toString()))
-        onView(withId(R.id.medicalInfoHeightEditTxt))
+        onView(withId(R.id.medicalInfoBirthEditTxt))
             .perform(replaceText((ctx.resources.getInteger(R.integer.minYear) + 1).toString()))
         onView(withId(R.id.medicalInfoBloodDropdown))
             .perform(replaceText(BloodType.ABn.type))
