@@ -105,11 +105,23 @@ class MainPageActivity : AppCompatActivity() {
             }
         })
 
+        listView.setOnItemClickListener { _, view, position, _ ->
 
+            val listItem = listView.getItemAtPosition(position).toString()
+            Toast.makeText(this, "Selected item : $listItem", Toast.LENGTH_SHORT).show()
+            findActivity(listItem,view)
+
+        }
 
     }
 
-
+    private fun findActivity(listItem:String, view:View){
+        when (listItem) {
+            PROFILE -> goToProfileActivity(view)
+            CPR_RATE -> goToCprActivity(view)
+            TUTORIAL -> viewPresentation(view)
+        }
+    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return if (toggle.onOptionsItemSelected(item)) true else super.onOptionsItemSelected(item)
