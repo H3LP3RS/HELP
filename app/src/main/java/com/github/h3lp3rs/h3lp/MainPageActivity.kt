@@ -80,7 +80,18 @@ class MainPageActivity : AppCompatActivity() {
         adapter= ArrayAdapter(this, android.R.layout.simple_list_item_1, searchBarElements)
         listView.adapter =adapter
 
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
+            override fun onQueryTextSubmit(query: String): Boolean {
+                if (searchBarElements.contains(query)) {
+                    adapter.filter.filter(query)
+                } else {
+                    Toast.makeText(applicationContext, "Oops... no match found", Toast.LENGTH_LONG).show()
+                }
+                return false
+            }
+            
+        })
 
 
 
