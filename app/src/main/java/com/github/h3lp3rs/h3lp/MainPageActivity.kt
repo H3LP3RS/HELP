@@ -90,7 +90,19 @@ class MainPageActivity : AppCompatActivity() {
                 }
                 return false
             }
-            
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                if (newText.isEmpty()) {
+                    //when the text field of the search bar is empty, the list is hidden
+                    listView.visibility = View.GONE
+                } else {
+                    //when the text field of the search bar is non empty, show relevant elements
+                    listView.visibility = View.VISIBLE
+                }
+                //enable showing filtered elements
+                adapter.filter.filter(newText)
+                return false
+            }
         })
 
 
