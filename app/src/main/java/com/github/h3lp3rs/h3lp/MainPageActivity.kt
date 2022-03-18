@@ -29,7 +29,12 @@ private const val TUTORIAL = "Tutorial"
 class MainPageActivity : AppCompatActivity() {
     private lateinit var toggle: ActionBarDrawerToggle
 
-
+    private lateinit var searchView: SearchView
+    private lateinit var listView: ListView
+    //List of searchable elements
+    private var searchBarElements: ArrayList<String> = ArrayList()
+    //Adapter for the list view
+    lateinit var adapter: ArrayAdapter<*>
 
 
 
@@ -61,7 +66,19 @@ class MainPageActivity : AppCompatActivity() {
             true
         }
 
-        
+        searchView = findViewById(R.id.searchBar)
+        listView = findViewById(R.id.listView)
+
+        //List view is invisible in the beginning
+        listView.visibility = View.GONE
+
+        //Add elements to the list view
+        searchBarElements.add(PROFILE)
+        searchBarElements.add(CPR_RATE)
+        searchBarElements.add(TUTORIAL)
+
+       
+
 
 
 
