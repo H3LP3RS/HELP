@@ -36,11 +36,7 @@ class NearbyUtilitiesActivityTest {
         val intent = Intent(ApplicationProvider.getApplicationContext(), NearbyUtilitiesActivity::class.java).apply {
             putExtra(EXTRA_NEARBY_UTILITIES, utility)
         }
-
-        ActivityScenario.launch<NearbyUtilitiesActivity>(intent).use {
-            Espresso.onView(ViewMatchers.withId(R.id.map))
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        }
+        canLaunchMap(intent)
     }
 
     @Test
@@ -49,7 +45,10 @@ class NearbyUtilitiesActivityTest {
         val intent = Intent(ApplicationProvider.getApplicationContext(), NearbyUtilitiesActivity::class.java).apply {
             putExtra(EXTRA_NEARBY_UTILITIES, utility)
         }
+        canLaunchMap(intent)
+    }
 
+    private fun canLaunchMap(intent: Intent) {
         ActivityScenario.launch<NearbyUtilitiesActivity>(intent).use {
             ActivityScenario.launch<NearbyUtilitiesActivity>(intent).use {
                 Espresso.onView(ViewMatchers.withId(R.id.map))
