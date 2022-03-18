@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MedicalCardAcivity">
+    tools:context=".MedicalCardActivity">
 
 
     <ImageView
@@ -19,7 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0"
-        android:contentDescription="@string/backround_image_description"/>
+        android:contentDescription="@string/background_image_description"/>
 
 
     <ImageButton
@@ -58,6 +58,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+
                 <LinearLayout
                     android:id="@+id/medicalInfoHorizontalLayout"
                     android:layout_width="match_parent"
@@ -79,7 +80,9 @@
                         android:layout_marginTop="0dp"
                         android:hint="@string/gender"
                         app:boxStrokeColor="@color/teal_200"
-                        app:hintTextColor="@color/teal_700">
+                        app:hintTextColor="@color/teal_700"
+                        >
+
 
 
                         <AutoCompleteTextView
@@ -133,7 +136,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/medicalInfoBirthTxtLayout"
                     app:startIconDrawable="@drawable/ic_measure_height"
-                    app:suffixText="cm">
+                    app:suffixText="cm"
+                    >
 
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -217,7 +221,10 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/medicalInfoWeightTxtLayout"
-                    app:startIconDrawable="@drawable/ic_health">
+                    app:startIconDrawable="@drawable/ic_health"
+                    app:endIconMode="custom"
+                    app:endIconDrawable="@drawable/ic_question_mark"
+                    >
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/medicalInfoConditionEditTxt"
@@ -247,7 +254,9 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/medicalInfoConditionTxtLayout"
-                    app:startIconDrawable="@drawable/ic_allergy">
+                    app:startIconDrawable="@drawable/ic_allergy"
+                    app:endIconMode="custom"
+                    app:endIconDrawable="@drawable/ic_question_mark">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/medicalInfoAllergyEditTxt"
@@ -277,7 +286,10 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/medicalInfoAllergyTxtLayout"
-                    app:startIconDrawable="@drawable/ic_medicine">
+                    app:startIconDrawable="@drawable/ic_medicine"
+                    app:endIconMode="custom"
+                    app:endIconDrawable="@drawable/ic_question_mark">
+
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/medicalInfoTreatmentEditTxt"
@@ -290,6 +302,34 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
+
+                <CheckBox
+                    android:id="@+id/medicalInfoPrivacyCheck"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_marginBottom="24dp"
+                    android:text=""
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/medicalInfoSaveButton" />
+
+
+                <Button
+                    android:id="@+id/medicalInfoSaveButton"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:backgroundTint="@color/teal_200"
+                    android:onClick="checkAndSaveChanges"
+                    android:text="@string/save_changes"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/medicalInfoTreatmentTxtLayout" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

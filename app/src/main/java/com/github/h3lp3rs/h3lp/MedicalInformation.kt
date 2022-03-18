@@ -21,8 +21,9 @@ class MedicalInformation(
         const val MIN_YEAR=1900
     }
 }
-enum class Gender(val sex : String) {
-    Man("Male"),Woman("Female")
+
+enum class Gender() {
+    Male,Female;
 }
 enum class BloodType(val type : String){
     Op("O+"),On("O-"), Ap("A+"),An("A-"), ABp("AB+"),ABn("AB-"), Bp("B+"),Bn("B-"),Unkown("Unknown")

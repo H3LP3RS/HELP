@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.github.h3lp3rs.h3lp">
-
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="com.javapapers.android.googleplacesdetail.permission.MAPS_RECEIVE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
+        package="com.github.h3lp3rs.h3lp">
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -21,7 +13,6 @@
              Note that the API key is linked to the encryption key used to sign the APK.
              You need a different API key for each encryption key, including the release key that is used to
              sign the APK for publishing.
-             You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -31,7 +22,10 @@
             android:name=".NearbyUtilitiesActivity"
             android:exported="false" />
         <activity
-            android:name=".MedicalCardAcivity"
+            android:name=".presentation.ToSActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MedicalCardActivity"
             android:exported="false" />
         <activity
             android:name=".AwaitHelpActivity"
@@ -43,29 +37,24 @@
             android:name=".CprRateActivity"
             android:exported="false" />
         <activity
-            android:name=".MainPageActivity"
-            android:exported="true" />
+                android:name=".MainPageActivity"
+                android:exported="true"/>
         <activity
-                android:name=".presentation.PresIrrelevantActivity"
-                android:exported="false" />
+            android:name=".presentation.PresIrrelevantActivity"
+            android:exported="false" />
         <activity
-                android:name=".presentation.PresRelevantActivity"
-                android:exported="false" />
-        <activity
-                android:name=".SignInActivity"
-                android:exported="false" />
+            android:name=".presentation.PresRelevantActivity"
+            android:exported="false" />
         <activity
                 android:name=".presentation.PresArrivalActivity"
-                android:exported="true" >
+                android:exported="false" />
+        <activity
+                android:name=".signin.SignInActivity"
+                android:exported="true"  >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
     </application>
-
-
 </manifest>

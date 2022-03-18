@@ -21,8 +21,10 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
+
 @RunWith(AndroidJUnit4::class)
 class MainPageTestActivity {
+
     @get:Rule
     val testRule = ActivityScenarioRule(
         MainPageActivity::class.java
@@ -41,7 +43,11 @@ class MainPageTestActivity {
         Intents.release()
     }
 
-    private fun clickingOnButtonWorksAndSendsIntent(ActivityName: Class<*>?, id: Matcher<View>, isInScrollView: Boolean) {
+    private fun clickingOnButtonWorksAndSendsIntent(
+        ActivityName: Class<*>?,
+        id: Matcher<View>,
+        isInScrollView: Boolean
+    ) {
         if (isInScrollView) {
             onView(id).perform(ViewActions.scrollTo(), click())
         } else {
@@ -61,18 +67,26 @@ class MainPageTestActivity {
 
     @Test
     fun clickingOnCPRButtonWorksAndSendsIntent() {
-        clickingOnButtonWorksAndSendsIntent(CprRateActivity::class.java, withId(R.id.CPR_rate_button), true)
+        clickingOnButtonWorksAndSendsIntent(
+            CprRateActivity::class.java,
+            withId(R.id.CPR_rate_button),
+            true
+        )
     }
 
     @Test
     fun clickingOnProfileButtonWorksAndSendsIntent() {
-        clickingOnButtonWorksAndSendsIntent(MedicalCardAcivity::class.java, withId(R.id.profile), false)
+        clickingOnButtonWorksAndSendsIntent(MedicalCardActivity::class.java, withId(R.id.profile),
+            false)
     }
 
     @Test
     fun clickingOnHelpButtonWorksAndSendsIntent() {
-        clickingOnButtonWorksAndSendsIntent(HelpParametersActivity::class.java, withId(R.id.HELP_button), false)
-
+        clickingOnButtonWorksAndSendsIntent(
+            HelpParametersActivity::class.java,
+            withId(R.id.HELP_button),
+            false
+        )
     }
 
     @Test
