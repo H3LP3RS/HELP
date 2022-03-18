@@ -77,7 +77,8 @@ class MainPageActivity : AppCompatActivity() {
         searchBarElements.add(CPR_RATE)
         searchBarElements.add(TUTORIAL)
 
-       
+        adapter= ArrayAdapter(this, android.R.layout.simple_list_item_1, searchBarElements)
+        listView.adapter =adapter
 
 
 
