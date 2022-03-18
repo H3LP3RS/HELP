@@ -4,6 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.widget.ArrayAdapter
+import android.widget.ListView
+import android.widget.SearchView
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -15,17 +19,26 @@ import com.github.h3lp3rs.h3lp.signin.ORIGIN
 
 const val EXTRA_NEARBY_UTILITIES = "nearby_utilities"
 
+//
+private const val  PROFILE = "Profile"
+private const val CPR_RATE = "CPR rate"
+private const val TUTORIAL = "Tutorial"
 /**
  * Main page of the app
  */
 class MainPageActivity : AppCompatActivity() {
     private lateinit var toggle: ActionBarDrawerToggle
 
+
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_page)
 
+        //Set up the drawer layout
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         toggle =
@@ -48,7 +61,14 @@ class MainPageActivity : AppCompatActivity() {
             true
         }
 
+        
+
+
+
+
     }
+
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return if (toggle.onOptionsItemSelected(item)) true else super.onOptionsItemSelected(item)
@@ -68,7 +88,7 @@ class MainPageActivity : AppCompatActivity() {
 
     /** Called when the user taps the help page button */
     fun goToHelpParametersActivity(view: View) {
-         goToActivity(HelpParametersActivity::class.java)
+        goToActivity(HelpParametersActivity::class.java)
     }
 
     /**

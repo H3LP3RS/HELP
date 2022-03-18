@@ -57,7 +57,7 @@
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/stay_safe"
+            android:id="@+id/staySafe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/welcomeText"
@@ -66,11 +66,20 @@
             android:textColor="@color/dark_blue"
             android:textSize="20sp" />
 
-        <SearchView
-            android:id="@+id/SearchBar"
+        <ListView
+            android:id="@+id/listView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/stay_safe"
+            android:layout_below="@+id/searchBar"
+            android:divider="#ad5"
+            android:background="@color/light_grey"
+            android:dividerHeight="2dp" />
+
+        <SearchView
+            android:id="@+id/searchBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/staySafe"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="50dp"
             android:background="@color/light_grey"
@@ -82,7 +91,7 @@
             android:id="@+id/horizontalScrollView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/SearchBar"
+            android:layout_below="@+id/searchBar"
             android:layout_marginTop="50dp"
             android:background="@color/app_background">
 
