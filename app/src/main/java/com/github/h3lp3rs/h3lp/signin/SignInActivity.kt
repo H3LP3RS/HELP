@@ -9,6 +9,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
+import com.github.h3lp3rs.h3lp.preferences.Preferences
+import com.github.h3lp3rs.h3lp.preferences.Preferences.Companion.Files
+import com.github.h3lp3rs.h3lp.preferences.Preferences.Companion.USER_AGREE
+import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
 import com.google.firebase.auth.AuthResult
 
 const val ORIGIN: String = "ORIGIN"
@@ -29,10 +33,16 @@ class SignInActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
-
         // Initialize Firebase Auth
         findViewById<ImageButton>(R.id.signInButton).setOnClickListener{
             launchSignIn()
+        }
+        // Check ToS agreement
+        if(!Preferences(Files.PRESENTATION, this).getBoolOrDefault(USER_AGREE, false)) {
+            val i = Intent(this, PresArrivalActivity::class.java)
+                .putExtra(ORIGIN, SignInActivity::class.qualifiedName)
+            startActivity(i)
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
     }
 
