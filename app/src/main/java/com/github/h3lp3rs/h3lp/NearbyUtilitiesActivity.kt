@@ -31,6 +31,7 @@ import java.lang.Double.parseDouble
 import java.net.HttpURLConnection
 import java.net.URL
 
+typealias GooglePlace = HashMap<String, String>
 
 const val PLACES_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
 const val DEFAULT_MAP_ZOOM = 15f
@@ -45,7 +46,6 @@ class NearbyUtilitiesActivity : AppCompatActivity(), OnMapReadyCallback,
     private var permissionDenied = false
     private var currentLong: Double = 0.0
     private var currentLat: Double = 0.0
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -183,7 +183,7 @@ class NearbyUtilitiesActivity : AppCompatActivity(), OnMapReadyCallback,
         return parser.parseResult(obj)
     }
 
-    private fun showPlaces(places: List<HashMap<String, String>>){
+    private fun showPlaces(places: List<GooglePlace>){
         // Remove eventual old markers
         map.clear()
 
@@ -229,3 +229,4 @@ class NearbyUtilitiesActivity : AppCompatActivity(), OnMapReadyCallback,
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
     }
 }
+

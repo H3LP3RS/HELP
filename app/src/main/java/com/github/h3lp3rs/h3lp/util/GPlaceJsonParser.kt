@@ -1,5 +1,6 @@
 package com.github.h3lp3rs.h3lp.util
 
+import com.github.h3lp3rs.h3lp.GooglePlace
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -11,7 +12,7 @@ import org.json.JSONObject
 class GPlaceJsonParser {
 
 
-    private fun parseJsonObject(obj: JSONObject): HashMap<String, String> {
+    private fun parseJsonObject(obj: JSONObject): GooglePlace {
         val dataList = HashMap<String, String>()
 
         val name = obj.getString("name")
@@ -30,8 +31,8 @@ class GPlaceJsonParser {
         return dataList
     }
 
-    private fun parseJsonArray(jsonArray: JSONArray): List<HashMap<String,String>>{
-        val dataList = ArrayList<HashMap<String,String>>()
+    private fun parseJsonArray(jsonArray: JSONArray): List<GooglePlace>{
+        val dataList = ArrayList<GooglePlace>()
 
         for (i in 0 until jsonArray.length()) {
             val dataMap = parseJsonObject(jsonArray.get(i) as JSONObject)
@@ -46,7 +47,7 @@ class GPlaceJsonParser {
      * @param obj : Json object returned by a Google place query
      * @return a list of places in the form of maps, with {lat,lng,name} as keys
      */
-    fun parseResult(obj: JSONObject): List<HashMap<String, String>> {
+    fun parseResult(obj: JSONObject): List<GooglePlace> {
         return try {
             val jsonArray = obj.getJSONArray("results")
             parseJsonArray(jsonArray)
