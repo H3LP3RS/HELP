@@ -1,6 +1,6 @@
 package com.github.h3lp3rs.h3lp
 
-import android.app.Activity
+import android.app.Activity.RESULT_OK
 import android.app.Instrumentation
 import android.content.Intent
 import android.view.KeyEvent
@@ -23,6 +23,9 @@ import org.junit.Rule
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.intent.Intents.init
+import androidx.test.espresso.intent.Intents.intending
+import androidx.test.espresso.intent.matcher.IntentMatchers.anyIntent
 import androidx.test.espresso.matcher.ViewMatchers.*
 import org.hamcrest.Matchers.not
 
@@ -30,7 +33,7 @@ import org.hamcrest.Matchers.not
 import org.junit.Test
 import org.junit.runner.RunWith
 
-private const val NONEXISTENT_ITEM = "nonexistent item"
+private const val NONEXISTENT_ITEM = "Nonexistent item"
 
 @RunWith(AndroidJUnit4::class)
 class SearchBarTest {
@@ -42,10 +45,10 @@ class SearchBarTest {
 
     @Before
     fun setup() {
-        Intents.init()
+        init()
         val intent = Intent()
-        val intentResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
-        Intents.intending(IntentMatchers.anyIntent()).respondWith(intentResult)
+        val intentResult = Instrumentation.ActivityResult(RESULT_OK, intent)
+        intending(anyIntent()).respondWith(intentResult)
     }
 
     @After
@@ -55,46 +58,44 @@ class SearchBarTest {
 
     @Test
     fun searchingForCprRateAndPressingEnterWorksAndSendsIntent() {
-        searchEnter(CprRateActivity::class.java, CPR_RATE)
+        lookUp(CPR_RATE)
+        checkActivityOnSuccess( CprRateActivity::class.java)
     }
 
     @Test
     fun searchingForProfileAndPressingEnterWorksAndSendsIntent() {
-        searchEnter(MedicalCardActivity::class.java, PROFILE)
+        lookUp(PROFILE)
+        checkActivityOnSuccess( MedicalCardActivity::class.java)
     }
 
     @Test
     fun searchingForTutorialAndPressingEnterWorksAndDisplaysTutorial() {
-        searchEnter(PresArrivalActivity::class.java, TUTORIAL)
+        lookUp(TUTORIAL)
+        checkActivityOnSuccess( PresArrivalActivity::class.java)
     }
 
-    private fun searchEnter(ActivityName: Class<*>?, listItem: String) {
-        onView(withId(R.id.searchBar)).perform(click())
-        onView(isAssignableFrom(AutoCompleteTextView::class.java)).perform(typeText(listItem))
-            .perform(
-                pressKey(KeyEvent.KEYCODE_ENTER)
-            )
-
-        onData(anything()).inAdapterView(withId(R.id.listView)).atPosition(0).perform(click())
-
+    private fun checkActivityOnSuccess(ActivityName: Class<*>?){
         Intents.intended(
             Matchers.allOf(
                 IntentMatchers.hasComponent(ActivityName!!.name)
             )
         )
     }
+    private fun lookUp(listItem: String) {
+
+        onView(withId(R.id.searchBar)).perform(click())
+        onView(isAssignableFrom(AutoCompleteTextView::class.java)).perform(typeText(listItem))
+            .perform(pressKey(KeyEvent.KEYCODE_ENTER))
+        //The element should be at position 0 since the list view is filtered
+        onData(anything()).inAdapterView(withId(R.id.listView)).atPosition(0).perform(click())
+    }
 
     @Test
     fun searchingForNonexistentItemStaysOnActivity() {
-        onView(withId(R.id.searchBar)).perform(click())
-        onView(isAssignableFrom(AutoCompleteTextView::class.java)).perform(typeText(NONEXISTENT_ITEM))
-            .perform(
-                pressKey(KeyEvent.KEYCODE_ENTER)
-            )
+        lookUp(NONEXISTENT_ITEM)
         Matchers.allOf(
             IntentMatchers.hasComponent(MainPageActivity::class.java.name)
         )
-
     }
 
     @Test
@@ -123,9 +124,6 @@ class SearchBarTest {
             .perform(
                 pressKey(KeyEvent.KEYCODE_ENTER)
             )
-        onView(withText(""))
-            .check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
-
     }
 
 }

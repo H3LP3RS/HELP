@@ -65,7 +65,6 @@ class MainPageActivity : AppCompatActivity() {
      * Add elements to the list view
      */
     private fun setUpListViewItems() {
-
         searchBarElements.add(PROFILE)
         searchBarElements.add(CPR_RATE)
         searchBarElements.add(TUTORIAL)
@@ -90,13 +89,13 @@ class MainPageActivity : AppCompatActivity() {
 
             override fun onQueryTextChange(newText: String): Boolean {
                 if (newText.isEmpty()) {
-                    //when the text field of the search bar is empty, the list is hidden
+                    //When the text field of the search bar is empty, the list is hidden
                     listView.visibility = View.GONE
                 } else {
-                    //when the text field of the search bar is non empty, show relevant elements
+                    //When the text field of the search bar is non empty, show relevant elements
                     listView.visibility = View.VISIBLE
                 }
-                //enable showing only relevant items
+                //Enable showing only relevant items
                 adapter.filter.filter(newText)
                 return false
             }
@@ -133,9 +132,6 @@ class MainPageActivity : AppCompatActivity() {
                 R.id.nav_home -> findViewById<DrawerLayout>(R.id.drawer_layout).closeDrawer(
                     GravityCompat.START
                 )
-                else -> {
-                    true
-                }
             }
             true
         }
