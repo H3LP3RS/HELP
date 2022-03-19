@@ -185,4 +185,7 @@ fabric.properties
 
 !/gradle/wrapper/gradle-wrapper.jar
 
+# To keep secret (API keys)
+google_maps_api.xml
+
 # End of https://www.toptal.com/developers/gitignore/api/androidstudio,kotlin,macos
