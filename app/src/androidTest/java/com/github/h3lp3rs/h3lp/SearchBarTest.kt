@@ -1,5 +1,6 @@
 package com.github.h3lp3rs.h3lp
 
+
 import android.app.Activity.RESULT_OK
 import android.app.Instrumentation
 import android.content.Intent
@@ -8,28 +9,22 @@ import android.widget.AutoCompleteTextView
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
+import androidx.test.espresso.intent.Intents.init
+import androidx.test.espresso.intent.Intents.intending
 import androidx.test.espresso.intent.matcher.IntentMatchers
+import androidx.test.espresso.intent.matcher.IntentMatchers.anyIntent
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
 import org.hamcrest.Matchers
 import org.hamcrest.Matchers.anything
+import org.hamcrest.Matchers.not
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
-
-
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.typeText
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.intent.Intents.init
-import androidx.test.espresso.intent.Intents.intending
-import androidx.test.espresso.intent.matcher.IntentMatchers.anyIntent
-import androidx.test.espresso.matcher.ViewMatchers.*
-import org.hamcrest.Matchers.not
-
-
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -58,37 +53,43 @@ class SearchBarTest {
 
     @Test
     fun searchingForCprRateAndPressingEnterWorksAndSendsIntent() {
-        lookUp(CPR_RATE)
-        checkActivityOnSuccess( CprRateActivity::class.java)
+        lookUpAndSelectItem(CPR_RATE)
+        checkActivityOnSuccess(CprRateActivity::class.java)
     }
 
     @Test
     fun searchingForProfileAndPressingEnterWorksAndSendsIntent() {
-        lookUp(PROFILE)
-        checkActivityOnSuccess( MedicalCardActivity::class.java)
+        lookUpAndSelectItem(PROFILE)
+        checkActivityOnSuccess(MedicalCardActivity::class.java)
     }
 
     @Test
     fun searchingForTutorialAndPressingEnterWorksAndDisplaysTutorial() {
-        lookUp(TUTORIAL)
-        checkActivityOnSuccess( PresArrivalActivity::class.java)
+        lookUpAndSelectItem(TUTORIAL)
+        checkActivityOnSuccess(PresArrivalActivity::class.java)
     }
 
-    private fun checkActivityOnSuccess(ActivityName: Class<*>?){
+    private fun checkActivityOnSuccess(ActivityName: Class<*>?) {
         Intents.intended(
             Matchers.allOf(
                 IntentMatchers.hasComponent(ActivityName!!.name)
             )
         )
     }
+
     private fun lookUp(listItem: String) {
 
         onView(withId(R.id.searchBar)).perform(click())
         onView(isAssignableFrom(AutoCompleteTextView::class.java)).perform(typeText(listItem))
             .perform(pressKey(KeyEvent.KEYCODE_ENTER))
-        //The element should be at position 0 since the list view is filtered
+
+    }
+
+    private fun lookUpAndSelectItem(listItem: String) {
+        lookUp(listItem)
         onData(anything()).inAdapterView(withId(R.id.listView)).atPosition(0).perform(click())
     }
+
 
     @Test
     fun searchingForNonexistentItemStaysOnActivity() {
@@ -99,31 +100,64 @@ class SearchBarTest {
     }
 
     @Test
-    fun listViewIsNotDisplayedWhenTextIsEmpty(){
+    fun listViewIsNotDisplayedWhenTextIsEmpty() {
         onView(withId(R.id.searchBar)).perform(click())
 
-        onView(isAssignableFrom(AutoCompleteTextView::class.java)).perform(typeText(PROFILE)).perform(
-            clearText())
-        onView(withId(R.id.listView)).check(matches(not(isDisplayed())))
-    }
-
-    @Test
-    fun listViewIsNotDisplayedWhenItemIsNonexistent(){
-        onView(withId(R.id.searchBar)).perform(click())
-
-        onView(isAssignableFrom(AutoCompleteTextView::class.java)).perform(typeText(NONEXISTENT_ITEM))
-        onView(withId(R.id.listView)).check(matches(not(isDisplayed())))
-    }
-
-
-    @Test
-    fun searchingForNonexistentItemShowsMessageAndStaysOnActivity() {
-
-        onView(withId(R.id.searchBar)).perform(click())
-        onView(isAssignableFrom(AutoCompleteTextView::class.java)).perform(typeText(NONEXISTENT_ITEM))
+        onView(isAssignableFrom(AutoCompleteTextView::class.java)).perform(typeText(PROFILE))
             .perform(
-                pressKey(KeyEvent.KEYCODE_ENTER)
+                clearText()
             )
+        onView(withId(R.id.listView)).check(matches(not(isDisplayed())))
     }
+
+    @Test
+    fun listViewIsNotDisplayedWhenItemIsNonexistent() {
+        onView(withId(R.id.searchBar)).perform(click())
+
+        onView(isAssignableFrom(AutoCompleteTextView::class.java)).perform(typeText(NONEXISTENT_ITEM))
+        onView(withId(R.id.listView)).check(matches(not(isDisplayed())))
+    }
+
+
+    @Test
+    fun searchingForNonexistentItemShowsErrorMessage() {
+
+        lookUp(NONEXISTENT_ITEM)
+
+        onView(withText(R.string.matchNotFound))
+            .check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
+
+    }
+
+    private fun searchingForCorrectItemShowsSelectedItemMessage(listItem: String) {
+
+        lookUpAndSelectItem(listItem)
+        onView(withText("Selected item : $listItem"))
+            .check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
+
+    }
+
+    @Test
+    fun searchingForProfileDisplaysCorrectMessage() {
+
+        searchingForCorrectItemShowsSelectedItemMessage(PROFILE)
+
+    }
+
+    @Test
+    fun searchingForTutorialDisplaysCorrectMessage() {
+
+        searchingForCorrectItemShowsSelectedItemMessage(TUTORIAL)
+
+    }
+
+
+    @Test
+    fun searchingForCprRateDisplaysCorrectMessage() {
+
+        searchingForCorrectItemShowsSelectedItemMessage(CPR_RATE)
+
+    }
+
 
 }

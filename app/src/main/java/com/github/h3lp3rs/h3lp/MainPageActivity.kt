@@ -159,7 +159,7 @@ class MainPageActivity : AppCompatActivity() {
     }
 
     private fun displayErrorMessage() {
-        displayMessage(getString(R.string.MatchNotFound))
+        displayMessage(getString(R.string.matchNotFound))
     }
 
     private fun displaySelectedItem(item: String) {
