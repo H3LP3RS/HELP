@@ -18,7 +18,7 @@ import com.google.android.material.snackbar.Snackbar
 
 const val EXTRA_NEARBY_UTILITIES = "nearby_utilities"
 
-//
+//Elements of the list view
 const val PROFILE = "Profile"
 const val CPR_RATE = "CPR rate"
 const val TUTORIAL = "Tutorial"
@@ -44,43 +44,39 @@ class MainPageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_page)
 
-        //Set up the drawer layout
-        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
-        val navView: NavigationView = findViewById(R.id.nav_view)
-        toggle =
-            ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_open, R.string.drawer_closed)
-        drawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
-
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        navView.setNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.nav_profile -> goToProfileActivity(findViewById(R.id.profile))
-                R.id.nav_home -> findViewById<DrawerLayout>(R.id.drawer_layout).closeDrawer(
-                    GravityCompat.START
-                )
-                else -> {
-                    true
-                }
-            }
-            true
-        }
+        setUpDrawerLayout()
 
         searchView = findViewById(R.id.searchBar)
         listView = findViewById(R.id.listView)
 
-        //List view is invisible in the beginning
+        //List view is invisible in the beginning.
         listView.visibility = View.GONE
 
-        //Add elements to the list view
-        searchBarElements.add(PROFILE)
-        searchBarElements.add(CPR_RATE)
-        searchBarElements.add(TUTORIAL)
+        setUpListViewItems()
 
         adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, searchBarElements)
         listView.adapter = adapter
 
+        setUpSearchView()
+
+    }
+
+    /**
+     * Add elements to the list view
+     */
+    private fun setUpListViewItems() {
+
+        searchBarElements.add(PROFILE)
+        searchBarElements.add(CPR_RATE)
+        searchBarElements.add(TUTORIAL)
+    }
+
+    /**
+     * Handles the search feature on the home page. The list view is only visible when characters
+     * are entered in the search field. On text submit, an appropriate message is displayed and a
+     * new activity is launched.
+     */
+    private fun setUpSearchView() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextSubmit(query: String): Boolean {
@@ -100,7 +96,7 @@ class MainPageActivity : AppCompatActivity() {
                     //when the text field of the search bar is non empty, show relevant elements
                     listView.visibility = View.VISIBLE
                 }
-                //enable showing filtered elements
+                //enable showing only relevant items
                 adapter.filter.filter(newText)
                 return false
             }
@@ -116,6 +112,38 @@ class MainPageActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * Sets up the drawer layout used for the side bar menu.
+     */
+    private fun setUpDrawerLayout() {
+
+        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
+        val navView: NavigationView = findViewById(R.id.nav_view)
+
+        toggle =
+            ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_open, R.string.drawer_closed)
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        navView.setNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.nav_profile -> goToProfileActivity(findViewById(R.id.profile))
+                R.id.nav_home -> findViewById<DrawerLayout>(R.id.drawer_layout).closeDrawer(
+                    GravityCompat.START
+                )
+                else -> {
+                    true
+                }
+            }
+            true
+        }
+    }
+
+    /**
+     * Starts activity based on the entered element in the search field.
+     */
     private fun findActivity(listItem: String, view: View) {
         when (listItem) {
             PROFILE -> goToProfileActivity(view)
@@ -130,20 +158,21 @@ class MainPageActivity : AppCompatActivity() {
      */
     private fun displayMessage(message: String) {
         val fab = findViewById<View>(R.id.horizontalScrollView)
-        Snackbar.make(window.decorView.rootView, message, Snackbar.LENGTH_SHORT).setAnchorView(fab).show()
+        Snackbar.make(window.decorView.rootView, message, Snackbar.LENGTH_SHORT).setAnchorView(fab)
+            .show()
     }
 
-    private fun displayErrorMessage(){
+    private fun displayErrorMessage() {
         displayMessage(getString(R.string.MatchNotFound))
     }
 
-    private fun displaySelectedItem(item:String){
+    private fun displaySelectedItem(item: String) {
         displayMessage("Selected item : $item")
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return if (toggle.onOptionsItemSelected(item)) true else super.onOptionsItemSelected(item)
     }
-
 
     /** Starts the activity by sending intent */
     private fun goToActivity(ActivityName: Class<*>?) {
