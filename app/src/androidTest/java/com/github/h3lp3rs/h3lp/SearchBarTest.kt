@@ -123,6 +123,9 @@ class SearchBarTest {
             .perform(
                 pressKey(KeyEvent.KEYCODE_ENTER)
             )
+        onView(withText(""))
+            .check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
+
     }
 
 }

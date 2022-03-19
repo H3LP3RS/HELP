@@ -7,22 +7,22 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.SearchView
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import com.google.android.material.navigation.NavigationView
-
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
 import com.github.h3lp3rs.h3lp.signin.ORIGIN
+import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
 
 const val EXTRA_NEARBY_UTILITIES = "nearby_utilities"
 
 //
-const val  PROFILE = "Profile"
+const val PROFILE = "Profile"
 const val CPR_RATE = "CPR rate"
 const val TUTORIAL = "Tutorial"
+
 /**
  * Main page of the app
  */
@@ -31,11 +31,12 @@ class MainPageActivity : AppCompatActivity() {
 
     private lateinit var searchView: SearchView
     private lateinit var listView: ListView
+
     //List of searchable elements
     private var searchBarElements: ArrayList<String> = ArrayList()
+
     //Adapter for the list view
     lateinit var adapter: ArrayAdapter<*>
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,8 +78,8 @@ class MainPageActivity : AppCompatActivity() {
         searchBarElements.add(CPR_RATE)
         searchBarElements.add(TUTORIAL)
 
-        adapter= ArrayAdapter(this, android.R.layout.simple_list_item_1, searchBarElements)
-        listView.adapter =adapter
+        adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, searchBarElements)
+        listView.adapter = adapter
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
@@ -86,7 +87,7 @@ class MainPageActivity : AppCompatActivity() {
                 if (searchBarElements.contains(query)) {
                     adapter.filter.filter(query)
                 } else {
-                    //Toast.makeText(applicationContext, "Oops... no match found", Toast.LENGTH_LONG).show()
+                    displayErrorMessage()
                 }
                 return false
             }
@@ -108,14 +109,14 @@ class MainPageActivity : AppCompatActivity() {
         listView.setOnItemClickListener { _, view, position, _ ->
 
             val listItem = listView.getItemAtPosition(position).toString()
-            //Toast.makeText(this, "Selected item : $listItem", Toast.LENGTH_SHORT).show()
-            findActivity(listItem,view)
+            displaySelectedItem(listItem)
+            findActivity(listItem, view)
 
         }
 
     }
 
-    private fun findActivity(listItem:String, view:View){
+    private fun findActivity(listItem: String, view: View) {
         when (listItem) {
             PROFILE -> goToProfileActivity(view)
             CPR_RATE -> goToCprActivity(view)
@@ -123,6 +124,22 @@ class MainPageActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Displays a message using snackbar under the horizontal scroll view
+     * @param message message to display
+     */
+    private fun displayMessage(message: String) {
+        val fab = findViewById<View>(R.id.horizontalScrollView)
+        Snackbar.make(window.decorView.rootView, message, Snackbar.LENGTH_SHORT).setAnchorView(fab).show()
+    }
+
+    private fun displayErrorMessage(){
+        displayMessage(getString(R.string.MatchNotFound))
+    }
+
+    private fun displaySelectedItem(item:String){
+        displayMessage("Selected item : $item")
+    }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return if (toggle.onOptionsItemSelected(item)) true else super.onOptionsItemSelected(item)
     }
@@ -149,8 +166,10 @@ class MainPageActivity : AppCompatActivity() {
      * Starts the presentation of the app
      */
     fun viewPresentation(view: View) {
-        startActivity(Intent(this, PresArrivalActivity::class.java)
-            .putExtra(ORIGIN, MainPageActivity::class.qualifiedName))
+        startActivity(
+            Intent(this, PresArrivalActivity::class.java)
+                .putExtra(ORIGIN, MainPageActivity::class.qualifiedName)
+        )
     }
 
     /** Called when the user taps the profile page button */
@@ -169,7 +188,7 @@ class MainPageActivity : AppCompatActivity() {
     }
 
     private fun goToNearbyUtilities(utility: String) {
-        val intent = Intent(this, NearbyUtilitiesActivity::class.java).apply{
+        val intent = Intent(this, NearbyUtilitiesActivity::class.java).apply {
             putExtra(EXTRA_NEARBY_UTILITIES, utility)
         }
         startActivity(intent)
