@@ -159,5 +159,10 @@ class SearchBarTest {
 
     }
 
+    @Test
+    fun listViewIsInitiallyHidden(){
+        onView(withId(R.id.listView)).check(matches(not(isDisplayed())))
+    }
+
 
 }
