@@ -52,19 +52,19 @@ class SearchBarTest {
     }
 
     @Test
-    fun searchingForCprRateAndPressingEnterWorksAndSendsIntent() {
+    fun searchingForCprRateAndClickingOnFistSuggestionLaunchesCorrectActivity() {
         lookUpAndSelectItem(CPR_RATE)
         checkActivityOnSuccess(CprRateActivity::class.java)
     }
 
     @Test
-    fun searchingForProfileAndPressingEnterWorksAndSendsIntent() {
+    fun searchingForProfileAndClickingOnFistSuggestionLaunchesCorrectActivity() {
         lookUpAndSelectItem(PROFILE)
         checkActivityOnSuccess(MedicalCardActivity::class.java)
     }
 
     @Test
-    fun searchingForTutorialAndPressingEnterWorksAndDisplaysTutorial() {
+    fun searchingForTutorialAndClickingOnFistSuggestionLaunchesCorrectActivity() {
         lookUpAndSelectItem(TUTORIAL)
         checkActivityOnSuccess(PresArrivalActivity::class.java)
     }
@@ -78,7 +78,6 @@ class SearchBarTest {
     }
 
     private fun lookUp(listItem: String) {
-
         onView(withId(R.id.searchBar)).perform(click())
         onView(isAssignableFrom(AutoCompleteTextView::class.java)).perform(typeText(listItem))
             .perform(pressKey(KeyEvent.KEYCODE_ENTER))
@@ -139,14 +138,12 @@ class SearchBarTest {
 
     @Test
     fun searchingForProfileDisplaysCorrectMessage() {
-
         searchingForCorrectItemShowsSelectedItemMessage(PROFILE)
 
     }
 
     @Test
     fun searchingForTutorialDisplaysCorrectMessage() {
-
         searchingForCorrectItemShowsSelectedItemMessage(TUTORIAL)
 
     }
@@ -154,7 +151,6 @@ class SearchBarTest {
 
     @Test
     fun searchingForCprRateDisplaysCorrectMessage() {
-
         searchingForCorrectItemShowsSelectedItemMessage(CPR_RATE)
 
     }
