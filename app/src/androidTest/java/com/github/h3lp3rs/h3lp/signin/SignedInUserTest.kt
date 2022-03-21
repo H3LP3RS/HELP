@@ -11,6 +11,8 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
+import com.github.h3lp3rs.h3lp.preferences.Preferences
+import com.github.h3lp3rs.h3lp.preferences.Preferences.Companion.clearAllPreferences
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import org.junit.After
@@ -33,6 +35,7 @@ class SignedInUserTest {
     @Before
     fun setUp() {
         init()
+        clearAllPreferences(ApplicationProvider.getApplicationContext())
 
         val signInMock = Mockito.mock(SignInInterface::class.java)
         When(signInMock.isSignedIn()).thenReturn(true)

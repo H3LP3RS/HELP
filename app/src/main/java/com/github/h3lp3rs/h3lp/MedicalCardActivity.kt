@@ -182,7 +182,7 @@ class MedicalCardActivity : AppCompatActivity() {
             override fun onClick(widget: View) {
                 //This avoid checkbox checking when clicking on the policy link
                 //Sadly it is incompatible with Expresso onClick() so is commented for cirrus
-                //widget.cancelPendingInputEvents()
+                widget.cancelPendingInputEvents()
                 showPolicy()
             }
             override fun updateDrawState(ds: TextPaint) {
