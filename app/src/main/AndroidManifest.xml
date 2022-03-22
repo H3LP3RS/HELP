@@ -17,6 +17,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.H3LP">
         <activity
+            android:name=".firstaid.AsthmaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".firstaid.AedActivity"
+            android:exported="false" />
+        <activity
+            android:name=".firstaid.HeartAttackActivity"
+            android:exported="false" />
+        <activity
+            android:name=".firstaid.AllergyActivity"
+            android:exported="true" />
+        <activity
             android:name=".FirstAidActivity"
             android:exported="false" />
         <!--

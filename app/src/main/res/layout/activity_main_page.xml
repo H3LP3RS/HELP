@@ -234,7 +234,8 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="@dimen/margin_image_inside_layout"
                             android:background="@drawable/education"
-                            android:contentDescription="@string/tips_button" />
+                            android:contentDescription="@string/tips_button"
+                            android:onClick="goToFirstAid"/>
 
                         <TextView
                             android:layout_width="wrap_content"
