@@ -18,12 +18,12 @@ import com.google.android.material.snackbar.Snackbar
 
 const val EXTRA_NEARBY_UTILITIES = "nearby_utilities"
 
-//Elements of the list view
+// Elements of the list view
 const val PROFILE = "Profile"
 const val CPR_RATE = "CPR rate"
 const val TUTORIAL = "Tutorial"
-const val HOSPITALS= "Hospitals"
-const val PHARMACIES ="Pharmacies"
+const val HOSPITALS = "Hospitals"
+const val PHARMACIES = "Pharmacies"
 
 /**
  * Main page of the app
@@ -34,12 +34,11 @@ class MainPageActivity : AppCompatActivity() {
     private lateinit var searchView: SearchView
     private lateinit var listView: ListView
 
-    //List of searchable elements
+    // List of searchable elements
     private var searchBarElements: ArrayList<String> = ArrayList()
 
-    //Adapter for the list view
+    // Adapter for the list view
     lateinit var adapter: ArrayAdapter<*>
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -51,7 +50,7 @@ class MainPageActivity : AppCompatActivity() {
         searchView = findViewById(R.id.searchBar)
         listView = findViewById(R.id.listView)
 
-        //List view is invisible in the beginning.
+        // List view is invisible in the beginning.
         listView.visibility = View.GONE
 
         setUpListViewItems()
@@ -112,14 +111,12 @@ class MainPageActivity : AppCompatActivity() {
             findActivity(listItem, view)
 
         }
-
     }
 
     /**
      * Sets up the drawer layout used for the side bar menu.
      */
     private fun setUpDrawerLayout() {
-
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
 
@@ -149,8 +146,8 @@ class MainPageActivity : AppCompatActivity() {
             PROFILE -> goToProfileActivity(view)
             CPR_RATE -> goToCprActivity(view)
             TUTORIAL -> viewPresentation(view)
-            HOSPITALS->goToNearbyHospitals(view)
-            PHARMACIES->goToNearbyPharmacies(view)
+            HOSPITALS -> goToNearbyHospitals(view)
+            PHARMACIES -> goToNearbyPharmacies(view)
 
         }
     }
@@ -160,19 +157,19 @@ class MainPageActivity : AppCompatActivity() {
      * @param message message to display
      * @param view the view under which the message is shown
      */
-    private fun displayMessage(message: String,view:View) {
+    private fun displayMessage(message: String, view: View) {
         Snackbar.make(window.decorView.rootView, message, Snackbar.LENGTH_SHORT).setAnchorView(view)
             .show()
     }
 
     private fun displayErrorMessageAfterSearch() {
         val horizontalScrollView = findViewById<View>(R.id.horizontalScrollView)
-        displayMessage(getString(R.string.matchNotFound),horizontalScrollView)
+        displayMessage(getString(R.string.matchNotFound), horizontalScrollView)
     }
 
     private fun displaySelectedItem(item: String) {
         val horizontalScrollView = findViewById<View>(R.id.horizontalScrollView)
-        displayMessage("Selected item : $item",horizontalScrollView)
+        displayMessage("Selected item : $item", horizontalScrollView)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
