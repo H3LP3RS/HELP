@@ -22,6 +22,8 @@ const val EXTRA_NEARBY_UTILITIES = "nearby_utilities"
 const val PROFILE = "Profile"
 const val CPR_RATE = "CPR rate"
 const val TUTORIAL = "Tutorial"
+const val HOSPITALS= "Hospitals"
+const val PHARMACIES ="Pharmacies"
 
 /**
  * Main page of the app
@@ -68,6 +70,8 @@ class MainPageActivity : AppCompatActivity() {
         searchBarElements.add(PROFILE)
         searchBarElements.add(CPR_RATE)
         searchBarElements.add(TUTORIAL)
+        searchBarElements.add(PHARMACIES)
+        searchBarElements.add(HOSPITALS)
     }
 
     /**
@@ -82,20 +86,20 @@ class MainPageActivity : AppCompatActivity() {
                 if (searchBarElements.contains(query)) {
                     adapter.filter.filter(query)
                 } else {
-                    displayErrorMessage()
+                    displayErrorMessageAfterSearch()
                 }
                 return false
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
                 if (newText.isEmpty()) {
-                    //When the text field of the search bar is empty, the list is hidden
+                    // When the text field of the search bar is empty, the list is hidden
                     listView.visibility = View.GONE
                 } else {
-                    //When the text field of the search bar is non empty, show relevant elements
+                    // When the text field of the search bar is non empty, show relevant elements
                     listView.visibility = View.VISIBLE
                 }
-                //Enable showing only relevant items
+                // Enable showing only relevant items
                 adapter.filter.filter(newText)
                 return false
             }
@@ -145,25 +149,30 @@ class MainPageActivity : AppCompatActivity() {
             PROFILE -> goToProfileActivity(view)
             CPR_RATE -> goToCprActivity(view)
             TUTORIAL -> viewPresentation(view)
+            HOSPITALS->goToNearbyHospitals(view)
+            PHARMACIES->goToNearbyPharmacies(view)
+
         }
     }
 
     /**
-     * Displays a message using snackbar under the horizontal scroll view
+     * Displays a message using snackbar under the view
      * @param message message to display
+     * @param view the view under which the message is shown
      */
-    private fun displayMessage(message: String) {
-        val fab = findViewById<View>(R.id.horizontalScrollView)
-        Snackbar.make(window.decorView.rootView, message, Snackbar.LENGTH_SHORT).setAnchorView(fab)
+    private fun displayMessage(message: String,view:View) {
+        Snackbar.make(window.decorView.rootView, message, Snackbar.LENGTH_SHORT).setAnchorView(view)
             .show()
     }
 
-    private fun displayErrorMessage() {
-        displayMessage(getString(R.string.matchNotFound))
+    private fun displayErrorMessageAfterSearch() {
+        val horizontalScrollView = findViewById<View>(R.id.horizontalScrollView)
+        displayMessage(getString(R.string.matchNotFound),horizontalScrollView)
     }
 
     private fun displaySelectedItem(item: String) {
-        displayMessage("Selected item : $item")
+        val horizontalScrollView = findViewById<View>(R.id.horizontalScrollView)
+        displayMessage("Selected item : $item",horizontalScrollView)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

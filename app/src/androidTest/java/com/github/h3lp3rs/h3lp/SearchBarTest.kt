@@ -64,6 +64,18 @@ class SearchBarTest {
     }
 
     @Test
+    fun searchingForPharmaciesAndClickingOnFistSuggestionLaunchesCorrectActivity() {
+        lookUpAndSelectItem(PHARMACIES)
+        checkActivityOnSuccess(NearbyUtilitiesActivity::class.java)
+    }
+
+    @Test
+    fun searchingForHospitalsAndClickingOnFistSuggestionLaunchesCorrectActivity() {
+        lookUpAndSelectItem(HOSPITALS)
+        checkActivityOnSuccess(NearbyUtilitiesActivity::class.java)
+    }
+
+    @Test
     fun searchingForTutorialAndClickingOnFistSuggestionLaunchesCorrectActivity() {
         lookUpAndSelectItem(TUTORIAL)
         checkActivityOnSuccess(PresArrivalActivity::class.java)
@@ -139,6 +151,18 @@ class SearchBarTest {
     @Test
     fun searchingForProfileDisplaysCorrectMessage() {
         searchingForCorrectItemShowsSelectedItemMessage(PROFILE)
+
+    }
+
+    @Test
+    fun searchingForPharmaciesDisplaysCorrectMessage() {
+        searchingForCorrectItemShowsSelectedItemMessage(PHARMACIES)
+
+    }
+
+    @Test
+    fun searchingForHospitalsDisplaysCorrectMessage() {
+        searchingForCorrectItemShowsSelectedItemMessage(HOSPITALS)
 
     }
 
