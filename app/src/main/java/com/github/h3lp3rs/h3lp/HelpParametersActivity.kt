@@ -1,16 +1,20 @@
 package com.github.h3lp3rs.h3lp
 
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.Criteria
+import android.location.LocationManager
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import android.widget.ToggleButton
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 
-const val EMERGENCY_NUMBER = 112
 const val EXTRA_NEEDED_MEDICATION = "needed_meds_key"
 
 /**
@@ -26,10 +30,31 @@ class HelpParametersActivity : AppCompatActivity() {
 
     /**
      *  Called when the user presses the emergency call button. Opens the phone call app with the
-     *  emergency number dialed.
+     *  emergency number from the country the user is currently in dialed.
      */
     fun emergencyCall(view: View) {
-        val dial = "tel:$EMERGENCY_NUMBER"
+        var emergencyNumber = LocalEmergencyCaller.DEFAULT_EMERGENCY_NUMBER
+        // Checking if the location permissions have been granted
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+
+            // Retrieve current location and center camera around it
+            val locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
+            val provider = locationManager.getBestProvider(Criteria(), true) // TODO : refactor
+
+            val currentLocation = provider?.let { locationManager.getLastKnownLocation(it) }
+
+            if (currentLocation != null) {
+                val currentLong = currentLocation.longitude
+                val currentLat = currentLocation.latitude
+                emergencyNumber =
+                    LocalEmergencyCaller.getLocalEmergencyNumber(currentLong, currentLat, this)
+            }
+        }
+        val dial = "tel:$emergencyNumber"
         startActivity(Intent(Intent.ACTION_DIAL, Uri.parse(dial)))
     }
 

@@ -72,7 +72,7 @@ class HelpParametersActivityTest {
         phoneButton.check(ViewAssertions.matches(isDisplayed()))
         phoneButton.perform(ViewActions.click())
 
-        val number = "tel:$EMERGENCY_NUMBER"
+        val number = "tel:${LocalEmergencyCaller.DEFAULT_EMERGENCY_NUMBER}"
 
         // emergency number is dialed:
         Intents.intended(
