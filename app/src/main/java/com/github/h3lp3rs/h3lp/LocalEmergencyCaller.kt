@@ -7,7 +7,7 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 
 
-class LocalEmergencyCall(var longitude: Double, var latitude: Double, val context: Context) {
+class LocalEmergencyCaller(var longitude: Double, var latitude: Double, val context: Context) {
 
     fun getLocalEmergencyNumber(): String {
         return getPhoneNumber(getUserCountry())
