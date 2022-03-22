@@ -50,6 +50,7 @@
                 android:background="@drawable/light_background">
 
                 <TextView
+                    android:id="@+id/heartAttackTutorialStep1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-condensed-medium"
@@ -85,6 +86,7 @@
                 android:background="@drawable/light_background">
 
                 <TextView
+                    android:id="@+id/heartAttackTutorialStep2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-condensed-medium"
@@ -119,6 +121,7 @@
                 android:background="@drawable/light_background">
 
                 <TextView
+                    android:id="@+id/heartAttackTutorialStep3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-condensed-medium"

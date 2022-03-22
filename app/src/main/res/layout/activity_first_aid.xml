@@ -53,6 +53,7 @@
                     android:textSize="25sp" />
 
                 <Button
+                    android:id="@+id/allergy_expand_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
@@ -91,6 +92,7 @@
                     android:textSize="25sp" />
 
                 <Button
+                    android:id="@+id/heart_attack_expand_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
@@ -130,6 +132,7 @@
                     android:textSize="25sp" />
 
                 <Button
+                    android:id="@+id/aed_expand_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
@@ -168,6 +171,7 @@
                     android:textSize="25sp" />
 
                 <Button
+                    android:id="@+id/asthma_expand_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"

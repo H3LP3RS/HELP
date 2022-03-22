@@ -98,4 +98,9 @@ class MainPageTestActivity {
     fun clickingOnPharmacyButtonWorksAndSendsIntent() {
         clickingOnButtonWorksAndSendsIntent(NearbyUtilitiesActivity::class.java, withId(R.id.pharmacy_button), true)
     }
+
+    @Test
+    fun clickingOnFirstAidButtonWorksAndSendsIntent() {
+        clickingOnButtonWorksAndSendsIntent(FirstAidActivity::class.java, withId(R.id.first_aid_button), true)
+    }
 }
