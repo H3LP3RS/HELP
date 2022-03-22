@@ -33,6 +33,8 @@ class HelpParametersActivity : AppCompatActivity() {
      *  emergency number from the country the user is currently in dialed.
      */
     fun emergencyCall(view: View) {
+        // Instantiating the phone number to the default in case the location services aren't
+        // activated
         var emergencyNumber = LocalEmergencyCaller.DEFAULT_EMERGENCY_NUMBER
         // Checking if the location permissions have been granted
         if (ContextCompat.checkSelfPermission(
@@ -41,10 +43,8 @@ class HelpParametersActivity : AppCompatActivity() {
             ) == PackageManager.PERMISSION_GRANTED
         ) {
 
-            // Retrieve current location and center camera around it
             val locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
-            val provider = locationManager.getBestProvider(Criteria(), true) // TODO : refactor
-
+            val provider = locationManager.getBestProvider(Criteria(), true)
             val currentLocation = provider?.let { locationManager.getLastKnownLocation(it) }
 
             if (currentLocation != null) {
