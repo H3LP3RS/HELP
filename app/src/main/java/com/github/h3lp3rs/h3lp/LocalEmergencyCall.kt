@@ -1,27 +1,25 @@
 package com.github.h3lp3rs.h3lp
 
 import android.content.Context
-import android.location.Criteria
-import android.location.LocationManager
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.getSystemService
-
 import android.location.Geocoder
 import com.opencsv.CSVReader
 import java.io.BufferedReader
 import java.io.InputStreamReader
-import java.util.*
 
 
 class LocalEmergencyCall(var longitude: Double, var latitude: Double, val context: Context) {
-//    fun get(): phoneNUmber
+
+    fun getLocalEmergencyNumber(): String {
+        return getPhoneNumber(getUserCountry())
+    }
 
     fun getUserCountry(): String? {
         // A geocoder transforms street addresses into coordinates and vice-versa
-        val geocoder = Geocoder(context, Locale.getDefault())
+        val geocoder = Geocoder(context)
 
         // Trying to get a (partial) address from the user's current location
-        val addresses = geocoder.getFromLocation(longitude, latitude, MAX_RESULTS) //TODO: is deprecated
+        val addresses =
+            geocoder.getFromLocation(longitude, latitude, MAX_RESULTS) //TODO: is deprecated
         if (addresses.size > 0) {
             return addresses[0].countryName
         }
@@ -29,21 +27,34 @@ class LocalEmergencyCall(var longitude: Double, var latitude: Double, val contex
         return null
     }
 
-    fun getPhoneNumber(countryName: String): String? {
+    fun getPhoneNumber(searchedCountry: String?): String {
+        // In case of a non-valid country, we always return a default emergency number
+        if (searchedCountry == null) {
+            return DEFAULT_EMERGENCY_NUMBER
+        }
         val inputStream = context.resources.openRawResource(R.raw.countries_emergency_numbers)
         val bufferedReader = BufferedReader(InputStreamReader(inputStream, "UTF-8"))
         val csvReader = CSVReader(bufferedReader)
-        csvReader.iterator().forEach {  row ->
-            if (countryMatches(countryName, row.toString())) {
-                return row.toString()
+
+        // Skips the first line (the header) of the CSV file
+        csvReader.skip(1)
+
+        var row: Array<String>? = csvReader.readNext()
+        while (row != null) {
+            val currCountry = row[0]
+            val currNumber = row[1]
+            if (countryMatches(searchedCountry, currCountry)) {
+                return currNumber
             }
+            row = csvReader.readNext()
         }
-        return null
+
+        // If no matching country has been found, return the default value
+        return DEFAULT_EMERGENCY_NUMBER
     }
 
-    fun countryMatches(actual: String, candidate: String): Boolean {
-        return candidate.lowercase(Locale.getDefault())
-            .contains(actual.lowercase(Locale.getDefault()))
+    private fun countryMatches(actual: String, candidate: String): Boolean {
+        return candidate.lowercase() == actual.lowercase()
     }
 
 
@@ -54,5 +65,11 @@ class LocalEmergencyCall(var longitude: Double, var latitude: Double, val contex
          * for the user's current country and one result is
          */
         private const val MAX_RESULTS = 1
+
+        /**
+         * Since 911 is the most common emergency number, if a query of the country fails,
+         * we return this as a default value
+         */
+        const val DEFAULT_EMERGENCY_NUMBER = "911"
     }
-    }
+}
