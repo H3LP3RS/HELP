@@ -43,7 +43,6 @@ private const val POINT_NEMO_LATITUDE = -48.876667
 @RunWith(AndroidJUnit4::class)
 class LocalEmergencyCallTest : TestCase() {
 
-
     private val targetContext: Context = ApplicationProvider.getApplicationContext()
 
     @get:Rule

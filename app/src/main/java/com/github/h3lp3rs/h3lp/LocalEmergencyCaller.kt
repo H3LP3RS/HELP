@@ -53,8 +53,7 @@ class LocalEmergencyCaller {
             val geocoder = Geocoder(context)
 
             // Trying to get a (partial) address from the user's current location
-            val addresses =
-                geocoder.getFromLocation(latitude, longitude, MAX_RESULTS) //TODO: is deprecated
+            val addresses = geocoder.getFromLocation(latitude, longitude, MAX_RESULTS)
             if (addresses.size > 0) {
                 return addresses[0].countryName
             }
