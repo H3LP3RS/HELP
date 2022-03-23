@@ -1,5 +1,7 @@
 package com.github.h3lp3rs.h3lp.database
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -13,8 +15,9 @@ class Firebase(private val db: DatabaseReference) : Database {
      * @param key The key in the database
      * @return Future of boolean
      */
+    @RequiresApi(Build.VERSION_CODES.S)
     override fun getBoolean(key: String): CompletableFuture<Boolean> {
-        TODO("Not yet implemented")
+        TODO("NOT yet implemented")
     }
 
     /**
@@ -32,7 +35,7 @@ class Firebase(private val db: DatabaseReference) : Database {
      * @param value The value of the string
      */
     override fun setString(key: String, value: String) {
-        TODO("Not yet implemented")
+        db.child(key).setValue(value)
     }
 
     /**
@@ -50,7 +53,7 @@ class Firebase(private val db: DatabaseReference) : Database {
      * @param value The value of the double
      */
     override fun setDouble(key: String, value: Double) {
-        TODO("Not yet implemented")
+        db.child(key).setValue(value)
     }
 
     /**
@@ -68,7 +71,7 @@ class Firebase(private val db: DatabaseReference) : Database {
      * @param value The value of the int
      */
     override fun setInt(key: String, value: Int) {
-        TODO("Not yet implemented")
+        db.child(key).setValue(value)
     }
 
     /**
