@@ -219,4 +219,5 @@
     <string name="home">Home</string>
 
     <string name="title_activity_nearby_utilities">NearbyUtilitiesActivity</string>
+    <string name="matchNotFound">oops... match not found</string>
 </resources>
