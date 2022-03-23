@@ -16,6 +16,13 @@ interface Database {
     fun getBoolean(key: String): CompletableFuture<Boolean>
 
     /**
+     * Sets a boolean to the database
+     * @param key The key in the database
+     * @param value The value of the boolean
+     */
+    fun setBoolean(key: String, value: Boolean)
+
+    /**
      * Gets a string from the database
      * @param key The key in the database
      * @return Future of string

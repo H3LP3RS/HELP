@@ -1,23 +1,57 @@
 package com.github.h3lp3rs.h3lp.database
 
-import android.os.Build
-import androidx.annotation.RequiresApi
+import android.content.res.Resources
+import com.github.h3lp3rs.h3lp.R
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.*
+import com.google.firebase.ktx.Firebase
 import java.util.concurrent.CompletableFuture
 
-class Firebase(private val db: DatabaseReference) : Database {
+/**
+ * Implementation of an NoSQL external database based on Firebase
+ */
+class FireDatabase(path: String) : Database {
+
+    private val db: DatabaseReference = Firebase.database("https://h3lp-signin-default-rtdb.europe-west1.firebasedatabase.app/").reference.child(path)
+
+    /**
+     * Utility function to extract values into futures from generic types
+     * Only works on the following types (due to Firebase's policy):
+     * - Boolean
+     * - String
+     * - Int
+     * - Double
+     * @param key The key in the database
+     */
+    private inline fun <reified  T: Any> get(key: String): CompletableFuture<T> {
+        val future = CompletableFuture<T>()
+        db.child(key).get().addOnSuccessListener {
+            future.complete(it.value as T)
+        }.addOnFailureListener {
+            future.completeExceptionally(it)
+        }
+        return future
+    }
 
     /**
      * Gets a boolean from the database
      * @param key The key in the database
      * @return Future of boolean
      */
-    @RequiresApi(Build.VERSION_CODES.S)
     override fun getBoolean(key: String): CompletableFuture<Boolean> {
-        TODO("NOT yet implemented")
+        return get(key)
+    }
+
+    /**
+     * Sets a boolean to the database
+     * @param key The key in the database
+     * @param value The value of the boolean
+     */
+    override fun setBoolean(key: String, value: Boolean) {
+        db.child(key).setValue(value)
     }
 
     /**
@@ -26,7 +60,7 @@ class Firebase(private val db: DatabaseReference) : Database {
      * @return Future of string
      */
     override fun getString(key: String): CompletableFuture<String> {
-        TODO("Not yet implemented")
+        return get(key)
     }
 
     /**
@@ -44,7 +78,7 @@ class Firebase(private val db: DatabaseReference) : Database {
      * @return Future of double
      */
     override fun getDouble(key: String): CompletableFuture<Double> {
-        TODO("Not yet implemented")
+        return get(key)
     }
 
     /**
@@ -62,7 +96,7 @@ class Firebase(private val db: DatabaseReference) : Database {
      * @return Future of int
      */
     override fun getInt(key: String): CompletableFuture<Int> {
-        TODO("Not yet implemented")
+        return get(key)
     }
 
     /**
