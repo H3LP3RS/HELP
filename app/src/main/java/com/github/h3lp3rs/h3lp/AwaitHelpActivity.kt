@@ -23,8 +23,8 @@ class AwaitHelpActivity : AppCompatActivity() {
         val displayText = "Selected: $array"
         val db = databaseOf(NEW_EMERGENCIES)
         // Demo code
-        db.clearListeners("VENTOLIN") // Avoid being autocalled (for now, we'll need a ds for that later)
-        db.setString("VENTOLIN", "H3LP!")
+        db.clearListeners(getString(R.string.ventolin_db_key)) // Avoid being autocalled (for now, we'll need a ds for that later)
+        db.setString(getString(R.string.ventolin_db_key), getString(R.string.help))
         val text = findViewById<TextView>(R.id.selected_items_text).apply {
             text = displayText
         }
