@@ -188,8 +188,6 @@ class NearbyUtilitiesActivity : AppCompatActivity(), OnMapReadyCallback,
 
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(myPosition, DEFAULT_MAP_ZOOM))
 
-                //requestedUtility?.let { findNearbyUtilities(it) }
-
                 when (requestedUtility) {
                     resources.getString(R.string.nearby_phamacies) -> {
                         val pharmacyButton = findViewById<ImageButton>(R.id.show_pharmacy_button)

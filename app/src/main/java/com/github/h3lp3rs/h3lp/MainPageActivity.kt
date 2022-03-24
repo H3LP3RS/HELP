@@ -207,7 +207,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     override fun onResumeFragments() {
         super.onResumeFragments()
         if (locPermissionDenied) {
-            Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, resources.getString(R.string.no_permission), Toast.LENGTH_SHORT).show()
             locPermissionDenied = false
 
             // Go back to tutorial
