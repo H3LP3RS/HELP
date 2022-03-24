@@ -2,6 +2,7 @@ package com.github.h3lp3rs.h3lp.signin
 
 import android.content.Intent
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.core.app.ApplicationProvider.*
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.intent.Intents.*
@@ -12,6 +13,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.preferences.Preferences
+import com.github.h3lp3rs.h3lp.preferences.Preferences.*
+import com.github.h3lp3rs.h3lp.preferences.Preferences.Companion.Files.*
 import com.github.h3lp3rs.h3lp.preferences.Preferences.Companion.clearAllPreferences
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
@@ -35,13 +38,14 @@ class SignedInUserTest {
     @Before
     fun setUp() {
         init()
-        clearAllPreferences(ApplicationProvider.getApplicationContext())
+        clearAllPreferences(getApplicationContext())
+        Preferences(PRESENTATION, getApplicationContext()).setBool(Preferences.USER_AGREE, true)
 
         val signInMock = Mockito.mock(SignInInterface::class.java)
         When(signInMock.isSignedIn()).thenReturn(true)
 
         testRule.scenario.onActivity { activity ->
-            val intent = Intent(ApplicationProvider.getApplicationContext(), activity.javaClass)
+            val intent = Intent(getApplicationContext(), activity.javaClass)
             val taskMock = Mockito.mock(Task::class.java)
             When(taskMock.isSuccessful).thenReturn(true)
             When(taskMock.isComplete).thenReturn(true)
