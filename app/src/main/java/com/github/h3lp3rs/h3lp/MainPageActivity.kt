@@ -1,17 +1,27 @@
 package com.github.h3lp3rs.h3lp
 
+import android.app.NotificationChannel
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import com.github.h3lp3rs.h3lp.database.Database
+import com.github.h3lp3rs.h3lp.database.Databases
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.google.android.material.navigation.NavigationView
 
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
 import com.github.h3lp3rs.h3lp.signin.ORIGIN
+import android.app.NotificationManager
+import android.content.Context
+import android.os.Build
+import androidx.appcompat.app.AlertDialog
+
 
 const val EXTRA_NEARBY_UTILITIES = "nearby_utilities"
 
@@ -20,6 +30,8 @@ const val EXTRA_NEARBY_UTILITIES = "nearby_utilities"
  */
 class MainPageActivity : AppCompatActivity() {
     private lateinit var toggle: ActionBarDrawerToggle
+    private val CHANNEL_ID= "id123"
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -48,6 +60,22 @@ class MainPageActivity : AppCompatActivity() {
             true
         }
 
+        //addAlertNotification()
+
+    }
+
+    private fun addAlertNotification() {
+        val  db : Database = databaseOf(Databases.LAST_EMERGENCIES)
+        db.whenChange("Ventolin"){
+                val emergency_key : String= db.getString("Ventolin").get()
+                val dbEmergency :Database = databaseOf(Databases.LAST_EMERGENCIES)
+                val message = dbEmergency.getString(emergency_key).get()
+                sendNotification("Somebody need Help",message)
+        }
+    }
+
+    private fun sendNotification(textTitle: String,textContent:String){
+        AlertDialog.Builder(this).setTitle(textTitle).setMessage(textContent).setIcon(R.drawable.notification_icon).show()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -101,4 +129,7 @@ class MainPageActivity : AppCompatActivity() {
         }
         startActivity(intent)
     }
+
+
+
 }
