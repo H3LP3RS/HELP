@@ -218,6 +218,11 @@ class MainPageActivity : AppCompatActivity() {
         goToNearbyUtilities(resources.getString(R.string.nearby_phamacies))
     }
 
+    /** Called when the user taps the first aid tips button */
+    fun goToFirstAid(view: View) {
+        goToActivity(FirstAidActivity::class.java)
+    }
+
     private fun goToNearbyUtilities(utility: String) {
         val intent = Intent(this, NearbyUtilitiesActivity::class.java).apply {
             putExtra(EXTRA_NEARBY_UTILITIES, utility)
