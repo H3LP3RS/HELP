@@ -4,6 +4,10 @@ import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.github.h3lp3rs.h3lp.LocalEmergencyCaller.DEFAULT_EMERGENCY_NUMBER
+import com.github.h3lp3rs.h3lp.LocalEmergencyCaller.getLocalEmergencyNumber
+import com.github.h3lp3rs.h3lp.LocalEmergencyCaller.getPhoneNumberFromCountry
+import com.github.h3lp3rs.h3lp.LocalEmergencyCaller.getUserCountry
 import junit.framework.TestCase
 import org.junit.Rule
 import org.junit.Test
@@ -54,7 +58,7 @@ class LocalEmergencyCallTest : TestCase() {
     fun getLocalEmergencyNumberWorksOnCaseExamples() {
         for ((number, longitude, latitude) in TEST_COORDINATES_EMERGENCY_NUMBERS) {
             val actualNumber =
-                LocalEmergencyCaller.getLocalEmergencyNumber(longitude, latitude, targetContext)
+                getLocalEmergencyNumber(longitude, latitude, targetContext)
             assertEquals(number, actualNumber)
         }
     }
@@ -63,8 +67,8 @@ class LocalEmergencyCallTest : TestCase() {
     @Test
     fun getLocalEmergencyNumberReturnsDefaultOnFalseCoordinates() {
         assertEquals(
-            LocalEmergencyCaller.DEFAULT_EMERGENCY_NUMBER,
-            LocalEmergencyCaller.getLocalEmergencyNumber(
+            DEFAULT_EMERGENCY_NUMBER,
+            getLocalEmergencyNumber(
                 POINT_NEMO_LONGITUDE,
                 POINT_NEMO_LATITUDE,
                 targetContext
@@ -75,8 +79,8 @@ class LocalEmergencyCallTest : TestCase() {
     @Test
     fun getUserCountryWorksOnCaseExamples() {
         for ((country, longitude, latitude) in TEST_COUNTRIES_COORDINATES) {
-            val actualCountry = LocalEmergencyCaller
-                .getUserCountry(longitude, latitude, targetContext)
+            val actualCountry =
+                getUserCountry(longitude, latitude, targetContext)
                 ?.lowercase()
             assertEquals(country, actualCountry)
         }
@@ -85,7 +89,7 @@ class LocalEmergencyCallTest : TestCase() {
     @Test
     fun getUserCountryWorksOnFalseCoordinates() {
         assertNull(
-            LocalEmergencyCaller.getUserCountry(
+            getUserCountry(
                 POINT_NEMO_LONGITUDE,
                 POINT_NEMO_LATITUDE,
                 targetContext
@@ -97,7 +101,7 @@ class LocalEmergencyCallTest : TestCase() {
     fun getPhoneNumberFromActualCountryWorksOnCaseExamples() {
         for ((country, number) in TEST_COUNTRIES_EMERGENCY_NUMBERS) {
             val actualNumber =
-                LocalEmergencyCaller.getPhoneNumberFromCountry(targetContext, country)
+                getPhoneNumberFromCountry(targetContext, country)
             assertEquals(number, actualNumber)
         }
     }
@@ -105,8 +109,8 @@ class LocalEmergencyCallTest : TestCase() {
     @Test
     fun getPhoneNumberFromFalseCountryFails() {
         assertEquals(
-            LocalEmergencyCaller.getPhoneNumberFromCountry(targetContext, NON_EXISTENT_COUNTRY),
-            LocalEmergencyCaller.DEFAULT_EMERGENCY_NUMBER
+            getPhoneNumberFromCountry(targetContext, NON_EXISTENT_COUNTRY),
+            DEFAULT_EMERGENCY_NUMBER
         )
     }
 }
