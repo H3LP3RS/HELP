@@ -1,16 +1,10 @@
 package com.github.h3lp3rs.h3lp
 
-import android.Manifest
 import android.content.Intent
-import androidx.test.core.app.ActivityScenario
-import androidx.test.core.app.ActivityScenario.*
+import androidx.test.core.app.ActivityScenario.launch
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso
-import androidx.test.espresso.Espresso.*
-import androidx.test.espresso.ViewAssertion
-import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
@@ -19,7 +13,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import androidx.test.rule.GrantPermissionRule
 
 
 /**
@@ -36,7 +29,10 @@ class NearbyUtilitiesActivityTest {
     @Test
     fun canLaunchMapWithPharmacyRequest() {
         val utility = R.string.nearby_phamacies
-        val intent = Intent(ApplicationProvider.getApplicationContext(), NearbyUtilitiesActivity::class.java).apply {
+        val intent = Intent(
+            ApplicationProvider.getApplicationContext(),
+            NearbyUtilitiesActivity::class.java
+        ).apply {
             putExtra(EXTRA_NEARBY_UTILITIES, utility)
         }
         canLaunchMap(intent)
@@ -45,16 +41,22 @@ class NearbyUtilitiesActivityTest {
     @Test
     fun canLaunchMapWithHospitalRequest() {
         val utility = R.string.nearby_hospitals
-        val intent = Intent(ApplicationProvider.getApplicationContext(), NearbyUtilitiesActivity::class.java).apply {
+        val intent = Intent(
+            ApplicationProvider.getApplicationContext(),
+            NearbyUtilitiesActivity::class.java
+        ).apply {
             putExtra(EXTRA_NEARBY_UTILITIES, utility)
         }
         canLaunchMap(intent)
     }
 
     @Test
-    fun launchWithIntentSelectsRightButtons(){
+    fun launchWithIntentSelectsRightButtons() {
         val utility = R.string.nearby_hospitals
-        val intent = Intent(ApplicationProvider.getApplicationContext(), NearbyUtilitiesActivity::class.java).apply {
+        val intent = Intent(
+            ApplicationProvider.getApplicationContext(),
+            NearbyUtilitiesActivity::class.java
+        ).apply {
             putExtra(EXTRA_NEARBY_UTILITIES, utility)
         }
 

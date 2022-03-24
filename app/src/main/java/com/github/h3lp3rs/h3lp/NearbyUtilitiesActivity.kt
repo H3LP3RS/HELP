@@ -40,7 +40,7 @@ const val DEFAULT_MAP_ZOOM = 15f
 const val DEFAULT_SEARCH_RADIUS = 3000
 
 class NearbyUtilitiesActivity : AppCompatActivity(), OnMapReadyCallback,
-    CoroutineScope by MainScope(){
+    CoroutineScope by MainScope() {
 
     private lateinit var map: GoogleMap
     private lateinit var binding: ActivityNearbyUtilitiesBinding
@@ -62,7 +62,6 @@ class NearbyUtilitiesActivity : AppCompatActivity(), OnMapReadyCallback,
     // places and markers (key is the utility)
     private val requestedPlaces = HashMap<String, List<GooglePlace>>()
     private val placedMarkers = HashMap<String, List<Marker>>()
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -101,12 +100,13 @@ class NearbyUtilitiesActivity : AppCompatActivity(), OnMapReadyCallback,
         val defibrillatorsButton = findViewById<ImageButton>(R.id.show_defibrillators_button)
         val pharmacyButton = findViewById<ImageButton>(R.id.show_pharmacy_button)
 
-        hospitalButton.setOnClickListener{
+        hospitalButton.setOnClickListener {
             if (!showingHospitals) {
                 findNearbyUtilities(resources.getString(R.string.nearby_hospitals))
 
                 hospitalBackgroundLayout.backgroundTintList = checkedButtonColor
-                hospitalButton.background.alpha = resources.getInteger(R.integer.selectionTransparency)
+                hospitalButton.background.alpha =
+                    resources.getInteger(R.integer.selectionTransparency)
 
                 showingHospitals = true
             } else {
@@ -118,26 +118,29 @@ class NearbyUtilitiesActivity : AppCompatActivity(), OnMapReadyCallback,
             }
         }
 
-        defibrillatorsButton.setOnClickListener{
-            if(!showingDefibrillators) {
+        defibrillatorsButton.setOnClickListener {
+            if (!showingDefibrillators) {
                 defibrillatorsBackgroundLayout.backgroundTintList = checkedButtonColor
-                defibrillatorsButton.background.alpha = resources.getInteger(R.integer.selectionTransparency)
+                defibrillatorsButton.background.alpha =
+                    resources.getInteger(R.integer.selectionTransparency)
 
                 showingDefibrillators = true
             } else {
                 defibrillatorsBackgroundLayout.backgroundTintList = uncheckedButtonColor
-                defibrillatorsButton.background.alpha = resources.getInteger(R.integer.noTransparency)
+                defibrillatorsButton.background.alpha =
+                    resources.getInteger(R.integer.noTransparency)
 
                 showingDefibrillators = false
             }
         }
 
         pharmacyButton.setOnClickListener {
-            if(!showingPharmacies) {
+            if (!showingPharmacies) {
                 findNearbyUtilities(resources.getString(R.string.nearby_phamacies))
 
                 pharmacyBackgroundLayout.backgroundTintList = checkedButtonColor
-                pharmacyButton.background.alpha = resources.getInteger(R.integer.selectionTransparency)
+                pharmacyButton.background.alpha =
+                    resources.getInteger(R.integer.selectionTransparency)
 
                 showingPharmacies = true
             } else {
@@ -150,7 +153,6 @@ class NearbyUtilitiesActivity : AppCompatActivity(), OnMapReadyCallback,
             }
         }
     }
-
 
 
     /**
@@ -188,7 +190,7 @@ class NearbyUtilitiesActivity : AppCompatActivity(), OnMapReadyCallback,
 
                 //requestedUtility?.let { findNearbyUtilities(it) }
 
-                when(requestedUtility) {
+                when (requestedUtility) {
                     resources.getString(R.string.nearby_phamacies) -> {
                         val pharmacyButton = findViewById<ImageButton>(R.id.show_pharmacy_button)
                         pharmacyButton.callOnClick()
@@ -208,7 +210,7 @@ class NearbyUtilitiesActivity : AppCompatActivity(), OnMapReadyCallback,
     }
 
     private fun findNearbyUtilities(utility: String) {
-        if(!requestedPlaces.containsKey(utility)) {
+        if (!requestedPlaces.containsKey(utility)) {
             val url = PLACES_URL + "?location=" + currentLat + "," + currentLong +
                     "&radius=$DEFAULT_SEARCH_RADIUS" +
                     "&types=$utility" +
@@ -255,14 +257,15 @@ class NearbyUtilitiesActivity : AppCompatActivity(), OnMapReadyCallback,
         return parser.parseResult(obj)
     }
 
-    private fun showPlaces(places: List<GooglePlace>, utility: String){
+    private fun showPlaces(places: List<GooglePlace>, utility: String) {
         // Create new markers
         for (place in places) run {
             if (place.containsKey("lat")
                 && place.containsKey("lng")
                 && place.containsKey("name")
                 && place["lat"] != null
-                && place["lng"] != null){
+                && place["lng"] != null
+            ) {
                 val lat = parseDouble(place["lat"])
                 val lng = parseDouble(place["lng"])
 
@@ -274,7 +277,7 @@ class NearbyUtilitiesActivity : AppCompatActivity(), OnMapReadyCallback,
                 options.title(name)
 
                 // Adapt marker to utility
-                when(utility) {
+                when (utility) {
                     resources.getString(R.string.nearby_phamacies) -> {
                         options.icon(BitmapDescriptorFactory.fromResource(R.drawable.pharmacy_marker))
                     }
@@ -286,7 +289,7 @@ class NearbyUtilitiesActivity : AppCompatActivity(), OnMapReadyCallback,
                 // Add marker to list so that we can remove it later
                 val marker = map.addMarker(options)
                 if (marker != null) {
-                    if (placedMarkers.containsKey(utility)){
+                    if (placedMarkers.containsKey(utility)) {
                         (placedMarkers[utility] as ArrayList).add(marker)
                     } else {
                         placedMarkers[utility] = arrayListOf(marker)
