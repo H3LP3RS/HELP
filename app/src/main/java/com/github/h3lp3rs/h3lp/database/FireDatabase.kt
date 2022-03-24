@@ -114,7 +114,7 @@ class FireDatabase(path: String) : Database {
      * @param type The type of the value associated to the key
      * @param action The action taken at change
      */
-    override fun <T> whenChange(key: String, type: Class<T>, action: (T) -> Unit) {
+    override fun <T> addListener(key: String, type: Class<T>, action: (T) -> Unit) {
         val l = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val v: T = if(type == String::class.java || type == Int::class.java ||
@@ -138,10 +138,10 @@ class FireDatabase(path: String) : Database {
     }
 
     /**
-     * Clears all the listeners related to a given key
+     * Clears all listeners related to a given key
      * @param key The key in the database
      */
-    fun clearListeners(key: String) {
+    override fun clearListeners(key: String) {
         for(l in openListeners[key]!!) {
             db.child(key).removeEventListener(l)
         }

@@ -56,8 +56,8 @@ class MainPageActivity : AppCompatActivity() {
 
     // Demo code
     private fun addAlertNotification() {
-        val db = databaseOf(Databases.LAST_EMERGENCIES)
-        db.whenChange("VENTOLIN", String::class.java) {
+        val db = databaseOf(Databases.NEW_EMERGENCIES)
+        db.addListener("VENTOLIN", String::class.java) {
             db.setString("VENTOLIN_CB", it)
         }
     }

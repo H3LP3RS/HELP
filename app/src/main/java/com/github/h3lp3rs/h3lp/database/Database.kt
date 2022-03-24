@@ -91,7 +91,13 @@ interface Database {
      * @param key The key in the database
      * @param action The action taken at change
      */
-    fun <T> whenChange(key: String, type: Class <T>, action: (T) -> Unit)
+    fun <T> addListener(key: String, type: Class <T>, action: (T) -> Unit)
+
+    /**
+     * Clears all listeners related to a given key
+     * @param key The key in the database
+     */
+    fun clearListeners(key: String)
 
     /**
      * Deletes an entry of a given key from the database
