@@ -51,7 +51,7 @@ class MainPageActivity : AppCompatActivity() {
             true
         }
         // Demo code
-        addAlertNotification()
+        //addAlertNotification()
     }
 
     // Demo code
