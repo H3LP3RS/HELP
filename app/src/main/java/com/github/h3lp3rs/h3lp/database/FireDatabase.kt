@@ -96,7 +96,9 @@ class FireDatabase(path: String) : Database {
      * @return Future of int
      */
     override fun getInt(key: String): CompletableFuture<Int> {
-        return get(key)
+        // NOTE: We have to recode this case as Firebase natively supports
+        // Longs and not Ints.
+        return get<Long>(key).thenApply { it.toInt() }
     }
 
     /**
