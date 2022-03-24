@@ -1,14 +1,19 @@
 package com.github.h3lp3rs.h3lp
 
+import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.content.Intent
+import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.SearchView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat.OnRequestPermissionsResultCallback
+import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
@@ -28,8 +33,9 @@ const val PHARMACIES = "Pharmacies"
 /**
  * Main page of the app
  */
-class MainPageActivity : AppCompatActivity() {
+class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback {
     private lateinit var toggle: ActionBarDrawerToggle
+    private var locPermissionDenied = false
 
     private lateinit var searchView: SearchView
     private lateinit var listView: ListView
@@ -60,6 +66,9 @@ class MainPageActivity : AppCompatActivity() {
 
         setUpSearchView()
 
+        if (checkSelfPermission(this, ACCESS_FINE_LOCATION) != PERMISSION_GRANTED) {
+            requestPermissions(arrayOf(ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+        }
     }
 
     /**
@@ -136,6 +145,8 @@ class MainPageActivity : AppCompatActivity() {
             }
             true
         }
+
+
     }
 
     /**
@@ -175,6 +186,38 @@ class MainPageActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return if (toggle.onOptionsItemSelected(item)) true else super.onOptionsItemSelected(item)
     }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        if (requestCode != LOCATION_PERMISSION_REQUEST_CODE) {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+            return
+        }
+        if (grantResults.isNotEmpty() && grantResults[0] == PERMISSION_GRANTED) {
+            // Do nothing yet
+        } else {
+            // Permission was denied.
+            // Display the missing permission error dialog when the fragments resume.
+            locPermissionDenied = true
+        }
+    }
+
+    override fun onResumeFragments() {
+        super.onResumeFragments()
+        if (locPermissionDenied) {
+            Toast.makeText(this, resources.getString(R.string.no_permission), Toast.LENGTH_SHORT).show()
+            locPermissionDenied = false
+
+            // Go back to tutorial
+            startActivity(
+                Intent(this, PresArrivalActivity::class.java)
+                    .putExtra(ORIGIN, MainPageActivity::class.qualifiedName)
+            )
+        }
+    }
+
 
     /** Starts the activity by sending intent */
     private fun goToActivity(ActivityName: Class<*>?) {
@@ -228,5 +271,14 @@ class MainPageActivity : AppCompatActivity() {
             putExtra(EXTRA_NEARBY_UTILITIES, utility)
         }
         startActivity(intent)
+    }
+
+    companion object {
+        /**
+         * Request code for location permission request.
+         *
+         * @see .onRequestPermissionsResult
+         */
+        private const val LOCATION_PERMISSION_REQUEST_CODE = 1
     }
 }

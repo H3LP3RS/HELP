@@ -78,8 +78,11 @@
     <string name="presentation_placeholder_good_2">Placeholder 2</string>
     <string name="presentation_placeholder_good_3">Placeholder 3</string>
     <string name="hospital">Nearby Hospitals</string>
+    <string name="map_hospital">Hospitals</string>
     <string name="pharmacy">Nearby Pharmacies</string>
+    <string name="map_pharmacy">Pharmacies</string>
     <string name="defibrillator">Nearby Defibrillators</string>
+    <string name="map_defibrillator">Defibrillators</string>
     <string name="first_aid">First Aid Tips</string>
     <string name="hello">Hello!</string>
     <string name="welcome_text">Welcome to the H3LP app!</string>
@@ -217,6 +220,7 @@
     <string name="login">Login</string>
     <string name="settings">Settings</string>
     <string name="home">Home</string>
+    <string name="no_permission">Permission Denied</string>
 
     <string name="title_activity_nearby_utilities">NearbyUtilitiesActivity</string>
     <string name="first_aid_categories">Categories</string>
