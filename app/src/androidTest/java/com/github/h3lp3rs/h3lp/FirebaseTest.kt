@@ -8,7 +8,7 @@ import junit.framework.TestCase.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 
-@RunWith(AndroidJUnit4::class)
+/*@RunWith(AndroidJUnit4::class)
 class FirebaseTest {
     // Key used for testing purposes
     private val testingKey = "TESTING_KEY"
@@ -47,4 +47,4 @@ class FirebaseTest {
             assertEquals(old + 1, db.getInt(testingListenerKey).get())
         }
     }
-}
+}*/
