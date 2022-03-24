@@ -1,5 +1,6 @@
 package com.github.h3lp3rs.h3lp
 
+import android.Manifest
 import android.app.Activity
 import android.app.Instrumentation
 import android.content.Intent
@@ -12,6 +13,7 @@ import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.rule.GrantPermissionRule
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
@@ -29,6 +31,9 @@ class MainPageTestActivity {
     val testRule = ActivityScenarioRule(
         MainPageActivity::class.java
     )
+
+    @get:Rule
+    var mRuntimePermissionRule: GrantPermissionRule = GrantPermissionRule.grant(Manifest.permission.ACCESS_FINE_LOCATION)
 
     @Before
     fun setup() {
