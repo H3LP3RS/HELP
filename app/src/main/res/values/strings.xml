@@ -240,4 +240,5 @@
     <string name="asthma_step1">Reassure the casualty and ask them to take their usual dose of their reliever inhaler. Ask them to breathe slowly.</string>
     <string name="asthma_step2">If they don’t improve within a few minutes, ask them to take a puff every 30 to 60 seconds, until they have had 10 puffs.</string>
     <string name="asthma_step3">Monitor their breathing and level of response. If the ambulance hasn\'t arrived within 15 minutes, repeat step 2.</string>
+    <string name="matchNotFound">oops... match not found</string>
 </resources>
