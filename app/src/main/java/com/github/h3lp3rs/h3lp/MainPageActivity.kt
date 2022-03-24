@@ -57,12 +57,10 @@ class MainPageActivity : AppCompatActivity() {
     // Demo code
     private fun addAlertNotification() {
         val db = databaseOf(Databases.NEW_EMERGENCIES)
-        db.addListener("VENTOLIN", String::class.java) {
-            db.setString("VENTOLIN_CB", it)
-
-            if(it.equals("H3LP!")){
-                db.setString("VENTOLIN","nothing")
-                sendNotification("Emergency","Alexis need ventolin")
+        db.addListener(getString(R.string.ventolin_db_key), String::class.java) {
+            if(it.equals(getString(R.string.help))){
+                db.setString(getString(R.string.ventolin_db_key),getString(R.string.nothing))
+                sendNotification(getString(R.string.emergency),getString(R.string.need_help))
             }
         }
     }

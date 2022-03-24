@@ -113,6 +113,11 @@
     <string name="condition_help_msg">This Field is dedicated to any illness or diseases that a caregiver should know in case of emergency</string>
     <string name="treatment_help_msg">This Field is dedicated to any medication your are taking that a caregiver should know in case of emergency</string>
     <string name="allergy_help_msg">This Field is dedicated to any allergy you suffer from that a caregiver should know in case of emergency</string>
+    <string name="ventolin_db_key"> VENTOLIN</string>
+    <string name="help">H3LP!</string>
+    <string name="nothing">nothing</string>
+    <string name="emergency">Emergency</string>
+    <string name="need_help"> Hind need a ventolin </string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 
