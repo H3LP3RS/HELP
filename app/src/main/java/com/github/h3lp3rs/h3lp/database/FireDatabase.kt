@@ -142,7 +142,8 @@ class FireDatabase(path: String) : Database {
      * @param key The key in the database
      */
     override fun clearListeners(key: String) {
-        for(l in openListeners[key]!!) {
+        val ls = openListeners.getOrDefault(key, emptyList())
+        for(l in ls) {
             db.child(key).removeEventListener(l)
         }
         openListeners.remove(key)
