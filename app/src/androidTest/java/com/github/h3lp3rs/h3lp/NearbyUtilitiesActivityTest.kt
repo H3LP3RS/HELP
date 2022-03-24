@@ -64,9 +64,6 @@ class NearbyUtilitiesActivityTest {
             onView(ViewMatchers.withId(R.id.map))
                 .check(matches(isDisplayed()))
 
-            onView(ViewMatchers.withId(R.id.show_hospital_button_layout))
-                .check(matches(isDisplayed()))
-
             onView(ViewMatchers.withId(R.id.show_hospital_button))
                 .check(matches(isDisplayed()))
 
