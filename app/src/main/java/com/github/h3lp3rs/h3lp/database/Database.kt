@@ -91,5 +91,11 @@ interface Database {
      * @param key The key in the database
      * @param action The action taken at change
      */
-    fun whenChange(key: String, action: () -> Unit)
+    fun <T> whenChange(key: String, type: Class <T>, action: (T) -> Unit)
+
+    /**
+     * Deletes an entry of a given key from the database
+     * @param key They key in the database
+     */
+    fun delete(key: String)
 }

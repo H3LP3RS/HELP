@@ -8,6 +8,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.*
 import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
 import java.util.concurrent.CompletableFuture
 
 /**
@@ -111,18 +112,34 @@ class FireDatabase(path: String) : Database {
     /**
      * Applies an arbitrary action when the value associated to the value changes
      * @param key The key in the database
+     * @param type The type of the value associated to the key
      * @param action The action taken at change
      */
-    override fun whenChange(key: String, action: () -> Unit) {
+    override fun <T> whenChange(key: String, type: Class<T>, action: (T) -> Unit) {
         val listener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                action()
+                val v: T = if(type == String::class.java || type == Int::class.java ||
+                    type == Double::class.java || type == Boolean::class.java) {
+                    snapshot.getValue(type)!!
+                } else {
+                    val gson = Gson()
+                    gson.fromJson(snapshot.getValue(String::class.java)!!, type)
+                }
+                action(v)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
                 println("Firebase listener error: ${databaseError.toException()}")
             }
         }
-        db.child(key).addListenerForSingleValueEvent(listener)
+        db.child(key).addValueEventListener(listener)
+    }
+
+    /**
+     * Deletes an entry of a given key from the database
+     * @param key They key in the database
+     */
+    override fun delete(key: String) {
+        db.child(key).removeValue()
     }
 }
