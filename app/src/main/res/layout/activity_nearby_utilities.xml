@@ -8,14 +8,17 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="567dp">
+        android:layout_height="wrap_content"
+        map:layout_constraintTop_toTopOf="parent">
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="500dp"
+            android:layout_gravity="top"
             map:mapId="@string/map_id"
             tools:context=".NearbyUtilitiesActivity" />
 
@@ -25,18 +28,20 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="0dp"
         android:backgroundTint="@color/dark_blue"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        tools:layout_editor_absoluteX="0dp">
 
         <LinearLayout
             android:id="@+id/show_hospital_button_layout"
             android:layout_width="@dimen/map_utilities_button_layout"
             android:layout_height="@dimen/map_utilities_button_layout"
+            android:layout_marginEnd="5dp"
             android:background="@drawable/round_style"
             android:backgroundTint="@color/select_meds_unchecked"
-            android:orientation="vertical"
-            android:layout_marginEnd="5dp">
+            android:orientation="vertical">
 
             <ImageButton
                 android:id="@+id/show_hospital_button"
@@ -62,9 +67,9 @@
             android:id="@+id/show_defibrillators_button_layout"
             android:layout_width="@dimen/map_utilities_button_layout"
             android:layout_height="@dimen/map_utilities_button_layout"
+            android:layout_marginEnd="5dp"
             android:background="@drawable/round_style"
             android:backgroundTint="@color/select_meds_unchecked"
-            android:layout_marginEnd="5dp"
             android:orientation="vertical">
 
             <ImageButton
@@ -92,10 +97,10 @@
             android:id="@+id/show_pharmacy_button_layout"
             android:layout_width="@dimen/map_utilities_button_layout"
             android:layout_height="@dimen/map_utilities_button_layout"
+            android:layout_marginEnd="5dp"
             android:background="@drawable/round_style"
             android:backgroundTint="@color/select_meds_unchecked"
-            android:orientation="vertical"
-            android:layout_marginEnd="5dp">
+            android:orientation="vertical">
 
             <ImageButton
                 android:id="@+id/show_pharmacy_button"
