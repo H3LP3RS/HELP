@@ -1,7 +1,5 @@
 package com.github.h3lp3rs.h3lp.database
 
-import android.content.res.Resources
-import com.github.h3lp3rs.h3lp.R
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -17,6 +15,7 @@ import java.util.concurrent.CompletableFuture
 class FireDatabase(path: String) : Database {
 
     private val db: DatabaseReference = Firebase.database("https://h3lp-signin-default-rtdb.europe-west1.firebasedatabase.app/").reference.child(path)
+    private val openListeners = HashMap<String, List<ValueEventListener>>()
 
     /**
      * Utility function to extract values into futures from generic types
@@ -116,7 +115,7 @@ class FireDatabase(path: String) : Database {
      * @param action The action taken at change
      */
     override fun <T> whenChange(key: String, type: Class<T>, action: (T) -> Unit) {
-        val listener = object : ValueEventListener {
+        val l = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val v: T = if(type == String::class.java || type == Int::class.java ||
                     type == Double::class.java || type == Boolean::class.java) {
@@ -132,7 +131,21 @@ class FireDatabase(path: String) : Database {
                 println("Firebase listener error: ${databaseError.toException()}")
             }
         }
-        db.child(key).addValueEventListener(listener)
+        db.child(key).addValueEventListener(l)
+        // Enrich the list & add to map
+        val ls = openListeners.getOrDefault(key, emptyList()) + listOf(l)
+        openListeners[key] = ls
+    }
+
+    /**
+     * Clears all the listeners related to a given key
+     * @param key The key in the database
+     */
+    fun clearListeners(key: String) {
+        for(l in openListeners[key]!!) {
+            db.child(key).removeEventListener(l)
+        }
+        openListeners.remove(key)
     }
 
     /**
