@@ -59,6 +59,11 @@ class MainPageActivity : AppCompatActivity() {
         val db = databaseOf(Databases.NEW_EMERGENCIES)
         db.addListener("VENTOLIN", String::class.java) {
             db.setString("VENTOLIN_CB", it)
+
+            if(it.equals("H3LP!")){
+                db.setString("VENTOLIN","nothing")
+                sendNotification("Emergency","Alexis need ventolin")
+            }
         }
     }
 
