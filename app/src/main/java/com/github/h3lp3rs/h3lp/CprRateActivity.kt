@@ -45,13 +45,13 @@ class CprRateActivity : AppCompatActivity() {
 
         startButton.setOnClickListener {
             if (animationIsPlaying) {
-//                heartIcon.clearAnimation()
+                //heartIcon.clearAnimation()
                 startButton.text = getString(R.string.cpr_rate_button_start)
                 beepSound.pause()
                 beepSound.seekTo(0)
                 animationIsPlaying = false
             } else {
-//                heartIcon.startAnimation(heartBeatAnimation)
+                //heartIcon.startAnimation(heartBeatAnimation)
                 startButton.text = getString(R.string.cpr_rate_button_stop)
                 beepSound.start()
                 animationIsPlaying = true

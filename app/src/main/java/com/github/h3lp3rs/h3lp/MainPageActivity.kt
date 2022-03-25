@@ -16,9 +16,12 @@ import androidx.core.app.ActivityCompat.OnRequestPermissionsResultCallback
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import com.github.h3lp3rs.h3lp.database.Databases
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
+import com.google.android.material.navigation.NavigationView
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
 import com.github.h3lp3rs.h3lp.signin.ORIGIN
-import com.google.android.material.navigation.NavigationView
+import androidx.appcompat.app.AlertDialog
 import com.google.android.material.snackbar.Snackbar
 
 const val EXTRA_NEARBY_UTILITIES = "nearby_utilities"
@@ -145,8 +148,23 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
             }
             true
         }
+        // Demo code
+        // addAlertNotification()
+    }
 
+    // Demo code
+    private fun addAlertNotification() {
+        val db = databaseOf(Databases.NEW_EMERGENCIES)
+        db.addListener(getString(R.string.ventolin_db_key), String::class.java) {
+            if(it.equals(getString(R.string.help))){
+                db.setString(getString(R.string.ventolin_db_key),getString(R.string.nothing))
+                sendNotification(getString(R.string.emergency),getString(R.string.need_help))
+            }
+        }
+    }
 
+    private fun sendNotification(textTitle: String,textContent:String){
+        AlertDialog.Builder(this).setTitle(textTitle).setMessage(textContent).setIcon(R.drawable.notification_icon).show()
     }
 
     /**

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="firebase_url">https://h3lp-signin-default-rtdb.europe-west1.firebasedatabase.app/</string>
+</resources>
