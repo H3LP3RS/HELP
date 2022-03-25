@@ -78,8 +78,11 @@
     <string name="presentation_placeholder_good_2">Placeholder 2</string>
     <string name="presentation_placeholder_good_3">Placeholder 3</string>
     <string name="hospital">Nearby Hospitals</string>
+    <string name="map_hospital">Hospitals</string>
     <string name="pharmacy">Nearby Pharmacies</string>
+    <string name="map_pharmacy">Pharmacies</string>
     <string name="defibrillator">Nearby Defibrillators</string>
+    <string name="map_defibrillator">Defibrillators</string>
     <string name="first_aid">First Aid Tips</string>
     <string name="hello">Hello!</string>
     <string name="welcome_text">Welcome to the H3LP app!</string>
@@ -217,6 +220,29 @@
     <string name="login">Login</string>
     <string name="settings">Settings</string>
     <string name="home">Home</string>
+    <string name="no_permission">Permission Denied</string>
 
     <string name="title_activity_nearby_utilities">NearbyUtilitiesActivity</string>
+    <string name="first_aid_categories">Categories</string>
+    <string name="allergy_emergency">Allergic reaction</string>
+    <string name="expand">expand</string>
+    <string name="heart_attack_emergency">Heart attack</string>
+    <string name="allergey_step1">Remove blue safety cap by pulling straight up – do not bend or twist</string>
+    <string name="allergy_step2">Place the orange tip against the middle of the outer thigh</string>
+    <string name="allergy_step3">Swing and push the auto-injector firmly into the thigh until it “clicks” - Hold firmly in place for 3 seconds</string>
+    <string name="heart_attack_step1">Have the person sit down, rest, try to keep calm and Loosen any tight clothing.</string>
+    <string name="heart_attack_step2">Ask if the person takes any chest pain medicine, such as nitroglycerin, and help them take it</string>
+    <string name="heart_attack_step3">If the person is unconscious and unresponsive, call the local emergency number, then begin CPR</string>
+    <string name="heart_attack_title">General first aid</string>
+    <string name="allergy_title">How to use an EpiPen</string>
+    <string name="aed_title">How to use an AED</string>
+    <string name="aed_step1">Turn it on, remove clothing and attach pads correctly</string>
+    <string name="aed_step2">Prepare to let the AED analyze the heart’s rhythm</string>
+    <string name="aed_step3">Deliver a shock. If no shock is advised, immediately start CPR, beginning with compressions</string>
+    <string name="defibrillator_tutorial">Defibrillator tutorial</string>
+    <string name="asthma_attack">Asthma attack</string>
+    <string name="asthma_step1">Reassure the casualty and ask them to take their usual dose of their reliever inhaler. Ask them to breathe slowly.</string>
+    <string name="asthma_step2">If they don’t improve within a few minutes, ask them to take a puff every 30 to 60 seconds, until they have had 10 puffs.</string>
+    <string name="asthma_step3">Monitor their breathing and level of response. If the ambulance hasn\'t arrived within 15 minutes, repeat step 2.</string>
+    <string name="matchNotFound">oops... match not found</string>
 </resources>

@@ -57,7 +57,7 @@
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/stay_safe"
+            android:id="@+id/staySafe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/welcomeText"
@@ -66,11 +66,20 @@
             android:textColor="@color/dark_blue"
             android:textSize="20sp" />
 
-        <SearchView
-            android:id="@+id/SearchBar"
+        <ListView
+            android:id="@+id/listView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/stay_safe"
+            android:layout_below="@+id/searchBar"
+            android:divider="#ad5"
+            android:background="@color/light_grey"
+            android:dividerHeight="2dp" />
+
+        <SearchView
+            android:id="@+id/searchBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/staySafe"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="50dp"
             android:background="@color/light_grey"
@@ -82,7 +91,7 @@
             android:id="@+id/horizontalScrollView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/SearchBar"
+            android:layout_below="@+id/searchBar"
             android:layout_marginTop="50dp"
             android:background="@color/app_background">
 
@@ -229,12 +238,14 @@
                         android:orientation="vertical">
 
                         <ImageButton
+                            android:id="@+id/first_aid_button"
                             android:layout_width="@dimen/image_button_home_page"
                             android:layout_height="@dimen/image_button_home_page"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="@dimen/margin_image_inside_layout"
                             android:background="@drawable/education"
-                            android:contentDescription="@string/tips_button" />
+                            android:contentDescription="@string/tips_button"
+                            android:onClick="goToFirstAid"/>
 
                         <TextView
                             android:layout_width="wrap_content"
