@@ -1,10 +1,8 @@
 <resources>
     <!--
     Parameters required for the API Key:
-
     Package name:
     com.github.h3lp3rs.h3lp
-
     SHA-1 certificate fingerprint:
     9F:2F:03:28:3E:BA:55:FA:9B:CC:50:CF:D3:29:29:42:5A:3C:46:B8
     -->
