@@ -4,7 +4,7 @@ import com.google.gson.Gson
 import java.util.concurrent.CompletableFuture
 
 /**
- * Abstraction of an NoSQL external database
+ * Abstraction of a NoSQL external database
  */
 interface Database {
 
@@ -87,7 +87,7 @@ interface Database {
     }
 
     /**
-     * Applies an arbitrary action when the value associated to the value changes
+     * Applies an arbitrary action when the value associated to the key changes
      * @param key The key in the database
      * @param action The action taken at change
      */

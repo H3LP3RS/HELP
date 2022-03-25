@@ -10,7 +10,7 @@ import com.google.gson.Gson
 import java.util.concurrent.CompletableFuture
 
 /**
- * Implementation of an NoSQL external database based on Firebase
+ * Implementation of a NoSQL external database based on Firebase
  */
 class FireDatabase(path: String) : Database {
 
@@ -156,6 +156,7 @@ class FireDatabase(path: String) : Database {
      * @param key They key in the database
      */
     override fun delete(key: String) {
+        clearListeners(key)
         db.child(key).removeValue()
     }
 }
