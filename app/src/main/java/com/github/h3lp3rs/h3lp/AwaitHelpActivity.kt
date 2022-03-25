@@ -3,6 +3,10 @@ package com.github.h3lp3rs.h3lp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
+import com.github.h3lp3rs.h3lp.database.Database
+import com.github.h3lp3rs.h3lp.database.Databases
+import com.github.h3lp3rs.h3lp.database.Databases.*
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 
 /**
  * Activity during which the user waits for help from other user.
@@ -17,6 +21,10 @@ class AwaitHelpActivity : AppCompatActivity() {
 
         // To be removed once the page is implemented:
         val displayText = "Selected: $array"
+        val db = databaseOf(NEW_EMERGENCIES)
+        // Demo code
+        db.clearListeners(getString(R.string.ventolin_db_key)) // Avoid being autocalled (for now, we'll need a ds for that later)
+        db.setString(getString(R.string.ventolin_db_key), getString(R.string.help))
         val text = findViewById<TextView>(R.id.selected_items_text).apply {
             text = displayText
         }
