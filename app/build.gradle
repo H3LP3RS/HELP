@@ -64,12 +64,16 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.4.0'
     androidTestImplementation 'androidx.test:rules:1.4.0'
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.4.0'
-    //added for drawer layout testing
+    // added for drawer layout testing
     androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:3.0.2'
     // required if you want to use Mockito for unit tests
     testImplementation 'org.mockito:mockito-core:3.2.0'
     // required if you want to use Mockito for Android tests
     androidTestImplementation 'org.mockito:mockito-android:3.2.0'
+    // required for the implementation of the app tuto
+    implementation 'uk.co.samuelwall:material-tap-target-prompt:3.3.2'
+    // required for the implementation of the app preferences
+    implementation 'androidx.preference:preference-ktx:1.2.0'
 }
 
 tasks.withType(Test) {

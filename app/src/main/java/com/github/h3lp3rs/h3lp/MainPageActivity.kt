@@ -1,15 +1,13 @@
 package com.github.h3lp3rs.h3lp
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
-import android.widget.ArrayAdapter
-import android.widget.ListView
-import android.widget.SearchView
+import android.widget.*
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat.OnRequestPermissionsResultCallback
@@ -22,7 +20,10 @@ import com.google.android.material.navigation.NavigationView
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
 import com.github.h3lp3rs.h3lp.signin.ORIGIN
 import androidx.appcompat.app.AlertDialog
+import androidx.preference.PreferenceManager
 import com.google.android.material.snackbar.Snackbar
+import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
+
 
 const val EXTRA_NEARBY_UTILITIES = "nearby_utilities"
 
@@ -72,7 +73,28 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         if (checkSelfPermission(this, ACCESS_FINE_LOCATION) != PERMISSION_GRANTED) {
             requestPermissions(arrayOf(ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
         }
+        startAppGuide()
     }
+    // This is to be able to pass the color id directly to the setBackgroundColour function instead
+    // of using the getResource function. The difference is that the id enables having transparent colors.
+    @SuppressLint("ResourceAsColor")
+    private fun startAppGuide(){
+
+        val prefManager = PreferenceManager.getDefaultSharedPreferences(this)
+        if(!prefManager.getBoolean("didShowPrompt",false )){
+            MaterialTapTargetPrompt.Builder(this).setTarget(R.id.profile).setPrimaryText("TODO")
+                .setSecondaryText("TODO").setBackButtonDismissEnabled(false).setBackgroundColour(
+                    R.color.black).setPromptStateChangeListener{ _, state ->
+                    if(state==MaterialTapTargetPrompt.STATE_FOCAL_PRESSED || state==MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED){
+                        val prefEditor= prefManager.edit()
+                        prefEditor.putBoolean("TODO",true)
+                        prefEditor.apply()
+                        //showButtonPrompt()
+                    }} .show()
+        }
+    }
+
+
 
     /**
      * Add elements to the list view
