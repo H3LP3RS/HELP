@@ -67,21 +67,21 @@ class MainPageTestActivity {
 
     @Test
     fun pushingInfoButtonLaunchesPresentation() {
-        clickingOnButtonWorksAndSendsIntent(PresArrivalActivity::class.java, withId(R.id.tutorialButton), false)
+        clickingOnButtonWorksAndSendsIntent(PresArrivalActivity::class.java, withId(R.id.button_tutorial), false)
     }
 
     @Test
     fun clickingOnCPRButtonWorksAndSendsIntent() {
         clickingOnButtonWorksAndSendsIntent(
             CprRateActivity::class.java,
-            withId(R.id.CPR_rate_button),
+            withId(R.id.button_cpr),
             true
         )
     }
 
     @Test
     fun clickingOnProfileButtonWorksAndSendsIntent() {
-        clickingOnButtonWorksAndSendsIntent(MedicalCardActivity::class.java, withId(R.id.profile),
+        clickingOnButtonWorksAndSendsIntent(MedicalCardActivity::class.java, withId(R.id.button_profile),
             false)
     }
 
@@ -96,16 +96,16 @@ class MainPageTestActivity {
 
     @Test
     fun clickingOnHospitalButtonWorksAndSendsIntent() {
-        clickingOnButtonWorksAndSendsIntent(NearbyUtilitiesActivity::class.java, withId(R.id.hospital_button), true)
+        clickingOnButtonWorksAndSendsIntent(NearbyUtilitiesActivity::class.java, withId(R.id.button_hospital), true)
     }
 
     @Test
     fun clickingOnPharmacyButtonWorksAndSendsIntent() {
-        clickingOnButtonWorksAndSendsIntent(NearbyUtilitiesActivity::class.java, withId(R.id.pharmacy_button), true)
+        clickingOnButtonWorksAndSendsIntent(NearbyUtilitiesActivity::class.java, withId(R.id.button_pharmacy), true)
     }
 
     @Test
     fun clickingOnFirstAidButtonWorksAndSendsIntent() {
-        clickingOnButtonWorksAndSendsIntent(FirstAidActivity::class.java, withId(R.id.first_aid_button), true)
+        clickingOnButtonWorksAndSendsIntent(FirstAidActivity::class.java, withId(R.id.button_first_aid), true)
     }
 }

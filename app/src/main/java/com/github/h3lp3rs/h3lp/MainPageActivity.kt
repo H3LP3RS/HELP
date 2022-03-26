@@ -9,20 +9,22 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat.OnRequestPermissionsResultCallback
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.preference.PreferenceManager
 import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
-import com.google.android.material.navigation.NavigationView
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
 import com.github.h3lp3rs.h3lp.signin.ORIGIN
-import androidx.appcompat.app.AlertDialog
-import androidx.preference.PreferenceManager
+import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
+import uk.co.samuelwall.materialtaptargetprompt.extras.backgrounds.RectanglePromptBackground
+import uk.co.samuelwall.materialtaptargetprompt.extras.focals.RectanglePromptFocal
 
 
 const val EXTRA_NEARBY_UTILITIES = "nearby_utilities"
@@ -33,6 +35,17 @@ const val CPR_RATE = "CPR rate"
 const val TUTORIAL = "Tutorial"
 const val HOSPITALS = "Hospitals"
 const val PHARMACIES = "Pharmacies"
+
+private val mainPageButtons =
+    listOf(R.id.button_tutorial, R.id.button_profile, R.id.button_my_skills)
+
+private val scrollViewButtons = listOf(
+    R.id.button_hospital,
+    R.id.button_defibrillator,
+    R.id.button_pharmacy,
+    R.id.button_first_aid,
+    R.id.button_cpr
+)
 
 /**
  * Main page of the app
@@ -75,26 +88,68 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         }
         startAppGuide()
     }
-    // This is to be able to pass the color id directly to the setBackgroundColour function instead
-    // of using the getResource function. The difference is that the id enables having transparent colors.
-    @SuppressLint("ResourceAsColor")
-    private fun startAppGuide(){
 
+    private fun startAppGuide() {
         val prefManager = PreferenceManager.getDefaultSharedPreferences(this)
-        if(!prefManager.getBoolean("didShowPrompt",false )){
-            MaterialTapTargetPrompt.Builder(this).setTarget(R.id.profile).setPrimaryText("TODO")
-                .setSecondaryText("TODO").setBackButtonDismissEnabled(false).setBackgroundColour(
-                    R.color.black).setPromptStateChangeListener{ _, state ->
-                    if(state==MaterialTapTargetPrompt.STATE_FOCAL_PRESSED || state==MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED){
-                        val prefEditor= prefManager.edit()
-                        prefEditor.putBoolean("TODO",true)
-                        prefEditor.apply()
-                        //showButtonPrompt()
-                    }} .show()
+        if (!prefManager.getBoolean("didShowGuide", false)) {
+        val prefEditor = prefManager.edit()
+        prefEditor.putBoolean("didShowGuide", true)
+        prefEditor.apply()
+        showMainButtonsPrompt()
         }
     }
 
+    // This is to be able to pass the color id directly to the setBackgroundColour function instead
+    // of using the getResource function. The difference is that the id enables having transparent colors.
+    @SuppressLint("ResourceAsColor")
+    private fun showPrompt(index: Int, isInScrollView: Boolean, list: List<Int>, next: () -> Unit) {
+        if (index >= list.size) return next()
+        val buttonId = list[index]
 
+        if (isInScrollView) {
+            val sv = findViewById<HorizontalScrollView>(R.id.horizontalScrollView)
+            sv.requestChildFocus(findViewById(buttonId), findViewById(buttonId))
+        }
+
+        MaterialTapTargetPrompt.Builder(this).setTarget(list[index])
+            .setPrimaryText("TODO")
+            .setSecondaryText("TODO").setBackButtonDismissEnabled(false).setBackgroundColour(
+                R.color.black
+            ).setPromptStateChangeListener { _, state ->
+                if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED || state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED) {
+                    showPrompt(index + 1, isInScrollView, list, next)
+                }
+            }.show()
+
+    }
+
+    private fun showScrollViewButtonsPrompt() {
+        showPrompt(0, true, scrollViewButtons) { showSearchPrompt() }
+
+    }
+
+    private fun showMainButtonsPrompt() {
+        showPrompt(0, false, mainPageButtons) { showScrollViewButtonsPrompt() }
+
+    }
+
+    @SuppressLint("ResourceAsColor")
+    private fun showSearchPrompt() {
+
+        MaterialTapTargetPrompt.Builder(this).setTarget(findViewById(R.id.searchBar))
+            .setPrimaryText("TODO").setSecondaryText("TODO").setBackButtonDismissEnabled(true)
+            .setPromptBackground(
+                RectanglePromptBackground()
+            ).setPromptFocal(RectanglePromptFocal()).setBackgroundColour(
+                R.color.black
+            )
+            .setPromptStateChangeListener { _, state ->
+                if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED || state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED) {
+                    displayMessage("Guide finished", findViewById<View>(R.id.horizontalScrollView))
+                }
+            }.show()
+
+    }
 
     /**
      * Add elements to the list view
@@ -163,7 +218,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
 
         navView.setNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.nav_profile -> goToProfileActivity(findViewById(R.id.profile))
+                R.id.nav_profile -> goToProfileActivity(findViewById(R.id.button_profile))
                 R.id.nav_home -> findViewById<DrawerLayout>(R.id.drawer_layout).closeDrawer(
                     GravityCompat.START
                 )
@@ -178,15 +233,16 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     private fun addAlertNotification() {
         val db = databaseOf(Databases.NEW_EMERGENCIES)
         db.addListener(getString(R.string.ventolin_db_key), String::class.java) {
-            if(it.equals(getString(R.string.help))){
-                db.setString(getString(R.string.ventolin_db_key),getString(R.string.nothing))
-                sendNotification(getString(R.string.emergency),getString(R.string.need_help))
+            if (it.equals(getString(R.string.help))) {
+                db.setString(getString(R.string.ventolin_db_key), getString(R.string.nothing))
+                sendNotification(getString(R.string.emergency), getString(R.string.need_help))
             }
         }
     }
 
-    private fun sendNotification(textTitle: String,textContent:String){
-        AlertDialog.Builder(this).setTitle(textTitle).setMessage(textContent).setIcon(R.drawable.notification_icon).show()
+    private fun sendNotification(textTitle: String, textContent: String) {
+        AlertDialog.Builder(this).setTitle(textTitle).setMessage(textContent)
+            .setIcon(R.drawable.notification_icon).show()
     }
 
     /**
@@ -247,7 +303,8 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     override fun onResumeFragments() {
         super.onResumeFragments()
         if (locPermissionDenied) {
-            Toast.makeText(this, resources.getString(R.string.no_permission), Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, resources.getString(R.string.no_permission), Toast.LENGTH_SHORT)
+                .show()
             locPermissionDenied = false
 
             // Go back to tutorial
