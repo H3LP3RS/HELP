@@ -2,11 +2,14 @@ package com.github.h3lp3rs.h3lp
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
@@ -36,10 +39,10 @@ const val TUTORIAL = "Tutorial"
 const val HOSPITALS = "Hospitals"
 const val PHARMACIES = "Pharmacies"
 
-private val mainPageButtons =
+val mainPageButtons =
     listOf(R.id.button_tutorial, R.id.button_profile, R.id.button_my_skills)
 
-private val scrollViewButtons = listOf(
+val scrollViewButtons = listOf(
     R.id.button_hospital,
     R.id.button_defibrillator,
     R.id.button_pharmacy,
@@ -64,7 +67,6 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     lateinit var adapter: ArrayAdapter<*>
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_page)
 
@@ -89,6 +91,11 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         startAppGuide()
     }
 
+    override fun onResume() {
+        super.onResume()
+        searchView.clearFocus()
+    }
+
     private fun startAppGuide() {
         val prefManager = PreferenceManager.getDefaultSharedPreferences(this)
         if (!prefManager.getBoolean("didShowGuide", false)) {
@@ -100,7 +107,8 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     }
 
     // This is to be able to pass the color id directly to the setBackgroundColour function instead
-    // of using the getResource function. The difference is that the id enables having transparent colors.
+    // of using the getResource function. The difference is that the id enables having transparent
+    // colors which is more aesthetically pleasing.
     @SuppressLint("ResourceAsColor")
     private fun showPrompt(index: Int, isInScrollView: Boolean, list: List<Int>, next: () -> Unit) {
         if (index >= list.size) return next()
@@ -135,7 +143,6 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
 
     @SuppressLint("ResourceAsColor")
     private fun showSearchPrompt() {
-
         MaterialTapTargetPrompt.Builder(this).setTarget(findViewById(R.id.searchBar))
             .setPrimaryText("TODO").setSecondaryText("TODO").setBackButtonDismissEnabled(true)
             .setPromptBackground(
@@ -145,10 +152,10 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
             )
             .setPromptStateChangeListener { _, state ->
                 if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED || state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED) {
-                    displayMessage("Guide finished", findViewById<View>(R.id.horizontalScrollView))
+                    displayMessage(getString(R.string.AppGuideFinished), findViewById(R.id.horizontalScrollView))
+                    searchView.clearFocus()
                 }
             }.show()
-
     }
 
     /**
