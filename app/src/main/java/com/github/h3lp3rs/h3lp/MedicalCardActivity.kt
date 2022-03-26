@@ -233,7 +233,7 @@ class MedicalCardActivity : AppCompatActivity() {
     }
 
     /**
-     * load sting in an editTxt
+     * load string in an editTxt
      */
     private fun loadTo(data: String, editTxtId: Int){
         findViewById<EditText>(editTxtId).setText(data)
