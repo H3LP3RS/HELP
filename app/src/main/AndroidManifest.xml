@@ -33,7 +33,7 @@
             android:name=".presentation.ToSActivity"
             android:exported="false" />
         <activity
-            android:name=".MedicalCardActivity"
+            android:name=".signin.SignInActivity"
             android:exported="false" />
         <activity
             android:name=".AwaitHelpActivity"
@@ -57,7 +57,7 @@
                 android:name=".presentation.PresArrivalActivity"
                 android:exported="false" />
         <activity
-                android:name=".signin.SignInActivity"
+                android:name=".MedicalCardActivity"
                 android:exported="true"  >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
