@@ -30,20 +30,7 @@ class GuideTest {
         MainPageActivity::class.java
 
     )
-    @Before
-    fun setup() {
-        Intents.init()
-        val intent = Intent()
-        val intentResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
-        Intents.intending(IntentMatchers.anyIntent()).respondWith(intentResult)
-    }
-
-    @After
-    fun release() {
-        Intents.release()
-    }
     private val targetContext: Context = ApplicationProvider.getApplicationContext()
-
 
     private fun clearPreferences() {
         val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(targetContext)
@@ -65,6 +52,7 @@ class GuideTest {
         assertTrue(prefManager.getBoolean("didShowGuide", false))
     }
 
+    /*
     @Test
     fun finishingAppDemoDisplaysMessage() {
         clearPreferences()
@@ -78,5 +66,5 @@ class GuideTest {
         onView(ViewMatchers.withText(R.string.AppGuideFinished))
             .check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
     }
-
+*/
 }
