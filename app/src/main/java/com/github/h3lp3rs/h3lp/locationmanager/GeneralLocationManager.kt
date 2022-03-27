@@ -2,7 +2,7 @@ package com.github.h3lp3rs.h3lp.locationmanager
 
 import com.github.h3lp3rs.h3lp.signin.GoogleSignInAdaptor
 
-object LocationManager {
+object GeneralLocationManager {
     private var locationManager: LocationManagerInterface? = null
 
     fun get(): LocationManagerInterface {
