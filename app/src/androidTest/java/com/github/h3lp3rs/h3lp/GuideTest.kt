@@ -59,10 +59,10 @@ class GuideTest {
         var i = 0
         // +1 for the search bar
         val nbButtons = mainPageButtons.size + scrollViewButtons.size + 1
-        while (i < nbButtons) {
+        //while (i < nbButtons) {
             onView(withId(R.id.HelloText)).perform(click())
             i++
-        }
+        //}
         /*
         onView(ViewMatchers.withText(R.string.AppGuideFinished))
             .check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
