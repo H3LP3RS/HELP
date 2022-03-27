@@ -3,28 +3,22 @@ package com.github.h3lp3rs.h3lp
 
 import android.app.Activity.RESULT_OK
 import android.app.Instrumentation
-import android.content.Context
 import android.content.Intent
 import android.view.KeyEvent
 import android.widget.AutoCompleteTextView
-import androidx.preference.PreferenceManager
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
-import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.init
 import androidx.test.espresso.intent.Intents.intending
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.intent.matcher.IntentMatchers.anyIntent
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
-import junit.framework.TestCase
 import org.hamcrest.Matchers
 import org.hamcrest.Matchers.anything
 import org.hamcrest.Matchers.not
@@ -43,42 +37,7 @@ class SearchBarTest {
     val testRule = ActivityScenarioRule(
         MainPageActivity::class.java
     )
-    private val targetContext: Context = ApplicationProvider.getApplicationContext()
 
-
-    private fun clearPreferences() {
-        val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(targetContext)
-        val editor = sharedPrefs.edit()
-        editor.clear()
-        editor.apply()
-    }
-
-    @Test
-    fun checkThatGuideIsInitiallyNotLaunched() {
-        clearPreferences()
-        val prefManager = PreferenceManager.getDefaultSharedPreferences(targetContext)
-        TestCase.assertFalse(prefManager.getBoolean("didShowGuide", false))
-    }
-
-    @Test
-    fun checkThatGuideIsLaunched() {
-        val prefManager = PreferenceManager.getDefaultSharedPreferences(targetContext)
-        TestCase.assertTrue(prefManager.getBoolean("didShowGuide", false))
-    }
-
-    @Test
-    fun finishingAppDemoDisplaysMessage() {
-        clearPreferences()
-        var i = 0
-        // +1 for the search bar
-        val nbButtons = mainPageButtons.size + scrollViewButtons.size + 1
-        while (i < nbButtons) {
-            onView(withId(R.id.HelloText)).perform(click())
-            i++
-        }
-        onView(ViewMatchers.withText(R.string.AppGuideFinished))
-            .check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
-    }
     @Before
     fun setup() {
         init()
