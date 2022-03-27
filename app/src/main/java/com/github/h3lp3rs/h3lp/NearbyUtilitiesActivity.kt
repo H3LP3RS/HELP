@@ -21,6 +21,7 @@ import android.util.Log
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat.*
+import com.github.h3lp3rs.h3lp.util.AED_LOCATIONS_LAUSANNE
 import com.github.h3lp3rs.h3lp.util.GPlaceJsonParser
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.Marker
@@ -38,18 +39,6 @@ typealias GooglePlace = HashMap<String, String>
 const val PLACES_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
 const val DEFAULT_MAP_ZOOM = 15f
 const val DEFAULT_SEARCH_RADIUS = 3000
-private val AED_LOCATIONS_LAUSANNE = listOf(
-    hashMapOf("name" to "aed","lat" to "46.53662", "lng" to "6.58833"),
-    hashMapOf("name" to "aed","lat" to "46.53257", "lng" to "6.58685"),
-    hashMapOf("name" to "aed","lat" to "46.52786", "lng" to "6.61601"),
-    hashMapOf("name" to "aed","lat" to "46.52934", "lng" to "6.62275"),
-    hashMapOf("name" to "aed","lat" to "46.52292", "lng" to "6.62627"),
-    hashMapOf("name" to "aed","lat" to "46.52301", "lng" to "6.63239"),
-    hashMapOf("name" to "aed","lat" to "46.52362", "lng" to "6.63364"),
-    hashMapOf("name" to "aed","lat" to "46.51760", "lng" to "6.63102"),
-    hashMapOf("name" to "aed","lat" to "46.52018", "lng" to "6.63399"),
-    hashMapOf("name" to "aed","lat" to "46.52353", "lng" to "6.63880"),
-)
 
 class NearbyUtilitiesActivity : AppCompatActivity(), OnMapReadyCallback,
     CoroutineScope by MainScope() {
