@@ -2,14 +2,16 @@ package com.github.h3lp3rs.h3lp
 
 
 import android.content.Intent
+import android.location.Location
+import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import android.widget.ToggleButton
 import androidx.appcompat.app.AppCompatActivity
-import com.github.h3lp3rs.h3lp.LocalEmergencyCaller.DEFAULT_EMERGENCY_NUMBER
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 
 const val EXTRA_NEEDED_MEDICATION = "needed_meds_key"
@@ -18,29 +20,51 @@ const val EXTRA_NEEDED_MEDICATION = "needed_meds_key"
  * Activity in which the user can select the medications they need urgently
  */
 class HelpParametersActivity : AppCompatActivity() {
+    // userLocation contains the user's current coordinates (is initialized to null since we could
+    // encounter an error while getting the user's location)
+    private var userLocation: Location? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_help_parameters)
 
+
+        // Get the coordinates and display them on the screen to enable the user to give their exact
+        // location to the emergency services
+        updateCoordinates()
+        val locationInformation: TextView = findViewById(R.id.location_information)
+        val coordinatesText = getString(R.string.current_location)
+        if (userLocation != null) {
+            locationInformation.text = String.format(
+                "%s latitude: %.3f longitude: %.3f",
+                coordinatesText,
+                userLocation!!.latitude,
+                userLocation!!.longitude
+            )
+        } else {
+            locationInformation.text = getString(R.string.error_retrieving_location)
+        }
+
     }
+
 
     /**
      *  Called when the user presses the emergency call button. Opens the phone call app with the
      *  emergency number from the country the user is currently in dialed.
      */
     fun emergencyCall(view: View) {
-        // Instantiating the phone number to the default in case the location services aren't
-        // activated
-        var emergencyNumber = DEFAULT_EMERGENCY_NUMBER
+        // In case the getCurrentLocation failed (for example if the location services aren't
+        // activated, currentLocation is still null and the returned phone number will be the
+        // default emergency phone number
 
-        val currentLocation = GeneralLocationManager.get().getCurrentLocation(this)
-        if (currentLocation != null) {
-            val currentLong = currentLocation.longitude
-            val currentLat = currentLocation.latitude
-            emergencyNumber =
-                LocalEmergencyCaller.getLocalEmergencyNumber(currentLong, currentLat, this)
-        }
+        updateCoordinates()
+        val emergencyNumber =
+            LocalEmergencyCaller.getLocalEmergencyNumber(
+                userLocation?.longitude,
+                userLocation?.latitude,
+                this
+            )
+
         val dial = "tel:$emergencyNumber"
         startActivity(Intent(Intent.ACTION_DIAL, Uri.parse(dial)))
     }
@@ -86,6 +110,22 @@ class HelpParametersActivity : AppCompatActivity() {
         }
 
         return meds
+
+    }
+
+    /**
+     * Function that updates the user's current coordinates
+     */
+    private fun updateCoordinates() {
+        val updatedCoordinates = GeneralLocationManager.get().getCurrentLocation(this)
+
+        if (updatedCoordinates != null) {
+            userLocation = Location(LocationManager.GPS_PROVIDER)
+            userLocation?.longitude = updatedCoordinates.longitude
+            userLocation?.latitude = updatedCoordinates.latitude
+        } else {
+            userLocation = null
+        }
 
     }
 }

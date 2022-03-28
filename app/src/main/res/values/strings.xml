@@ -226,6 +226,8 @@
     <string name="settings">Settings</string>
     <string name="home">Home</string>
     <string name="no_permission">Permission Denied</string>
+    <string name="current_location">Location -</string>
+    <string name="error_retrieving_location">There was an error while retrieving your location</string>
 
     <string name="title_activity_nearby_utilities">NearbyUtilitiesActivity</string>
     <string name="first_aid_categories">Categories</string>

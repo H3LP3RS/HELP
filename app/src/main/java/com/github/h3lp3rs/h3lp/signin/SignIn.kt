@@ -12,7 +12,7 @@ object SignIn {
      * @return The sign in method
      */
     fun get(): SignInInterface<AuthResult> {
-        signIn = signIn ?: GoogleSignInAdaptor
+        signIn = signIn ?: GoogleSignInAdapter
         return signIn!!
     }
 

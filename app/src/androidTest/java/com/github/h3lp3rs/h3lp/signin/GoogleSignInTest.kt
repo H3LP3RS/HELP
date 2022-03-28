@@ -3,7 +3,6 @@ package com.github.h3lp3rs.h3lp.signin
 import android.app.Activity
 import android.content.Intent
 import androidx.activity.result.ActivityResult
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.core.app.ApplicationProvider.*
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -14,7 +13,6 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.preferences.Preferences
-import com.github.h3lp3rs.h3lp.preferences.Preferences.*
 import com.github.h3lp3rs.h3lp.preferences.Preferences.Companion.Files.*
 import com.github.h3lp3rs.h3lp.preferences.Preferences.Companion.USER_AGREE
 import com.github.h3lp3rs.h3lp.preferences.Preferences.Companion.clearAllPreferences
@@ -53,7 +51,7 @@ class GoogleSignInTest {
         When(signInMock.isSignedIn()).thenReturn(false)
 
         testRule.scenario.onActivity { activity ->
-            intent = GoogleSignInAdaptor.signIn(activity)
+            intent = GoogleSignInAdapter.signIn(activity)
             val taskMock = mock(Task::class.java)
             When(taskMock.isSuccessful).thenReturn(true)
             When(taskMock.isComplete).thenReturn(true)
@@ -76,7 +74,7 @@ class GoogleSignInTest {
     @Test
     fun signInWithGoogleLaunchesAuthenticationProcess() {
         clickSignInButton()
-        assertNotNull(GoogleSignInAdaptor.gso)
+        assertNotNull(GoogleSignInAdapter.gso)
         testRule.scenario.onActivity { activity ->
             activity.authenticateUser(
                 ActivityResult(Activity.RESULT_OK, intent), activity
