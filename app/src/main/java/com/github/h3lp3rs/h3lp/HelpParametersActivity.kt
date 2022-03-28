@@ -1,11 +1,7 @@
 package com.github.h3lp3rs.h3lp
 
 
-import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.location.Criteria
-import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -13,7 +9,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import android.widget.ToggleButton
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
+import com.github.h3lp3rs.h3lp.LocalEmergencyCaller.DEFAULT_EMERGENCY_NUMBER
+import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 
 const val EXTRA_NEEDED_MEDICATION = "needed_meds_key"
 
@@ -35,24 +32,14 @@ class HelpParametersActivity : AppCompatActivity() {
     fun emergencyCall(view: View) {
         // Instantiating the phone number to the default in case the location services aren't
         // activated
-        var emergencyNumber = LocalEmergencyCaller.DEFAULT_EMERGENCY_NUMBER
-        // Checking if the location permissions have been granted
-        if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
+        var emergencyNumber = DEFAULT_EMERGENCY_NUMBER
 
-            val locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
-            val provider = locationManager.getBestProvider(Criteria(), true)
-            val currentLocation = provider?.let { locationManager.getLastKnownLocation(it) }
-
-            if (currentLocation != null) {
-                val currentLong = currentLocation.longitude
-                val currentLat = currentLocation.latitude
-                emergencyNumber =
-                    LocalEmergencyCaller.getLocalEmergencyNumber(currentLong, currentLat, this)
-            }
+        val currentLocation = GeneralLocationManager.get().getCurrentLocation(this)
+        if (currentLocation != null) {
+            val currentLong = currentLocation.longitude
+            val currentLat = currentLocation.latitude
+            emergencyNumber =
+                LocalEmergencyCaller.getLocalEmergencyNumber(currentLong, currentLat, this)
         }
         val dial = "tel:$emergencyNumber"
         startActivity(Intent(Intent.ACTION_DIAL, Uri.parse(dial)))

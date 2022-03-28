@@ -13,4 +13,8 @@ object GeneralLocationManager {
     fun set(newLocationManager: LocationManagerInterface) {
         locationManager = newLocationManager
     }
+
+    fun setSystemManager() {
+        locationManager = SystemLocationAdapter
+    }
 }
