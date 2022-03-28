@@ -42,6 +42,8 @@ class HelpParametersActivity : AppCompatActivity() {
                 userLocation!!.longitude
             )
         } else {
+            // If the user didn't allow location permissions, they won't be able to see their
+            // current location
             locationInformation.text = getString(R.string.error_retrieving_location)
         }
 

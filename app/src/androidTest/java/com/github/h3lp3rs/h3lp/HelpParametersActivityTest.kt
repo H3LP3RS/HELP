@@ -25,7 +25,10 @@ import com.github.h3lp3rs.h3lp.preferences.Preferences.Companion.Files.PRESENTAT
 import com.github.h3lp3rs.h3lp.preferences.Preferences.Companion.USER_AGREE
 import com.github.h3lp3rs.h3lp.preferences.Preferences.Companion.clearAllPreferences
 import org.hamcrest.Matchers.*
-import org.junit.*
+import org.junit.After
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.anyOrNull
@@ -40,7 +43,6 @@ class HelpParametersActivityTest {
     private val locationManagerMock: LocationManagerInterface =
         mock(LocationManagerInterface::class.java)
     private val locationMock: Location = mock(Location::class.java)
-    private val targetContext: Context = ApplicationProvider.getApplicationContext()
 
     @get:Rule
     val testRule = ActivityScenarioRule(
@@ -187,7 +189,7 @@ class HelpParametersActivityTest {
         searchHelpButton.check(matches(isDisplayed()))
         searchHelpButton.perform(click())
 
-        // no new intent:
+        // No new intent:
         assertThat(getIntents().size, `is`(0))
     }
 
@@ -200,28 +202,14 @@ class HelpParametersActivityTest {
         When(locationMock.longitude).thenReturn(CORRECT_EMERGENCY_CALL.first)
         When(locationMock.latitude).thenReturn(CORRECT_EMERGENCY_CALL.second)
         GeneralLocationManager.set(locationManagerMock)
+
+        // Checking that the user's actual location is displayed before they call an ambulance
         val locationInformation = onView(withId(R.id.location_information))
         locationInformation
             .check(matches(withText(containsString(CORRECT_EMERGENCY_CALL.first.toString()))))
         locationInformation
             .check(matches(withText(containsString(CORRECT_EMERGENCY_CALL.second.toString()))))
     }
-
-
-//    @Test
-//    fun screenDisplaysDefaultMessageIfLocationManagerFails() {
-//        // Mocking the location manager as if an error occurred (in which case, the returned location
-//        // would be null
-//        When(locationManagerMock.getCurrentLocation(anyOrNull())).thenReturn(null)
-//        GeneralLocationManager.set(locationManagerMock)
-//
-//        val defaultLocationMessage =
-//            targetContext.resources.getString(R.string.error_retrieving_location)
-//
-//        val locationInformation = onView(withId(R.id.location_information))
-//        locationInformation
-//            .check(matches(withText(defaultLocationMessage)))
-//    }
 
     @After
     fun cleanUp() {
