@@ -78,7 +78,12 @@ class FireDatabase(path: String) : Database {
      * @return Future of double
      */
     override fun getDouble(key: String): CompletableFuture<Double> {
-        return get(key)
+        //This Fix is due to an misconception in firebase:
+        //Storing 3.0 in fire base will automatically transform it in an long integer.
+        //This result when getting it as an type error since long cannot be direct cast as double
+        //This is fix getting the field as the super class number and then casting it with its function
+        val number :CompletableFuture<Number> = get(key)
+        return number.thenApply { n -> n.toDouble() }
     }
 
     /**
