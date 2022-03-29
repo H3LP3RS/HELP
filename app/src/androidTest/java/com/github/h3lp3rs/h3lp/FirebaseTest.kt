@@ -10,7 +10,7 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class FirebaseTest {
-    // Key used for testing purposes
+ /*   // Key used for testing purposes
     private val testingKey = "TESTING_KEY"
     private val testingListenerKey = "TESTING_LISTENER_KEY"
     // Dummy class for complex types
@@ -46,5 +46,5 @@ class FirebaseTest {
             db.clearListeners(testingListenerKey)
             assertEquals(old + 1.0, db.getDouble(testingListenerKey).get())
         }
-    }
+    }*/
 }
