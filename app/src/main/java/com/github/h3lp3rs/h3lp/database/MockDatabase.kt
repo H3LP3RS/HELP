@@ -1,39 +1,51 @@
 package com.github.h3lp3rs.h3lp.database
 
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.*
-import com.google.firebase.ktx.Firebase
-import com.google.gson.Gson
+import android.annotation.SuppressLint
+import com.google.firebase.database.core.utilities.encoding.CustomClassMapper
+import java.lang.NullPointerException
 import java.util.concurrent.CompletableFuture
 
 /**
- * Implementation of a NoSQL external database based on Firebase
+ * Implementation of a NoSQL mocked external database
  */
-class FireDatabase(path: String) : Database {
+class MockDatabase : Database {
 
-    private val db: DatabaseReference = Firebase.database("https://h3lp-signin-default-rtdb.europe-west1.firebasedatabase.app/").reference.child(path)
-    private val openListeners = HashMap<String, List<ValueEventListener>>()
+    private val db = HashMap<String, Any>()
+    private val listeners = HashMap<String, List<() -> Unit>>()
 
     /**
      * Utility function to extract values into futures from generic types
-     * Only works on the following types (due to Firebase's policy):
-     * - Boolean
-     * - String
-     * - Int
-     * - Double
      * @param key The key in the database
      */
     private inline fun <reified  T: Any> get(key: String): CompletableFuture<T> {
         val future = CompletableFuture<T>()
-        db.child(key).get().addOnSuccessListener {
-            future.complete(it.value as T)
-        }.addOnFailureListener {
-            future.completeExceptionally(it)
-        }
+        if(db.containsKey(key)) future.complete(db[key] as T)
+        else future.completeExceptionally(NullPointerException("Key: $key not in the database"))
         return future
+    }
+
+    /**
+     * Utility function checking whether the key is associated with a value.
+     * Throws a custom NullPointerException if the key is not present.
+     * @param map The map to perform the check on
+     * @param key The key in the database
+     */
+    private fun checkHasKey(map: Map<String,Any>, key: String) {
+        if(!map.containsKey(key)) throw NullPointerException("Key: $key not in the database")
+    }
+
+    /**
+     * Utility function to set a value and trigger all listeners related to a key if the value
+     * has changed
+     * @param key The key in the database
+     * @param value The value to set
+     */
+    private fun setAndTriggerListeners(key: String, value: Any) {
+        val old = db.getOrDefault(key, value)
+        db[key] = value
+        if(old != value) {
+            for (l in listeners.getOrDefault(key, emptyList())) l()
+        }
     }
 
     /**
@@ -51,7 +63,7 @@ class FireDatabase(path: String) : Database {
      * @param value The value of the boolean
      */
     override fun setBoolean(key: String, value: Boolean) {
-        db.child(key).setValue(value)
+        setAndTriggerListeners(key, value)
     }
 
     /**
@@ -69,7 +81,7 @@ class FireDatabase(path: String) : Database {
      * @param value The value of the string
      */
     override fun setString(key: String, value: String) {
-        db.child(key).setValue(value)
+        setAndTriggerListeners(key, value)
     }
 
     /**
@@ -87,7 +99,7 @@ class FireDatabase(path: String) : Database {
      * @param value The value of the double
      */
     override fun setDouble(key: String, value: Double) {
-        db.child(key).setValue(value)
+        setAndTriggerListeners(key, value)
     }
 
     /**
@@ -96,9 +108,7 @@ class FireDatabase(path: String) : Database {
      * @return Future of int
      */
     override fun getInt(key: String): CompletableFuture<Int> {
-        // NOTE: We have to recode this case as Firebase natively supports
-        // Longs and not Ints.
-        return get<Long>(key).thenApply { it.toInt() }
+        return get(key)
     }
 
     /**
@@ -107,37 +117,27 @@ class FireDatabase(path: String) : Database {
      * @param value The value of the int
      */
     override fun setInt(key: String, value: Int) {
-        db.child(key).setValue(value)
+        setAndTriggerListeners(key, value)
     }
 
     /**
-     * Applies an arbitrary action when the value associated to the value changes
+     * Applies an arbitrary action when the value associated to the key changes
      * WARNING: This function automatically triggers at first when linked with a valid key
      * @param key The key in the database
-     * @param type The type of the value associated to the key
      * @param action The action taken at change
      */
+    @SuppressLint("RestrictedApi")
     override fun <T> addListener(key: String, type: Class<T>, action: (T) -> Unit) {
-        val l = object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val v: T = if(type == String::class.java || type == Int::class.java ||
-                    type == Double::class.java || type == Boolean::class.java) {
-                    snapshot.getValue(type)!!
-                } else {
-                    val gson = Gson()
-                    gson.fromJson(snapshot.getValue(String::class.java)!!, type)
-                }
-                action(v)
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                println("Firebase listener error: ${databaseError.toException()}")
-            }
+        checkHasKey(db, key)
+        val wrappedAction: () -> Unit = {
+            val v: T = CustomClassMapper.convertToCustomClass(db[key], type)
+            action(v)
         }
-        db.child(key).addValueEventListener(l)
         // Enrich the list & add to map
-        val ls = openListeners.getOrDefault(key, emptyList()) + listOf(l)
-        openListeners[key] = ls
+        val ls = listeners.getOrDefault(key, emptyList()) + listOf(wrappedAction)
+        listeners[key] = ls
+        // First time trigger
+        wrappedAction()
     }
 
     /**
@@ -145,11 +145,8 @@ class FireDatabase(path: String) : Database {
      * @param key The key in the database
      */
     override fun clearListeners(key: String) {
-        val ls = openListeners.getOrDefault(key, emptyList())
-        for(l in ls) {
-            db.child(key).removeEventListener(l)
-        }
-        openListeners.remove(key)
+        checkHasKey(listeners, key)
+        listeners.remove(key)
     }
 
     /**
@@ -157,7 +154,7 @@ class FireDatabase(path: String) : Database {
      * @param key They key in the database
      */
     override fun delete(key: String) {
-        clearListeners(key)
-        db.child(key).removeValue()
+        db.remove(key)
+        listeners.remove(key)
     }
 }
