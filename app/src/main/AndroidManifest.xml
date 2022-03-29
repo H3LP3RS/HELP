@@ -18,7 +18,7 @@
         android:theme="@style/Theme.H3LP">
         <activity
             android:name=".MapPathActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".firstaid.AsthmaActivity"
             android:exported="false" />
@@ -45,7 +45,7 @@
 
         <activity
             android:name=".NearbyUtilitiesActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".presentation.ToSActivity"
             android:exported="false" />

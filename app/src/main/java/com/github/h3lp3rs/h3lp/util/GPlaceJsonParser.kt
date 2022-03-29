@@ -19,14 +19,14 @@ class GPlaceJsonParser {
         val latitude = obj.getJSONObject("geometry")
             .getJSONObject("location").getDouble("lat")
 
-        val lontitude = obj.getJSONObject("geometry")
+        val longitude = obj.getJSONObject("geometry")
             .getJSONObject("location")
             .getDouble("lng")
 
         // put the values in the map
         dataList["name"] = name
         dataList["lat"] = latitude.toString()
-        dataList["lng"] = lontitude.toString()
+        dataList["lng"] = longitude.toString()
 
         return dataList
     }

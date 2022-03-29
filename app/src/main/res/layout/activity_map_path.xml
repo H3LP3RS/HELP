@@ -1,9 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MapPathActivity">
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            map:layout_constraintTop_toTopOf="parent">
+
+        <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:layout_gravity="top"
+                map:mapId="@string/map_id"
+                tools:context=".MapPathActivity" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="0dp"
+            android:backgroundTint="@color/dark_blue"
+            android:gravity="center_horizontal"
+            tools:layout_editor_absoluteX="0dp">
+
+        <LinearLayout
+                android:id="@+id/show_hospital_button_layout"
+                android:layout_width="@dimen/map_utilities_button_layout"
+                android:layout_height="@dimen/map_utilities_button_layout"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/round_style"
+                android:backgroundTint="@color/select_meds_unchecked"
+                android:orientation="vertical">
+
+            <ImageButton
+                    android:id="@+id/show_hospital_button"
+                    android:layout_width="@dimen/image_button_map_page"
+                    android:layout_height="@dimen/image_button_map_page"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/margin_image_inside_layout"
+                    android:background="@drawable/hospital"
+                    android:contentDescription="@string/hospital_button" />
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/scroll_view_margin_text"
+                    android:text="@string/map_hospital"
+                    android:textColor="@color/dark_blue"
+                    android:textSize="@dimen/icon_font"
+                    android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+                android:id="@+id/show_defibrillators_button_layout"
+                android:layout_width="@dimen/map_utilities_button_layout"
+                android:layout_height="@dimen/map_utilities_button_layout"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/round_style"
+                android:backgroundTint="@color/select_meds_unchecked"
+                android:orientation="vertical">
+
+            <ImageButton
+                    android:id="@+id/show_defibrillators_button"
+                    android:layout_width="@dimen/image_button_map_page"
+                    android:layout_height="@dimen/image_button_map_page"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/margin_image_inside_layout"
+                    android:background="@drawable/defibrillator"
+                    android:contentDescription="@string/defibrillator_button" />
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/scroll_view_margin_text"
+                    android:text="@string/map_defibrillator"
+                    android:textColor="@color/dark_blue"
+                    android:textSize="@dimen/icon_font"
+                    android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:id="@+id/show_pharmacy_button_layout"
+                android:layout_width="@dimen/map_utilities_button_layout"
+                android:layout_height="@dimen/map_utilities_button_layout"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/round_style"
+                android:backgroundTint="@color/select_meds_unchecked"
+                android:orientation="vertical">
+
+            <ImageButton
+                    android:id="@+id/show_pharmacy_button"
+                    android:layout_width="@dimen/image_button_map_page"
+                    android:layout_height="@dimen/image_button_map_page"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/margin_image_inside_layout"
+                    android:background="@drawable/pharmacy"
+                    android:contentDescription="@string/pharmacy_button"
+                    tools:ignore="TooDeepLayout,ImageContrastCheck" />
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/scroll_view_margin_text"
+                    android:text="@string/map_pharmacy"
+                    android:textColor="@color/dark_blue"
+                    android:textSize="@dimen/icon_font"
+                    android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

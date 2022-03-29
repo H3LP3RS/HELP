@@ -54,6 +54,7 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
     implementation 'com.opencsv:opencsv:5.3'
     implementation 'com.google.firebase:firebase-database-ktx:20.0.4'
+    implementation 'com.google.maps.android:android-maps-utils:2.1.0'
     testImplementation 'junit:junit:4.13.2'
     testImplementation "org.mockito.kotlin:mockito-kotlin:3.2.0"
     testImplementation "org.mockito:mockito-core:3.2.0"
