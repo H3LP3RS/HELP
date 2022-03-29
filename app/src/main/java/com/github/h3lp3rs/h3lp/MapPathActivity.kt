@@ -27,7 +27,7 @@ import java.net.URL
 
 
 const val DIRECTIONS_URL = "https://maps.googleapis.com/maps/api/directions/json"
-const val BICYCLING = "biycycling"
+const val BICYCLING = "walking"
 
 class MapPathActivity : AppCompatActivity(), OnMapReadyCallback,
     CoroutineScope by MainScope(), GoogleMap.OnPolylineClickListener,
@@ -117,8 +117,8 @@ class MapPathActivity : AppCompatActivity(), OnMapReadyCallback,
 
     private fun getPath() {
         //TODO : remove
-        val destinationLat = 46.6
-        val destinationLong = 6.63
+        val destinationLat = 46.51902895030102
+        val destinationLong = 6.567597089508282
         val url = DIRECTIONS_URL + "?destination=" + destinationLat + "," + destinationLong +
                 "&mode=$BICYCLING" +
                 "&origin=" + currentLat + "," + currentLong +
@@ -180,18 +180,24 @@ class MapPathActivity : AppCompatActivity(), OnMapReadyCallback,
 
     private fun showPolyline(points : List<LatLng>){
         val polylineOpt = PolylineOptions().clickable(true)
+           /* .add(
+            LatLng(46.52544, 6.603280000000001),
+            LatLng(46.525420000000004, 6.603),
+            LatLng(46.52537, 6.60327),
+            LatLng(46.52506, 6.60327),
+            LatLng(46.52503, 6.60327),
+            LatLng(46.52478000000001, 6.60327),
+            LatLng(46.52461, 6.603280000000001)
+
+        )
+
+            */
         points.forEach { p ->
             polylineOpt.add(p)
         }
-        /*.add(
-            LatLng(-35.016, 143.321),
-            LatLng(-34.747, 145.592),
-            LatLng(-34.364, 147.891),
-            LatLng(-33.501, 150.217),
-            LatLng(-32.306, 149.248),
-            LatLng(-32.491, 147.309)
 
-        )*/
+
+
         val polyline: Polyline = map.addPolyline(polylineOpt)
         polyline.tag = "A"
         stylePolyline(polyline)

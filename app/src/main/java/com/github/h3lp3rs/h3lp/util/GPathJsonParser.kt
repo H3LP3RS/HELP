@@ -1,5 +1,6 @@
 package com.github.h3lp3rs.h3lp.util
 
+import android.util.Log
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.PolyUtil
 import org.json.JSONException
@@ -14,7 +15,9 @@ class GPathJsonParser {
      */
     fun parseResult(obj: JSONObject): List<LatLng> {
         return try {
-            val overviewPolyline = obj.getJSONObject("overview_polyline")
+            val overviewPolyline = obj.getJSONArray("routes").getJSONObject(0).getJSONArray("legs").getJSONObject(0).getJSONArray("steps").getJSONObject(0).getJSONObject("polyline")
+            //val overviewPolyline = obj.getJSONObject("overview_polyline")
+            Log.i("GPathPoly", overviewPolyline.toString())
             parsePolyline(overviewPolyline)
         } catch (e: JSONException) {
             arrayListOf()
@@ -24,6 +27,8 @@ class GPathJsonParser {
 
     private fun parsePolyline(overviewPolyline: JSONObject): List<LatLng> {
         val points = overviewPolyline.getString("points")
+        Log.i("GPathPolyPoints", points.toString())
+        Log.i("GPathPolyPointsRes", PolyUtil.decode(points).toString())
         return PolyUtil.decode(points)
     }
 }
