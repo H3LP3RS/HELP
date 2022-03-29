@@ -249,6 +249,16 @@
     <string name="asthma_step1">Reassure the casualty and ask them to take their usual dose of their reliever inhaler. Ask them to breathe slowly.</string>
     <string name="asthma_step2">If they don’t improve within a few minutes, ask them to take a puff every 30 to 60 seconds, until they have had 10 puffs.</string>
     <string name="asthma_step3">Monitor their breathing and level of response. If the ambulance hasn\'t arrived within 15 minutes, repeat step 2.</string>
-    <string name="matchNotFound">oops... match not found</string>
+    <string name="match_not_found">oops... match not found</string>
     <string name="AppGuideFinished">Congratulations! You\'re done</string>
+    <string name="guide_primary_prompt">Click me!</string>
+    <string name="tuto_guide_prompt">Here you can get a sense of what the app allows you to do</string>
+    <string name="profile_guide_prompt">Here you can input all your medical information</string>
+    <string name="skills_guide_prompt">Here you can register your skills and the the first aid medicine you own</string>
+    <string name="cpr_guide_prompt">Get the correct CPR beat to be able to perform cardiac massage</string>
+    <string name="hospitals_guide_prompt">Locate the hospitals in your area</string>
+    <string name="defibrillators_guide_prompt">Find nearby defibrillators</string>
+    <string name="pharmacies_guide_prompt">Locate the nearest pharmacies</string>
+    <string name="first_aid_guide_prompt">Basic first aid training tips and procedures for any emergency !</string>
+    <string name="guide_search_bar_prompt">In case of emergency, you can quickly find what you\'re looking for thanks to our available search bar! </string>
 </resources>

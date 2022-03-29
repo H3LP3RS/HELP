@@ -2,15 +2,12 @@ package com.github.h3lp3rs.h3lp
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
-import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
@@ -42,6 +39,8 @@ const val PHARMACIES = "Pharmacies"
 
 val mainPageButtons =
     listOf(R.id.button_tutorial, R.id.button_profile, R.id.button_my_skills)
+private val mainPageButtonsSecondaryPrompts =
+    listOf(R.string.tuto_guide_prompt, R.string.profile_guide_prompt, R.string.skills_guide_prompt)
 
 val scrollViewButtons = listOf(
     R.id.button_hospital,
@@ -49,6 +48,13 @@ val scrollViewButtons = listOf(
     R.id.button_pharmacy,
     R.id.button_first_aid,
     R.id.button_cpr
+)
+private val scrollViewButtonsSecondaryPrompts = listOf(
+    R.string.hospitals_guide_prompt,
+    R.string.defibrillators_guide_prompt,
+    R.string.pharmacies_guide_prompt,
+    R.string.first_aid_guide_prompt,
+    R.string.cpr_guide_prompt
 )
 
 /**
@@ -71,8 +77,8 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_page)
 
-        if(BuildConfig.DEBUG){
-            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        if (BuildConfig.DEBUG) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
 
         setUpDrawerLayout()
@@ -98,16 +104,18 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
 
     override fun onResume() {
         super.onResume()
+        // This removes the focus from the search bar when the user goes back to the main page
+        // after clicking on an item from the list view.
         searchView.clearFocus()
     }
 
     private fun startAppGuide() {
         val prefManager = PreferenceManager.getDefaultSharedPreferences(this)
         if (!prefManager.getBoolean("didShowGuide", false)) {
-        val prefEditor = prefManager.edit()
-        prefEditor.putBoolean("didShowGuide", true)
-        prefEditor.apply()
-        showMainButtonsPrompt()
+            val prefEditor = prefManager.edit()
+            prefEditor.putBoolean("didShowGuide", true)
+            prefEditor.apply()
+            showMainButtonsPrompt()
         }
     }
 
@@ -115,41 +123,45 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     // of using the getResource function. The difference is that the id enables having transparent
     // colors which is more aesthetically pleasing.
     @SuppressLint("ResourceAsColor")
-    private fun showPrompt(index: Int, isInScrollView: Boolean, list: List<Int>, next: () -> Unit) {
-        if (index >= list.size) return next()
-        val buttonId = list[index]
+    private fun showPrompt(
+        index: Int,
+        isInScrollView: Boolean,
+        buttonIds: List<Int>,
+        prompts: List<Int>,
+        next: () -> Unit
+    ) {
+        if (index >= buttonIds.size) return next()
+        val buttonId = buttonIds[index]
 
         if (isInScrollView) {
             val sv = findViewById<HorizontalScrollView>(R.id.horizontalScrollView)
             sv.requestChildFocus(findViewById(buttonId), findViewById(buttonId))
         }
 
-        MaterialTapTargetPrompt.Builder(this).setTarget(list[index])
-            .setPrimaryText("TODO")
-            .setSecondaryText("TODO").setBackButtonDismissEnabled(false).setBackgroundColour(
+        MaterialTapTargetPrompt.Builder(this).setTarget(buttonIds[index])
+            .setPrimaryText(R.string.guide_primary_prompt)
+            .setSecondaryText(prompts[index]).setBackButtonDismissEnabled(false).setBackgroundColour(
                 R.color.black
             ).setPromptStateChangeListener { _, state ->
                 if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED || state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED) {
-                    showPrompt(index + 1, isInScrollView, list, next)
+                    showPrompt(index + 1, isInScrollView, buttonIds,prompts, next)
                 }
             }.show()
 
     }
 
     private fun showScrollViewButtonsPrompt() {
-        showPrompt(0, true, scrollViewButtons) { showSearchPrompt() }
-
+        showPrompt(0, true, scrollViewButtons, scrollViewButtonsSecondaryPrompts) { showSearchPrompt() }
     }
 
     private fun showMainButtonsPrompt() {
-        showPrompt(0, false, mainPageButtons) { showScrollViewButtonsPrompt() }
-
+        showPrompt(0, false, mainPageButtons,mainPageButtonsSecondaryPrompts) { showScrollViewButtonsPrompt() }
     }
 
     @SuppressLint("ResourceAsColor")
     private fun showSearchPrompt() {
         MaterialTapTargetPrompt.Builder(this).setTarget(findViewById(R.id.searchBar))
-            .setPrimaryText("TODO").setSecondaryText("TODO").setBackButtonDismissEnabled(true)
+            .setPrimaryText(R.string.guide_primary_prompt).setSecondaryText(R.string.guide_search_bar_prompt).setBackButtonDismissEnabled(true)
             .setPromptBackground(
                 RectanglePromptBackground()
             ).setPromptFocal(RectanglePromptFocal()).setBackgroundColour(
@@ -157,7 +169,10 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
             )
             .setPromptStateChangeListener { _, state ->
                 if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED || state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED) {
-                    displayMessage(getString(R.string.AppGuideFinished), findViewById(R.id.horizontalScrollView))
+                    displayMessage(
+                        getString(R.string.AppGuideFinished),
+                        findViewById(R.id.horizontalScrollView)
+                    )
                     searchView.clearFocus()
                 }
             }.show()
@@ -283,7 +298,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
 
     private fun displayErrorMessageAfterSearch() {
         val horizontalScrollView = findViewById<View>(R.id.horizontalScrollView)
-        displayMessage(getString(R.string.matchNotFound), horizontalScrollView)
+        displayMessage(getString(R.string.match_not_found), horizontalScrollView)
     }
 
     private fun displaySelectedItem(item: String) {

@@ -1,15 +1,12 @@
 package com.github.h3lp3rs.h3lp
 
-import android.app.Activity
-import android.app.Instrumentation
 import android.content.Context
-import android.content.Intent
 import androidx.preference.PreferenceManager
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions
-import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -17,8 +14,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
-import org.junit.After
-import org.junit.Before
+import org.hamcrest.Matchers
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -59,14 +55,12 @@ class GuideTest {
         var i = 0
         // +1 for the search bar
         val nbButtons = mainPageButtons.size + scrollViewButtons.size + 1
-        //while (i < nbButtons) {
-            onView(withId(R.id.HelloText)).perform(click())
-            i++
-        //}
-        /*
+        while (i++ < nbButtons) {
+        onView(withId(R.id.HelloText)).perform(click())
+        }
         onView(ViewMatchers.withText(R.string.AppGuideFinished))
             .check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
-         */
+
     }
 
 }
