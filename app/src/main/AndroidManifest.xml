@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.H3LP">
         <activity
-            android:name=".MapPathActivity"
+            android:name=".signin.SignInActivity"
             android:exported="true" />
         <activity
             android:name=".firstaid.AsthmaActivity"
@@ -74,7 +74,7 @@
             android:name=".presentation.PresArrivalActivity"
             android:exported="false" />
         <activity
-            android:name=".signin.SignInActivity"
+            android:name=".MapPathActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -71,6 +71,8 @@ dependencies {
     testImplementation 'org.mockito:mockito-core:3.2.0'
     // required if you want to use Mockito for Android tests
     androidTestImplementation 'org.mockito:mockito-android:3.2.0'
+
+    implementation 'com.akexorcist:google-direction-library:1.2.0'
 }
 
 tasks.withType(Test) {

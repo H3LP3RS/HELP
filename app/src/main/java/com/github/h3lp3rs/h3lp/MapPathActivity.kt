@@ -147,13 +147,6 @@ class MapPathActivity : AppCompatActivity(), OnMapReadyCallback,
             LatLng(-32.491, 147.309))
         )
 
-        // Position the map's camera near Alice Springs in the center of Australia,
-        // and set the zoom factor so most of Australia shows on the screen.
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(-23.684, 133.903), 4f))
-
-        // Set listeners for click events.
-        map.setOnPolylineClickListener(this)
-        map.setOnPolygonClickListener(this)
     }
 
     private fun downloadUrl(url: String): String {
@@ -202,6 +195,14 @@ class MapPathActivity : AppCompatActivity(), OnMapReadyCallback,
         val polyline: Polyline = map.addPolyline(polylineOpt)
         polyline.tag = "A"
         stylePolyline(polyline)
+        // Position the map's camera near Alice Springs in the center of Australia,
+        // and set the zoom factor so most of Australia shows on the screen.
+        //map.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(-23.684, 133.903), 4f))
+
+        // Set listeners for click events.
+        map.setOnPolylineClickListener(this)
+        map.setOnPolygonClickListener(this)
+
     }
     private val COLOR_BLACK_ARGB = -0x1000000
     private val POLYLINE_STROKE_WIDTH_PX = 12
