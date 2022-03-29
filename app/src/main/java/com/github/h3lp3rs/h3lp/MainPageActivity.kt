@@ -148,18 +148,10 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
             }
             true
         }
-        // Demo code
-        //addAlertNotification()
+
     }
 
-    // Demo code
-    private fun addAlertNotification() {
-        val db = databaseOf(Databases.EMERGENCIES)
-        db.addListener("Test", Double::class.java) {
-                sendNotification(getString(R.string.emergency),it.toString())
 
-        }
-    }
 
     private fun sendNotification(textTitle: String,textContent:String){
         AlertDialog.Builder(this).setTitle(textTitle).setMessage(textContent).setIcon(R.drawable.notification_icon).show()
