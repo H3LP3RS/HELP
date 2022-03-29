@@ -3,28 +3,25 @@ package com.github.h3lp3rs.h3lp
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.annotation.SuppressLint
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.github.h3lp3rs.h3lp.databinding.ActivityNearbyUtilitiesBinding
-
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.content.res.ColorStateList
 import android.location.Criteria
 import android.location.LocationManager
+import android.os.Bundle
 import android.util.Log
 import android.widget.ImageButton
 import android.widget.LinearLayout
-import androidx.core.content.ContextCompat.*
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.checkSelfPermission
+import androidx.core.content.ContextCompat.getColorStateList
+import com.github.h3lp3rs.h3lp.databinding.ActivityNearbyUtilitiesBinding
 import com.github.h3lp3rs.h3lp.util.GPlaceJsonParser
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.*
 import kotlinx.coroutines.*
 import org.json.JSONObject
 import java.io.BufferedReader
@@ -33,6 +30,7 @@ import java.lang.Double.parseDouble
 import java.net.HttpURLConnection
 import java.net.URL
 
+
 typealias GooglePlace = HashMap<String, String>
 
 const val PLACES_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
@@ -40,7 +38,8 @@ const val DEFAULT_MAP_ZOOM = 15f
 const val DEFAULT_SEARCH_RADIUS = 3000
 
 class NearbyUtilitiesActivity : AppCompatActivity(), OnMapReadyCallback,
-    CoroutineScope by MainScope() {
+    CoroutineScope by MainScope(),GoogleMap.OnPolylineClickListener,
+    GoogleMap.OnPolygonClickListener {
 
     private lateinit var map: GoogleMap
     private lateinit var binding: ActivityNearbyUtilitiesBinding
@@ -162,6 +161,23 @@ class NearbyUtilitiesActivity : AppCompatActivity(), OnMapReadyCallback,
         map = googleMap
 
         setupMap()
+
+        showPolyline(listOf(
+            LatLng(-35.016, 143.321),
+            LatLng(-34.747, 145.592),
+            LatLng(-34.364, 147.891),
+            LatLng(-33.501, 150.217),
+            LatLng(-32.306, 149.248),
+            LatLng(-32.491, 147.309))
+        )
+
+        // Position the map's camera near Alice Springs in the center of Australia,
+        // and set the zoom factor so most of Australia shows on the screen.
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(-23.684, 133.903), 4f))
+
+        // Set listeners for click events.
+        map.setOnPolylineClickListener(this)
+        map.setOnPolygonClickListener(this)
     }
 
 
@@ -296,6 +312,75 @@ class NearbyUtilitiesActivity : AppCompatActivity(), OnMapReadyCallback,
             }
         }
     }
+    private fun showPolyline(points : List<LatLng>){
+        val polylineOpt = PolylineOptions().clickable(true)
+        points.forEach { p ->
+            polylineOpt.add(p)
+        }
+                /*.add(
+                    LatLng(-35.016, 143.321),
+                    LatLng(-34.747, 145.592),
+                    LatLng(-34.364, 147.891),
+                    LatLng(-33.501, 150.217),
+                    LatLng(-32.306, 149.248),
+                    LatLng(-32.491, 147.309)
+
+                )*/
+        val polyline: Polyline = map.addPolyline(polylineOpt)
+        polyline.tag = "A"
+        stylePolyline(polyline)
+    }
+    private val COLOR_BLACK_ARGB = -0x1000000
+    private val POLYLINE_STROKE_WIDTH_PX = 12
+
+    /**
+     * Styles the polyline, based on type.
+     * @param polyline The polyline object that needs styling.
+     */
+    private fun stylePolyline(polyline: Polyline) {
+        var type = ""
+        // Get the data object stored with the polyline.
+        if (polyline.tag != null) {
+            type = polyline.tag.toString()
+        }
+        when (type) {
+            "A" ->                 // Use a custom bitmap as the cap at the start of the line.
+                polyline.startCap = CustomCap(
+                    BitmapDescriptorFactory.fromResource(R.drawable.ic_arrow), 10F
+                )
+            "B" ->                 // Use a round cap at the start of the line.
+                polyline.startCap = RoundCap()
+        }
+        polyline.endCap = RoundCap()
+        polyline.width = POLYLINE_STROKE_WIDTH_PX.toFloat()
+        polyline.color = COLOR_BLACK_ARGB
+        polyline.jointType = JointType.ROUND
+    }
+
+    private val PATTERN_GAP_LENGTH_PX = 20
+    private val DOT: PatternItem = Dot()
+    private val GAP: PatternItem = Gap(PATTERN_GAP_LENGTH_PX.toFloat())
+
+    // Create a stroke pattern of a gap followed by a dot.
+    private val PATTERN_POLYLINE_DOTTED: List<PatternItem> = listOf(GAP, DOT)
+
+    /**
+     * Listens for clicks on a polyline.
+     * @param polyline The polyline object that the user has clicked.
+     */
+    override fun onPolylineClick(polyline: Polyline) {
+        // Flip from solid stroke to dotted stroke pattern.
+        if (polyline.pattern == null || !polyline.pattern!!.contains(DOT)) {
+            polyline.pattern = PATTERN_POLYLINE_DOTTED
+        } else {
+            // The default pattern is a solid stroke.
+            polyline.pattern = null
+        }
+        Toast.makeText(
+            this, "Route type " + polyline.tag.toString(),
+            Toast.LENGTH_SHORT
+        ).show()
+    }
 
     /**
      * Utility function to remove all markers corresponding to one utility
@@ -306,6 +391,10 @@ class NearbyUtilitiesActivity : AppCompatActivity(), OnMapReadyCallback,
         }
 
         placedMarkers[utility] = arrayListOf()
+    }
+
+    override fun onPolygonClick(p0: Polygon) {
+        TODO("Not yet implemented")
     }
 
 }
