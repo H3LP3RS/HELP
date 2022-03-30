@@ -217,7 +217,7 @@ class NearbyUtilitiesActivity : AppCompatActivity(), OnMapReadyCallback,
             }
 
         } else {
-            // Permission to access the location is missing
+            // In case the permission to access the location is missing
             val intent = Intent(this, MainPageActivity::class.java)
             startActivity(intent)
         }

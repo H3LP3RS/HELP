@@ -10,7 +10,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.*
+import androidx.core.content.ContextCompat.checkSelfPermission
 import com.github.h3lp3rs.h3lp.databinding.ActivityMapPathBinding
 import com.github.h3lp3rs.h3lp.util.GPathJsonParser
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -25,19 +25,20 @@ import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
 
-
-const val DIRECTIONS_URL = "https://maps.googleapis.com/maps/api/directions/json"
-const val BICYCLING = "walking"
-
 class MapPathActivity : AppCompatActivity(), OnMapReadyCallback,
-    CoroutineScope by MainScope(), GoogleMap.OnPolylineClickListener,
-    GoogleMap.OnPolygonClickListener{
+    CoroutineScope by MainScope(), GoogleMap.OnPolylineClickListener {
 
     private lateinit var map: GoogleMap
     private lateinit var binding: ActivityMapPathBinding
     private var currentLong: Double = 0.0
     private var currentLat: Double = 0.0
     private var path: List<LatLng>? = null
+
+    //TODO : currently, the destination is hardcoded, this will change with the task allowing
+    // nearby helpers to go and help people in need (in which case the destination will be the
+    // location of the user in need)
+    private val destinationLat = 46.51902895030102
+    private val destinationLong = 6.567597089508282
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,22 +63,8 @@ class MapPathActivity : AppCompatActivity(), OnMapReadyCallback,
 
         setupMap()
 
-//        showPolyline(listOf(
-//            LatLng(-35.016, 143.321),
-//            LatLng(-34.747, 145.592),
-//            LatLng(-34.364, 147.891),
-//            LatLng(-33.501, 150.217),
-//            LatLng(-32.306, 149.248),
-//            LatLng(-32.491, 147.309))
-//        )
-//
-//        // Position the map's camera near Alice Springs in the center of Australia,
-//        // and set the zoom factor so most of Australia shows on the screen.
-//        map.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(-23.684, 133.903), 4f))
-
-        // Set listeners for click events.
+        // Set listener for click events.
         map.setOnPolylineClickListener(this)
-        map.setOnPolygonClickListener(this)
 
         getPath()
 
@@ -109,44 +96,25 @@ class MapPathActivity : AppCompatActivity(), OnMapReadyCallback,
             }
 
         } else {
-            // Permission to access the location is missing
+            // In case the permission to access the location is missing
             val intent = Intent(this, MainPageActivity::class.java)
             startActivity(intent)
         }
     }
 
     private fun getPath() {
-        //TODO : remove
-        val destinationLat = 46.51902895030102
-        val destinationLong = 6.567597089508282
         val url = DIRECTIONS_URL + "?destination=" + destinationLat + "," + destinationLong +
-                "&mode=$BICYCLING" +
+                "&mode=$WALKING" +
                 "&origin=" + currentLat + "," + currentLong +
                 "&key=" + resources.getString(R.string.google_maps_key)
 
-        // Launches async routines to retrieve nearby places and show them
-        // on the map
+        // Launches async routines to retrieve the path to the destination and display it on the map
         CoroutineScope(Dispatchers.Main).launch {
             val data: String = withContext(Dispatchers.IO) { downloadUrl(url) }
             Log.i("GPath", data)
-            path = parsePlacesTask(data)
+            path = parsePathTask(data)
             path?.let { showPolyline(path!!) }
         }
-    }
-
-    private fun showPath() {
-
-        setupMap()
-
-        showPolyline(listOf(
-            LatLng(-35.016, 143.321),
-            LatLng(-34.747, 145.592),
-            LatLng(-34.364, 147.891),
-            LatLng(-33.501, 150.217),
-            LatLng(-32.306, 149.248),
-            LatLng(-32.491, 147.309))
-        )
-
     }
 
     private fun downloadUrl(url: String): String {
@@ -169,7 +137,7 @@ class MapPathActivity : AppCompatActivity(), OnMapReadyCallback,
         return builder.toString()
     }
 
-    private fun parsePlacesTask(data: String): List<LatLng> {
+    private fun parsePathTask(data: String): List<LatLng> {
         val parser = GPathJsonParser()
 
         val obj = JSONObject(data)
@@ -178,44 +146,23 @@ class MapPathActivity : AppCompatActivity(), OnMapReadyCallback,
     }
 
 
-    private fun showPolyline(points : List<LatLng>){
+    private fun showPolyline(points: List<LatLng>) {
         val polylineOpt = PolylineOptions().clickable(true)
-           /* .add(
-            LatLng(46.52544, 6.603280000000001),
-            LatLng(46.525420000000004, 6.603),
-            LatLng(46.52537, 6.60327),
-            LatLng(46.52506, 6.60327),
-            LatLng(46.52503, 6.60327),
-            LatLng(46.52478000000001, 6.60327),
-            LatLng(46.52461, 6.603280000000001)
 
-        )
-
-            */
         points.forEach { p ->
             polylineOpt.add(p)
         }
 
 
-
         val polyline: Polyline = map.addPolyline(polylineOpt)
-        polyline.tag = "A"
+        polyline.tag = "B"
         stylePolyline(polyline)
-        // Position the map's camera near Alice Springs in the center of Australia,
-        // and set the zoom factor so most of Australia shows on the screen.
-        //map.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(-23.684, 133.903), 4f))
-
-        // Set listeners for click events.
-        map.setOnPolylineClickListener(this)
-        map.setOnPolygonClickListener(this)
-
     }
-    private val COLOR_BLACK_ARGB = -0x1000000
-    private val POLYLINE_STROKE_WIDTH_PX = 12
+
 
     /**
-     * Styles the polyline, based on type.
-     * @param polyline The polyline object that needs styling.
+     * Styles the polyline, based on type
+     * @param polyline The polyline object that needs styling
      */
     private fun stylePolyline(polyline: Polyline) {
         var type = ""
@@ -228,21 +175,28 @@ class MapPathActivity : AppCompatActivity(), OnMapReadyCallback,
                 polyline.startCap = CustomCap(
                     BitmapDescriptorFactory.fromResource(R.drawable.ic_arrow), 10F
                 )
-            "B" ->                 // Use a round cap at the start of the line.
+                "B" ->                 // Use a round cap at the start of the line.
                 polyline.startCap = RoundCap()
         }
-        polyline.endCap = RoundCap()
+        polyline.endCap = SquareCap()
+
         polyline.width = POLYLINE_STROKE_WIDTH_PX.toFloat()
-        polyline.color = COLOR_BLACK_ARGB
+        polyline.color = BLUE_ARGB
         polyline.jointType = JointType.ROUND
+
+        addEndPoint()
     }
 
-    private val PATTERN_GAP_LENGTH_PX = 20
-    private val DOT: PatternItem = Dot()
-    private val GAP: PatternItem = Gap(PATTERN_GAP_LENGTH_PX.toFloat())
+    private fun addEndPoint() {
+        val options = MarkerOptions()
+        val latLng = LatLng(destinationLat, destinationLong)
 
-    // Create a stroke pattern of a gap followed by a dot.
-    private val PATTERN_POLYLINE_DOTTED: List<PatternItem> = listOf(GAP, DOT)
+        options.position(latLng)
+        options.title(END_POINT_NAME)
+        options.icon(BitmapDescriptorFactory.fromResource(R.drawable.end_point_pin))
+
+        map.addMarker(options)
+    }
 
     /**
      * Listens for clicks on a polyline.
@@ -257,13 +211,33 @@ class MapPathActivity : AppCompatActivity(), OnMapReadyCallback,
             polyline.pattern = null
         }
         Toast.makeText(
-            this, "Route type " + polyline.tag.toString(),
+            this, "Fastest path to the user in need of your help",
             Toast.LENGTH_SHORT
         ).show()
     }
 
-    override fun onPolygonClick(p0: Polygon) {
-        TODO("Not yet implemented")
+    companion object {
+        // Constants to access the Google directions API
+        const val DIRECTIONS_URL = "https://maps.googleapis.com/maps/api/directions/json"
+        const val WALKING = "walking"
+
+        // Constants for the polyline appearance
+
+        // The minus is simply there since the polyline color attribute requires an integer, but writing
+        // the actual HEX value of blue with an alpha larger than 0xF would need a long, we thus write
+        // this larger HEX value correctly for an integer, that is with 2's complement
+        private const val BLUE_ARGB = -0x1FF7E3D
+        private const val POLYLINE_STROKE_WIDTH_PX = 12
+
+        // Constants for the polyline appearance after having been clicked
+        private const val PATTERN_GAP_LENGTH_PX = 20
+        private val DOT: PatternItem = Dot()
+        private val GAP: PatternItem = Gap(PATTERN_GAP_LENGTH_PX.toFloat())
+
+        // Create a stroke pattern of a gap followed by a dot.
+        private val PATTERN_POLYLINE_DOTTED: List<PatternItem> = listOf(GAP, DOT)
+
+        private const val END_POINT_NAME = "user in need"
     }
 
 }
