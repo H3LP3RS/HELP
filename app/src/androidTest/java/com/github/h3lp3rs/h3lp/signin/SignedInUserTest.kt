@@ -61,14 +61,14 @@ class SignedInUserTest {
 
     @Test // TODO: Need authentication mocking
     fun signedInUserMovesToMainPageIfToSAccepted() {
-        storageOf(USER_COOKIE).setBoolean(globalContext.getString(R.string.KEY_USER_AGREE), false)
+        storageOf(USER_COOKIE).setBoolean(globalContext.getString(R.string.KEY_USER_AGREE), true)
         onView(withId(R.id.signInButton)).perform(click())
         intended(hasComponent(MainPageActivity::class.java.name))
     }
 
     @Test
     fun signedInUserMovesToPresentationIfToSNotAccepted() {
-        //storageOf(USER_COOKIE).setBoolean(globalContext.getString(R.string.KEY_USER_AGREE), false)
+        storageOf(USER_COOKIE).setBoolean(globalContext.getString(R.string.KEY_USER_AGREE), false)
         onView(withId(R.id.signInButton)).perform(click())
         intended(hasComponent(PresArrivalActivity::class.java.name))
     }

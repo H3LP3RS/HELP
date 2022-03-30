@@ -24,7 +24,7 @@ class SignInActivity : AppCompatActivity() {
     lateinit var signInClient : SignInInterface<AuthResult>
     private lateinit var userCookie: LocalStorage
 
-    private fun checkToSAndLaunchIfNotAccepted() {
+    private fun checkToSAndLaunchIfNotAcceptedElseMain() {
         // Check ToS agreement
         userCookie = storageOf(Storages.USER_COOKIE) // Fetch from storage
         if(!userCookie.getBoolOrDefault(getString(R.string.KEY_USER_AGREE), false)) {
@@ -32,6 +32,9 @@ class SignInActivity : AppCompatActivity() {
                 .putExtra(ORIGIN, SignInActivity::class.qualifiedName)
             startActivity(i)
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+        } else {
+            val intent = Intent(this, MainPageActivity::class.java)
+            startActivity(intent)
         }
     }
 
@@ -40,9 +43,7 @@ class SignInActivity : AppCompatActivity() {
      */
     private fun checkIfSignedIn() {
         if (signInClient.isSignedIn()) {
-            checkToSAndLaunchIfNotAccepted()
-            val intent = Intent(this, MainPageActivity::class.java)
-            startActivity(intent)
+            checkToSAndLaunchIfNotAcceptedElseMain()
         }
     }
 
@@ -83,10 +84,7 @@ class SignInActivity : AppCompatActivity() {
         signInClient.authenticate(result, activity)
             ?.addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
-                    checkToSAndLaunchIfNotAccepted()
-                    // Sign in success, update activity with the signed-in user's information
-                    val intent = Intent(activity, MainPageActivity::class.java)
-                    startActivity(intent)
+                    checkToSAndLaunchIfNotAcceptedElseMain()
                 }
             }
     }
