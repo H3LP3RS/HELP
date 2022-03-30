@@ -109,6 +109,10 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         searchView.clearFocus()
     }
 
+    /**
+     * Starts the application guide. Uses preferences to only start the guide when the app is
+     * launched for the first time
+     */
     private fun startAppGuide() {
         val prefManager = PreferenceManager.getDefaultSharedPreferences(this)
         if (!prefManager.getBoolean("didShowGuide", false)) {
@@ -133,6 +137,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         if (index >= buttonIds.size) return next()
         val buttonId = buttonIds[index]
 
+        // If the button is in the scroll view, it may be necessary to scroll to the button.
         if (isInScrollView) {
             val sv = findViewById<HorizontalScrollView>(R.id.horizontalScrollView)
             sv.requestChildFocus(findViewById(buttonId), findViewById(buttonId))
