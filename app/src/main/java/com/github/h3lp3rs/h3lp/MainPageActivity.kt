@@ -148,20 +148,10 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
             }
             true
         }
-        // Demo code
-        // addAlertNotification()
+
     }
 
-    // Demo code
-    private fun addAlertNotification() {
-        val db = databaseOf(Databases.NEW_EMERGENCIES)
-        db.addListener(getString(R.string.ventolin_db_key), String::class.java) {
-            if(it.equals(getString(R.string.help))){
-                db.setString(getString(R.string.ventolin_db_key),getString(R.string.nothing))
-                sendNotification(getString(R.string.emergency),getString(R.string.need_help))
-            }
-        }
-    }
+
 
     private fun sendNotification(textTitle: String,textContent:String){
         AlertDialog.Builder(this).setTitle(textTitle).setMessage(textContent).setIcon(R.drawable.notification_icon).show()
