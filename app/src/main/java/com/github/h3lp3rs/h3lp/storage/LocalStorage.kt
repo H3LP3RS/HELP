@@ -7,31 +7,29 @@ import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import org.json.JSONObject
-
+import java.lang.Boolean.parseBoolean
 
 /**
  * Implementation of a local storage to store data locally. Not meant for
  * direct use.
  */
-class LocalStorage(private val path: String, private val context: Context, private val enableOnlineSync: Boolean) {
+class LocalStorage(path: String, context: Context, private val enableOnlineSync: Boolean) {
     private val pref = context.getSharedPreferences(path, AppCompatActivity.MODE_PRIVATE)
     private val editor = pref.edit()
 
-
     /**
      * Update online parameters if needed
-     * @throws NullPointerException if the user not authenticated and online
-     * sync is enabled.
+     * @throws NullPointerException if the user is not authenticated AND online sync is enabled.
      */
-    fun pull( ){
-        if (enableOnlineSync) {
-            // need to be authenticated if online sync is enabled
-            val uid = FirebaseAuth.getInstance().currentUser!!.uid
+    fun pull(){
+        /*if (enableOnlineSync) { // TODO: Need mocked version!
+            // Need to be authenticated if online sync is enabled
+            val uid = FirebaseAuth.getInstance().currentUser!!.uid // TODO: Need mocked version!
             val db = databaseOf(PREFERENCES)
-            db.getString(uid).thenAccept{
+            db.getString(uid).exceptionally { JSONObject().toString() }.thenAccept {
                 parseOnlinePrefs(it)
             }
-        }
+        }*/
     }
 
     /**
@@ -39,7 +37,7 @@ class LocalStorage(private val path: String, private val context: Context, priva
      */
     private fun parseOnlinePrefs(s: String) {
         val json = JSONObject(s)
-        for(k in json.keys()){
+        for(k in json.keys()) {
             editor.putString(k, json.get(k).toString())
         }
     }
@@ -56,11 +54,9 @@ class LocalStorage(private val path: String, private val context: Context, priva
             for (entry in pref.all.entries){
                 json.put(entry.key.toString(), entry.value.toString())
             }
-
             db.setString(uid, json.toString())
         }
     }
-
 
     /**
      * Sets a Boolean to the preference file given a key.
@@ -74,7 +70,7 @@ class LocalStorage(private val path: String, private val context: Context, priva
      * Or the default value if it is not present.
      */
     fun getBoolOrDefault(key: String, default: Boolean): Boolean {
-        return pref.getString(key, default.toString()) == true.toString()
+        return parseBoolean(pref.getString(key, default.toString()))
     }
 
     /**
@@ -119,7 +115,7 @@ class LocalStorage(private val path: String, private val context: Context, priva
      * Gets the Object stored at a given key.
      * Or the default value if it is not present.
      */
-    fun <T> getObject(key: String, type: Class <T>, default: T): T {
+    fun <T> getObjectOrDefault(key: String, type: Class<T>, default: T): T {
         val gson = Gson()
         val s = getStringOrDefault(key, "")
         return if (!s.isNullOrEmpty()) {
@@ -127,5 +123,12 @@ class LocalStorage(private val path: String, private val context: Context, priva
         } else {
             default
         }
+    }
+
+    /**
+     * Clears all key value mappings
+     */
+    fun clearAll() {
+        editor.clear().commit()
     }
 }

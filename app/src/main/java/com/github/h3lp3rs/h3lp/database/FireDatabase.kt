@@ -29,7 +29,8 @@ internal class FireDatabase(path: String) : Database {
     private inline fun <reified  T: Any> get(key: String): CompletableFuture<T> {
         val future = CompletableFuture<T>()
         db.child(key).get().addOnSuccessListener {
-            future.complete(it.value as T)
+            if (it.value == null) future.completeExceptionally(NoSuchFieldException())
+            else future.complete(it.value as T)
         }.addOnFailureListener {
             future.completeExceptionally(it)
         }

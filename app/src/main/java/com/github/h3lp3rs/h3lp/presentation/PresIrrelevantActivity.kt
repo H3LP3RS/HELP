@@ -50,7 +50,7 @@ class PresIrrelevantActivity : AppCompatActivity() {
         // 1. Set right box tick
         val checkBox = findViewById<View>(R.id.pres3_checkBox) as CheckBox
         //TODO Call storage of once
-        if(userCookie.getBoolOrDefault("USER_AGREE", false)) {
+        if(userCookie.getBoolOrDefault(getString(R.string.KEY_USER_AGREE), false)) {
             checkBox.isChecked = true
         }
         // 2. Add clickable text using the code of:
@@ -71,7 +71,7 @@ class PresIrrelevantActivity : AppCompatActivity() {
     fun sendApproval(view: View) {
         val checkBox = findViewById<View>(R.id.pres3_checkBox) as CheckBox
         if(checkBox.isChecked) {
-            userCookie.setBoolean("USER_AGREE", true)
+            userCookie.setBoolean(getString(R.string.KEY_USER_AGREE), true)
             val i = Intent(this, findDest(intent.getStringExtra(ORIGIN)))
             startActivity(i)
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
@@ -81,7 +81,7 @@ class PresIrrelevantActivity : AppCompatActivity() {
     private fun findDest(name: String?): Class<*>? {
         return when (name) {
             SignInActivity::class.qualifiedName -> {
-                SignInActivity::class.java
+                MainPageActivity::class.java
             }
             MainPageActivity::class.qualifiedName -> {
                 MainPageActivity::class.java

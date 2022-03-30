@@ -56,9 +56,6 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_page)
 
-        val ls = storageOf(USER_COOKIE)
-        ls.push()
-
         setUpDrawerLayout()
 
         searchView = findViewById(R.id.searchBar)

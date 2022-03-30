@@ -11,9 +11,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
+import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
 import com.github.h3lp3rs.h3lp.storage.Storages
+import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.google.firebase.auth.AuthResult
 
 const val ORIGIN: String = "ORIGIN"
@@ -27,6 +29,14 @@ class SignInActivity : AppCompatActivity() {
      */
     private fun checkIfSignedIn() {
         if (signInClient.isSignedIn()) {
+            // Check ToS agreement
+            userCookie = storageOf(Storages.USER_COOKIE) // Fetch from storage
+            if(!userCookie.getBoolOrDefault(getString(R.string.KEY_USER_AGREE), false)) {
+                val i = Intent(this, PresArrivalActivity::class.java)
+                    .putExtra(ORIGIN, SignInActivity::class.qualifiedName)
+                startActivity(i)
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+            }
             val intent = Intent(this, MainPageActivity::class.java)
             startActivity(intent)
         }
@@ -38,19 +48,10 @@ class SignInActivity : AppCompatActivity() {
         // Store the context for local storage use
         globalContext = this
 
-        userCookie = Storages.storageOf(Storages.USER_COOKIE)
-
         setContentView(R.layout.activity_sign_in)
         // Initialize Firebase Auth
         findViewById<ImageButton>(R.id.signInButton).setOnClickListener{
             launchSignIn()
-        }
-        // Check ToS agreement
-        if(!userCookie.getBoolOrDefault("USER_AGREE", false)) {
-            val i = Intent(this, PresArrivalActivity::class.java)
-                .putExtra(ORIGIN, SignInActivity::class.qualifiedName)
-            startActivity(i)
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
     }
 
@@ -78,6 +79,14 @@ class SignInActivity : AppCompatActivity() {
         signInClient.authenticate(result, activity)
             ?.addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
+                    // Check ToS agreement
+                    userCookie = storageOf(Storages.USER_COOKIE) // Fetch from storage
+                    if(!userCookie.getBoolOrDefault(getString(R.string.KEY_USER_AGREE), false)) {
+                        val i = Intent(this, PresArrivalActivity::class.java)
+                            .putExtra(ORIGIN, SignInActivity::class.qualifiedName)
+                        startActivity(i)
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                    }
                     // Sign in success, update activity with the signed-in user's information
                     val intent = Intent(activity, MainPageActivity::class.java)
                     startActivity(intent)
