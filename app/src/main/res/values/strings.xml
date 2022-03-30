@@ -225,6 +225,7 @@
     <string name="login">Login</string>
     <string name="settings">Settings</string>
     <string name="home">Home</string>
+    <string name="empty_error_msg">This field can not be empty</string>
     <string name="no_permission">Permission Denied</string>
 
     <string name="title_activity_nearby_utilities">NearbyUtilitiesActivity</string>
