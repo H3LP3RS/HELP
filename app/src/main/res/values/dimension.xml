@@ -12,5 +12,8 @@
     <dimen name="help_button">150dp</dimen>
     <dimen name="select_meds_button">110dp</dimen>
 
+    <dimen name="map_utilities_button_layout">100dp</dimen>
+    <dimen name="image_button_map_page">60dp</dimen>
+
 
 </resources>

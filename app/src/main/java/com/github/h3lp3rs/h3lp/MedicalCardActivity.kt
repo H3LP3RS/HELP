@@ -183,9 +183,9 @@ class MedicalCardActivity : AppCompatActivity() {
 
         val clickableSpan: ClickableSpan = object : ClickableSpan() {
             override fun onClick(widget: View) {
-                //This avoid checkbox checking when clicking on the policy link
-                //Sadly it is incompatible with Expresso onClick() so is commented for cirrus
-                //widget.cancelPendingInputEvents()
+                // This avoids checkbox checking when clicking on the policy link
+                // Sadly it is incompatible with Expresso onClick() so is commented for cirrus
+                // widget.cancelPendingInputEvents()
                 showPolicy()
             }
             override fun updateDrawState(ds: TextPaint) {
