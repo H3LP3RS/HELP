@@ -36,7 +36,7 @@ class HelpParametersActivity : AppCompatActivity() {
         val coordinatesText = getString(R.string.current_location)
         if (userLocation != null) {
             locationInformation.text = String.format(
-                "%s latitude: %.3f longitude: %.3f",
+                "%s latitude: %.4f longitude: %.4f",
                 coordinatesText,
                 userLocation!!.latitude,
                 userLocation!!.longitude
