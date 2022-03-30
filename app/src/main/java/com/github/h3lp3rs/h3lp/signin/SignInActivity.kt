@@ -24,19 +24,23 @@ class SignInActivity : AppCompatActivity() {
     lateinit var signInClient : SignInInterface<AuthResult>
     private lateinit var userCookie: LocalStorage
 
+    private fun checkToSAndLaunchIfNotAccepted() {
+        // Check ToS agreement
+        userCookie = storageOf(Storages.USER_COOKIE) // Fetch from storage
+        if(!userCookie.getBoolOrDefault(getString(R.string.KEY_USER_AGREE), false)) {
+            val i = Intent(this, PresArrivalActivity::class.java)
+                .putExtra(ORIGIN, SignInActivity::class.qualifiedName)
+            startActivity(i)
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+        }
+    }
+
     /**
      * Check if the current user is already signed in and update activity accordingly
      */
     private fun checkIfSignedIn() {
         if (signInClient.isSignedIn()) {
-            // Check ToS agreement
-            userCookie = storageOf(Storages.USER_COOKIE) // Fetch from storage
-            if(!userCookie.getBoolOrDefault(getString(R.string.KEY_USER_AGREE), false)) {
-                val i = Intent(this, PresArrivalActivity::class.java)
-                    .putExtra(ORIGIN, SignInActivity::class.qualifiedName)
-                startActivity(i)
-                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-            }
+            checkToSAndLaunchIfNotAccepted()
             val intent = Intent(this, MainPageActivity::class.java)
             startActivity(intent)
         }
@@ -79,14 +83,7 @@ class SignInActivity : AppCompatActivity() {
         signInClient.authenticate(result, activity)
             ?.addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
-                    // Check ToS agreement
-                    userCookie = storageOf(Storages.USER_COOKIE) // Fetch from storage
-                    if(!userCookie.getBoolOrDefault(getString(R.string.KEY_USER_AGREE), false)) {
-                        val i = Intent(this, PresArrivalActivity::class.java)
-                            .putExtra(ORIGIN, SignInActivity::class.qualifiedName)
-                        startActivity(i)
-                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-                    }
+                    checkToSAndLaunchIfNotAccepted()
                     // Sign in success, update activity with the signed-in user's information
                     val intent = Intent(activity, MainPageActivity::class.java)
                     startActivity(intent)

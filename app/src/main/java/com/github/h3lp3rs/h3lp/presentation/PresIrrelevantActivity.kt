@@ -49,7 +49,6 @@ class PresIrrelevantActivity : AppCompatActivity() {
 
         // 1. Set right box tick
         val checkBox = findViewById<View>(R.id.pres3_checkBox) as CheckBox
-        //TODO Call storage of once
         if(userCookie.getBoolOrDefault(getString(R.string.KEY_USER_AGREE), false)) {
             checkBox.isChecked = true
         }
