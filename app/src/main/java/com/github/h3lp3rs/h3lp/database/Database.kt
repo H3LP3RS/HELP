@@ -88,6 +88,7 @@ interface Database {
 
     /**
      * Applies an arbitrary action when the value associated to the key changes
+     * WARNING: This function automatically triggers at first when linked with a valid key
      * @param key The key in the database
      * @param action The action taken at change
      */
