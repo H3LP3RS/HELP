@@ -118,6 +118,7 @@ class FireDatabase(path: String) : Database {
 
     /**
      * Applies an arbitrary action when the value associated to the value changes
+     * WARNING: This function automatically triggers at first when linked with a valid key
      * @param key The key in the database
      * @param type The type of the value associated to the key
      * @param action The action taken at change
