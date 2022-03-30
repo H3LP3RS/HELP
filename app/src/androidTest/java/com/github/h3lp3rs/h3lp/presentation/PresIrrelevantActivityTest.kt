@@ -15,17 +15,15 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.*
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.*
-import com.github.h3lp3rs.h3lp.preferences.Preferences
-import com.github.h3lp3rs.h3lp.preferences.Preferences.Companion.Files.*
-import com.github.h3lp3rs.h3lp.preferences.Preferences.Companion.USER_AGREE
-import com.github.h3lp3rs.h3lp.preferences.Preferences.Companion.clearAllPreferences
+import com.github.h3lp3rs.h3lp.storage.LocalStorage
+import com.github.h3lp3rs.h3lp.storage.LocalStorage.Companion.Files.*
+import com.github.h3lp3rs.h3lp.storage.LocalStorage.Companion.USER_AGREE
+import com.github.h3lp3rs.h3lp.storage.LocalStorage.Companion.clearAllPreferences
 import org.hamcrest.Matchers.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import androidx.test.espresso.action.Press
-
-import androidx.test.espresso.action.CoordinatesProvider
 
 import androidx.test.espresso.action.Tap
 
@@ -40,7 +38,7 @@ import com.github.h3lp3rs.h3lp.signin.SignInActivity
 class PresIrrelevantActivityTest {
 
     private fun alreadyAccepted() {
-        Preferences(PRESENTATION, ApplicationProvider.getApplicationContext()).setBool(USER_AGREE, true)
+        LocalStorage(PRESENTATION, ApplicationProvider.getApplicationContext()).setBoolean(USER_AGREE, true)
     }
 
     // https://stackoverflow.com/questions/42390788/espresso-click-on-specific-words-of-text

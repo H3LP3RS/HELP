@@ -10,9 +10,9 @@ import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.*
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.github.h3lp3rs.h3lp.preferences.Preferences
-import com.github.h3lp3rs.h3lp.preferences.Preferences.Companion.Files.*
-import com.github.h3lp3rs.h3lp.preferences.Preferences.Companion.USER_AGREE
+import com.github.h3lp3rs.h3lp.storage.LocalStorage
+import com.github.h3lp3rs.h3lp.storage.LocalStorage.Companion.Files.*
+import com.github.h3lp3rs.h3lp.storage.LocalStorage.Companion.USER_AGREE
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import org.junit.Before
 import org.junit.Test
@@ -22,12 +22,12 @@ import org.junit.runner.RunWith
 class SignInActivityTest {
     @Before
     fun clearPreferences() {
-        Preferences.clearAllPreferences(ApplicationProvider.getApplicationContext())
+        LocalStorage.clearAllPreferences(ApplicationProvider.getApplicationContext())
     }
 
     @Test
     fun loginButtonLaunchesIntent() {
-        Preferences(PRESENTATION, ApplicationProvider.getApplicationContext()).setBool(USER_AGREE, true)
+        LocalStorage(PRESENTATION, ApplicationProvider.getApplicationContext()).setBoolean(USER_AGREE, true)
         val intent = Intent(ApplicationProvider.getApplicationContext(), SignInActivity::class.java)
         ActivityScenario.launch<SignInActivity>(intent).use {
             init()

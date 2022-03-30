@@ -1,6 +1,8 @@
 package com.github.h3lp3rs.h3lp.signin
 
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageButton
@@ -9,16 +11,16 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.preferences.Preferences
-import com.github.h3lp3rs.h3lp.preferences.Preferences.Companion.Files
-import com.github.h3lp3rs.h3lp.preferences.Preferences.Companion.USER_AGREE
+import com.github.h3lp3rs.h3lp.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
+import com.github.h3lp3rs.h3lp.storage.Storages
 import com.google.firebase.auth.AuthResult
 
 const val ORIGIN: String = "ORIGIN"
 
 class SignInActivity : AppCompatActivity() {
     lateinit var signInClient : SignInInterface<AuthResult>
+    private lateinit var userCookie: LocalStorage
 
     /**
      * Check if the current user is already signed in and update activity accordingly
@@ -32,13 +34,19 @@ class SignInActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Store the context for local storage use
+        globalContext = this
+
+        userCookie = Storages.storageOf(Storages.USER_COOKIE)
+
         setContentView(R.layout.activity_sign_in)
         // Initialize Firebase Auth
         findViewById<ImageButton>(R.id.signInButton).setOnClickListener{
             launchSignIn()
         }
         // Check ToS agreement
-        if(!Preferences(Files.PRESENTATION, this).getBoolOrDefault(USER_AGREE, false)) {
+        if(!userCookie.getBoolOrDefault("USER_AGREE", false)) {
             val i = Intent(this, PresArrivalActivity::class.java)
                 .putExtra(ORIGIN, SignInActivity::class.qualifiedName)
             startActivity(i)
@@ -75,5 +83,21 @@ class SignInActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
             }
+    }
+
+    /**
+     * Companion used to pass on a global context used to open the local
+     * storages
+     */
+    companion object{
+        @SuppressLint("StaticFieldLeak")
+        lateinit var globalContext: Context
+
+        /**
+         * Getter on the global context
+         */
+        fun getGlobalCtx(): Context {
+            return globalContext
+        }
     }
 }
