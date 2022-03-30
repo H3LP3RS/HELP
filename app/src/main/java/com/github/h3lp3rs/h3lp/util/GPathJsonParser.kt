@@ -15,10 +15,12 @@ class GPathJsonParser {
      */
     fun parseResult(obj: JSONObject): List<LatLng> {
         return try {
-            val overviewPolyline = obj.getJSONArray("routes").getJSONObject(0).getJSONArray("legs").getJSONObject(0).getJSONArray("steps").getJSONObject(0).getJSONObject("polyline")
-            //val overviewPolyline = obj.getJSONObject("overview_polyline")
-            Log.i("GPathPoly", overviewPolyline.toString())
-            parsePolyline(overviewPolyline)
+            val steps = obj.getJSONArray("routes").getJSONObject(0).getJSONArray("legs").getJSONObject(0).getJSONArray("steps")
+            var points: MutableList<LatLng> = mutableListOf()
+            for (i in 0 until steps.length()) {
+                points.addAll(parsePolyline(steps.getJSONObject(i).getJSONObject("polyline")))
+            }
+            return points
         } catch (e: JSONException) {
             arrayListOf()
         }
