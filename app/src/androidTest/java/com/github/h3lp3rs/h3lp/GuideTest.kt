@@ -54,24 +54,7 @@ class GuideTest {
 
     @Test
     fun finishingAppDemoDisplaysMessage() {
-        val intent = Intent(ApplicationProvider.getApplicationContext(), MainPageActivity::class.java)
-        val scenario = ActivityScenario.launch<MainPageActivity>(intent)
-
-        scenario.use {
-            var i = 0
-            // +1 for the search bar
-            val nbButtons = mainPageButtons.size + scrollViewButtons.size + 1
-            while (i++ <= nbButtons) {
-                onView(withId(R.id.HelloText)).perform(click())
-            }
-            onView(ViewMatchers.withText(R.string.AppGuideFinished))
-                .check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
-        }
-        // This cleans up the activity's associated resources and improves the stability of the tests
-        scenario.close()
-
         // This works completely fine, but fails on Cirrus :(
-        /*
         clearPreferences()
         var i = 0
         // +1 for the search bar
@@ -81,8 +64,6 @@ class GuideTest {
         }
         onView(ViewMatchers.withText(R.string.AppGuideFinished))
             .check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
-
-         */
     }
 
 }

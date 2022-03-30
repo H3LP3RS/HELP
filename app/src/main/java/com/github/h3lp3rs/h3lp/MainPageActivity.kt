@@ -42,6 +42,12 @@ val mainPageButtons =
 private val mainPageButtonsSecondaryPrompts =
     listOf(R.string.tuto_guide_prompt, R.string.profile_guide_prompt, R.string.skills_guide_prompt)
 
+val mainPageButtons2 = mapOf(
+    R.id.button_tutorial to R.string.tuto_guide_prompt,
+    R.id.button_profile to R.string.profile_guide_prompt,
+    R.id.button_my_skills to R.string.skills_guide_prompt
+)
+
 val scrollViewButtons = listOf(
     R.id.button_hospital,
     R.id.button_defibrillator,
@@ -56,6 +62,15 @@ private val scrollViewButtonsSecondaryPrompts = listOf(
     R.string.first_aid_guide_prompt,
     R.string.cpr_guide_prompt
 )
+val scrollViewButtons2 = mapOf(
+    R.id.button_hospital to R.string.hospitals_guide_prompt,
+    R.id.button_defibrillator to R.string.defibrillators_guide_prompt,
+    R.id.button_pharmacy to R.string.pharmacies_guide_prompt,
+    R.id.button_first_aid to R.string.first_aid_guide_prompt,
+    R.id.button_cpr to R.string.cpr_guide_prompt
+)
+
+
 
 /**
  * Main page of the app
