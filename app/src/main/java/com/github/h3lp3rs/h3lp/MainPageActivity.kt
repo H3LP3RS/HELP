@@ -22,6 +22,8 @@ import com.google.android.material.navigation.NavigationView
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
 import com.github.h3lp3rs.h3lp.signin.ORIGIN
 import androidx.appcompat.app.AlertDialog
+import com.github.h3lp3rs.h3lp.storage.Storages.*
+import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.google.android.material.snackbar.Snackbar
 
 const val EXTRA_NEARBY_UTILITIES = "nearby_utilities"

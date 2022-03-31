@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture
 /**
  * Implementation of a NoSQL external database based on Firebase
  */
-class FireDatabase(path: String) : Database {
+internal class FireDatabase(path: String) : Database {
 
     private val db: DatabaseReference = Firebase.database("https://h3lp-signin-default-rtdb.europe-west1.firebasedatabase.app/").reference.child(path)
     private val openListeners = HashMap<String, List<ValueEventListener>>()
@@ -29,7 +29,8 @@ class FireDatabase(path: String) : Database {
     private inline fun <reified  T: Any> get(key: String): CompletableFuture<T> {
         val future = CompletableFuture<T>()
         db.child(key).get().addOnSuccessListener {
-            future.complete(it.value as T)
+            if (it.value == null) future.completeExceptionally(NoSuchFieldException())
+            else future.complete(it.value as T)
         }.addOnFailureListener {
             future.completeExceptionally(it)
         }
