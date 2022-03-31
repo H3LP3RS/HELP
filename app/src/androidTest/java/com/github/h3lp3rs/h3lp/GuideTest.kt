@@ -1,23 +1,18 @@
 package com.github.h3lp3rs.h3lp
 
 import android.content.Context
-import android.content.Intent
 import androidx.preference.PreferenceManager
-import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions
-import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.uiautomator.UiDevice
+import androidx.test.uiautomator.UiSelector
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
-import org.hamcrest.Matchers
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -29,7 +24,7 @@ class GuideTest {
         MainPageActivity::class.java
     )
 
-    private val targetContext: Context = ApplicationProvider.getApplicationContext()
+    private val targetContext : Context = ApplicationProvider.getApplicationContext()
 
     private fun clearPreferences() {
         val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(targetContext)
@@ -54,17 +49,21 @@ class GuideTest {
 
     @Test
     fun finishingAppDemoDisplaysMessage() {
-        // This works completely fine, but fails on Cirrus :(
-
         clearPreferences()
         var i = 0
         // +1 for the search bar
-        val nbButtons = numberOfButtons  + 1
-        while (i++ <= nbButtons) {
-        onView(withId(R.id.HelloText)).perform(click())
+        val nbButtons = numberOfButtons + 1
+        while (i++ < nbButtons) {
+            val uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+            uiDevice.findObject(UiSelector().textContains("Hello")).click()
+            // This works completely fine, but fails on Cirrus :(
+            // onView(withId(R.id.HelloText)).perform(click())
         }
-        onView(ViewMatchers.withText(R.string.AppGuideFinished))
-            .check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
+        onView(ViewMatchers.withText(R.string.AppGuideFinished)).check(
+            ViewAssertions.matches(
+                ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)
+            )
+        )
 
     }
 
