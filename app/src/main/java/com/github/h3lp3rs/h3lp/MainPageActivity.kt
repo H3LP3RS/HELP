@@ -123,7 +123,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
             val prefEditor = prefManager.edit()
             prefEditor.putBoolean("didShowGuide", true)
             prefEditor.apply()
-            // Start the guide of the buttons on the main page. Once it finishes, it shows the
+            // Starts the guide of main page buttons. Once it finishes, it shows the
             // prompt for the search bar by executing the showSearchBarPrompt.
             showButtonPrompt(mainPageButton, buttonsGuidePrompts) { showSearchBarPrompt() }
         }
@@ -187,6 +187,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
                 R.color.black
             ).setPromptStateChangeListener { _, state ->
                 if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED || state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED) {
+                    // Displays a message to signal the end of the guide.
                     displayMessage(
                         getString(R.string.AppGuideFinished),
                         findViewById(R.id.horizontalScrollView)
