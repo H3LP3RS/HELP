@@ -11,7 +11,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
 import com.github.h3lp3rs.h3lp.storage.Storages
@@ -28,9 +27,9 @@ class SignInActivity : AppCompatActivity() {
         // Check ToS agreement
         userCookie = storageOf(Storages.USER_COOKIE) // Fetch from storage
         if(!userCookie.getBoolOrDefault(getString(R.string.KEY_USER_AGREE), false)) {
-            val i = Intent(this, PresArrivalActivity::class.java)
+            val intent = Intent(this, PresArrivalActivity::class.java)
                 .putExtra(ORIGIN, SignInActivity::class.qualifiedName)
-            startActivity(i)
+            startActivity(intent)
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         } else {
             val intent = Intent(this, MainPageActivity::class.java)

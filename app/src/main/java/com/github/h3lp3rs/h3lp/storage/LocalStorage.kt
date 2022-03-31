@@ -13,7 +13,7 @@ import java.lang.Boolean.parseBoolean
  * Implementation of a local storage to store data locally. Not meant for
  * direct use.
  */
-class LocalStorage(path: String, context: Context, private val enableOnlineSync: Boolean) {
+class LocalStorage(private val path: String, context: Context, private val enableOnlineSync: Boolean) {
     private val pref = context.getSharedPreferences(path, AppCompatActivity.MODE_PRIVATE)
     private val editor = pref.edit()
 
@@ -22,14 +22,14 @@ class LocalStorage(path: String, context: Context, private val enableOnlineSync:
      * @throws NullPointerException if the user is not authenticated AND online sync is enabled.
      */
     fun pull(){
-        /*if (enableOnlineSync) { // TODO: Need mocked version!
+        if (enableOnlineSync) { // TODO: Need mocked version!
             // Need to be authenticated if online sync is enabled
             val uid = FirebaseAuth.getInstance().currentUser!!.uid // TODO: Need mocked version!
             val db = databaseOf(PREFERENCES)
-            db.getString(uid).exceptionally { JSONObject().toString() }.thenAccept {
+            db.getString("$path/$uid").exceptionally { JSONObject().toString() }.thenAccept {
                 parseOnlinePrefs(it)
             }
-        }*/
+        }
     }
 
     /**
@@ -54,7 +54,7 @@ class LocalStorage(path: String, context: Context, private val enableOnlineSync:
             for (entry in pref.all.entries){
                 json.put(entry.key.toString(), entry.value.toString())
             }
-            db.setString(uid, json.toString())
+            db.setString("$path/$uid", json.toString())
         }
     }
 

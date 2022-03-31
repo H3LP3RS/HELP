@@ -29,12 +29,12 @@ class StorageTest {
     fun setup() {
         globalContext = ApplicationProvider.getApplicationContext()
         Databases.PREFERENCES.db = MockDatabase()
-        Storages.resetStorage()
+        resetStorage()
         stor = storageOf(MEDICAL_INFO)
     }
 
     @Test
-    fun getAndSetWorksProperly() {
+    fun getAndSetWorkProperly() {
         val int = TEST_SEED.nextInt()
         val string = TEST_SEED.nextBytes(5 * BYTES_PER_CHAR).toString()
         val bool = TEST_SEED.nextBoolean()

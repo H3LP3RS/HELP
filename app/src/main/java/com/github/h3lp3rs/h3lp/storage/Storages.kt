@@ -32,7 +32,7 @@ enum class Storages(enableOnlineSync: Boolean) {
          * Reset local storage completely
          */
         fun resetStorage() {
-            for(storage in Storages.values()) {
+            for(storage in values()) {
                 storage.ls.clearAll()
             }
         }
