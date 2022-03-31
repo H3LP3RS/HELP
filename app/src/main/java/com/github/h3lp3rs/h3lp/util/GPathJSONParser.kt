@@ -1,6 +1,5 @@
 package com.github.h3lp3rs.h3lp.util
 
-import android.util.Log
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.PolyUtil
 import org.json.JSONArray
@@ -11,7 +10,7 @@ import org.json.JSONObject
  *  This class is used to parse json objects returned by the Google Directions API
  *  into polylines (a list of coordinates)
  */
-class GPathJsonParser {
+object GPathJSONParser: JSONParserInterface<List<LatLng>> {
 
     /**
      * Parses the json of a google direction search into a list of coordinates corresponding to
@@ -19,7 +18,7 @@ class GPathJsonParser {
      * @param obj: Json object returned by a Google directions query
      * @return a list of coordinates that form a polyline (a path)
      */
-    fun parseResult(obj: JSONObject): List<LatLng> {
+    override fun parseResult(obj: JSONObject): List<LatLng> {
         return try {
             val steps = parseSteps(obj)
             return getPathFromSteps(steps)

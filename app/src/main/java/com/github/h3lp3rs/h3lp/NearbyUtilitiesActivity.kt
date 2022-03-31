@@ -16,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.content.ContextCompat.getColorStateList
 import com.github.h3lp3rs.h3lp.databinding.ActivityNearbyUtilitiesBinding
-import com.github.h3lp3rs.h3lp.util.GPlaceJsonParser
+import com.github.h3lp3rs.h3lp.util.GPlaceJSONParser
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -29,7 +29,8 @@ import java.io.InputStreamReader
 import java.lang.Double.parseDouble
 import java.net.HttpURLConnection
 import java.net.URL
-import com.github.h3lp3rs.h3lp.util.GPathJsonParser
+import com.github.h3lp3rs.h3lp.util.GPathJSONParser
+import com.github.h3lp3rs.h3lp.util.JSONParserInterface
 
 
 
@@ -65,29 +66,6 @@ class NearbyUtilitiesActivity : AppCompatActivity(), OnMapReadyCallback,
 
     private var path: List<LatLng>? = null
 
-    companion object {
-        // Constants to access the Google directions API
-        const val DIRECTIONS_URL = "https://maps.googleapis.com/maps/api/directions/json"
-        const val WALKING = "walking"
-
-        // Constants for the polyline appearance
-
-        // The minus is simply there since the polyline color attribute requires an integer, but writing
-        // the actual HEX value of blue with an alpha larger than 0xF would need a long, we thus write
-        // this larger HEX value correctly for an integer, that is with 2's complement
-        private const val BLUE_ARGB = -0x1FF7E3D
-        private const val POLYLINE_STROKE_WIDTH_PX = 12
-
-        // Constants for the polyline appearance after having been clicked
-        private const val PATTERN_GAP_LENGTH_PX = 20
-        private val DOT: PatternItem = Dot()
-        private val GAP: PatternItem = Gap(PATTERN_GAP_LENGTH_PX.toFloat())
-
-        // Create a stroke pattern of a gap followed by a dot.
-        private val PATTERN_POLYLINE_DOTTED: List<PatternItem> = listOf(GAP, DOT)
-
-        private const val END_POINT_NAME = "user in need"
-    }
 
     //TODO : currently, the destination is hardcoded, this will change with the task allowing
     // nearby helpers to go and help people in need (in which case the destination will be the
@@ -191,7 +169,6 @@ class NearbyUtilitiesActivity : AppCompatActivity(), OnMapReadyCallback,
      */
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
-
         setupMap()
 
         // Set listener for click events.
@@ -243,8 +220,7 @@ class NearbyUtilitiesActivity : AppCompatActivity(), OnMapReadyCallback,
     }
 
     /**
-     * Retrieves the shortest path to the destination
-     * @return The path to the destination
+     * Retrieves the shortest path to the destination and displays it on the map
      */
     private fun getPath() {
         val url = DIRECTIONS_URL + "?destination=" + destinationLat + "," + destinationLong +
@@ -256,24 +232,24 @@ class NearbyUtilitiesActivity : AppCompatActivity(), OnMapReadyCallback,
         CoroutineScope(Dispatchers.Main).launch {
             val data: String = withContext(Dispatchers.IO) { downloadUrl(url) }
             Log.i("GPath", data)
-            path = parsePathTask(data)
+            path = parseTask(data, GPathJSONParser)
             path?.let { showPolyline(path!!) }
         }
     }
 
     private fun findNearbyUtilities(utility: String) {
         if (!requestedPlaces.containsKey(utility)) {
-            val url = PLACES_URL + "?location=" + currentLat + "," + currentLong +
-                    "&radius=$DEFAULT_SEARCH_RADIUS" +
-                    "&types=$utility" +
-                    "&key=" + resources.getString(R.string.google_maps_key)
+                val url = PLACES_URL + "?location=" + currentLat + "," + currentLong +
+                        "&radius=$DEFAULT_SEARCH_RADIUS" +
+                        "&types=$utility" +
+                        "&key=" + resources.getString(R.string.google_maps_key)
 
-            // Launches async routines to retrieve nearby places and show them
-            // on the map
-            CoroutineScope(Dispatchers.Main).launch {
-                val data: String = withContext(Dispatchers.IO) { downloadUrl(url) }
-                Log.i("GPlaces", data)
-                requestedPlaces[utility] = parsePlacesTask(data)
+                // Launches async routines to retrieve nearby places and show them
+                // on the map
+                CoroutineScope(Dispatchers.Main).launch {
+                    val data: String = withContext(Dispatchers.IO) { downloadUrl(url) }
+                    Log.i("GPlaces", data)
+                requestedPlaces[utility] = parseTask(data, GPlaceJSONParser)
                 requestedPlaces[utility]?.let { showPlaces(it, utility) }
             }
         } else {
@@ -301,21 +277,8 @@ class NearbyUtilitiesActivity : AppCompatActivity(), OnMapReadyCallback,
         return builder.toString()
     }
 
-    //TODO we can refactor these parsers by having a parser interface
-    private fun parsePathTask(data: String): List<LatLng> {
-        val parser = GPathJsonParser()
-
-        val obj = JSONObject(data)
-
-        return parser.parseResult(obj)
-    }
-
-    private fun parsePlacesTask(data: String): List<HashMap<String, String>> {
-        val parser = GPlaceJsonParser()
-
-        val obj = JSONObject(data)
-
-        return parser.parseResult(obj)
+    private fun <T> parseTask(data: String, parser: JSONParserInterface<T>): T  {
+        return parser.parseResult(JSONObject(data))
     }
 
     private fun showPlaces(places: List<GooglePlace>, utility: String) {
@@ -361,8 +324,8 @@ class NearbyUtilitiesActivity : AppCompatActivity(), OnMapReadyCallback,
     }
 
     /**
-     * Adds a polyline that shows the path to the map
-     * @param points The points that constructs the polyline
+     * Adds a polyline that shows the path on the map
+     * @param points The points that construct the polyline
      */
     private fun showPolyline(points: List<LatLng>) {
         val polylineOpt = PolylineOptions().clickable(true)
@@ -431,5 +394,28 @@ class NearbyUtilitiesActivity : AppCompatActivity(), OnMapReadyCallback,
         placedMarkers[utility] = arrayListOf()
     }
 
+    companion object {
+        // Constants to access the Google directions API
+        const val DIRECTIONS_URL = "https://maps.googleapis.com/maps/api/directions/json"
+        const val WALKING = "walking"
+
+        // Constants for the polyline appearance
+
+        // The minus is simply there since the polyline color attribute requires an integer, but writing
+        // the actual HEX value of blue with an alpha larger than 0xF would need a long, we thus write
+        // this larger HEX value correctly for an integer, that is with 2's complement
+        private const val BLUE_ARGB = -0x1FF7E3D
+        private const val POLYLINE_STROKE_WIDTH_PX = 12
+
+        // Constants for the polyline appearance after having been clicked
+        private const val PATTERN_GAP_LENGTH_PX = 20
+        private val DOT: PatternItem = Dot()
+        private val GAP: PatternItem = Gap(PATTERN_GAP_LENGTH_PX.toFloat())
+
+        // Create a stroke pattern of a gap followed by a dot.
+        private val PATTERN_POLYLINE_DOTTED: List<PatternItem> = listOf(GAP, DOT)
+
+        private const val END_POINT_NAME = "user in need"
+    }
 }
 
