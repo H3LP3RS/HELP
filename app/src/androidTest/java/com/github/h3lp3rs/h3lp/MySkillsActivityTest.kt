@@ -5,7 +5,7 @@ import android.app.Instrumentation
 import android.content.Context
 import android.content.Intent
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.*
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.intent.Intents
@@ -33,7 +33,7 @@ class MySkillsActivityTest {
         Intents.init()
         val intent = Intent()
         Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
-        Espresso.onView(ViewMatchers.withId(R.id.mySkillsBackButton))
+        onView(ViewMatchers.withId(R.id.mySkillsBackButton))
             .perform(ViewActions.click())
         Intents.intended(
             Matchers.allOf(
@@ -46,10 +46,10 @@ class MySkillsActivityTest {
     @Test
     fun clickingOnHelpDisplayDialogue() {
 
-        Espresso.onView(ViewMatchers.withId(R.id.mySkillsHelpButton))
+        onView(ViewMatchers.withId(R.id.mySkillsHelpButton))
             .perform(ViewActions.click())
 
-        Espresso.onView(ViewMatchers.withText(R.string.my_helper_skills))
+        onView(ViewMatchers.withText(R.string.my_helper_skills))
             .inRoot(RootMatchers.isDialog())
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }

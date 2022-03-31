@@ -26,10 +26,17 @@ class MySkillsActivity : AppCompatActivity() {
         saveData()
     }
 
+    /**
+     * Function for the back button to go back to MainActivity
+     */
     fun backHome( view: View){
         val intent = Intent(this, MainPageActivity::class.java)
         startActivity(intent)
     }
+
+    /**
+     * Show a dialogue with explication on what is the form for
+     */
     fun helpDialogue( view: View){
         AlertDialog.Builder(this).setTitle(getString(R.string.my_helper_skills)).setMessage(getString(R.string.help_my_skills)).show()
 
@@ -77,6 +84,9 @@ class MySkillsActivity : AppCompatActivity() {
         preferencesEditor.putString(getString(R.string.my_skills_key),json).apply()
     }
 
+    /**
+     * return the boolean from a switch button
+     */
     private fun getBooleanFromSwitch(id : Int):Boolean{
         return findViewById<SwitchMaterial>(id).isChecked
 
