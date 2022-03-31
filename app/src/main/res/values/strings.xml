@@ -254,7 +254,7 @@
     <string name="guide_primary_prompt">Click me!</string>
     <string name="tuto_guide_prompt">Here you can get a sense of what the app allows you to do</string>
     <string name="profile_guide_prompt">Here you can input all your medical information</string>
-    <string name="skills_guide_prompt">Here you can register your skills and the the first aid medicine you own</string>
+    <string name="skills_guide_prompt">Here you can register your skills and the first aid medicine you own</string>
     <string name="cpr_guide_prompt">Get the correct CPR beat to be able to perform cardiac massage</string>
     <string name="hospitals_guide_prompt">Locate the hospitals in your area</string>
     <string name="defibrillators_guide_prompt">Find nearby defibrillators</string>
