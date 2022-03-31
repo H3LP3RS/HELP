@@ -9,7 +9,7 @@ import org.junit.Test
 class GPathJsonParserTest {
     @Test
     fun parseResultReturnsEmptyListWithWrongInputs() {
-        val parser = GPathJSONParser()
+        val parser = GPathJSONParser
         val expected = listOf<LatLng>()
 
         val emptyJson = JSONObject("{}")
@@ -46,7 +46,7 @@ class GPathJsonParserTest {
             LatLng(46.52451000000001, 6.602390000000001),
             LatLng(46.524350000000005, 6.60231)
         )
-        val parser = GPathJSONParser()
+        val parser = GPathJSONParser
 
         val obj = JSONObject(r)
         assertEquals(points, parser.parseResult(obj))
