@@ -150,20 +150,10 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
             }
             true
         }
-        // Demo code
-        // addAlertNotification()
+
     }
 
-    // Demo code
-    private fun addAlertNotification() {
-        val db = databaseOf(Databases.NEW_EMERGENCIES)
-        db.addListener(getString(R.string.ventolin_db_key), String::class.java) {
-            if(it.equals(getString(R.string.help))){
-                db.setString(getString(R.string.ventolin_db_key),getString(R.string.nothing))
-                sendNotification(getString(R.string.emergency),getString(R.string.need_help))
-            }
-        }
-    }
+
 
     private fun sendNotification(textTitle: String,textContent:String){
         AlertDialog.Builder(this).setTitle(textTitle).setMessage(textContent).setIcon(R.drawable.notification_icon).show()
@@ -269,6 +259,11 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     /** Called when the user taps the profile page button */
     fun goToProfileActivity(view: View) {
         goToActivity(MedicalCardActivity::class.java)
+    }
+
+    /** Called when the user taps the my skills button */
+    fun goToMySkillsActivity(view: View) {
+        goToActivity(MySkillsActivity::class.java)
     }
 
     /** Called when the user taps the nearby hospitals button */

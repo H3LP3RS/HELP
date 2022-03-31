@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MySkillsActivity">
+
+
+    <ImageView
+        android:id="@+id/mySkillsBackGround"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/back_login"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent=".27"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0"
+        android:contentDescription="@string/background_image_description"/>
+
+
+    <ImageButton
+        android:id="@+id/mySkillsBackButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="#00FFFFFF"
+        android:onClick="backHome"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_back"
+        android:contentDescription="@string/back_button_description"/>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mySkillsConstraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/round_corners"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent=".78"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+        <ScrollView
+            android:id="@+id/scrollView2"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="50dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="96dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="32dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@drawable/teal_background"
+                        tools:ignore="UselessParent">
+
+
+                        <ImageView
+                            android:id="@+id/epipenImageSkills"
+                            android:contentDescription="@string/epipen"
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="16dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:srcCompat="@drawable/epipen_line" />
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/epipenSwitch"
+                            android:layout_width="184dp"
+                            android:layout_height="88dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginStart="52dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="52dp"
+                            android:layout_marginBottom="16dp"
+                            android:layout_toEndOf="@+id/epipenImageSkills"
+                            android:scaleX="1.4"
+                            android:scaleY="1.4"
+                            android:switchPadding="32dp"
+                            android:text="@string/epipen"
+                            android:textAlignment="viewStart"
+                            android:textSize="18sp" />
+
+                    </RelativeLayout>
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="96dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="32dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@drawable/teal_background"
+                        tools:ignore="UselessParent">
+
+
+                        <ImageView
+                            android:id="@+id/ventolinImageSkills"
+                            android:contentDescription="@string/inhaler"
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="16dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:srcCompat="@drawable/inhaler" />
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/ventolinSwitch"
+                            android:layout_width="184dp"
+                            android:layout_height="88dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginStart="52dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="52dp"
+                            android:layout_marginBottom="16dp"
+                            android:layout_toEndOf="@+id/ventolinImageSkills"
+                            android:scaleX="1.4"
+                            android:scaleY="1.4"
+                            android:switchPadding="32dp"
+                            android:text="@string/inhaler"
+                            android:textAlignment="viewStart"
+                            android:textSize="18sp" />
+
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="96dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="32dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@drawable/teal_background"
+                        tools:ignore="UselessParent">
+
+
+                        <ImageView
+                            android:id="@+id/insulinImageSkills"
+                            android:contentDescription="@string/Insulin"
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="16dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:srcCompat="@drawable/insuline" />
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/insulinSwitch"
+                            android:layout_width="184dp"
+                            android:layout_height="88dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginStart="52dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="52dp"
+                            android:layout_marginBottom="16dp"
+                            android:layout_toEndOf="@+id/insulinImageSkills"
+                            android:scaleX="1.4"
+                            android:scaleY="1.4"
+                            android:switchPadding="32dp"
+                            android:text="@string/Insulin"
+                            android:textAlignment="viewStart"
+                            android:textSize="18sp" />
+
+                    </RelativeLayout>
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="96dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="32dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@drawable/teal_background"
+                        tools:ignore="UselessParent">
+
+
+                        <ImageView
+                            android:id="@+id/cprImageSkills"
+                            android:contentDescription="@string/cpr"
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="16dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:srcCompat="@drawable/cpr" />
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/cprSwitch"
+                            android:layout_width="184dp"
+                            android:layout_height="88dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginStart="52dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="52dp"
+                            android:layout_marginBottom="16dp"
+                            android:layout_toEndOf="@+id/cprImageSkills"
+                            android:scaleX="1.4"
+                            android:scaleY="1.4"
+                            android:switchPadding="32dp"
+                            android:text="@string/cpr"
+                            android:textAlignment="viewStart"
+                            android:textSize="18sp" />
+
+                    </RelativeLayout>
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="96dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="32dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@drawable/teal_background"
+                        tools:ignore="UselessParent">
+
+
+                        <ImageView
+                            android:id="@+id/firstAidImageSkills"
+                            android:contentDescription="@string/first_aid"
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="16dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:srcCompat="@drawable/first_aid_kit_line" />
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/firstAidSwitch"
+                            android:layout_width="184dp"
+                            android:layout_height="88dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginStart="52dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="52dp"
+                            android:layout_marginBottom="16dp"
+                            android:layout_toEndOf="@+id/firstAidImageSkills"
+                            android:scaleX="1.4"
+                            android:scaleY="1.4"
+                            android:switchPadding="32dp"
+                            android:text="@string/first_aid_kit"
+                            android:textAlignment="viewStart"
+                            android:textSize="18sp" />
+
+                    </RelativeLayout>
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="96dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="32dp"
+                        android:layout_marginBottom="32dp"
+                        android:background="@drawable/teal_background"
+                        tools:ignore="UselessParent">
+
+
+                        <ImageView
+                            android:id="@+id/doctorImageSkills"
+                            android:contentDescription="@string/med_pro"
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="16dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:srcCompat="@drawable/doctor" />
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/docctorSwitch"
+                            android:layout_width="184dp"
+                            android:layout_height="88dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginStart="52dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="52dp"
+                            android:layout_marginBottom="16dp"
+                            android:layout_toEndOf="@+id/doctorImageSkills"
+                            android:scaleX="1.4"
+                            android:scaleY="1.4"
+                            android:switchPadding="32dp"
+                            android:text="@string/med_pro"
+                            android:textAlignment="viewStart"
+                            android:textSize="18sp" />
+
+                    </RelativeLayout>
+                </RelativeLayout>
+            </LinearLayout>
+        </ScrollView>
+
+        <ImageButton
+            android:id="@+id/mySkillsHelpButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="4dp"
+            android:background="#00FFFFFF"
+            android:contentDescription="@string/back_button_description"
+            android:onClick="helpDialogue"
+            app:layout_constraintBottom_toTopOf="@+id/scrollView2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/ic_question_mark" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/MySkillsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lineSpacingExtra="8sp"
+        android:shadowColor="@color/black"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="20"
+        android:text="@string/my_helper_skills"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="@color/white"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/mySkillsConstraintLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

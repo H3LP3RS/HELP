@@ -2,4 +2,5 @@
 <resources>
     <string name="nearby_hospitals">hospital</string>
     <string name="nearby_phamacies">pharmacy</string>
+    <string name="nearby_defibrillators">defibrillator</string>
 </resources>

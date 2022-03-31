@@ -23,6 +23,7 @@ import android.util.Log
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat.*
+import com.github.h3lp3rs.h3lp.util.AED_LOCATIONS_LAUSANNE
 import com.github.h3lp3rs.h3lp.util.GPlaceJsonParser
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.Marker
@@ -124,6 +125,8 @@ class NearbyUtilitiesActivity : AppCompatActivity(), OnMapReadyCallback,
 
         defibrillatorsButton.setOnClickListener {
             if (!showingDefibrillators) {
+                findNearbyUtilities(resources.getString(R.string.nearby_defibrillators))
+
                 defibrillatorsBackgroundLayout.backgroundTintList = checkedButtonColor
                 defibrillatorsButton.background.alpha =
                     resources.getInteger(R.integer.selectionTransparency)
@@ -131,8 +134,8 @@ class NearbyUtilitiesActivity : AppCompatActivity(), OnMapReadyCallback,
                 showingDefibrillators = true
             } else {
                 defibrillatorsBackgroundLayout.backgroundTintList = uncheckedButtonColor
-                defibrillatorsButton.background.alpha =
-                    resources.getInteger(R.integer.noTransparency)
+                defibrillatorsButton.background.alpha = resources.getInteger(R.integer.noTransparency)
+                removeMarkers(resources.getString(R.string.nearby_defibrillators))
 
                 showingDefibrillators = false
             }
@@ -213,18 +216,24 @@ class NearbyUtilitiesActivity : AppCompatActivity(), OnMapReadyCallback,
 
     private fun findNearbyUtilities(utility: String) {
         if (!requestedPlaces.containsKey(utility)) {
-            val url = PLACES_URL + "?location=" + currentLat + "," + currentLong +
-                    "&radius=$DEFAULT_SEARCH_RADIUS" +
-                    "&types=$utility" +
-                    "&key=" + resources.getString(R.string.google_maps_key)
-
-            // Launches async routines to retrieve nearby places and show them
-            // on the map
-            CoroutineScope(Dispatchers.Main).launch {
-                val data: String = withContext(Dispatchers.IO) { downloadUrl(url) }
-                Log.i("GPlaces", data)
-                requestedPlaces[utility] = parsePlacesTask(data)
+            if(utility == resources.getString(R.string.nearby_defibrillators)){
+                requestedPlaces[utility] = AED_LOCATIONS_LAUSANNE
                 requestedPlaces[utility]?.let { showPlaces(it, utility) }
+            }
+            else{
+                val url = PLACES_URL + "?location=" + currentLat + "," + currentLong +
+                        "&radius=$DEFAULT_SEARCH_RADIUS" +
+                        "&types=$utility" +
+                        "&key=" + resources.getString(R.string.google_maps_key)
+
+                // Launches async routines to retrieve nearby places and show them
+                // on the map
+                CoroutineScope(Dispatchers.Main).launch {
+                    val data: String = withContext(Dispatchers.IO) { downloadUrl(url) }
+                    Log.i("GPlaces", data)
+                    requestedPlaces[utility] = parsePlacesTask(data)
+                    requestedPlaces[utility]?.let { showPlaces(it, utility) }
+                }
             }
         } else {
             requestedPlaces[utility]?.let { showPlaces(it, utility) }
@@ -285,6 +294,9 @@ class NearbyUtilitiesActivity : AppCompatActivity(), OnMapReadyCallback,
                     }
                     resources.getString(R.string.nearby_hospitals) -> {
                         options.icon(BitmapDescriptorFactory.fromResource(R.drawable.hospital_marker))
+                    }
+                    resources.getString(R.string.nearby_defibrillators) -> {
+                        options.icon(BitmapDescriptorFactory.fromResource(R.drawable.aed_marker))
                     }
                 }
 

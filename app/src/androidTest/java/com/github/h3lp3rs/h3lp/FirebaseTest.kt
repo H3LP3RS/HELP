@@ -10,7 +10,7 @@ import org.junit.runner.RunWith
 
 /*@RunWith(AndroidJUnit4::class)
 class FirebaseTest {
-    // Key used for testing purposes
+   // Key used for testing purposes
     private val testingKey = "TESTING_KEY"
     private val testingListenerKey = "TESTING_LISTENER_KEY"
     // Dummy class for complex types
@@ -26,12 +26,12 @@ class FirebaseTest {
             db.setInt(testingKey + 1, 1)
             db.setString(testingKey + 2, "1")
             db.setBoolean(testingKey + 3, false)
-            db.setDouble(testingKey + 4, 1.1)
+            db.setDouble(testingKey + 4, 1.0)
             db.setObject(testingKey + 5, Foo::class.java, foo)
             assertEquals(1, db.getInt(testingKey + 1).get())
             assertEquals("1", db.getString(testingKey + 2).get())
             assertEquals(false, db.getBoolean(testingKey + 3).get())
-            assertEquals(1.1, db.getDouble(testingKey + 4).get())
+            assertEquals(1.0, db.getDouble(testingKey + 4).get())
             assertEquals(foo, db.getObject(testingKey + 5, Foo::class.java).get())
         }
     }
@@ -40,11 +40,11 @@ class FirebaseTest {
     fun listenerListensAndCloses() {
         // Start a listener, trigger it and close it directly
         val db = databaseOf(EMERGENCIES)
-        val old = db.getInt(testingListenerKey).get()
+        val old = db.getDouble(testingListenerKey).get()
         db.addListener(testingListenerKey, Int::class.java) {
-            db.setInt(testingListenerKey, it + 1)
+            db.setDouble(testingListenerKey, it + 1.0)
             db.clearListeners(testingListenerKey)
-            assertEquals(old + 1, db.getInt(testingListenerKey).get())
+            assertEquals(old + 1.0, db.getDouble(testingListenerKey).get())
         }
     }
 }*/
