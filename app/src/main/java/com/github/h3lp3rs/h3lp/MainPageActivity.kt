@@ -269,7 +269,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
             }
             true
         }
-
+    }
     // Demo code
     private fun addAlertNotification() {
         val db = databaseOf(Databases.NEW_EMERGENCIES)
