@@ -38,7 +38,7 @@ class LocalStorage(private val path: String, context: Context, private val enabl
     private fun parseOnlinePrefs(s: String) {
         val json = JSONObject(s)
         for(k in json.keys()) {
-            editor.putString(k, json.get(k).toString()).commit()
+            setString(k, json.get(k).toString())
         }
     }
 
