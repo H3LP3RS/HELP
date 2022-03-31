@@ -74,6 +74,9 @@ class MedicalCardActivity : AppCompatActivity() {
         val textInputLayout = findViewById<TextInputLayout>(idTextInputLayout)
         editText.doOnTextChanged { text, _, _, _ ->
             when {
+                text!!.isEmpty() ->{
+                    textInputLayout.error = getString(R.string.empty_error_msg)
+                }
                 text.toString().toInt() > max -> {
                     textInputLayout.error = maxErrorMsg
                 }
@@ -233,7 +236,7 @@ class MedicalCardActivity : AppCompatActivity() {
     }
 
     /**
-     * load sting in an editTxt
+     * load string in an editTxt
      */
     private fun loadTo(data: String, editTxtId: Int){
         findViewById<EditText>(editTxtId).setText(data)

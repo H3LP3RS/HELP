@@ -269,9 +269,6 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
             }
             true
         }
-        // Demo code
-        // addAlertNotification()
-    }
 
     // Demo code
     private fun addAlertNotification() {
@@ -390,6 +387,11 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     /** Called when the user taps the profile page button */
     fun goToProfileActivity(view : View) {
         goToActivity(MedicalCardActivity::class.java)
+    }
+
+    /** Called when the user taps the my skills button */
+    fun goToMySkillsActivity(view: View) {
+        goToActivity(MySkillsActivity::class.java)
     }
 
     /** Called when the user taps the nearby hospitals button */
