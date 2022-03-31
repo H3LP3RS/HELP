@@ -22,6 +22,7 @@ class LocalStorage(private val path: String, context: Context, private val enabl
      * @throws NullPointerException if the user is not authenticated AND online sync is enabled.
      */
     fun pull(){
+        /*
         if (enableOnlineSync) { // TODO: Need mocked version!
             // Need to be authenticated if online sync is enabled
             val uid = FirebaseAuth.getInstance().currentUser!!.uid // TODO: Need mocked version!
@@ -29,7 +30,7 @@ class LocalStorage(private val path: String, context: Context, private val enabl
             db.getString("$path/$uid").exceptionally { JSONObject().toString() }.thenAccept {
                 parseOnlinePrefs(it)
             }
-        }
+        }*/
     }
 
     /**
