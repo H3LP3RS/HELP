@@ -259,6 +259,11 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         goToActivity(MedicalCardActivity::class.java)
     }
 
+    /** Called when the user taps the my skills button */
+    fun goToMySkillsActivity(view: View) {
+        goToActivity(MySkillsActivity::class.java)
+    }
+
     /** Called when the user taps the nearby hospitals button */
     fun goToNearbyHospitals(view: View) {
         goToNearbyUtilities(resources.getString(R.string.nearby_hospitals))
