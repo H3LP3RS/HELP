@@ -268,6 +268,7 @@
     <string name="pharmacies_guide_prompt">Locate the nearest pharmacies</string>
     <string name="first_aid_guide_prompt">Basic first aid training tips and procedures for any emergency !</string>
     <string name="guide_search_bar_prompt">In case of emergency, you can quickly find what you\'re looking for thanks to our available search bar! </string>
+    <string name="KEY_USER_AGREE">USER_AGREE</string>
     <string name="my_helper_skills">My Helper Skills</string>
     <string name="help_my_skills">This tab represents your skills as an helper. \n\n
         Here you can choose what you are able to help for, for example medicine that you carry with you or any health skill that you have.\n\n

@@ -6,6 +6,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
+import com.google.android.gms.maps.MapsInitializer
+import com.google.android.gms.maps.MapsInitializer.Renderer
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -67,6 +69,8 @@ class NearbyUtilitiesActivity : AppCompatActivity(), OnMapReadyCallback,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        MapsInitializer.initialize(applicationContext, Renderer.LATEST, null)
 
         binding = ActivityNearbyUtilitiesBinding.inflate(layoutInflater)
         setContentView(binding.root)

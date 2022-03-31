@@ -15,32 +15,30 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.*
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.*
-import com.github.h3lp3rs.h3lp.preferences.Preferences
-import com.github.h3lp3rs.h3lp.preferences.Preferences.Companion.Files.*
-import com.github.h3lp3rs.h3lp.preferences.Preferences.Companion.USER_AGREE
-import com.github.h3lp3rs.h3lp.preferences.Preferences.Companion.clearAllPreferences
 import org.hamcrest.Matchers.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import androidx.test.espresso.action.Press
-
-import androidx.test.espresso.action.CoordinatesProvider
-
 import androidx.test.espresso.action.Tap
-
 import androidx.test.espresso.action.GeneralClickAction
-
 import androidx.test.espresso.ViewAction
+import com.android.dx.command.Main
+import com.github.h3lp3rs.h3lp.database.Databases
+import com.github.h3lp3rs.h3lp.database.MockDatabase
 import com.github.h3lp3rs.h3lp.signin.ORIGIN
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
+import com.github.h3lp3rs.h3lp.storage.Storages.*
+import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
+import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 
 
 @RunWith(AndroidJUnit4::class)
 class PresIrrelevantActivityTest {
 
     private fun alreadyAccepted() {
-        Preferences(PRESENTATION, ApplicationProvider.getApplicationContext()).setBool(USER_AGREE, true)
+        storageOf(USER_COOKIE).setBoolean(globalContext.getString(R.string.KEY_USER_AGREE), true)
     }
 
     // https://stackoverflow.com/questions/42390788/espresso-click-on-specific-words-of-text
@@ -77,7 +75,9 @@ class PresIrrelevantActivityTest {
 
     @Before
     fun clearPreferences() {
-        clearAllPreferences(ApplicationProvider.getApplicationContext())
+        globalContext = ApplicationProvider.getApplicationContext()
+        Databases.PREFERENCES.db = MockDatabase()
+        resetStorage()
     }
 
     @Test
@@ -155,7 +155,7 @@ class PresIrrelevantActivityTest {
             putExtra(ORIGIN, SignInActivity::class.qualifiedName)
         }
         ActivityScenario.launch<PresIrrelevantActivity>(intent).use {
-            checkLaunchOnApprovalClick(SignInActivity::class.java.name)
+            checkLaunchOnApprovalClick(MainPageActivity::class.java.name)
         }
     }
 
@@ -166,7 +166,7 @@ class PresIrrelevantActivityTest {
         }
         ActivityScenario.launch<PresIrrelevantActivity>(intent).use {
             onView(withId(R.id.pres3_checkBox)).perform(click())
-            checkLaunchOnApprovalClick(SignInActivity::class.java.name)
+            checkLaunchOnApprovalClick(MainPageActivity::class.java.name)
         }
     }
 

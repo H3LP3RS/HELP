@@ -1,7 +1,6 @@
 package com.github.h3lp3rs.h3lp.signin
 
 import android.content.Intent
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.core.app.ApplicationProvider.*
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -12,10 +11,13 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.preferences.Preferences
-import com.github.h3lp3rs.h3lp.preferences.Preferences.*
-import com.github.h3lp3rs.h3lp.preferences.Preferences.Companion.Files.*
-import com.github.h3lp3rs.h3lp.preferences.Preferences.Companion.clearAllPreferences
+import com.github.h3lp3rs.h3lp.database.Databases
+import com.github.h3lp3rs.h3lp.database.MockDatabase
+import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
+import com.github.h3lp3rs.h3lp.storage.Storages.*
+import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
+import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import org.junit.After
@@ -38,8 +40,9 @@ class SignedInUserTest {
     @Before
     fun setUp() {
         init()
-        clearAllPreferences(getApplicationContext())
-        Preferences(PRESENTATION, getApplicationContext()).setBool(Preferences.USER_AGREE, true)
+        globalContext = getApplicationContext()
+        Databases.PREFERENCES.db = MockDatabase()
+        resetStorage()
 
         val signInMock = Mockito.mock(SignInInterface::class.java)
         When(signInMock.isSignedIn()).thenReturn(true)
@@ -56,10 +59,18 @@ class SignedInUserTest {
         SignIn.set(signInMock as SignInInterface<AuthResult>)
     }
 
-    @Test
-    fun signedInUserMovesToMainPageDirectly() {
+    @Test // TODO: Need authentication mocking
+    fun signedInUserMovesToMainPageIfToSAccepted() {
+        storageOf(USER_COOKIE).setBoolean(globalContext.getString(R.string.KEY_USER_AGREE), true)
         onView(withId(R.id.signInButton)).perform(click())
         intended(hasComponent(MainPageActivity::class.java.name))
+    }
+
+    @Test
+    fun signedInUserMovesToPresentationIfToSNotAccepted() {
+        storageOf(USER_COOKIE).setBoolean(globalContext.getString(R.string.KEY_USER_AGREE), false)
+        onView(withId(R.id.signInButton)).perform(click())
+        intended(hasComponent(PresArrivalActivity::class.java.name))
     }
 
     @After
