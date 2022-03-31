@@ -37,17 +37,18 @@ const val TUTORIAL = "Tutorial"
 const val HOSPITALS = "Hospitals"
 const val PHARMACIES = "Pharmacies"
 
-val mainPageButtons = listOf(R.id.button_tutorial, R.id.button_profile, R.id.button_my_skills)
-
-val scrollViewButtons = listOf(
-    R.id.button_hospital,
-    R.id.button_defibrillator,
-    R.id.button_pharmacy,
-    R.id.button_first_aid,
-    R.id.button_cpr
+private val mainPageButton = listOf(
+    MainPageButton(R.id.button_tutorial, false),
+    MainPageButton(R.id.button_profile, false),
+    MainPageButton(R.id.button_my_skills, false),
+    MainPageButton(R.id.button_hospital, true),
+    MainPageButton(R.id.button_defibrillator, true),
+    MainPageButton(R.id.button_pharmacy, true),
+    MainPageButton(R.id.button_first_aid, true),
+    MainPageButton(R.id.button_cpr, true)
 )
 
-val buttonsGuidePrompts = mapOf(
+private val buttonsGuidePrompts = mapOf(
     R.id.button_tutorial to R.string.tuto_guide_prompt,
     R.id.button_profile to R.string.profile_guide_prompt,
     R.id.button_my_skills to R.string.skills_guide_prompt,
@@ -57,6 +58,7 @@ val buttonsGuidePrompts = mapOf(
     R.id.button_first_aid to R.string.first_aid_guide_prompt,
     R.id.button_cpr to R.string.cpr_guide_prompt
 )
+val numberOfButtons = mainPageButton.size
 
 /**
  * Main page of the app
@@ -113,7 +115,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
 
     /**
      * Starts the application guide. Uses preferences to only start the guide when the app is
-     * launched for the first time
+     * launched for the first time.
      */
     private fun startAppGuide() {
         val prefManager = PreferenceManager.getDefaultSharedPreferences(this)
@@ -121,7 +123,9 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
             val prefEditor = prefManager.edit()
             prefEditor.putBoolean("didShowGuide", true)
             prefEditor.apply()
-            showMainButtonsPrompt()
+            // Start the guide of the buttons on the main page. Once it finishes, it shows the
+            // prompt for the search bar by executing the showSearchBarPrompt.
+            showButtonPrompt(mainPageButton, buttonsGuidePrompts) { showSearchBarPrompt() }
         }
     }
 
@@ -129,48 +133,54 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     // of using the getResource function. The difference is that the id enables having transparent
     // colors which is more aesthetically pleasing.
     @SuppressLint("ResourceAsColor")
-    private fun showPrompt(
-        isInScrollView : Boolean,
-        buttonIds : List<Int>,
-        idToPrompt : Map<Int, Int>,
-        showNextGuide : () -> Unit
+    /**
+     * Recursive function that handles showing the prompt for the buttons in the list buttons.
+     * If the list is empty a call to showNextGuide is made.
+     * @param buttons The list of the buttons' ids for which a prompt has to be shown.
+     * @param idToPrompt Map between a button id and the corresponding text to be shown.
+     * @param showNextGuide Called once a prompt is shown for all the buttons in the list.
+     */
+    private fun showButtonPrompt(
+        buttons : List<MainPageButton>, idToPrompt : Map<Int, Int>, showNextGuide : () -> Unit
     ) {
-        if (buttonIds.isEmpty()) return showNextGuide()
-        val buttonId = buttonIds[0]
+        if (buttons.isEmpty()) return showNextGuide()
+        // We show the prompt for the head of the list.
+        val button = buttons[0]
+        val buttonId = button.getButtonId()
 
         // If the button is in the scroll view, it may be necessary to scroll to the button.
-        if (isInScrollView) {
-            val sv = findViewById<HorizontalScrollView>(R.id.horizontalScrollView)
-            sv.requestChildFocus(findViewById(buttonId), findViewById(buttonId))
-        }
+        if (button.isInScrollView()) scrollTo(buttonId)
 
+        // The default shape of the highlighter is circular which is perfect for the buttons,
+        // thus we do not change it. The default text color is white.
         idToPrompt[buttonId]?.let {
-            MaterialTapTargetPrompt.Builder(this).setTarget(buttonId)
-                .setPrimaryText(R.string.guide_primary_prompt).setSecondaryText(it)
-                .setBackButtonDismissEnabled(false).setBackgroundColour(
+            MaterialTapTargetPrompt.Builder(this)
+                // Sets which button to highlight.
+                .setTarget(buttonId).setPrimaryText(R.string.guide_primary_prompt)
+                .setSecondaryText(it).setBackButtonDismissEnabled(false).setBackgroundColour(
                     R.color.black
                 ).setPromptStateChangeListener { _, state ->
+                    // If the user clicks anywhere on the screen, we move to the next button.
                     if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED || state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED) {
-                        showPrompt(isInScrollView, buttonIds.drop(1), idToPrompt, showNextGuide)
+                        // Recursive call by removing the head of the list for which the prompt
+                        // has already been shown.
+                        showButtonPrompt(buttons.drop(1), idToPrompt, showNextGuide)
                     }
                 }.show()
         }
-
     }
 
-    private fun showScrollViewButtonsPrompt() {
-        showPrompt(true, scrollViewButtons, buttonsGuidePrompts) { showSearchPrompt() }
-    }
-
-    private fun showMainButtonsPrompt() {
-        showPrompt(false, mainPageButtons, buttonsGuidePrompts) { showScrollViewButtonsPrompt() }
+    private fun scrollTo(buttonId : Int) {
+        val sv = findViewById<HorizontalScrollView>(R.id.horizontalScrollView)
+        sv.requestChildFocus(findViewById(buttonId), findViewById(buttonId))
     }
 
     @SuppressLint("ResourceAsColor")
-    private fun showSearchPrompt() {
+    private fun showSearchBarPrompt() {
         MaterialTapTargetPrompt.Builder(this).setTarget(findViewById(R.id.searchBar))
             .setPrimaryText(R.string.guide_primary_prompt)
             .setSecondaryText(R.string.guide_search_bar_prompt).setBackButtonDismissEnabled(true)
+            // Since the search bar is rectangular, it is best to use a rectangular highlighter.
             .setPromptBackground(
                 RectanglePromptBackground()
             ).setPromptFocal(RectanglePromptFocal()).setBackgroundColour(
@@ -181,6 +191,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
                         getString(R.string.AppGuideFinished),
                         findViewById(R.id.horizontalScrollView)
                     )
+                    // Clears the focus from the search view so as to not open the keyboard.
                     searchView.clearFocus()
                 }
             }.show()
@@ -204,7 +215,6 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
      */
     private fun setUpSearchView() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-
             override fun onQueryTextSubmit(query : String) : Boolean {
                 if (searchBarElements.contains(query)) {
                     adapter.filter.filter(query)
@@ -229,11 +239,9 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         })
 
         listView.setOnItemClickListener { _, view, position, _ ->
-
             val listItem = listView.getItemAtPosition(position).toString()
             displaySelectedItem(listItem)
             findActivity(listItem, view)
-
         }
     }
 
@@ -290,7 +298,6 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
             TUTORIAL -> viewPresentation(view)
             HOSPITALS -> goToNearbyHospitals(view)
             PHARMACIES -> goToNearbyPharmacies(view)
-
         }
     }
 
@@ -414,4 +421,16 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
          */
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
     }
+}
+
+private class MainPageButton(private val buttonId : Int, private val isInScrollView : Boolean) {
+
+    fun isInScrollView() : Boolean {
+        return isInScrollView
+    }
+
+    fun getButtonId() : Int {
+        return buttonId
+    }
+
 }

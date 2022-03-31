@@ -70,9 +70,9 @@ dependencies {
     testImplementation 'org.mockito:mockito-core:3.2.0'
     // required if you want to use Mockito for Android tests
     androidTestImplementation 'org.mockito:mockito-android:3.2.0'
-    // required for the implementation of the app tuto
+    // required for the implementation of the app guide
     implementation 'uk.co.samuelwall:material-tap-target-prompt:3.3.2'
-    // required for the implementation of the app preferences
+    // required for the preferences Manager
     implementation 'androidx.preference:preference-ktx:1.2.0'
 }
 
