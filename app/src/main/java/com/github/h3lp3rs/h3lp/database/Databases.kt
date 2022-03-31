@@ -5,8 +5,12 @@ package com.github.h3lp3rs.h3lp.database
  */
 enum class Databases {
     PREFERENCES, EMERGENCIES, NEW_EMERGENCIES;
-    val db: Database = FireDatabase(name)
+    var db: Database = FireDatabase(name) // Var to enable test-time mocking
     companion object {
+        /**
+         * Instantiates the database of the corresponding type
+         * @param choice The chosen database
+         */
         fun databaseOf(choice: Databases): Database {
             return choice.db
         }
