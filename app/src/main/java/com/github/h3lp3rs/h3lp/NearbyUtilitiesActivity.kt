@@ -38,10 +38,6 @@ import com.google.android.gms.maps.model.MarkerOptions
 
 typealias GooglePlace = HashMap<String, String>
 
-const val PLACES_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
-const val DEFAULT_MAP_ZOOM = 15f
-const val DEFAULT_SEARCH_RADIUS = 3000
-
 class NearbyUtilitiesActivity : AppCompatActivity(), OnMapReadyCallback,
     CoroutineScope by MainScope(),GoogleMap.OnPolylineClickListener{
 
@@ -392,7 +388,7 @@ class NearbyUtilitiesActivity : AppCompatActivity(), OnMapReadyCallback,
             polyline.pattern = null
         }
         Toast.makeText(
-            this, "Fastest path to the user in need of your help",
+            this, getString(R.string.on_click_path),
             Toast.LENGTH_SHORT
         ).show()
     }
@@ -409,9 +405,17 @@ class NearbyUtilitiesActivity : AppCompatActivity(), OnMapReadyCallback,
     }
 
     companion object {
+        // Constants to access the Google places API
+        const val PLACES_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
+
         // Constants to access the Google directions API
+
         const val DIRECTIONS_URL = "https://maps.googleapis.com/maps/api/directions/json"
         const val WALKING = "walking"
+
+        // Constants for the map parameters
+        const val DEFAULT_MAP_ZOOM = 15f
+        const val DEFAULT_SEARCH_RADIUS = 3000
 
         // Constants for the polyline appearance
 
