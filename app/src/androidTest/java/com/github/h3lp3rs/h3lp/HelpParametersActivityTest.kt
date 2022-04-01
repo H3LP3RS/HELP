@@ -20,10 +20,10 @@ import androidx.test.rule.GrantPermissionRule
 import com.github.h3lp3rs.h3lp.LocalEmergencyCaller.DEFAULT_EMERGENCY_NUMBER
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 import com.github.h3lp3rs.h3lp.locationmanager.LocationManagerInterface
-import com.github.h3lp3rs.h3lp.preferences.Preferences
-import com.github.h3lp3rs.h3lp.preferences.Preferences.Companion.Files.PRESENTATION
-import com.github.h3lp3rs.h3lp.preferences.Preferences.Companion.USER_AGREE
-import com.github.h3lp3rs.h3lp.preferences.Preferences.Companion.clearAllPreferences
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
+import com.github.h3lp3rs.h3lp.storage.Storages
+import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
+import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import org.hamcrest.Matchers.*
 import org.junit.After
 import org.junit.Before
@@ -57,10 +57,8 @@ class HelpParametersActivityTest {
     @Before
     fun setUp() {
         init()
-        clearAllPreferences(ApplicationProvider.getApplicationContext())
-        Preferences(PRESENTATION, ApplicationProvider.getApplicationContext()).setBool(
-            USER_AGREE, true
-        )
+        resetStorage()
+        storageOf(Storages.USER_COOKIE).setBoolean(globalContext.getString(R.string.KEY_USER_AGREE), true)
 
     }
 
