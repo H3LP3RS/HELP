@@ -34,7 +34,7 @@ object LocalEmergencyCaller {
      * @return The corresponding emergency phone number or a default emergency number in case an
      * error occurred
      */
-    fun getLocalEmergencyNumber(longitude: Double, latitude: Double, context: Context): String {
+    fun getLocalEmergencyNumber(longitude: Double?, latitude: Double?, context: Context): String {
         return getPhoneNumberFromCountry(context, getUserCountry(longitude, latitude, context))
     }
 
@@ -47,7 +47,12 @@ object LocalEmergencyCaller {
      * @param context The calling activity's context (which is required to instantiate a Geocoder)
      * The corresponding country
      */
-    fun getUserCountry(longitude: Double, latitude: Double, context: Context): String? {
+    fun getUserCountry(longitude: Double?, latitude: Double?, context: Context): String? {
+        // In case the given coordinates were null, we return as if they didn't correspond
+        // to any country
+        if (longitude == null || latitude == null) {
+            return null
+        }
         // A geocoder transforms street addresses into coordinates and vice-versa
         val geocoder = Geocoder(context)
 

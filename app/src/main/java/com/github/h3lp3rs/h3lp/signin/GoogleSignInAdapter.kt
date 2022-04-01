@@ -16,9 +16,9 @@ import com.google.firebase.ktx.Firebase
 
 /**
  * This object adapts the Google sign in and Firebase authentication to our general SignInInterface.
- * It is used as the central sign in interface in the app.
+ * It is used as the central sign in interface in the app
  */
-object GoogleSignInAdaptor: SignInInterface<AuthResult> {
+object GoogleSignInAdapter: SignInInterface<AuthResult> {
     private var auth: FirebaseAuth = Firebase.auth
     lateinit var gso: GoogleSignInOptions
 

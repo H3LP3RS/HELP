@@ -163,19 +163,35 @@
 
     <TextView
         android:id="@+id/help_breath_text"
-        android:layout_width="282dp"
-        android:layout_height="144dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="@string/keep_calm_meds_selection_msg"
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textColor="#FF1100"
-        android:textSize="34sp"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.059" />
+        app:layout_constraintVertical_bias="0.129"
+            />
+
+
+    <TextView
+            android:id="@+id/location_information"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="@string/current_location"
+            android:textColor="#FF1100"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/help_breath_text"
+            app:layout_constraintBottom_toTopOf="@+id/selectMedsButton1"
+            app:layout_constraintVertical_bias="0.2" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
