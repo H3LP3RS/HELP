@@ -26,7 +26,7 @@
             android:src="@drawable/menu" />
 -->
         <ImageButton
-            android:id="@+id/tutorialButton"
+            android:id="@+id/button_tutorial"
             android:layout_width="@dimen/top_banner_icon"
             android:layout_height="@dimen/top_banner_icon"
             android:layout_alignParentEnd="true"
@@ -40,7 +40,7 @@
             android:id="@+id/HelloText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tutorialButton"
+            android:layout_below="@+id/button_tutorial"
             android:layout_centerHorizontal="true"
             android:text="@string/hello"
             android:textColor="@color/dark_blue"
@@ -118,7 +118,7 @@
                         android:orientation="vertical">
 
                         <ImageButton
-                            android:id="@+id/hospital_button"
+                            android:id="@+id/button_hospital"
                             android:layout_width="@dimen/image_button_home_page"
                             android:layout_height="@dimen/image_button_home_page"
                             android:layout_gravity="center_horizontal"
@@ -158,6 +158,7 @@
                         android:orientation="vertical">
 
                         <ImageButton
+                            android:id="@+id/button_defibrillator"
                             android:layout_width="@dimen/image_button_home_page"
                             android:layout_height="@dimen/image_button_home_page"
                             android:layout_gravity="center_horizontal"
@@ -197,7 +198,7 @@
                         android:orientation="vertical">
 
                         <ImageButton
-                            android:id="@+id/pharmacy_button"
+                            android:id="@+id/button_pharmacy"
                             android:layout_width="@dimen/image_button_home_page"
                             android:layout_height="@dimen/image_button_home_page"
                             android:layout_gravity="center_horizontal"
@@ -238,7 +239,7 @@
                         android:orientation="vertical">
 
                         <ImageButton
-                            android:id="@+id/first_aid_button"
+                            android:id="@+id/button_first_aid"
                             android:layout_width="@dimen/image_button_home_page"
                             android:layout_height="@dimen/image_button_home_page"
                             android:layout_gravity="center_horizontal"
@@ -277,7 +278,7 @@
                         android:orientation="vertical">
 
                         <ImageButton
-                            android:id="@+id/CPR_rate_button"
+                            android:id="@+id/button_cpr"
                             android:layout_width="@dimen/image_button_home_page"
                             android:layout_height="@dimen/image_button_home_page"
                             android:layout_gravity="center_horizontal"
@@ -316,7 +317,7 @@
                 android:orientation="vertical">
 
                 <ImageButton
-                    android:id="@+id/profile"
+                    android:id="@+id/button_profile"
                     android:layout_width="@dimen/image_button_home_page"
                     android:layout_height="@dimen/image_button_home_page"
                     android:layout_gravity="center_horizontal"
@@ -345,12 +346,14 @@
                 tools:ignore="RelativeOverlap">
 
                 <ImageButton
+                    android:id="@+id/button_my_skills"
                     android:layout_width="@dimen/image_button_home_page"
                     android:layout_height="@dimen/image_button_home_page"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/margin_image_inside_layout"
                     android:background="@drawable/medication"
                     android:contentDescription="@string/skills_button"
+                    android:onClick="goToMySkillsActivity"
                     tools:ignore="ImageContrastCheck" />
 
                 <TextView

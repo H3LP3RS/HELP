@@ -135,7 +135,7 @@ class SearchBarTest {
 
         lookUp(NONEXISTENT_ITEM)
 
-        onView(withText(R.string.matchNotFound))
+        onView(withText(R.string.match_not_found))
             .check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
 
     }

@@ -55,6 +55,10 @@ dependencies {
     implementation 'com.opencsv:opencsv:5.3'
     implementation 'com.google.firebase:firebase-database-ktx:20.0.4'
     implementation 'com.google.maps.android:android-maps-utils:2.1.0'
+    implementation("android.arch.work:work-runtime:1.0.1") {
+        exclude group: 'com.google.guava', module: 'listenablefuture'
+    }
+    implementation 'androidx.test.uiautomator:uiautomator:2.2.0'
     testImplementation 'junit:junit:4.13.2'
     testImplementation "org.mockito.kotlin:mockito-kotlin:3.2.0"
     testImplementation "org.mockito:mockito-core:3.2.0"
@@ -65,12 +69,16 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.4.0'
     androidTestImplementation 'androidx.test:rules:1.4.0'
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.4.0'
-    //added for drawer layout testing
+    // added for drawer layout testing
     androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:3.0.2'
     // required if you want to use Mockito for unit tests
     testImplementation 'org.mockito:mockito-core:3.2.0'
     // required if you want to use Mockito for Android tests
     androidTestImplementation 'org.mockito:mockito-android:3.2.0'
+    // required for the implementation of the app guide
+    implementation 'uk.co.samuelwall:material-tap-target-prompt:3.3.2'
+    // required for the preferences Manager
+    implementation 'androidx.preference:preference-ktx:1.2.0'
 
     implementation 'com.akexorcist:google-direction-library:1.2.0'
 }

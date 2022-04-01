@@ -3,7 +3,6 @@ package com.github.h3lp3rs.h3lp.signin
 import android.app.Activity
 import android.content.Intent
 import androidx.activity.result.ActivityResult
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.core.app.ApplicationProvider.*
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -13,11 +12,8 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.preferences.Preferences
-import com.github.h3lp3rs.h3lp.preferences.Preferences.*
-import com.github.h3lp3rs.h3lp.preferences.Preferences.Companion.Files.*
-import com.github.h3lp3rs.h3lp.preferences.Preferences.Companion.USER_AGREE
-import com.github.h3lp3rs.h3lp.preferences.Preferences.Companion.clearAllPreferences
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
+import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import org.junit.After
@@ -46,14 +42,14 @@ class GoogleSignInTest {
     @Before
     fun setUp() {
         init()
-        clearAllPreferences(getApplicationContext())
-        Preferences(PRESENTATION, getApplicationContext()).setBool(USER_AGREE, true)
+        globalContext = getApplicationContext()
+        resetStorage()
 
         val signInMock = mock(SignInInterface::class.java)
         When(signInMock.isSignedIn()).thenReturn(false)
 
         testRule.scenario.onActivity { activity ->
-            intent = GoogleSignInAdaptor.signIn(activity)
+            intent = GoogleSignInAdapter.signIn(activity)
             val taskMock = mock(Task::class.java)
             When(taskMock.isSuccessful).thenReturn(true)
             When(taskMock.isComplete).thenReturn(true)
@@ -76,7 +72,7 @@ class GoogleSignInTest {
     @Test
     fun signInWithGoogleLaunchesAuthenticationProcess() {
         clickSignInButton()
-        assertNotNull(GoogleSignInAdaptor.gso)
+        assertNotNull(GoogleSignInAdapter.gso)
         testRule.scenario.onActivity { activity ->
             activity.authenticateUser(
                 ActivityResult(Activity.RESULT_OK, intent), activity
