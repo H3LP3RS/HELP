@@ -11,14 +11,11 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.content.ContextCompat.getColorStateList
 import com.github.h3lp3rs.h3lp.databinding.ActivityNearbyUtilitiesBinding
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import kotlinx.coroutines.*
 import org.json.JSONObject
@@ -29,7 +26,10 @@ import java.net.HttpURLConnection
 import java.net.URL
 import androidx.core.content.ContextCompat.*
 import com.github.h3lp3rs.h3lp.util.AED_LOCATIONS_LAUSANNE
-import com.github.h3lp3rs.h3lp.util.GPlaceJsonParser
+import com.github.h3lp3rs.h3lp.util.GPathJSONParser
+import com.github.h3lp3rs.h3lp.util.GPlaceJSONParser
+import com.github.h3lp3rs.h3lp.util.JSONParserInterface
+import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
@@ -78,7 +78,7 @@ class NearbyUtilitiesActivity : AppCompatActivity(), OnMapReadyCallback,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        MapsInitializer.initialize(applicationContext, Renderer.LATEST, null)
+        MapsInitializer.initialize(applicationContext, MapsInitializer.Renderer.LATEST, null)
 
         binding = ActivityNearbyUtilitiesBinding.inflate(layoutInflater)
         setContentView(binding.root)
