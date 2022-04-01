@@ -50,14 +50,14 @@
                 android:background="@drawable/light_background">
 
                 <TextView
-                    android:id="@+id/heartAttackTutorialStep1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-condensed-medium"
-                    android:padding="25dp"
-                    android:text="@string/heart_attack_step1"
-                    android:textColor="@color/black"
-                    android:textSize="13sp" />
+                        android:id="@+id/heartAttackTutorialStep1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:padding="25dp"
+                        android:text="@string/heart_attack_step1"
+                        android:textColor="@color/black"
+                        android:textSize="13sp" />
 
 
             </RelativeLayout>

@@ -277,4 +277,7 @@
         Then when somebody encounter an emergency you can help with you will be notified and can go save life</string>
     <string name="inhaler">Inhaler</string>
     <string name="on_click_path">Fastest path to the user in need of your help</string>
+    <string name="person_in_need">A person is in need of YOUR help</string>
+    <string name="time_to_person_in_need">The walking time to the user in need is: </string>
+    <string name="help_required">The user needs: </string>
 </resources>
