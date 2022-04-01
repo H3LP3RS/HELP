@@ -1,6 +1,7 @@
 package com.github.h3lp3rs.h3lp.presentation
 
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.GestureDetector
@@ -11,8 +12,6 @@ import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.listeners.SwipeListener
 import com.github.h3lp3rs.h3lp.listeners.SwipeListener.Companion.SlideDirection.*
 import com.github.h3lp3rs.h3lp.listeners.SwipeListener.Companion.swipeToNextActivity
-import com.github.h3lp3rs.h3lp.preferences.Preferences
-import com.github.h3lp3rs.h3lp.preferences.Preferences.Companion.Files.*
 import android.text.method.LinkMovementMethod
 
 import android.text.TextUtils
@@ -24,15 +23,21 @@ import android.text.SpannableString
 import android.text.TextPaint
 
 import android.text.style.ClickableSpan
-import com.github.h3lp3rs.h3lp.preferences.Preferences.Companion.USER_AGREE
+import androidx.annotation.RequiresApi
 import com.github.h3lp3rs.h3lp.signin.ORIGIN
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
+import com.github.h3lp3rs.h3lp.storage.LocalStorage
+import com.github.h3lp3rs.h3lp.storage.Storages
+import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 
 /**
  * Class representing the third page of the app presentation
  * The purpose of this activity is to explain what H3LP ought not to be confused with
  */
 class PresIrrelevantActivity : AppCompatActivity() {
+
+    private lateinit var userCookie: LocalStorage
+
     /**
      * Creates the third presentation page activity
      * Nothing should be done when a click is detected, this is handled by the swipe listener
@@ -40,9 +45,11 @@ class PresIrrelevantActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_presentation_irrelevant)
+        userCookie = storageOf(Storages.USER_COOKIE)
+
         // 1. Set right box tick
         val checkBox = findViewById<View>(R.id.pres3_checkBox) as CheckBox
-        if(Preferences(PRESENTATION, this).getBoolOrDefault(USER_AGREE, false)) {
+        if(userCookie.getBoolOrDefault(getString(R.string.KEY_USER_AGREE), false)) {
             checkBox.isChecked = true
         }
         // 2. Add clickable text using the code of:
@@ -63,7 +70,7 @@ class PresIrrelevantActivity : AppCompatActivity() {
     fun sendApproval(view: View) {
         val checkBox = findViewById<View>(R.id.pres3_checkBox) as CheckBox
         if(checkBox.isChecked) {
-            Preferences(PRESENTATION, this).setBool(USER_AGREE, true)
+            userCookie.setBoolean(getString(R.string.KEY_USER_AGREE), true)
             val i = Intent(this, findDest(intent.getStringExtra(ORIGIN)))
             startActivity(i)
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
@@ -73,7 +80,7 @@ class PresIrrelevantActivity : AppCompatActivity() {
     private fun findDest(name: String?): Class<*>? {
         return when (name) {
             SignInActivity::class.qualifiedName -> {
-                SignInActivity::class.java
+                MainPageActivity::class.java
             }
             MainPageActivity::class.qualifiedName -> {
                 MainPageActivity::class.java
