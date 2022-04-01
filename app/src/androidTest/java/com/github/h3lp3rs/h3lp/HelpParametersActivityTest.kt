@@ -57,6 +57,7 @@ class HelpParametersActivityTest {
     @Before
     fun setUp() {
         init()
+        globalContext = ApplicationProvider.getApplicationContext()
         resetStorage()
         storageOf(Storages.USER_COOKIE).setBoolean(globalContext.getString(R.string.KEY_USER_AGREE), true)
 
