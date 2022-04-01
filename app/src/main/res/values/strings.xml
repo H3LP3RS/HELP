@@ -276,4 +276,5 @@
         Here you can choose what you are able to help for, for example medicine that you carry with you or any health skill that you have.\n\n
         Then when somebody encounter an emergency you can help with you will be notified and can go save life</string>
     <string name="inhaler">Inhaler</string>
+    <string name="on_click_path">Fastest path to the user in need of your help</string>
 </resources>

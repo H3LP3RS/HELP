@@ -9,8 +9,22 @@ import org.json.JSONObject
  *  This class is used to parse json objects returned by the Google Places API
  *  into Places. Places are represented by Maps with the keys {lat, lng, name}
  */
-class GPlaceJsonParser {
+object GPlaceJSONParser: JSONParserInterface<List<GooglePlace>> {
 
+    /**
+     * Parses the json of a google place search into a list of places
+     * @param obj : Json object returned by a Google place query
+     * @return a list of places in the form of maps, with {lat,lng,name} as keys
+     */
+    override fun parseResult(obj: JSONObject): List<GooglePlace> {
+        return try {
+            val jsonArray = obj.getJSONArray("results")
+            parseJsonArray(jsonArray)
+        } catch(e: JSONException) {
+            arrayListOf()
+        }
+
+    }
 
     private fun parseJsonObject(obj: JSONObject): GooglePlace {
         val dataList = HashMap<String, String>()
@@ -19,14 +33,14 @@ class GPlaceJsonParser {
         val latitude = obj.getJSONObject("geometry")
             .getJSONObject("location").getDouble("lat")
 
-        val lontitude = obj.getJSONObject("geometry")
+        val longitude = obj.getJSONObject("geometry")
             .getJSONObject("location")
             .getDouble("lng")
 
         // put the values in the map
         dataList["name"] = name
         dataList["lat"] = latitude.toString()
-        dataList["lng"] = lontitude.toString()
+        dataList["lng"] = longitude.toString()
 
         return dataList
     }
@@ -42,18 +56,4 @@ class GPlaceJsonParser {
         return dataList
     }
 
-    /**
-     * Parses the json of a google place search into a list of places
-     * @param obj : Json object returned by a Google place query
-     * @return a list of places in the form of maps, with {lat,lng,name} as keys
-     */
-    fun parseResult(obj: JSONObject): List<GooglePlace> {
-        return try {
-            val jsonArray = obj.getJSONArray("results")
-            parseJsonArray(jsonArray)
-        } catch(e: JSONException) {
-            arrayListOf()
-        }
-
-    }
 }

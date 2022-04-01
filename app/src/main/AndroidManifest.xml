@@ -45,7 +45,7 @@
 
         <activity
             android:name=".NearbyUtilitiesActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".presentation.ToSActivity"
             android:exported="false" />
