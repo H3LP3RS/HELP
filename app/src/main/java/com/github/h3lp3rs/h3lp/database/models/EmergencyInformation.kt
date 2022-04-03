@@ -4,7 +4,8 @@ import java.util.*
 
 data class EmergencyInformation(
     val id: String = UUID.randomUUID().toString(),
-    var emergencyType: String,
-    var location: String,
-    var meds: List<String>,
+    var latitude: Double,
+    var longitude: Double,
+    var meds: ArrayList<String>,
+    var time: Date
 )
