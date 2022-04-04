@@ -10,7 +10,6 @@
 
     tools:context=".MainPageActivity">
 
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -379,6 +378,7 @@
             android:contentDescription="@string/help_button"
             android:onClick="goToHelpParametersActivity" />
     </RelativeLayout>
+
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
@@ -387,5 +387,6 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/header_side_navigation_bar"
         app:menu="@menu/side_navigation_bar" />
+
 
 </androidx.drawerlayout.widget.DrawerLayout>
