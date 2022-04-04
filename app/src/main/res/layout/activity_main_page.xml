@@ -5,115 +5,38 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_background"
     android:fitsSystemWindows="true"
 
     tools:context=".MainPageActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/app_background">
-        <!--
-        <ImageButton
-            android:id="@+id/menuButton"
-            android:layout_width="@dimen/top_banner_icon"
-            android:layout_height="@dimen/top_banner_icon"
-            android:background="@null"
-            android:contentDescription="@string/menu_button"
-            android:scaleType="centerInside"
-            android:src="@drawable/menu" />
--->
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appBarLayout"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:fitsSystemWindows="true"
-            android:theme="@style/ThemeOverlay.MaterialComponents.Dark" >
-            <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:id="@+id/collapsingToolbar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fitsSystemWindows="true"
-                app:contentScrim="@color/dark_blue"
-                app:expandedTitleMarginBottom="20dp"
-                app:expandedTitleMarginStart="15dp"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-                >
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:contentDescription="@string/h3lp3rs"
-                    android:fitsSystemWindows="true"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/back_login"
-                    app:layout_collapseMode="parallax" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_gravity="bottom"
-                    android:background="@drawable/title_background" />
-
-                <androidx.appcompat.widget.Toolbar
-                    android:layout_width="match_parent"
-                    android:layout_height="?actionBarSize"
-                    app:contentInsetStart="0dp"
-                    app:contentInsetStartWithNavigation="0dp"
-                    app:layout_collapseMode="pin"
-                    app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light" />
-
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:overScrollMode="never"
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="15dp">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="25dp"
-                    android:text="@string/h3lp3rs"
-                    android:textColor="@color/black"
-                    android:textSize="30sp"
-                    android:textStyle="bold">
-
-                </TextView>
-
-
-
-            </LinearLayout>
-
-        </androidx.core.widget.NestedScrollView>
-
-        <ImageButton
-            android:id="@+id/button_tutorial"
-            android:layout_width="@dimen/top_banner_icon"
-            android:layout_height="@dimen/top_banner_icon"
-            android:layout_alignParentEnd="true"
-            android:background="@null"
-            android:contentDescription="@string/tutorial_button"
-            android:onClick="viewPresentation"
-            android:scaleType="centerInside"
-            android:src="@drawable/tutorial" />
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/teal_background"
+            android:elevation="5dp"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
         <TextView
             android:id="@+id/HelloText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/appBarLayout"
+            android:layout_below="@+id/toolbar"
             android:layout_centerHorizontal="true"
             android:text="@string/hello"
-            android:textColor="@color/dark_blue"
+            android:lineSpacingExtra="8sp"
+            android:shadowColor="@color/white"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="20"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@color/black"
             android:textSize="25sp" />
 
         <TextView
@@ -123,18 +46,32 @@
             android:layout_below="@+id/HelloText"
             android:layout_centerHorizontal="true"
             android:text="@string/welcome_text"
-            android:textColor="@color/dark_blue"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:lineSpacingExtra="8sp"
+            android:shadowColor="@color/white"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="20"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/staySafe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/welcomeText"
-            android:layout_centerHorizontal="true"
             android:text="@string/stay_safe"
-            android:textColor="@color/dark_blue"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_centerHorizontal="true"
+            android:lineSpacingExtra="8sp"
+            android:shadowColor="@color/white"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="20"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@color/black" />
 
         <ListView
             android:id="@+id/listView"
@@ -176,7 +113,7 @@
                     android:layout_width="@dimen/scroll_view_outside_layout"
                     android:layout_height="@dimen/scroll_view_outside_layout"
                     android:background="@drawable/round_style"
-                    android:backgroundTint="@color/blue"
+                    android:backgroundTint="@color/teal_400"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -203,7 +140,7 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="@dimen/scroll_view_margin_text"
                             android:text="@string/hospital"
-                            android:textColor="@color/dark_blue"
+                            android:textColor="@color/black"
                             android:textSize="@dimen/icon_font"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -216,15 +153,15 @@
                     android:layout_width="@dimen/scroll_view_outside_layout"
                     android:layout_height="@dimen/scroll_view_outside_layout"
                     android:background="@drawable/round_style"
-                    android:backgroundTint="@color/blue"
+                    android:backgroundTint="@color/teal_400"
                     android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="@dimen/scroll_view_inside_layout"
                         android:layout_height="@dimen/scroll_view_inside_layout"
                         android:layout_centerInParent="true"
-                        android:background="@drawable/round_style"
                         android:backgroundTint="@color/white"
+                        android:background="@drawable/round_style"
                         android:orientation="vertical">
 
                         <ImageButton
@@ -242,7 +179,7 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="@dimen/scroll_view_margin_text"
                             android:text="@string/defibrillator"
-                            android:textColor="@color/dark_blue"
+                            android:textColor="@color/black"
                             android:textSize="@dimen/icon_font"
                             android:textStyle="bold" />
 
@@ -256,7 +193,7 @@
                     android:layout_width="@dimen/scroll_view_outside_layout"
                     android:layout_height="@dimen/scroll_view_outside_layout"
                     android:background="@drawable/round_style"
-                    android:backgroundTint="@color/blue"
+                    android:backgroundTint="@color/teal_400"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -284,7 +221,7 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="@dimen/scroll_view_margin_text"
                             android:text="@string/pharmacy"
-                            android:textColor="@color/dark_blue"
+                            android:textColor="@color/black"
                             android:textSize="@dimen/icon_font"
                             android:textStyle="bold" />
 
@@ -297,7 +234,7 @@
                     android:layout_width="@dimen/scroll_view_outside_layout"
                     android:layout_height="@dimen/scroll_view_outside_layout"
                     android:background="@drawable/round_style"
-                    android:backgroundTint="@color/blue"
+                    android:backgroundTint="@color/teal_400"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -324,7 +261,7 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="@dimen/scroll_view_margin_text"
                             android:text="@string/first_aid"
-                            android:textColor="@color/dark_blue"
+                            android:textColor="@color/black"
                             android:textSize="@dimen/icon_font"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -336,7 +273,7 @@
                     android:layout_width="@dimen/scroll_view_outside_layout"
                     android:layout_height="@dimen/scroll_view_outside_layout"
                     android:background="@drawable/round_style"
-                    android:backgroundTint="@color/blue"
+                    android:backgroundTint="@color/teal_400"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -363,7 +300,7 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="@dimen/scroll_view_margin_text"
                             android:text="@string/cpr_rate"
-                            android:textColor="@color/dark_blue"
+                            android:textColor="@color/black"
                             android:textSize="@dimen/icon_font"
                             android:textStyle="bold" />
 
@@ -402,7 +339,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/scroll_view_margin_text"
                     android:text="@string/my_profile"
-                    android:textColor="@color/dark_blue"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/icon_font"
                     android:textStyle="bold" />
 
@@ -432,7 +369,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/scroll_view_margin_text"
                     android:text="@string/skills"
-                    android:textColor="@color/dark_blue"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/icon_font"
                     android:textStyle="bold" />
 
@@ -443,9 +380,8 @@
             android:id="@+id/HELP_button"
             android:layout_width="@dimen/help_button"
             android:layout_height="@dimen/help_button"
-            android:layout_marginTop="50dp"
-            android:layout_below="@+id/horizontalScrollView"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="430dp"
             android:background="@drawable/help_button"
             android:contentDescription="@string/help_button"
             android:onClick="goToHelpParametersActivity" />

@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
@@ -82,9 +83,8 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_page)
 
-        if (BuildConfig.DEBUG) {
-            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        }
+        // Set the toolbar
+        setSupportActionBar(findViewById(R.id.toolbar))
 
         setUpDrawerLayout()
 
@@ -322,6 +322,12 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     }
 
     override fun onOptionsItemSelected(item : MenuItem) : Boolean {
+        if(item.itemId==R.id.button_tutorial){
+            viewPresentation(findViewById<View>(android.R.id.content).rootView)
+        }
+        // else if(item.itemId==R.id.toolbar_settings){ }
+        // TODO ( Allow user to choose data he would like to keep private aka not sent to the database)
+
         return if (toggle.onOptionsItemSelected(item)) true else super.onOptionsItemSelected(item)
     }
 
@@ -357,6 +363,10 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         }
     }
 
+    override fun onCreateOptionsMenu(menu : Menu?) : Boolean {
+        menuInflater.inflate(R.menu.menu_toolbar,menu)
+        return true
+    }
 
     /** Starts the activity by sending intent */
     private fun goToActivity(ActivityName : Class<*>?) {
@@ -378,7 +388,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
      * Called when the user taps on the info button
      * Starts the presentation of the app
      */
-    fun viewPresentation(view : View) {
+    private fun viewPresentation(view : View) {
         startActivity(
             Intent(this, PresArrivalActivity::class.java).putExtra(
                 ORIGIN, MainPageActivity::class.qualifiedName
