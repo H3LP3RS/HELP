@@ -41,8 +41,8 @@ const val HOSPITALS = "Hospitals"
 const val PHARMACIES = "Pharmacies"
 
 private val mainPageButton = listOf(
-    MainPageButton(R.id.button_tutorial, false),
     MainPageButton(R.id.button_profile, false),
+    MainPageButton(R.id.button_tutorial, false),
     MainPageButton(R.id.button_my_skills, false),
     MainPageButton(R.id.button_hospital, true),
     MainPageButton(R.id.button_defibrillator, true),
@@ -157,15 +157,15 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         // thus we do not change it. The default text color is white.
         idToPrompt[buttonId]?.let {
             MaterialTapTargetPrompt.Builder(this)
-                // Sets which button to highlight.
+                // Sets which button to highlight
                 .setTarget(buttonId).setPrimaryText(R.string.guide_primary_prompt)
                 .setSecondaryText(it).setBackButtonDismissEnabled(false).setBackgroundColour(
                     R.color.black
                 ).setPromptStateChangeListener { _, state ->
-                    // If the user clicks anywhere on the screen, we move to the next button.
+                    // If the user clicks anywhere on the screen, we move to the next button
                     if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED || state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED) {
                         // Recursive call by removing the head of the list for which the prompt
-                        // has already been shown.
+                        // has already been shown
                         showButtonPrompt(buttons.drop(1), idToPrompt, showNextGuide)
                     }
                 }.show()
