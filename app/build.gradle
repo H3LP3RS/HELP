@@ -82,11 +82,8 @@ dependencies {
     implementation 'androidx.preference:preference-ktx:1.2.0'
     implementation 'com.google.android.material:material:1.2.0-alpha03'
     implementation 'com.akexorcist:google-direction-library:1.2.0'
-
-    // wiam
     // Material Design
     implementation 'com.google.android.material:material:1.2.1'
-
     // Palette
     implementation 'androidx.palette:palette-ktx:1.0.0'
 
