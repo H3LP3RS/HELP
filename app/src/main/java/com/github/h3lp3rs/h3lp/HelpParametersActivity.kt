@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.database.models.EmergencyInformation
 import com.github.h3lp3rs.h3lp.database.repositories.emergencyInfoRepository
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
+import com.google.gson.Gson
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -111,6 +112,10 @@ class HelpParametersActivity : AppCompatActivity() {
      */
     private fun sendInfoToDB(){
         if(latitude != null && longitude != null){
+            val medicalInfo = getSharedPreferences(getString(R.string.medical_info_prefs), MODE_PRIVATE).edit()
+            val gson = Gson()
+            val json = gson.toJson(medicalInfo)
+            Log.d("HERE", json)
             val info = EmergencyInformation(latitude = latitude!!, longitude = longitude!!, meds =  meds, time = currentTime)
             emergencyInfoRepository.create(info)
             emergencyInfoRepository.get(info.id).thenAccept {
