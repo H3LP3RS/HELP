@@ -132,7 +132,7 @@
         android:onClick="emergencyCall"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/ic_phone"
+        app:srcCompat="@drawable/emergency_call"
         tools:ignore="MissingConstraints,RedundantDescriptionCheck" />
 
     <Button

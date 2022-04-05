@@ -280,4 +280,5 @@
     <string name="person_in_need">A person is in need of YOUR help</string>
     <string name="time_to_person_in_need">The walking time to the user in need is: </string>
     <string name="help_required">The user needs: </string>
+    <string name="await_help_welcome_message">Keep calm and wait for help</string>
 </resources>
