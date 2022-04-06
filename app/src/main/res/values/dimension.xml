@@ -3,9 +3,11 @@
 
     <dimen name="top_banner_icon">48dp</dimen>
     <dimen name="image_button_home_page">70dp</dimen>
+    <dimen name="image_button_tuto_page">50dp</dimen>
     <dimen name="app_margin">5dp</dimen>
     <dimen name="scroll_view_outside_layout">117dp</dimen>
     <dimen name="scroll_view_inside_layout">105dp</dimen>
+    <dimen name="scroll_view_tuto_layout">102dp</dimen>
     <dimen name="icon_font">11sp</dimen>
     <dimen name="margin_image_inside_layout">5dp</dimen>
     <dimen name="scroll_view_margin_text">10dp</dimen>

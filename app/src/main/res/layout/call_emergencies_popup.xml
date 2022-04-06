@@ -23,7 +23,7 @@
         android:layout_below="@+id/textView1"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="15dp"
-        android:text="We are currently looking for help nearby. If you require medical assistance, we highly recommend that still you call the local emergency services with the button below and mention that you are using our app."
+        android:text="We are currently looking for help nearby. If you require medical assistance, we highly recommend that you still call the local emergency services with the button below and mention that you are using our app."
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textColor="@color/dark_blue"
@@ -37,6 +37,7 @@
         android:layout_centerHorizontal="true">
 
         <Button
+            android:id="@+id/close_call_popup_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="15dp"
@@ -44,6 +45,7 @@
             android:text="Pass" />
 
         <Button
+            android:id="@+id/open_call_popup_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"

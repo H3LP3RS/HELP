@@ -1,9 +1,12 @@
 package com.github.h3lp3rs.h3lp
 
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import com.github.h3lp3rs.h3lp.database.Database
@@ -29,9 +32,6 @@ class AwaitHelpActivity : AppCompatActivity() {
         /*
         db.clearListeners(getString(R.string.ventolin_db_key)) // Avoid being autocalled (for now, we'll need a ds for that later)
         db.setString(getString(R.string.ventolin_db_key), getString(R.string.help))
-        val text = findViewById<TextView>(R.id.selected_items_text).apply {
-            text = displayText
-        }
         */
 
         // TODO Launch helper search
@@ -40,7 +40,20 @@ class AwaitHelpActivity : AppCompatActivity() {
         // c: wait for users                                        => spinning logo
         // d: show users who accepted the help request on the map
 
-        // TODO Pop up suggesting to call emergencies, explaining help is not assured
+        if(?){
+            showCallPopup()
+        }
+
+
+        //TODO add listener on database so that we replace the loading bar by the number of
+        // users coming to help
+
+        //TODO display guides according to emergency required
+
+        //TODO offer to increase map size, display coming users and potentially nearby utilities
+    }
+
+    private fun showCallPopup(){
         val builder = AlertDialog.Builder(this)
         val emergencyCallPopup = layoutInflater.inflate(R.layout.call_emergencies_popup, null)
 
@@ -48,6 +61,31 @@ class AwaitHelpActivity : AppCompatActivity() {
         builder.setView(emergencyCallPopup)
 
         val alertDialog = builder.create()
+
+        // pass button
+        emergencyCallPopup.findViewById<Button>(R.id.close_call_popup_button).setOnClickListener {
+            alertDialog.cancel()
+        }
+
+        // call button
+        emergencyCallPopup.findViewById<Button>(R.id.open_call_popup_button).setOnClickListener {
+            TODO()
+            updateCoordinates()
+            val emergencyNumber =
+                LocalEmergencyCaller.getLocalEmergencyNumber(
+                    userLocation?.longitude,
+                    userLocation?.latitude,
+                    this
+                )
+
+            val dial = "tel:$emergencyNumber"
+            startActivity(Intent(Intent.ACTION_DIAL, Uri.parse(dial)))
+        }
+
         alertDialog.show()
+    }
+
+    companion object {
+
     }
 }
