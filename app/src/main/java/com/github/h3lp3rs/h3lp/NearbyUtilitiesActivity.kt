@@ -29,6 +29,7 @@ class NearbyUtilitiesActivity : AppCompatActivity(), CoroutineScope by MainScope
     private var requestedUtility: String? = null
     private var currentLong: Double = 0.0
     private var currentLat: Double = 0.0
+    private lateinit var pathData: String
 
     private var showingHospitals = false
     private var showingPharmacies = false
@@ -76,6 +77,11 @@ class NearbyUtilitiesActivity : AppCompatActivity(), CoroutineScope by MainScope
         // to be used.
         mapsFragment = supportFragmentManager
             .findFragmentById(R.id.map) as MapsFragment
+
+
+        mapsFragment.addMarker(destinationLat + 1, destinationLong,
+            "TEST"
+        )
     }
 
     private fun setupLocation() {
@@ -207,9 +213,9 @@ class NearbyUtilitiesActivity : AppCompatActivity(), CoroutineScope by MainScope
                 // Launches async routines to retrieve nearby places and show them
                 // on the map
                 CoroutineScope(Dispatchers.Main).launch {
-                    val data: String = withContext(Dispatchers.IO) { downloadUrl(url) }
-                    Log.i("GPlaces", data)
-                    requestedPlaces[utility] = parseTask(data, GPlaceJSONParser)
+                    pathData = withContext(Dispatchers.IO) { downloadUrl(url) }
+                    Log.i("GPlaces", pathData)
+                    requestedPlaces[utility] = parseTask(pathData, GPlaceJSONParser)
                     requestedPlaces[utility]?.let { mapsFragment.showPlaces(it, utility) }
                 }
             }
@@ -245,7 +251,7 @@ class NearbyUtilitiesActivity : AppCompatActivity(), CoroutineScope by MainScope
 
     companion object {
         // Constants to access the Google places API
-        const val PLACES_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
+        const val PLACES_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json" //TODO : make these constants private
         const val DEFAULT_SEARCH_RADIUS = 3000
 
         // Constants to access the Google directions API
@@ -254,7 +260,7 @@ class NearbyUtilitiesActivity : AppCompatActivity(), CoroutineScope by MainScope
         const val WALKING = "walking"
 
 
-        private const val END_POINT_NAME = "user in need"
+        const val END_POINT_NAME = "user in need"
     }
 }
 

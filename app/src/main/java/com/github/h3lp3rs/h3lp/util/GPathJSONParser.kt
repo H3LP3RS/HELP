@@ -21,7 +21,7 @@ object GPathJSONParser: JSONParserInterface<List<LatLng>> {
     override fun parseResult(obj: JSONObject): List<LatLng> {
         return try {
             val steps = parseSteps(obj)
-            return getPathFromSteps(steps)
+            getPathFromSteps(steps)
         } catch (e: JSONException) {
             arrayListOf()
         }

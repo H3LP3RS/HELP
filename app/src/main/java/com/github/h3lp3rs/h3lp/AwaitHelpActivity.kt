@@ -40,9 +40,9 @@ class AwaitHelpActivity : AppCompatActivity() {
         // c: wait for users                                        => spinning logo
         // d: show users who accepted the help request on the map
 
-        if(?){
-            showCallPopup()
-        }
+//        if(?){
+//            showCallPopup()
+//        }
 
 
         //TODO add listener on database so that we replace the loading bar by the number of
@@ -68,19 +68,19 @@ class AwaitHelpActivity : AppCompatActivity() {
         }
 
         // call button
-        emergencyCallPopup.findViewById<Button>(R.id.open_call_popup_button).setOnClickListener {
-            TODO()
-            updateCoordinates()
-            val emergencyNumber =
-                LocalEmergencyCaller.getLocalEmergencyNumber(
-                    userLocation?.longitude,
-                    userLocation?.latitude,
-                    this
-                )
-
-            val dial = "tel:$emergencyNumber"
-            startActivity(Intent(Intent.ACTION_DIAL, Uri.parse(dial)))
-        }
+//        emergencyCallPopup.findViewById<Button>(R.id.open_call_popup_button).setOnClickListener {
+//            TODO()
+//            updateCoordinates()
+//            val emergencyNumber =
+//                LocalEmergencyCaller.getLocalEmergencyNumber(
+//                    userLocation?.longitude,
+//                    userLocation?.latitude,
+//                    this
+//                )
+//
+//            val dial = "tel:$emergencyNumber"
+//            startActivity(Intent(Intent.ACTION_DIAL, Uri.parse(dial)))
+//        }
 
         alertDialog.show()
     }

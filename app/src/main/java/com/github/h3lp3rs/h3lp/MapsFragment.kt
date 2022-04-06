@@ -37,6 +37,7 @@ class MapsFragment : Fragment(), CoroutineScope by MainScope(), GoogleMap.OnPoly
 
         // Set listener for click events.
         map.setOnPolylineClickListener(this)
+
     }
 
 
@@ -60,7 +61,6 @@ class MapsFragment : Fragment(), CoroutineScope by MainScope(), GoogleMap.OnPoly
                     DEFAULT_MAP_ZOOM
                 )
             )
-
         } else {
             // In case the permission to access the location is missing
             val intent = Intent(requireContext(), MainPageActivity::class.java)
