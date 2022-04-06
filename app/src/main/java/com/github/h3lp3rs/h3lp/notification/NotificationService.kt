@@ -24,8 +24,6 @@ class NotificationService {
         private const val CHANNEL_ID = "Help_channel_id"
         private var notificationId= 0
 
-
-
         /**
          * Create the notification channel for HELP application
          * Should be called before sending any notification
