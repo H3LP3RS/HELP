@@ -159,7 +159,7 @@ class MockDatabase : Database {
     }
 
     /**
-     * Atomically increments an integer value of the database by one
+     * Atomically increments an integer value of the database
      * @param key The key in the database
      * @param number The number to increment by
      */
