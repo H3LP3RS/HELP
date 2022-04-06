@@ -9,18 +9,23 @@ import android.widget.ImageView
 import android.media.MediaPlayer
 
 class CprRateActivity : AppCompatActivity() {
+
     private var animationIsPlaying = false
+    private lateinit var startButton: Button
+    private lateinit var heartIcon: ImageView
+    private lateinit var heartBeatAnimation: Animation
+    private lateinit var beepSound: MediaPlayer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cpr_rate)
 
-        val startButton = findViewById<Button>(R.id.startRateButton)
-        val heartIcon = findViewById<ImageView>(R.id.heartIcon)
-        val heartBeatAnimation = AnimationUtils.loadAnimation(this, R.anim.heartbeat_animation)
+        // Initialization of CPR activity
+        startButton = findViewById(R.id.startRateButton)
+        heartIcon = findViewById(R.id.heartIcon)
+        heartBeatAnimation = AnimationUtils.loadAnimation(this, R.anim.heartbeat_animation)
 
-
-        val beepSound = MediaPlayer.create(this, R.raw.beep)
+        beepSound = MediaPlayer.create(this, R.raw.beep)
         beepSound.isLooping = true
 
         /**
@@ -45,18 +50,36 @@ class CprRateActivity : AppCompatActivity() {
 
         startButton.setOnClickListener {
             if (animationIsPlaying) {
-                //heartIcon.clearAnimation()
-                startButton.text = getString(R.string.cpr_rate_button_start)
-                beepSound.pause()
-                beepSound.seekTo(0)
-                animationIsPlaying = false
+                stop()
             } else {
-                //heartIcon.startAnimation(heartBeatAnimation)
-                startButton.text = getString(R.string.cpr_rate_button_stop)
-                beepSound.start()
-                animationIsPlaying = true
+                start()
             }
 
         }
+    }
+
+    /**
+     * Stop all the animations when the user does no longer see the activity
+     */
+    override fun onStop() {
+        stop()
+        super.onStop()
+    }
+
+    // Stops the CPR rate
+    private fun stop() {
+        //heartIcon.clearAnimation()
+        startButton.text = getString(R.string.cpr_rate_button_start)
+        beepSound.pause()
+        beepSound.seekTo(0)
+        animationIsPlaying = false
+    }
+
+    // Starts the CPR rate
+    private fun start() {
+        //heartIcon.startAnimation(heartBeatAnimation)
+        startButton.text = getString(R.string.cpr_rate_button_stop)
+        beepSound.start()
+        animationIsPlaying = true
     }
 }
