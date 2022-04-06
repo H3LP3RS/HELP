@@ -54,16 +54,16 @@ class CprRateActivity : AppCompatActivity() {
             } else {
                 start()
             }
-
         }
     }
 
     /**
-     * Stop all the animations when the user does no longer see the activity
+     * Stop all the animations when the cpr is no longer
+     * in the foreground.
      */
-    override fun onStop() {
+    override fun onPause() {
         stop()
-        super.onStop()
+        super.onPause()
     }
 
     // Stops the CPR rate
