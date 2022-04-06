@@ -278,7 +278,7 @@
     <string name="inhaler">Inhaler</string>
     <string name="on_click_path">Fastest path to the user in need of your help</string>
     <string name="notification_manager_title">Help_notification_manager</string>
-    <string name="notification_manager_description">Chanel used by HELP application to send emergency notification</string>
+    <string name="notification_manager_description">Channel used by HELP application to send emergency notification</string>
 
 
 </resources>
