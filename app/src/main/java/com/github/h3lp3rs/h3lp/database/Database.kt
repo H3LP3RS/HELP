@@ -107,8 +107,9 @@ interface Database {
     fun delete(key: String)
 
     /**
-     * Atomically increments an integer value of the database
+     * Atomically increments an integer value of the database by one
      * @param key The key in the database
+     * @param number The number to increment by
      */
-    fun increment(key: String)
+    fun incrementBy(key: String, number: Int)
 }

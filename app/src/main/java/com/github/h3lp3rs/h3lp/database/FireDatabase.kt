@@ -166,10 +166,11 @@ internal class FireDatabase(path: String) : Database {
     }
 
     /**
-     * Atomically increments an integer value of the database
+     * Atomically increments an integer value of the database by one
      * @param key The key in the database
+     * @param number The number to increment by
      */
-    override fun increment(key: String) {
-        db.child(key).setValue(ServerValue.increment(1))
+    override fun incrementBy(key: String, number: Int) {
+        db.child(key).setValue(ServerValue.increment(number.toLong()))
     }
 }

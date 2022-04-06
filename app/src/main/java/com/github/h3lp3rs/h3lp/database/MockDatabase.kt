@@ -159,14 +159,15 @@ class MockDatabase : Database {
     }
 
     /**
-     * Atomically increments an integer value of the database
+     * Atomically increments an integer value of the database by one
      * @param key The key in the database
+     * @param number The number to increment by
      */
-    override fun increment(key: String) {
+    override fun incrementBy(key: String, number: Int) {
         checkHasKey(db, key)
         synchronized(this) {
             val old = db[key] as Int
-            db.put(key, old + 1)
+            db.put(key, old + number)
         }
     }
 }
