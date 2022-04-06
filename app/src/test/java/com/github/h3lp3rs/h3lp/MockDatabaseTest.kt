@@ -5,6 +5,7 @@ import com.github.h3lp3rs.h3lp.database.MockDatabase
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
+import kotlin.concurrent.thread
 import kotlin.random.Random
 
 class MockDatabaseTest {
@@ -94,5 +95,16 @@ class MockDatabaseTest {
         db.clearListeners(TEST_KEY)
         db.setInt(TEST_KEY, old + 1)
         assertTrue(!flag)
+    }
+
+    @Test
+    fun incrementIsAtomic() {
+        val old = TEST_SEED.nextInt()
+        db.setInt(TEST_KEY, old)
+        val t1 = thread { db.increment(TEST_KEY) }
+        val t2 = thread { db.increment(TEST_KEY) }
+        db.increment(TEST_KEY)
+        t1.join(); t2.join()
+        assertEquals(old + 3, db.getInt(TEST_KEY).get())
     }
 }

@@ -102,7 +102,13 @@ interface Database {
 
     /**
      * Deletes an entry of a given key from the database
-     * @param key They key in the database
+     * @param key The key in the database
      */
     fun delete(key: String)
+
+    /**
+     * Atomically increments an integer value of the database
+     * @param key The key in the database
+     */
+    fun increment(key: String)
 }

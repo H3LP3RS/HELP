@@ -1,9 +1,6 @@
 package com.github.h3lp3rs.h3lp.database
 
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.google.firebase.database.ktx.*
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
@@ -166,5 +163,13 @@ internal class FireDatabase(path: String) : Database {
     override fun delete(key: String) {
         clearListeners(key)
         db.child(key).removeValue()
+    }
+
+    /**
+     * Atomically increments an integer value of the database
+     * @param key The key in the database
+     */
+    override fun increment(key: String) {
+        db.child(key).setValue(ServerValue.increment(1))
     }
 }

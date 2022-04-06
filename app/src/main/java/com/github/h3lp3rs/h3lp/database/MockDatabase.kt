@@ -157,4 +157,16 @@ class MockDatabase : Database {
         db.remove(key)
         listeners.remove(key)
     }
+
+    /**
+     * Atomically increments an integer value of the database
+     * @param key The key in the database
+     */
+    override fun increment(key: String) {
+        checkHasKey(db, key)
+        synchronized(this) {
+            val old = db[key] as Int
+            db.put(key, old + 1)
+        }
+    }
 }
