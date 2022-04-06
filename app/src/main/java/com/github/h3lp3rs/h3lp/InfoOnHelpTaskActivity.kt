@@ -3,6 +3,7 @@ package com.github.h3lp3rs.h3lp
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.databinding.ActivityInfoOnHelpTaskBinding
@@ -27,10 +28,11 @@ class InfoOnHelpTaskActivity : AppCompatActivity(), CoroutineScope by MainScope(
     private val destinationLong = 6.567597089508282
     private var currentLong: Double = 0.0
     private var currentLat: Double = 0.0
-    private var pathData: String? = null
+
     // TODO : this is only for testing purposes, it will be removed when use the code to retrieve
     //  actual helping requests
-    private val medsRequired: List<String> =
+    private val helpRequired: List<String> = listOf("Epipen", "CPR")
+    private lateinit var apiHelper: GoogleAPIHelper
 
     private lateinit var mapsFragment: MapsFragment
 
@@ -48,10 +50,20 @@ class InfoOnHelpTaskActivity : AppCompatActivity(), CoroutineScope by MainScope(
             .findFragmentById(R.id.map) as MapsFragment
 
 
+        apiHelper = GoogleAPIHelper(resources.getString(R.string.google_maps_key))
 
         setupLocation()
-        setupMap()
+        apiHelper.displayPath(
+            currentLat,
+            currentLong,
+            destinationLat,
+            destinationLong,
+            mapsFragment,
+            { mapData: String? -> displayPathDuration(mapData) }
+        )
+        displayRequiredMeds()
     }
+
 
 
     private fun setupLocation() { //TODO : possibly create a superclass since this code is copied from nearbyUtilitiesActivity
@@ -66,39 +78,8 @@ class InfoOnHelpTaskActivity : AppCompatActivity(), CoroutineScope by MainScope(
         }
     }
 
-    private fun setupMap() {
-        val url =
-            NearbyUtilitiesActivity.DIRECTIONS_URL + "?destination=" + destinationLat + "," + destinationLong +
-                    "&mode=${NearbyUtilitiesActivity.WALKING}" +
-                    "&origin=" + currentLat + "," + currentLong +
-                    "&key=" + resources.getString(R.string.google_maps_key)
-
-        // Launches async routines to retrieve the path to the destination and display it on the map
-        CoroutineScope(Dispatchers.Main).launch {
-            pathData = withContext(Dispatchers.IO) { downloadUrl(url) }
-            pathData?.let { Log.i("GPath", it) }
-            getPath()
-            displayPathDuration()
-        }
-    }
-
-
-    /**
-     * Retrieves the shortest path to the destination and displays it on the map
-     */
-    private fun getPath() {
-        val path = pathData?.let { parseTask(it, GPathJSONParser) }
-        path?.let {
-            mapsFragment.showPolyline(it)
-            mapsFragment.addMarker(
-                destinationLat, destinationLong,
-                NearbyUtilitiesActivity.END_POINT_NAME
-            )
-        }
-    }
-
-    private fun displayPathDuration() {
-        val duration = pathData?.let { parseTask(it, GDurationJSONParser) }
+    private fun displayPathDuration(pathData: String?) {
+        val duration = pathData?.let { apiHelper.parseTask(it, GDurationJSONParser) }
 
         val walkingTimeInfo: TextView = findViewById(R.id.timeToPersonInNeed)
 
@@ -108,27 +89,28 @@ class InfoOnHelpTaskActivity : AppCompatActivity(), CoroutineScope by MainScope(
 
     }
 
-    private fun downloadUrl(url: String): String {
-        val connection = URL(url).openConnection() as HttpURLConnection
-        connection.connect()
 
-        val stream = connection.inputStream
-        val reader = BufferedReader(InputStreamReader(stream))
-
-        val builder = StringBuilder()
-
-        reader.use { r ->
-            var line = r.readLine()
-            while (line != null) {
-                builder.append(line)
-                line = r.readLine()
-            }
+    private fun displayRequiredMeds() {
+        val helpRequiredText: TextView = findViewById(R.id.helpRequired)
+        val stringBuilder: StringBuilder = StringBuilder()
+        for (med in helpRequired) {
+            stringBuilder.append("- ")
+            stringBuilder.append(med)
+            stringBuilder.appendLine()
         }
-
-        return builder.toString()
+        helpRequiredText.text = stringBuilder.toString()
     }
 
-    private fun <T> parseTask(data: String, parser: JSONParserInterface<T>): T {
-        return parser.parseResult(JSONObject(data))
+
+
+    /** Starts the activity by sending intent */
+    private fun goToActivity(ActivityName: Class<*>?) {
+        val intent = Intent(this, ActivityName)
+        startActivity(intent)
     }
+
+    fun goToMainPage(view: View) {
+        goToActivity(MainPageActivity::class.java)
+    }
+
 }

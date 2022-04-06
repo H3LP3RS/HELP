@@ -8,6 +8,8 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.getColorStateList
+import com.github.h3lp3rs.h3lp.GoogleAPIHelper.Companion.DEFAULT_SEARCH_RADIUS
+import com.github.h3lp3rs.h3lp.GoogleAPIHelper.Companion.PLACES_URL
 import com.github.h3lp3rs.h3lp.databinding.ActivityNearbyUtilitiesBinding
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 import com.github.h3lp3rs.h3lp.util.AED_LOCATIONS_LAUSANNE
@@ -15,11 +17,6 @@ import com.github.h3lp3rs.h3lp.util.GPathJSONParser
 import com.github.h3lp3rs.h3lp.util.GPlaceJSONParser
 import com.github.h3lp3rs.h3lp.util.JSONParserInterface
 import kotlinx.coroutines.*
-import org.json.JSONObject
-import java.io.BufferedReader
-import java.io.InputStreamReader
-import java.net.HttpURLConnection
-import java.net.URL
 
 
 class NearbyUtilitiesActivity : AppCompatActivity(), CoroutineScope by MainScope() {
@@ -41,6 +38,7 @@ class NearbyUtilitiesActivity : AppCompatActivity(), CoroutineScope by MainScope
 
     private var uncheckedButtonColor: ColorStateList? = null
     private var checkedButtonColor: ColorStateList? = null
+    private lateinit var apiHelper: GoogleAPIHelper
 
     // places and markers (key is the utility)
     private val requestedPlaces = HashMap<String, List<GooglePlace>>()
@@ -67,21 +65,20 @@ class NearbyUtilitiesActivity : AppCompatActivity(), CoroutineScope by MainScope
         checkedButtonColor = getColorStateList(this, R.color.select_meds_checked)
         uncheckedButtonColor = getColorStateList(this, R.color.select_meds_unchecked)
 
+        apiHelper = GoogleAPIHelper(resources.getString(R.string.google_maps_key))
 
         setupLocation()
         setupSelectionButtons()
         setRequestedButton() // TODO : check that since it's called at creation (not when the map is ready necess), it doesn't cause a problem
-        getPath() // TODO : find a way to call getPath when the map is ready, maybe use the callback ?
 
         // Obtain the SupportMapFragment and get notified when the map is ready
         // to be used.
         mapsFragment = supportFragmentManager
             .findFragmentById(R.id.map) as MapsFragment
 
+        apiHelper.displayPath(currentLat, currentLong, destinationLat, destinationLong, mapsFragment)
+        // TODO : find a way to call getPath when the map is ready, maybe use the callback ?
 
-        mapsFragment.addMarker(destinationLat + 1, destinationLong,
-            "TEST"
-        )
     }
 
     private fun setupLocation() {
@@ -178,27 +175,6 @@ class NearbyUtilitiesActivity : AppCompatActivity(), CoroutineScope by MainScope
     }
 
 
-    /**
-     * Retrieves the shortest path to the destination and displays it on the map
-     */
-    private fun getPath() {
-        val url = DIRECTIONS_URL + "?destination=" + destinationLat + "," + destinationLong +
-                "&mode=${WALKING}" +
-                "&origin=" + currentLat + "," + currentLong +
-                "&key=" + resources.getString(R.string.google_maps_key)
-
-        // Launches async routines to retrieve the path to the destination and display it on the map
-        CoroutineScope(Dispatchers.Main).launch {
-            val data: String = withContext(Dispatchers.IO) { downloadUrl(url) }
-            Log.i("GPath", data)
-            val path = parseTask(data, GPathJSONParser)
-            path.let {
-                mapsFragment.showPolyline(path)
-                mapsFragment.addMarker(destinationLat, destinationLong, END_POINT_NAME)
-            }
-        }
-    }
-
     private fun findNearbyUtilities(utility: String) {
         if (!requestedPlaces.containsKey(utility)) {
             if (utility == resources.getString(R.string.nearby_defibrillators)) {
@@ -213,54 +189,15 @@ class NearbyUtilitiesActivity : AppCompatActivity(), CoroutineScope by MainScope
                 // Launches async routines to retrieve nearby places and show them
                 // on the map
                 CoroutineScope(Dispatchers.Main).launch {
-                    pathData = withContext(Dispatchers.IO) { downloadUrl(url) }
+                    pathData = withContext(Dispatchers.IO) { apiHelper.downloadUrl(url) }
                     Log.i("GPlaces", pathData)
-                    requestedPlaces[utility] = parseTask(pathData, GPlaceJSONParser)
+                    requestedPlaces[utility] = apiHelper.parseTask(pathData, GPlaceJSONParser)
                     requestedPlaces[utility]?.let { mapsFragment.showPlaces(it, utility) }
                 }
             }
         } else {
             requestedPlaces[utility]?.let { mapsFragment.showPlaces(it, utility) }
         }
-    }
-
-    private fun downloadUrl(url: String): String {
-        val connection = URL(url).openConnection() as HttpURLConnection
-        connection.connect()
-
-        val stream = connection.inputStream
-        val reader = BufferedReader(InputStreamReader(stream))
-
-        val builder = StringBuilder()
-
-        reader.use { r ->
-            var line = r.readLine()
-            while (line != null) {
-                builder.append(line)
-                line = r.readLine()
-            }
-        }
-
-        return builder.toString()
-    }
-
-    private fun <T> parseTask(data: String, parser: JSONParserInterface<T>): T {
-        return parser.parseResult(JSONObject(data))
-    }
-
-
-    companion object {
-        // Constants to access the Google places API
-        const val PLACES_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json" //TODO : make these constants private
-        const val DEFAULT_SEARCH_RADIUS = 3000
-
-        // Constants to access the Google directions API
-
-        const val DIRECTIONS_URL = "https://maps.googleapis.com/maps/api/directions/json"
-        const val WALKING = "walking"
-
-
-        const val END_POINT_NAME = "user in need"
     }
 }
 
