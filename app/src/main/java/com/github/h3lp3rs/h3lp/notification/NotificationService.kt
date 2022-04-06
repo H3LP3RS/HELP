@@ -109,7 +109,7 @@ class NotificationService {
         private fun buildBasicNotification(ctx:Context,title : String, description : String) : NotificationCompat.Builder{
             val bigImageBitmap = BitmapFactory.decodeResource(
                 ctx.resources,
-                R.drawable.heart
+                R.drawable.notification_icon
             )
             return NotificationCompat.Builder(ctx, CHANNEL_ID)
                 .setSmallIcon(R.drawable.notification_icon2)
