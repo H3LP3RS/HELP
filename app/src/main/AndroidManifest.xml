@@ -62,7 +62,7 @@
             android:name=".CprRateActivity"
             android:exported="false" />
         <activity
-            android:name=".MainPageActivity"
+            android:name=".signin.SignInActivity"
             android:exported="true" />
         <activity
             android:name=".presentation.PresIrrelevantActivity"
@@ -74,7 +74,7 @@
             android:name=".presentation.PresArrivalActivity"
             android:exported="false" />
         <activity
-            android:name=".signin.SignInActivity"
+            android:name=".MainPageActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -39,8 +39,8 @@ class NotificationTest {
         val description : UiObject2=uiDevice.findObject(By.text(DESCRIPTION))
         assertEquals(title.text,TITLE)
         assertEquals(description.text,DESCRIPTION)
-
-        clearAllNotifications()
+        //Cirus AVD seems to  not have a clear all button :(
+        //clearAllNotifications()
     }
 
     @Test
@@ -58,8 +58,8 @@ class NotificationTest {
         title.click()
         uiDevice.findObject(By.textStartsWith(ctx.getString(R.string.my_helper_skills)))
 
-
-        clearAllNotifications()
+        //Cirus AVD seems to  not have a clear all button :(
+        //clearAllNotifications()
     }
 
 
