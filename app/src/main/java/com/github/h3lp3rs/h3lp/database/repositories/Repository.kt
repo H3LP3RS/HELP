@@ -2,6 +2,9 @@ package com.github.h3lp3rs.h3lp.database.repositories
 
 import java.util.concurrent.CompletableFuture
 
+/**
+ * General interface displaying the different methods required to store, retrieve and delete an object of T in the database
+ */
 interface Repository<T>{
     /**
      * Retrieves the value with the given ID

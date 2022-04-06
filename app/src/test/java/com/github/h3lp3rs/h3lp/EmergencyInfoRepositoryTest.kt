@@ -16,7 +16,7 @@ class EmergencyInfoRepositoryTest {
     private val testKey = "KEY"
     private val testDoubleValue = 0.0
     private val testObject =
-        EmergencyInformation(testKey, testDoubleValue, testDoubleValue, ArrayList(), Date())
+        EmergencyInformation(testKey, testDoubleValue, testDoubleValue, ArrayList(), Date(), "")
 
     @Test
     fun createdObjectIsCorrect() {

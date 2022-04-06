@@ -33,7 +33,7 @@ class HelpParametersActivity : AppCompatActivity() {
     private var latitude: Double? = null
     private var longitude: Double? = null
     private var meds: ArrayList<String> = ArrayList()
-    private var currentTime: Date = Calendar.getInstance().time;
+    private val currentTime: Date = Calendar.getInstance().time;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -112,15 +112,11 @@ class HelpParametersActivity : AppCompatActivity() {
      */
     private fun sendInfoToDB(){
         if(latitude != null && longitude != null){
-            val medicalInfo = getSharedPreferences(getString(R.string.medical_info_prefs), MODE_PRIVATE).edit()
+            val medicalInfo = getSharedPreferences(getString(R.string.medical_info_prefs), MODE_PRIVATE).getString(getString(R.string.medical_info_key),"")
             val gson = Gson()
-            val json = gson.toJson(medicalInfo)
-            Log.d("HERE", json)
-            val info = EmergencyInformation(latitude = latitude!!, longitude = longitude!!, meds =  meds, time = currentTime)
-            emergencyInfoRepository.create(info)
-            emergencyInfoRepository.get(info.id).thenAccept {
-                Log.d("HELLO", it.toString())
-            }
+            val medicalInfoJson = gson.toJson(medicalInfo)
+            val emergencyInfo = EmergencyInformation(latitude = latitude!!, longitude = longitude!!, meds =  meds, time = currentTime, medicalInfo = medicalInfoJson)
+            emergencyInfoRepository.create(emergencyInfo)
         }
     }
 
