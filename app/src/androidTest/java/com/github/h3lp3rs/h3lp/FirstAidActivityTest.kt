@@ -1,11 +1,11 @@
 package com.github.h3lp3rs.h3lp
 
-import android.app.Activity.*
+import android.app.Activity
 import android.app.Instrumentation.*
 import android.content.Intent
 import android.view.View
 import androidx.test.espresso.Espresso.*
-import androidx.test.espresso.action.ViewActions.*
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.*
@@ -26,6 +26,7 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class FirstAidActivityTest {
+
     @get:Rule
     val testRule = ActivityScenarioRule(
         FirstAidActivity::class.java
@@ -35,17 +36,17 @@ class FirstAidActivityTest {
     fun setup() {
         init()
         val intent = Intent()
-        val intentResult = ActivityResult(RESULT_OK, intent)
+        val intentResult = ActivityResult(Activity.RESULT_OK, intent)
         intending(anyIntent()).respondWith(intentResult)
     }
 
     @After
     fun release() {
-        release()
+        Intents.release()
     }
 
     private fun clickingOnButtonWorksAndSendsIntent(ActivityName: Class<*>?, id: Matcher<View>) {
-        onView(id).perform(scrollTo(), click())
+        onView(id).perform(ViewActions.scrollTo(), ViewActions.click())
         intended(
             allOf(
                 hasComponent(ActivityName!!.name)
