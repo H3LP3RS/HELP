@@ -38,7 +38,7 @@
                 app:cardElevation="12dp"
                 map:layout_constraintTop_toTopOf="parent">
         <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/map"
+                android:id="@+id/mapHelpPage"
                 android:name="com.github.h3lp3rs.h3lp.MapsFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

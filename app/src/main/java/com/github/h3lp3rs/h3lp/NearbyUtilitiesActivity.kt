@@ -80,7 +80,7 @@ class NearbyUtilitiesActivity : AppCompatActivity(), CoroutineScope by MainScope
 
         // Obtain the map fragment
         mapsFragment = supportFragmentManager
-            .findFragmentById(R.id.map) as MapsFragment
+            .findFragmentById(R.id.mapNearbyUtilities) as MapsFragment
 
         // Displays the path to a user in need on the map fragment
         apiHelper.displayWalkingPath(

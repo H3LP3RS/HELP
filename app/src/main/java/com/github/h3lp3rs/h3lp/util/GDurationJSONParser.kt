@@ -20,7 +20,7 @@ object GDurationJSONParser : JSONParserInterface<String> {
 
     /**
      * Function that parses the JSON object to find the total time required for a path
-     * @param obj: the original JSON object
+     * @param obj the original JSON object
      * @return a string representing the time required for the path (e.g. "2 hours 1 min")
      */
     override fun parseResult(obj: JSONObject): String {
@@ -35,7 +35,7 @@ object GDurationJSONParser : JSONParserInterface<String> {
 
     /**
      * Gets the legs in the path returned from a directions API request
-     * @param obj: JSON object returned by a Google directions query
+     * @param obj JSON object returned by a Google directions query
      * @return a JSON array containing all the legs in the path
      */
     private fun parseLegs(obj: JSONObject): JSONArray {
@@ -100,7 +100,6 @@ object GDurationJSONParser : JSONParserInterface<String> {
             stringBuilder.append(" ")
         }
 
-
         if (minutes != 0) {
             stringBuilder.append(minutes)
             stringBuilder.append(MIN_STR)
@@ -109,6 +108,6 @@ object GDurationJSONParser : JSONParserInterface<String> {
             }
             stringBuilder.append(" ")
         }
-        return stringBuilder.toString()
+        return stringBuilder.toString().trim()
     }
 }
