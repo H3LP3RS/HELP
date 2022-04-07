@@ -7,7 +7,7 @@ import org.json.JSONException
 import org.json.JSONObject
 
 /**
- *  This class is used to parse json objects returned by the Google Directions API
+ *  This object is used to parse json objects returned by the Google Directions API
  *  into polylines (a list of coordinates)
  */
 object GPathJSONParser: JSONParserInterface<List<LatLng>> {

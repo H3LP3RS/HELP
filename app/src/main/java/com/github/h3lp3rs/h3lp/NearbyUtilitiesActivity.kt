@@ -13,17 +13,21 @@ import com.github.h3lp3rs.h3lp.GoogleAPIHelper.Companion.PLACES_URL
 import com.github.h3lp3rs.h3lp.databinding.ActivityNearbyUtilitiesBinding
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 import com.github.h3lp3rs.h3lp.util.AED_LOCATIONS_LAUSANNE
-import com.github.h3lp3rs.h3lp.util.GPathJSONParser
 import com.github.h3lp3rs.h3lp.util.GPlaceJSONParser
-import com.github.h3lp3rs.h3lp.util.JSONParserInterface
 import kotlinx.coroutines.*
 
 
+/**
+ * Activity that displays nearby utilities such as pharmacies, defibrillators and hospitals
+ */
 class NearbyUtilitiesActivity : AppCompatActivity(), CoroutineScope by MainScope() {
-
     private lateinit var binding: ActivityNearbyUtilitiesBinding
+
+    // Map fragment displayed
     private lateinit var mapsFragment: MapsFragment
+
     private var requestedUtility: String? = null
+
     private var currentLong: Double = 0.0
     private var currentLat: Double = 0.0
     private lateinit var pathData: String
@@ -38,12 +42,13 @@ class NearbyUtilitiesActivity : AppCompatActivity(), CoroutineScope by MainScope
 
     private var uncheckedButtonColor: ColorStateList? = null
     private var checkedButtonColor: ColorStateList? = null
+
     private lateinit var apiHelper: GoogleAPIHelper
 
-    // places and markers (key is the utility)
+    // Places and markers (key is the utility)
     private val requestedPlaces = HashMap<String, List<GooglePlace>>()
 
-    //TODO : currently, the destination is hardcoded, this will change with the task allowing
+    // TODO : currently, the destination is hardcoded, this will change with the task allowing
     // nearby helpers to go and help people in need (in which case the destination will be the
     // location of the user in need)
     private val destinationLat = 46.51902895030102
@@ -52,6 +57,7 @@ class NearbyUtilitiesActivity : AppCompatActivity(), CoroutineScope by MainScope
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Displaying the activity layout
         binding = ActivityNearbyUtilitiesBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -67,18 +73,23 @@ class NearbyUtilitiesActivity : AppCompatActivity(), CoroutineScope by MainScope
 
         apiHelper = GoogleAPIHelper(resources.getString(R.string.google_maps_key))
 
+        // Initialize the user's current location
         setupLocation()
         setupSelectionButtons()
         setRequestedButton() // TODO : check that since it's called at creation (not when the map is ready necess), it doesn't cause a problem
 
-        // Obtain the SupportMapFragment and get notified when the map is ready
-        // to be used.
+        // Obtain the map fragment
         mapsFragment = supportFragmentManager
-            .findFragmentById(R.id.map) as MapsFragment
+            .findFragmentById(R.id.mapNearbyUtilities) as MapsFragment
 
-        apiHelper.displayPath(currentLat, currentLong, destinationLat, destinationLong, mapsFragment)
-        // TODO : find a way to call getPath when the map is ready, maybe use the callback ?
-
+        // Displays the path to a user in need on the map fragment
+        apiHelper.displayWalkingPath(
+            currentLat,
+            currentLong,
+            destinationLat,
+            destinationLong,
+            mapsFragment
+        )
     }
 
     private fun setupLocation() {
@@ -165,7 +176,7 @@ class NearbyUtilitiesActivity : AppCompatActivity(), CoroutineScope by MainScope
         when (requestedUtility) {
             resources.getString(R.string.nearby_phamacies) -> {
                 val pharmacyButton = findViewById<ImageButton>(R.id.show_pharmacy_button)
-                pharmacyButton.callOnClick() // TODO : change to dynamic click
+                pharmacyButton.callOnClick()
             }
             resources.getString(R.string.nearby_hospitals) -> {
                 val hospitalButton = findViewById<ImageButton>(R.id.show_hospital_button)
@@ -174,7 +185,10 @@ class NearbyUtilitiesActivity : AppCompatActivity(), CoroutineScope by MainScope
         }
     }
 
-
+    /**
+     * Finds the nearby utilities and displays them
+     * @param utility The utility searched for (pharmacies, hospitals or defibrillators)
+     */
     private fun findNearbyUtilities(utility: String) {
         if (!requestedPlaces.containsKey(utility)) {
             if (utility == resources.getString(R.string.nearby_defibrillators)) {

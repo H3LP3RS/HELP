@@ -21,6 +21,11 @@ import java.lang.Double.parseDouble
 
 typealias GooglePlace = HashMap<String, String>
 
+/**
+ * Fragment containing a google map and several methods to add markers, paths... on it
+ * We use a fragment to make it easily usable any activity that requires a map without code
+ * duplication
+ */
 class MapsFragment : Fragment(), CoroutineScope by MainScope(), GoogleMap.OnPolylineClickListener {
     private lateinit var map: GoogleMap
 
@@ -82,6 +87,12 @@ class MapsFragment : Fragment(), CoroutineScope by MainScope(), GoogleMap.OnPoly
         mapFragment?.getMapAsync(callback)
     }
 
+    /**
+     * General method to add markers for places on the map
+     * @param places The locations of the markers to add
+     * @param utility The utility these locations correspond to (to display a different marker
+     *  depending on which utility is displayed)
+     */
     fun showPlaces(places: List<GooglePlace>, utility: String) {
         // Create new markers
         for (place in places) run {
@@ -156,6 +167,9 @@ class MapsFragment : Fragment(), CoroutineScope by MainScope(), GoogleMap.OnPoly
 
     /**
      * Puts a pin marker at the end of the path
+     * @param destinationLat Latitude of the endpoint of the path
+     * @param destinationLong Longitude of the endpoint of the path
+     * @param markerName Name to give to the marker (is visible upon clicking on it)
      */
     fun addMarker(destinationLat: Double, destinationLong: Double, markerName: String) {
         val options = MarkerOptions()
