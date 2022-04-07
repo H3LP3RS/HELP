@@ -9,18 +9,24 @@ import android.view.View
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.*
 import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
+import androidx.test.rule.ActivityTestRule
 import androidx.test.rule.GrantPermissionRule
 import com.github.h3lp3rs.h3lp.firstaid.AedActivity
 import com.github.h3lp3rs.h3lp.firstaid.AllergyActivity
 import com.github.h3lp3rs.h3lp.firstaid.AsthmaActivity
 import com.github.h3lp3rs.h3lp.firstaid.HeartAttackActivity
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
+import com.github.h3lp3rs.h3lp.signin.SignInActivity
+import com.github.h3lp3rs.h3lp.storage.Storages
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 import org.junit.After
@@ -43,17 +49,10 @@ class AwaitHelpActivityTest {
     @Before
     fun setup() {
         Intents.init()
-        val bundle = Bundle()
-        bundle.putStringArrayList(EXTRA_NEEDED_MEDICATION, selectedMeds)
-        bundle.putBoolean(EXTRA_CALLED_EMERGENCIES, true)
-        val intent = Intent(
-            ApplicationProvider.getApplicationContext(),
-            AwaitHelpActivity::class.java
-        ).apply {
-            putExtras(bundle)
-        }
+        val intent = getIntent()
         val intentResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
         Intents.intending(IntentMatchers.anyIntent()).respondWith(intentResult)
+
     }
 
     @After
@@ -66,10 +65,13 @@ class AwaitHelpActivityTest {
         id: Matcher<View>,
         isInScrollView: Boolean
     ) {
+        // close pop-up
+        onView(withId(R.id.close_call_popup_button)).perform(click())
+
         if (isInScrollView) {
-            Espresso.onView(id).perform(ViewActions.scrollTo(), ViewActions.click())
+            onView(id).perform(scrollTo(), click())
         } else {
-            Espresso.onView(id).perform(ViewActions.click())
+            onView(id).perform(click())
         }
         Intents.intended(
             Matchers.allOf(
@@ -82,45 +84,48 @@ class AwaitHelpActivityTest {
     fun clickingOnHeartAttackButtonWorksAndSendsIntent() {
         clickingOnButtonWorksAndSendsIntent(
             HeartAttackActivity::class.java,
-            ViewMatchers.withId(R.id.heart_attack_tuto_button), true)
+            withId(R.id.heart_attack_tuto_button), true)
     }
 
     @Test
     fun clickingOnEpipenButtonWorksAndSendsIntent() {
         clickingOnButtonWorksAndSendsIntent(
             AllergyActivity::class.java,
-            ViewMatchers.withId(R.id.epipen_tuto_button), true)
+            withId(R.id.epipen_tuto_button), true)
     }
 
     @Test
     fun clickingOnAedButtonWorksAndSendsIntent() {
         clickingOnButtonWorksAndSendsIntent(
             AedActivity::class.java,
-            ViewMatchers.withId(R.id.aed_tuto_button), true)
+            withId(R.id.aed_tuto_button), true)
     }
 
     @Test
     fun clickingOnAsthmaButtonWorksAndSendsIntent() {
         clickingOnButtonWorksAndSendsIntent(
             AsthmaActivity::class.java,
-            ViewMatchers.withId(R.id.asthma_tuto_button), true)
+            withId(R.id.asthma_tuto_button), true)
     }
 
     @Test
     fun cancelButtonWorksAndSendsIntent() {
         clickingOnButtonWorksAndSendsIntent(
             MainPageActivity::class.java,
-            ViewMatchers.withId(R.id.cancel_search_button), false)
+            withId(R.id.cancel_search_button), false)
     }
 
     @Test
     fun callEmergenciesButtonWorksAndSendIntent() {
         GeneralLocationManager.setSystemManager()
 
-        val phoneButton = Espresso.onView(ViewMatchers.withId(R.id.await_help_call_button))
+        // close pop-up
+        onView(withId(R.id.close_call_popup_button)).perform(click())
 
-        phoneButton.check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        phoneButton.perform(ViewActions.click())
+        val phoneButton = onView(withId(R.id.await_help_call_button))
+
+        phoneButton.check(ViewAssertions.matches(isDisplayed()))
+        phoneButton.perform(click())
 
         Intents.intended(
             Matchers.allOf(
@@ -130,16 +135,48 @@ class AwaitHelpActivityTest {
     }
 
     @Test
-    fun nameIsCorrectlyDisplayed() {
-        val b = Bundle()
-        b.putStringArrayList(EXTRA_NEEDED_MEDICATION, selectedMeds)
+    fun callEmergenciesFromPopUpWorksAndSendsIntent() {
+        GeneralLocationManager.setSystemManager()
 
-        val intent = Intent(ApplicationProvider.getApplicationContext(), AwaitHelpActivity::class.java).apply {
-            putExtras(b)
+        val phoneButton = onView(withId(R.id.open_call_popup_button))
+
+        phoneButton.check(ViewAssertions.matches(isDisplayed()))
+        phoneButton.perform(click())
+
+        Intents.intended(
+            Matchers.allOf(
+                IntentMatchers.hasAction(Intent.ACTION_DIAL)
+            )
+        )
+    }
+
+
+//    @Test
+//    fun nameIsCorrectlyDisplayed() {
+//        val b = Bundle()
+//        b.putStringArrayList(EXTRA_NEEDED_MEDICATION, selectedMeds)
+//
+//        val intent = Intent(ApplicationProvider.getApplicationContext(), AwaitHelpActivity::class.java).apply {
+//            putExtras(b)
+//        }
+//
+//        ActivityScenario.launch<AwaitHelpActivity>(intent).use {
+//
+//        }
+//    }
+
+    private fun getIntent(): Intent {
+        val bundle = Bundle()
+        bundle.putStringArrayList(EXTRA_NEEDED_MEDICATION, selectedMeds)
+        bundle.putBoolean(EXTRA_CALLED_EMERGENCIES, true)
+
+        val intent = Intent(
+            ApplicationProvider.getApplicationContext(),
+            AwaitHelpActivity::class.java
+        ).apply {
+            putExtras(bundle)
         }
 
-        ActivityScenario.launch<AwaitHelpActivity>(intent).use {
-
-        }
+        return intent
     }
 }
