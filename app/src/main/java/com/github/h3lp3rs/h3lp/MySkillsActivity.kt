@@ -47,7 +47,7 @@ class MySkillsActivity : AppCompatActivity() {
     /**
      * Show a dialogue with explication on what is the form for
      */
-    fun helpDialogue( view: View){
+    fun helpDialogue(view: View){
         AlertDialog.Builder(this).setTitle(getString(R.string.my_helper_skills))
             .setMessage(getString(R.string.help_my_skills)).show()
     }
@@ -67,7 +67,7 @@ class MySkillsActivity : AppCompatActivity() {
         toggleSwitch(skills.isMedicalPro, R.id.doctorSwitch)
     }
 
-    private fun toggleSwitch(toggle:Boolean, id : Int){
+    private fun toggleSwitch(toggle: Boolean, id: Int){
         findViewById<SwitchMaterial>(id).isChecked = toggle
     }
 
@@ -91,7 +91,7 @@ class MySkillsActivity : AppCompatActivity() {
     /**
      * return the boolean from a switch button
      */
-    private fun getBooleanFromSwitch(id : Int):Boolean{
+    private fun getBooleanFromSwitch(id: Int):Boolean{
         return findViewById<SwitchMaterial>(id).isChecked
     }
 }
