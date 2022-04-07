@@ -21,38 +21,20 @@ class PresRelevantActivityTest {
     @get:Rule
     val testRule = ActivityScenarioRule(PresRelevantActivity::class.java)
 
+    private fun checkIsDisplayed(id: Int) {
+        onView(withId(id)).check(matches(isDisplayed()))
+    }
+
     @Test
     fun successfulDisplay() {
-        onView(withId(R.id.pres2_textView1)).check(matches(isDisplayed()))
-        onView(withId(R.id.pres2_textView2)).check(matches(isDisplayed()))
-        onView(withId(R.id.pres2_textView3)).check(matches(isDisplayed()))
-        onView(withId(R.id.pres2_textView4)).check(matches(isDisplayed()))
-        onView(withId(R.id.pres2_textView5)).check(matches(isDisplayed()))
-        onView(withId(R.id.pres2_textView6)).check(matches(isDisplayed()))
-        onView(withId(R.id.pres2_imageView1)).check(matches(isDisplayed()))
-        onView(withId(R.id.pres2_imageView2)).check(matches(isDisplayed()))
-        onView(withId(R.id.pres2_imageView3)).check(matches(isDisplayed()))
+        checkIsDisplayed(R.id.pres2_textView1)
+        checkIsDisplayed(R.id.pres2_textView2)
+        checkIsDisplayed(R.id.pres2_textView3)
+        checkIsDisplayed(R.id.pres2_textView4)
+        checkIsDisplayed(R.id.pres2_textView5)
+        checkIsDisplayed(R.id.pres2_textView6)
+        checkIsDisplayed(R.id.pres2_imageView1)
+        checkIsDisplayed(R.id.pres2_imageView2)
+        checkIsDisplayed(R.id.pres2_imageView3)
     }
-
-    /*@Test
-    fun successfulSlideLeft() {
-        // init()
-        // val intent = Intent()
-        // val intentResult = ActivityResult(Activity.RESULT_OK, intent)
-        // intending(anyIntent()).respondWith(intentResult)
-        onView(withId(R.id.pres2_textView6)).perform(swipeLeft())
-        // intended(allOf(hasComponent(PresIrrelevantActivityTest::class.java.name))) Cirrus broken
-        // release()
-    }
-
-    @Test
-    fun successfulSlideRight() {
-        // init()
-        // val intent = Intent()
-        // val intentResult = ActivityResult(Activity.RESULT_OK, intent)
-        // intending(anyIntent()).respondWith(intentResult)
-        onView(withId(R.id.pres2_textView6)).perform(swipeRight())
-        // intended(allOf(hasComponent(PresArrivalActivity::class.java.name))) Cirrus broken
-        // release()
-    }*/
 }
