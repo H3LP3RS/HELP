@@ -3,9 +3,12 @@ package com.github.h3lp3rs.h3lp.util
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
-import java.lang.StringBuilder
 import kotlin.math.roundToInt
 
+/**
+ *  This object is used to parse json objects returned by the Google directions API
+ *  into time information corresponding to the total time a path will take
+ */
 object GDurationJSONParser : JSONParserInterface<String> {
     private const val MIN_IN_SEC = 60
     private const val HOUR_IN_SEC = 60 * MIN_IN_SEC
@@ -16,10 +19,9 @@ object GDurationJSONParser : JSONParserInterface<String> {
     private const val DAY_STR = " day"
 
     /**
-     * Function that parses the JSON object to find the searched attribute, transforms it in the
-     * correct format and returns it
+     * Function that parses the JSON object to find the total time required for a path
      * @param obj: the original JSON object
-     * @return the transformed object
+     * @return a string representing the time required for the path (e.g. "2 hours 1 min")
      */
     override fun parseResult(obj: JSONObject): String {
         return try {
@@ -32,9 +34,9 @@ object GDurationJSONParser : JSONParserInterface<String> {
 
 
     /**
-     * Gets the steps in the path returned from a directions API request
+     * Gets the legs in the path returned from a directions API request
      * @param obj: JSON object returned by a Google directions query
-     * @return a JSON array containing all the steps in the path
+     * @return a JSON array containing all the legs in the path
      */
     private fun parseLegs(obj: JSONObject): JSONArray {
         return obj.getJSONArray("routes").getJSONObject(0)
@@ -43,10 +45,9 @@ object GDurationJSONParser : JSONParserInterface<String> {
 
 
     /**
-     * Returns the path returned from a directions API request
-     * @param steps: JSON array contained in the API response
-     * @return the encoded path (which consists of several smaller paths, each in a different
-     * step of the API response)
+     * Returns the total length of a path from a directions API request
+     * @param legs JSON array contained in the API response
+     * @return a string representing the time required for the path contained in the legs array
      */
     private fun getDurationFromLegs(legs: JSONArray): String {
         // The directions api unfortunately only returns a series of time estimates for all the
@@ -58,11 +59,18 @@ object GDurationJSONParser : JSONParserInterface<String> {
         // The path is divided up into a series of steps, we get the corresponding polyline for
         // every step
         for (i in 0 until legs.length()) {
-            totalDuration += (legs.getJSONObject(i).getJSONObject("duration").getInt("value"))
+            totalDuration +=
+                legs.getJSONObject(i).getJSONObject("duration").getInt("value")
         }
         return parseTime(totalDuration)
     }
 
+    /**
+     * Method that returns a textual description of the time represented through a certain number of
+     * seconds
+     * @param totalDuration The total number of seconds
+     * @return The time (in days, minutes and seconds) represented by this number of seconds
+     */
     private fun parseTime(totalDuration: Int): String {
         var remainingTime = totalDuration
         val days = remainingTime / DAY_IN_SEC
@@ -73,7 +81,7 @@ object GDurationJSONParser : JSONParserInterface<String> {
         // accurate value than a simple floor
         val minutes = (remainingTime / MIN_IN_SEC.toDouble()).roundToInt()
 
-        val stringBuilder = StringBuilder() // TODO : refactor
+        val stringBuilder = StringBuilder()
         if (days != 0) {
             stringBuilder.append(days)
             stringBuilder.append(DAY_STR)
