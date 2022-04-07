@@ -16,7 +16,8 @@ import com.github.h3lp3rs.h3lp.R
 /**
  *  Static class containing useful function to throw notification.
  *  The notification are stylized with H3LP app style
- *  @warning allways make sure to use {@link createNotificationChannel} method to make sure the notification channel is initialized
+ *  @warning always make sure to use {@link createNotificationChannel} method
+ *  to make sure the notification channel is initialized
  */
 class NotificationService {
 
@@ -94,7 +95,9 @@ class NotificationService {
             with(NotificationManagerCompat.from(ctx)) {
                 notify(notificationId, notification)
             }
-            notificationId++
+            synchronized(this){
+                notificationId++
+            }
         }
 
         /**
@@ -114,7 +117,7 @@ class NotificationService {
                 .setLargeIcon(bigImageBitmap)
                 .setContentTitle(title)
                 .setContentText(description)
-                .setColor(0xFF0000)
+                .setColor(ctx.getColor(R.color.red))
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
         }
     }

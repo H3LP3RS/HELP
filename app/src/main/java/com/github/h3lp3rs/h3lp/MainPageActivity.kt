@@ -36,7 +36,7 @@ const val EXTRA_NEARBY_UTILITIES = "nearby_utilities"
 // Elements of the list view
 const val PROFILE = "Profile"
 const val CPR_RATE = "CPR rate"
-const val TUTORIAL = "Tutori al"
+const val TUTORIAL = "Tutorial"
 const val HOSPITALS = "Hospitals"
 const val PHARMACIES = "Pharmacies"
 
@@ -276,6 +276,9 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     }
 
     // Demo code
+    // This code is used for sprint demo porpose only
+    // juste uncomment line 109
+    // This will send notification when somebody trigger ventolin on the db
     private fun addAlertNotification() {
         val db = databaseOf(Databases.NEW_EMERGENCIES)
         db.addListener(getString(R.string.ventolin_db_key), String::class.java) {
