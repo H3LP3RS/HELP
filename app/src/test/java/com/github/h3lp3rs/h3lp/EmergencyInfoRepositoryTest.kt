@@ -20,7 +20,7 @@ class EmergencyInfoRepositoryTest {
 
     @Test
     fun createdObjectIsCorrect() {
-        repository.create(testObject)
+        repository.insert(testObject)
         val res = repository.get(testKey).get()
         assertEquals(res.latitude, testDoubleValue)
         assertEquals(res.longitude, testDoubleValue)
@@ -30,7 +30,7 @@ class EmergencyInfoRepositoryTest {
 
     @Test
     fun deleteObjectWorks() {
-        repository.create(testObject)
+        repository.insert(testObject)
         repository.delete(testKey)
         val res = repository.get(testKey)
         assertTrue(res.isCompletedExceptionally)

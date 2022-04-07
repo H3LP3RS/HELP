@@ -13,7 +13,7 @@ class EmergencyInfoRepository(private val database: Database) : Repository<Emerg
         return database.getObject(id, EmergencyInformation::class.java)
     }
 
-    override fun create(value: EmergencyInformation) {
+    override fun insert(value: EmergencyInformation) {
         database.setObject(value.id, EmergencyInformation::class.java, value)
     }
 

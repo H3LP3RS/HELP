@@ -19,7 +19,7 @@ interface Repository<T>{
      *
      * @param value The object value to create
      */
-    fun create(value: T)
+    fun insert(value: T)
 
     /**
      * Deletes the value at the given entry in the database
