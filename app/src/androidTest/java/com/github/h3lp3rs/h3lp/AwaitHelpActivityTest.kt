@@ -43,7 +43,15 @@ class AwaitHelpActivityTest {
     @Before
     fun setup() {
         Intents.init()
-        val intent = Intent()
+        val bundle = Bundle()
+        bundle.putStringArrayList(EXTRA_NEEDED_MEDICATION, selectedMeds)
+        bundle.putBoolean(EXTRA_CALLED_EMERGENCIES, true)
+        val intent = Intent(
+            ApplicationProvider.getApplicationContext(),
+            AwaitHelpActivity::class.java
+        ).apply {
+            putExtras(bundle)
+        }
         val intentResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
         Intents.intending(IntentMatchers.anyIntent()).respondWith(intentResult)
     }
