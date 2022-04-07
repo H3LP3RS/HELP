@@ -2,10 +2,12 @@ package com.github.h3lp3rs.h3lp
 
 import androidx.test.core.app.ApplicationProvider
 import com.github.h3lp3rs.h3lp.database.Databases
+import com.github.h3lp3rs.h3lp.database.Databases.*
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.database.MockDatabase
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.storage.LocalStorage
-import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
@@ -13,6 +15,8 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import kotlin.random.Random
+
+const val USER_TEST_ID = "SECRET_AGENT_007"
 
 class StorageTest {
 
@@ -23,14 +27,15 @@ class StorageTest {
     private val TEST_KEY = "KEY"
     private val TEST_SEED = Random(0)
     private val BYTES_PER_CHAR = 2
-    private val DELTA = 1e-10
 
     @Before
     fun setup() {
         globalContext = ApplicationProvider.getApplicationContext()
-        Databases.PREFERENCES.db = MockDatabase()
+        userUid = USER_TEST_ID
+        PREFERENCES.db = MockDatabase()
         resetStorage()
-        stor = storageOf(MEDICAL_INFO)
+        // Will start empty
+        stor = storageOf(USER_COOKIE)
     }
 
     @Test
@@ -63,5 +68,17 @@ class StorageTest {
         resetStorage()
         assertEquals(int - 2, stor.getIntOrDefault(TEST_KEY, int - 2))
         assertEquals(int - 2, stor.getIntOrDefault(TEST_KEY + "1", int - 2))
+    }
+
+    @Test
+    fun pushAndPullWorksProperly() {
+        assertEquals(-1, stor.getIntOrDefault(TEST_KEY, -1))
+        stor.setInt(TEST_KEY, 0)
+        assertEquals(0, stor.getIntOrDefault(TEST_KEY, -1))
+        stor.push()
+        resetStorage()
+        assertEquals(-1, stor.getIntOrDefault(TEST_KEY, -1))
+        stor.pull()
+        assertEquals(0, stor.getIntOrDefault(TEST_KEY, -1))
     }
 }

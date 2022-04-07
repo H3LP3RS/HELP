@@ -16,6 +16,8 @@ import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
 import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuth.*
 
 class SignInActivity : AppCompatActivity() {
     lateinit var signInClient : SignInInterface<AuthResult>
@@ -80,6 +82,7 @@ class SignInActivity : AppCompatActivity() {
         signInClient.authenticate(result, activity)
             ?.addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
+                    userUid = getInstance().currentUser!!.uid
                     checkToSAndLaunchIfNotAcceptedElseMain()
                 }
             }
@@ -92,12 +95,20 @@ class SignInActivity : AppCompatActivity() {
     companion object{
         @SuppressLint("StaticFieldLeak")
         lateinit var globalContext: Context
+        var userUid: String? = null
 
         /**
          * Getter on the global context
          */
         fun getGlobalCtx(): Context {
             return globalContext
+        }
+
+        /**
+         * Getter on the userUid
+         */
+        fun getUid(): String? {
+            return userUid
         }
     }
 }

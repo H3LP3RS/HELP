@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.getUid
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import org.json.JSONObject
@@ -22,15 +23,14 @@ class LocalStorage(private val path: String, context: Context, private val enabl
      * @throws NullPointerException if the user is not authenticated AND online sync is enabled.
      */
     fun pull(){
-        /*
-        if (enableOnlineSync) { // TODO: Need mocked version!
+        if (enableOnlineSync) {
             // Need to be authenticated if online sync is enabled
-            val uid = FirebaseAuth.getInstance().currentUser!!.uid // TODO: Need mocked version!
+            val uid = getUid()!!
             val db = databaseOf(PREFERENCES)
             db.getString("$path/$uid").exceptionally { JSONObject().toString() }.thenAccept {
                 parseOnlinePrefs(it)
             }
-        }*/
+        }
     }
 
     /**
@@ -48,7 +48,7 @@ class LocalStorage(private val path: String, context: Context, private val enabl
      */
     fun push() {
         if (enableOnlineSync) {
-            val uid = FirebaseAuth.getInstance().currentUser!!.uid
+            val uid = getUid()!!
             val db = databaseOf(PREFERENCES)
 
             val json = JSONObject()
