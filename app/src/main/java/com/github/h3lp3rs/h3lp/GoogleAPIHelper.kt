@@ -11,13 +11,24 @@ import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
 
+/**
+ * Helper class which, given a Google api key, displays several methods used by many activities to
+ * use Google APIs, parse the results and display them on any map fragment
+ */
 class GoogleAPIHelper(private val apiKey: String): CoroutineScope by MainScope() {
 
-
     /**
-     * Retrieves the shortest path to the destination and displays it on the map
+     * Retrieves the shortest walking path to the destination and displays it on the map
+     * @param currentLat The user's current latitude
+     * @param currentLong The user's current longitude
+     * @param destinationLat The destination's latitude
+     * @param destinationLong The destination's longitude
+     * @param mapsFragment The map fragment to display the path on
+     * @param usePathData Method that acts as a future on the String returned by the Google
+     *  directions API in case the caller needs to reuse it, the default is doing nothing
+     * @param
      */
-    fun displayPath(
+    fun displayWalkingPath(
         currentLat: Double,
         currentLong: Double,
         destinationLat: Double,
@@ -34,22 +45,33 @@ class GoogleAPIHelper(private val apiKey: String): CoroutineScope by MainScope()
         CoroutineScope(Dispatchers.Main).launch {
             val data: String = withContext(Dispatchers.IO) { downloadUrl(url) }
             Log.i("GPath", data)
+
+            // Retrieve the path from the JSON received
             val path = parseTask(data, GPathJSONParser)
             path.let {
+                // Displays the path and adds a marker for the end point
                 mapsFragment.showPolyline(path)
                 mapsFragment.addMarker(
                     destinationLat, destinationLong,
                     END_POINT_NAME
                 )
             }
+            // Lets the calling method use the returned JSON for additional calls
             usePathData(data)
         }
     }
 
+    /**
+     * General method to parse a string with any JSON parser
+     */
     fun <T> parseTask(data: String, parser: JSONParserInterface<T>): T {
         return parser.parseResult(JSONObject(data))
     }
 
+    /**
+     * General method to download the information returned by accessing an url
+     * @param url The url to download from
+     */
     fun downloadUrl(url: String): String {
         val connection = URL(url).openConnection() as HttpURLConnection
         connection.connect()
@@ -73,15 +95,14 @@ class GoogleAPIHelper(private val apiKey: String): CoroutineScope by MainScope()
     companion object{
         // Constants to access the Google places API
         const val PLACES_URL =
-            "https://maps.googleapis.com/maps/api/place/nearbysearch/json" //TODO : make these constants private
+            "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
         const val DEFAULT_SEARCH_RADIUS = 3000
 
         // Constants to access the Google directions API
-
         const val DIRECTIONS_URL = "https://maps.googleapis.com/maps/api/directions/json"
         const val WALKING = "walking"
 
-        const val END_POINT_NAME = "user in need"
+        private const val END_POINT_NAME = "user in need"
     }
 
 }

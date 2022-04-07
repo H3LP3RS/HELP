@@ -2,22 +2,14 @@ package com.github.h3lp3rs.h3lp
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.databinding.ActivityInfoOnHelpTaskBinding
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 import com.github.h3lp3rs.h3lp.util.GDurationJSONParser
-import com.github.h3lp3rs.h3lp.util.GPathJSONParser
-import com.github.h3lp3rs.h3lp.util.JSONParserInterface
 import com.google.android.gms.maps.MapsInitializer
 import kotlinx.coroutines.*
-import org.json.JSONObject
-import java.io.BufferedReader
-import java.io.InputStreamReader
-import java.net.HttpURLConnection
-import java.net.URL
 
 /**
  * Activity used to display information about a person in need, their location, the path to them,
@@ -66,14 +58,13 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         // Displays the path to the user in need on the map fragment and, when the path has been
         // retrieved (through a google directions API request), computes and displays the time to
         // get to the user in need
-        apiHelper.displayPath(
+        apiHelper.displayWalkingPath(
             currentLat,
             currentLong,
             destinationLat,
             destinationLong,
-            mapsFragment,
-            { mapData: String? -> displayPathDuration(mapData) }
-        )
+            mapsFragment
+        ) { mapData: String? -> displayPathDuration(mapData) }
         displayRequiredMeds()
     }
 

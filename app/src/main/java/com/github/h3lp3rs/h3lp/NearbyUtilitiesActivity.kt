@@ -13,9 +13,7 @@ import com.github.h3lp3rs.h3lp.GoogleAPIHelper.Companion.PLACES_URL
 import com.github.h3lp3rs.h3lp.databinding.ActivityNearbyUtilitiesBinding
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 import com.github.h3lp3rs.h3lp.util.AED_LOCATIONS_LAUSANNE
-import com.github.h3lp3rs.h3lp.util.GPathJSONParser
 import com.github.h3lp3rs.h3lp.util.GPlaceJSONParser
-import com.github.h3lp3rs.h3lp.util.JSONParserInterface
 import kotlinx.coroutines.*
 
 
@@ -76,7 +74,7 @@ class NearbyUtilitiesActivity : AppCompatActivity(), CoroutineScope by MainScope
         mapsFragment = supportFragmentManager
             .findFragmentById(R.id.map) as MapsFragment
 
-        apiHelper.displayPath(currentLat, currentLong, destinationLat, destinationLong, mapsFragment)
+        apiHelper.displayWalkingPath(currentLat, currentLong, destinationLat, destinationLong, mapsFragment)
         // TODO : find a way to call getPath when the map is ready, maybe use the callback ?
 
     }
