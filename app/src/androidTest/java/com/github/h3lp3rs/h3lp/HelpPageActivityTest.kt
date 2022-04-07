@@ -99,7 +99,7 @@ class HelpPageActivityTest {
             // need text appears
             uiDevice.wait(
                 Until.findObject(By.res(BuildConfig.APPLICATION_ID + ":id/" + R.id.timeToPersonInNeed)),
-                1000
+                5000
             )
             onView(withId(R.id.timeToPersonInNeed))
                 .check(matches(isDisplayed()))
