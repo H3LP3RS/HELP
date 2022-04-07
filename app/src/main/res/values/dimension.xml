@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="top_banner_icon">48dp</dimen>
+    <dimen name="top_banner_icon">38dp</dimen>
     <dimen name="image_button_home_page">70dp</dimen>
     <dimen name="app_margin">5dp</dimen>
     <dimen name="scroll_view_outside_layout">117dp</dimen>
@@ -11,7 +11,6 @@
     <dimen name="scroll_view_margin_text">10dp</dimen>
     <dimen name="help_button">150dp</dimen>
     <dimen name="select_meds_button">110dp</dimen>
-
     <dimen name="map_utilities_button_layout">100dp</dimen>
     <dimen name="image_button_map_page">60dp</dimen>
 

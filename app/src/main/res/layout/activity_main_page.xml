@@ -5,45 +5,39 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_background"
     android:fitsSystemWindows="true"
 
     tools:context=".MainPageActivity">
 
-
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/app_background">
-        <!--
-        <ImageButton
-            android:id="@+id/menuButton"
-            android:layout_width="@dimen/top_banner_icon"
-            android:layout_height="@dimen/top_banner_icon"
-            android:background="@null"
-            android:contentDescription="@string/menu_button"
-            android:scaleType="centerInside"
-            android:src="@drawable/menu" />
--->
-        <ImageButton
-            android:id="@+id/button_tutorial"
-            android:layout_width="@dimen/top_banner_icon"
-            android:layout_height="@dimen/top_banner_icon"
-            android:layout_alignParentEnd="true"
-            android:background="@null"
-            android:contentDescription="@string/tutorial_button"
-            android:onClick="viewPresentation"
-            android:scaleType="centerInside"
-            android:src="@drawable/tutorial" />
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/teal_background"
+            android:elevation="5dp"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
         <TextView
             android:id="@+id/HelloText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/button_tutorial"
+            android:layout_below="@+id/toolbar"
+            android:layout_marginTop="10dp"
             android:layout_centerHorizontal="true"
+            android:lineSpacingExtra="8sp"
+            android:shadowColor="@color/white"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="20"
             android:text="@string/hello"
-            android:textColor="@color/dark_blue"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@color/black"
             android:textSize="25sp" />
 
         <TextView
@@ -53,18 +47,32 @@
             android:layout_below="@+id/HelloText"
             android:layout_centerHorizontal="true"
             android:text="@string/welcome_text"
-            android:textColor="@color/dark_blue"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:lineSpacingExtra="8sp"
+            android:shadowColor="@color/white"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="20"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/staySafe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/welcomeText"
-            android:layout_centerHorizontal="true"
             android:text="@string/stay_safe"
-            android:textColor="@color/dark_blue"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_centerHorizontal="true"
+            android:lineSpacingExtra="8sp"
+            android:shadowColor="@color/white"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="20"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@color/black" />
 
         <ListView
             android:id="@+id/listView"
@@ -92,7 +100,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/searchBar"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="30dp"
             android:background="@color/app_background">
 
             <LinearLayout
@@ -106,7 +114,7 @@
                     android:layout_width="@dimen/scroll_view_outside_layout"
                     android:layout_height="@dimen/scroll_view_outside_layout"
                     android:background="@drawable/round_style"
-                    android:backgroundTint="@color/blue"
+                    android:backgroundTint="@color/teal_400"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -133,7 +141,7 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="@dimen/scroll_view_margin_text"
                             android:text="@string/hospital"
-                            android:textColor="@color/dark_blue"
+                            android:textColor="@color/black"
                             android:textSize="@dimen/icon_font"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -146,15 +154,15 @@
                     android:layout_width="@dimen/scroll_view_outside_layout"
                     android:layout_height="@dimen/scroll_view_outside_layout"
                     android:background="@drawable/round_style"
-                    android:backgroundTint="@color/blue"
+                    android:backgroundTint="@color/teal_400"
                     android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="@dimen/scroll_view_inside_layout"
                         android:layout_height="@dimen/scroll_view_inside_layout"
                         android:layout_centerInParent="true"
-                        android:background="@drawable/round_style"
                         android:backgroundTint="@color/white"
+                        android:background="@drawable/round_style"
                         android:orientation="vertical">
 
                         <ImageButton
@@ -172,7 +180,7 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="@dimen/scroll_view_margin_text"
                             android:text="@string/defibrillator"
-                            android:textColor="@color/dark_blue"
+                            android:textColor="@color/black"
                             android:textSize="@dimen/icon_font"
                             android:textStyle="bold" />
 
@@ -186,7 +194,7 @@
                     android:layout_width="@dimen/scroll_view_outside_layout"
                     android:layout_height="@dimen/scroll_view_outside_layout"
                     android:background="@drawable/round_style"
-                    android:backgroundTint="@color/blue"
+                    android:backgroundTint="@color/teal_400"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -214,7 +222,7 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="@dimen/scroll_view_margin_text"
                             android:text="@string/pharmacy"
-                            android:textColor="@color/dark_blue"
+                            android:textColor="@color/black"
                             android:textSize="@dimen/icon_font"
                             android:textStyle="bold" />
 
@@ -227,7 +235,7 @@
                     android:layout_width="@dimen/scroll_view_outside_layout"
                     android:layout_height="@dimen/scroll_view_outside_layout"
                     android:background="@drawable/round_style"
-                    android:backgroundTint="@color/blue"
+                    android:backgroundTint="@color/teal_400"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -254,7 +262,7 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="@dimen/scroll_view_margin_text"
                             android:text="@string/first_aid"
-                            android:textColor="@color/dark_blue"
+                            android:textColor="@color/black"
                             android:textSize="@dimen/icon_font"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -266,7 +274,7 @@
                     android:layout_width="@dimen/scroll_view_outside_layout"
                     android:layout_height="@dimen/scroll_view_outside_layout"
                     android:background="@drawable/round_style"
-                    android:backgroundTint="@color/blue"
+                    android:backgroundTint="@color/teal_400"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -293,7 +301,7 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="@dimen/scroll_view_margin_text"
                             android:text="@string/cpr_rate"
-                            android:textColor="@color/dark_blue"
+                            android:textColor="@color/black"
                             android:textSize="@dimen/icon_font"
                             android:textStyle="bold" />
 
@@ -332,7 +340,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/scroll_view_margin_text"
                     android:text="@string/my_profile"
-                    android:textColor="@color/dark_blue"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/icon_font"
                     android:textStyle="bold" />
 
@@ -362,7 +370,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/scroll_view_margin_text"
                     android:text="@string/skills"
-                    android:textColor="@color/dark_blue"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/icon_font"
                     android:textStyle="bold" />
 
@@ -373,12 +381,16 @@
             android:id="@+id/HELP_button"
             android:layout_width="@dimen/help_button"
             android:layout_height="@dimen/help_button"
+            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="430dp"
+            android:layout_marginBottom="64dp"
             android:background="@drawable/help_button"
             android:contentDescription="@string/help_button"
-            android:onClick="goToHelpParametersActivity" />
+            android:onClick="goToHelpParametersActivity"
+            android:scaleX="1.3"
+            android:scaleY="1.3" />
     </RelativeLayout>
+
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
@@ -387,5 +399,6 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/header_side_navigation_bar"
         app:menu="@menu/side_navigation_bar" />
+
 
 </androidx.drawerlayout.widget.DrawerLayout>
