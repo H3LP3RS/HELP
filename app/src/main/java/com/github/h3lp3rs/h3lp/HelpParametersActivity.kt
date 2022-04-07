@@ -6,13 +6,23 @@ import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import android.widget.ToggleButton
 import androidx.appcompat.app.AppCompatActivity
+import com.github.h3lp3rs.h3lp.database.models.EmergencyInformation
+import com.github.h3lp3rs.h3lp.database.repositories.emergencyInfoRepository
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
+import com.github.h3lp3rs.h3lp.storage.LocalStorage
+import com.github.h3lp3rs.h3lp.storage.Storages
+import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
+import com.google.gson.Gson
+import java.util.*
+import kotlin.collections.ArrayList
+
 
 const val EXTRA_NEEDED_MEDICATION = "needed_meds_key"
 const val EXTRA_CALLED_EMERGENCIES = "has_called_emergencies"
@@ -24,6 +34,10 @@ class HelpParametersActivity : AppCompatActivity() {
     // userLocation contains the user's current coordinates (is initialized to null since we could
     // encounter an error while getting the user's location)
     private var userLocation: Location? = null
+    private var latitude: Double? = null
+    private var longitude: Double? = null
+    private var meds: ArrayList<String> = ArrayList()
+    private val currentTime: Date = Calendar.getInstance().time;
     private var calledEmergencies: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,11 +51,13 @@ class HelpParametersActivity : AppCompatActivity() {
         val locationInformation: TextView = findViewById(R.id.location_information)
         val coordinatesText = getString(R.string.current_location)
         if (userLocation != null) {
+            latitude =  userLocation!!.latitude
+            longitude = userLocation!!.longitude
             locationInformation.text = String.format(
-                "%s latitude: %.4f longitude: %.4f",
-                coordinatesText,
-                userLocation!!.latitude,
-                userLocation!!.longitude
+                    "%s latitude: %.4f longitude: %.4f",
+            coordinatesText,
+            userLocation!!.latitude,
+            userLocation!!.longitude
             )
         } else {
             // If the user didn't allow location permissions, they won't be able to see their
@@ -78,7 +94,7 @@ class HelpParametersActivity : AppCompatActivity() {
      *  Called when the user presses the "search for help" button after selecting their need.
      */
     fun searchHelp(view: View) {
-        val meds = retrieveSelectedMedication(view)
+        meds = retrieveSelectedMedication(view)
 
         if (meds.isEmpty()) {
             Toast.makeText(
@@ -92,8 +108,19 @@ class HelpParametersActivity : AppCompatActivity() {
             b.putBoolean(EXTRA_CALLED_EMERGENCIES, calledEmergencies)
             val intent = Intent(this, AwaitHelpActivity::class.java)
             intent.putExtras(b)
-
+            sendInfoToDB()
             startActivity(intent)
+        }
+    }
+
+    /**
+     * Stores the emergency information in the database for further use
+     */
+    private fun sendInfoToDB(){
+        if(latitude != null && longitude != null){
+            val medicalInfo = LocalStorage(getString(R.string.medical_info_prefs),this,false).getStringOrDefault(getString(R.string.medical_info_key),"")
+            val emergencyInfo = EmergencyInformation(latitude = latitude!!, longitude = longitude!!, meds =  meds, time = currentTime, medicalInfo = medicalInfo!!)
+            emergencyInfoRepository.insert(emergencyInfo)
         }
     }
 
@@ -109,7 +136,7 @@ class HelpParametersActivity : AppCompatActivity() {
             val child = viewGroup.getChildAt(i) as View
             if (child is ToggleButton) {
                 if (child.isChecked) {
-                    meds.add(child.text as String)
+                    meds.add(child.textOff as String)
                 }
             }
         }
