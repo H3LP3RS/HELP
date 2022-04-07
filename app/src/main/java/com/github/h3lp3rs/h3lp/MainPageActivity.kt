@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
@@ -21,10 +20,7 @@ import androidx.preference.PreferenceManager
 import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
-import com.github.h3lp3rs.h3lp.signin.ORIGIN
 import com.google.android.material.navigation.NavigationView
-import com.github.h3lp3rs.h3lp.storage.Storages.*
-import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.google.android.material.snackbar.Snackbar
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
 import uk.co.samuelwall.materialtaptargetprompt.extras.backgrounds.RectanglePromptBackground
@@ -355,11 +351,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
             locPermissionDenied = false
 
             // Go back to tutorial
-            startActivity(
-                Intent(this, PresArrivalActivity::class.java).putExtra(
-                    ORIGIN, MainPageActivity::class.qualifiedName
-                )
-            )
+            goToActivity(PresArrivalActivity::class.java)
         }
     }
 
@@ -389,11 +381,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
      * Starts the presentation of the app
      */
     private fun viewPresentation(view : View) {
-        startActivity(
-            Intent(this, PresArrivalActivity::class.java).putExtra(
-                ORIGIN, MainPageActivity::class.qualifiedName
-            )
-        )
+        goToActivity(PresArrivalActivity::class.java)
     }
 
     /** Called when the user taps the profile page button */

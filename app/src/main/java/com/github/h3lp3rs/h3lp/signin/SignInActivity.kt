@@ -17,8 +17,6 @@ import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.google.firebase.auth.AuthResult
 
-const val ORIGIN: String = "ORIGIN"
-
 class SignInActivity : AppCompatActivity() {
     lateinit var signInClient : SignInInterface<AuthResult>
     private lateinit var userCookie: LocalStorage
@@ -28,7 +26,6 @@ class SignInActivity : AppCompatActivity() {
         userCookie = storageOf(Storages.USER_COOKIE) // Fetch from storage
         if(!userCookie.getBoolOrDefault(getString(R.string.KEY_USER_AGREE), false)) {
             val intent = Intent(this, PresArrivalActivity::class.java)
-                .putExtra(ORIGIN, SignInActivity::class.qualifiedName)
             startActivity(intent)
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         } else {

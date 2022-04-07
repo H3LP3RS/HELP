@@ -6,7 +6,8 @@ import android.content.Intent
 import android.view.InputDevice
 import android.view.MotionEvent
 import androidx.test.core.app.ActivityScenario
-import androidx.test.core.app.ApplicationProvider
+import androidx.test.core.app.ActivityScenario.*
+import androidx.test.core.app.ApplicationProvider.*
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -23,11 +24,8 @@ import androidx.test.espresso.action.Press
 import androidx.test.espresso.action.Tap
 import androidx.test.espresso.action.GeneralClickAction
 import androidx.test.espresso.ViewAction
-import com.android.dx.command.Main
 import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.database.MockDatabase
-import com.github.h3lp3rs.h3lp.signin.ORIGIN
-import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
@@ -67,6 +65,10 @@ class PresIrrelevantActivityTest {
         onView(withId(id)).check(matches(isDisplayed()))
     }
 
+    private fun launch(): ActivityScenario<PresIrrelevantActivity> {
+        return launch(Intent(getApplicationContext(), PresIrrelevantActivity::class.java))
+    }
+
     private fun checkLaunchOnApprovalClick(activity: String) {
         init()
         val i = Intent()
@@ -78,19 +80,15 @@ class PresIrrelevantActivityTest {
     }
 
     @Before
-    fun clearPreferences() {
-        globalContext = ApplicationProvider.getApplicationContext()
+    fun dataInit() {
+        globalContext = getApplicationContext()
         Databases.PREFERENCES.db = MockDatabase()
         resetStorage()
     }
 
     @Test
     fun successfulDisplay() {
-        val intent = Intent(ApplicationProvider.getApplicationContext(), PresIrrelevantActivity::class.java).apply {
-            putExtra(ORIGIN, MainPageActivity::class.qualifiedName)
-        }
-
-        ActivityScenario.launch<PresIrrelevantActivity>(intent).use {
+        launch().use {
             checkIsDisplayed(R.id.pres3_textView1)
             checkIsDisplayed(R.id.pres3_textView2)
             checkIsDisplayed(R.id.pres3_textView3)
@@ -106,10 +104,7 @@ class PresIrrelevantActivityTest {
 
     @Test
     fun boxDefaultNotChecked() {
-        val intent = Intent(ApplicationProvider.getApplicationContext(), PresIrrelevantActivity::class.java).apply {
-            putExtra(ORIGIN, MainPageActivity::class.qualifiedName)
-        }
-        ActivityScenario.launch<PresIrrelevantActivity>(intent).use {
+        launch().use {
             onView(withId(R.id.pres3_checkBox)).check(matches(isNotChecked()))
         }
     }
@@ -117,20 +112,14 @@ class PresIrrelevantActivityTest {
     @Test
     fun boxCheckedIfDoneAlready() {
         alreadyAccepted()
-        val intent = Intent(ApplicationProvider.getApplicationContext(), PresIrrelevantActivity::class.java).apply {
-            putExtra(ORIGIN, MainPageActivity::class.qualifiedName)
-        }
-        ActivityScenario.launch<PresIrrelevantActivity>(intent).use {
+        launch().use {
             onView(withId(R.id.pres3_checkBox)).check(matches(isChecked()))
         }
     }
 
     @Test
     fun unsuccessfulApprovalButtonNeverApproved() {
-        val intent = Intent(ApplicationProvider.getApplicationContext(), PresIrrelevantActivity::class.java).apply {
-            putExtra(ORIGIN, MainPageActivity::class.qualifiedName)
-        }
-        ActivityScenario.launch<PresIrrelevantActivity>(intent).use {
+        launch().use {
             init()
             val i = Intent()
             val intentResult = ActivityResult(Activity.RESULT_OK, i)
@@ -144,10 +133,7 @@ class PresIrrelevantActivityTest {
     @Test
     fun successfulApprovalButtonAlreadyApprovedFromMain() {
         alreadyAccepted()
-        val intent = Intent(ApplicationProvider.getApplicationContext(), PresIrrelevantActivity::class.java).apply {
-            putExtra(ORIGIN, MainPageActivity::class.qualifiedName)
-        }
-        ActivityScenario.launch<PresIrrelevantActivity>(intent).use {
+        launch().use {
             checkLaunchOnApprovalClick(MainPageActivity::class.java.name)
         }
     }
@@ -155,20 +141,14 @@ class PresIrrelevantActivityTest {
     @Test
     fun successfulApprovalButtonAlreadyApprovedFromSignIn() {
         alreadyAccepted()
-        val intent = Intent(ApplicationProvider.getApplicationContext(), PresIrrelevantActivity::class.java).apply {
-            putExtra(ORIGIN, SignInActivity::class.qualifiedName)
-        }
-        ActivityScenario.launch<PresIrrelevantActivity>(intent).use {
+        launch().use {
             checkLaunchOnApprovalClick(MainPageActivity::class.java.name)
         }
     }
 
     @Test
     fun tickAndAcceptGoToSignIn() {
-        val intent = Intent(ApplicationProvider.getApplicationContext(), PresIrrelevantActivity::class.java).apply {
-            putExtra(ORIGIN, SignInActivity::class.qualifiedName)
-        }
-        ActivityScenario.launch<PresIrrelevantActivity>(intent).use {
+        launch().use {
             onView(withId(R.id.pres3_checkBox)).perform(click())
             checkLaunchOnApprovalClick(MainPageActivity::class.java.name)
         }
@@ -176,10 +156,7 @@ class PresIrrelevantActivityTest {
 
     @Test
     fun tickAndAcceptGoToMain() {
-        val intent = Intent(ApplicationProvider.getApplicationContext(), PresIrrelevantActivity::class.java).apply {
-            putExtra(ORIGIN, MainPageActivity::class.qualifiedName)
-        }
-        ActivityScenario.launch<PresIrrelevantActivity>(intent).use {
+        launch().use {
             onView(withId(R.id.pres3_checkBox)).perform(click())
             checkLaunchOnApprovalClick(MainPageActivity::class.java.name)
         }
@@ -187,10 +164,7 @@ class PresIrrelevantActivityTest {
 
     @Test
     fun tosAreLaunched() {
-        val intent = Intent(ApplicationProvider.getApplicationContext(), PresIrrelevantActivity::class.java).apply {
-            putExtra(ORIGIN, MainPageActivity::class.qualifiedName)
-        }
-        ActivityScenario.launch<PresIrrelevantActivity>(intent).use {
+        launch().use {
             init()
             val i = Intent()
             val intentResult = ActivityResult(Activity.RESULT_OK, i)
