@@ -116,9 +116,7 @@ class HelpParametersActivity : AppCompatActivity() {
     private fun sendInfoToDB(){
         if(latitude != null && longitude != null){
             val medicalInfo = LocalStorage(getString(R.string.medical_info_prefs),this,false).getStringOrDefault(getString(R.string.medical_info_key),"")
-            val gson = Gson()
-            val medicalInfoJson = gson.toJson(medicalInfo)
-            val emergencyInfo = EmergencyInformation(latitude = latitude!!, longitude = longitude!!, meds =  meds, time = currentTime, medicalInfo = medicalInfoJson)
+            val emergencyInfo = EmergencyInformation(latitude = latitude!!, longitude = longitude!!, meds =  meds, time = currentTime, medicalInfo = medicalInfo!!)
             emergencyInfoRepository.insert(emergencyInfo)
         }
     }
