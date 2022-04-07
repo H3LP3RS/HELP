@@ -57,15 +57,16 @@
         android:layout_height="wrap_content" />
 
     <TextView
+        android:id="@+id/progressBarText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Looking for help nearby..." />
+        android:text="@string/progress_bar_waiting_help" />
 
     <TextView
-        android:id="@+id/incoming_helpers_number"
+        android:id="@+id/incomingHelpersNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="test"
+        android:text=""
         android:visibility="gone"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textColor="@color/teal_700"
@@ -74,7 +75,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tutorials"
+        android:text="@string/tutorials"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textSize="20sp"
         android:textColor="@color/dark_blue" />
@@ -83,7 +84,6 @@
         android:id="@+id/horizontalScrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/searchBar"
         android:layout_marginTop="10dp"
         android:background="@color/white">
 
@@ -98,18 +98,19 @@
             <LinearLayout
                 android:layout_width="@dimen/scroll_view_tuto_layout"
                 android:layout_height="@dimen/scroll_view_tuto_layout"
-                android:layout_centerInParent="true"
                 android:background="@drawable/round_style"
                 android:backgroundTint="@color/white"
                 android:orientation="vertical">
 
                 <ImageButton
+                    android:id="@+id/heart_attack_tuto_button"
                     android:layout_width="@dimen/image_button_tuto_page"
                     android:layout_height="@dimen/image_button_tuto_page"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/margin_image_inside_layout"
                     android:background="@drawable/heart_attack"
-                    android:contentDescription="heart_attack_tuto_button"
+                    android:contentDescription="@string/heart_attack_tuto_button"
+                    android:onClick="goToHeartAttackActivity"
                     tools:ignore="TooDeepLayout,ImageContrastCheck" />
 
                 <TextView
@@ -117,7 +118,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/scroll_view_margin_text"
-                    android:text="Heart attacks"
+                    android:text="@string/heart_attack_emergency"
                     android:textColor="@color/dark_blue"
                     android:textSize="@dimen/icon_font"
                     android:textStyle="bold" />
@@ -131,18 +132,19 @@
             <LinearLayout
                 android:layout_width="@dimen/scroll_view_tuto_layout"
                 android:layout_height="@dimen/scroll_view_tuto_layout"
-                android:layout_centerInParent="true"
                 android:background="@drawable/round_style"
                 android:backgroundTint="@color/white"
                 android:orientation="vertical">
 
                 <ImageButton
+                    android:id="@+id/epipen_tuto_button"
                     android:layout_width="@dimen/image_button_tuto_page"
                     android:layout_height="@dimen/image_button_tuto_page"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/margin_image_inside_layout"
                     android:background="@drawable/epipen"
-                    android:contentDescription="allergies_tuto_button"
+                    android:contentDescription="@string/allergies_tuto_button"
+                    android:onClick="goToAllergyActivity"
                     tools:ignore="TooDeepLayout,ImageContrastCheck" />
 
                 <TextView
@@ -150,7 +152,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/scroll_view_margin_text"
-                    android:text="Allergic Reaction"
+                    android:text="@string/allergy_emergency"
                     android:textColor="@color/dark_blue"
                     android:textSize="@dimen/icon_font"
                     android:textStyle="bold" />
@@ -165,18 +167,19 @@
             <LinearLayout
                 android:layout_width="@dimen/scroll_view_tuto_layout"
                 android:layout_height="@dimen/scroll_view_tuto_layout"
-                android:layout_centerInParent="true"
                 android:background="@drawable/round_style"
                 android:backgroundTint="@color/white"
                 android:orientation="vertical">
 
                 <ImageButton
+                    android:id="@+id/aed_tuto_button"
                     android:layout_width="@dimen/image_button_tuto_page"
                     android:layout_height="@dimen/image_button_tuto_page"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/margin_image_inside_layout"
                     android:background="@drawable/defibrillator"
-                    android:contentDescription="defibrillator_tuto_button"
+                    android:contentDescription="@string/defibrillator_tuto_button"
+                    android:onClick="goToAedActivity"
                     tools:ignore="TooDeepLayout,ImageContrastCheck" />
 
                 <TextView
@@ -184,7 +187,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/scroll_view_margin_text"
-                    android:text="Defibrillators"
+                    android:text="@string/defibrillator_button"
                     android:textColor="@color/dark_blue"
                     android:textSize="@dimen/icon_font"
                     android:textStyle="bold" />
@@ -196,18 +199,19 @@
             <LinearLayout
                 android:layout_width="@dimen/scroll_view_tuto_layout"
                 android:layout_height="@dimen/scroll_view_tuto_layout"
-                android:layout_centerInParent="true"
                 android:background="@drawable/round_style"
                 android:backgroundTint="@color/white"
                 android:orientation="vertical">
 
                 <ImageButton
+                    android:id="@+id/asthma_tuto_button"
                     android:layout_width="@dimen/image_button_tuto_page"
                     android:layout_height="@dimen/image_button_tuto_page"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/margin_image_inside_layout"
                     android:background="@drawable/asthma"
-                    android:contentDescription="asthma_tuto_button"
+                    android:contentDescription="@string/asthma_attack_tuto_button"
+                    android:onClick="goToAsthmaActivity"
                     tools:ignore="TooDeepLayout,ImageContrastCheck" />
 
                 <TextView
@@ -215,7 +219,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/scroll_view_margin_text"
-                    android:text="Asthma Attack"
+                    android:text="@string/asthma_attack"
                     android:textColor="@color/dark_blue"
                     android:textSize="@dimen/icon_font"
                     android:textStyle="bold" />
@@ -230,13 +234,14 @@
         android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/help_params_call_button"
+            android:id="@+id/await_help_call_button"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:layout_marginStart="72dp"
             android:layout_marginBottom="24dp"
             android:contentDescription="@string/phone_icon_description"
+            android:onClick="emergencyCall"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/emergency_call"
@@ -250,21 +255,22 @@
             android:layout_marginStart="24dp"
             android:text="@string/call_emergency_button"
             android:textAlignment="center"
-            android:textColor="#175A04"
+            android:textColor="@color/call_text_green"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/help_params_call_button"
+            app:layout_constraintTop_toBottomOf="@+id/await_help_call_button"
             app:layout_constraintVertical_bias="0.567" />
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/cancel_search_button"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
-            android:contentDescription="@string/phone_icon_description"
+            android:contentDescription="@string/cancel_button_description"
+            android:onClick="cancelHelpSearch"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.769"
-            app:layout_constraintStart_toEndOf="@+id/help_params_call_button"
+            app:layout_constraintStart_toEndOf="@+id/await_help_call_button"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/cancel_button"
             tools:ignore="MissingConstraints,RedundantDescriptionCheck" />
@@ -274,14 +280,14 @@
             android:layout_height="0dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginStart="100dp"
-            android:text="Cancel search"
+            android:text="@string/cancel_search_text"
             android:textAlignment="center"
-            android:textColor="#F44336"
+            android:textColor="@color/cancel_search_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.222"
             app:layout_constraintStart_toEndOf="@+id/textView2"
-            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            app:layout_constraintTop_toBottomOf="@+id/cancel_search_button"
             app:layout_constraintVertical_bias="0.0" />
 
 

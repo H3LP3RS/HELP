@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 
 const val EXTRA_NEEDED_MEDICATION = "needed_meds_key"
+const val EXTRA_CALLED_EMERGENCIES = "has_called_emergencies"
 
 /**
  * Activity in which the user can select the medications they need urgently
@@ -23,6 +24,7 @@ class HelpParametersActivity : AppCompatActivity() {
     // userLocation contains the user's current coordinates (is initialized to null since we could
     // encounter an error while getting the user's location)
     private var userLocation: Location? = null
+    private var calledEmergencies: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +60,7 @@ class HelpParametersActivity : AppCompatActivity() {
         // In case the getCurrentLocation failed (for example if the location services aren't
         // activated, currentLocation is still null and the returned phone number will be the
         // default emergency phone number
-
+        calledEmergencies = true
         updateCoordinates()
         val emergencyNumber =
             LocalEmergencyCaller.getLocalEmergencyNumber(
@@ -87,6 +89,7 @@ class HelpParametersActivity : AppCompatActivity() {
 
             val b = Bundle()
             b.putStringArrayList(EXTRA_NEEDED_MEDICATION, meds)
+            b.putBoolean(EXTRA_CALLED_EMERGENCIES, calledEmergencies)
             val intent = Intent(this, AwaitHelpActivity::class.java)
             intent.putExtras(b)
 

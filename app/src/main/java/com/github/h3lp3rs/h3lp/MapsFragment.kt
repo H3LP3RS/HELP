@@ -183,6 +183,13 @@ class MapsFragment : Fragment(), CoroutineScope by MainScope(), GoogleMap.OnPoly
     }
 
     /**
+     * Adds a custom marker to the map
+     */
+    fun addMarker(marker: MarkerOptions) {
+        map.addMarker(marker)
+    }
+
+    /**
      * Listens for clicks on a polyline.
      * @param polyline The polyline object that the user has clicked.
      */
