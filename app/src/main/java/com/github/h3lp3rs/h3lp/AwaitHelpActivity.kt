@@ -107,7 +107,7 @@ class AwaitHelpActivity : AppCompatActivity() {
      */
     private fun showHelperPerson(latitude: Double, longitude: Double){
         val latLng = LatLng(latitude, longitude)
-        val name = "Helper coming to help you" //TODO RESOURCES
+        val name = resources.getString(R.string.helper_marker_desc)
 
         val options = MarkerOptions()
         options.position(latLng)
@@ -127,8 +127,7 @@ class AwaitHelpActivity : AppCompatActivity() {
             currentLong = currentLocation.longitude
         } else {
             // In case the permission to access the location is missing
-            val intent = Intent(this, MainPageActivity::class.java)
-            startActivity(intent)
+            goToActivity(MainPageActivity::class.java)
         }
     }
 

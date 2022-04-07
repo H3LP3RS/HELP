@@ -36,6 +36,8 @@ const val CURRENT_LONG = 6.604
 const val DESTINATION_LAT = 46.519
 const val DESTINATION_LONG = 6.667
 
+const val TEST_TIMEOUT = 5000
+
 // Walking time from the user to the destination according to the Google directions API
 const val TIME_TO_DESTINATION = "1 hour 19 mins"
 
@@ -66,7 +68,6 @@ class HelpPageActivityTest {
         When(locationMock.latitude).thenReturn(CURRENT_LAT)
         When(locationMock.longitude).thenReturn(CURRENT_LONG)
         GeneralLocationManager.set(locationManagerMock)
-
     }
 
     @Test
@@ -99,7 +100,7 @@ class HelpPageActivityTest {
             // need text appears
             uiDevice.wait(
                 Until.findObject(By.res(BuildConfig.APPLICATION_ID + ":id/" + R.id.timeToPersonInNeed)),
-                5000
+                TEST_TIMEOUT.toLong()
             )
             onView(withId(R.id.timeToPersonInNeed))
                 .check(matches(isDisplayed()))

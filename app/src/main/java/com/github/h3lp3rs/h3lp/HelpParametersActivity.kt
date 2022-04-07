@@ -38,7 +38,7 @@ class HelpParametersActivity : AppCompatActivity() {
     private var longitude: Double? = null
     private var meds: ArrayList<String> = ArrayList()
     private val currentTime: Date = Calendar.getInstance().time;
-    private var calledEmergencies: Boolean = false
+    private var calledEmergencies = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

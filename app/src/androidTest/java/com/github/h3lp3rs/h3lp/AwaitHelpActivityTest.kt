@@ -3,6 +3,7 @@ package com.github.h3lp3rs.h3lp
 import android.Manifest
 import android.app.Activity
 import android.app.Instrumentation
+import android.app.Instrumentation.*
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -14,6 +15,7 @@ import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.intent.Intents
+import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
@@ -48,11 +50,10 @@ class AwaitHelpActivityTest {
 
     @Before
     fun setup() {
-        Intents.init()
+        init()
         val intent = getIntent()
-        val intentResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
-        Intents.intending(IntentMatchers.anyIntent()).respondWith(intentResult)
-
+        val intentResult = ActivityResult(Activity.RESULT_OK, intent)
+        intending(IntentMatchers.anyIntent()).respondWith(intentResult)
     }
 
     @After
@@ -73,7 +74,7 @@ class AwaitHelpActivityTest {
         } else {
             onView(id).perform(click())
         }
-        Intents.intended(
+        intended(
             Matchers.allOf(
                 IntentMatchers.hasComponent(ActivityName!!.name)
             )
@@ -127,7 +128,7 @@ class AwaitHelpActivityTest {
         phoneButton.check(ViewAssertions.matches(isDisplayed()))
         phoneButton.perform(click())
 
-        Intents.intended(
+        intended(
             Matchers.allOf(
                 IntentMatchers.hasAction(Intent.ACTION_DIAL)
             )
@@ -143,7 +144,7 @@ class AwaitHelpActivityTest {
         phoneButton.check(ViewAssertions.matches(isDisplayed()))
         phoneButton.perform(click())
 
-        Intents.intended(
+        intended(
             Matchers.allOf(
                 IntentMatchers.hasAction(Intent.ACTION_DIAL)
             )
