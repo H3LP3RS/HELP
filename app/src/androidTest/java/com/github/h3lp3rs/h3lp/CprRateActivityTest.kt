@@ -1,7 +1,9 @@
 package com.github.h3lp3rs.h3lp
 
 import android.content.Context
+import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.core.app.ApplicationProvider.*
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -16,7 +18,7 @@ import androidx.test.espresso.ViewInteraction
 
 @RunWith(AndroidJUnit4::class)
 class CprRateActivityTest {
-    private val targetContext: Context = ApplicationProvider.getApplicationContext()
+    private val targetContext: Context = getApplicationContext()
     private val startText =  targetContext.resources.getString(R.string.cpr_rate_button_start)
     private val stopText =  targetContext.resources.getString(R.string.cpr_rate_button_stop)
     private val rateButton: ViewInteraction = onView(withId(R.id.startRateButton))
@@ -41,6 +43,19 @@ class CprRateActivityTest {
     @Test
     fun buttonTextCycles() {
         rateButton.perform(click()).perform(click())
+        rateButton.check(matches(withText(startText)))
+    }
+
+    /**
+     * Checking that the cpr resets when removed from screen
+     */
+    @Test
+    fun onPauseResetsCpr() {
+        buttonHasRightTextValueAfterClick()
+        // Pause and resume activity
+        testRule.scenario.moveToState(Lifecycle.State.STARTED)
+        testRule.scenario.moveToState(Lifecycle.State.RESUMED)
+        rateButton.check(matches(isDisplayed()))
         rateButton.check(matches(withText(startText)))
     }
 }

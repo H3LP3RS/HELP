@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
@@ -40,8 +41,8 @@ const val HOSPITALS = "Hospitals"
 const val PHARMACIES = "Pharmacies"
 
 private val mainPageButton = listOf(
-    MainPageButton(R.id.button_tutorial, false),
     MainPageButton(R.id.button_profile, false),
+    MainPageButton(R.id.button_tutorial, false),
     MainPageButton(R.id.button_my_skills, false),
     MainPageButton(R.id.button_hospital, true),
     MainPageButton(R.id.button_defibrillator, true),
@@ -82,9 +83,8 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_page)
 
-        if (BuildConfig.DEBUG) {
-            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        }
+        // Set the toolbar
+        setSupportActionBar(findViewById(R.id.toolbar))
 
         setUpDrawerLayout()
 
@@ -157,15 +157,15 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         // thus we do not change it. The default text color is white.
         idToPrompt[buttonId]?.let {
             MaterialTapTargetPrompt.Builder(this)
-                // Sets which button to highlight.
+                // Sets which button to highlight
                 .setTarget(buttonId).setPrimaryText(R.string.guide_primary_prompt)
                 .setSecondaryText(it).setBackButtonDismissEnabled(false).setBackgroundColour(
                     R.color.black
                 ).setPromptStateChangeListener { _, state ->
-                    // If the user clicks anywhere on the screen, we move to the next button.
+                    // If the user clicks anywhere on the screen, we move to the next button
                     if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED || state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED) {
                         // Recursive call by removing the head of the list for which the prompt
-                        // has already been shown.
+                        // has already been shown
                         showButtonPrompt(buttons.drop(1), idToPrompt, showNextGuide)
                     }
                 }.show()
@@ -322,6 +322,12 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     }
 
     override fun onOptionsItemSelected(item : MenuItem) : Boolean {
+        if(item.itemId==R.id.button_tutorial){
+            viewPresentation(findViewById<View>(android.R.id.content).rootView)
+        }
+        // else if(item.itemId==R.id.toolbar_settings){ }
+        // TODO ( Allow user to choose data he would like to keep private aka not sent to the database)
+
         return if (toggle.onOptionsItemSelected(item)) true else super.onOptionsItemSelected(item)
     }
 
@@ -357,6 +363,10 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         }
     }
 
+    override fun onCreateOptionsMenu(menu : Menu?) : Boolean {
+        menuInflater.inflate(R.menu.menu_toolbar,menu)
+        return true
+    }
 
     /** Starts the activity by sending intent */
     private fun goToActivity(ActivityName : Class<*>?) {
@@ -378,7 +388,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
      * Called when the user taps on the info button
      * Starts the presentation of the app
      */
-    fun viewPresentation(view : View) {
+    private fun viewPresentation(view : View) {
         startActivity(
             Intent(this, PresArrivalActivity::class.java).putExtra(
                 ORIGIN, MainPageActivity::class.qualifiedName

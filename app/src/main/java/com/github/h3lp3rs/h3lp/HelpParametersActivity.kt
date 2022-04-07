@@ -132,7 +132,7 @@ class HelpParametersActivity : AppCompatActivity() {
             val child = viewGroup.getChildAt(i) as View
             if (child is ToggleButton) {
                 if (child.isChecked) {
-                    meds.add(child.text as String)
+                    meds.add(child.textOff as String)
                 }
             }
         }
