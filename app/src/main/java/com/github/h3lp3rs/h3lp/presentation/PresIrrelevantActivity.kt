@@ -8,9 +8,8 @@ import android.view.View
 import android.widget.CheckBox
 import com.github.h3lp3rs.h3lp.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.listeners.SwipeListener
-import com.github.h3lp3rs.h3lp.listeners.SwipeListener.Companion.SlideDirection.*
-import com.github.h3lp3rs.h3lp.listeners.SwipeListener.Companion.swipeToNextActivity
+import com.github.h3lp3rs.h3lp.presentation.SwipeListener.Companion.SlideDirection.*
+import com.github.h3lp3rs.h3lp.presentation.SwipeListener.Companion.swipeToNextActivity
 import android.text.method.LinkMovementMethod
 
 import android.text.TextUtils
@@ -53,7 +52,8 @@ class PresIrrelevantActivity : AppCompatActivity() {
         addClickableText(Intent(this, ToSActivity::class.java), checkBox)
         // 3. Set correct swipe listeners
         val gestureDetector = GestureDetector(this, SwipeListener(
-            swipeToNextActivity(this, RIGHT, PresRelevantActivity::class.java), {}, {}, {}))
+            swipeToNextActivity(this, RIGHT, PresRelevantActivity::class.java), {}, {}, {})
+        )
         findViewById<View>(R.id.pres3_textView5).setOnTouchListener { view, event ->
             view.performClick()
             gestureDetector.onTouchEvent(event)
