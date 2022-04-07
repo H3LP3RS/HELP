@@ -15,6 +15,8 @@
     <color name="app_background">#D6E3EF</color>
     <color name="blue">#6E85C8</color>
     <color name="ocean_blue">#0C1D97</color>
+    <color name="call_text_green">#175A04</color>
+    <color name="cancel_search_text">#F44336</color>
 
 
 </resources>
