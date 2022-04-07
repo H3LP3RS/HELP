@@ -42,10 +42,14 @@ class AwaitHelpActivity : AppCompatActivity() {
         setupLocation()
 
         val bundle = this.intent.extras
-        askedMeds.plus(bundle!!.getStringArrayList(EXTRA_NEEDED_MEDICATION))
+        if(bundle != null) {
+            askedMeds.plus(bundle!!.getStringArrayList(EXTRA_NEEDED_MEDICATION))
 
-        // If we did not call emergency services already, show a pop_up
-        if(!bundle.getBoolean(EXTRA_CALLED_EMERGENCIES)){
+            // If we did not call emergency services already, show a pop_up
+            if(!bundle.getBoolean(EXTRA_CALLED_EMERGENCIES)){
+                showEmergencyCallPopup()
+            }
+        } else {
             showEmergencyCallPopup()
         }
 
@@ -103,7 +107,7 @@ class AwaitHelpActivity : AppCompatActivity() {
      */
     private fun showHelperPerson(latitude: Double, longitude: Double){
         val latLng = LatLng(latitude, longitude)
-        val name = "Helper coming to help you" //TODO RESOURCES
+        val name = resources.getString(R.string.helper_marker_desc)
 
         val options = MarkerOptions()
         options.position(latLng)
@@ -123,8 +127,7 @@ class AwaitHelpActivity : AppCompatActivity() {
             currentLong = currentLocation.longitude
         } else {
             // In case the permission to access the location is missing
-            val intent = Intent(this, MainPageActivity::class.java)
-            startActivity(intent)
+            goToActivity(MainPageActivity::class.java)
         }
     }
 

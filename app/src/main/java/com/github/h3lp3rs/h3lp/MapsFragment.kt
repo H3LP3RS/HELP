@@ -42,7 +42,6 @@ class MapsFragment : Fragment(), CoroutineScope by MainScope(), GoogleMap.OnPoly
 
         // Set listener for click events.
         map.setOnPolylineClickListener(this)
-
     }
 
 
