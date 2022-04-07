@@ -15,9 +15,6 @@ import com.google.android.material.switchmaterial.SwitchMaterial
 
 class MySkillsActivity : AppCompatActivity() {
 
-    private val DEFAULT_SKILLS = HelperSkills(false, false, false,
-                                                false, false, false)
-
     private lateinit var storage: LocalStorage
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,7 +54,7 @@ class MySkillsActivity : AppCompatActivity() {
      */
     private fun loadData() {
         val skills = storage.getObjectOrDefault(getString(R.string.my_skills_key),
-            HelperSkills::class.java, DEFAULT_SKILLS)
+            HelperSkills::class.java, null) ?: return
 
         toggleSwitch(skills.hasEpipen, R.id.epipenSwitch)
         toggleSwitch(skills.hasVentolin, R.id.ventolinSwitch)

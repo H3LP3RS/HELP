@@ -2,7 +2,6 @@ package com.github.h3lp3rs.h3lp
 
 import android.content.Context
 import androidx.lifecycle.Lifecycle
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.core.app.ApplicationProvider.*
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -14,7 +13,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import androidx.test.espresso.ViewInteraction
-
 
 @RunWith(AndroidJUnit4::class)
 class CprRateActivityTest {

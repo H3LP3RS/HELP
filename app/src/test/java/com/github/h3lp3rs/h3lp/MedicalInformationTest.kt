@@ -1,7 +1,6 @@
 package com.github.h3lp3rs.h3lp
 
 import org.junit.Test
-
 import org.junit.Assert.*
 import java.util.*
 

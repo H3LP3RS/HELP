@@ -25,17 +25,22 @@ import android.widget.ArrayAdapter
 import android.widget.CheckBox
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import com.github.h3lp3rs.h3lp.storage.LocalStorage
+import com.github.h3lp3rs.h3lp.storage.Storages.*
+import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 
-
-
 class MedicalCardActivity : AppCompatActivity() {
+
+    private lateinit var storage: LocalStorage
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_card)
 
+        storage = storageOf(MEDICAL_INFO)
         loadData()
 
         createBirthField()
@@ -107,20 +112,19 @@ class MedicalCardActivity : AppCompatActivity() {
         createTestField(R.id.medicalInfoWeightEditTxt, R.id.medicalInfoWeightTxtLayout,
             resources.getInteger(R.integer.minWeight),resources.getInteger(R.integer.maxWeight),
             getString(R.string.weightTooLight), getString(R.string.weightTooHeavy))
-
     }
 
     /**
      * create Blood type dropDown menu in an InputTextLayout
      */
-    private fun createBloodField(){
+    private fun createBloodField() {
         createDropdownField(BloodType.values().map{it.type},R.id.medicalInfoBloodDropdown)
     }
 
     /**
      * create Gender dropDown menu in an InputTextLayout
      */
-    private fun createGenderField(){
+    private fun createGenderField() {
         createDropdownField(Gender.values().map{it.name}, R.id.medicalInfoGenderDropdown)
     }
 
@@ -208,10 +212,8 @@ class MedicalCardActivity : AppCompatActivity() {
      * Load medical card data
      */
     private fun loadData() {
-        val preferences = getSharedPreferences(getString(R.string.medical_info_prefs), MODE_PRIVATE)
-        val json = preferences.getString(getString(R.string.medical_info_key), null)
-        val gson = Gson()
-        val medicalInformation = gson.fromJson(json, MedicalInformation::class.java) ?: return
+        val medicalInformation = storage.getObjectOrDefault(getString(R.string.medical_info_key),
+            MedicalInformation::class.java,  null) ?: return
 
         loadTo(medicalInformation.size, R.id.medicalInfoHeightEditTxt)
         loadTo(medicalInformation.yearOfBirth, R.id.medicalInfoBirthEditTxt)
@@ -289,10 +291,8 @@ class MedicalCardActivity : AppCompatActivity() {
 
         val medicalInformation = MedicalInformation(size,weight,gender,year,condition,treatment,allergy,bloodType )
 
-        val preferencesEditor = getSharedPreferences(getString(R.string.medical_info_prefs), MODE_PRIVATE).edit()
-        val gson = Gson()
-        val json = gson.toJson(medicalInformation)
-        preferencesEditor.putString(getString(R.string.medical_info_key),json).apply()
+        storage.setObject(getString(R.string.medical_info_prefs), MedicalInformation::class.java, medicalInformation)
+        storage.push()
     }
 
     private fun getStringFromId(editTxtId: Int): String {

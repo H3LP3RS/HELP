@@ -27,7 +27,6 @@ import org.mockito.Mockito.mock
 import org.mockito.kotlin.anyOrNull
 import org.mockito.Mockito.`when` as When
 
-
 @RunWith(AndroidJUnit4::class)
 class GoogleSignInTest {
     private lateinit var intent: Intent

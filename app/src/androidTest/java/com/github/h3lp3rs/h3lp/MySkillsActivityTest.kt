@@ -4,14 +4,15 @@ import android.app.Activity
 import android.app.Instrumentation.*
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ActivityScenario.*
 import androidx.test.core.app.ApplicationProvider.*
 import androidx.test.espresso.Espresso.*
-import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.*
 import androidx.test.espresso.matcher.RootMatchers
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.MockDatabase
@@ -27,7 +28,7 @@ import org.junit.runner.RunWith
 class MySkillsActivityTest {
 
     private fun launch(): ActivityScenario<MySkillsActivity> {
-        return ActivityScenario.launch(Intent(getApplicationContext(), MySkillsActivity::class.java))
+        return launch(Intent(getApplicationContext(), MySkillsActivity::class.java))
     }
 
     @Before
@@ -45,7 +46,7 @@ class MySkillsActivityTest {
             val intent = Intent()
             val intentResult = ActivityResult(Activity.RESULT_OK, intent)
             intending(anyIntent()).respondWith(intentResult)
-            onView(ViewMatchers.withId(R.id.mySkillsBackButton)).perform(ViewActions.click())
+            onView(withId(R.id.mySkillsBackButton)).perform(click())
             intended(allOf(hasComponent(MainPageActivity::class.java.name)))
             release()
         }
@@ -54,12 +55,11 @@ class MySkillsActivityTest {
     @Test
     fun clickingOnHelpDisplayDialogue() {
         launch().use {
-            onView(ViewMatchers.withId(R.id.mySkillsHelpButton))
-                .perform(ViewActions.click())
-
-            onView(ViewMatchers.withText(R.string.my_helper_skills))
+            onView(withId(R.id.mySkillsHelpButton))
+                .perform(click())
+            onView(withText(R.string.my_helper_skills))
                 .inRoot(RootMatchers.isDialog())
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+                .check(ViewAssertions.matches(isDisplayed()))
         }
     }
 }

@@ -3,9 +3,7 @@ package com.github.h3lp3rs.h3lp.presentation
 import android.app.Activity
 import android.app.Instrumentation.*
 import android.content.Intent
-import android.view.InputDevice
 import android.view.InputDevice.*
-import android.view.MotionEvent
 import android.view.MotionEvent.*
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ActivityScenario.*
@@ -22,12 +20,10 @@ import org.hamcrest.Matchers.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import androidx.test.espresso.action.Press
 import androidx.test.espresso.action.Tap
 import androidx.test.espresso.action.GeneralClickAction
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.Press.*
-import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.MockDatabase
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
@@ -35,7 +31,6 @@ import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
-
 
 @RunWith(AndroidJUnit4::class)
 class PresIrrelevantActivityTest {

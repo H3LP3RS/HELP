@@ -1,15 +1,13 @@
 package com.github.h3lp3rs.h3lp
 
-
 import android.app.Activity.RESULT_OK
-import android.app.Instrumentation
 import android.app.Instrumentation.*
 import android.content.Intent
 import android.view.KeyEvent
 import android.widget.AutoCompleteTextView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ActivityScenario.*
-import androidx.test.core.app.ApplicationProvider
+import androidx.test.core.app.ApplicationProvider.*
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
@@ -37,7 +35,7 @@ private const val NONEXISTENT_ITEM = "Nonexistent item"
 class SearchBarTest {
 
     private fun launch(): ActivityScenario<MainPageActivity> {
-        return launch(Intent(ApplicationProvider.getApplicationContext(), MainPageActivity::class.java))
+        return launch(Intent(getApplicationContext(), MainPageActivity::class.java))
     }
 
     private fun launchAndDo(action: () -> Unit) {
@@ -50,7 +48,7 @@ class SearchBarTest {
 
     @Before
     fun setup() {
-        globalContext = ApplicationProvider.getApplicationContext()
+        globalContext = getApplicationContext()
         userUid = USER_TEST_ID
         PREFERENCES.db = MockDatabase()
         resetStorage()

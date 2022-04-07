@@ -13,13 +13,10 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-
-
 // Case examples of queries to getPhoneNumber (the casing is random since it shouldn't affect
 // the result)
 private val TEST_COUNTRIES_EMERGENCY_NUMBERS =
     listOf(Pair("SwitzerlanD", "144"), Pair("burkIna faso", "112"), Pair("EcuaDor", "911"))
-
 
 // Case examples of queries to getUserCountry
 private val TEST_COUNTRIES_COORDINATES =
@@ -62,7 +59,6 @@ class LocalEmergencyCallTest : TestCase() {
             assertEquals(number, actualNumber)
         }
     }
-
 
     @Test
     fun getLocalEmergencyNumberReturnsDefaultOnFalseCoordinates() {

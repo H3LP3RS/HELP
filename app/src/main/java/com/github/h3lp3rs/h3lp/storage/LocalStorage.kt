@@ -116,7 +116,7 @@ class LocalStorage(private val path: String, context: Context, private val enabl
      * Gets the Object stored at a given key.
      * Or the default value if it is not present.
      */
-    fun <T> getObjectOrDefault(key: String, type: Class<T>, default: T): T {
+    fun <T> getObjectOrDefault(key: String, type: Class<T>, default: T?): T? {
         val gson = Gson()
         val s = getStringOrDefault(key, "")
         return if (!s.isNullOrEmpty()) {

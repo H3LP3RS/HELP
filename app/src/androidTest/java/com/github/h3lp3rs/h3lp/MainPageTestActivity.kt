@@ -2,7 +2,7 @@ package com.github.h3lp3rs.h3lp
 
 import android.Manifest
 import android.app.Activity
-import android.app.Instrumentation
+import android.app.Instrumentation.*
 import android.content.Intent
 import android.view.View
 import androidx.test.core.app.ActivityScenario
@@ -12,7 +12,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.intent.Intents.*
-import androidx.test.espresso.intent.matcher.IntentMatchers
+import androidx.test.espresso.intent.matcher.IntentMatchers.*
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.GrantPermissionRule
@@ -61,8 +61,8 @@ class MainPageTestActivity {
     private fun start() {
         init()
         val intent = Intent()
-        val intentResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
-        intending(IntentMatchers.anyIntent()).respondWith(intentResult)
+        val intentResult = ActivityResult(Activity.RESULT_OK, intent)
+        intending(anyIntent()).respondWith(intentResult)
     }
 
     private fun end() {
@@ -81,7 +81,7 @@ class MainPageTestActivity {
         }
         intended(
             Matchers.allOf(
-                IntentMatchers.hasComponent(ActivityName!!.name)
+                hasComponent(ActivityName!!.name)
             )
         )
     }
