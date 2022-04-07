@@ -11,10 +11,10 @@
     <color name="select_meds_unchecked">#258EC6</color>
     <color name="select_meds_checked">#64AACF</color>
     <color name="dark_blue">#192841</color>
-    <color name="light_grey">#CDCDCD</color>
+    <color name="light_grey">#E5E5E5</color>
     <color name="app_background">#D6E3EF</color>
     <color name="blue">#6E85C8</color>
     <color name="red">#FF0000</color>
-
+    <color name="semiDarkTransparent">#C6000000</color>
 
 </resources>
