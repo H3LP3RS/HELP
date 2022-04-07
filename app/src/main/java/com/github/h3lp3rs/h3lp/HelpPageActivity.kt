@@ -9,7 +9,8 @@ import com.github.h3lp3rs.h3lp.databinding.ActivityInfoOnHelpTaskBinding
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 import com.github.h3lp3rs.h3lp.util.GDurationJSONParser
 import com.google.android.gms.maps.MapsInitializer
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
 
 /**
  * Activity used to display information about a person in need, their location, the path to them,
@@ -18,6 +19,7 @@ import kotlinx.coroutines.*
  */
 class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private lateinit var binding: ActivityInfoOnHelpTaskBinding
+
     //TODO : currently, the destination is hardcoded, this will change with the task allowing
     // nearby helpers to go and help people in need (in which case the destination will be the
     // location of the user in need)
@@ -111,7 +113,6 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         }
         helpRequiredText.text = stringBuilder.toString()
     }
-
 
 
     /** Starts the activity by sending intent */
