@@ -4,7 +4,9 @@ import android.app.Activity
 import android.app.Instrumentation.*
 import android.content.Intent
 import android.view.InputDevice
+import android.view.InputDevice.*
 import android.view.MotionEvent
+import android.view.MotionEvent.*
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ActivityScenario.*
 import androidx.test.core.app.ApplicationProvider.*
@@ -24,9 +26,12 @@ import androidx.test.espresso.action.Press
 import androidx.test.espresso.action.Tap
 import androidx.test.espresso.action.GeneralClickAction
 import androidx.test.espresso.ViewAction
+import androidx.test.espresso.action.Press.*
 import com.github.h3lp3rs.h3lp.database.Databases
+import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.MockDatabase
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
@@ -56,9 +61,7 @@ class PresIrrelevantActivityTest {
                 val screenY = screenPos[1] + y
                 floatArrayOf(screenX, screenY)
             },
-            Press.FINGER,
-            InputDevice.SOURCE_MOUSE,
-            MotionEvent.BUTTON_PRIMARY)
+            FINGER, SOURCE_MOUSE, BUTTON_PRIMARY)
     }
 
     private fun checkIsDisplayed(id: Int) {
@@ -82,7 +85,8 @@ class PresIrrelevantActivityTest {
     @Before
     fun dataInit() {
         globalContext = getApplicationContext()
-        Databases.PREFERENCES.db = MockDatabase()
+        userUid = USER_TEST_ID
+        PREFERENCES.db = MockDatabase()
         resetStorage()
     }
 

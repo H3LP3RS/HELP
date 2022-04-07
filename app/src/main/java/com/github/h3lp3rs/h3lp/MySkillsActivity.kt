@@ -5,21 +5,31 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.AutoCompleteTextView
-import android.widget.EditText
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import com.github.h3lp3rs.h3lp.dataClass.helperSkills
+import com.github.h3lp3rs.h3lp.dataclasses.HelperSkills
+import com.github.h3lp3rs.h3lp.storage.LocalStorage
+import com.github.h3lp3rs.h3lp.storage.Storages.*
+import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.google.android.material.switchmaterial.SwitchMaterial
-import com.google.gson.Gson
 
 class MySkillsActivity : AppCompatActivity() {
+
+    private val DEFAULT_SKILLS = HelperSkills(false, false, false,
+                                                false, false, false)
+
+    private lateinit var storage: LocalStorage
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_skills)
+        storage = storageOf(SKILLS)
         loadData()
     }
 
+    /**
+     * When the user leaves the activity
+     */
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onStop() {
         super.onStop()
@@ -29,7 +39,7 @@ class MySkillsActivity : AppCompatActivity() {
     /**
      * Function for the back button to go back to MainActivity
      */
-    fun backHome( view: View){
+    fun backHome(view: View){
         val intent = Intent(this, MainPageActivity::class.java)
         startActivity(intent)
     }
@@ -38,26 +48,23 @@ class MySkillsActivity : AppCompatActivity() {
      * Show a dialogue with explication on what is the form for
      */
     fun helpDialogue( view: View){
-        AlertDialog.Builder(this).setTitle(getString(R.string.my_helper_skills)).setMessage(getString(R.string.help_my_skills)).show()
-
+        AlertDialog.Builder(this).setTitle(getString(R.string.my_helper_skills))
+            .setMessage(getString(R.string.help_my_skills)).show()
     }
 
     /**
      * Load skills data
      */
     private fun loadData() {
-        val preferences = getSharedPreferences(getString(R.string.my_skills_prefs), MODE_PRIVATE)
-        val json = preferences.getString(getString(R.string.my_skills_key), null)
-        val gson = Gson()
-        val skills = gson.fromJson(json, helperSkills::class.java) ?: return
+        val skills = storage.getObjectOrDefault(getString(R.string.my_skills_key),
+            HelperSkills::class.java, DEFAULT_SKILLS)
 
-        toggleSwitch(skills.hasEpipen,R.id.epipenSwitch)
-        toggleSwitch(skills.hasVentolin,R.id.ventolinSwitch)
-        toggleSwitch(skills.hasInsulin,R.id.insulinSwitch)
-        toggleSwitch(skills.knowCPR,R.id.cprSwitch)
-        toggleSwitch(skills.hasFirstAidKit,R.id.firstAidSwitch)
-        toggleSwitch(skills.isMedicalPro,R.id.docctorSwitch)
-
+        toggleSwitch(skills.hasEpipen, R.id.epipenSwitch)
+        toggleSwitch(skills.hasVentolin, R.id.ventolinSwitch)
+        toggleSwitch(skills.hasInsulin, R.id.insulinSwitch)
+        toggleSwitch(skills.knowCPR, R.id.cprSwitch)
+        toggleSwitch(skills.hasFirstAidKit, R.id.firstAidSwitch)
+        toggleSwitch(skills.isMedicalPro, R.id.doctorSwitch)
     }
 
     private fun toggleSwitch(toggle:Boolean, id : Int){
@@ -68,20 +75,17 @@ class MySkillsActivity : AppCompatActivity() {
      * Save skills data
      */
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun saveData(){
-
-        val skills = helperSkills(
+    private fun saveData() {
+        val skills = HelperSkills(
             getBooleanFromSwitch(R.id.epipenSwitch),
             getBooleanFromSwitch(R.id.ventolinSwitch),
             getBooleanFromSwitch(R.id.insulinSwitch),
             getBooleanFromSwitch(R.id.cprSwitch),
             getBooleanFromSwitch(R.id.firstAidSwitch),
-            getBooleanFromSwitch(R.id.docctorSwitch)
+            getBooleanFromSwitch(R.id.doctorSwitch)
         )
-        val preferencesEditor = getSharedPreferences(getString(R.string.my_skills_prefs), MODE_PRIVATE).edit()
-        val gson = Gson()
-        val json = gson.toJson(skills)
-        preferencesEditor.putString(getString(R.string.my_skills_key),json).apply()
+        storage.setObject(getString(R.string.my_skills_key), HelperSkills::class.java, skills)
+        storage.push()
     }
 
     /**
@@ -89,6 +93,5 @@ class MySkillsActivity : AppCompatActivity() {
      */
     private fun getBooleanFromSwitch(id : Int):Boolean{
         return findViewById<SwitchMaterial>(id).isChecked
-
     }
 }
