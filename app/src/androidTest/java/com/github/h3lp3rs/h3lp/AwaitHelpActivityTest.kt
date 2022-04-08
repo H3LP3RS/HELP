@@ -5,6 +5,7 @@ import android.app.Activity
 import android.app.Instrumentation
 import android.app.Instrumentation.*
 import android.content.Intent
+import android.location.Location
 import android.os.Bundle
 import android.view.View
 import androidx.test.core.app.ActivityScenario
@@ -27,6 +28,7 @@ import com.github.h3lp3rs.h3lp.firstaid.AllergyActivity
 import com.github.h3lp3rs.h3lp.firstaid.AsthmaActivity
 import com.github.h3lp3rs.h3lp.firstaid.HeartAttackActivity
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
+import com.github.h3lp3rs.h3lp.locationmanager.LocationManagerInterface
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.storage.Storages
 import org.hamcrest.Matcher
@@ -35,8 +37,13 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.mockito.Mockito
+import org.mockito.kotlin.anyOrNull
 
 class AwaitHelpActivityTest {
+    private val locationManagerMock: LocationManagerInterface =
+        Mockito.mock(LocationManagerInterface::class.java)
+    private val locationMock: Location = Mockito.mock(Location::class.java)
 
     private val selectedMeds = arrayListOf("Epipen")
 
@@ -51,6 +58,14 @@ class AwaitHelpActivityTest {
     @Before
     fun setup() {
         init()
+        // Mocking the location manager
+        Mockito.`when`(locationManagerMock.getCurrentLocation(anyOrNull())).thenReturn(
+            locationMock
+        )
+        Mockito.`when`(locationMock.latitude).thenReturn(CURRENT_LAT)
+        Mockito.`when`(locationMock.longitude).thenReturn(CURRENT_LONG)
+        GeneralLocationManager.set(locationManagerMock)
+
         val intent = getIntent()
         val intentResult = ActivityResult(Activity.RESULT_OK, intent)
         intending(IntentMatchers.anyIntent()).respondWith(intentResult)
