@@ -1,6 +1,4 @@
-package com.github.h3lp3rs.h3lp
-import com.github.h3lp3rs.h3lp.util.GDurationJSONParser
-import com.google.android.gms.maps.model.LatLng
+package com.github.h3lp3rs.h3lp.util
 import junit.framework.Assert.assertEquals
 import org.json.JSONObject
 import org.junit.Test
@@ -23,7 +21,6 @@ class GDurationJSONParserTest {
         assertEquals(expected, parser.parseResult(wrongJson))
     }
 
-
     @Test
     fun parseResultIsCorrectForRealInputs() {
         // Example of a JSON the directions API could return
@@ -37,6 +34,4 @@ class GDurationJSONParserTest {
         val obj = JSONObject(json)
         assertEquals(NB_SECONDS_TEXT, GDurationJSONParser.parseResult(obj))
     }
-
-
 }

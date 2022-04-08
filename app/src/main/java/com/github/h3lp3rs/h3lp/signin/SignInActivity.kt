@@ -16,8 +16,8 @@ import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
 import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.google.firebase.auth.AuthResult
-
-const val ORIGIN: String = "ORIGIN"
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuth.*
 
 class SignInActivity : AppCompatActivity() {
     lateinit var signInClient : SignInInterface<AuthResult>
@@ -28,7 +28,6 @@ class SignInActivity : AppCompatActivity() {
         userCookie = storageOf(Storages.USER_COOKIE) // Fetch from storage
         if(!userCookie.getBoolOrDefault(getString(R.string.KEY_USER_AGREE), false)) {
             val intent = Intent(this, PresArrivalActivity::class.java)
-                .putExtra(ORIGIN, SignInActivity::class.qualifiedName)
             startActivity(intent)
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         } else {
@@ -83,6 +82,7 @@ class SignInActivity : AppCompatActivity() {
         signInClient.authenticate(result, activity)
             ?.addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
+                    userUid = getInstance().currentUser!!.uid
                     checkToSAndLaunchIfNotAcceptedElseMain()
                 }
             }
@@ -95,12 +95,20 @@ class SignInActivity : AppCompatActivity() {
     companion object{
         @SuppressLint("StaticFieldLeak")
         lateinit var globalContext: Context
+        var userUid: String? = null
 
         /**
          * Getter on the global context
          */
         fun getGlobalCtx(): Context {
             return globalContext
+        }
+
+        /**
+         * Getter on the userUid
+         */
+        fun getUid(): String? {
+            return userUid
         }
     }
 }

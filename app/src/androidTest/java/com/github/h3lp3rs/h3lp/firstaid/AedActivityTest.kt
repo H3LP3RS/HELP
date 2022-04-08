@@ -1,8 +1,8 @@
 package com.github.h3lp3rs.h3lp.firstaid
 
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.assertion.ViewAssertions
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.assertion.ViewAssertions.*
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.R
@@ -23,8 +23,8 @@ class AedActivityTest {
      * @param id Id of the component
      */
     private fun checkIfDisplayed(id: Int){
-        onView(ViewMatchers.withId(id))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        onView(withId(id))
+            .check(matches(isDisplayed()))
     }
     @Test
     fun tutorialVideoIsDisplayed(){

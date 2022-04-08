@@ -2,8 +2,7 @@ package com.github.h3lp3rs.h3lp
 
 import android.Manifest
 import android.app.Activity
-import android.app.Instrumentation
-import android.content.Context
+import android.app.Instrumentation.*
 import android.content.Intent
 import android.location.Location
 import android.net.Uri
@@ -21,6 +20,7 @@ import com.github.h3lp3rs.h3lp.LocalEmergencyCaller.DEFAULT_EMERGENCY_NUMBER
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 import com.github.h3lp3rs.h3lp.locationmanager.LocationManagerInterface
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
@@ -33,7 +33,6 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.anyOrNull
 import org.mockito.Mockito.`when` as When
-
 
 // Case example of a possible query when a user clicks on the call for emergency button
 private val CORRECT_EMERGENCY_CALL = Triple(6.632, 46.519, "144")
@@ -58,6 +57,7 @@ class HelpParametersActivityTest {
     fun setUp() {
         init()
         globalContext = ApplicationProvider.getApplicationContext()
+        userUid = USER_TEST_ID
         resetStorage()
         storageOf(Storages.USER_COOKIE).setBoolean(globalContext.getString(R.string.KEY_USER_AGREE), true)
     }
@@ -65,7 +65,7 @@ class HelpParametersActivityTest {
     @Test
     fun clickSearchHelpWithMedsWorksAndSendsIntent() {
         val intent = Intent()
-        val intentResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
+        val intentResult = ActivityResult(Activity.RESULT_OK, intent)
         intending(anyIntent()).respondWith(intentResult)
 
         // select one med
@@ -92,7 +92,7 @@ class HelpParametersActivityTest {
     @Test
     fun clickPhoneButtonDialsCorrectEmergencyNumber() {
         val intent = Intent()
-        val intentResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
+        val intentResult = ActivityResult(Activity.RESULT_OK, intent)
         intending(anyIntent()).respondWith(intentResult)
 
         // Mocking the user's location to a predefined set of coordinates
@@ -125,7 +125,7 @@ class HelpParametersActivityTest {
     @Test
     fun clickPhoneButtonWithNoLocationDialsDefaultEmergencyNumber() {
         val intent = Intent()
-        val intentResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
+        val intentResult = ActivityResult(Activity.RESULT_OK, intent)
         intending(anyIntent()).respondWith(intentResult)
 
 
@@ -155,7 +155,7 @@ class HelpParametersActivityTest {
     @Test
     fun clickPhoneButtonWithSystemLocationManagerDialsEmergencyNumber() {
         val intent = Intent()
-        val intentResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
+        val intentResult = ActivityResult(Activity.RESULT_OK, intent)
         intending(anyIntent()).respondWith(intentResult)
 
         // Here we are simply testing that using the system location (the one actually used in the
@@ -179,7 +179,7 @@ class HelpParametersActivityTest {
     @Test
     fun clickSearchHelpWithNoMedsDoesNotChangeActivity() {
         val intent = Intent()
-        val intentResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
+        val intentResult = ActivityResult(Activity.RESULT_OK, intent)
         intending(anyIntent()).respondWith(intentResult)
 
         val searchHelpButton = onView(withId(R.id.help_params_search_button))

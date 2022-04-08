@@ -43,7 +43,7 @@ class AwaitHelpActivity : AppCompatActivity() {
 
         val bundle = this.intent.extras
         if(bundle != null) {
-            askedMeds.plus(bundle!!.getStringArrayList(EXTRA_NEEDED_MEDICATION))
+            askedMeds.plus(bundle.getStringArrayList(EXTRA_NEEDED_MEDICATION))
 
             // If we did not call emergency services already, show a pop_up
             if(!bundle.getBoolean(EXTRA_CALLED_EMERGENCIES)){

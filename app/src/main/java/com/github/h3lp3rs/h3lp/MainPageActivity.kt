@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
@@ -17,15 +16,14 @@ import androidx.core.app.ActivityCompat.OnRequestPermissionsResultCallback
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.preference.PreferenceManager
 import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.notification.NotificationService
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
-import com.github.h3lp3rs.h3lp.signin.ORIGIN
-import com.google.android.material.navigation.NavigationView
+import com.github.h3lp3rs.h3lp.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
+import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
 import uk.co.samuelwall.materialtaptargetprompt.extras.backgrounds.RectanglePromptBackground
@@ -33,6 +31,7 @@ import uk.co.samuelwall.materialtaptargetprompt.extras.focals.RectanglePromptFoc
 
 
 const val EXTRA_NEARBY_UTILITIES = "nearby_utilities"
+const val GUIDE_KEY = "didShowGuide"
 
 // Elements of the list view
 const val PROFILE = "Profile"
@@ -73,6 +72,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
 
     private lateinit var searchView : SearchView
     private lateinit var listView : ListView
+    private lateinit var storage: LocalStorage
 
     // List of searchable elements
     private var searchBarElements : ArrayList<String> = ArrayList()
@@ -83,6 +83,8 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     override fun onCreate(savedInstanceState : Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_page)
+        // Load the storage
+        storage = storageOf(USER_COOKIE)
 
         // Set the toolbar
         setSupportActionBar(findViewById(R.id.toolbar))
@@ -110,6 +112,14 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         startAppGuide()
     }
 
+    /**
+     * When the user does no longer see the activity
+     */
+    override fun onStop() {
+        super.onStop()
+        storage.push()
+    }
+
     override fun onResume() {
         super.onResume()
         // This removes the focus from the search bar when the user goes back to the main page
@@ -118,15 +128,11 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     }
 
     /**
-     * Starts the application guide. Uses preferences to only start the guide when the app is
-     * launched for the first time.
+     * Starts the application guide.
      */
     private fun startAppGuide() {
-        val prefManager = PreferenceManager.getDefaultSharedPreferences(this)
-        if (!prefManager.getBoolean("didShowGuide", false)) {
-            val prefEditor = prefManager.edit()
-            prefEditor.putBoolean("didShowGuide", true)
-            prefEditor.apply()
+        if (!storage.getBoolOrDefault(GUIDE_KEY, false)) {
+            storage.setBoolean(GUIDE_KEY, true)
             // Starts the guide of main page buttons. Once it finishes, it shows the
             // prompt for the search bar by executing the showSearchBarPrompt.
             showButtonPrompt(mainPageButton, buttonsGuidePrompts) { showSearchBarPrompt() }
@@ -357,11 +363,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
             locPermissionDenied = false
 
             // Go back to tutorial
-            startActivity(
-                Intent(this, PresArrivalActivity::class.java).putExtra(
-                    ORIGIN, MainPageActivity::class.qualifiedName
-                )
-            )
+            goToActivity(PresArrivalActivity::class.java)
         }
     }
 
@@ -391,11 +393,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
      * Starts the presentation of the app
      */
     private fun viewPresentation(view : View) {
-        startActivity(
-            Intent(this, PresArrivalActivity::class.java).putExtra(
-                ORIGIN, MainPageActivity::class.qualifiedName
-            )
-        )
+        goToActivity(PresArrivalActivity::class.java)
     }
 
     /** Called when the user taps the profile page button */

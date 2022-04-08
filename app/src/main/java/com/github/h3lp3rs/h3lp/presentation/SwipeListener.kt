@@ -1,11 +1,10 @@
-package com.github.h3lp3rs.h3lp.listeners
+package com.github.h3lp3rs.h3lp.presentation
 
 import android.content.Intent
 import android.view.GestureDetector
 import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.signin.ORIGIN
 import kotlin.math.abs
 
 /**
@@ -62,12 +61,9 @@ class SwipeListener(
         }
 
         fun swipeToNextActivity(curr: AppCompatActivity, dir: SlideDirection,
-                                ActivityName: Class<*>?, origin: String?): () -> Unit {
+                                ActivityName: Class<*>?): () -> Unit {
             return {
                 val i = Intent(curr, ActivityName)
-                if(origin != null) {
-                    i.putExtra(ORIGIN, origin)
-                }
                 curr.startActivity(i)
                 curr.overridePendingTransition(dir.slideIn, dir.slideOut)
             }
