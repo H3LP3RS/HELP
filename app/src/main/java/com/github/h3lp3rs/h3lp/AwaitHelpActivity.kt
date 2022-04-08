@@ -59,7 +59,7 @@ class AwaitHelpActivity : AppCompatActivity() {
 
     /**
      * Displays a popup asking the user to call the emergency services if they
-     * require help, disclaiming that help from other users is not guaranteed.
+     * require help, stating that help from other users is not guaranteed.
      */
     private fun showEmergencyCallPopup(){
         val builder = AlertDialog.Builder(this)
@@ -130,8 +130,6 @@ class AwaitHelpActivity : AppCompatActivity() {
             goToActivity(MainPageActivity::class.java)
         }
     }
-
-
 
     /**
      *  Opens the phone call app with the emergency number from the country the

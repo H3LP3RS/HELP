@@ -248,7 +248,7 @@
             tools:ignore="MissingConstraints,RedundantDescriptionCheck" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/call_button_description_text"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_gravity="center_horizontal"
@@ -286,7 +286,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.222"
-            app:layout_constraintStart_toEndOf="@+id/textView2"
+            app:layout_constraintStart_toEndOf="@+id/call_button_description_text"
             app:layout_constraintTop_toBottomOf="@+id/cancel_search_button"
             app:layout_constraintVertical_bias="0.0" />
 

@@ -151,25 +151,10 @@ class AwaitHelpActivityTest {
         )
     }
 
-
-//    @Test
-//    fun nameIsCorrectlyDisplayed() {
-//        val b = Bundle()
-//        b.putStringArrayList(EXTRA_NEEDED_MEDICATION, selectedMeds)
-//
-//        val intent = Intent(ApplicationProvider.getApplicationContext(), AwaitHelpActivity::class.java).apply {
-//            putExtras(b)
-//        }
-//
-//        ActivityScenario.launch<AwaitHelpActivity>(intent).use {
-//
-//        }
-//    }
-
     private fun getIntent(): Intent {
         val bundle = Bundle()
         bundle.putStringArrayList(EXTRA_NEEDED_MEDICATION, selectedMeds)
-        bundle.putBoolean(EXTRA_CALLED_EMERGENCIES, true)
+        bundle.putBoolean(EXTRA_CALLED_EMERGENCIES, false)
 
         val intent = Intent(
             ApplicationProvider.getApplicationContext(),

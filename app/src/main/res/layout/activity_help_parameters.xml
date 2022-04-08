@@ -170,7 +170,7 @@
         app:layout_constraintStart_toEndOf="@+id/help_params_call_button" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/call_button_description_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="44dp"
