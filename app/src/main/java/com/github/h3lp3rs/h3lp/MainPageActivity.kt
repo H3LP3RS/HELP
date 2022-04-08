@@ -18,6 +18,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
+import com.github.h3lp3rs.h3lp.notification.NotificationService
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
 import com.github.h3lp3rs.h3lp.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.*
@@ -107,6 +108,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
             requestPermissions(arrayOf(ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
         }
 
+        //addAlertNotification()
         startAppGuide()
     }
 
@@ -278,21 +280,21 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
             true
         }
     }
+
     // Demo code
+    // This code is used for sprint demo porpose only
+    // juste uncomment line 109
+    // This will send notification when somebody trigger ventolin on the db
     private fun addAlertNotification() {
         val db = databaseOf(Databases.NEW_EMERGENCIES)
         db.addListener(getString(R.string.ventolin_db_key), String::class.java) {
             if (it.equals(getString(R.string.help))) {
                 db.setString(getString(R.string.ventolin_db_key), getString(R.string.nothing))
-                sendNotification(getString(R.string.emergency), getString(R.string.need_help))
+                NotificationService.sendOpenActivityNotification(this,getString(R.string.emergency), getString(R.string.need_help),MainPageActivity::class.java)
             }
         }
     }
 
-    private fun sendNotification(textTitle : String, textContent : String) {
-        AlertDialog.Builder(this).setTitle(textTitle).setMessage(textContent)
-            .setIcon(R.drawable.notification_icon).show()
-    }
 
     /**
      * Starts activity based on the entered element in the search field.
