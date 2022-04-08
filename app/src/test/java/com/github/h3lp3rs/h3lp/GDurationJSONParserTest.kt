@@ -1,4 +1,4 @@
-package com.github.h3lp3rs.h3lp.util
+package com.github.h3lp3rs.h3lp
 import com.github.h3lp3rs.h3lp.util.GDurationJSONParser
 import com.google.android.gms.maps.model.LatLng
 import junit.framework.Assert.assertEquals
