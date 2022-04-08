@@ -40,7 +40,7 @@ class MySkillsActivityTest {
     }
 
     @Test
-    fun backButtonWork() {
+    fun backButtonWorks() {
         launch().use {
             init()
             val intent = Intent()

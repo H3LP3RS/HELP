@@ -283,7 +283,7 @@ class MedicalCardActivityTest {
 
 
     @Test
-    fun backButtonWork() {
+    fun backButtonWorks() {
         launchAndDo {
             onView(withId(R.id.medicalInfoBackButton)).perform(click())
             intended(

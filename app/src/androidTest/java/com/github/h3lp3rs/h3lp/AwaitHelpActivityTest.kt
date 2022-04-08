@@ -2,35 +2,26 @@ package com.github.h3lp3rs.h3lp
 
 import android.Manifest
 import android.app.Activity
-import android.app.Instrumentation
 import android.app.Instrumentation.*
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.test.core.app.ActivityScenario
-import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso
+import androidx.test.core.app.ApplicationProvider.*
 import androidx.test.espresso.Espresso.*
-import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.*
-import androidx.test.espresso.assertion.ViewAssertions
-import androidx.test.espresso.intent.Intents
+import androidx.test.espresso.assertion.ViewAssertions.*
 import androidx.test.espresso.intent.Intents.*
-import androidx.test.espresso.intent.matcher.IntentMatchers
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.intent.matcher.IntentMatchers.*
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import androidx.test.rule.ActivityTestRule
 import androidx.test.rule.GrantPermissionRule
 import com.github.h3lp3rs.h3lp.firstaid.AedActivity
 import com.github.h3lp3rs.h3lp.firstaid.AllergyActivity
 import com.github.h3lp3rs.h3lp.firstaid.AsthmaActivity
 import com.github.h3lp3rs.h3lp.firstaid.HeartAttackActivity
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
-import com.github.h3lp3rs.h3lp.signin.SignInActivity
-import com.github.h3lp3rs.h3lp.storage.Storages
 import org.hamcrest.Matcher
-import org.hamcrest.Matchers
+import org.hamcrest.Matchers.*
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -53,12 +44,12 @@ class AwaitHelpActivityTest {
         init()
         val intent = getIntent()
         val intentResult = ActivityResult(Activity.RESULT_OK, intent)
-        intending(IntentMatchers.anyIntent()).respondWith(intentResult)
+        intending(anyIntent()).respondWith(intentResult)
     }
 
     @After
     fun release() {
-        Intents.release()
+        release()
     }
 
     private fun clickingOnButtonWorksAndSendsIntent(
@@ -75,8 +66,8 @@ class AwaitHelpActivityTest {
             onView(id).perform(click())
         }
         intended(
-            Matchers.allOf(
-                IntentMatchers.hasComponent(ActivityName!!.name)
+            allOf(
+                hasComponent(ActivityName!!.name)
             )
         )
     }
@@ -125,12 +116,12 @@ class AwaitHelpActivityTest {
 
         val phoneButton = onView(withId(R.id.await_help_call_button))
 
-        phoneButton.check(ViewAssertions.matches(isDisplayed()))
+        phoneButton.check(matches(isDisplayed()))
         phoneButton.perform(click())
 
         intended(
-            Matchers.allOf(
-                IntentMatchers.hasAction(Intent.ACTION_DIAL)
+            allOf(
+                hasAction(Intent.ACTION_DIAL)
             )
         )
     }
@@ -141,12 +132,12 @@ class AwaitHelpActivityTest {
 
         val phoneButton = onView(withId(R.id.open_call_popup_button))
 
-        phoneButton.check(ViewAssertions.matches(isDisplayed()))
+        phoneButton.check(matches(isDisplayed()))
         phoneButton.perform(click())
 
         intended(
-            Matchers.allOf(
-                IntentMatchers.hasAction(Intent.ACTION_DIAL)
+            allOf(
+                hasAction(Intent.ACTION_DIAL)
             )
         )
     }
@@ -157,7 +148,7 @@ class AwaitHelpActivityTest {
         bundle.putBoolean(EXTRA_CALLED_EMERGENCIES, false)
 
         val intent = Intent(
-            ApplicationProvider.getApplicationContext(),
+            getApplicationContext(),
             AwaitHelpActivity::class.java
         ).apply {
             putExtras(bundle)

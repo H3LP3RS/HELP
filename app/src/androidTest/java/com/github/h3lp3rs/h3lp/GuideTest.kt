@@ -32,13 +32,11 @@ class GuideTest {
         resetStorage()
     }
 
-    //PR Note: These tests are artificial coverage because Cirrus is not working :p
     @Test
     fun checkThatGuideIsLaunched() {
         launch().use { assertTrue(storageOf(USER_COOKIE).getBoolOrDefault(GUIDE_KEY, false)) }
     }
 
-    //PR Note: These tests are artificial coverage because Cirrus is not working :p
     @Test
     fun checkThatGuideIsInitiallyNotLaunched() {
         storageOf(USER_COOKIE).setBoolean(GUIDE_KEY, true)
