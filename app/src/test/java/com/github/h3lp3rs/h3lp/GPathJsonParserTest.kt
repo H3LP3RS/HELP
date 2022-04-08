@@ -21,7 +21,7 @@ class GPathJsonParserTest {
 
 
     @Test
-    fun parseResult_IsCorrectForRealInputs() {
+    fun parseResultIsCorrectForRealInputs() {
         val json = "{\"geocoded_waypoints\":[{\"geocoder_status\":\"OK\"" +
                 ",\"place_id\":\"ChIJ6SYZ0s4xjEcR6XVj4C-rYmY\",\"types\":[]},{\"geocoder_status\":\"OK\"," +
                 "\"place_id\":\"ChIJ6SYZ0s4xjEcR6XVj4C-rYmY\",\"types\":[]}],\"routes\":[{\"bounds\":{\"northeast\":" +

@@ -1,6 +1,5 @@
 package com.github.h3lp3rs.h3lp.presentation
 
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Html
@@ -8,10 +7,8 @@ import com.github.h3lp3rs.h3lp.R
 import android.view.View
 
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 
 class ToSActivity : AppCompatActivity() {
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.tos_activity)

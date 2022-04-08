@@ -4,10 +4,16 @@ import android.Manifest
 import android.content.Context
 import android.content.Context.LOCATION_SERVICE
 import android.content.pm.PackageManager
-import android.location.Criteria
 import android.location.Location
 import android.location.LocationManager
 import androidx.core.content.ContextCompat
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
+
+
+
 
 /**
  * This object adapts the System location manager, it is used as the central location manager in
@@ -29,9 +35,21 @@ object SystemLocationAdapter : LocationManagerInterface {
         ) {
 
             val locationManager = context.getSystemService(LOCATION_SERVICE) as LocationManager
-            val provider = locationManager.getBestProvider(Criteria(), true)
-            return provider?.let { locationManager.getLastKnownLocation(it) }
+            val providers = locationManager.getProviders(true)
+            var bestLocation: Location? = null
+
+            // Finds the best location estimate for the user
+            for (provider in providers) {
+                val location = locationManager.getLastKnownLocation(provider)
+                if (location != null) {
+                    if (bestLocation == null || location.accuracy < bestLocation.accuracy) {
+                        bestLocation = location
+                    }
+                }
+            }
+            return bestLocation
         }
         return null
     }
+
 }

@@ -6,7 +6,7 @@ import org.json.JSONException
 import org.json.JSONObject
 
 /**
- *  This class is used to parse json objects returned by the Google Places API
+ *  This object is used to parse json objects returned by the Google Places API
  *  into Places. Places are represented by Maps with the keys {lat, lng, name}
  */
 object GPlaceJSONParser: JSONParserInterface<List<GooglePlace>> {

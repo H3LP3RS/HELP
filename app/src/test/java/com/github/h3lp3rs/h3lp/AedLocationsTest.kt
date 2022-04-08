@@ -4,7 +4,6 @@ import com.github.h3lp3rs.h3lp.util.AED_LOCATIONS_LAUSANNE
 import org.junit.Assert.*
 import org.junit.Test
 
-
 class AedLocationsTest {
 
     @Test

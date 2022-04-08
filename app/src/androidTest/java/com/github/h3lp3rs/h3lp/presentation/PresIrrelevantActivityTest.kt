@@ -3,10 +3,11 @@ package com.github.h3lp3rs.h3lp.presentation
 import android.app.Activity
 import android.app.Instrumentation.*
 import android.content.Intent
-import android.view.InputDevice
-import android.view.MotionEvent
+import android.view.InputDevice.*
+import android.view.MotionEvent.*
 import androidx.test.core.app.ActivityScenario
-import androidx.test.core.app.ApplicationProvider
+import androidx.test.core.app.ActivityScenario.*
+import androidx.test.core.app.ApplicationProvider.*
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -19,20 +20,17 @@ import org.hamcrest.Matchers.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import androidx.test.espresso.action.Press
 import androidx.test.espresso.action.Tap
 import androidx.test.espresso.action.GeneralClickAction
 import androidx.test.espresso.ViewAction
-import com.android.dx.command.Main
-import com.github.h3lp3rs.h3lp.database.Databases
+import androidx.test.espresso.action.Press.*
+import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.MockDatabase
-import com.github.h3lp3rs.h3lp.signin.ORIGIN
-import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
-
 
 @RunWith(AndroidJUnit4::class)
 class PresIrrelevantActivityTest {
@@ -58,9 +56,15 @@ class PresIrrelevantActivityTest {
                 val screenY = screenPos[1] + y
                 floatArrayOf(screenX, screenY)
             },
-            Press.FINGER,
-            InputDevice.SOURCE_MOUSE,
-            MotionEvent.BUTTON_PRIMARY)
+            FINGER, SOURCE_MOUSE, BUTTON_PRIMARY)
+    }
+
+    private fun checkIsDisplayed(id: Int) {
+        onView(withId(id)).check(matches(isDisplayed()))
+    }
+
+    private fun launch(): ActivityScenario<PresIrrelevantActivity> {
+        return launch(Intent(getApplicationContext(), PresIrrelevantActivity::class.java))
     }
 
     private fun checkLaunchOnApprovalClick(activity: String) {
@@ -74,38 +78,32 @@ class PresIrrelevantActivityTest {
     }
 
     @Before
-    fun clearPreferences() {
-        globalContext = ApplicationProvider.getApplicationContext()
-        Databases.PREFERENCES.db = MockDatabase()
+    fun dataInit() {
+        globalContext = getApplicationContext()
+        userUid = USER_TEST_ID
+        PREFERENCES.db = MockDatabase()
         resetStorage()
     }
 
     @Test
     fun successfulDisplay() {
-        val intent = Intent(ApplicationProvider.getApplicationContext(), PresIrrelevantActivity::class.java).apply {
-            putExtra(ORIGIN, MainPageActivity::class.qualifiedName)
-        }
-
-        ActivityScenario.launch<PresIrrelevantActivity>(intent).use {
-            onView(withId(R.id.pres3_textView1)).check(matches(isDisplayed()))
-            onView(withId(R.id.pres3_textView2)).check(matches(isDisplayed()))
-            onView(withId(R.id.pres3_textView3)).check(matches(isDisplayed()))
-            onView(withId(R.id.pres3_textView4)).check(matches(isDisplayed()))
-            onView(withId(R.id.pres3_textView5)).check(matches(isDisplayed()))
-            onView(withId(R.id.pres3_textView6)).check(matches(isDisplayed()))
-            onView(withId(R.id.pres3_imageView1)).check(matches(isDisplayed()))
-            onView(withId(R.id.pres3_imageView2)).check(matches(isDisplayed()))
-            onView(withId(R.id.pres3_imageView3)).check(matches(isDisplayed()))
-            onView(withId(R.id.pres3_checkBox)).check(matches(isDisplayed()))
+        launch().use {
+            checkIsDisplayed(R.id.pres3_textView1)
+            checkIsDisplayed(R.id.pres3_textView2)
+            checkIsDisplayed(R.id.pres3_textView3)
+            checkIsDisplayed(R.id.pres3_textView4)
+            checkIsDisplayed(R.id.pres3_textView5)
+            checkIsDisplayed(R.id.pres3_textView6)
+            checkIsDisplayed(R.id.pres3_imageView1)
+            checkIsDisplayed(R.id.pres3_imageView2)
+            checkIsDisplayed(R.id.pres3_imageView3)
+            checkIsDisplayed(R.id.pres3_checkBox)
         }
     }
 
     @Test
     fun boxDefaultNotChecked() {
-        val intent = Intent(ApplicationProvider.getApplicationContext(), PresIrrelevantActivity::class.java).apply {
-            putExtra(ORIGIN, MainPageActivity::class.qualifiedName)
-        }
-        ActivityScenario.launch<PresIrrelevantActivity>(intent).use {
+        launch().use {
             onView(withId(R.id.pres3_checkBox)).check(matches(isNotChecked()))
         }
     }
@@ -113,20 +111,14 @@ class PresIrrelevantActivityTest {
     @Test
     fun boxCheckedIfDoneAlready() {
         alreadyAccepted()
-        val intent = Intent(ApplicationProvider.getApplicationContext(), PresIrrelevantActivity::class.java).apply {
-            putExtra(ORIGIN, MainPageActivity::class.qualifiedName)
-        }
-        ActivityScenario.launch<PresIrrelevantActivity>(intent).use {
+        launch().use {
             onView(withId(R.id.pres3_checkBox)).check(matches(isChecked()))
         }
     }
 
     @Test
     fun unsuccessfulApprovalButtonNeverApproved() {
-        val intent = Intent(ApplicationProvider.getApplicationContext(), PresIrrelevantActivity::class.java).apply {
-            putExtra(ORIGIN, MainPageActivity::class.qualifiedName)
-        }
-        ActivityScenario.launch<PresIrrelevantActivity>(intent).use {
+        launch().use {
             init()
             val i = Intent()
             val intentResult = ActivityResult(Activity.RESULT_OK, i)
@@ -140,10 +132,7 @@ class PresIrrelevantActivityTest {
     @Test
     fun successfulApprovalButtonAlreadyApprovedFromMain() {
         alreadyAccepted()
-        val intent = Intent(ApplicationProvider.getApplicationContext(), PresIrrelevantActivity::class.java).apply {
-            putExtra(ORIGIN, MainPageActivity::class.qualifiedName)
-        }
-        ActivityScenario.launch<PresIrrelevantActivity>(intent).use {
+        launch().use {
             checkLaunchOnApprovalClick(MainPageActivity::class.java.name)
         }
     }
@@ -151,20 +140,14 @@ class PresIrrelevantActivityTest {
     @Test
     fun successfulApprovalButtonAlreadyApprovedFromSignIn() {
         alreadyAccepted()
-        val intent = Intent(ApplicationProvider.getApplicationContext(), PresIrrelevantActivity::class.java).apply {
-            putExtra(ORIGIN, SignInActivity::class.qualifiedName)
-        }
-        ActivityScenario.launch<PresIrrelevantActivity>(intent).use {
+        launch().use {
             checkLaunchOnApprovalClick(MainPageActivity::class.java.name)
         }
     }
 
     @Test
     fun tickAndAcceptGoToSignIn() {
-        val intent = Intent(ApplicationProvider.getApplicationContext(), PresIrrelevantActivity::class.java).apply {
-            putExtra(ORIGIN, SignInActivity::class.qualifiedName)
-        }
-        ActivityScenario.launch<PresIrrelevantActivity>(intent).use {
+        launch().use {
             onView(withId(R.id.pres3_checkBox)).perform(click())
             checkLaunchOnApprovalClick(MainPageActivity::class.java.name)
         }
@@ -172,10 +155,7 @@ class PresIrrelevantActivityTest {
 
     @Test
     fun tickAndAcceptGoToMain() {
-        val intent = Intent(ApplicationProvider.getApplicationContext(), PresIrrelevantActivity::class.java).apply {
-            putExtra(ORIGIN, MainPageActivity::class.qualifiedName)
-        }
-        ActivityScenario.launch<PresIrrelevantActivity>(intent).use {
+        launch().use {
             onView(withId(R.id.pres3_checkBox)).perform(click())
             checkLaunchOnApprovalClick(MainPageActivity::class.java.name)
         }
@@ -183,10 +163,7 @@ class PresIrrelevantActivityTest {
 
     @Test
     fun tosAreLaunched() {
-        val intent = Intent(ApplicationProvider.getApplicationContext(), PresIrrelevantActivity::class.java).apply {
-            putExtra(ORIGIN, MainPageActivity::class.qualifiedName)
-        }
-        ActivityScenario.launch<PresIrrelevantActivity>(intent).use {
+        launch().use {
             init()
             val i = Intent()
             val intentResult = ActivityResult(Activity.RESULT_OK, i)
@@ -197,15 +174,4 @@ class PresIrrelevantActivityTest {
             release()
         }
     }
-
-    /*@Test
-    fun successfulSlideRight() {
-        // init()
-        // val intent = Intent()
-        // val intentResult = ActivityResult(Activity.RESULT_OK, intent)
-        // intending(anyIntent()).respondWith(intentResult)
-        onView(withId(R.id.pres3_textView5)).perform(swipeRight())
-        // intended(allOf(hasComponent(PresRelevantActivity::class.java.name))) Cirrus broken
-        // release()
-    }*/
 }

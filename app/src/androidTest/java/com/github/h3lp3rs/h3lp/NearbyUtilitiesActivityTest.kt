@@ -75,7 +75,7 @@ class NearbyUtilitiesActivityTest {
     private fun canLaunchMap(intent: Intent) {
         launch<NearbyUtilitiesActivity>(intent).use {
             launch<NearbyUtilitiesActivity>(intent).use {
-                onView(ViewMatchers.withId(R.id.map))
+                onView(ViewMatchers.withId(R.id.mapNearbyUtilities))
                     .check(matches(isDisplayed()))
             }
         }

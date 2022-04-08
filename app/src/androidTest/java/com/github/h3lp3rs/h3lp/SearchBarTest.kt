@@ -1,30 +1,31 @@
 package com.github.h3lp3rs.h3lp
 
-
 import android.app.Activity.RESULT_OK
-import android.app.Instrumentation
+import android.app.Instrumentation.*
 import android.content.Intent
 import android.view.KeyEvent
 import android.widget.AutoCompleteTextView
+import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ActivityScenario.*
+import androidx.test.core.app.ApplicationProvider.*
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.intent.Intents
-import androidx.test.espresso.intent.Intents.init
-import androidx.test.espresso.intent.Intents.intending
-import androidx.test.espresso.intent.matcher.IntentMatchers
-import androidx.test.espresso.intent.matcher.IntentMatchers.anyIntent
+import androidx.test.espresso.intent.Intents.*
+import androidx.test.espresso.intent.matcher.IntentMatchers.*
 import androidx.test.espresso.matcher.ViewMatchers.*
-import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.github.h3lp3rs.h3lp.database.Databases.*
+import com.github.h3lp3rs.h3lp.database.MockDatabase
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
-import org.hamcrest.Matchers
-import org.hamcrest.Matchers.anything
-import org.hamcrest.Matchers.not
-import org.junit.After
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
+import com.github.h3lp3rs.h3lp.storage.Storages.*
+import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
+import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
+import org.hamcrest.Matchers.*
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -33,60 +34,80 @@ private const val NONEXISTENT_ITEM = "Nonexistent item"
 @RunWith(AndroidJUnit4::class)
 class SearchBarTest {
 
-    @get:Rule
-    val testRule = ActivityScenarioRule(
-        MainPageActivity::class.java
-    )
+    private fun launch(): ActivityScenario<MainPageActivity> {
+        return launch(Intent(getApplicationContext(), MainPageActivity::class.java))
+    }
+
+    private fun launchAndDo(action: () -> Unit) {
+        launch().use {
+            start()
+            action()
+            end()
+        }
+    }
 
     @Before
     fun setup() {
+        globalContext = getApplicationContext()
+        userUid = USER_TEST_ID
+        PREFERENCES.db = MockDatabase()
+        resetStorage()
+        storageOf(USER_COOKIE).setBoolean(GUIDE_KEY, true)
+    }
+
+    private fun start() {
         init()
         val intent = Intent()
-        val intentResult = Instrumentation.ActivityResult(RESULT_OK, intent)
+        val intentResult = ActivityResult(RESULT_OK, intent)
         intending(anyIntent()).respondWith(intentResult)
     }
 
-    @After
-    fun release() {
-        Intents.release()
+    private fun end() {
+        release()
     }
 
     @Test
     fun searchingForCprRateAndClickingOnFistSuggestionLaunchesCorrectActivity() {
-        lookUpAndSelectItem(CPR_RATE)
-        checkActivityOnSuccess(CprRateActivity::class.java)
+        launchAndDo {
+            lookUpAndSelectItem(CPR_RATE)
+            checkActivityOnSuccess(CprRateActivity::class.java)
+        }
     }
 
     @Test
     fun searchingForProfileAndClickingOnFistSuggestionLaunchesCorrectActivity() {
-        lookUpAndSelectItem(PROFILE)
-        checkActivityOnSuccess(MedicalCardActivity::class.java)
+        launchAndDo {
+            lookUpAndSelectItem(PROFILE)
+            checkActivityOnSuccess(MedicalCardActivity::class.java)
+        }
     }
 
     @Test
     fun searchingForPharmaciesAndClickingOnFistSuggestionLaunchesCorrectActivity() {
-        lookUpAndSelectItem(PHARMACIES)
-        checkActivityOnSuccess(NearbyUtilitiesActivity::class.java)
+        launchAndDo {
+            lookUpAndSelectItem(PHARMACIES)
+            checkActivityOnSuccess(NearbyUtilitiesActivity::class.java)
+        }
     }
 
     @Test
     fun searchingForHospitalsAndClickingOnFistSuggestionLaunchesCorrectActivity() {
-        lookUpAndSelectItem(HOSPITALS)
-        checkActivityOnSuccess(NearbyUtilitiesActivity::class.java)
+        launchAndDo {
+            lookUpAndSelectItem(HOSPITALS)
+            checkActivityOnSuccess(NearbyUtilitiesActivity::class.java)
+        }
     }
 
     @Test
     fun searchingForTutorialAndClickingOnFistSuggestionLaunchesCorrectActivity() {
-        lookUpAndSelectItem(TUTORIAL)
-        checkActivityOnSuccess(PresArrivalActivity::class.java)
+        launchAndDo {
+            lookUpAndSelectItem(TUTORIAL)
+            checkActivityOnSuccess(PresArrivalActivity::class.java)
+        }
     }
 
     private fun checkActivityOnSuccess(ActivityName: Class<*>?) {
-        Intents.intended(
-            Matchers.allOf(
-                IntentMatchers.hasComponent(ActivityName!!.name)
-            )
-        )
+        intended(allOf(hasComponent(ActivityName!!.name)))
     }
 
     private fun lookUp(listItem: String) {
@@ -101,88 +122,88 @@ class SearchBarTest {
         onData(anything()).inAdapterView(withId(R.id.listView)).atPosition(0).perform(click())
     }
 
-
     @Test
     fun searchingForNonexistentItemStaysOnActivity() {
-        lookUp(NONEXISTENT_ITEM)
-        Matchers.allOf(
-            IntentMatchers.hasComponent(MainPageActivity::class.java.name)
-        )
+        launchAndDo {
+            lookUp(NONEXISTENT_ITEM)
+            allOf(hasComponent(MainPageActivity::class.java.name))
+        }
     }
 
     @Test
     fun listViewIsNotDisplayedWhenTextIsEmpty() {
-        onView(withId(R.id.searchBar)).perform(click())
-
-        onView(isAssignableFrom(AutoCompleteTextView::class.java)).perform(typeText(PROFILE))
-            .perform(
-                clearText()
-            )
-        onView(withId(R.id.listView)).check(matches(not(isDisplayed())))
+        launchAndDo {
+            onView(withId(R.id.searchBar)).perform(click())
+            onView(isAssignableFrom(AutoCompleteTextView::class.java)).perform(typeText(PROFILE))
+                .perform(clearText())
+            onView(withId(R.id.listView)).check(matches(not(isDisplayed())))
+        }
     }
 
     @Test
     fun listViewIsNotDisplayedWhenItemIsNonexistent() {
-        onView(withId(R.id.searchBar)).perform(click())
-
-        onView(isAssignableFrom(AutoCompleteTextView::class.java)).perform(typeText(NONEXISTENT_ITEM))
-        onView(withId(R.id.listView)).check(matches(not(isDisplayed())))
+        launchAndDo {
+            onView(withId(R.id.searchBar)).perform(click())
+            onView(isAssignableFrom(AutoCompleteTextView::class.java)).perform(typeText(NONEXISTENT_ITEM))
+            onView(withId(R.id.listView)).check(matches(not(isDisplayed())))
+        }
     }
 
 
     @Test
     fun searchingForNonexistentItemShowsErrorMessage() {
-
-        lookUp(NONEXISTENT_ITEM)
-
-        onView(withText(R.string.match_not_found))
-            .check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
-
+        launchAndDo {
+            lookUp(NONEXISTENT_ITEM)
+            onView(withText(R.string.match_not_found))
+                .check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
+        }
     }
 
     private fun searchingForCorrectItemShowsSelectedItemMessage(listItem: String) {
-
         lookUpAndSelectItem(listItem)
         onView(withText("Selected item : $listItem"))
             .check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
-
     }
 
     @Test
     fun searchingForProfileDisplaysCorrectMessage() {
-        searchingForCorrectItemShowsSelectedItemMessage(PROFILE)
-
+        launchAndDo {
+            searchingForCorrectItemShowsSelectedItemMessage(PROFILE)
+        }
     }
 
     @Test
     fun searchingForPharmaciesDisplaysCorrectMessage() {
-        searchingForCorrectItemShowsSelectedItemMessage(PHARMACIES)
-
+        launchAndDo {
+            searchingForCorrectItemShowsSelectedItemMessage(PHARMACIES)
+        }
     }
 
     @Test
     fun searchingForHospitalsDisplaysCorrectMessage() {
-        searchingForCorrectItemShowsSelectedItemMessage(HOSPITALS)
-
+        launchAndDo {
+            searchingForCorrectItemShowsSelectedItemMessage(HOSPITALS)
+        }
     }
 
     @Test
     fun searchingForTutorialDisplaysCorrectMessage() {
-        searchingForCorrectItemShowsSelectedItemMessage(TUTORIAL)
-
+        launchAndDo {
+            searchingForCorrectItemShowsSelectedItemMessage(TUTORIAL)
+        }
     }
-
 
     @Test
     fun searchingForCprRateDisplaysCorrectMessage() {
-        searchingForCorrectItemShowsSelectedItemMessage(CPR_RATE)
-
+        launchAndDo {
+            searchingForCorrectItemShowsSelectedItemMessage(CPR_RATE)
+        }
     }
 
     @Test
-    fun listViewIsInitiallyHidden(){
-        onView(withId(R.id.listView)).check(matches(not(isDisplayed())))
+    fun listViewIsInitiallyHidden() {
+        launchAndDo {
+            onView(withId(R.id.listView)).check(matches(not(isDisplayed())))
+        }
     }
-
-
 }

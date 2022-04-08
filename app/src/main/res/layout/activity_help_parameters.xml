@@ -152,7 +152,7 @@
         android:onClick="emergencyCall"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/phone_call"
+        app:srcCompat="@drawable/emergency_call"
         tools:ignore="MissingConstraints,RedundantDescriptionCheck" />
 
     <Button
@@ -170,7 +170,7 @@
         app:layout_constraintStart_toEndOf="@+id/help_params_call_button" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/call_button_description_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="44dp"

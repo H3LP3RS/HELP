@@ -1,7 +1,6 @@
 package com.github.h3lp3rs.h3lp.presentation
 
 import android.content.Intent
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.GestureDetector
@@ -9,9 +8,8 @@ import android.view.View
 import android.widget.CheckBox
 import com.github.h3lp3rs.h3lp.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.listeners.SwipeListener
-import com.github.h3lp3rs.h3lp.listeners.SwipeListener.Companion.SlideDirection.*
-import com.github.h3lp3rs.h3lp.listeners.SwipeListener.Companion.swipeToNextActivity
+import com.github.h3lp3rs.h3lp.presentation.SwipeListener.Companion.SlideDirection.*
+import com.github.h3lp3rs.h3lp.presentation.SwipeListener.Companion.swipeToNextActivity
 import android.text.method.LinkMovementMethod
 
 import android.text.TextUtils
@@ -23,9 +21,6 @@ import android.text.SpannableString
 import android.text.TextPaint
 
 import android.text.style.ClickableSpan
-import androidx.annotation.RequiresApi
-import com.github.h3lp3rs.h3lp.signin.ORIGIN
-import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
@@ -57,7 +52,8 @@ class PresIrrelevantActivity : AppCompatActivity() {
         addClickableText(Intent(this, ToSActivity::class.java), checkBox)
         // 3. Set correct swipe listeners
         val gestureDetector = GestureDetector(this, SwipeListener(
-            swipeToNextActivity(this, RIGHT, PresRelevantActivity::class.java, intent.getStringExtra(ORIGIN)), {}, {}, {}))
+            swipeToNextActivity(this, RIGHT, PresRelevantActivity::class.java), {}, {}, {})
+        )
         findViewById<View>(R.id.pres3_textView5).setOnTouchListener { view, event ->
             view.performClick()
             gestureDetector.onTouchEvent(event)
@@ -71,21 +67,9 @@ class PresIrrelevantActivity : AppCompatActivity() {
         val checkBox = findViewById<View>(R.id.pres3_checkBox) as CheckBox
         if(checkBox.isChecked) {
             userCookie.setBoolean(getString(R.string.KEY_USER_AGREE), true)
-            val i = Intent(this, findDest(intent.getStringExtra(ORIGIN)))
+            val i = Intent(this, MainPageActivity::class.java)
             startActivity(i)
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-        }
-    }
-
-    private fun findDest(name: String?): Class<*>? {
-        return when (name) {
-            SignInActivity::class.qualifiedName -> {
-                MainPageActivity::class.java
-            }
-            MainPageActivity::class.qualifiedName -> {
-                MainPageActivity::class.java
-            }
-            else -> null
         }
     }
 

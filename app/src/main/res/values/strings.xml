@@ -280,6 +280,19 @@
     <string name="on_click_path">Fastest path to the user in need of your help</string>
     <string name="notification_manager_title">Help_notification_manager</string>
     <string name="notification_manager_description">Channel used by HELP application to send emergency notification</string>
-
-
+    <string name="person_in_need">Someone needs YOUR help</string>
+    <string name="time_to_person_in_need">The walking time to the user in need is:</string>
+    <string name="help_required">The user needs: </string>
+    <string name="await_help_welcome_message">Keep calm and wait for help</string>
+    <string name="cancel_button_description">button to cancel search</string>
+    <string name="cancel_search_text">Cancel search</string>
+    <string name="asthma_attack_tuto_button">asthma attack tutorial</string>
+    <string name="defibrillator_tuto_button">defibrillator tutorial</string>
+    <string name="allergies_tuto_button">allergies tutorial</string>
+    <string name="heart_attack_tuto_button">heart attack tutorial</string>
+    <string name="tutorials">Tutorials</string>
+    <string name="progress_bar_waiting_help">Looking for help nearby...</string>
+    <string name="helper_marker_desc">Helper coming to help you</string>
+    <string name="pop_up_call_emergencies_text">We are currently looking for help nearby. If you require medical assistance, we highly recommend that you still call the local emergency services with the button below and mention that you are using our app.</string>
+    <string name="did_you_call_emergency_services_popup">Did you call emergency services?</string>
 </resources>

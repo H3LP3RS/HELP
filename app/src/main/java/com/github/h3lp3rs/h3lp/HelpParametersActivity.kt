@@ -25,6 +25,7 @@ import kotlin.collections.ArrayList
 
 
 const val EXTRA_NEEDED_MEDICATION = "needed_meds_key"
+const val EXTRA_CALLED_EMERGENCIES = "has_called_emergencies"
 
 /**
  * Activity in which the user can select the medications they need urgently
@@ -37,6 +38,7 @@ class HelpParametersActivity : AppCompatActivity() {
     private var longitude: Double? = null
     private var meds: ArrayList<String> = ArrayList()
     private val currentTime: Date = Calendar.getInstance().time;
+    private var calledEmergencies = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,7 +76,7 @@ class HelpParametersActivity : AppCompatActivity() {
         // In case the getCurrentLocation failed (for example if the location services aren't
         // activated, currentLocation is still null and the returned phone number will be the
         // default emergency phone number
-
+        calledEmergencies = true
         updateCoordinates()
         val emergencyNumber =
             LocalEmergencyCaller.getLocalEmergencyNumber(
@@ -103,6 +105,7 @@ class HelpParametersActivity : AppCompatActivity() {
 
             val b = Bundle()
             b.putStringArrayList(EXTRA_NEEDED_MEDICATION, meds)
+            b.putBoolean(EXTRA_CALLED_EMERGENCIES, calledEmergencies)
             val intent = Intent(this, AwaitHelpActivity::class.java)
             intent.putExtras(b)
             sendInfoToDB()

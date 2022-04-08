@@ -352,7 +352,7 @@
                             app:srcCompat="@drawable/doctor" />
 
                         <com.google.android.material.switchmaterial.SwitchMaterial
-                            android:id="@+id/docctorSwitch"
+                            android:id="@+id/doctorSwitch"
                             android:layout_width="184dp"
                             android:layout_height="88dp"
                             android:layout_alignParentTop="true"
