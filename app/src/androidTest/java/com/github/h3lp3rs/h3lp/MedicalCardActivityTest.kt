@@ -1,4 +1,5 @@
 package com.github.h3lp3rs.h3lp
+import android.Manifest
 import android.app.Activity
 import android.app.Instrumentation
 import android.content.Context
@@ -14,6 +15,7 @@ import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.rule.GrantPermissionRule
 import com.google.android.material.textfield.TextInputLayout
 import org.hamcrest.Description
 import org.hamcrest.Matcher
@@ -31,6 +33,11 @@ class MedicalCardActivityTest {
     val testRule = ActivityScenarioRule(
         MedicalCardActivity::class.java
     )
+
+    @get:Rule
+    var mRuntimePermissionRule: GrantPermissionRule =
+        GrantPermissionRule.grant(Manifest.permission.ACCESS_FINE_LOCATION)
+
     @Test
     fun oldYearNumberLeadToError() {
         onView(withId(R.id.medicalInfoBirthEditTxt))
