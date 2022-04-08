@@ -59,7 +59,7 @@ class MySkillsActivity : AppCompatActivity() {
         toggleSwitch(skills.hasEpipen, R.id.epipenSwitch)
         toggleSwitch(skills.hasVentolin, R.id.ventolinSwitch)
         toggleSwitch(skills.hasInsulin, R.id.insulinSwitch)
-        toggleSwitch(skills.knowCPR, R.id.cprSwitch)
+        toggleSwitch(skills.knowsCPR, R.id.cprSwitch)
         toggleSwitch(skills.hasFirstAidKit, R.id.firstAidSwitch)
         toggleSwitch(skills.isMedicalPro, R.id.doctorSwitch)
     }
