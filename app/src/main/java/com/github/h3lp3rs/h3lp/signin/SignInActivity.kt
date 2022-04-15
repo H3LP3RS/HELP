@@ -41,6 +41,7 @@ class SignInActivity : AppCompatActivity() {
      */
     private fun checkIfSignedIn() {
         if (signInClient.isSignedIn()) {
+            userUid = getInstance().currentUser!!.uid
             checkToSAndLaunchIfNotAcceptedElseMain()
         }
     }
