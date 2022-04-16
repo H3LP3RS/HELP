@@ -4,7 +4,7 @@ package com.github.h3lp3rs.h3lp.database
  * Enumeration of all useful databases in H3LP
  */
 enum class Databases {
-    PREFERENCES, EMERGENCIES, NEW_EMERGENCIES;
+    PREFERENCES, EMERGENCIES, NEW_EMERGENCIES, MESSAGES;
     var db: Database = FireDatabase(name) // Var to enable test-time mocking
     companion object {
         /**
