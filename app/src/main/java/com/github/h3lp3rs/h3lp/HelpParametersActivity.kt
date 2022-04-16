@@ -6,22 +6,19 @@ import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import android.widget.ToggleButton
 import androidx.appcompat.app.AppCompatActivity
+import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.database.models.EmergencyInformation
 import com.github.h3lp3rs.h3lp.database.repositories.emergencyInfoRepository
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
+import com.github.h3lp3rs.h3lp.messaging.Conversation
 import com.github.h3lp3rs.h3lp.storage.LocalStorage
-import com.github.h3lp3rs.h3lp.storage.Storages
-import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
-import com.google.gson.Gson
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 const val EXTRA_NEEDED_MEDICATION = "needed_meds_key"
@@ -40,6 +37,9 @@ class HelpParametersActivity : AppCompatActivity() {
     private val currentTime: Date = Calendar.getInstance().time;
     private var calledEmergencies = false
 
+    // List of the conversations with all the helpers
+    private var conversations: MutableList<Conversation> = mutableListOf()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_help_parameters)
@@ -51,13 +51,13 @@ class HelpParametersActivity : AppCompatActivity() {
         val locationInformation: TextView = findViewById(R.id.location_information)
         val coordinatesText = getString(R.string.current_location)
         if (userLocation != null) {
-            latitude =  userLocation!!.latitude
+            latitude = userLocation!!.latitude
             longitude = userLocation!!.longitude
             locationInformation.text = String.format(
-                    "%s latitude: %.4f longitude: %.4f",
-            coordinatesText,
-            userLocation!!.latitude,
-            userLocation!!.longitude
+                "%s latitude: %.4f longitude: %.4f",
+                coordinatesText,
+                userLocation!!.latitude,
+                userLocation!!.longitude
             )
         } else {
             // If the user didn't allow location permissions, they won't be able to see their
@@ -116,11 +116,34 @@ class HelpParametersActivity : AppCompatActivity() {
     /**
      * Stores the emergency information in the database for further use
      */
-    private fun sendInfoToDB(){
-        if(latitude != null && longitude != null){
-            val medicalInfo = LocalStorage(getString(R.string.medical_info_prefs),this,false).getStringOrDefault(getString(R.string.medical_info_key),"")
-            val emergencyInfo = EmergencyInformation(latitude = latitude!!, longitude = longitude!!, meds =  meds, time = currentTime, medicalInfo = medicalInfo!!)
-            emergencyInfoRepository.insert(emergencyInfo)
+    private fun sendInfoToDB() {
+        if (latitude != null && longitude != null) {
+            // Callback that uses the unique conversation id generated
+            fun onComplete(id: String?) {
+                id?.let {
+                    val medicalInfo = LocalStorage(
+                        getString(R.string.medical_info_prefs),
+                        this,
+                        false
+                    ).getStringOrDefault(getString(R.string.medical_info_key), "")
+                    val emergencyInfo = EmergencyInformation(
+                        id = it,
+                        latitude = latitude!!,
+                        longitude = longitude!!,
+                        meds = meds,
+                        time = currentTime,
+                        medicalInfo = medicalInfo!!
+                    )
+                    emergencyInfoRepository.insert(emergencyInfo)
+                }
+            }
+            // Getting a unique conversation id
+            val conversationIdsDb = Databases.databaseOf(Databases.CONVERSATION_IDS)
+            conversationIdsDb.incrementAndGet(Conversation.UNIQUE_CONVERSATION_ID, 1) {
+                onComplete(
+                    it
+                )
+            }
         }
     }
 

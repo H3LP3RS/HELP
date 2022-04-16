@@ -13,7 +13,7 @@ import kotlin.collections.ArrayList
 class EmergencyInfoRepositoryTest {
     private val repository: Repository<EmergencyInformation> =
         EmergencyInfoRepository(MockDatabase())
-    private val testKey = 0
+    private val testKey = "KEY"
     private val testDoubleValue = 0.0
     private val testObject =
         EmergencyInformation(testKey, testDoubleValue, testDoubleValue, ArrayList(), Date(), "")

@@ -12,7 +12,7 @@ interface Repository<T>{
      * @param id Key of the object in the database
      * @return A CompletableFuture wrapping the value
      */
-    fun get(id: Int): CompletableFuture<T>
+    fun get(id: String): CompletableFuture<T>
 
     /**
      * Creates an entry in the database with the given value
@@ -26,5 +26,5 @@ interface Repository<T>{
      *
      * @param id Key of the object in the database
      */
-    fun delete(id: Int)
+    fun delete(id: String)
 }

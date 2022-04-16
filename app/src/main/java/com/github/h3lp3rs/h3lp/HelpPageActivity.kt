@@ -5,8 +5,13 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.github.h3lp3rs.h3lp.database.Databases
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.databinding.ActivityHelpPageBinding
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
+import com.github.h3lp3rs.h3lp.messaging.Conversation
+import com.github.h3lp3rs.h3lp.messaging.Conversation.Companion.UNIQUE_CONVERSATION_ID
+import com.github.h3lp3rs.h3lp.messaging.Messenger.HELPER
 import com.github.h3lp3rs.h3lp.util.GDurationJSONParser
 import com.google.android.gms.maps.MapsInitializer
 import kotlinx.coroutines.CoroutineScope
@@ -15,6 +20,7 @@ import kotlinx.coroutines.MainScope
 const val EXTRA_HELP_REQUIRED_PARAMETERS = "help_page_required_key"
 const val EXTRA_DESTINATION_LAT = "help_page_destination_lat"
 const val EXTRA_DESTINATION_LONG = "help_page_destination_long"
+const val EXTRA_HELP_UNIQUE_ID = "help_page_helpee_unique_id"
 
 /**
  * Activity used to display information about a person in need, their location, the path to them,
@@ -31,6 +37,7 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private var destinationLong = 6.667
     private var currentLong: Double = 0.0
     private var currentLat: Double = 0.0
+    private var helpUniqueId: String = ""
 
     // TODO : this is only for displaying purposes, helpRequired will be initialized to null when
     //  we use this activity to retrieve actual helping requests
@@ -41,6 +48,9 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     // Map fragment displayed
     private lateinit var mapsFragment: MapsFragment
+
+    // Conversation with the person in help (only if the user accepts to help them)
+    private var conversation: Conversation? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +65,7 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         helpRequired = bundle?.getStringArrayList(EXTRA_HELP_REQUIRED_PARAMETERS) ?: helpRequired
         destinationLat = bundle?.getDouble(EXTRA_DESTINATION_LAT) ?: destinationLat
         destinationLong = bundle?.getDouble(EXTRA_DESTINATION_LONG) ?: destinationLong
+        helpUniqueId = bundle?.getString(EXTRA_HELP_UNIQUE_ID) ?: helpUniqueId
 
         // Obtain the map fragment
         mapsFragment = supportFragmentManager
@@ -125,6 +136,19 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         }
     }
 
+    fun acceptHelpRequest(view: View) {
+        if (conversation == null) {
+            val conversationIdsDb = databaseOf(Databases.CONVERSATION_IDS)
+            val messagesDb = databaseOf(Databases.MESSAGES)
+            fun onComplete(uniqueId: String?) {
+                uniqueId?.let {
+                    conversationIdsDb.addToObjectsList(helpUniqueId, String::class.java, it)
+                    conversation = Conversation(it, messagesDb, HELPER)
+                }
+            }
+            conversationIdsDb.incrementAndGet(UNIQUE_CONVERSATION_ID, 1) { onComplete(it) }
+        }
+    }
 
     /** Starts the activity by sending intent */
     private fun goToActivity(ActivityName: Class<*>?) {

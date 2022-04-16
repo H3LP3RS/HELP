@@ -7,7 +7,7 @@ import java.util.*
  */
 data class EmergencyInformation(
     // Unique id of the emergency information object
-    val id: Int,
+    val id: String,
     // Longitude of current location of the user on the map
     val latitude: Double,
     // Longitude of current location of the user on the map

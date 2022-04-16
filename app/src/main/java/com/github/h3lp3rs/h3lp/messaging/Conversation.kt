@@ -22,4 +22,8 @@ class Conversation(
     fun deleteConversation() {
         database.delete(conversationId)
     }
+
+    companion object {
+        const val UNIQUE_CONVERSATION_ID = "unique conversation id"
+    }
 }

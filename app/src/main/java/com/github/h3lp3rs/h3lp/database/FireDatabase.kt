@@ -227,7 +227,7 @@ internal class FireDatabase(path: String) : Database {
      * @param key The key in the database
      * @param number The number to increment by
      */
-    override fun incrementAndGet(key: String, number: Int, onComplete: (Int?) -> Unit) {
+    override fun incrementAndGet(key: String, number: Int, onComplete: (String?) -> Unit) {
         val keyRef = db.child(key)
         keyRef.runTransaction(object : Transaction.Handler {
             /**
@@ -259,7 +259,7 @@ internal class FireDatabase(path: String) : Database {
                 committed: Boolean,
                 currentData: DataSnapshot?
             ) {
-                onComplete(currentData?.getValue<Int>()?.toInt())
+                onComplete(currentData?.getValue<Int>()?.toString())
             }
 
         })
