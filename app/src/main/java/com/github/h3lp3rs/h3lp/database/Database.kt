@@ -144,5 +144,5 @@ interface Database {
      * @param key The key in the database
      * @param number The number to increment by
      */
-    fun incrementBy(key: String, number: Int)
+    fun incrementAndGet(key: String, number: Int, onComplete: (Int?) -> Unit)
 }

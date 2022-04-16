@@ -101,9 +101,9 @@ class MockDatabaseTest {
     fun incrementIsAtomic() {
         val old = TEST_SEED.nextInt()
         db.setInt(TEST_KEY, old)
-        val t1 = thread { db.incrementBy(TEST_KEY, 1) }
-        val t2 = thread { db.incrementBy(TEST_KEY, 1) }
-        db.incrementBy(TEST_KEY, 1)
+        val t1 = thread { db.incrementAndGet(TEST_KEY, 1) }
+        val t2 = thread { db.incrementAndGet(TEST_KEY, 1) }
+        db.incrementAndGet(TEST_KEY, 1)
         t1.join(); t2.join()
         assertEquals(old + 3, db.getInt(TEST_KEY).get())
     }

@@ -214,11 +214,14 @@ class MockDatabase : Database {
      * @param key The key in the database
      * @param number The number to increment by
      */
-    override fun incrementBy(key: String, number: Int) {
+    override fun incrementAndGet(key: String, number: Int, onComplete: (Int?) -> Unit) {
+
         checkHasKey(db, key)
         synchronized(this) {
             val old = db[key] as Int
-            db.put(key, old + number)
+            val new = old + number
+            db[key] = new
+            onComplete(new)
         }
     }
 }

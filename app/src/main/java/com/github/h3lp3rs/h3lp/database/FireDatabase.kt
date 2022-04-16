@@ -227,7 +227,41 @@ internal class FireDatabase(path: String) : Database {
      * @param key The key in the database
      * @param number The number to increment by
      */
-    override fun incrementBy(key: String, number: Int) {
-        db.child(key).setValue(ServerValue.increment(number.toLong()))
+    override fun incrementAndGet(key: String, number: Int, onComplete: (Int?) -> Unit) {
+        val keyRef = db.child(key)
+        keyRef.runTransaction(object : Transaction.Handler {
+            /**
+             * This method will be called, possibly multiple times, with the current data at this
+             * location. It is responsible for inspecting that data and returning a [Result]
+             * specifying either the desired new data at the location or that the transaction should be
+             * aborted.
+             *
+             * @param currentData The current data at the location. Update this to the desired data at the
+             * location
+             * @return Either the new data, or an indication to abort the transaction
+             */
+            override fun doTransaction(currentData: MutableData): Transaction.Result {
+                val oldValue = currentData.getValue<Int>()
+                currentData.value = oldValue?.plus(number) ?: 0
+                return Transaction.success(currentData)
+            }
+
+            /**
+             * This method will be called once with the results of the transaction.
+             *
+             * @param error null if no errors occurred, otherwise it contains a description of the error
+             * @param committed True if the transaction successfully completed, false if it was aborted or
+             * an error occurred
+             * @param currentData The current data at the location or null if an error occurred
+             */
+            override fun onComplete(
+                error: DatabaseError?,
+                committed: Boolean,
+                currentData: DataSnapshot?
+            ) {
+                onComplete(currentData?.getValue<Int>()?.toInt())
+            }
+
+        })
     }
 }

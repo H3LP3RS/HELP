@@ -28,6 +28,8 @@ class TestMessagingActivity : AppCompatActivity() {
         }
         button.setOnClickListener {
             conversation.sendMessage(counter.toString())
+            db.incrementAndGet("actuallUnique?", 1, {Log.i("MSSG", "unique id: $it")})
+            db.incrementAndGet("actuallUnique?", 1, {Log.i("MSSG", "unique id: $it")})
             ++counter
         }
         conversation.sendMessage("Hello there")
