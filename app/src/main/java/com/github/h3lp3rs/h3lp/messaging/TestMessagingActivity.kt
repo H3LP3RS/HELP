@@ -1,8 +1,9 @@
 package com.github.h3lp3rs.h3lp.messaging
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.database.Database
 import com.github.h3lp3rs.h3lp.database.Databases
@@ -17,7 +18,13 @@ class TestMessagingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test_messaging)
         val button = findViewById<Button>(R.id.testButton)
-        val conversation = Conversation("uniqueId", HELPER, db)
+        val conversation = Conversation("uniqueId", db, HELPER)
+        conversation.addListener { messages, _ ->
+            Log.i(
+                "MSSG",
+                messages.toString()
+            )
+        }
         button.setOnClickListener {
             conversation.sendMessage(counter.toString())
             ++counter
