@@ -9,15 +9,15 @@ import java.util.concurrent.CompletableFuture
  */
 class EmergencyInfoRepository(private val database: Database) : Repository<EmergencyInformation>{
 
-    override fun get(id: String): CompletableFuture<EmergencyInformation> {
-        return database.getObject(id, EmergencyInformation::class.java)
+    override fun get(id: Int): CompletableFuture<EmergencyInformation> {
+        return database.getObject(id.toString(), EmergencyInformation::class.java)
     }
 
     override fun insert(value: EmergencyInformation) {
-        database.setObject(value.id, EmergencyInformation::class.java, value)
+        database.setObject(value.id.toString(), EmergencyInformation::class.java, value)
     }
 
-    override fun delete(id: String){
-        database.delete(id)
+    override fun delete(id: Int){
+        database.delete(id.toString())
     }
 }

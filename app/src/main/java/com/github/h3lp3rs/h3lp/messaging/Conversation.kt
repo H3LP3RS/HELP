@@ -18,4 +18,8 @@ class Conversation(
             onNewMessage(it.toList(), currentMessenger)
         }
     }
+
+    fun deleteConversation() {
+        database.delete(conversationId)
+    }
 }
