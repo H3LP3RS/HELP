@@ -31,41 +31,41 @@
         app:layout_constraintVertical_bias="1"
         android:background="@drawable/round_corners" >
 
-        <EditText
-            android:id="@+id/button_enter_message"
-            android:layout_width="wrap_content"
-            android:layout_height="57dp"
-            android:layout_marginBottom="4dp"
-            android:ems="10"
-            android:hint="Enter Message..."
-            android:inputType="textPersonName"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
         <Button
             android:id="@+id/button_send_message"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_marginBottom="12dp"
+            android:layout_marginRight="8dp"
             android:text="Send"
             android:textColor="#000000"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/button_enter_message" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_chat"
             android:layout_width="409dp"
             android:layout_height="506dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="80dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_marginTop="40dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="16dp"
-            app:layout_constraintBottom_toTopOf="@+id/button_enter_message"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <AutoCompleteTextView
+            android:id="@+id/text_view_enter_message"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="8dp"
+            android:hint="Type your message..."
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/button_send_message"
+            app:layout_constraintHorizontal_bias="0.006"
+            app:layout_constraintStart_toStartOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
