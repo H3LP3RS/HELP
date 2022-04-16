@@ -17,6 +17,7 @@ class TestMessagingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test_messaging)
+        db.delete("uniqueId")
         val button = findViewById<Button>(R.id.testButton)
         val conversation = Conversation("uniqueId", db, HELPER)
         conversation.addListener { messages, _ ->
