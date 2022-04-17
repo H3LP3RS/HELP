@@ -80,12 +80,15 @@ class MockDatabaseTest {
         val string3 = TEST_SEED.nextBytes(5 * BYTES_PER_CHAR).toString()
 
         var strings = Collections.synchronizedList<String>(mutableListOf())
+
+        db.addListListener(TEST_KEY, String::class.java) { strings = it }
+
         val t1 = thread { db.addToObjectsListConcurrently(TEST_KEY, String::class.java, string1) }
         val t2 = thread { db.addToObjectsListConcurrently(TEST_KEY, String::class.java, string2) }
+
         db.addToObjectsListConcurrently(TEST_KEY, String::class.java, string3)
         t1.join(); t2.join()
 
-        db.addListListener(TEST_KEY, String::class.java) { strings = it }
 
         assertThat(strings, containsInAnyOrder(string1, string2, string3))
     }
