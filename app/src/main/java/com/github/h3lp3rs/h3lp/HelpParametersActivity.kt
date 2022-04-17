@@ -45,7 +45,7 @@ class HelpParametersActivity : AppCompatActivity() {
      * The list is a synchronizedList to allow for several conversations to be concurrently added
      * to it
      */
-    private var conversations = Collections.synchronizedList<Conversation>(emptyList())
+    private var conversations = Collections.synchronizedList<Conversation>(mutableListOf())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

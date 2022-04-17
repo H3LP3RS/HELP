@@ -66,6 +66,7 @@ dependencies {
     testImplementation "org.mockito.kotlin:mockito-kotlin:3.2.0"
     testImplementation "org.mockito:mockito-core:3.2.0"
     testImplementation 'org.json:json:20180813'
+    testImplementation("org.hamcrest:hamcrest:2.2")
     androidTestImplementation "org.mockito.kotlin:mockito-kotlin:3.2.0"
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'

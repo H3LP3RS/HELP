@@ -194,14 +194,8 @@ internal class FireDatabase(path: String) : Database {
             val valuesList = mutableListOf<T>()
 
             for (postSnapshot in snapshot.children) {
-                val v: T = if (type == String::class.java || type == Int::class.java ||
-                    type == Double::class.java || type == Boolean::class.java
-                ) {
-                    postSnapshot.getValue(type)!!
-                } else {
-                    val gson = Gson()
-                    gson.fromJson(postSnapshot.getValue(String::class.java)!!, type)
-                }
+                val gson = Gson()
+                val v = gson.fromJson(postSnapshot.getValue(String::class.java)!!, type)
                 valuesList.add(v)
             }
             // Run the callback on the newly constructed list of values

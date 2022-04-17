@@ -2,6 +2,7 @@ package com.github.h3lp3rs.h3lp.database
 
 import android.annotation.SuppressLint
 import com.google.firebase.database.core.utilities.encoding.CustomClassMapper
+import com.google.gson.Gson
 import java.util.concurrent.CompletableFuture
 
 /**
@@ -9,18 +10,19 @@ import java.util.concurrent.CompletableFuture
  */
 class MockDatabase : Database {
     private val db = HashMap<String, Any>()
+
     // Lists on which values can be added concurrently, has to be a separate object from db since
     // it doesn't have the same behaviour when two writes happen at the same time
-    private val concurrentLists = HashMap<String, List<Any>>()
+    private val concurrentLists = HashMap<String, List<String>>()
     private val listeners = HashMap<String, List<() -> Unit>>()
 
     /**
      * Utility function to extract values into futures from generic types
      * @param key The key in the database
      */
-    private inline fun <reified  T: Any> get(key: String): CompletableFuture<T> {
+    private inline fun <reified T : Any> get(key: String): CompletableFuture<T> {
         val future = CompletableFuture<T>()
-        if(db.containsKey(key)) future.complete(db[key] as T)
+        if (db.containsKey(key)) future.complete(db[key] as T)
         else future.completeExceptionally(NullPointerException("Key: $key not in the database"))
         return future
     }
@@ -31,8 +33,8 @@ class MockDatabase : Database {
      * @param map The map to perform the check on
      * @param key The key in the database
      */
-    private fun checkHasKey(map: Map<String,Any>, key: String) {
-        if(!map.containsKey(key)) throw NullPointerException("Key: $key not in the database")
+    private fun checkHasKey(map: Map<String, Any>, key: String) {
+        if (!map.containsKey(key)) throw NullPointerException("Key: $key not in the database")
     }
 
     /**
@@ -44,7 +46,7 @@ class MockDatabase : Database {
     private fun setAndTriggerListeners(key: String, value: Any) {
         val old = db.getOrDefault(key, value)
         db[key] = value
-        if(old != value) {
+        if (old != value) {
             triggerListeners(key)
         }
     }
@@ -176,15 +178,13 @@ class MockDatabase : Database {
      */
     @SuppressLint("RestrictedApi")
     override fun <T> addListListener(key: String, type: Class<T>, action: (List<T>) -> Unit) {
-        checkHasKey(concurrentLists, key)
         val wrappedAction: () -> Unit = {
             // Reconstructing the entire list to be able to call action on it
-            val valuesList = mutableListOf<T>()
-            for (value in concurrentLists.getOrDefault(key, emptyList())) {
-                val v: T = CustomClassMapper.convertToCustomClass(value, type)
-                valuesList.add(v)
-            }
-            action(valuesList)
+            val gson = Gson()
+            val objectsList = concurrentLists
+                .getOrDefault(key, emptyList())
+                .map { gson.fromJson(it, type) }
+            action(objectsList)
         }
         // Enrich the list & add to map
         val ls = listeners.getOrDefault(key, emptyList()) + listOf(wrappedAction)
@@ -220,9 +220,8 @@ class MockDatabase : Database {
      * in case of a database error, thus why onComplete takes a nullable String)
      */
     override fun incrementAndGet(key: String, increment: Int, onComplete: (String?) -> Unit) {
-        checkHasKey(db, key)
         synchronized(this) {
-            val old = db[key] as Int
+            val old = db.getOrDefault(key, 0) as Int
             val new = old + increment
             db[key] = new
             onComplete(new.toString())

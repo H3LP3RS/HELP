@@ -155,7 +155,7 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                 uniqueId?.let {
                     // Sending the conversation id to the person in need of help (share the
                     // conversation id)
-                    conversationIdsDb.addToObjectsListConcurrently(helpUniqueId, Int::class.java, it.toInt())
+                    conversationIdsDb.addToObjectsListConcurrently(helpUniqueId, String::class.java, it)
 
                     // Creating a conversation on that new unique conversation id
                     conversation = Conversation(it, messagesDb, HELPER)
