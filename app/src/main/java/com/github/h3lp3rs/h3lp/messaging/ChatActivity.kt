@@ -1,5 +1,6 @@
 package com.github.h3lp3rs.h3lp.messaging
 
+import Messenger
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.R
@@ -14,15 +15,20 @@ import kotlinx.android.synthetic.main.chat_sender.view.*
 class ChatActivity : AppCompatActivity() {
 
     private val adapter = GroupAdapter<ViewHolder>()
+    private lateinit var userRole : Messenger
+    private lateinit var conversationId : String
 
     override fun onCreate(savedInstanceState : Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
 
-        adapter.add(SenderMessage("oidcikd"))
-        adapter.add(ReceiverMessage("omdxkw"))
-        adapter.add(SenderMessage("podkwa"))
-        adapter.add(ReceiverMessage("omwdkm"))
+        userRole = intent.getSerializableExtra(EXTRA_USER_ROLE) as Messenger
+        conversationId = intent.getSerializableExtra(EXTRA_CONVERSATION_ID) as String
+
+        adapter.add(SenderMessage("M1"))
+        adapter.add(ReceiverMessage("R1"))
+        adapter.add(SenderMessage("M2"))
+        adapter.add(ReceiverMessage("R2"))
 
         recycler_view_chat.adapter = adapter
 

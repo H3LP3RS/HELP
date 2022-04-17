@@ -17,24 +17,22 @@ const val EXTRA_USER_ROLE = "user_role"
 
 class LatestMessagesActivity : AppCompatActivity() {
     private val adapter = GroupAdapter<ViewHolder>()
+
     override fun onCreate(savedInstanceState : Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_latest_messages)
         recyclerview_latest_messages.adapter = adapter
         adapter.setOnItemClickListener { item, view ->
-
-            val userItem = item as HelperConversation
-
+            // val userItem = item as HelperConversation
             val intent = Intent(view.context, ChatActivity::class.java)
-            val bundle = Bundle()
-            // TODO replace with Alex's enum
-            bundle.putString(EXTRA_USER_ROLE, "Helpee")
+            intent.putExtra(EXTRA_USER_ROLE, Messenger.HELPEE)
             // TODO replace with actual conversation id
-            bundle.putString(EXTRA_CONVERSATION_ID,"conversation_id")
-            intent.putExtras(bundle)
-            startActivity(intent)
+            intent.putExtra(EXTRA_CONVERSATION_ID,"conversation_id")
 
+            startActivity(intent)
         }
+        addHelper()
+        addHelper()
     }
 
     fun addHelper(){
