@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@drawable/back_login"
     android:layout_height="match_parent"
     tools:context=".messages.ChatActivity">
 
@@ -22,14 +23,18 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="600dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
+        android:backgroundTint="@color/light_grey"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintHeight_percent=".78"
+        android:layout_marginBottom="8dp"
         app:layout_constraintVertical_bias="1"
-        android:background="@drawable/round_corners" >
+        android:background="@drawable/round_layout" >
 
         <Button
             android:id="@+id/button_send_message"
@@ -44,23 +49,24 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_chat"
-            android:layout_width="409dp"
-            android:layout_height="506dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="40dp"
             android:layout_marginEnd="8dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="80dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+             />
 
         <AutoCompleteTextView
             android:id="@+id/text_view_enter_message"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
             android:layout_marginLeft="8dp"
+            android:layout_marginBottom="16dp"
             android:hint="Type your message..."
+            android:minHeight="48dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/button_send_message"
             app:layout_constraintHorizontal_bias="0.006"
