@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:background="@drawable/back_login"
     android:layout_height="match_parent"
-    tools:context=".messages.ChatActivity">
+    tools:context=".messaging.ChatActivity">
 
     <ImageView
         android:id="@+id/header"
@@ -20,13 +20,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0" />
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="600dp"
         android:layout_marginRight="5dp"
         android:layout_marginLeft="5dp"
-        android:backgroundTint="@color/light_grey"
+        android:backgroundTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

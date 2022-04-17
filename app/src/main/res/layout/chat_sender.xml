@@ -12,14 +12,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_text_message"
+       android:backgroundTint="@color/light_red"
         android:maxWidth="240dp"
         android:padding="16dp"
         android:text="Sender's text"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageView" />
+        app:layout_constraintEnd_toStartOf="@+id/sender_profile" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/sender_profile"
         android:layout_width="50dp"
         app:srcCompat="@drawable/cardio"
         android:layout_height="50dp"

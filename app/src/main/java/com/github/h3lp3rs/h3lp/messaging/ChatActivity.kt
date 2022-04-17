@@ -1,4 +1,4 @@
-package com.github.h3lp3rs.h3lp.messages
+package com.github.h3lp3rs.h3lp.messaging
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -18,12 +18,12 @@ class ChatActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState : Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
-        /*
-        adapter.add(SenderMessage(""))
-        adapter.add(ReceiverMessage(""))
-        adapter.add(SenderMessage(""))
-        adapter.add(ReceiverMessage(""))
-         */
+
+        adapter.add(SenderMessage("oidcikd"))
+        adapter.add(ReceiverMessage("omdxkw"))
+        adapter.add(SenderMessage("podkwa"))
+        adapter.add(ReceiverMessage("omwdkm"))
+
         recycler_view_chat.adapter = adapter
 
         button_send_message.setOnClickListener {

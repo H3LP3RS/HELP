@@ -21,6 +21,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.H3LP">
         <activity
+            android:name=".messaging.LatestMessagesActivity"
+            android:exported="true" />
+        <activity
             android:name=".signin.SignInActivity"
             android:exported="false" />
         <activity
@@ -72,7 +75,7 @@
             android:name=".CprRateActivity"
             android:exported="false" />
         <activity
-            android:name=".MainPageActivity"
+            android:name=".messaging.ChatActivity"
             android:exported="true" />
         <activity
             android:name=".presentation.PresIrrelevantActivity"
@@ -84,7 +87,7 @@
             android:name=".presentation.PresArrivalActivity"
             android:exported="false" />
         <activity
-            android:name=".messages.ChatActivity"
+            android:name=".MainPageActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
