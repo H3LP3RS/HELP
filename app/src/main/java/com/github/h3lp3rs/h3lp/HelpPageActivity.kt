@@ -50,7 +50,7 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     // Map fragment displayed
     private lateinit var mapsFragment: MapsFragment
 
-    // Conversation with the person in help (only if the user accepts to help them)
+    // Conversation with the person in need of help (only if the user accepts to help them)
     private var conversation: Conversation? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -137,9 +137,11 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         }
     }
 
+    /**
+     * Accepts the help requests and initialises a conversation with the person in need of help
+     */
     fun acceptHelpRequest(view: View) {
-        //TODO : put back
-//        if (conversation == null) {
+        if (conversation == null) {
             val conversationIdsDb = databaseOf(Databases.CONVERSATION_IDS)
             val messagesDb = databaseOf(Databases.MESSAGES)
             fun onComplete(uniqueId: String?) {
@@ -152,7 +154,7 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                 }
             }
             conversationIdsDb.incrementAndGet(UNIQUE_CONVERSATION_ID, 1) { onComplete(it) }
-//        }
+        }
     }
 
     /** Starts the activity by sending intent */
