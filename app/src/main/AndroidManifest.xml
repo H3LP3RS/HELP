@@ -67,7 +67,7 @@
                 android:exported="true" />
         <activity
                 android:name=".HelpParametersActivity"
-                android:exported="false" />
+                android:exported="true" />
         <activity
                 android:name=".CprRateActivity"
                 android:exported="false" />

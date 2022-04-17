@@ -146,7 +146,6 @@ internal class FireDatabase(path: String) : Database {
         // Enrich the list & add to map
         val ls = openListeners.getOrDefault(key, emptyList()) + listOf(l)
         openListeners[key] = ls
-
     }
 
     /**

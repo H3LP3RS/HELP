@@ -2,6 +2,7 @@ package com.github.h3lp3rs.h3lp
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -37,7 +38,7 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private var destinationLong = 6.667
     private var currentLong: Double = 0.0
     private var currentLat: Double = 0.0
-    private var helpUniqueId: String = ""
+    private var helpUniqueId: String = "39"
 
     // TODO : this is only for displaying purposes, helpRequired will be initialized to null when
     //  we use this activity to retrieve actual helping requests
@@ -137,17 +138,21 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     }
 
     fun acceptHelpRequest(view: View) {
-        if (conversation == null) {
+        //TODO : put back
+//        if (conversation == null) {
             val conversationIdsDb = databaseOf(Databases.CONVERSATION_IDS)
             val messagesDb = databaseOf(Databases.MESSAGES)
             fun onComplete(uniqueId: String?) {
                 uniqueId?.let {
-                    conversationIdsDb.addToObjectsList(helpUniqueId, String::class.java, it)
+                    conversationIdsDb.addToObjectsList(helpUniqueId, Int::class.java, it.toInt())
                     conversation = Conversation(it, messagesDb, HELPER)
+
+                    //TODO : remove
+                    conversation?.sendMessage("Message from Helper")
                 }
             }
             conversationIdsDb.incrementAndGet(UNIQUE_CONVERSATION_ID, 1) { onComplete(it) }
-        }
+//        }
     }
 
     /** Starts the activity by sending intent */

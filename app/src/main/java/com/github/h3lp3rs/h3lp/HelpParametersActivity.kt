@@ -6,6 +6,7 @@ import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -13,10 +14,12 @@ import android.widget.Toast
 import android.widget.ToggleButton
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.database.Databases
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.database.models.EmergencyInformation
 import com.github.h3lp3rs.h3lp.database.repositories.emergencyInfoRepository
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 import com.github.h3lp3rs.h3lp.messaging.Conversation
+import com.github.h3lp3rs.h3lp.messaging.Messenger.HELPEE
 import com.github.h3lp3rs.h3lp.storage.LocalStorage
 import java.util.*
 
@@ -37,8 +40,11 @@ class HelpParametersActivity : AppCompatActivity() {
     private val currentTime: Date = Calendar.getInstance().time;
     private var calledEmergencies = false
 
-    // List of the conversations with all the helpers
-    private var conversations: MutableList<Conversation> = mutableListOf()
+    /** List of the conversations of the person in need of help with all their helpers
+     * The list is a synchronizedList to allow for several Conversations to be concurrently added
+     * to it
+     */
+    private var conversations = Collections.synchronizedList<Conversation>(emptyList())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -118,16 +124,18 @@ class HelpParametersActivity : AppCompatActivity() {
      */
     private fun sendInfoToDB() {
         if (latitude != null && longitude != null) {
+            val conversationIdsDb = databaseOf(Databases.CONVERSATION_IDS)
+
             // Callback that uses the unique conversation id generated
             fun onComplete(id: String?) {
-                id?.let {
+                id?.let { helperConversationsId ->
                     val medicalInfo = LocalStorage(
-                        getString(R.string.medical_info_prefs),
-                        this,
-                        false
-                    ).getStringOrDefault(getString(R.string.medical_info_key), "")
+                        getString(R.string.medical_info_prefs), this, false
+                    )
+                        .getStringOrDefault(getString(R.string.medical_info_key), "")
+
                     val emergencyInfo = EmergencyInformation(
-                        id = it,
+                        id = helperConversationsId,
                         latitude = latitude!!,
                         longitude = longitude!!,
                         meds = meds,
@@ -135,16 +143,44 @@ class HelpParametersActivity : AppCompatActivity() {
                         medicalInfo = medicalInfo!!
                     )
                     emergencyInfoRepository.insert(emergencyInfo)
+
+                    conversationIdsDb.addListListener(
+                        helperConversationsId,
+                        String::class.java
+                    ) { addNewConversations(it) }
                 }
             }
             // Getting a unique conversation id
-            val conversationIdsDb = Databases.databaseOf(Databases.CONVERSATION_IDS)
             conversationIdsDb.incrementAndGet(Conversation.UNIQUE_CONVERSATION_ID, 1) {
                 onComplete(
                     it
                 )
             }
         }
+    }
+
+    private fun addNewConversations(conversationIds: List<String>) {
+        //TODO : remove + isn't a good way of creating the conversations, they aren't deleted on second iteration
+        Log.i("MSSG", "A new Helper has arrived")
+        val newConversations: MutableList<Conversation> = mutableListOf()
+        conversationIds.map {
+            newConversations.add(
+                Conversation(
+                    it,
+                    databaseOf(Databases.MESSAGES),
+                    HELPEE
+                )
+            )
+            //TODO : remove
+            newConversations.last().addListener { messages, curUser ->
+                Log.i(
+                    "MSSG",
+                    "id: $it message from $curUser : $messages"
+                )
+            }
+            newConversations.last().sendMessage("Message from HELPEE")
+        }
+        conversations = newConversations
     }
 
     /**
