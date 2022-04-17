@@ -28,16 +28,6 @@ class MockDatabase : Database {
     }
 
     /**
-     * Utility function checking whether the key is associated with a value.
-     * Throws a custom NullPointerException if the key is not present.
-     * @param map The map to perform the check on
-     * @param key The key in the database
-     */
-    private fun checkHasKey(map: Map<String, Any>, key: String) {
-        if (!map.containsKey(key)) throw NullPointerException("Key: $key not in the database")
-    }
-
-    /**
      * Utility function to set a value and trigger all listeners related to a key if the value
      * has changed
      * @param key The key in the database
@@ -155,7 +145,6 @@ class MockDatabase : Database {
      */
     @SuppressLint("RestrictedApi")
     override fun <T> addListener(key: String, type: Class<T>, action: (T) -> Unit) {
-        checkHasKey(db, key)
         val wrappedAction: () -> Unit = {
             val v: T = CustomClassMapper.convertToCustomClass(db[key], type)
             action(v)
@@ -198,7 +187,6 @@ class MockDatabase : Database {
      * @param key The key in the database
      */
     override fun clearListeners(key: String) {
-        checkHasKey(listeners, key)
         listeners.remove(key)
     }
 
