@@ -87,20 +87,22 @@ interface Database {
     }
 
     /**
-     * Adds a new object to an ordered list of objects paired to a key in the database,
+     * Adds a new object to the end of an ordered list of objects paired to a key in the database,
      * saves its value as Json
      * Can be called concurrently without creating overwriting problems
+     * Isn't the same as calling setObject with a list or even a concurrent list since this could
+     * easily lead to concurrency problems
      * @param key The key in the database
      * @param type The type of the resulting object
      * @param value The value of the object
      */
-    fun <T> addToObjectsList(key: String, type: Class<T>, value: T) {
+    fun <T> addToObjectsListConcurrently(key: String, type: Class<T>, value: T) {
         val gson = Gson()
         addStringConcurrently(key, gson.toJson(value, type))
     }
 
     /**
-     * Adds a value to the list of values paired to the key in the database
+     * Adds a value to the end of an ordered list of values paired to the key in the database
      * Can be called concurrently without creating overwriting problems (all values are eventually
      * added to the list)
      * @param key The key in the database

@@ -2,7 +2,6 @@ package com.github.h3lp3rs.h3lp
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -139,20 +138,31 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     /**
      * Accepts the help requests and initialises a conversation with the person in need of help
+     * (see CommunicationProtocol.md for a detailed explanation)
      */
     fun acceptHelpRequest(view: View) {
+        // Only initialise the conversation once
         if (conversation == null) {
             val conversationIdsDb = databaseOf(Databases.CONVERSATION_IDS)
             val messagesDb = databaseOf(Databases.MESSAGES)
+
+            /**
+             * Callback function which gets a unique conversation id, shares it with the person in
+             * need of help and instantiates a conversation on that id
+             * @param uniqueId The unique conversation id
+             */
             fun onComplete(uniqueId: String?) {
                 uniqueId?.let {
-                    conversationIdsDb.addToObjectsList(helpUniqueId, Int::class.java, it.toInt())
-                    conversation = Conversation(it, messagesDb, HELPER)
+                    // Sending the conversation id to the person in need of help (share the
+                    // conversation id)
+                    conversationIdsDb.addToObjectsListConcurrently(helpUniqueId, Int::class.java, it.toInt())
 
-                    //TODO : remove
-                    conversation?.sendMessage("Message from Helper")
+                    // Creating a conversation on that new unique conversation id
+                    conversation = Conversation(it, messagesDb, HELPER)
                 }
             }
+            // Gets a new conversation id atomically (to avoid 2 helpers getting the same) then
+            // calls the callback
             conversationIdsDb.incrementAndGet(UNIQUE_CONVERSATION_ID, 1) { onComplete(it) }
         }
     }

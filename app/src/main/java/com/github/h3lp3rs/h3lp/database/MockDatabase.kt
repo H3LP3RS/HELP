@@ -129,7 +129,7 @@ class MockDatabase : Database {
     }
 
     /**
-     * Adds a value to the list of values paired to the key in the database
+     * Adds a value to the end of an ordered list of values paired to the key in the database
      * Can be called concurrently without creating overwriting problems (all values are eventually
      * added to the list)
      * @param key The key in the database

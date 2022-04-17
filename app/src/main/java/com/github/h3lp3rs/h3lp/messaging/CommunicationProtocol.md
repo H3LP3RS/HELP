@@ -1,5 +1,5 @@
 ## Communication Protocol
----
+
 Notes: 
 * In the explanation below, we'll use the term **helper** to indicate a person who, in the case 
   of an emergency, will go help the person in need and will use the term **helpee** to indicate the 
@@ -10,6 +10,7 @@ Notes:
   of the protocol is then to be able to generate a unique, shared conversation id between the helpee
   and any helper willing to help without sharing personal information nor communication between the 
   helpers.
+
 
 To keep the conversation anonymous, we have devised the following protocol:
 1. When a user needs help, they generate a unique id (which we'll call helpeeId) and send it as 
