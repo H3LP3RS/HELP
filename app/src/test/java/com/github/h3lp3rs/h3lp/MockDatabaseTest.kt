@@ -81,6 +81,8 @@ class MockDatabaseTest {
 
         var strings = Collections.synchronizedList<String>(mutableListOf())
 
+        // We check that when the objects are sent to the list, no overwriting happens, thus that
+        // strings contains all the strings (string1..) that were sent
         db.addListListener(TEST_KEY, String::class.java) { strings = it }
 
         val t1 = thread { db.addToObjectsListConcurrently(TEST_KEY, String::class.java, string1) }
@@ -128,8 +130,7 @@ class MockDatabaseTest {
         db.setInt(TEST_KEY, old)
         val expectedUnordered = listOf(old + 1, old + 2, old + 3).map { it.toString() }
 
-        // We test that both the values 1, 2 and 3 have been assigned as increment values (that is,
-        // that each thread atomically adds 1 to the value and each one sees a unique value)
+        // We test that each thread atomically adds 1 to the value and each one sees a unique value
         val incrementValues = Collections.synchronizedList<String>(mutableListOf())
         val callBack: (String?) -> Unit = { it?.let { incrementValues.add(it) } }
 

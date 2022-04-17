@@ -37,7 +37,10 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private var destinationLong = 6.667
     private var currentLong: Double = 0.0
     private var currentLat: Double = 0.0
-    private var helpUniqueId: String = "39"
+
+    // TODO : again, this is hardcoded for testing purposes but it will be removed (and initialized
+    //  to null after the linking of activities)
+    private var helpUniqueId: String = "42"
 
     // TODO : this is only for displaying purposes, helpRequired will be initialized to null when
     //  we use this activity to retrieve actual helping requests

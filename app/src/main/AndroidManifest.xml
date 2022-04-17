@@ -21,11 +21,8 @@
             android:supportsRtl="true"
             android:theme="@style/Theme.H3LP">
         <activity
-                android:name=".messaging.TestMessagingActivity"
-                android:exported="true" />
-        <activity
                 android:name=".HelpPageActivity"
-                android:exported="true" />
+                android:exported="false" />
         <activity
                 android:name=".MySkillsActivity"
                 android:exported="false" />
@@ -40,7 +37,7 @@
                 android:exported="false" />
         <activity
                 android:name=".firstaid.AllergyActivity"
-                android:exported="true" />
+                android:exported="false" />
         <activity
                 android:name=".FirstAidActivity"
                 android:exported="false" />
@@ -64,10 +61,10 @@
                 android:exported="false" />
         <activity
                 android:name=".AwaitHelpActivity"
-                android:exported="true" />
+                android:exported="false" />
         <activity
                 android:name=".HelpParametersActivity"
-                android:exported="true" />
+                android:exported="false" />
         <activity
                 android:name=".CprRateActivity"
                 android:exported="false" />
