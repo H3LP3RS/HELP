@@ -14,6 +14,7 @@
         android:backgroundTint="@color/light_grey"
         android:layout_marginLeft="8dp"
         android:text="Receiver's text"
+        android:textColor="@color/black"
         android:background="@drawable/rounded_text_message"
         android:padding="16dp"
         android:maxWidth="240dp"
@@ -29,5 +30,5 @@
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/rescue" />
+        app:srcCompat="@drawable/receiver_profile_picture" />
 </androidx.constraintlayout.widget.ConstraintLayout>

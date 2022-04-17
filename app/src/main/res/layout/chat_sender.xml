@@ -11,10 +11,12 @@
         android:id="@+id/text_view_sender"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
         android:background="@drawable/rounded_text_message"
-       android:backgroundTint="@color/light_red"
+        android:backgroundTint="@color/light_red"
         android:maxWidth="240dp"
         android:padding="16dp"
+        android:textColor="@color/black"
         android:text="Sender's text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/sender_profile" />
@@ -22,12 +24,11 @@
     <ImageView
         android:id="@+id/sender_profile"
         android:layout_width="50dp"
-        app:srcCompat="@drawable/cardio"
         android:layout_height="50dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        />
+        app:srcCompat="@drawable/sender_profile_picture" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
