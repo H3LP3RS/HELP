@@ -28,15 +28,14 @@ class LatestMessagesActivity : AppCompatActivity() {
             intent.putExtra(EXTRA_USER_ROLE, Messenger.HELPEE)
             // TODO replace with actual conversation id
             intent.putExtra(EXTRA_CONVERSATION_ID,"conversation_id")
-
             startActivity(intent)
         }
-        addHelper()
-        addHelper()
+        addNewHelper()
+        addNewHelper()
     }
 
-    fun addHelper(){
-        adapter.add(HelperConversation("message"))
+    fun addNewHelper(){
+        adapter.add(HelperConversation(""))
     }
 
     /**
