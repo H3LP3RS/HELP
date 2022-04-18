@@ -34,12 +34,16 @@ class LatestMessagesActivity : AppCompatActivity() {
         addNewHelper()
     }
 
-    fun addNewHelper(){
+    /**
+     * Add a new conversation item to the view everytime a user accepts to provide help and sends
+     * the conversation id
+     */
+     fun addNewHelper(){
         adapter.add(HelperConversation(""))
     }
 
     /**
-     * Class representing a conversation with a helper who accepted to provide medical assistance.
+     * Class representing a conversation layout of a helper who accepted to provide medical assistance.
      */
     class HelperConversation(val message: String): Item<ViewHolder>(){
         override fun bind(viewHolder : ViewHolder, position : Int) {
