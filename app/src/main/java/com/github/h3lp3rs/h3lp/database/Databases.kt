@@ -5,14 +5,24 @@ package com.github.h3lp3rs.h3lp.database
  */
 enum class Databases {
     PREFERENCES, EMERGENCIES, NEW_EMERGENCIES, MESSAGES, CONVERSATION_IDS;
-    var db: Database = FireDatabase(name) // Var to enable test-time mocking
+    var db: Database? = null // Var to enable test-time mocking
     companion object {
         /**
-         * Instantiates the database of the corresponding type
+         * Instantiates the database of the corresponding type (the default database is with
+         * Firebase, unless set otherwise)
+         *
          * @param choice The chosen database
          */
         fun databaseOf(choice: Databases): Database {
-            return choice.db
+            return choice.db ?: FireDatabase(choice.name)
+        }
+
+        /**
+         * Used for testing purposes to give database instances
+         * @param newDatabase The database to use
+         */
+        fun setDatabase(choice: Databases, newDatabase: Database) {
+            choice.db = newDatabase
         }
     }
 }

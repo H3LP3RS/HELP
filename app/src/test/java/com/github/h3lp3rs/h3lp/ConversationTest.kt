@@ -1,10 +1,13 @@
 package com.github.h3lp3rs.h3lp
 
 import com.github.h3lp3rs.h3lp.database.Database
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
+import com.github.h3lp3rs.h3lp.database.Databases.MESSAGES
 import com.github.h3lp3rs.h3lp.database.MockDatabase
 import com.github.h3lp3rs.h3lp.messaging.Conversation
 import com.github.h3lp3rs.h3lp.messaging.Message
 import com.github.h3lp3rs.h3lp.messaging.Messenger.HELPER
+import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import junit.framework.Assert.assertTrue
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.containsString
@@ -27,6 +30,7 @@ class ConversationTest {
     @Before
     fun setup() {
         db = MockDatabase()
+        setDatabase(MESSAGES, db)
         conversation = Conversation(CONVERSATION_ID, MESSENGER)
     }
 

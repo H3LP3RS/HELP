@@ -139,7 +139,7 @@ class HelpPageActivityTest {
         // Adding a listener to the conversations database and checking if the helper sends the
         // helpee a conversation id
         val callBack: (List<String>) -> Unit = {if (it.isNotEmpty()) hasSentUniqueId = true}
-        CONVERSATION_IDS.db.addListListener(HELPEE_ID, String::class.java, callBack)
+        CONVERSATION_IDS.db?.addListListener(HELPEE_ID, String::class.java, callBack)
 
         onView(withId(R.id.accept))
             .check(matches(isDisplayed()))
