@@ -10,6 +10,8 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import com.github.h3lp3rs.h3lp.database.Databases
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.firstaid.AedActivity
 import com.github.h3lp3rs.h3lp.firstaid.AllergyActivity
 import com.github.h3lp3rs.h3lp.firstaid.AsthmaActivity
@@ -40,6 +42,13 @@ class AwaitHelpActivity : AppCompatActivity() {
         apiHelper = GoogleAPIHelper(resources.getString(R.string.google_maps_key))
 
         setupLocation()
+
+
+        // Demo code
+//        val db = databaseOf(Databases.NEW_EMERGENCIES)
+//        db.clearListeners(getString(R.string.ventolin_db_key)) // Avoid being autocalled (for now, we'll need a ds for that later)
+//        db.setString(getString(R.string.ventolin_db_key), getString(R.string.help))
+
 
         val bundle = this.intent.extras
         if(bundle != null) {
@@ -82,6 +91,7 @@ class AwaitHelpActivity : AppCompatActivity() {
         }
 
         alertDialog.show()
+
     }
 
     /**

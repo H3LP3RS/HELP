@@ -2,43 +2,47 @@ package com.github.h3lp3rs.h3lp
 
 import android.Manifest
 import android.app.Activity
-import android.app.Instrumentation
 import android.app.Instrumentation.*
 import android.content.Intent
+import android.location.Location
 import android.os.Bundle
 import android.view.View
-import androidx.test.core.app.ActivityScenario
-import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.*
-import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.*
-import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.assertion.ViewAssertions.*
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.intent.matcher.IntentMatchers.anyIntent
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
+import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import androidx.test.rule.ActivityTestRule
 import androidx.test.rule.GrantPermissionRule
 import com.github.h3lp3rs.h3lp.firstaid.AedActivity
 import com.github.h3lp3rs.h3lp.firstaid.AllergyActivity
 import com.github.h3lp3rs.h3lp.firstaid.AsthmaActivity
 import com.github.h3lp3rs.h3lp.firstaid.HeartAttackActivity
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
+import com.github.h3lp3rs.h3lp.locationmanager.LocationManagerInterface
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.storage.Storages
+import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
+import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import org.hamcrest.Matcher
-import org.hamcrest.Matchers
+import org.hamcrest.Matchers.allOf
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.mockito.Mockito.*
+import org.mockito.kotlin.anyOrNull
 
-// Tests work on local but not on Cirrus
-/*
 class AwaitHelpActivityTest {
+    private val locationManagerMock: LocationManagerInterface =
+        mock(LocationManagerInterface::class.java)
+    private val locationMock: Location = mock(Location::class.java)
 
     private val selectedMeds = arrayListOf("Epipen")
 
@@ -56,11 +60,21 @@ class AwaitHelpActivityTest {
         val intent = getIntent()
         val intentResult = ActivityResult(Activity.RESULT_OK, intent)
         intending(anyIntent()).respondWith(intentResult)
+
+        `when`(locationManagerMock.getCurrentLocation(anyOrNull())).thenReturn(
+            locationMock
+        )
+        GeneralLocationManager.set(locationManagerMock)
+        SignInActivity.globalContext = getApplicationContext()
+        SignInActivity.userUid = USER_TEST_ID
+        resetStorage()
+        storageOf(Storages.USER_COOKIE)
+            .setBoolean(SignInActivity.globalContext.getString(R.string.KEY_USER_AGREE), true)
     }
 
     @After
     fun release() {
-        release()
+        Intents.release()
     }
 
     private fun clickingOnButtonWorksAndSendsIntent(
@@ -68,8 +82,9 @@ class AwaitHelpActivityTest {
         id: Matcher<View>,
         isInScrollView: Boolean
     ) {
+
         // close pop-up
-        onView(withId(R.id.close_call_popup_button)).perform(click())
+        onView(withId(R.id.close_call_popup_button)).inRoot(RootMatchers.isFocusable()).perform(click())
 
         if (isInScrollView) {
             onView(id).perform(scrollTo(), click())
@@ -118,37 +133,35 @@ class AwaitHelpActivityTest {
             withId(R.id.cancel_search_button), false)
     }
 
-// Tests work on local but not on Cirrus
-//    @Test
-//    fun callEmergenciesButtonWorksAndSendIntent() {
-//        // close pop-up
-//        onView(withId(R.id.close_call_popup_button)).perform(click())
-//
-//        val phoneButton = onView(withId(R.id.await_help_call_button))
-//
-//        phoneButton.check(ViewAssertions.matches(isDisplayed()))
-//        phoneButton.perform(click())
-//
-//        intended(
-//            Matchers.allOf(
-//                IntentMatchers.hasAction(Intent.ACTION_DIAL)
-//            )
-//        )
-//    }
-
     @Test
-    fun callEmergenciesFromPopUpWorksAndSendsIntent() {
+    fun callEmergenciesButtonWorksAndSendIntent() {
+        // close pop-up
+        onView(withId(R.id.close_call_popup_button)).inRoot(RootMatchers.isFocusable()).perform(click())
 
-// Tests work on local but not on Cirrus
+        val phoneButton = onView(withId(R.id.await_help_call_button))
+
+        phoneButton.check(matches(isDisplayed()))
+        phoneButton.perform(click())
+
+        intended(
+            allOf(
+                IntentMatchers.hasAction(Intent.ACTION_DIAL)
+            )
+        )
+    }
+
 //    @Test
 //    fun callEmergenciesFromPopUpWorksAndSendsIntent() {
 //        val phoneButton = onView(withId(R.id.open_call_popup_button))
 //
-//        phoneButton.check(ViewAssertions.matches(isDisplayed()))
+//        `when`(locationManagerMock.getCurrentLocation(anyOrNull())).thenReturn(null)
+//        GeneralLocationManager.set(locationManagerMock)
+//
+//        phoneButton.check(matches(isDisplayed()))
 //        phoneButton.perform(click())
 //
 //        intended(
-//            Matchers.allOf(
+//            allOf(
 //                IntentMatchers.hasAction(Intent.ACTION_DIAL)
 //            )
 //        )
@@ -168,4 +181,4 @@ class AwaitHelpActivityTest {
 
         return intent
     }
-}*/
+}
