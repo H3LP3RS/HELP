@@ -20,7 +20,7 @@ import kotlinx.coroutines.MainScope
 const val EXTRA_HELP_REQUIRED_PARAMETERS = "help_page_required_key"
 const val EXTRA_DESTINATION_LAT = "help_page_destination_lat"
 const val EXTRA_DESTINATION_LONG = "help_page_destination_long"
-const val EXTRA_HELP_UNIQUE_ID = "help_page_helpee_unique_id"
+const val EXTRA_HELPEE_ID = "help_page_helpee_unique_id"
 
 /**
  * Activity used to display information about a person in need, their location, the path to them,
@@ -68,7 +68,7 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         helpRequired = bundle?.getStringArrayList(EXTRA_HELP_REQUIRED_PARAMETERS) ?: helpRequired
         destinationLat = bundle?.getDouble(EXTRA_DESTINATION_LAT) ?: destinationLat
         destinationLong = bundle?.getDouble(EXTRA_DESTINATION_LONG) ?: destinationLong
-        helpeeId = bundle?.getString(EXTRA_HELP_UNIQUE_ID) ?: helpeeId
+        helpeeId = bundle?.getString(EXTRA_HELPEE_ID) ?: helpeeId
 
         // Obtain the map fragment
         mapsFragment = supportFragmentManager
