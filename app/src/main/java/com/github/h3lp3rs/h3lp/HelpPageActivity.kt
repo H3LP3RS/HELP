@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.github.h3lp3rs.h3lp.database.Databases
+import com.github.h3lp3rs.h3lp.database.Databases.CONVERSATION_IDS
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.databinding.ActivityHelpPageBinding
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
@@ -40,7 +40,7 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     // TODO : again, this is hardcoded for testing purposes but it will be removed (and initialized
     //  to null after the linking of activities)
-    private var helpUniqueId: String = "42"
+    private var helpeeId: String = "42"
 
     // TODO : this is only for displaying purposes, helpRequired will be initialized to null when
     //  we use this activity to retrieve actual helping requests
@@ -68,7 +68,7 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         helpRequired = bundle?.getStringArrayList(EXTRA_HELP_REQUIRED_PARAMETERS) ?: helpRequired
         destinationLat = bundle?.getDouble(EXTRA_DESTINATION_LAT) ?: destinationLat
         destinationLong = bundle?.getDouble(EXTRA_DESTINATION_LONG) ?: destinationLong
-        helpUniqueId = bundle?.getString(EXTRA_HELP_UNIQUE_ID) ?: helpUniqueId
+        helpeeId = bundle?.getString(EXTRA_HELP_UNIQUE_ID) ?: helpeeId
 
         // Obtain the map fragment
         mapsFragment = supportFragmentManager
@@ -144,30 +144,26 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
      * (see CommunicationProtocol.md for a detailed explanation)
      */
     fun acceptHelpRequest(view: View) {
-        // Only initialise the conversation once
-        if (conversation == null) {
-            val conversationIdsDb = databaseOf(Databases.CONVERSATION_IDS)
-            val messagesDb = databaseOf(Databases.MESSAGES)
+        val conversationIdsDb = databaseOf(CONVERSATION_IDS)
 
-            /**
-             * Callback function which gets a unique conversation id, shares it with the person in
-             * need of help and instantiates a conversation on that id
-             * @param uniqueId The unique conversation id
-             */
-            fun onComplete(uniqueId: String?) {
-                uniqueId?.let {
-                    // Sending the conversation id to the person in need of help (share the
-                    // conversation id)
-                    conversationIdsDb.addToObjectsListConcurrently(helpUniqueId, String::class.java, it)
+        /**
+         * Callback function which gets a unique conversation id, shares it with the person in
+         * need of help and instantiates a conversation on that id
+         * @param uniqueId The unique conversation id
+         */
+        fun onComplete(uniqueId: String?) {
+            uniqueId?.let {
+                // Sending the conversation id to the person in need of help (share the
+                // conversation id)
+                conversationIdsDb.addToObjectsListConcurrently(helpeeId, String::class.java, it)
 
-                    // Creating a conversation on that new unique conversation id
-                    conversation = Conversation(it, messagesDb, HELPER)
-                }
+                // Creating a conversation on that new unique conversation id
+                conversation = Conversation(it, HELPER)
             }
-            // Gets a new conversation id atomically (to avoid 2 helpers getting the same) then
-            // calls the callback
-            conversationIdsDb.incrementAndGet(UNIQUE_CONVERSATION_ID, 1) { onComplete(it) }
         }
+        // Gets a new conversation id atomically (to avoid 2 helpers getting the same) then
+        // calls the callback
+        conversationIdsDb.incrementAndGet(UNIQUE_CONVERSATION_ID, 1) { onComplete(it) }
     }
 
     /** Starts the activity by sending intent */

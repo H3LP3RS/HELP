@@ -1,6 +1,7 @@
 package com.github.h3lp3rs.h3lp.messaging
 
-import com.github.h3lp3rs.h3lp.database.Database
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
+import com.github.h3lp3rs.h3lp.database.Databases.MESSAGES
 
 /**
  * Object representing a conversation
@@ -13,9 +14,9 @@ import com.github.h3lp3rs.h3lp.database.Database
  */
 class Conversation(
     private val conversationId: String,
-    private val database: Database,
     private val currentMessenger: Messenger
 ) {
+    private val database = databaseOf(MESSAGES)
 
     /**
      * Sends a message from the current user to the database

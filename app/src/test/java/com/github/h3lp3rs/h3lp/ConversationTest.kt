@@ -1,7 +1,9 @@
-package com.github.h3lp3rs.h3lp.messaging
+package com.github.h3lp3rs.h3lp
 
 import com.github.h3lp3rs.h3lp.database.Database
 import com.github.h3lp3rs.h3lp.database.MockDatabase
+import com.github.h3lp3rs.h3lp.messaging.Conversation
+import com.github.h3lp3rs.h3lp.messaging.Message
 import com.github.h3lp3rs.h3lp.messaging.Messenger.HELPER
 import junit.framework.Assert.assertTrue
 import org.hamcrest.MatcherAssert.assertThat
@@ -25,7 +27,7 @@ class ConversationTest {
     @Before
     fun setup() {
         db = MockDatabase()
-        conversation = Conversation(CONVERSATION_ID, db, MESSENGER)
+        conversation = Conversation(CONVERSATION_ID, MESSENGER)
     }
 
     @Test
@@ -35,7 +37,7 @@ class ConversationTest {
         conversation.sendMessage(MESSAGE_TEXT)
 
         db.addListListener(CONVERSATION_ID, Message::class.java) {
-            if (it.size == 1 && it[0] == EXPECTED_MESSAGE)
+            if (it.size == 1 && it[0].message == MESSAGE_TEXT && it[0].messenger == MESSENGER)
                 expectedMessageWasSent = true
         }
         assertTrue(expectedMessageWasSent)
