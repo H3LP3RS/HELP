@@ -39,6 +39,7 @@ const val CPR_RATE = "CPR rate"
 const val TUTORIAL = "Tutorial"
 const val HOSPITALS = "Hospitals"
 const val PHARMACIES = "Pharmacies"
+const val SETTINGS = "Settings"
 
 private val mainPageButton = listOf(
     MainPageButton(R.id.button_profile, false),
@@ -273,6 +274,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         navView.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.nav_profile -> goToProfileActivity(findViewById(R.id.button_profile))
+                R.id.nav_settings -> goToSettings(findViewById(R.id.button_profile))
                 R.id.nav_home -> findViewById<DrawerLayout>(R.id.drawer_layout).closeDrawer(
                     GravityCompat.START
                 )
@@ -306,6 +308,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
             TUTORIAL -> viewPresentation(view)
             HOSPITALS -> goToNearbyHospitals(view)
             PHARMACIES -> goToNearbyPharmacies(view)
+            SETTINGS -> goToSettings(view)
         }
     }
 
@@ -333,7 +336,9 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         if(item.itemId==R.id.button_tutorial){
             viewPresentation(findViewById<View>(android.R.id.content).rootView)
         }
-        // else if(item.itemId==R.id.toolbar_settings){ }
+        else if(item.itemId==R.id.toolbar_settings){
+            goToActivity(SettingsActivity::class.java)
+        }
         // TODO ( Allow user to choose data he would like to keep private aka not sent to the database)
 
         return if (toggle.onOptionsItemSelected(item)) true else super.onOptionsItemSelected(item)
@@ -419,6 +424,11 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     /** Called when the user taps the first aid tips button */
     fun goToFirstAid(view : View) {
         goToActivity(FirstAidActivity::class.java)
+    }
+
+    /** Called when the user taps the first aid tips button */
+    fun goToSettings(view : View) {
+        goToActivity(SettingsActivity::class.java)
     }
 
     private fun goToNearbyUtilities(utility : String) {
