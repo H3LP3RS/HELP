@@ -23,9 +23,9 @@
         android:theme="@style/Theme.H3LP">
         <activity
             android:name=".messaging.LatestMessagesActivity"
-            android:exported="true" />
+            android:exported="false" />
         <activity
-            android:name=".signin.SignInActivity"
+            android:name=".MainPageActivity"
             android:exported="false" />
         <activity
             android:name=".HelpPageActivity"
@@ -60,7 +60,7 @@
             android:value="@string/google_maps_key" />
         <activity
             android:name=".NearbyUtilitiesActivity"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".presentation.ToSActivity"
             android:exported="false" />
@@ -69,7 +69,7 @@
             android:exported="false" />
         <activity
             android:name=".AwaitHelpActivity"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".HelpParametersActivity"
             android:exported="false" />
@@ -78,7 +78,7 @@
             android:exported="false" />
         <activity
             android:name=".messaging.ChatActivity"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".presentation.PresIrrelevantActivity"
             android:exported="false" />
@@ -89,7 +89,7 @@
             android:name=".presentation.PresArrivalActivity"
             android:exported="false" />
         <activity
-            android:name=".MainPageActivity"
+            android:name=".signin.SignInActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
