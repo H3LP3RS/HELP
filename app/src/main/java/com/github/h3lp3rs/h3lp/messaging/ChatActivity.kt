@@ -1,7 +1,6 @@
 package com.github.h3lp3rs.h3lp.messaging
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.github.h3lp3rs.h3lp.EXTRA_DESTINATION_LAT
 import com.github.h3lp3rs.h3lp.R
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
@@ -16,8 +15,9 @@ class ChatActivity : AppCompatActivity() {
     private val adapter = GroupAdapter<ViewHolder>()
     private lateinit var userRole : Messenger
     private var conversationId : String? = null
-    val receiverLayout = R.layout.chat_receiver
-    val senderLayout = R.layout.chat_sender
+    private val receiverLayout = R.layout.chat_receiver
+    private val senderLayout = R.layout.chat_sender
+    private lateinit var conversation : Conversation
 
     override fun onCreate(savedInstanceState : Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,30 +25,34 @@ class ChatActivity : AppCompatActivity() {
 
         // This is to be able to know whether a message is meant to be in the right or left layout.
         userRole = intent.getSerializableExtra(EXTRA_USER_ROLE) as Messenger
-
         val bundle = this.intent.extras
         // The conversation id to which to add messages to
         conversationId = bundle?.getString(EXTRA_CONVERSATION_ID) ?: conversationId
 
-        adapter.add(MessageLayout("Hellooo!",senderLayout))
+        conversation = Conversation( conversationId!!, userRole)
 
         recycler_view_chat.adapter = adapter
 
+        conversation.addListener { messages, messenger ->
+            if(messages.isNotEmpty()) {
+                val message = messages.last()
+                if (message.messenger == messenger)
+                    adapter.add(MessageLayout(message.message, senderLayout))
+                else
+                    adapter.add(MessageLayout(message.message, receiverLayout))
+            }
+        }
         button_send_message.setOnClickListener {
             val text = text_view_enter_message.text.toString()
             // When the user clicks on send, the message is sent to the database and shown in the
             // view.
-            sendTextMessage(text)
-            // TODO remove and add listener on to incoming messages as well
-            adapter.add(MessageLayout(text,senderLayout))
+            conversation.sendMessage(text)
             // Clears the text field when the user sends the message
             text_view_enter_message.text.clear()
         }
     }
 
-    private fun sendTextMessage(message : String) {
-        // TODO send message to firebase fromID to toID
-    }
+
 }
 
 /**

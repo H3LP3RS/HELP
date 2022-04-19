@@ -10,7 +10,6 @@ import java.util.concurrent.CompletableFuture
  * to pass this as an extra from an activity to another.
  * @param conversationId The unique conversation id of the conversation, shared by both parties of
  * the conversation, it is the place this conversation is stored in the database
- * @param database The database on which to send messages
  * @param currentMessenger The user that launched the conversation, used to differentiate between
  *  the user that launched the chat and the other user, for example to display the messages with
  *  matching Messenger as sent by the current user
