@@ -120,7 +120,7 @@
                     android:layout_gravity="end"
                     android:src="@drawable/green_tick"
                     android:id="@+id/accept"
-                    android:onClick="goToMainPage"
+                    android:onClick="acceptHelpRequest"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintVertical_bias="0.0"

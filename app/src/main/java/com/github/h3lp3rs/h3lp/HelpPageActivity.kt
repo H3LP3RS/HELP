@@ -5,8 +5,13 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.github.h3lp3rs.h3lp.database.Databases.CONVERSATION_IDS
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.databinding.ActivityHelpPageBinding
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
+import com.github.h3lp3rs.h3lp.messaging.Conversation
+import com.github.h3lp3rs.h3lp.messaging.Conversation.Companion.UNIQUE_CONVERSATION_ID
+import com.github.h3lp3rs.h3lp.messaging.Messenger.HELPER
 import com.github.h3lp3rs.h3lp.util.GDurationJSONParser
 import com.google.android.gms.maps.MapsInitializer
 import kotlinx.coroutines.CoroutineScope
@@ -15,6 +20,7 @@ import kotlinx.coroutines.MainScope
 const val EXTRA_HELP_REQUIRED_PARAMETERS = "help_page_required_key"
 const val EXTRA_DESTINATION_LAT = "help_page_destination_lat"
 const val EXTRA_DESTINATION_LONG = "help_page_destination_long"
+const val EXTRA_HELPEE_ID = "help_page_helpee_unique_id"
 
 /**
  * Activity used to display information about a person in need, their location, the path to them,
@@ -32,6 +38,10 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private var currentLong: Double = 0.0
     private var currentLat: Double = 0.0
 
+    // TODO : again, this is hardcoded for testing purposes but it will be removed (and initialized
+    //  to null after the linking of activities)
+    private var helpeeId: String = "42"
+
     // TODO : this is only for displaying purposes, helpRequired will be initialized to null when
     //  we use this activity to retrieve actual helping requests
     // helpRequired contains strings for each medication / specific help required by the user in
@@ -41,6 +51,9 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     // Map fragment displayed
     private lateinit var mapsFragment: MapsFragment
+
+    // Conversation with the person in need of help (only if the user accepts to help them)
+    private var conversation: Conversation? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +68,7 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         helpRequired = bundle?.getStringArrayList(EXTRA_HELP_REQUIRED_PARAMETERS) ?: helpRequired
         destinationLat = bundle?.getDouble(EXTRA_DESTINATION_LAT) ?: destinationLat
         destinationLong = bundle?.getDouble(EXTRA_DESTINATION_LONG) ?: destinationLong
+        helpeeId = bundle?.getString(EXTRA_HELPEE_ID) ?: helpeeId
 
         // Obtain the map fragment
         mapsFragment = supportFragmentManager
@@ -125,6 +139,32 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         }
     }
 
+    /**
+     * Accepts the help requests and initialises a conversation with the person in need of help
+     * (see CommunicationProtocol.md for a detailed explanation)
+     */
+    fun acceptHelpRequest(view: View) {
+        val conversationIdsDb = databaseOf(CONVERSATION_IDS)
+
+        /**
+         * Callback function which gets a unique conversation id, shares it with the person in
+         * need of help and instantiates a conversation on that id
+         * @param uniqueId The unique conversation id
+         */
+        fun onComplete(uniqueId: String?) {
+            uniqueId?.let {
+                // Sending the conversation id to the person in need of help (share the
+                // conversation id)
+                conversationIdsDb.addToObjectsListConcurrently(helpeeId, String::class.java, it)
+
+                // Creating a conversation on that new unique conversation id
+                conversation = Conversation(it, HELPER)
+            }
+        }
+        // Gets a new conversation id atomically (to avoid 2 helpers getting the same) then
+        // calls the callback
+        conversationIdsDb.incrementAndGet(UNIQUE_CONVERSATION_ID, 1) { onComplete(it) }
+    }
 
     /** Starts the activity by sending intent */
     private fun goToActivity(ActivityName: Class<*>?) {

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+
     package="com.github.h3lp3rs.h3lp">
-    <!--
+<!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
          location permissions for the "MyLocation" functionality.
@@ -28,7 +29,7 @@
             android:exported="false" />
         <activity
             android:name=".HelpPageActivity"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".MySkillsActivity"
             android:exported="false" />
@@ -39,11 +40,12 @@
             android:name=".firstaid.AedActivity"
             android:exported="false" />
         <activity
+
             android:name=".firstaid.HeartAttackActivity"
             android:exported="false" />
-        <activity
+         <activity
             android:name=".firstaid.AllergyActivity"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".FirstAidActivity"
             android:exported="false" />
@@ -53,9 +55,9 @@
             sign the APK for publishing.
         -->
         <meta-data
+
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-
         <activity
             android:name=".NearbyUtilitiesActivity"
             android:exported="true" />
