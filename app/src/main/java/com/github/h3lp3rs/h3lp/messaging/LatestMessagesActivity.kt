@@ -19,14 +19,19 @@ class LatestMessagesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState : Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_latest_messages)
+
         recyclerview_latest_messages.adapter = adapter
+
         adapter.setOnItemClickListener { item, view ->
             // val userItem = item as HelperConversation
             val intent = Intent(view.context, ChatActivity::class.java)
             // This is needed to differentiate between sent and received text messages. It will be
-            // compared  the Messenger received in a conversation.
-            // If the chat activity was launched from the latest messages activity, we know the user
-            // is a person requesting help.
+            // compared  to the value of Messenger of a conversation.
+            // If the chat activity was launched from the LatestMessagesActivity, we know the user
+            // is a person requesting help. The LatestMessagesActivity is only launched from the
+            // AwaitHelpActivity, because a helper can only respond to an emergency at at time,
+            // whereas numerous people can accept to help the same person and thus the helpee can
+            // communicate with more than one person.
             intent.putExtra(EXTRA_USER_ROLE, HELPEE)
             // TODO replace with actual conversation id
             intent.putExtra(EXTRA_CONVERSATION_id,"conversation")
@@ -41,17 +46,16 @@ class LatestMessagesActivity : AppCompatActivity() {
      * the conversation id
      */
      fun addNewHelper(){
-        adapter.add(HelperConversation(""))
+        adapter.add(HelperConversation())
     }
 
     /**
      * Class representing a conversation layout of a helper who accepted to provide medical assistance.
      */
-    class HelperConversation(val message: String): Item<ViewHolder>(){
+    class HelperConversation(): Item<ViewHolder>(){
         override fun bind(viewHolder : ViewHolder, position : Int) {
 
         }
-
         override fun getLayout() : Int {
            return R.layout.latest_message_row
         }

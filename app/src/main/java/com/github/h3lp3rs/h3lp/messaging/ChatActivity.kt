@@ -60,10 +60,9 @@ class ChatActivity : AppCompatActivity() {
  * Class representing the layout of the user's text messages.
  */
 private class MessageLayout(private val message : String, private val layout: Int ) : Item<ViewHolder>() {
-    val senderLayout = R.layout.chat_sender
 
     override fun bind(viewHolder : ViewHolder, position : Int) {
-        if(layout== senderLayout)
+        if(layout == R.layout.chat_sender)
             viewHolder.itemView.text_view_sender.text = message
         else
             viewHolder.itemView.text_view_receiver.text = message
