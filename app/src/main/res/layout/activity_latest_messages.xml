@@ -18,7 +18,7 @@
             android:background="@drawable/teal_background"
             android:elevation="5dp"
             android:gravity="center_vertical"
-            android:text="  Latest messages"
+            android:text="@string/latest_messages"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"

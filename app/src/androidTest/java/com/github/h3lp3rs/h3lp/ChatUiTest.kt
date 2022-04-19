@@ -39,7 +39,7 @@ class ChatUiTest {
 
     @Before
     fun setup() {
-        /* doesn't work
+        /* doesn't work :(
         // Launching the activity with different parameters
         val bundle = Bundle()
         bundle.putString(EXTRA_CONVERSATION_ID, CONVERSATION_ID)

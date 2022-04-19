@@ -13,7 +13,7 @@
         android:layout_marginStart="5dp"
         android:backgroundTint="@color/light_grey"
         android:layout_marginLeft="8dp"
-        android:text="Receiver's text"
+        android:text="@string/receiver_s_text"
         android:textColor="@color/black"
         android:background="@drawable/rounded_text_message"
         android:padding="16dp"

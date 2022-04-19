@@ -295,4 +295,8 @@
     <string name="helper_marker_desc">Helper coming to help you</string>
     <string name="pop_up_call_emergencies_text">We are currently looking for help nearby. If you require medical assistance, we highly recommend that you still call the local emergency services with the button below and mention that you are using our app.</string>
     <string name="did_you_call_emergency_services_popup">Did you call emergency services?</string>
+    <string name="type_your_message">Type your message...</string>
+    <string name="sender_s_text">Sender\'s text</string>
+    <string name="receiver_s_text">Receiver\'s text</string>
+    <string name="latest_messages">"   Latest messages"</string>
 </resources>

@@ -17,7 +17,7 @@
         android:maxWidth="240dp"
         android:padding="16dp"
         android:textColor="@color/black"
-        android:text="Sender's text"
+        android:text="@string/sender_s_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/sender_profile" />
 

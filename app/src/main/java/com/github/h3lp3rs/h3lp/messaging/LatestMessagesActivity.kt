@@ -15,7 +15,6 @@ import kotlinx.android.synthetic.main.latest_message_row.view.*
 
 
 class LatestMessagesActivity : AppCompatActivity() {
-    // TODO this will be removed, this is only for testing purposes until we implement Notifications
     private var helpeeId : String? = null
     private val adapter = GroupAdapter<ViewHolder>()
 
