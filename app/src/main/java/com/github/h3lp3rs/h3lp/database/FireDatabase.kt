@@ -166,11 +166,51 @@ internal class FireDatabase(path: String) : Database {
     }
 
     /**
-     * Atomically increments an integer value of the database
+     * Atomically increments an integer value of the database and calls the callback with the new
+     * value
      * @param key The key in the database
-     * @param number The number to increment by
+     * @param increment The number to increment by
+     * @param onComplete The callback to be called with the new value (the new value can be null
+     * in case of a database error, thus why onComplete takes a nullable String)
      */
-    override fun incrementBy(key: String, number: Int) {
-        db.child(key).setValue(ServerValue.increment(number.toLong()))
+    override fun incrementAndGet(key: String, increment: Int, onComplete: (String?) -> Unit) {
+        val keyRef = db.child(key)
+        // A transaction is a set of reads and writes that happen atomically
+        keyRef.runTransaction(object : Transaction.Handler {
+
+            /**
+             * This method will be called, possibly multiple times, with the current data at this
+             * location. It is responsible for inspecting that data and returning a [Result]
+             * specifying either the desired new data at the location or that the transaction should be
+             * aborted.
+             *
+             * @param currentData The current counter value associated to the key
+             * @return Either the incremented counter, or an indication to abort the transaction
+             */
+            override fun doTransaction(currentData: MutableData): Transaction.Result {
+                val oldValue = currentData.getValue<Int>()
+                // If oldValue is null, this means that there is no counter associated with this
+                // key, we thus initialise it to the requested number (as if the counter were just
+                // initialised, it should get value 0 + number = number)
+                currentData.value = oldValue?.plus(increment) ?: increment
+                return Transaction.success(currentData)
+            }
+
+            /**
+             * This method will be called once with the results of the transaction.
+             *
+             * @param error null if no errors occurred, otherwise it contains a description of the error
+             * @param committed True if the transaction successfully completed, false if it was aborted or
+             * an error occurred
+             * @param currentData The current data at the location or null if an error occurred
+             */
+            override fun onComplete(
+                error: DatabaseError?,
+                committed: Boolean,
+                currentData: DataSnapshot?
+            ) {
+                onComplete(currentData?.getValue<Int>()?.toString())
+            }
+        })
     }
 }

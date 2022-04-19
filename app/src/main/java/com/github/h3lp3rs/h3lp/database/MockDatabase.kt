@@ -159,15 +159,19 @@ class MockDatabase : Database {
     }
 
     /**
-     * Atomically increments an integer value of the database
+     * Atomically increments an integer value of the database and calls the callback with the new
+     * value
      * @param key The key in the database
-     * @param number The number to increment by
+     * @param increment The number to increment by
+     * @param onComplete The callback to be called with the new value (the new value can be null
+     * in case of a database error, thus why onComplete takes a nullable String)
      */
-    override fun incrementBy(key: String, number: Int) {
-        checkHasKey(db, key)
+    override fun incrementAndGet(key: String, increment: Int, onComplete: (String?) -> Unit) {
         synchronized(this) {
-            val old = db[key] as Int
-            db.put(key, old + number)
+            val old = db.getOrDefault(key, 0) as Int
+            val new = old + increment
+            db[key] = new
+            onComplete(new.toString())
         }
     }
 }

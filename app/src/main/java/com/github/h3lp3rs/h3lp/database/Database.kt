@@ -107,9 +107,12 @@ interface Database {
     fun delete(key: String)
 
     /**
-     * Atomically increments an integer value of the database
+     * Atomically increments an integer value of the database and calls the callback with the new
+     * value
      * @param key The key in the database
-     * @param number The number to increment by
+     * @param increment The number to increment by
+     * @param onComplete The callback to be called with the new value (the new value can be null
+     * in case of a database error, thus why onComplete takes a nullable String)
      */
-    fun incrementBy(key: String, number: Int)
+    fun incrementAndGet(key: String, increment: Int, onComplete: (String?) -> Unit)
 }
