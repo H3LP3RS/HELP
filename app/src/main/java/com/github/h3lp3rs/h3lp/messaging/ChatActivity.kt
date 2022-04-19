@@ -36,7 +36,7 @@ class ChatActivity : AppCompatActivity() {
         if(user!=null)
             userRole = user as Messenger
 
-        // The conversation id to which to add messages to
+        // The conversation id used to send text messages on the database
         conversationId = intent.getStringExtra(EXTRA_CONVERSATION_ID) ?: conversationId
         conversation = Conversation( conversationId, userRole)
 
