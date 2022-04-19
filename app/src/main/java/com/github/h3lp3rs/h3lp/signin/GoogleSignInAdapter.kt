@@ -89,4 +89,12 @@ object GoogleSignInAdapter: SignInInterface<AuthResult> {
     override fun isSignedIn(): Boolean {
         return auth.currentUser != null
     }
+
+    /**
+     * Get tje unique id of the user
+     * @return uid (null if not signed in)
+     */
+    override fun getUid(): String? {
+        return auth.currentUser?.uid
+    }
 }
