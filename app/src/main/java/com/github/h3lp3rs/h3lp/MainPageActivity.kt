@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -19,7 +20,10 @@ import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.notification.NotificationService
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
+import com.github.h3lp3rs.h3lp.professional.ProMainActivity
+import com.github.h3lp3rs.h3lp.professional.ProUser
 import com.github.h3lp3rs.h3lp.professional.VerificationActivity
+import com.github.h3lp3rs.h3lp.signin.GoogleSignInAdapter
 import com.github.h3lp3rs.h3lp.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
@@ -28,6 +32,7 @@ import com.google.android.material.snackbar.Snackbar
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
 import uk.co.samuelwall.materialtaptargetprompt.extras.backgrounds.RectanglePromptBackground
 import uk.co.samuelwall.materialtaptargetprompt.extras.focals.RectanglePromptFocal
+import java.lang.Exception
 
 
 const val EXTRA_NEARBY_UTILITIES = "nearby_utilities"
@@ -423,7 +428,14 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
 
     /** Called when the user taps the professional portal  button */
     fun goToProfessionalPortal(view : View) {
-        goToActivity(VerificationActivity::class.java)
+        val db = databaseOf(Databases.PRO_USERS)
+        db.getObject(GoogleSignInAdapter.auth.currentUser?.uid.toString(), ProUser::class.java).handle { _, err ->
+            if(err != null){
+                goToActivity(VerificationActivity::class.java)
+                return@handle
+            }
+            goToActivity(ProMainActivity::class.java)
+        }
     }
 
     private fun goToNearbyUtilities(utility : String) {

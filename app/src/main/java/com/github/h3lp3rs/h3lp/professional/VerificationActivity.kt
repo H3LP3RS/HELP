@@ -25,7 +25,7 @@ class VerificationActivity : AppCompatActivity() {
     private lateinit var img : ImageView
     private lateinit var progressBar : ProgressBar
     private lateinit var storageRef : StorageReference
-    private val db = Databases.databaseOf(Databases.NEW_EMERGENCIES) //TODO create prousers db
+    private val db = Databases.databaseOf(Databases.PRO_USERS) //TODO create prousers db
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
