@@ -1,6 +1,8 @@
 package com.github.h3lp3rs.h3lp.messaging
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.ThemedSpinnerAdapter
+import com.github.h3lp3rs.h3lp.EXTRA_HELPEE_ID
 import com.github.h3lp3rs.h3lp.R
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
@@ -8,6 +10,8 @@ import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.chat_receiver.view.*
 import kotlinx.android.synthetic.main.chat_sender.view.*
+import java.util.ResourceBundle.getBundle
+import kotlin.system.exitProcess
 
 const val EXTRA_CONVERSATION_ID = "conversation_id"
 const val EXTRA_USER_ROLE = "user_role"
@@ -15,8 +19,10 @@ const val EXTRA_USER_ROLE = "user_role"
 class ChatActivity : AppCompatActivity() {
 
     private val adapter = GroupAdapter<ViewHolder>()
-    private lateinit var userRole : Messenger
-    private var conversationId : String? = null
+    // Initialized for tests
+    private  var userRole : Messenger = Messenger.HELPEE
+    private var conversationId : String = "testing_id"
+
     private val receiverLayout = R.layout.chat_receiver
     private val senderLayout = R.layout.chat_sender
     private lateinit var conversation : Conversation
@@ -26,12 +32,13 @@ class ChatActivity : AppCompatActivity() {
         setContentView(R.layout.activity_chat)
 
         // This is to be able to know whether a message is meant to be in the right or left layout.
-        userRole = intent.getSerializableExtra(EXTRA_USER_ROLE) as Messenger
+        val user = intent.getSerializableExtra(EXTRA_USER_ROLE)
+        if(user!=null)
+            userRole = user as Messenger
 
-        val bundle = this.intent.extras
         // The conversation id to which to add messages to
-        conversationId = bundle?.getString(EXTRA_CONVERSATION_ID) ?: conversationId
-        conversation = Conversation( conversationId!!, userRole)
+        conversationId = intent.getStringExtra(EXTRA_CONVERSATION_ID) ?: conversationId
+        conversation = Conversation( conversationId, userRole)
 
         recycler_view_chat.adapter = adapter
 

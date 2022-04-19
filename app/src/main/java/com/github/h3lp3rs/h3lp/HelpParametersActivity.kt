@@ -104,7 +104,7 @@ class HelpParametersActivity : AppCompatActivity() {
             ).show()
         } else {
 
-            val b = Bundle()
+            val b =Bundle ()
             b.putStringArrayList(EXTRA_NEEDED_MEDICATION, meds)
             b.putBoolean(EXTRA_CALLED_EMERGENCIES, calledEmergencies)
             val intent = Intent(this, AwaitHelpActivity::class.java)
