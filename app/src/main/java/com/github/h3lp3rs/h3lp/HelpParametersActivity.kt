@@ -18,13 +18,13 @@ import com.github.h3lp3rs.h3lp.database.models.EmergencyInformation
 import com.github.h3lp3rs.h3lp.database.repositories.emergencyInfoRepository
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 import com.github.h3lp3rs.h3lp.messaging.Conversation
-import com.github.h3lp3rs.h3lp.messaging.Messenger.HELPEE
 import com.github.h3lp3rs.h3lp.storage.LocalStorage
 import java.util.*
 
 
 const val EXTRA_NEEDED_MEDICATION = "needed_meds_key"
 const val EXTRA_CALLED_EMERGENCIES = "has_called_emergencies"
+const val EXTRA_HELPEE_ID = "helpee_id"
 
 /**
  * Activity in which the user can select the medications they need urgently
@@ -38,13 +38,7 @@ class HelpParametersActivity : AppCompatActivity() {
     private var meds: ArrayList<String> = ArrayList()
     private val currentTime: Date = Calendar.getInstance().time;
     private var calledEmergencies = false
-
-    /**
-     * List of the conversations of the person in need of help with all their helpers
-     * The list is a synchronizedList to allow for several conversations to be concurrently added
-     * to it
-     */
-    private var conversations = Collections.synchronizedList<Conversation>(mutableListOf())
+    private var helpeeId : String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,7 +66,6 @@ class HelpParametersActivity : AppCompatActivity() {
         }
 
     }
-
 
     /**
      *  Called when the user presses the emergency call button. Opens the phone call app with the
@@ -113,8 +106,9 @@ class HelpParametersActivity : AppCompatActivity() {
             b.putStringArrayList(EXTRA_NEEDED_MEDICATION, meds)
             b.putBoolean(EXTRA_CALLED_EMERGENCIES, calledEmergencies)
             val intent = Intent(this, AwaitHelpActivity::class.java)
-            intent.putExtras(b)
             sendInfoAndInitConv()
+            b.putString(EXTRA_HELPEE_ID,helpeeId)
+            intent.putExtras(b)
             startActivity(intent)
         }
     }
@@ -136,7 +130,8 @@ class HelpParametersActivity : AppCompatActivity() {
              *      them with the helpee
              */
             fun onComplete(id: String?) {
-                id?.let { helpeeId ->
+                id?.let { helpId ->
+                    helpeeId = helpId
                     /*
                      * Sending the emergency information
                      */
@@ -146,7 +141,7 @@ class HelpParametersActivity : AppCompatActivity() {
                         .getStringOrDefault(getString(R.string.medical_info_key), "")
 
                     val emergencyInfo = EmergencyInformation(
-                        id = helpeeId,
+                        id = helpId,
                         latitude = latitude!!,
                         longitude = longitude!!,
                         meds = meds,
@@ -154,16 +149,6 @@ class HelpParametersActivity : AppCompatActivity() {
                         medicalInfo = medicalInfo!!
                     )
                     emergencyInfoRepository.insert(emergencyInfo)
-
-                    /*
-                     * Preparing to instantiate conversations by adding a listener on the helper id,
-                     * on every new conversation id added, we create a corresponding Conversation
-                     * object and add it to the conversations list
-                     */
-                    conversationIdsDb.addListListener(
-                        helpeeId,
-                        String::class.java
-                    ) { addNewConversations(it) }
                 }
             }
 
@@ -172,21 +157,6 @@ class HelpParametersActivity : AppCompatActivity() {
             conversationIdsDb.incrementAndGet(Conversation.UNIQUE_CONVERSATION_ID, 1) {
                 onComplete(it)
             }
-        }
-    }
-
-    /**
-     * Adds the corresponding conversation when a helper sends a unique conversation id to the helpee
-     * @param conversationIds The list of all current conversation ids, by definition of
-     * database.addToObjectsList the new conversation id is stored at the end of the list
-     */
-    private fun addNewConversations(conversationIds: List<String>) {
-        // This emptiness check is required since listener callbacks are called at initialisation
-        // (and thus when the list of conversation ids is still empty
-        if (conversationIds.isNotEmpty()) {
-            // Only taking the new conversation id
-            val newConversation = Conversation(conversationIds.last(), HELPEE)
-            conversations.add(newConversation)
         }
     }
 

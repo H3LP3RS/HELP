@@ -33,7 +33,7 @@ class AwaitHelpActivity : AppCompatActivity() {
 
     private lateinit var mapsFragment: MapsFragment
     private lateinit var apiHelper: GoogleAPIHelper
-
+    private var helpeeId : String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +45,7 @@ class AwaitHelpActivity : AppCompatActivity() {
 
         val bundle = this.intent.extras
         if(bundle != null) {
+            helpeeId = bundle.getString(EXTRA_HELPEE_ID)
             askedMeds.plus(bundle.getStringArrayList(EXTRA_NEEDED_MEDICATION))
 
             // If we did not call emergency services already, show a pop_up
@@ -103,9 +104,11 @@ class AwaitHelpActivity : AppCompatActivity() {
             helpersText.text = String.format( "%d people are coming to help you", helpersNumbers)
         } else {
             helpersText.text = String.format( "%d person is coming to help you", helpersNumbers)
-            // When the first user agrees to provide help, the helpee can thus contact
+            // When the first user agrees to provide help, the user can contact
             // him via the chat feature.
             constraint_layout_contact_helpers.visibility = View.VISIBLE
+            image_open_latest_messages.setOnClickListener{goToLatestMessagesActivity()}
+
         }
         helpersText.visibility = View.VISIBLE
 
@@ -185,8 +188,10 @@ class AwaitHelpActivity : AppCompatActivity() {
         goToActivity(HeartAttackActivity::class.java)
     }
 
-    fun goToLatestMessagesActivity(view : View){
-        goToActivity(LatestMessagesActivity::class.java)
+    private fun goToLatestMessagesActivity(){
+        val intent = Intent(this, LatestMessagesActivity::class.java)
+        intent.putExtra(EXTRA_HELPEE_ID, helpeeId)
+        startActivity(intent)
     }
 
     /**

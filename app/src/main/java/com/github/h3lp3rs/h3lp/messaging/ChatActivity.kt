@@ -9,8 +9,8 @@ import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.chat_receiver.view.*
 import kotlinx.android.synthetic.main.chat_sender.view.*
 
-private const val EXTRA_CONVERSATION_ID = "conversation_id"
-private const val EXTRA_USER_ROLE = "user_role"
+const val EXTRA_CONVERSATION_ID = "conversation_id"
+const val EXTRA_USER_ROLE = "user_role"
 
 class ChatActivity : AppCompatActivity() {
 
