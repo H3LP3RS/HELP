@@ -41,7 +41,7 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     // TODO : again, this is hardcoded for testing purposes but it will be removed (and initialized
     //  to null after the linking of activities)
-    private var helpeeId : String = "42"
+    private var helpeeId : String = "test_end_to_end"
 
     // TODO : this is only for displaying purposes, helpRequired will be initialized to null when
     //  we use this activity to retrieve actual helping requests

@@ -27,10 +27,10 @@ class ChatActivity : AppCompatActivity() {
 
         // This is to be able to know whether a message is meant to be in the right or left layout.
         userRole = intent.getSerializableExtra(EXTRA_USER_ROLE) as Messenger
+
         val bundle = this.intent.extras
         // The conversation id to which to add messages to
         conversationId = bundle?.getString(EXTRA_CONVERSATION_ID) ?: conversationId
-
         conversation = Conversation( conversationId!!, userRole)
 
         recycler_view_chat.adapter = adapter

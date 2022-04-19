@@ -23,7 +23,7 @@
         android:theme="@style/Theme.H3LP">
         <activity
             android:name=".messaging.LatestMessagesActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".MainPageActivity"
             android:exported="false" />
@@ -72,7 +72,7 @@
             android:exported="false" />
         <activity
             android:name=".HelpParametersActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".CprRateActivity"
             android:exported="false" />

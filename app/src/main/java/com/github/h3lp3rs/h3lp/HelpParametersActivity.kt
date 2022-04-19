@@ -38,7 +38,9 @@ class HelpParametersActivity : AppCompatActivity() {
     private var meds: ArrayList<String> = ArrayList()
     private val currentTime: Date = Calendar.getInstance().time;
     private var calledEmergencies = false
-    private var helpeeId : String? = null
+    //TODO this is only for testing, it will be put back to null after implementing the
+    // communication of emergencies
+    private var helpeeId : String? = "test_end_to_end"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
