@@ -19,6 +19,8 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.notification.NotificationService
+import com.github.h3lp3rs.h3lp.notification.NotificationService.Companion.createNotificationChannel
+import com.github.h3lp3rs.h3lp.notification.NotificationService.Companion.sendOpenActivityNotification
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
 import com.github.h3lp3rs.h3lp.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.*
@@ -288,9 +290,10 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     private fun addAlertNotification() {
         val db = databaseOf(Databases.NEW_EMERGENCIES)
         db.addListener(getString(R.string.ventolin_db_key), String::class.java) {
-            if (it.equals(getString(R.string.help))) {
+            if (it == getString(R.string.help)) {
                 db.setString(getString(R.string.ventolin_db_key), getString(R.string.nothing))
-                NotificationService.sendOpenActivityNotification(this,getString(R.string.emergency), getString(R.string.need_help),MainPageActivity::class.java)
+                createNotificationChannel(this)
+                sendOpenActivityNotification(this,getString(R.string.emergency), getString(R.string.need_help), HelpPageActivity::class.java)
             }
         }
     }
