@@ -3,6 +3,9 @@ package com.github.h3lp3rs.h3lp
 import android.app.Activity
 import android.content.Intent
 import android.app.Instrumentation.*
+import android.os.Bundle
+import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.*
@@ -36,10 +39,20 @@ class ChatUiTest {
 
     @Before
     fun setup() {
-        init()
-        val intent = Intent()
-        val intentResult = ActivityResult(Activity.RESULT_OK, intent)
-        intending(anyIntent()).respondWith(intentResult)
+        /* doesn't work
+        // Launching the activity with different parameters
+        val bundle = Bundle()
+        bundle.putString(EXTRA_CONVERSATION_ID, CONVERSATION_ID)
+        bundle.putStringArrayList(EXTRA_HELP_REQUIRED_PARAMETERS, arrayListOf(EPIPEN))
+        val intent = Intent(
+            ApplicationProvider.getApplicationContext(),
+            ChatActivity::class.java
+        ).apply {
+            putExtras(bundle)
+            putExtra(EXTRA_USER_ROLE, Messenger.HELPEE)
+        }
+        ActivityScenario.launch<ChatActivity>(intent)
+        */
         conversationFrom = Conversation(CONVERSATION_ID, currentMessenger)
         conversationTo = Conversation(CONVERSATION_ID,toMessenger)
     }
@@ -65,13 +78,4 @@ class ChatUiTest {
             .perform(RecyclerViewActions.scrollToPosition<ViewHolder>(0))
             .check(matches(hasDescendant(withText(RECEIVED_MESSAGE))))
     }
-    /*
-    doesn't work :/
-    private fun getIntent(): Intent {
-        val intent = Intent(getApplicationContext(), ChatActivity::class.java)
-        intent.putExtra(EXTRA_USER_ROLE, Messenger.HELPER)
-        intent.putExtra(EXTRA_CONVERSATION_ID, "ChatUiTest")
-        return intent
-    }
-     */
 }

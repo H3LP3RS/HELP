@@ -62,9 +62,7 @@ class AwaitHelpActivity : AppCompatActivity() {
         // Initially the contact helpers is hidden, only after a user responds to the request it
         // becomes visible.
         constraint_layout_contact_helpers.visibility = View.INVISIBLE
-        //TODO REMOVE NOW! both
-        constraint_layout_contact_helpers.visibility = View.VISIBLE
-        image_open_latest_messages.setOnClickListener{goToLatestMessagesActivity()}
+
     }
 
     /**
