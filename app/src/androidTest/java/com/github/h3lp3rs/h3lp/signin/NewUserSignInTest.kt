@@ -60,6 +60,7 @@ class NewUserSignInTest {
             When(taskMock.isSuccessful).thenReturn(true)
             When(taskMock.isComplete).thenReturn(true)
             When(signInMock.signIn(activity)).thenReturn(intent)
+            When(signInMock.getUid()).thenReturn(USER_TEST_ID)
             When(signInMock.authenticate(anyOrNull(), anyOrNull())).thenAnswer {
                 authenticationStarted = true
                 taskMock
