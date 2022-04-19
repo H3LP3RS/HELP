@@ -178,7 +178,7 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private fun goToChatActivity() {
         val intent = Intent(this, ChatActivity::class.java)
         // This is needed to differentiate between sent and received text messages. It will be
-        // compared  the Messenger received in a conversation.
+        // compared  to the Messenger value received in a conversation.
         // If the chat activity was launched from the help page activity, we know the user is a
         // helper.
         intent.putExtra(EXTRA_USER_ROLE, HELPER)
