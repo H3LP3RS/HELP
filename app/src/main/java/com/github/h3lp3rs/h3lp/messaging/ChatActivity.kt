@@ -53,10 +53,9 @@ class ChatActivity : AppCompatActivity() {
         }
         button_send_message.setOnClickListener {
             val text = text_view_enter_message.text.toString()
-            // When the user clicks on send, the message is sent to the database and shown in the
-            // view.
+            // When the user clicks on send, the message is sent to the database
             conversation.sendMessage(text)
-            // Clears the text field when the user sends the message
+            // Clear the text field when the user hits send
             text_view_enter_message.text.clear()
         }
     }
