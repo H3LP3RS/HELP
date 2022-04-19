@@ -3,16 +3,14 @@ package com.github.h3lp3rs.h3lp.messaging
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.github.h3lp3rs.h3lp.AwaitHelpActivity
-import com.github.h3lp3rs.h3lp.EXTRA_CALLED_EMERGENCIES
-import com.github.h3lp3rs.h3lp.EXTRA_NEEDED_MEDICATION
 import com.github.h3lp3rs.h3lp.R
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_latest_messages.*
+import com.github.h3lp3rs.h3lp.messaging.Messenger.HELPEE
 
-const val EXTRA_CONVERSATION_ID = "conversation_id"
+private const val EXTRA_CONVERSATION_id = "conversation_id"
 const val EXTRA_USER_ROLE = "user_role"
 
 class LatestMessagesActivity : AppCompatActivity() {
@@ -25,9 +23,13 @@ class LatestMessagesActivity : AppCompatActivity() {
         adapter.setOnItemClickListener { item, view ->
             // val userItem = item as HelperConversation
             val intent = Intent(view.context, ChatActivity::class.java)
-            intent.putExtra(EXTRA_USER_ROLE, Messenger.HELPEE)
+            // This is needed to differentiate between sent and received text messages. It will be
+            // compared  the Messenger received in a conversation.
+            // If the chat activity was launched from the latest messages activity, we know the user
+            // is a person requesting help.
+            intent.putExtra(EXTRA_USER_ROLE, HELPEE)
             // TODO replace with actual conversation id
-            intent.putExtra(EXTRA_CONVERSATION_ID,"conversation_id")
+            intent.putExtra(EXTRA_CONVERSATION_id,"conversation")
             startActivity(intent)
         }
         addNewHelper()

@@ -15,9 +15,11 @@ import com.github.h3lp3rs.h3lp.firstaid.AllergyActivity
 import com.github.h3lp3rs.h3lp.firstaid.AsthmaActivity
 import com.github.h3lp3rs.h3lp.firstaid.HeartAttackActivity
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
+import com.github.h3lp3rs.h3lp.messaging.LatestMessagesActivity
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import kotlinx.android.synthetic.main.activity_await_help.*
 
 /**
  * Activity during which the user waits for help from other user.
@@ -55,6 +57,10 @@ class AwaitHelpActivity : AppCompatActivity() {
 
         //TODO add listener on database so that we replace the loading bar by the number of
         // users coming to help and their position
+
+        // Initially the contact helpers is hidden, only after a user responds to the request it
+        // becomes visible.
+        constraint_layout_contact_helpers.visibility = View.INVISIBLE
     }
 
     /**
@@ -86,7 +92,7 @@ class AwaitHelpActivity : AppCompatActivity() {
 
     /**
      * Called when a someone responds to the help request. Replaces the waiting
-     * bar by the number of helpers coming.
+     * bar by the number of helpers coming and makes the contact helpers button visible.
      */
     private fun foundHelperPerson(latitude: Double, longitude: Double){
         findViewById<ProgressBar>(R.id.searchProgressBar).visibility = View.GONE
@@ -97,8 +103,12 @@ class AwaitHelpActivity : AppCompatActivity() {
             helpersText.text = String.format( "%d people are coming to help you", helpersNumbers)
         } else {
             helpersText.text = String.format( "%d person is coming to help you", helpersNumbers)
+            // When the first user agrees to provide help, the helpee can thus contact
+            // him via the chat feature.
+            constraint_layout_contact_helpers.visibility = View.VISIBLE
         }
         helpersText.visibility = View.VISIBLE
+
     }
 
     /**
@@ -175,11 +185,16 @@ class AwaitHelpActivity : AppCompatActivity() {
         goToActivity(HeartAttackActivity::class.java)
     }
 
+    fun goToLatestMessagesActivity(view : View){
+        goToActivity(LatestMessagesActivity::class.java)
+    }
+
     /**
      * Cancels the search on the Database and goes back to MainActivity
      */
     fun cancelHelpSearch(view: View){
         // TODO the action on the DB is not yet defined
+        // TODO should include deleted the conversation from the db
         goToActivity(MainPageActivity::class.java)
     }
 }

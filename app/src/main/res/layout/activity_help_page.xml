@@ -102,25 +102,35 @@
 
 
             <ImageView
+                    android:id="@+id/button_reject"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_marginHorizontal="70dp"
                     android:layout_gravity="start"
                     android:src="@drawable/cancel_button"
-                    android:id="@+id/reject"
                     android:onClick="goToMainPage"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
             <ImageView
+                    android:id="@+id/button_accept"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_marginHorizontal="70dp"
                     android:layout_gravity="end"
                     android:src="@drawable/green_tick"
-                    android:id="@+id/accept"
-                    android:onClick="acceptHelpRequest"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:layout_constraintEnd_toEndOf="parent" />
+                <ImageView
+                    android:id="@+id/button_chat_from_help_page"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_marginHorizontal="70dp"
+                    android:layout_gravity="end"
+                    android:src="@drawable/chat"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintVertical_bias="0.0"

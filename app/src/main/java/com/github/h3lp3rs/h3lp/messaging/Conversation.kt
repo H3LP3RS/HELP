@@ -2,9 +2,12 @@ package com.github.h3lp3rs.h3lp.messaging
 
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.database.Databases.MESSAGES
+import java.io.Serializable
+import java.util.concurrent.CompletableFuture
 
 /**
- * Object representing a conversation
+ * Object representing a conversation. It implements the interface Serializable in order to be able
+ * to pass this as an extra from an activity to another.
  * @param conversationId The unique conversation id of the conversation, shared by both parties of
  * the conversation, it is the place this conversation is stored in the database
  * @param database The database on which to send messages
@@ -12,10 +15,10 @@ import com.github.h3lp3rs.h3lp.database.Databases.MESSAGES
  *  the user that launched the chat and the other user, for example to display the messages with
  *  matching Messenger as sent by the current user
  */
-class Conversation(
+class Conversation (
     private val conversationId: String,
     private val currentMessenger: Messenger
-) {
+)  {
     private val database = databaseOf(MESSAGES)
 
     /**
@@ -36,8 +39,8 @@ class Conversation(
         database.addListListener(conversationId, Message::class.java) {
             onNewMessage(it.toList(), currentMessenger)
         }
-    }
 
+    }
 
     /**
      * Deletes the conversation from the database

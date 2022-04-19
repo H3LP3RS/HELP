@@ -6,8 +6,10 @@
     SHA-1 certificate fingerprint:
     9F:2F:03:28:3E:BA:55:FA:9B:CC:50:CF:D3:29:29:42:5A:3C:46:B8
     -->
-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">replace with api key</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDozN7qUBDCM4gr129V9WJShPspCnxiiuU
+</string>
 
-    <string name="map_id">replace with map ID</string>
+    <string name="map_id">3e348f6bdc0a3af
+</string>
 
 </resources>

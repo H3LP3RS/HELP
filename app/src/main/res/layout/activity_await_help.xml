@@ -229,6 +229,7 @@
     </HorizontalScrollView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_layout_contact_helpers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">

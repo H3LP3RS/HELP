@@ -1,6 +1,7 @@
 package com.github.h3lp3rs.h3lp.messaging
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.github.h3lp3rs.h3lp.EXTRA_DESTINATION_LAT
 import com.github.h3lp3rs.h3lp.R
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
@@ -9,14 +10,14 @@ import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.chat_receiver.view.*
 import kotlinx.android.synthetic.main.chat_sender.view.*
 
-
+private const val EXTRA_CONVERSATION_ID = "conversation_id"
 class ChatActivity : AppCompatActivity() {
 
     private val adapter = GroupAdapter<ViewHolder>()
     private lateinit var userRole : Messenger
-    private lateinit var conversationId : String
-    private val receiverLayout = R.layout.chat_receiver
-    private val senderLayout = R.layout.chat_sender
+    private var conversationId : String? = null
+    val receiverLayout = R.layout.chat_receiver
+    val senderLayout = R.layout.chat_sender
 
     override fun onCreate(savedInstanceState : Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,13 +25,12 @@ class ChatActivity : AppCompatActivity() {
 
         // This is to be able to know whether a message is meant to be in the right or left layout.
         userRole = intent.getSerializableExtra(EXTRA_USER_ROLE) as Messenger
-        // The conversation id on which to send messages to
-        conversationId = intent.getSerializableExtra(EXTRA_CONVERSATION_ID) as String
 
-        adapter.add(MessageLayout("M1",senderLayout))
-        adapter.add(MessageLayout("R1",receiverLayout))
-        adapter.add(MessageLayout("M2",senderLayout))
-        adapter.add(MessageLayout("R2",receiverLayout))
+        val bundle = this.intent.extras
+        // The conversation id to which to add messages to
+        conversationId = bundle?.getString(EXTRA_CONVERSATION_ID) ?: conversationId
+
+        adapter.add(MessageLayout("Hellooo!",senderLayout))
 
         recycler_view_chat.adapter = adapter
 
@@ -55,8 +55,13 @@ class ChatActivity : AppCompatActivity() {
  * Class representing the layout of the user's text messages.
  */
 private class MessageLayout(private val message : String, private val layout: Int ) : Item<ViewHolder>() {
+    val senderLayout = R.layout.chat_sender
+
     override fun bind(viewHolder : ViewHolder, position : Int) {
-        viewHolder.itemView.text_view_sender.text = message
+        if(layout== senderLayout)
+            viewHolder.itemView.text_view_sender.text = message
+        else
+            viewHolder.itemView.text_view_receiver.text = message
     }
 
     override fun getLayout() : Int {
