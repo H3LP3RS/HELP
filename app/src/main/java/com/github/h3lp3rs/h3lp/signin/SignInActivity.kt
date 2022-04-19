@@ -41,7 +41,7 @@ class SignInActivity : AppCompatActivity() {
      */
     private fun checkIfSignedIn() {
         if (signInClient.isSignedIn()) {
-            //userUid = getInstance().currentUser!!.uid
+            userUid = signInClient.getUid()
             checkToSAndLaunchIfNotAcceptedElseMain()
         }
     }
@@ -83,7 +83,7 @@ class SignInActivity : AppCompatActivity() {
         signInClient.authenticate(result, activity)
             ?.addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
-                    userUid = getInstance().currentUser!!.uid
+                    userUid = signInClient.getUid()
                     checkToSAndLaunchIfNotAcceptedElseMain()
                 }
             }
