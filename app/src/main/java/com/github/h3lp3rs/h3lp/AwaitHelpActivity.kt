@@ -200,7 +200,7 @@ class AwaitHelpActivity : AppCompatActivity() {
      */
     fun cancelHelpSearch(view: View){
         // TODO the action on the DB is not yet defined
-        // TODO should include deleted the conversation from the db
+        // TODO should include deleting the conversation from the db
         goToActivity(MainPageActivity::class.java)
     }
 }
