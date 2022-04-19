@@ -93,8 +93,6 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
         // Initially the contact button is hidden, only after the user accepts the request it
         // becomes visible.
-        button_chat_from_help_page.visibility = View.INVISIBLE
-
         button_accept.setOnClickListener{acceptHelpRequest()}
     }
 
@@ -148,7 +146,7 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
      * Accepts the help requests and initialises a conversation with the person in need of help
      * (see CommunicationProtocol.md for a detailed explanation)
      */
-    fun acceptHelpRequest() {
+    private fun acceptHelpRequest() {
         val conversationIdsDb = databaseOf(CONVERSATION_IDS)
 
         /**
@@ -171,10 +169,9 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         // calls the callback
         conversationIdsDb.incrementAndGet(UNIQUE_CONVERSATION_ID, 1) { onComplete(it) }
         // Once the user accepts to help, the accept button disappears and he is able to
-        // start conversations with the helpee.
-        button_accept.visibility = View.INVISIBLE
-        button_chat_from_help_page.visibility = View.VISIBLE
-        button_chat_from_help_page.setOnClickListener { goToChatActivity() }
+        // start conversations with the person who requested help.
+        button_accept.setImageResource(R.drawable.chat)
+        button_accept.setOnClickListener{goToChatActivity()}
     }
 
     /**
