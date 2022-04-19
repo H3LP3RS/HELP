@@ -21,7 +21,7 @@ import org.junit.Test
  */
 
 class NotificationTest {
-/*
+
     private val ctx: Context = ApplicationProvider.getApplicationContext()
     private val uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
     private val TITLE : String = "Title"
@@ -82,5 +82,5 @@ class NotificationTest {
         clearAll.click()
     }
 
- */
+
 }
