@@ -10,7 +10,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat.OnRequestPermissionsResultCallback
 import androidx.core.content.ContextCompat.checkSelfPermission
@@ -20,6 +19,7 @@ import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.notification.NotificationService
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
+import com.github.h3lp3rs.h3lp.professional.VerificationActivity
 import com.github.h3lp3rs.h3lp.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
@@ -419,6 +419,11 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     /** Called when the user taps the first aid tips button */
     fun goToFirstAid(view : View) {
         goToActivity(FirstAidActivity::class.java)
+    }
+
+    /** Called when the user taps the professional portal  button */
+    fun goToProfessionalPortal(view : View) {
+        goToActivity(VerificationActivity::class.java)
     }
 
     private fun goToNearbyUtilities(utility : String) {
