@@ -10,6 +10,8 @@ import kotlinx.android.synthetic.main.chat_receiver.view.*
 import kotlinx.android.synthetic.main.chat_sender.view.*
 
 private const val EXTRA_CONVERSATION_ID = "conversation_id"
+private const val EXTRA_USER_ROLE = "user_role"
+
 class ChatActivity : AppCompatActivity() {
 
     private val adapter = GroupAdapter<ViewHolder>()
@@ -51,7 +53,6 @@ class ChatActivity : AppCompatActivity() {
             text_view_enter_message.text.clear()
         }
     }
-
 
 }
 

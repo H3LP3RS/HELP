@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.activity_latest_messages.*
 import com.github.h3lp3rs.h3lp.messaging.Messenger.HELPEE
 
 private const val EXTRA_CONVERSATION_id = "conversation_id"
-const val EXTRA_USER_ROLE = "user_role"
+private const val EXTRA_USER_ROLE = "user_role"
 
 class LatestMessagesActivity : AppCompatActivity() {
     private val adapter = GroupAdapter<ViewHolder>()

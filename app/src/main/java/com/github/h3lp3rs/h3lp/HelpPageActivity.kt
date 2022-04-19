@@ -24,6 +24,7 @@ const val EXTRA_DESTINATION_LAT = "help_page_destination_lat"
 const val EXTRA_DESTINATION_LONG = "help_page_destination_long"
 const val EXTRA_HELPEE_ID = "help_page_helpee_unique_id"
 const val EXTRA_CONVERSATION_ID = "conversation_id"
+private const val EXTRA_USER_ROLE = "user_role"
 /**
  * Activity used to display information about a person in need, their location, the path to them,
  * the time to get there, and what help they need

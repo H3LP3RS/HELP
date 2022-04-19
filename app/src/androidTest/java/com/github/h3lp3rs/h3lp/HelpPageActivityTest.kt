@@ -141,7 +141,7 @@ class HelpPageActivityTest {
         val callBack: (List<String>) -> Unit = {if (it.isNotEmpty()) hasSentUniqueId = true}
         CONVERSATION_IDS.db?.addListListener(HELPEE_ID, String::class.java, callBack)
 
-        onView(withId(R.id.accept))
+        onView(withId(R.id.button_accept))
             .check(matches(isDisplayed()))
             .perform(click())
 
@@ -152,7 +152,7 @@ class HelpPageActivityTest {
     @Test
     fun rejectHelpMakesAppGoToMain() {
         init()
-        onView(withId(R.id.reject))
+        onView(withId(R.id.button_reject))
             .check(matches(isDisplayed()))
             .perform(click())
         intended(
