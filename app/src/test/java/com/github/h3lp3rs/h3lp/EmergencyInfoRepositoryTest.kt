@@ -4,19 +4,22 @@ import com.github.h3lp3rs.h3lp.database.MockDatabase
 import com.github.h3lp3rs.h3lp.database.models.EmergencyInformation
 import com.github.h3lp3rs.h3lp.database.repositories.EmergencyInfoRepository
 import com.github.h3lp3rs.h3lp.database.repositories.Repository
+import com.github.h3lp3rs.h3lp.dataclasses.HelperSkills
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
 import org.junit.Test
 import java.util.*
-import kotlin.collections.ArrayList
 
 class EmergencyInfoRepositoryTest {
     private val repository: Repository<EmergencyInformation> =
         EmergencyInfoRepository(MockDatabase())
     private val testKey = "KEY"
     private val testDoubleValue = 0.0
+    private val skills = HelperSkills(false, false, false, false, false, true)
     private val testObject =
-        EmergencyInformation(testKey, testDoubleValue, testDoubleValue, ArrayList(), Date(), "")
+        EmergencyInformation(testKey, testDoubleValue, testDoubleValue, skills, Date(), MedicalInformation(MedicalInformation.MAX_HEIGHT-1,MedicalInformation.MAX_WEIGHT-1,Gender.Male,
+            Calendar.getInstance().get(Calendar.YEAR)-1,"condition","treatment","allergy",BloodType.ABn)
+        )
 
     @Test
     fun createdObjectIsCorrect() {
@@ -24,7 +27,7 @@ class EmergencyInfoRepositoryTest {
         val res = repository.get(testKey).get()
         assertEquals(res.latitude, testDoubleValue)
         assertEquals(res.longitude, testDoubleValue)
-        assertEquals(res.meds, ArrayList<String>())
+        assertEquals(res.skills, skills)
     }
 
 

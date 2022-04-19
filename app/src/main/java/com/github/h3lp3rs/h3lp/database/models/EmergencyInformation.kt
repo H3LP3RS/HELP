@@ -1,5 +1,7 @@
 package com.github.h3lp3rs.h3lp.database.models
 
+import com.github.h3lp3rs.h3lp.MedicalInformation
+import com.github.h3lp3rs.h3lp.dataclasses.HelperSkills
 import java.util.*
 
 /**
@@ -7,15 +9,15 @@ import java.util.*
  */
 data class EmergencyInformation(
     // Unique id of the emergency information object
-    val id: String = UUID.randomUUID().toString(),
+    val id: String,
     // Longitude of current location of the user on the map
     val latitude: Double,
     // Longitude of current location of the user on the map
     val longitude: Double,
     // List of medications selected by the user
-    val meds: ArrayList<String>,
+    val skills: HelperSkills,
     // The time the emergency was launched
     val time: Date,
     // Medical card of the user
-    val medicalInfo: String
+    val medicalInfo: MedicalInformation?
 )

@@ -6,20 +6,21 @@ import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import android.widget.ToggleButton
 import androidx.appcompat.app.AppCompatActivity
+import com.github.h3lp3rs.h3lp.database.Databases.*
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.database.models.EmergencyInformation
-import com.github.h3lp3rs.h3lp.database.repositories.emergencyInfoRepository
+import com.github.h3lp3rs.h3lp.database.repositories.EmergencyInfoRepository
+import com.github.h3lp3rs.h3lp.dataclasses.HelperSkills
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
-import com.github.h3lp3rs.h3lp.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
-import com.google.gson.Gson
+
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -37,6 +38,7 @@ class HelpParametersActivity : AppCompatActivity() {
     private var latitude: Double? = null
     private var longitude: Double? = null
     private var meds: ArrayList<String> = ArrayList()
+    private var skills: HelperSkills? = null
     private val currentTime: Date = Calendar.getInstance().time;
     private var calledEmergencies = false
 
@@ -94,7 +96,9 @@ class HelpParametersActivity : AppCompatActivity() {
      *  Called when the user presses the "search for help" button after selecting their need.
      */
     fun searchHelp(view: View) {
-        meds = retrieveSelectedMedication(view)
+        val selectionPair = retrieveSelectedMedication(view)
+        meds = selectionPair.first
+        skills = selectionPair.second
 
         if (meds.isEmpty()) {
             Toast.makeText(
@@ -102,7 +106,6 @@ class HelpParametersActivity : AppCompatActivity() {
                 "Please select at least one item", Toast.LENGTH_SHORT
             ).show()
         } else {
-
             val b = Bundle()
             b.putStringArrayList(EXTRA_NEEDED_MEDICATION, meds)
             b.putBoolean(EXTRA_CALLED_EMERGENCIES, calledEmergencies)
@@ -117,31 +120,68 @@ class HelpParametersActivity : AppCompatActivity() {
      * Stores the emergency information in the database for further use
      */
     private fun sendInfoToDB(){
-        if(latitude != null && longitude != null){
-            val medicalInfo = LocalStorage(getString(R.string.medical_info_prefs),this,false).getStringOrDefault(getString(R.string.medical_info_key),"")
-            val emergencyInfo = EmergencyInformation(latitude = latitude!!, longitude = longitude!!, meds =  meds, time = currentTime, medicalInfo = medicalInfo!!)
-            emergencyInfoRepository.insert(emergencyInfo)
+        if(latitude != null && longitude != null) {
+            val storage = storageOf(Storages.MEDICAL_INFO)
+            val medicalInfo = storage.getObjectOrDefault(getString(R.string.medical_info_key),
+                MedicalInformation::class.java, null)
+            // TODO: Use future once this is has been changed to avoid double work
+            val uid = databaseOf(EMERGENCIES).getInt(getString(R.string.EMERGENCY_UID_KEY))
+            // Increment
+            databaseOf(EMERGENCIES).incrementAndGet(getString(R.string.EMERGENCY_UID_KEY), 1) {}
+            uid.thenAccept {
+                val id = it + 1
+                val emergencyInfo = EmergencyInformation(id.toString(), latitude!!, longitude!!, skills!!, currentTime, medicalInfo)
+                EmergencyInfoRepository(databaseOf(EMERGENCIES)).insert(emergencyInfo)
+                if(skills!!.hasVentolin) databaseOf(NEW_EMERGENCIES).setInt(resources.getString(R.string.asthma_med), id)
+                if(skills!!.hasEpipen) databaseOf(NEW_EMERGENCIES).setInt(resources.getString(R.string.epipen), id)
+                if(skills!!.knowsCPR) databaseOf(NEW_EMERGENCIES).setInt(resources.getString(R.string.cpr), id)
+                if(skills!!.hasInsulin) databaseOf(NEW_EMERGENCIES).setInt(resources.getString(R.string.Insulin), id)
+                if(skills!!.hasFirstAidKit) databaseOf(NEW_EMERGENCIES).setInt(resources.getString(R.string.first_aid_kit), id)
+                if(skills!!.isMedicalPro) databaseOf(NEW_EMERGENCIES).setInt(resources.getString(R.string.med_pro), id)
+            }
         }
     }
 
     /**
-     * Auxiliary function to retrieve the selected meds on the page
+     * Auxiliary function to retrieve the selected meds on the page and the required helper skills
      */
-    private fun retrieveSelectedMedication(view: View): ArrayList<String> {
+    private fun retrieveSelectedMedication(view: View): Pair<ArrayList<String>, HelperSkills> {
         val viewGroup = view.parent as ViewGroup
 
         val meds = arrayListOf<String>()
+        var skills = HelperSkills(false, false, false,
+                                false,false, false)
 
         for (i in 0 until viewGroup.childCount) {
             val child = viewGroup.getChildAt(i) as View
             if (child is ToggleButton) {
                 if (child.isChecked) {
                     meds.add(child.textOff as String)
+                    when (child.textOff) {
+                        resources.getString(R.string.epipen) -> {
+                            skills = skills.copy(hasEpipen = true)
+                        }
+                        resources.getString(R.string.cpr) -> {
+                            skills = skills.copy(knowsCPR = true)
+                        }
+                        resources.getString(R.string.asthma_med) -> {
+                            skills = skills.copy(hasVentolin = true)
+                        }
+                        resources.getString(R.string.Insulin) -> {
+                            skills = skills.copy(hasInsulin = true)
+                        }
+                        resources.getString(R.string.first_aid_kit) -> {
+                            skills = skills.copy(hasFirstAidKit = true)
+                        }
+                        else -> {
+                            skills = skills.copy(isMedicalPro = true)
+                        }
+                    }
                 }
             }
         }
 
-        return meds
+        return Pair(meds, skills)
 
     }
 
