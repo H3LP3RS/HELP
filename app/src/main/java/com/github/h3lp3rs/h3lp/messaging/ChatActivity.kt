@@ -32,7 +32,7 @@ class ChatActivity : AppCompatActivity() {
         val user = intent.getSerializableExtra(EXTRA_USER_ROLE)
         if (user != null) userRole = user as Messenger
 
-        // The conversation id to which to add messages to
+        // The conversation id used to send text messages on the database
         conversationId = intent.getStringExtra(EXTRA_CONVERSATION_ID) ?: conversationId
         conversation = Conversation(conversationId!!, userRole!!)
 
@@ -52,10 +52,9 @@ class ChatActivity : AppCompatActivity() {
         }
         button_send_message.setOnClickListener {
             val text = text_view_enter_message.text.toString()
-            // When the user clicks on send, the message is sent to the database and shown in the
-            // view.
+            // When the user clicks on send, the message is sent to the database
             conversation.sendMessage(text)
-            // Clears the text field when the user sends the message
+            // Clear the text field when the user hits send
             text_view_enter_message.text.clear()
         }
     }
