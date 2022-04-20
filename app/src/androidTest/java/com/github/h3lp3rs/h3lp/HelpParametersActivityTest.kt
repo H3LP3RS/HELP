@@ -62,7 +62,7 @@ class HelpParametersActivityTest {
         storageOf(Storages.USER_COOKIE).setBoolean(globalContext.getString(R.string.KEY_USER_AGREE), true)
     }
 
-    @Test
+    /*@Test
     fun clickSearchHelpWithMedsWorksAndSendsIntent() {
         val intent = Intent()
         val intentResult = ActivityResult(Activity.RESULT_OK, intent)
@@ -87,7 +87,7 @@ class HelpParametersActivityTest {
                 hasComponent(AwaitHelpActivity::class.java.name),
             )
         )
-    }
+    }*/
 
     @Test
     fun clickPhoneButtonDialsCorrectEmergencyNumber() {
