@@ -18,6 +18,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.database.Databases.*
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.activateHelpListeners
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.dataclasses.HelperSkills
 import com.github.h3lp3rs.h3lp.notification.NotificationService
@@ -113,7 +114,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         }
 
         // Start help listener
-        //listenForHelp()
+        activateHelpListeners()
 
         startAppGuide()
     }
@@ -284,25 +285,6 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
                 )
             }
             true
-        }
-    }
-
-    /**
-     * Activate listeners for help calls
-     */
-    private fun listenForHelp() {
-        val storage = storageOf(SKILLS)
-        val skills = storage.getObjectOrDefault(getString(R.string.my_skills_key), HelperSkills::class.java, null)
-        if(skills == null) return
-        else {
-            val db = databaseOf(NEW_EMERGENCIES)
-            db.addListener(getString(R.string.ventolin_db_key), String::class.java) {
-                if (it == getString(R.string.help)) {
-                    db.setString(getString(R.string.ventolin_db_key), getString(R.string.nothing))
-                    createNotificationChannel(this)
-                    sendOpenActivityNotification(this,getString(R.string.emergency), getString(R.string.need_help), HelpPageActivity::class.java)
-                }
-            }
         }
     }
 

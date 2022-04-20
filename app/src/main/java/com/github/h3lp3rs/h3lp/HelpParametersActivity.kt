@@ -1,6 +1,5 @@
 package com.github.h3lp3rs.h3lp
 
-
 import android.content.Intent
 import android.location.Location
 import android.location.LocationManager
@@ -14,19 +13,22 @@ import android.widget.ToggleButton
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
-import com.github.h3lp3rs.h3lp.database.models.EmergencyInformation
+import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
 import com.github.h3lp3rs.h3lp.database.repositories.EmergencyInfoRepository
 import com.github.h3lp3rs.h3lp.dataclasses.HelperSkills
+import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 
 import java.util.*
+import java.util.concurrent.CompletableFuture
 import kotlin.collections.ArrayList
 
 
 const val EXTRA_NEEDED_MEDICATION = "needed_meds_key"
 const val EXTRA_CALLED_EMERGENCIES = "has_called_emergencies"
+const val EXTRA_EMERGENCY_KEY = "emergency_key"
 
 /**
  * Activity in which the user can select the medications they need urgently
@@ -39,7 +41,7 @@ class HelpParametersActivity : AppCompatActivity() {
     private var longitude: Double? = null
     private var meds: ArrayList<String> = ArrayList()
     private var skills: HelperSkills? = null
-    private val currentTime: Date = Calendar.getInstance().time;
+    private val currentTime: Date = Calendar.getInstance().time
     private var calledEmergencies = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -103,42 +105,48 @@ class HelpParametersActivity : AppCompatActivity() {
         if (meds.isEmpty()) {
             Toast.makeText(
                 applicationContext,
-                "Please select at least one item", Toast.LENGTH_SHORT
+                getString(R.string.AT_LEAST_ONE_ITEM), Toast.LENGTH_SHORT
             ).show()
         } else {
             val b = Bundle()
             b.putStringArrayList(EXTRA_NEEDED_MEDICATION, meds)
             b.putBoolean(EXTRA_CALLED_EMERGENCIES, calledEmergencies)
             val intent = Intent(this, AwaitHelpActivity::class.java)
-            intent.putExtras(b)
-            sendInfoToDB()
-            startActivity(intent)
+            sendInfoToDB().thenAccept {
+                b.putInt(EXTRA_EMERGENCY_KEY, it)
+                intent.putExtras(b)
+                startActivity(intent)
+            }
         }
     }
 
     /**
      * Stores the emergency information in the database for further use
+     * @return The id of the emergency in a future
      */
-    private fun sendInfoToDB(){
-        if(latitude != null && longitude != null) {
-            val storage = storageOf(Storages.MEDICAL_INFO)
-            val medicalInfo = storage.getObjectOrDefault(getString(R.string.medical_info_key),
-                MedicalInformation::class.java, null)
-            // TODO: Use future once this is has been changed to avoid double work
-            val uid = databaseOf(EMERGENCIES).getInt(getString(R.string.EMERGENCY_UID_KEY))
-            // Increment
-            databaseOf(EMERGENCIES).incrementAndGet(getString(R.string.EMERGENCY_UID_KEY), 1) {}
-            uid.thenAccept {
-                val id = it + 1
-                val emergencyInfo = EmergencyInformation(id.toString(), latitude!!, longitude!!, skills!!, currentTime, medicalInfo)
-                EmergencyInfoRepository(databaseOf(EMERGENCIES)).insert(emergencyInfo)
-                if(skills!!.hasVentolin) databaseOf(NEW_EMERGENCIES).setInt(resources.getString(R.string.asthma_med), id)
-                if(skills!!.hasEpipen) databaseOf(NEW_EMERGENCIES).setInt(resources.getString(R.string.epipen), id)
-                if(skills!!.knowsCPR) databaseOf(NEW_EMERGENCIES).setInt(resources.getString(R.string.cpr), id)
-                if(skills!!.hasInsulin) databaseOf(NEW_EMERGENCIES).setInt(resources.getString(R.string.Insulin), id)
-                if(skills!!.hasFirstAidKit) databaseOf(NEW_EMERGENCIES).setInt(resources.getString(R.string.first_aid_kit), id)
-                if(skills!!.isMedicalPro) databaseOf(NEW_EMERGENCIES).setInt(resources.getString(R.string.med_pro), id)
-            }
+    private fun sendInfoToDB(): CompletableFuture<Int> {
+        val emergenciesDb = databaseOf(EMERGENCIES)
+        val newEmergenciesDb = databaseOf(NEW_EMERGENCIES)
+        val storage = storageOf(Storages.MEDICAL_INFO)
+        val medicalInfo = storage.getObjectOrDefault(getString(R.string.medical_info_key),
+            MedicalInformation::class.java, null)
+        // TODO: Use future once this is has been changed to avoid double work
+        val uid = emergenciesDb.getInt(getString(R.string.EMERGENCY_UID_KEY))
+        // Increment
+        emergenciesDb.incrementAndGet(getString(R.string.EMERGENCY_UID_KEY), 1) {}
+        // Stop listening to new emergencies
+        newEmergenciesDb.clearAllListeners()
+        return uid.thenApply {
+            val id = it + 1
+            val emergencyInfo = EmergencyInformation(id.toString(), latitude!!, longitude!!, skills!!, meds, currentTime, medicalInfo, ArrayList())
+            EmergencyInfoRepository(emergenciesDb).insert(emergencyInfo)
+            if(skills!!.hasVentolin) newEmergenciesDb.setInt(resources.getString(R.string.asthma_med), id)
+            if(skills!!.hasEpipen) newEmergenciesDb.setInt(resources.getString(R.string.epipen), id)
+            if(skills!!.knowsCPR) newEmergenciesDb.setInt(resources.getString(R.string.cpr), id)
+            if(skills!!.hasInsulin) newEmergenciesDb.setInt(resources.getString(R.string.Insulin), id)
+            if(skills!!.hasFirstAidKit) newEmergenciesDb.setInt(resources.getString(R.string.first_aid_kit), id)
+            if(skills!!.isMedicalPro) newEmergenciesDb.setInt(resources.getString(R.string.med_pro), id)
+            id
         }
     }
 
@@ -180,9 +188,7 @@ class HelpParametersActivity : AppCompatActivity() {
                 }
             }
         }
-
         return Pair(meds, skills)
-
     }
 
     /**
@@ -198,6 +204,5 @@ class HelpParametersActivity : AppCompatActivity() {
         } else {
             userLocation = null
         }
-
     }
 }

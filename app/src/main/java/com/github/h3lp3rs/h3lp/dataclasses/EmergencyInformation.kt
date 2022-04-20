@@ -1,8 +1,7 @@
-package com.github.h3lp3rs.h3lp.database.models
+package com.github.h3lp3rs.h3lp.dataclasses
 
-import com.github.h3lp3rs.h3lp.MedicalInformation
-import com.github.h3lp3rs.h3lp.dataclasses.HelperSkills
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * A model describing an emergency information object
@@ -16,8 +15,12 @@ data class EmergencyInformation(
     val longitude: Double,
     // List of medications selected by the user
     val skills: HelperSkills,
+    // List of medications selected by the user in string format
+    val meds: ArrayList<String>,
     // The time the emergency was launched
     val time: Date,
     // Medical card of the user
-    val medicalInfo: MedicalInformation?
+    val medicalInfo: MedicalInformation?,
+    // List of helpers
+    val helpers: ArrayList<Helper>
 )

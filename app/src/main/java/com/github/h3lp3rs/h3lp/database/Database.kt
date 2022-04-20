@@ -101,6 +101,11 @@ interface Database {
     fun clearListeners(key: String)
 
     /**
+     * Clears all listeners related for this database
+     */
+    fun clearAllListeners()
+
+    /**
      * Deletes an entry of a given key from the database
      * @param key The key in the database
      */

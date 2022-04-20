@@ -157,6 +157,15 @@ internal class FireDatabase(path: String) : Database {
     }
 
     /**
+     * Clears all listeners related for this database
+     */
+    override fun clearAllListeners() {
+        for(key in openListeners.keys) {
+            clearListeners(key)
+        }
+    }
+
+    /**
      * Deletes an entry of a given key from the database
      * @param key They key in the database
      */

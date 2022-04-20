@@ -10,6 +10,11 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import com.github.h3lp3rs.h3lp.database.Databases
+import com.github.h3lp3rs.h3lp.database.Databases.*
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.activateHelpListeners
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
+import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
 import com.github.h3lp3rs.h3lp.firstaid.AedActivity
 import com.github.h3lp3rs.h3lp.firstaid.AllergyActivity
 import com.github.h3lp3rs.h3lp.firstaid.AsthmaActivity
@@ -28,6 +33,7 @@ class AwaitHelpActivity : AppCompatActivity() {
     private var currentLat: Double = 0.0
     private val askedMeds: List<String> = listOf()
     private var helpersNumbers = 0
+    private val helpersId = ArrayList<String>()
 
     private lateinit var mapsFragment: MapsFragment
     private lateinit var apiHelper: GoogleAPIHelper
@@ -49,12 +55,18 @@ class AwaitHelpActivity : AppCompatActivity() {
             if(!bundle.getBoolean(EXTRA_CALLED_EMERGENCIES)){
                 showEmergencyCallPopup()
             }
+            // Start listening to potential responses
+            val emergencyId = bundle.getInt(EXTRA_EMERGENCY_KEY)
+            val emergencyDb = databaseOf(EMERGENCIES)
+            emergencyDb.addListener(emergencyId.toString(), EmergencyInformation::class.java) {
+                val helpers = it.helpers
+                for(h in helpers) {
+                    foundHelperPerson(h.uid, h.latitude, h.longitude)
+                }
+            }
         } else {
             showEmergencyCallPopup()
         }
-
-        //TODO add listener on database so that we replace the loading bar by the number of
-        // users coming to help and their position
     }
 
     /**
@@ -88,7 +100,12 @@ class AwaitHelpActivity : AppCompatActivity() {
      * Called when a someone responds to the help request. Replaces the waiting
      * bar by the number of helpers coming.
      */
-    private fun foundHelperPerson(latitude: Double, longitude: Double){
+    private fun foundHelperPerson(uid: String, latitude: Double, longitude: Double){
+        if(helpersId.contains(uid)) return
+
+        helpersId.add(uid)
+        showHelperPerson(uid, latitude, longitude)
+
         findViewById<ProgressBar>(R.id.searchProgressBar).visibility = View.GONE
         findViewById<TextView>(R.id.progressBarText).visibility = View.GONE
 
@@ -105,16 +122,16 @@ class AwaitHelpActivity : AppCompatActivity() {
      * Adds a marker on the map representing the position of someone coming to
      * help.
      */
-    private fun showHelperPerson(latitude: Double, longitude: Double){
+    private fun showHelperPerson(uid: String, latitude: Double, longitude: Double){
         val latLng = LatLng(latitude, longitude)
-        val name = resources.getString(R.string.helper_marker_desc)
+        val name = resources.getString(R.string.helper_marker_desc) + uid
 
         val options = MarkerOptions()
         options.position(latLng)
         options.title(name)
         options.icon(BitmapDescriptorFactory.fromResource(R.drawable.helper_marker))
 
-        mapsFragment.addMarker(options)
+        //mapsFragment.addMarker(options) TODO: Fragment not working
     }
 
     /**
@@ -179,7 +196,16 @@ class AwaitHelpActivity : AppCompatActivity() {
      * Cancels the search on the Database and goes back to MainActivity
      */
     fun cancelHelpSearch(view: View){
-        // TODO the action on the DB is not yet defined
+        val bundle = this.intent.extras
+        if(bundle == null) {
+            goToActivity(MainPageActivity::class.java)
+            return
+        }
+        val emergencyId = bundle.getInt(EXTRA_EMERGENCY_KEY)
+        databaseOf(EMERGENCIES).clearListeners(emergencyId.toString())
+        databaseOf(EMERGENCIES).delete(emergencyId.toString())
+        // Re-listen to other emergencies
+        activateHelpListeners()
         goToActivity(MainPageActivity::class.java)
     }
 }

@@ -126,7 +126,7 @@
     <string name="help">H3LP!</string>
     <string name="nothing">nothing</string>
     <string name="emergency">Emergency</string>
-    <string name="need_help"> Hind needs a ventolin </string>
+    <string name="need_help"> HELP I NEED YOU ! </string>
     <string name="button_selected">Selected</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
@@ -296,4 +296,5 @@
     <string name="pop_up_call_emergencies_text">We are currently looking for help nearby. If you require medical assistance, we highly recommend that you still call the local emergency services with the button below and mention that you are using our app.</string>
     <string name="did_you_call_emergency_services_popup">Did you call emergency services?</string>
     <string name="EMERGENCY_UID_KEY">CurrentEmergencyUid</string>
+    <string name="AT_LEAST_ONE_ITEM">Please select at least one item</string>
 </resources>

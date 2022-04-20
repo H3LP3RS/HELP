@@ -5,8 +5,14 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.github.h3lp3rs.h3lp.database.Databases
+import com.github.h3lp3rs.h3lp.database.Databases.*
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.databinding.ActivityHelpPageBinding
+import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
+import com.github.h3lp3rs.h3lp.dataclasses.Helper
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.util.GDurationJSONParser
 import com.google.android.gms.maps.MapsInitializer
 import kotlinx.coroutines.CoroutineScope
@@ -36,8 +42,9 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     //  we use this activity to retrieve actual helping requests
     // helpRequired contains strings for each medication / specific help required by the user in
     // need e.g. Epipen, CPR
-    private var helpRequired: List<String>? = listOf("Epipen", "CPR")
+    private var helpRequired: List<String>? = null
     private lateinit var apiHelper: GoogleAPIHelper
+    private var helpId: String? = null
 
     // Map fragment displayed
     private lateinit var mapsFragment: MapsFragment
@@ -50,8 +57,8 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         binding = ActivityHelpPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         val bundle = this.intent.extras
+        helpId = bundle?.getString(EXTRA_EMERGENCY_KEY) ?: helpId
         helpRequired = bundle?.getStringArrayList(EXTRA_HELP_REQUIRED_PARAMETERS) ?: helpRequired
         destinationLat = bundle?.getDouble(EXTRA_DESTINATION_LAT) ?: destinationLat
         destinationLong = bundle?.getDouble(EXTRA_DESTINATION_LONG) ?: destinationLong
@@ -125,15 +132,41 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         }
     }
 
-
     /** Starts the activity by sending intent */
     private fun goToActivity(ActivityName: Class<*>?) {
         val intent = Intent(this, ActivityName)
         startActivity(intent)
     }
 
-    fun goToMainPage(view: View) {
-        goToActivity(MainPageActivity::class.java)
+    /**
+     * Triggered when clicked on the cross
+     */
+    fun refuseHelp(view: View) {
+        goToMainPage()
     }
 
+    /**
+     * Triggered when clicked on the check
+     */
+    fun acceptHelp(view: View) {
+        if(helpId == null) {
+            goToMainPage()
+            return
+        }
+        databaseOf(EMERGENCIES).getObject(helpId!!, EmergencyInformation::class.java).thenApply {
+            val me = Helper(userUid!!, currentLat, currentLong)
+            val helpers = ArrayList<Helper>()
+            if(!helpers.contains(me)) {
+                helpers.add(me)
+            }
+            // Stop listening to other emergencies
+            databaseOf(NEW_EMERGENCIES).clearAllListeners()
+            // Update the value to notify that we are coming
+            databaseOf(EMERGENCIES).setObject(helpId!!, EmergencyInformation::class.java, it.copy(helpers = helpers))
+        }.exceptionally { goToMainPage() } // Expired
+    }
+
+    private fun goToMainPage() {
+        goToActivity(MainPageActivity::class.java)
+    }
 }
