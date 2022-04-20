@@ -36,17 +36,15 @@ class ChatUiTest {
 
     @Before
     fun setup() {
-        // Launching the activity with different parameters
-        val bundle = Bundle()
-        bundle.putString(EXTRA_CONVERSATION_ID, CONVERSATION_ID)
-        bundle.putStringArrayList(EXTRA_HELP_REQUIRED_PARAMETERS, arrayListOf(EPIPEN))
+        // Launching the activity with the needed parameters
         val intent = Intent(
             ApplicationProvider.getApplicationContext(),
             ChatActivity::class.java
         ).apply {
-            putExtras(bundle)
+            putExtra(EXTRA_CONVERSATION_ID, CONVERSATION_ID)
             putExtra(EXTRA_USER_ROLE, Messenger.HELPEE)
         }
+
         ActivityScenario.launch<ChatActivity>(intent)
 
         conversationFrom = Conversation(CONVERSATION_ID, currentMessenger)

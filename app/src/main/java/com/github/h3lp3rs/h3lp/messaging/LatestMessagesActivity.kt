@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.EXTRA_HELPEE_ID
+import com.github.h3lp3rs.h3lp.EXTRA_USER_ROLE
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.messaging.Messenger.HELPEE
