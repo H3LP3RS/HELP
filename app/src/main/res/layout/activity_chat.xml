@@ -27,10 +27,10 @@
             android:id="@+id/button_send_message"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:layout_marginBottom="12dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="16dp"
             android:text="Send"
-            android:textColor="#000000"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 

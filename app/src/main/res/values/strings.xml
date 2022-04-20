@@ -299,4 +299,6 @@
     <string name="sender_s_text">Sender\'s text</string>
     <string name="receiver_s_text">Receiver\'s text</string>
     <string name="latest_messages">"   Latest messages"</string>
+    <string name="textview_last_message">last Message</string>
+    <string name="textview_username">username</string>
 </resources>
