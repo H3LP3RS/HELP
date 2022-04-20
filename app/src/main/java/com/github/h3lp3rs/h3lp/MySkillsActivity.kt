@@ -86,7 +86,7 @@ class MySkillsActivity : AppCompatActivity() {
         storage.setObject(getString(R.string.my_skills_key), HelperSkills::class.java, skills)
         storage.push()
         // Refresh help listeners
-        //activateHelpListeners()
+        activateHelpListeners()
     }
 
     /**
