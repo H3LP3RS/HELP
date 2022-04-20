@@ -34,12 +34,8 @@ class ChatUiTest {
     private lateinit var conversationFrom: Conversation
     private lateinit var conversationTo: Conversation
 
-    @get:Rule
-    val testRule = ActivityScenarioRule(ChatActivity::class.java)
-
     @Before
     fun setup() {
-        /* doesn't work :(
         // Launching the activity with different parameters
         val bundle = Bundle()
         bundle.putString(EXTRA_CONVERSATION_ID, CONVERSATION_ID)
@@ -52,7 +48,7 @@ class ChatUiTest {
             putExtra(EXTRA_USER_ROLE, Messenger.HELPEE)
         }
         ActivityScenario.launch<ChatActivity>(intent)
-        */
+
         conversationFrom = Conversation(CONVERSATION_ID, currentMessenger)
         conversationTo = Conversation(CONVERSATION_ID,toMessenger)
     }
