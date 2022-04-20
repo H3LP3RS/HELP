@@ -2,8 +2,6 @@ package com.github.h3lp3rs.h3lp
 
 import com.github.h3lp3rs.h3lp.database.Database
 import com.github.h3lp3rs.h3lp.database.MockDatabase
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.containsInAnyOrder
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -11,6 +9,7 @@ import org.junit.Test
 import java.util.*
 import kotlin.concurrent.thread
 import kotlin.random.Random
+
 class MockDatabaseTest {
 
     // Dummy class for complex types
@@ -117,9 +116,6 @@ class MockDatabaseTest {
 
         assertEquals(old + 3, db.getInt(TEST_KEY).get())
 
-        assertThat(
-            incrementValues,
-            containsInAnyOrder(expectedUnordered[0], expectedUnordered[1], expectedUnordered[2])
-        )
+        assertTrue(incrementValues.containsAll(listOf(expectedUnordered[0], expectedUnordered[1], expectedUnordered[2])))
     }
 }

@@ -134,9 +134,6 @@ class AwaitHelpActivity : AppCompatActivity() {
         //mapsFragment.addMarker(options) TODO: Fragment not working
     }
 
-    /**
-     * @see InfoOnHelpTaskActivity.setupLocation
-     */
     private fun setupLocation() {
         val currentLocation = GeneralLocationManager.get().getCurrentLocation(this)
         if (currentLocation != null) {
