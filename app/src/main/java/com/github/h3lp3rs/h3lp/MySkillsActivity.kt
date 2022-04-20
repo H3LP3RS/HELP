@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import com.github.h3lp3rs.h3lp.database.Databases
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.activateHelpListeners
 import com.github.h3lp3rs.h3lp.dataclasses.HelperSkills
 import com.github.h3lp3rs.h3lp.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.*
@@ -83,6 +85,8 @@ class MySkillsActivity : AppCompatActivity() {
         )
         storage.setObject(getString(R.string.my_skills_key), HelperSkills::class.java, skills)
         storage.push()
+        // Refresh help listeners
+        //activateHelpListeners()
     }
 
     /**

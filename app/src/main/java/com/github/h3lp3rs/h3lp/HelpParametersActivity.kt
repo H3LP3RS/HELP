@@ -134,9 +134,16 @@ class HelpParametersActivity : AppCompatActivity() {
         val uid = emergenciesDb.getInt(getString(R.string.EMERGENCY_UID_KEY))
         // Increment
         emergenciesDb.incrementAndGet(getString(R.string.EMERGENCY_UID_KEY), 1) {}
-        // Stop listening to new emergencies
-        newEmergenciesDb.clearAllListeners()
         return uid.thenApply {
+            // Stop listening to new emergencies
+            newEmergenciesDb.clearAllListeners()
+            //newEmergenciesDb.clearListeners(resources.getString(R.string.asthma_med))
+            //newEmergenciesDb.clearListeners(resources.getString(R.string.epipen))
+            //newEmergenciesDb.clearListeners(resources.getString(R.string.cpr))
+            //newEmergenciesDb.clearListeners(resources.getString(R.string.Insulin))
+            //newEmergenciesDb.clearListeners(resources.getString(R.string.first_aid_kit))
+            //newEmergenciesDb.clearListeners(resources.getString(R.string.med_pro))
+
             val id = it + 1
             val emergencyInfo = EmergencyInformation(id.toString(), latitude!!, longitude!!, skills!!, meds, currentTime, medicalInfo, ArrayList())
             EmergencyInfoRepository(emergenciesDb).insert(emergencyInfo)

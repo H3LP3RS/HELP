@@ -95,6 +95,15 @@ interface Database {
     fun <T> addListener(key: String, type: Class <T>, action: (T) -> Unit)
 
     /**
+     * Applies an arbitrary action when the value associated to the key changes
+     * WARNING: This function automatically triggers at first when linked with a valid key
+     * Only succeeds when no existing listener is already linked to the key
+     * @param key The key in the database
+     * @param action The action taken at change
+     */
+    fun <T> addListenerIfNotPresent(key: String, type: Class <T>, action: (T) -> Unit)
+
+    /**
      * Clears all listeners related to a given key
      * @param key The key in the database
      */

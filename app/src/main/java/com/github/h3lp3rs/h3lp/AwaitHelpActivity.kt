@@ -10,7 +10,6 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.activateHelpListeners
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
@@ -44,7 +43,6 @@ class AwaitHelpActivity : AppCompatActivity() {
         setContentView(R.layout.activity_await_help)
 
         apiHelper = GoogleAPIHelper(resources.getString(R.string.google_maps_key))
-
         setupLocation()
 
         val bundle = this.intent.extras

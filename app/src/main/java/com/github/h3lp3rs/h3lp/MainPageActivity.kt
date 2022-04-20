@@ -114,7 +114,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         }
 
         // Start help listener
-        activateHelpListeners()
+        //activateHelpListeners()
 
         startAppGuide()
     }

@@ -141,6 +141,19 @@ class MockDatabase : Database {
     }
 
     /**
+     * Applies an arbitrary action when the value associated to the key changes
+     * WARNING: This function automatically triggers at first when linked with a valid key
+     * Only succeeds when no existing listener is already linked to the key
+     * @param key The key in the database
+     * @param action The action taken at change
+     */
+    override fun <T> addListenerIfNotPresent(key: String, type: Class<T>, action: (T) -> Unit) {
+        if(!listeners.containsKey(key)) {
+            addListener(key, type, action)
+        }
+    }
+
+    /**
      * Clears all listeners related to a given key
      * @param key The key in the database
      */
@@ -153,7 +166,8 @@ class MockDatabase : Database {
      * Clears all listeners related for this database
      */
     override fun clearAllListeners() {
-        for(key in listeners.keys) {
+        val copy = HashMap(listeners)
+        for(key in copy.keys) {
             clearListeners(key)
         }
     }
