@@ -151,14 +151,14 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
          * need of help and instantiates a conversation on that id
          * @param uniqueId The unique conversation id
          */
-        fun onComplete(uniqueId: String?) {
+        fun onComplete(uniqueId: Int?) {
             uniqueId?.let {
                 // Sending the conversation id to the person in need of help (share the
                 // conversation id)
-                conversationIdsDb.addToObjectsListConcurrently(helpeeId, String::class.java, it)
+                conversationIdsDb.addToObjectsListConcurrently(helpeeId, Int::class.java, it)
 
                 // Creating a conversation on that new unique conversation id
-                conversation = Conversation(it, HELPER)
+                conversation = Conversation(it.toString(), HELPER)
             }
         }
         // Gets a new conversation id atomically (to avoid 2 helpers getting the same) then

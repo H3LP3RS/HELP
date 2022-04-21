@@ -128,11 +128,11 @@ class MockDatabaseTest {
     fun incrementIsAtomic() {
         val old = TEST_SEED.nextInt()
         db.setInt(TEST_KEY, old)
-        val expectedUnordered = listOf(old + 1, old + 2, old + 3).map { it.toString() }
+        val expectedUnordered = listOf(old + 1, old + 2, old + 3)
 
         // We test that each thread atomically adds 1 to the value and each one sees a unique value
-        val incrementValues = Collections.synchronizedList<String>(mutableListOf())
-        val callBack: (String?) -> Unit = { it?.let { incrementValues.add(it) } }
+        val incrementValues = Collections.synchronizedList<Int>(mutableListOf())
+        val callBack: (Int?) -> Unit = { it?.let { incrementValues.add(it) } }
 
         val t1 = thread { db.incrementAndGet(TEST_KEY, 1, callBack) }
         val t2 = thread { db.incrementAndGet(TEST_KEY, 1, callBack) }

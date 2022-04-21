@@ -135,7 +135,7 @@ class HelpParametersActivity : AppCompatActivity() {
              *      will serve as a place for helpers to send their unique conversation ids to share
              *      them with the helpee
              */
-            fun onComplete(id: String?) {
+            fun onComplete(id: Int?) {
                 id?.let { helpeeId ->
                     /*
                      * Sending the emergency information
@@ -146,7 +146,7 @@ class HelpParametersActivity : AppCompatActivity() {
                         .getStringOrDefault(getString(R.string.medical_info_key), "")
 
                     val emergencyInfo = EmergencyInformation(
-                        id = helpeeId,
+                        id = helpeeId.toString(),
                         latitude = latitude!!,
                         longitude = longitude!!,
                         meds = meds,
@@ -161,7 +161,7 @@ class HelpParametersActivity : AppCompatActivity() {
                      * object and add it to the conversations list
                      */
                     conversationIdsDb.addListListener(
-                        helpeeId,
+                        helpeeId.toString(),
                         String::class.java
                     ) { addNewConversations(it) }
                 }
