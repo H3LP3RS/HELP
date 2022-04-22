@@ -6,6 +6,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.webkit.MimeTypeMap
 import android.widget.*
@@ -13,19 +14,24 @@ import androidx.activity.result.contract.ActivityResultContracts
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.signin.GoogleSignInAdapter
+import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.squareup.picasso.Picasso
 
 class VerificationActivity : AppCompatActivity() {
-    private var imgUri : Uri? = null
+
+    companion object{
+        var imgUri : Uri? = null
+        val db = Databases.databaseOf(Databases.PRO_USERS)
+        val storageRef = FirebaseStorage.getInstance().getReference("uploads")
+    }
+
     private lateinit var chooseImgButton : Button
     private lateinit var uploadButton : Button
     private lateinit var fileName : EditText
     private lateinit var img : ImageView
     private lateinit var progressBar : ProgressBar
-    private lateinit var storageRef : StorageReference
-    private val db = Databases.databaseOf(Databases.PRO_USERS) //TODO create prousers db
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +42,7 @@ class VerificationActivity : AppCompatActivity() {
         fileName = findViewById(R.id.edit_file_name)
         img = findViewById(R.id.file)
         progressBar = findViewById(R.id.progress_bar)
-        storageRef = FirebaseStorage.getInstance().getReference("uploads")
+
 
         chooseImgButton.setOnClickListener{
             openFileChooser()
@@ -71,11 +77,12 @@ class VerificationActivity : AppCompatActivity() {
                 imgUri!!
             ))
             fileReference.putFile(imgUri!!).addOnSuccessListener {
-                val handler  = Handler()
-                handler.postDelayed(Runnable { progressBar.progress = 0 }, 5000)
+                Handler(Looper.getMainLooper()).postDelayed({
+                    progressBar.progress = 0
+                }, 5000)
 
                 val currentUser = GoogleSignInAdapter.auth.currentUser
-                val id = currentUser?.uid.toString()
+                val id = SignInActivity.userUid.toString()
                 val name = currentUser?.displayName.toString()
 
                 val proUser = ProUser(id = id, name = name, proofName = fileName.text.toString().trim(), proofUri = it.uploadSessionUri.toString())

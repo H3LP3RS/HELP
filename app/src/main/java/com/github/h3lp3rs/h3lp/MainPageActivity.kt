@@ -24,6 +24,7 @@ import com.github.h3lp3rs.h3lp.professional.ProMainActivity
 import com.github.h3lp3rs.h3lp.professional.ProUser
 import com.github.h3lp3rs.h3lp.professional.VerificationActivity
 import com.github.h3lp3rs.h3lp.signin.GoogleSignInAdapter
+import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
@@ -430,7 +431,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     /** Called when the user taps the professional portal  button */
     fun goToProfessionalPortal(view : View) {
         val db = databaseOf(Databases.PRO_USERS)
-        db.getObject(GoogleSignInAdapter.auth.currentUser?.uid.toString(), ProUser::class.java).handle { _, err ->
+        db.getObject(SignInActivity.userUid.toString(), ProUser::class.java).handle { _, err ->
             if(err != null){
                 goToActivity(VerificationActivity::class.java)
                 return@handle
