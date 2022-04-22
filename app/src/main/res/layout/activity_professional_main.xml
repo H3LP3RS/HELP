@@ -62,17 +62,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/welcomeText"
-            android:text="@string/pro_quote"
-            android:textSize="20sp"
             android:layout_centerHorizontal="true"
             android:lineSpacingExtra="8sp"
             android:shadowColor="@color/white"
             android:shadowDx="1"
             android:shadowDy="1"
             android:shadowRadius="20"
+            android:text="@string/pro_quote"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textSize="20sp" />
 
         <ListView
             android:id="@+id/listView"
@@ -122,6 +122,7 @@
                     android:layout_height="match_parent">
 
                     <ImageButton
+                        android:id="@+id/faq_button"
                         android:background="@drawable/question"
                         android:layout_width="80dp"
                         android:layout_height="80dp"
@@ -155,6 +156,7 @@
                     android:layout_height="match_parent">
 
                     <ImageButton
+                        android:id="@+id/pro_profile_button"
                         android:background="@drawable/doctor"
                         android:layout_width="80dp"
                         android:layout_height="80dp"/>
@@ -187,6 +189,7 @@
                     android:layout_height="match_parent">
 
                     <ImageButton
+                        android:id="@+id/blood_request_button"
                         android:background="@drawable/blood_donation"
                         android:layout_width="80dp"
                         android:layout_height="80dp"/>
@@ -219,6 +222,7 @@
                     android:layout_height="match_parent">
 
                     <ImageButton
+                        android:id="@+id/emergencies_button"
                         android:background="@drawable/alarm"
                         android:layout_width="80dp"
                         android:layout_height="80dp"/>
