@@ -27,9 +27,6 @@
             android:name=".professional.ProMainActivity"
             android:exported="false" />
         <activity
-            android:name=".StatusSelectionActivity"
-            android:exported="false" />
-        <activity
             android:name=".HelpPageActivity"
             android:exported="true" />
         <activity
