@@ -24,7 +24,9 @@ class VerificationActivity : AppCompatActivity() {
     companion object{
         var imgUri : Uri? = null
         val db = Databases.databaseOf(Databases.PRO_USERS)
-        val storageRef = FirebaseStorage.getInstance().getReference("uploads")
+        var storageRef = FirebaseStorage.getInstance().getReference("uploads")
+        var currentUserId = SignInActivity.userUid.toString()
+        var currentUserName = GoogleSignInAdapter.auth.currentUser?.displayName.toString()
     }
 
     private lateinit var chooseImgButton : Button
@@ -81,11 +83,7 @@ class VerificationActivity : AppCompatActivity() {
                     progressBar.progress = 0
                 }, 5000)
 
-                val currentUser = GoogleSignInAdapter.auth.currentUser
-                val id = SignInActivity.userUid.toString()
-                val name = currentUser?.displayName.toString()
-
-                val proUser = ProUser(id = id, name = name, proofName = fileName.text.toString().trim(), proofUri = it.uploadSessionUri.toString())
+                val proUser = ProUser(id = currentUserId, name = currentUserName, proofName = fileName.text.toString().trim(), proofUri = it.uploadSessionUri.toString())
                 db.setObject(proUser.id, ProUser::class.java, proUser)
 
                 val intent = Intent(this, ProMainActivity::class.java)
