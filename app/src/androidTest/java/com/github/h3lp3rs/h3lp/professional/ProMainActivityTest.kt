@@ -29,11 +29,11 @@ class ProMainActivityTest {
         checkIfDisplayed(R.id.welcomeText)
     }
 
-    @Test
+   /* @Test
     fun buttonsAreDisplayed(){
         checkIfDisplayed(R.id.faq_button)
         checkIfDisplayed(R.id.pro_profile_button)
         checkIfDisplayed(R.id.emergencies_button)
         checkIfDisplayed(R.id.blood_request_button)
-    }
+    }*/
 }
