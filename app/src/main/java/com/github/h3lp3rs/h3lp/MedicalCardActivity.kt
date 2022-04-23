@@ -40,6 +40,7 @@ class MedicalCardActivity : AppCompatActivity() {
 
     private lateinit var storage: LocalStorage
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_card)
@@ -68,7 +69,7 @@ class MedicalCardActivity : AppCompatActivity() {
     private fun createPhoneNumberField() {
         val phoneInputText = findViewById<EditText>(R.id.medicalInfoContactNumberEditTxt)
         val phoneInputLayout = findViewById<TextInputLayout>(R.id.medicalInfoContactNumberTxtLayout)
-        phoneInputText.doAfterTextChanged { text ->
+        phoneInputText.doOnTextChanged { text, _, _, _ ->
             try {
                 val number = PhoneNumberUtil.getInstance().parse(text.toString().trimStart('0'), "CH")
                 if( PhoneNumberUtil.getInstance().isPossibleNumber(number)){
@@ -238,6 +239,7 @@ class MedicalCardActivity : AppCompatActivity() {
     /**
      * Load medical card data
      */
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun loadData() {
         val medicalInformation = storage.getObjectOrDefault(getString(R.string.medical_info_key),
             MedicalInformation::class.java,  null) ?: return
