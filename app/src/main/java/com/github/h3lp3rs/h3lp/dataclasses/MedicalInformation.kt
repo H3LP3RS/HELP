@@ -6,7 +6,16 @@ import java.time.Year
 
 @RequiresApi(Build.VERSION_CODES.O)
 class MedicalInformation(
-    val size: Int,val weight: Int,val gender: Gender, val yearOfBirth: Int, val conditions: String, val actualTreatment: String, val allergy: String, val bloodType: BloodType,
+    val size: Int,
+    val weight: Int,
+    val gender: Gender,
+    val yearOfBirth: Int,
+    val conditions: String,
+    val actualTreatment: String,
+    val allergy: String,
+    val bloodType: BloodType,
+    val emergencyContactPrimaryName: String,
+    val emergencyContactNumber: String,
 ){
     init {
         require(size in MIN_HEIGHT..MAX_HEIGHT)

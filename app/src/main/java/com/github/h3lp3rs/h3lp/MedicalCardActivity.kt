@@ -3,9 +3,11 @@ package com.github.h3lp3rs.h3lp
 import android.content.Intent
 
 import android.icu.util.Calendar
+import android.net.wifi.ScanResult.UNSPECIFIED
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.telephony.PhoneNumberUtils
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextPaint
@@ -14,23 +16,25 @@ import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 
 import android.view.View
-import android.widget.EditText
+import android.view.View.MeasureSpec.UNSPECIFIED
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.core.widget.doOnTextChanged
 import com.google.android.material.textfield.TextInputLayout
 
-import android.widget.AutoCompleteTextView
-
-import android.widget.ArrayAdapter
-import android.widget.CheckBox
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.core.widget.doAfterTextChanged
 import com.github.h3lp3rs.h3lp.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
+import com.google.i18n.phonenumbers.PhoneNumberUtil
+import com.google.i18n.phonenumbers.Phonenumber
+import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber
+import com.lamudi.phonefield.PhoneInputLayout
 
 class MedicalCardActivity : AppCompatActivity() {
 
@@ -49,10 +53,33 @@ class MedicalCardActivity : AppCompatActivity() {
         createBloodField()
         createGenderField()
         createPrivacyCheckBox()
+        createPhoneNumberField()
 
         createHelpField(findViewById(R.id.medicalInfoConditionTxtLayout), getString(R.string.condition_help_msg))
         createHelpField(findViewById(R.id.medicalInfoTreatmentTxtLayout), getString(R.string.treatment_help_msg))
         createHelpField(findViewById(R.id.medicalInfoAllergyTxtLayout), getString(R.string.allergy_help_msg))
+    }
+
+
+    /**
+     * initialises the field for emergency contact phone number so that we make
+     * sure to allow only valid phone numbers, or display an error.
+     */
+    private fun createPhoneNumberField() {
+        val phoneInputText = findViewById<EditText>(R.id.medicalInfoContactNumberEditTxt)
+        val phoneInputLayout = findViewById<TextInputLayout>(R.id.medicalInfoContactNumberTxtLayout)
+        phoneInputText.doAfterTextChanged { text ->
+            try {
+                val number = PhoneNumberUtil.getInstance().parse(text.toString().trimStart('0'), "CH")
+                if( PhoneNumberUtil.getInstance().isPossibleNumber(number)){
+                    phoneInputLayout.error = null
+                } else {
+                    phoneInputLayout.error = "Invalid Number"
+                }
+            } catch(e: Exception){
+                phoneInputLayout.error = "Invalid Number"
+            }
+        }
     }
 
     /**
@@ -264,7 +291,9 @@ class MedicalCardActivity : AppCompatActivity() {
         val weight = findViewById<TextInputLayout>(R.id.medicalInfoWeightTxtLayout)
         val gender = findViewById<AutoCompleteTextView>(R.id.medicalInfoGenderDropdown)
         val bloodType = findViewById<AutoCompleteTextView>(R.id.medicalInfoBloodDropdown)
-        return size.error==null && year.error==null && weight.error==null && gender.text!=null && bloodType!=null
+        val contactNumber = findViewById<TextInputLayout>(R.id.medicalInfoContactNumberTxtLayout)
+        return size.error==null && year.error==null && weight.error==null
+                && gender.text!=null && bloodType!=null && contactNumber != null
     }
 
     /**
@@ -288,8 +317,14 @@ class MedicalCardActivity : AppCompatActivity() {
         val gender: Gender = Gender.valueOf(findViewById<AutoCompleteTextView>(R.id.medicalInfoGenderDropdown).text.toString())
         val bloodType: BloodType = BloodType.valueOf(findViewById<AutoCompleteTextView>(R.id.medicalInfoBloodDropdown).text.toString()
             .replace('-','n').replace('+','p'))
+        val contactName = getStringFromId(R.id.medicalInfoContactNameEditTxt)
 
-        val medicalInformation = MedicalInformation(size,weight,gender,year,condition,treatment,allergy,bloodType )
+        val contactNumber = getStringFromId(R.id.medicalInfoContactNumberEditTxt)
+        val number = PhoneNumberUtil.getInstance().parse(contactNumber.trimStart('0'), "CH")
+        val formattedNumber = String.format("+%d%d", number.countryCode, number.nationalNumber)
+
+        val medicalInformation = MedicalInformation(size, weight, gender, year, condition, treatment,
+            allergy, bloodType, contactName, formattedNumber)
 
         storage.setObject(getString(R.string.medical_info_prefs), MedicalInformation::class.java, medicalInformation)
         storage.push()

@@ -12,6 +12,7 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.*
+import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -109,6 +110,9 @@ class HelpParametersActivityTest {
         phoneButton.check(matches(isDisplayed()))
         phoneButton.perform(click())
 
+        // click the ambulance in the popup
+        onView(withId(R.id.ambulance_call_button)).inRoot(RootMatchers.isFocusable()).perform(click())
+
         // The expected ambulance phone number given the location (specified by the coordinates)
         val number = "tel:${CORRECT_EMERGENCY_CALL.third}"
 
@@ -139,6 +143,9 @@ class HelpParametersActivityTest {
         phoneButton.check(matches(isDisplayed()))
         phoneButton.perform(click())
 
+        // click the ambulance in the popup
+        onView(withId(R.id.ambulance_call_button)).perform(click())
+
         // In case of such an error, the default emergency number should be called
         val number = "tel:${DEFAULT_EMERGENCY_NUMBER}"
 
@@ -166,6 +173,9 @@ class HelpParametersActivityTest {
 
         phoneButton.check(matches(isDisplayed()))
         phoneButton.perform(click())
+
+        // click the ambulance in the popup
+        onView(withId(R.id.ambulance_call_button)).perform(click())
 
         // Here, we can't check for a specific number (the emulator could be anywhere on Earth
         // but we can verify that a number was indeed called)
