@@ -74,6 +74,7 @@ class HelpParametersActivity : AppCompatActivity() {
      *  asking the user to choose whether they want to call local emergency
      *  services or their emergency contact, and dials the correct number.
      */
+    @RequiresApi(Build.VERSION_CODES.O)
     fun emergencyCall(view: View) {
         val builder = AlertDialog.Builder(this)
         val emergencyCallPopup = layoutInflater.inflate(R.layout.emergency_call_options, null)

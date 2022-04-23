@@ -2,6 +2,9 @@ package com.github.h3lp3rs.h3lp
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.google.i18n.phonenumbers.PhoneNumberUtil
+import com.google.i18n.phonenumbers.Phonenumber
+import java.lang.IllegalArgumentException
 import java.time.Year
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -21,6 +24,12 @@ class MedicalInformation(
         require(size in MIN_HEIGHT..MAX_HEIGHT)
         require(weight in MIN_WEIGHT..MAX_WEIGHT)
         require(yearOfBirth in MIN_YEAR..Year.now().value)
+        try {
+            val number = PhoneNumberUtil.getInstance().parse(emergencyContactNumber, "CH")
+            require( PhoneNumberUtil.getInstance().isPossibleNumber(number))
+        } catch(e: Exception){
+            throw IllegalArgumentException(e.message)
+        }
     }
     companion object{
         const val MAX_WEIGHT = 500
