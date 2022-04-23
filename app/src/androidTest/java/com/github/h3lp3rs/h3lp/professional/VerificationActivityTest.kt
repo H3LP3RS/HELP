@@ -28,11 +28,12 @@ import org.mockito.Mockito
 import org.mockito.kotlin.any
 import org.mockito.kotlin.doAnswer
 
+private val TEST_URI = Uri.EMPTY
+private const val TEST_STRING = ""
+private const val INTENT_TYPE = "image/*"
 
 @RunWith(AndroidJUnit4::class)
 class VerificationActivityTest {
-    private val TEST_URI = Uri.EMPTY
-    private val TEST_STRING = ""
 
     @get:Rule
     val testRule = ActivityScenarioRule(
@@ -56,7 +57,7 @@ class VerificationActivityTest {
                 isDisplayed()
             )
         ).perform(ViewActions.click())
-        Intents.intended(IntentMatchers.hasType("image/*"))
+        Intents.intended(IntentMatchers.hasType(INTENT_TYPE))
         Intents.intended(IntentMatchers.hasAction(Intent.ACTION_GET_CONTENT))
     }
 
@@ -67,9 +68,11 @@ class VerificationActivityTest {
         VerificationActivity.currentUserName = TEST_STRING
         Databases.PRO_USERS.db = MockDatabase()
 
+        // Mock the Firebase cloud storage
         val storageMock = Mockito.mock(StorageReference::class.java)
         VerificationActivity.storageRef = storageMock
 
+        // Mock the uploading task
         val task = Mockito.mock(UploadTask::class.java)
 
         doAnswer {

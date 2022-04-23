@@ -433,9 +433,11 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         val db = databaseOf(Databases.PRO_USERS)
         db.getObject(SignInActivity.userUid.toString(), ProUser::class.java).handle { _, err ->
             if(err != null){
+                // If there is no proof of the status of the current user in the database, launch the verification process
                 goToActivity(VerificationActivity::class.java)
                 return@handle
             }
+            // Otherwise, redirect to the professional main page
             goToActivity(ProMainActivity::class.java)
         }
     }

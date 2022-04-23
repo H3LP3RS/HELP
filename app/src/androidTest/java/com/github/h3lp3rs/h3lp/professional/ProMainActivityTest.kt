@@ -29,7 +29,8 @@ class ProMainActivityTest {
         checkIfDisplayed(R.id.welcomeText)
     }
 
-   /* @Test
+   /* This test fails on Cirrus because buttons can't be found
+   @Test
     fun buttonsAreDisplayed(){
         checkIfDisplayed(R.id.faq_button)
         checkIfDisplayed(R.id.pro_profile_button)

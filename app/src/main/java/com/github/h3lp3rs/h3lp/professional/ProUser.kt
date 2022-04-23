@@ -1,8 +1,15 @@
 package com.github.h3lp3rs.h3lp.professional
 
-data class ProUser (
+/**
+ * Data class representing a professional user
+ */
+data class ProUser(
+    // User's Id
     val id: String,
+    // User's name
     val name: String,
-    val proofName : String,
-    val proofUri : String
+    // User's status proof name
+    val proofName: String,
+    // User's status proof Uri
+    val proofUri: String
 )
