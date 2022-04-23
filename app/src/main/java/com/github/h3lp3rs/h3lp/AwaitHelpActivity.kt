@@ -2,10 +2,12 @@ package com.github.h3lp3rs.h3lp
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import com.github.h3lp3rs.h3lp.firstaid.AedActivity
 import com.github.h3lp3rs.h3lp.firstaid.AllergyActivity
@@ -134,6 +136,7 @@ class AwaitHelpActivity : AppCompatActivity() {
      *  asking the user to choose whether they want to call local emergency
      *  services or their emergency contact, and dials the correct number.
      */
+    @RequiresApi(Build.VERSION_CODES.O)
     fun emergencyCall(view: View) {
         val builder = AlertDialog.Builder(this)
         val emergencyCallPopup = layoutInflater.inflate(R.layout.emergency_call_options, null)
