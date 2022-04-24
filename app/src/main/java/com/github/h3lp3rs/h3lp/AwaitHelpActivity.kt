@@ -10,6 +10,8 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
+import com.github.h3lp3rs.h3lp.database.Databases.CONVERSATION_IDS
 import com.github.h3lp3rs.h3lp.firstaid.AedActivity
 import com.github.h3lp3rs.h3lp.firstaid.AllergyActivity
 import com.github.h3lp3rs.h3lp.firstaid.AsthmaActivity
@@ -43,7 +45,7 @@ class AwaitHelpActivity : AppCompatActivity() {
 
         setupLocation()
 
-        val bundle = this.intent.extras
+        val bundle = intent.extras
         if(bundle != null) {
             helpeeId = bundle.getString(EXTRA_HELPEE_ID)
             askedMeds.plus(bundle.getStringArrayList(EXTRA_NEEDED_MEDICATION))
@@ -57,7 +59,12 @@ class AwaitHelpActivity : AppCompatActivity() {
         }
 
         //TODO add listener on database so that we replace the loading bar by the number of
-        // users coming to help and their position
+        // users coming to help and their position (change the information sent by the users coming
+        // to help)
+        helpeeId?.let{
+            databaseOf(CONVERSATION_IDS).addListListener(it, String::class.java)
+            {list -> if (list.isNotEmpty()) foundHelperPerson(0.0, 0.0)}
+        }
 
         // Initially the contact helpers is hidden, only after a user responds to the request it
         // becomes visible.

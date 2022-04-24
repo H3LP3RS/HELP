@@ -2,7 +2,6 @@ package com.github.h3lp3rs.h3lp
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.database.Databases.CONVERSATION_IDS
@@ -13,11 +12,8 @@ import com.github.h3lp3rs.h3lp.messaging.Conversation
 import com.github.h3lp3rs.h3lp.messaging.Conversation.Companion.UNIQUE_CONVERSATION_ID
 import com.github.h3lp3rs.h3lp.messaging.Messenger.HELPER
 import com.github.h3lp3rs.h3lp.messaging.*
-import com.github.h3lp3rs.h3lp.messaging.Conversation.Companion.UNIQUE_CONVERSATION_ID
-import com.github.h3lp3rs.h3lp.messaging.Messenger.HELPER
 import com.github.h3lp3rs.h3lp.util.GDurationJSONParser
 import com.google.android.gms.maps.MapsInitializer
-import kotlinx.android.synthetic.main.activity_await_help.*
 import kotlinx.android.synthetic.main.activity_help_page.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
@@ -25,9 +21,8 @@ import kotlinx.coroutines.MainScope
 const val EXTRA_HELP_REQUIRED_PARAMETERS = "help_page_required_key"
 const val EXTRA_DESTINATION_LAT = "help_page_destination_lat"
 const val EXTRA_DESTINATION_LONG = "help_page_destination_long"
-const val EXTRA_HELPEE_ID = "help_page_helpee_unique_id"
-
 const val EXTRA_USER_ROLE = "user_role"
+
 /**
  * Activity used to display information about a person in need, their location, the path to them,
  * the time to get there, and what help they need
@@ -157,7 +152,7 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
          * need of help and instantiates a conversation on that id
          * @param uniqueId The unique conversation id
          */
-        fun onComplete(uniqueId : String?) {
+        fun onComplete(uniqueId : Int?) {
             uniqueId?.let {
                 // Sending the conversation id to the person in need of help (share the
                 // conversation id)
@@ -165,7 +160,7 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
                 // Creating a conversation on that new unique conversation id
                 conversation = Conversation(it.toString(), HELPER)
-                conversationId = it
+                conversationId = it.toString()
             }
         }
         // Gets a new conversation id atomically (to avoid 2 helpers getting the same) then
