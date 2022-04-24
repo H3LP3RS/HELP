@@ -2,6 +2,7 @@ package com.github.h3lp3rs.h3lp
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.database.Databases.CONVERSATION_IDS
@@ -192,7 +193,7 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         startActivity(intent)
     }
 
-    fun goToMainPage() {
+    fun goToMainPage(view: View) {
         goToActivity(MainPageActivity::class.java)
     }
 
