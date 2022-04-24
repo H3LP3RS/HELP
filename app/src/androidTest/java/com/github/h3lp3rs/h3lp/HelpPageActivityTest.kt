@@ -23,6 +23,8 @@ import androidx.test.rule.GrantPermissionRule
 import androidx.test.uiautomator.UiDevice
 import com.github.h3lp3rs.h3lp.database.Databases.MESSAGES
 import com.github.h3lp3rs.h3lp.database.Databases.CONVERSATION_IDS
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.database.MockDatabase
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 import com.github.h3lp3rs.h3lp.locationmanager.LocationManagerInterface
@@ -87,8 +89,8 @@ class HelpPageActivityTest {
         GeneralLocationManager.set(locationManagerMock)
 
         // Mocking the databases
-        CONVERSATION_IDS.db = MockDatabase()
-        MESSAGES.db = MockDatabase()
+        setDatabase(CONVERSATION_IDS, MockDatabase())
+        setDatabase(MESSAGES, MockDatabase())
 
         // Launching the activity with different parameters
         val bundle = Bundle()
@@ -139,7 +141,7 @@ class HelpPageActivityTest {
         // Adding a listener to the conversations database and checking if the helper sends the
         // helpee a conversation id
         val callBack: (List<String>) -> Unit = {if (it.isNotEmpty()) hasSentUniqueId = true}
-        CONVERSATION_IDS.db?.addListListener(HELPEE_ID, String::class.java, callBack)
+        databaseOf(CONVERSATION_IDS).addListListener(HELPEE_ID, String::class.java, callBack)
 
         onView(withId(R.id.accept))
             .check(matches(isDisplayed()))

@@ -1,7 +1,9 @@
 package com.github.h3lp3rs.h3lp
 
 import androidx.test.core.app.ApplicationProvider
+import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.database.Databases.*
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.database.MockDatabase
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
@@ -30,7 +32,7 @@ class StorageTest {
     fun setup() {
         globalContext = ApplicationProvider.getApplicationContext()
         userUid = USER_TEST_ID
-        PREFERENCES.db = MockDatabase()
+        setDatabase(PREFERENCES, MockDatabase())
         resetStorage()
         // Will start empty
         storage = storageOf(USER_COOKIE)

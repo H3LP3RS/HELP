@@ -28,8 +28,8 @@ class Conversation(
     }
 
     /**
-     * Adds a listener on the conversation, the listener every time a new message is sent to the
-     * conversation
+     * Adds a listener on the conversation, the listener is triggered every time a new message is
+     * sent to the conversation
      * @param onNewMessage Callback called on every new message
      */
     fun addListener(onNewMessage: (messages: List<Message>, currentMessenger: Messenger) -> Unit) {
