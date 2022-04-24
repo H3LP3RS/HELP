@@ -70,7 +70,7 @@ interface Database {
      * @param type The type of the resulting object
      * @return Future of the object
      */
-    fun <T> getObject(key: String, type: Class<T>): CompletableFuture<T> {
+    fun <T> getObject(key: String, type: Class <T>): CompletableFuture<T> {
         val gson = Gson()
         return getString(key).thenApply { s -> gson.fromJson(s, type) }
     }
@@ -116,7 +116,7 @@ interface Database {
      * @param key The key in the database
      * @param action The action taken at change
      */
-    fun <T> addListener(key: String, type: Class<T>, action: (T) -> Unit)
+    fun <T> addListener(key: String, type: Class <T>, action: (T) -> Unit)
 
     /**
      * Applies an arbitrary action when the list of values associated to the key changes

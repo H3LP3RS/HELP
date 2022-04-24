@@ -10,6 +10,7 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.doubleClick
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.*
@@ -28,6 +29,7 @@ import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.database.MockDatabase
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 import com.github.h3lp3rs.h3lp.locationmanager.LocationManagerInterface
+import com.github.h3lp3rs.h3lp.messaging.ChatActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import org.hamcrest.Matchers
 import org.hamcrest.Matchers.containsString
@@ -143,7 +145,7 @@ class HelpPageActivityTest {
         val callBack: (List<String>) -> Unit = {if (it.isNotEmpty()) hasSentUniqueId = true}
         databaseOf(CONVERSATION_IDS).addListListener(HELPEE_ID, String::class.java, callBack)
 
-        onView(withId(R.id.accept))
+        onView(withId(R.id.button_accept))
             .check(matches(isDisplayed()))
             .perform(click())
 
@@ -151,10 +153,20 @@ class HelpPageActivityTest {
         assertTrue(hasSentUniqueId)
     }
 
+
+    @Test
+    fun onAcceptingHelpRequestLaunchesChatActivity(){
+        init()
+        onView(withId(R.id.button_accept))
+            .check(matches(isDisplayed()))
+            .perform(doubleClick())
+        intended(Matchers.allOf(hasComponent(ChatActivity::class.java.name)))
+        release()
+    }
     @Test
     fun rejectHelpMakesAppGoToMain() {
         init()
-        onView(withId(R.id.reject))
+        onView(withId(R.id.button_reject))
             .check(matches(isDisplayed()))
             .perform(click())
         intended(

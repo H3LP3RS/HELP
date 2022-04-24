@@ -90,7 +90,8 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.1'
     // Palette
     implementation 'androidx.palette:palette-ktx:1.0.0'
-
+    // support module for recycler views
+    implementation 'com.xwray:groupie:2.1.0'
 
 }
 
