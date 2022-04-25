@@ -117,7 +117,7 @@ class HelpParametersActivityTest {
             BloodType.ABn, "", emergencyContactNumber)
 
 
-        LocalStorage("medicalInfoPrefs", globalContext, false)
+        storageOf(Storages.MEDICAL_INFO)
             .setObject("MEDICAL_INFO_KEY", MedicalInformation::class.java, medicalInformation)
 
         // click the contact button in the popup

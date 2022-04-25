@@ -20,6 +20,8 @@ import com.github.h3lp3rs.h3lp.database.repositories.emergencyInfoRepository
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 import com.github.h3lp3rs.h3lp.messaging.Conversation
 import com.github.h3lp3rs.h3lp.storage.LocalStorage
+import com.github.h3lp3rs.h3lp.storage.Storages
+import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import java.util.*
 
 
@@ -106,7 +108,7 @@ class HelpParametersActivity : AppCompatActivity() {
 
         // contact button
         emergencyCallPopup.findViewById<ImageButton>(R.id.contact_call_button).setOnClickListener {
-            val medicalInfo = LocalStorage(getString(R.string.medical_info_prefs),this,false)
+            val medicalInfo = storageOf(Storages.MEDICAL_INFO)
                 .getObjectOrDefault(getString(R.string.medical_info_key), MedicalInformation::class.java, null)
 
             val dial = "tel:${medicalInfo?.emergencyContactNumber}"
