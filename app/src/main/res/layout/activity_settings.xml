@@ -8,7 +8,7 @@
 
 
   <ImageView
-      android:id="@+id/mySkillsBackGround"
+      android:id="@+id/settingsBackGround"
       android:layout_width="wrap_content"
       android:layout_height="0dp"
       android:scaleType="centerCrop"
@@ -23,7 +23,7 @@
 
 
   <ImageButton
-      android:id="@+id/mySkillsBackButton"
+      android:id="@+id/settingsBackButton"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginStart="16dp"
@@ -37,13 +37,11 @@
 
 
   <androidx.constraintlayout.widget.ConstraintLayout
-      android:id="@+id/mySkillsConstraintLayout"
+      android:id="@+id/settingsConstraintLayout"
       android:layout_width="match_parent"
       android:layout_height="0dp"
       android:background="@drawable/round_corners"
-      android:shadowColor="@color/black"
-      android:shadowDx="100"
-      android:shadowDy="100"
+      android:backgroundTint="@color/light_grey"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintHeight_percent=".78"
@@ -66,6 +64,70 @@
           android:layout_marginTop="0dp"
           android:orientation="vertical">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="SYNCHRONIZATION"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginRight="16dp"
+              android:layout_marginLeft="16dp"
+              android:orientation="vertical"
+              android:backgroundTint="@color/white"
+              android:background="@drawable/round_style">
+
+            <CheckBox
+                android:id="@+id/checkBox1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:button="@null"
+                android:drawableEnd="?android:attr/listChoiceIndicatorMultiple"
+                android:text="CheckBox number 1"
+                android:textColor="@color/grey"
+                android:textSize="16sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/light_grey"
+                />
+
+            <CheckBox
+                android:id="@+id/checkBox2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:button="@null"
+                android:drawableEnd="?android:attr/listChoiceIndicatorMultiple"
+                android:text="CheckBox number 2"
+                android:textColor="@color/grey"
+                android:textSize="16sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/light_grey"
+                />
+
+            <CheckBox
+                android:id="@+id/checkBox3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:button="@null"
+                android:drawableEnd="?android:attr/listChoiceIndicatorMultiple"
+                android:text="CheckBox number 3"
+                android:textColor="@color/grey"
+                android:textSize="16sp" />
+          </LinearLayout>
+
+
 
 
 
@@ -73,7 +135,7 @@
     </ScrollView>
 
     <ImageButton
-        android:id="@+id/mySkillsHelpButton"
+        android:id="@+id/settingsHelpButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
@@ -103,7 +165,7 @@
       android:textColor="@color/black"
       android:textSize="34sp"
       android:textStyle="bold"
-      app:layout_constraintBottom_toTopOf="@+id/mySkillsConstraintLayout"
+      app:layout_constraintBottom_toTopOf="@+id/settingsConstraintLayout"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent" />
