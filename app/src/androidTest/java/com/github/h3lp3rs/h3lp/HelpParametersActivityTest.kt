@@ -22,6 +22,7 @@ import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 import com.github.h3lp3rs.h3lp.locationmanager.LocationManagerInterface
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
+import com.github.h3lp3rs.h3lp.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
@@ -33,6 +34,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.anyOrNull
+import java.util.*
 import org.mockito.Mockito.`when` as When
 
 // Case example of a possible query when a user clicks on the call for emergency button
@@ -86,6 +88,49 @@ class HelpParametersActivityTest {
         intended(
             allOf(
                 hasComponent(AwaitHelpActivity::class.java.name),
+            )
+        )
+    }
+
+    @Test
+    fun clickPhoneButtonAndContactButtonDialsEmergencyContactNumber(){
+        val intent = Intent()
+        val intentResult = ActivityResult(Activity.RESULT_OK, intent)
+        intending(anyIntent()).respondWith(intentResult)
+
+        When(locationManagerMock.getCurrentLocation(anyOrNull())).thenReturn(null)
+        GeneralLocationManager.set(locationManagerMock)
+
+
+        // Clicking on the call for emergency button
+        val phoneButton = onView(withId(R.id.help_params_call_button))
+
+        phoneButton.check(matches(isDisplayed()))
+        phoneButton.perform(click())
+
+        val emergencyContactNumber = "+41216933000"
+
+        val medicalInformation = MedicalInformation(MedicalInformation.MAX_HEIGHT-1,
+            MedicalInformation.MAX_WEIGHT-1,Gender.Male,
+            Calendar.getInstance().get(Calendar.YEAR),
+            "", "","",
+            BloodType.ABn, "", emergencyContactNumber)
+
+
+        LocalStorage("medicalInfoPrefs", globalContext, false)
+            .setObject("MEDICAL_INFO_KEY", MedicalInformation::class.java, medicalInformation)
+
+        // click the contact button in the popup
+        onView(withId(R.id.contact_call_button)).inRoot(RootMatchers.isFocusable()).perform(click())
+
+        // The expected ambulance phone number given the location (specified by the coordinates)
+        val number = "tel:$emergencyContactNumber"
+
+        // Checking that this emergency number is dialed
+        intended(
+            allOf(
+                hasAction(Intent.ACTION_DIAL),
+                hasData(Uri.parse(number))
             )
         )
     }

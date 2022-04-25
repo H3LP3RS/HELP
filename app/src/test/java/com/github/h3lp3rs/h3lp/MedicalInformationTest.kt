@@ -5,7 +5,7 @@ import org.junit.Assert.*
 import java.util.*
 
 class MedicalInformationTest {
-    private val validNumber = "216933000"
+    private val validNumber = "+41216933000"
 
     @Test
     fun badSizeThrowIAE() {
