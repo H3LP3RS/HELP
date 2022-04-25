@@ -4,8 +4,7 @@ import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.database.Databases.MESSAGES
 
 /**
- * Object representing a conversation. It implements the interface Serializable in order to be able
- * to pass this as an extra from an activity to another.
+ * Object representing a conversation.
  * @param conversationId The unique conversation id of the conversation, shared by both parties of
  * the conversation, it is the place this conversation is stored in the database
  * @param currentMessenger The user that launched the conversation, used to differentiate between
