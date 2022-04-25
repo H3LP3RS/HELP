@@ -56,15 +56,13 @@ class AwaitHelpActivityTest {
 
     @Before
     fun setup() {
+        GeneralLocationManager.set(locationManagerMock)
         init()
-        val intent = getIntent()
-        val intentResult = ActivityResult(Activity.RESULT_OK, intent)
-        intending(anyIntent()).respondWith(intentResult)
 
         `when`(locationManagerMock.getCurrentLocation(anyOrNull())).thenReturn(
             locationMock
         )
-        GeneralLocationManager.set(locationManagerMock)
+
         SignInActivity.globalContext = getApplicationContext()
         SignInActivity.userUid = USER_TEST_ID
         resetStorage()
@@ -150,22 +148,19 @@ class AwaitHelpActivityTest {
         )
     }
 
-//    @Test
-//    fun callEmergenciesFromPopUpWorksAndSendsIntent() {
-//        val phoneButton = onView(withId(R.id.open_call_popup_button))
-//
-//        `when`(locationManagerMock.getCurrentLocation(anyOrNull())).thenReturn(null)
-//        GeneralLocationManager.set(locationManagerMock)
-//
-//        phoneButton.check(matches(isDisplayed()))
-//        phoneButton.perform(click())
-//
-//        intended(
-//            allOf(
-//                IntentMatchers.hasAction(Intent.ACTION_DIAL)
-//            )
-//        )
-//    }
+    @Test
+    fun callEmergenciesFromPopUpWorksAndSendsIntent() {
+        val phoneButton = onView(withId(R.id.open_call_popup_button))
+
+        phoneButton.check(matches(isDisplayed()))
+        phoneButton.perform(click())
+
+        intended(
+            allOf(
+                IntentMatchers.hasAction(Intent.ACTION_DIAL)
+            )
+        )
+    }
 
     private fun getIntent(): Intent {
         val bundle = Bundle()

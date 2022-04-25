@@ -128,7 +128,7 @@ class AwaitHelpActivity : AppCompatActivity() {
     }
 
     /**
-     * @see InfoOnHelpTaskActivity.setupLocation
+     * @see HelpPageActivity.setupLocation
      */
     private fun setupLocation() {
         val currentLocation = GeneralLocationManager.get().getCurrentLocation(this)
@@ -137,7 +137,7 @@ class AwaitHelpActivity : AppCompatActivity() {
             currentLong = currentLocation.longitude
         } else {
             // In case the permission to access the location is missing
-            goToActivity(MainPageActivity::class.java)
+            //goToActivity(MainPageActivity::class.java)
         }
     }
 
@@ -145,7 +145,7 @@ class AwaitHelpActivity : AppCompatActivity() {
      *  Opens the phone call app with the emergency number from the country the
      *  user is currently in dialed. Called either from the popup or the button.
      */
-    fun emergencyCall(view: View) {
+    fun launchEmergencyCall(view: View) {
         val emergencyNumber =
             LocalEmergencyCaller.getLocalEmergencyNumber(
                 currentLong,
