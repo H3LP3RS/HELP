@@ -49,6 +49,8 @@ class ChatActivity : AppCompatActivity() {
                     )
                 )
                 else adapter.add(MessageLayout(message.message, receiverLayout, message.messenger))
+                // Scroll to the last message received or sent.
+                recycler_view_chat.smoothScrollToPosition(adapter.itemCount - 1)
             }
         }
         button_send_message.setOnClickListener {
