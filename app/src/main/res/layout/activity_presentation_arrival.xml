@@ -27,16 +27,19 @@
 
     <ImageView
         android:id="@+id/pres1_imageView1"
-        android:layout_width="140dp"
-        android:layout_height="146dp"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="256dp"
+        android:contentDescription="@string/h3lp_logo"
+        android:src="@drawable/heart_link"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pres1_textView1"
-        app:layout_constraintVertical_bias="0.112"
-        android:src="@drawable/swiss_flag"
-        tools:src="@drawable/swiss_flag"
-        android:contentDescription="@string/h3lp_logo" />
+        tools:src="@drawable/heart_link" />
 
     <TextView
         android:id="@+id/pres1_textView2"
