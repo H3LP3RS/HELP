@@ -14,15 +14,6 @@ internal class FireDatabase(path: String) : Database {
     private val db: DatabaseReference = Firebase.database("https://h3lp-signin-default-rtdb.europe-west1.firebasedatabase.app/").reference.child(path)
     private val openListeners = HashMap<String, List<ValueEventListener>>()
 
-    /**
-     * Utility function to extract values into futures from generic types
-     * Only works on the following types (due to Firebase's policy):
-     * - Boolean
-     * - String
-     * - Int
-     * - Double
-     * @param key The key in the database
-     */
     private inline fun <reified  T: Any> get(key: String): CompletableFuture<T> {
         val future = CompletableFuture<T>()
         db.child(key).get().addOnSuccessListener {
@@ -34,47 +25,22 @@ internal class FireDatabase(path: String) : Database {
         return future
     }
 
-    /**
-     * Gets a boolean from the database
-     * @param key The key in the database
-     * @return Future of boolean
-     */
     override fun getBoolean(key: String): CompletableFuture<Boolean> {
         return get(key)
     }
 
-    /**
-     * Sets a boolean to the database
-     * @param key The key in the database
-     * @param value The value of the boolean
-     */
     override fun setBoolean(key: String, value: Boolean) {
         db.child(key).setValue(value)
     }
 
-    /**
-     * Gets a string from the database
-     * @param key The key in the database
-     * @return Future of string
-     */
     override fun getString(key: String): CompletableFuture<String> {
         return get(key)
     }
 
-    /**
-     * Sets a string to the database
-     * @param key The key in the database
-     * @param value The value of the string
-     */
     override fun setString(key: String, value: String) {
         db.child(key).setValue(value)
     }
 
-    /**
-     * Gets a double from the database
-     * @param key The key in the database
-     * @return Future of double
-     */
     override fun getDouble(key: String): CompletableFuture<Double> {
         // This Fix is due to a misconception in firebase:
         // Storing 3.0 in firebase will automatically transform it into a long integer.
@@ -85,31 +51,16 @@ internal class FireDatabase(path: String) : Database {
         return number.thenApply { n -> n.toDouble() }
     }
 
-    /**
-     * Sets a double to the database
-     * @param key The key in the database
-     * @param value The value of the double
-     */
     override fun setDouble(key: String, value: Double) {
         db.child(key).setValue(value)
     }
 
-    /**
-     * Gets an int from the database
-     * @param key The key in the database
-     * @return Future of int
-     */
     override fun getInt(key: String): CompletableFuture<Int> {
         // NOTE: We have to recode this case as Firebase natively supports
         // Longs and not Ints.
         return get<Long>(key).thenApply { it.toInt() }
     }
 
-    /**
-     * Sets an int to the database
-     * @param key The key in the database
-     * @param value The value of the int
-     */
     override fun setInt(key: String, value: Int) {
         db.child(key).setValue(value)
     }
@@ -137,23 +88,12 @@ internal class FireDatabase(path: String) : Database {
         openListeners[key] = ls
     }
 
-    /**
-     * Applies an arbitrary action when the value associated to the key changes
-     * WARNING: This function automatically triggers at first when linked with a valid key
-     * Only succeeds when no existing listener is already linked to the key
-     * @param key The key in the database
-     * @param action The action taken at change
-     */
     override fun <T> addListenerIfNotPresent(key: String, type: Class<T>, action: (T) -> Unit) {
         if(!openListeners.containsKey(key)) {
             addListener(key, type, action)
         }
     }
 
-    /**
-     * Clears all listeners related to a given key
-     * @param key The key in the database
-     */
     override fun clearListeners(key: String) {
         val ls = openListeners.getOrDefault(key, emptyList())
         for(l in ls) {
@@ -162,9 +102,6 @@ internal class FireDatabase(path: String) : Database {
         openListeners.remove(key)
     }
 
-    /**
-     * Clears all listeners related for this database
-     */
     override fun clearAllListeners() {
         val copy = HashMap(openListeners)
         for(key in copy.keys) {
@@ -172,23 +109,11 @@ internal class FireDatabase(path: String) : Database {
         }
     }
 
-    /**
-     * Deletes an entry of a given key from the database
-     * @param key They key in the database
-     */
     override fun delete(key: String) {
         clearListeners(key)
         db.child(key).removeValue()
     }
 
-    /**
-     * Atomically increments an integer value of the database and calls the callback with the new
-     * value
-     * @param key The key in the database
-     * @param increment The number to increment by
-     * @param onComplete The callback to be called with the new value (the new value can be null
-     * in case of a database error, thus why onComplete takes a nullable String)
-     */
     override fun incrementAndGet(key: String, increment: Int, onComplete: (String?) -> Unit) {
         val keyRef = db.child(key)
         // A transaction is a set of reads and writes that happen atomically

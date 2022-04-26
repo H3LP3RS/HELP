@@ -6,7 +6,8 @@ import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.getGlobalCtx
  * Enumeration of all useful (local) storages in H3LP
  */
 enum class Storages(enableOnlineSync: Boolean) {
-    USER_COOKIE(true), MEDICAL_INFO(false), SKILLS(true);
+    USER_COOKIE(true), MEDICAL_INFO(false), SKILLS(true),
+    EMERGENCIES_RECEIVED(false);
 
     private val ls = LocalStorage(name, getGlobalCtx(), enableOnlineSync)
     private var isFresh = false

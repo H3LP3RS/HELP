@@ -8,7 +8,7 @@ import com.github.h3lp3rs.h3lp.dataclasses.HelperSkills
 import com.github.h3lp3rs.h3lp.notification.NotificationService.Companion.createNotificationChannel
 import com.github.h3lp3rs.h3lp.notification.NotificationService.Companion.sendIntentNotification
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
-import com.github.h3lp3rs.h3lp.storage.Storages
+import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 
 /**
@@ -18,7 +18,6 @@ enum class Databases {
     PREFERENCES, EMERGENCIES, NEW_EMERGENCIES;
     var db: Database = FireDatabase(name) // Var to enable test-time mocking
     companion object {
-        private val idRegistered = HashSet<String>()
         /**
          * Instantiates the database of the corresponding type
          * @param choice The chosen database
@@ -31,8 +30,8 @@ enum class Databases {
          * Activates all listeners for helpees the helper may help
          */
         fun activateHelpListeners() {
-            val storage = storageOf(Storages.SKILLS)
-            val skills = storage.getObjectOrDefault(globalContext.getString(R.string.my_skills_key), HelperSkills::class.java, null)
+            val skillStorage = storageOf(SKILLS)
+            val skills = skillStorage.getObjectOrDefault(globalContext.getString(R.string.my_skills_key), HelperSkills::class.java, null)
             if(skills == null) return
             else {
                 val db = databaseOf(NEW_EMERGENCIES)
@@ -40,12 +39,19 @@ enum class Databases {
                 fun activateListener(isPresent: Boolean, key: String) {
                     if(isPresent) {
                         db.addListenerIfNotPresent(key, Int::class.java) { id ->
-                            val emergency = databaseOf(EMERGENCIES).getObject(id.toString(), EmergencyInformation::class.java)
-                            emergency.thenAccept {
-                                if(!idRegistered.contains(it.id)) {
-                                    idRegistered.add(it.id)
+                            // Look if we already encountered this id
+                            val emergencyStorage = storageOf(EMERGENCIES_RECEIVED)
+                            if(emergencyStorage.getBoolOrDefault(id.toString(), false)) {
+                                return@addListenerIfNotPresent
+                            }
+                            // Never see this emergency again later
+                            emergencyStorage.setBoolean(id.toString(), true)
+                            // Send notification only if the associated object still exists
+                            databaseOf(EMERGENCIES).getObject(id.toString(), EmergencyInformation::class.java)
+                                .thenAccept {
                                     createNotificationChannel(globalContext)
                                     val intent = Intent(globalContext, HelpPageActivity::class.java)
+                                    // Data to transfer to the help page activity
                                     val b = Bundle()
                                     b.putString(EXTRA_EMERGENCY_KEY, it.id)
                                     b.putStringArrayList(EXTRA_HELP_REQUIRED_PARAMETERS, it.meds)
@@ -54,7 +60,6 @@ enum class Databases {
                                     intent.putExtras(b)
                                     sendIntentNotification(globalContext, globalContext.getString(R.string.emergency),
                                         globalContext.getString(R.string.need_help), intent)
-                                }
                             }
                         }
                     }
