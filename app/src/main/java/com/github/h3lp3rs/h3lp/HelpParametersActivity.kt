@@ -11,6 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import android.widget.ToggleButton
 import androidx.appcompat.app.AppCompatActivity
+import com.github.h3lp3rs.h3lp.database.Database
 import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
@@ -18,13 +19,12 @@ import com.github.h3lp3rs.h3lp.database.repositories.EmergencyInfoRepository
 import com.github.h3lp3rs.h3lp.dataclasses.HelperSkills
 import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
-import com.github.h3lp3rs.h3lp.storage.Storages
+import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import kotlin.collections.ArrayList
-
 
 const val EXTRA_NEEDED_MEDICATION = "needed_meds_key"
 const val EXTRA_CALLED_EMERGENCIES = "has_called_emergencies"
@@ -48,7 +48,6 @@ class HelpParametersActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_help_parameters)
 
-
         // Get the coordinates and display them on the screen to enable the user to give their exact
         // location to the emergency services
         updateCoordinates()
@@ -71,10 +70,10 @@ class HelpParametersActivity : AppCompatActivity() {
 
     }
 
-
     /**
      *  Called when the user presses the emergency call button. Opens the phone call app with the
      *  emergency number from the country the user is currently in dialed.
+     *  @param view The view of the button pressed
      */
     fun emergencyCall(view: View) {
         // In case the getCurrentLocation failed (for example if the location services aren't
@@ -88,7 +87,6 @@ class HelpParametersActivity : AppCompatActivity() {
                 userLocation?.latitude,
                 this
             )
-
         val dial = "tel:$emergencyNumber"
         startActivity(Intent(Intent.ACTION_DIAL, Uri.parse(dial)))
     }
@@ -96,6 +94,7 @@ class HelpParametersActivity : AppCompatActivity() {
 
     /**
      *  Called when the user presses the "search for help" button after selecting their need.
+     *  @param view The view of the button pressed
      */
     fun searchHelp(view: View) {
         val selectionPair = retrieveSelectedMedication(view)
@@ -125,9 +124,11 @@ class HelpParametersActivity : AppCompatActivity() {
      * @return The id of the emergency in a future
      */
     private fun sendInfoToDB(): CompletableFuture<Int> {
+        // Get emergency related databases
         val emergenciesDb = databaseOf(EMERGENCIES)
         val newEmergenciesDb = databaseOf(NEW_EMERGENCIES)
-        val storage = storageOf(Storages.MEDICAL_INFO)
+        // Get own medical storage and extract the information if available
+        val storage = storageOf(MEDICAL_INFO)
         val medicalInfo = storage.getObjectOrDefault(getString(R.string.medical_info_key),
             MedicalInformation::class.java, null)
         // TODO: Use future once this is has been changed to avoid double work
@@ -137,28 +138,38 @@ class HelpParametersActivity : AppCompatActivity() {
         return uid.thenApply {
             // Stop listening to new emergencies
             newEmergenciesDb.clearAllListeners()
-            //newEmergenciesDb.clearListeners(resources.getString(R.string.asthma_med))
-            //newEmergenciesDb.clearListeners(resources.getString(R.string.epipen))
-            //newEmergenciesDb.clearListeners(resources.getString(R.string.cpr))
-            //newEmergenciesDb.clearListeners(resources.getString(R.string.Insulin))
-            //newEmergenciesDb.clearListeners(resources.getString(R.string.first_aid_kit))
-            //newEmergenciesDb.clearListeners(resources.getString(R.string.med_pro))
-
+            // Create and send the emergency object
             val id = it + 1
             val emergencyInfo = EmergencyInformation(id.toString(), latitude!!, longitude!!, skills!!, meds, currentTime, medicalInfo, ArrayList())
             EmergencyInfoRepository(emergenciesDb).insert(emergencyInfo)
-            if(skills!!.hasVentolin) newEmergenciesDb.setInt(resources.getString(R.string.asthma_med), id)
-            if(skills!!.hasEpipen) newEmergenciesDb.setInt(resources.getString(R.string.epipen), id)
-            if(skills!!.knowsCPR) newEmergenciesDb.setInt(resources.getString(R.string.cpr), id)
-            if(skills!!.hasInsulin) newEmergenciesDb.setInt(resources.getString(R.string.Insulin), id)
-            if(skills!!.hasFirstAidKit) newEmergenciesDb.setInt(resources.getString(R.string.first_aid_kit), id)
-            if(skills!!.isMedicalPro) newEmergenciesDb.setInt(resources.getString(R.string.med_pro), id)
+            // Raise the appropriate flags to notify potential helpers
+            val needed = skills!!
+            raiseFlagInDb(needed.hasVentolin, newEmergenciesDb, R.string.asthma_med, id)
+            raiseFlagInDb(needed.hasEpipen, newEmergenciesDb, R.string.epipen, id)
+            raiseFlagInDb(needed.knowsCPR, newEmergenciesDb, R.string.cpr, id)
+            raiseFlagInDb(needed.hasInsulin, newEmergenciesDb, R.string.Insulin, id)
+            raiseFlagInDb(needed.hasFirstAidKit, newEmergenciesDb, R.string.first_aid_kit, id)
+            raiseFlagInDb(needed.isMedicalPro, newEmergenciesDb, R.string.med_pro, id)
+            // Return unique id for future reference
             id
         }
     }
 
     /**
+     * Raises the flag if needed in the database of the corresponding key in the given resource id
+     * @param flag Whether or not the flag must be risen
+     * @param db The database to raise the flag
+     * @param resId The id in the resource file that corresponds to a key on which we will raise the
+     * flag
+     * @param emergencyId The unique emergency id
+     */
+    private fun raiseFlagInDb(flag: Boolean, db: Database, resId: Int, emergencyId: Int) {
+        if(flag) db.setInt(resources.getString(resId), emergencyId)
+    }
+
+    /**
      * Auxiliary function to retrieve the selected meds on the page and the required helper skills
+     * @param view The view to retrieve medication from (in its children)
      */
     private fun retrieveSelectedMedication(view: View): Pair<ArrayList<String>, HelperSkills> {
         val viewGroup = view.parent as ViewGroup
@@ -171,7 +182,9 @@ class HelpParametersActivity : AppCompatActivity() {
             val child = viewGroup.getChildAt(i) as View
             if (child is ToggleButton) {
                 if (child.isChecked) {
+                    // Add medication string (for display)
                     meds.add(child.textOff as String)
+                    // Update skills object (for code usage)
                     when (child.textOff) {
                         resources.getString(R.string.epipen) -> {
                             skills = skills.copy(hasEpipen = true)
