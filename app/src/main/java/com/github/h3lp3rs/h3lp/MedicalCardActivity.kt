@@ -291,7 +291,7 @@ class MedicalCardActivity : AppCompatActivity() {
 
         val medicalInformation = MedicalInformation(size,weight,gender,year,condition,treatment,allergy,bloodType )
 
-        storage.setObject(getString(R.string.medical_info_prefs), MedicalInformation::class.java, medicalInformation)
+        storage.setObject(getString(R.string.medical_info_key), MedicalInformation::class.java, medicalInformation)
         storage.push()
     }
 

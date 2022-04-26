@@ -1,17 +1,21 @@
 package com.github.h3lp3rs.h3lp.storage
 
+import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.getGlobalCtx
+import java.lang.Boolean.parseBoolean
 
 /**
  * Enumeration of all useful (local) storages in H3LP
  */
-enum class Storages(enableOnlineSync: Boolean) {
-    USER_COOKIE(true), MEDICAL_INFO(false), SKILLS(true);
+enum class Storages() {
+    USER_COOKIE(), MEDICAL_INFO(), SKILLS();
 
-    private val ls = LocalStorage(name, getGlobalCtx(), enableOnlineSync)
+    private val ls = LocalStorage(name, getGlobalCtx())
     private var isFresh = false
 
-    companion object{
+    companion object {
+
+        const val SyncPref :String = "SyncPref"
         /**
          * Instantiates the storage of the corresponding type
          * If the storage has enabled online sync, it will fetch the data online at the first call
@@ -21,7 +25,7 @@ enum class Storages(enableOnlineSync: Boolean) {
          * @param choice The chosen database
          */
         fun storageOf(choice: Storages): LocalStorage {
-            if (!choice.isFresh){
+            if (!choice.isFresh) {
                 choice.ls.pull()
                 choice.isFresh = true
             }
@@ -32,9 +36,25 @@ enum class Storages(enableOnlineSync: Boolean) {
          * Reset local storage completely
          */
         fun resetStorage() {
-            for(storage in values()) {
+            for (storage in values()) {
                 storage.ls.clearAll()
             }
         }
     }
+    /**
+     * set the Online synchronization for a given storage
+     * @param isSyncEnable if the synchronization must be enabled
+     */
+    fun setOnlineSync(isSyncEnable : Boolean){
+        getGlobalCtx().getSharedPreferences("SyncPref", AppCompatActivity.MODE_PRIVATE)
+            .edit().putString(name, isSyncEnable.toString()).apply()
+    }
+    /**
+     * get the Online synchronization for a given storage
+     */
+    fun getOnlineSync():Boolean{
+        return parseBoolean(getGlobalCtx().getSharedPreferences("SyncPref", AppCompatActivity.MODE_PRIVATE)
+            .getString(name,"true"))
+    }
+
 }

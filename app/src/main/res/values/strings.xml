@@ -259,7 +259,7 @@
     <string name="asthma_step1">Reassure the casualty and ask them to take their usual dose of their reliever inhaler. Ask them to breathe slowly.</string>
     <string name="asthma_step2">If they don’t improve within a few minutes, ask them to take a puff every 30 to 60 seconds, until they have had 10 puffs.</string>
     <string name="asthma_step3">Monitor their breathing and level of response. If the ambulance hasn\'t arrived within 15 minutes, repeat step 2.</string>
-    <string name="match_not_found">oops... match not found</string>
+    <string name="match_not_found">oops… match not found</string>
     <string name="AppGuideFinished">Congratulations! You\'re done</string>
     <string name="guide_primary_prompt">Click me!</string>
     <string name="tuto_guide_prompt">Here you can get a sense of what the app allows you to do</string>
@@ -291,8 +291,15 @@
     <string name="allergies_tuto_button">allergies tutorial</string>
     <string name="heart_attack_tuto_button">heart attack tutorial</string>
     <string name="tutorials">Tutorials</string>
-    <string name="progress_bar_waiting_help">Looking for help nearby...</string>
+    <string name="progress_bar_waiting_help">Looking for help nearby…</string>
     <string name="helper_marker_desc">Helper coming to help you</string>
     <string name="pop_up_call_emergencies_text">We are currently looking for help nearby. If you require medical assistance, we highly recommend that you still call the local emergency services with the button below and mention that you are using our app.</string>
     <string name="did_you_call_emergency_services_popup">Did you call emergency services?</string>
+    <string name="user_cookie">User Cookie</string>
+    <string name="user_id">User Id</string>
+    <string name="user_since">User since</string>
+    <string name="log_out">Log out</string>
+    <string name="remove_sync">Remove all synchronized data</string>
+    <string name="my_account">MY ACCOUNT</string>
+    <string name="synchronization">SYNCHRONIZATION</string>
 </resources>

@@ -16,8 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.database.models.EmergencyInformation
 import com.github.h3lp3rs.h3lp.database.repositories.emergencyInfoRepository
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
-import com.github.h3lp3rs.h3lp.storage.LocalStorage
-import com.github.h3lp3rs.h3lp.storage.Storages
+import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.google.gson.Gson
 import java.util.*
@@ -37,7 +36,7 @@ class HelpParametersActivity : AppCompatActivity() {
     private var latitude: Double? = null
     private var longitude: Double? = null
     private var meds: ArrayList<String> = ArrayList()
-    private val currentTime: Date = Calendar.getInstance().time;
+    private val currentTime: Date = Calendar.getInstance().time
     private var calledEmergencies = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -118,7 +117,7 @@ class HelpParametersActivity : AppCompatActivity() {
      */
     private fun sendInfoToDB(){
         if(latitude != null && longitude != null){
-            val medicalInfo = LocalStorage(getString(R.string.medical_info_prefs),this,false).getStringOrDefault(getString(R.string.medical_info_key),"")
+            val medicalInfo = storageOf(MEDICAL_INFO).getStringOrDefault(getString(R.string.medical_info_key),"")
             val emergencyInfo = EmergencyInformation(latitude = latitude!!, longitude = longitude!!, meds =  meds, time = currentTime, medicalInfo = medicalInfo!!)
             emergencyInfoRepository.insert(emergencyInfo)
         }
