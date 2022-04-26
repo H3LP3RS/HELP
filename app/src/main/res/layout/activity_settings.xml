@@ -54,7 +54,7 @@
         android:id="@+id/scrollView2"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -197,14 +197,14 @@
             app:drawableLeftCompat="@drawable/ic_sync" />
 
         <LinearLayout
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_marginRight="16dp"
-              android:layout_marginLeft="16dp"
-              android:layout_marginTop="6dp"
-              android:orientation="vertical"
-              android:backgroundTint="@color/white"
-              android:background="@drawable/round_style">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/round_style"
+            android:backgroundTint="@color/white"
+            android:orientation="vertical">
 
           <CheckBox
               android:id="@+id/user_cookie_checkbox"
@@ -217,11 +217,11 @@
               android:text="@string/user_cookie"
               android:textColor="@color/grey"
               android:textSize="16sp" />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/light_grey"
-                />
+
+          <View
+              android:layout_width="match_parent"
+              android:layout_height="2dp"
+              android:background="@color/light_grey" />
 
           <CheckBox
               android:id="@+id/medical_info_checkbox"
@@ -234,11 +234,11 @@
               android:text="@string/medicalCard"
               android:textColor="@color/grey"
               android:textSize="16sp" />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/light_grey"
-                />
+
+          <View
+              android:layout_width="match_parent"
+              android:layout_height="2dp"
+              android:background="@color/light_grey" />
 
           <CheckBox
               android:id="@+id/my_skills_checkbox"
@@ -272,24 +272,93 @@
               android:textColor="@color/grey"
               android:textSize="16sp"
               app:rippleColor="@android:color/transparent" />
-          </LinearLayout>
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:drawablePadding="8dp"
+            android:fontFamily="sans-serif-light"
+            android:text="@string/assistance"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:drawableLeftCompat="@drawable/ic_assistance" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="32dp"
+            android:background="@drawable/round_style"
+            android:backgroundTint="@color/white"
+            android:orientation="vertical">
+
+
+          <Button
+              android:id="@+id/buttonNeedHelp"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:backgroundTint="@android:color/transparent"
+              android:drawableEnd="@drawable/ic_question_mark"
+              android:fontFamily="sans-serif"
+              android:stateListAnimator="@null"
+              android:text="@string/need_help_app"
+              android:textAlignment="viewStart"
+              android:textAllCaps="false"
+              android:textColor="@color/grey"
+              android:textSize="16sp"
+              app:rippleColor="@android:color/transparent" />
+
+          <View
+              android:layout_width="match_parent"
+              android:layout_height="2dp"
+              android:background="@color/light_grey" />
+
+          <Button
+              android:id="@+id/buttonBugReport"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:backgroundTint="@android:color/transparent"
+              android:drawableEnd="@drawable/ic_bug_report"
+              android:fontFamily="sans-serif"
+              android:stateListAnimator="@null"
+              android:text="@string/i_found_a_bug"
+              android:textAlignment="viewStart"
+              android:textAllCaps="false"
+              android:textColor="@color/grey"
+              android:textSize="16sp"
+              app:rippleColor="@android:color/transparent" />
+
+          <View
+              android:layout_width="match_parent"
+              android:layout_height="2dp"
+              android:background="@color/light_grey" />
+
+          <Button
+              android:id="@+id/buttonSuggestion"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:backgroundTint="@android:color/transparent"
+              android:drawableEnd="@drawable/ic_idea"
+              android:fontFamily="sans-serif"
+              android:stateListAnimator="@null"
+              android:text="@string/i_got_a_suggestion"
+              android:textAlignment="viewStart"
+              android:textAllCaps="false"
+              android:textColor="@color/grey"
+              android:textSize="16sp"
+              app:rippleColor="@android:color/transparent" />
+        </LinearLayout>
 
 
       </LinearLayout>
     </ScrollView>
 
-    <ImageButton
-        android:id="@+id/settingsHelpButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="4dp"
-        android:background="#00FFFFFF"
-        android:contentDescription="@string/back_button_description"
-        android:onClick="helpDialogue"
-        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_question_mark" />
 
 
   </androidx.constraintlayout.widget.ConstraintLayout>

@@ -302,4 +302,8 @@
     <string name="remove_sync">Remove all synchronized data</string>
     <string name="my_account">MY ACCOUNT</string>
     <string name="synchronization">SYNCHRONIZATION</string>
+    <string name="assistance">ASSISTANCE</string>
+    <string name="need_help_app">I need some help</string>
+    <string name="i_found_a_bug">I found a bug</string>
+    <string name="i_got_a_suggestion">I got a suggestion</string>
 </resources>
