@@ -85,9 +85,9 @@ class AwaitHelpActivityTest {
         onView(withId(R.id.close_call_popup_button)).inRoot(RootMatchers.isFocusable()).perform(click())
 
         if (isInScrollView) {
-            onView(id).perform(scrollTo(), click())
+            onView(id).inRoot(RootMatchers.isFocusable()).perform(scrollTo(), click())
         } else {
-            onView(id).perform(click())
+            onView(id).inRoot(RootMatchers.isFocusable()).perform(click())
         }
         intended(
             allOf(
