@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.databinding.ActivityHelpPageBinding
@@ -30,7 +29,7 @@ const val EXTRA_DESTINATION_LONG = "help_page_destination_long"
 class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private lateinit var binding: ActivityHelpPageBinding
 
-    //TODO : currently, the destination is hardcoded, this will change with the task allowing
+    // TODO : currently, the destination is hardcoded, this will change with the task allowing
     // nearby helpers to go and help people in need (in which case the destination will be the
     // location of the user in need)
     private var destinationLat = 46.519
@@ -146,7 +145,8 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     }
 
     /**
-     * Triggered when clicked on the check
+     * Triggered when the helper accepts to help
+     * @param view The view of the button
      */
     fun acceptHelp(view: View) {
         if(helpId == null) {
@@ -154,6 +154,7 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             return
         }
         databaseOf(EMERGENCIES).getObject(helpId!!, EmergencyInformation::class.java).thenApply {
+            // Add the helper to the list of helpers
             val me = Helper(userUid!!, currentLat, currentLong)
             val helpers = ArrayList<Helper>()
             if(!helpers.contains(me)) {
@@ -161,6 +162,7 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             }
             // Stop listening to other emergencies
             databaseOf(NEW_EMERGENCIES).clearAllListeners()
+            // TODO: Here we can potentially periodically update the GPS coordinates
             // Update the value to notify that we are coming
             databaseOf(EMERGENCIES).setObject(helpId!!, EmergencyInformation::class.java, it.copy(helpers = helpers))
         }.exceptionally { goToMainPage() } // Expired

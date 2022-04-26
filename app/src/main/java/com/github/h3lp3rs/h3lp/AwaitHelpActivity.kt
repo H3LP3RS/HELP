@@ -197,7 +197,6 @@ class AwaitHelpActivity : AppCompatActivity() {
             return
         }
         val emergencyId = bundle.getInt(EXTRA_EMERGENCY_KEY)
-        databaseOf(EMERGENCIES).clearListeners(emergencyId.toString())
         databaseOf(EMERGENCIES).delete(emergencyId.toString())
         // Re-listen to other emergencies
         activateHelpListeners()
