@@ -2,6 +2,7 @@ package com.github.h3lp3rs.h3lp.database
 
 import android.annotation.SuppressLint
 import com.google.firebase.database.core.utilities.encoding.CustomClassMapper
+import com.google.firebase.database.core.utilities.encoding.CustomClassMapper.*
 import java.lang.NullPointerException
 import java.util.concurrent.CompletableFuture
 
@@ -120,17 +121,11 @@ class MockDatabase : Database {
         setAndTriggerListeners(key, value)
     }
 
-    /**
-     * Applies an arbitrary action when the value associated to the key changes
-     * WARNING: This function automatically triggers at first when linked with a valid key
-     * @param key The key in the database
-     * @param action The action taken at change
-     */
     @SuppressLint("RestrictedApi")
     override fun <T> addListener(key: String, type: Class<T>, action: (T) -> Unit) {
         checkHasKey(db, key)
         val wrappedAction: () -> Unit = {
-            val v: T = CustomClassMapper.convertToCustomClass(db[key], type)
+            val v: T = convertToCustomClass(db[key], type)
             action(v)
         }
         // Enrich the list & add to map

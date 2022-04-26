@@ -114,13 +114,6 @@ internal class FireDatabase(path: String) : Database {
         db.child(key).setValue(value)
     }
 
-    /**
-     * Applies an arbitrary action when the value associated to the value changes
-     * WARNING: This function automatically triggers at first when linked with a valid key
-     * @param key The key in the database
-     * @param type The type of the value associated to the key
-     * @param action The action taken at change
-     */
     override fun <T> addListener(key: String, type: Class<T>, action: (T) -> Unit) {
         val l = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
