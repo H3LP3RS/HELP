@@ -17,6 +17,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.GrantPermissionRule
 import com.github.h3lp3rs.h3lp.database.Databases.*
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.database.MockDatabase
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
@@ -41,7 +42,7 @@ class MainPageTestActivity {
     fun setup() {
         globalContext = getApplicationContext()
         userUid = USER_TEST_ID
-        PREFERENCES.db = MockDatabase()
+        setDatabase(PREFERENCES, MockDatabase())
         resetStorage()
         storageOf(Storages.USER_COOKIE).setBoolean(GUIDE_KEY, true)
     }

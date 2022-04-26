@@ -87,12 +87,11 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.0-alpha03'
     implementation 'com.akexorcist:google-direction-library:1.2.0'
     // Material Design
-    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'com.google.android.material:material:1.5.0'
     // Palette
     implementation 'androidx.palette:palette-ktx:1.0.0'
     // support module for recycler views
     implementation 'com.xwray:groupie:2.1.0'
-
 }
 
 tasks.withType(Test) {

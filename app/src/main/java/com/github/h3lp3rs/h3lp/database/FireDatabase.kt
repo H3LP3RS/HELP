@@ -232,9 +232,9 @@ internal class FireDatabase(path: String) : Database {
      * @param key The key in the database
      * @param increment The number to increment by
      * @param onComplete The callback to be called with the new value (the new value can be null
-     * in case of a database error, thus why onComplete takes a nullable String)
+     * in case of a database error, thus why onComplete takes a nullable Int)
      */
-    override fun incrementAndGet(key: String, increment: Int, onComplete: (String?) -> Unit) {
+    override fun incrementAndGet(key: String, increment: Int, onComplete: (Int?) -> Unit) {
         val keyRef = db.child(key)
         // A transaction is a set of reads and writes that happen atomically
         keyRef.runTransaction(object : Transaction.Handler {
@@ -270,7 +270,7 @@ internal class FireDatabase(path: String) : Database {
                 committed: Boolean,
                 currentData: DataSnapshot?
             ) {
-                onComplete(currentData?.getValue<Int>()?.toString())
+                onComplete(currentData?.getValue<Int>())
             }
         })
     }

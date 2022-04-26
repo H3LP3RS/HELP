@@ -6,6 +6,7 @@ import androidx.test.core.app.ActivityScenario.*
 import androidx.test.core.app.ApplicationProvider.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.database.Databases.*
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.database.MockDatabase
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
@@ -28,7 +29,7 @@ class GuideTest {
     fun setup() {
         globalContext = getApplicationContext()
         userUid = USER_TEST_ID
-        PREFERENCES.db = MockDatabase()
+        setDatabase(PREFERENCES, MockDatabase())
         resetStorage()
     }
 

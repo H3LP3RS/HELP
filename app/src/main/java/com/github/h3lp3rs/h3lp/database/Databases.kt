@@ -5,7 +5,7 @@ package com.github.h3lp3rs.h3lp.database
  */
 enum class Databases {
     PREFERENCES, EMERGENCIES, NEW_EMERGENCIES, MESSAGES, CONVERSATION_IDS;
-    var db: Database? = null // Var to enable test-time mocking
+    private var db: Database? = null // Var to enable test-time mocking
     companion object {
         /**
          * Instantiates the database of the corresponding type (the default database is with
@@ -14,7 +14,8 @@ enum class Databases {
          * @param choice The chosen database
          */
         fun databaseOf(choice: Databases): Database {
-            return choice.db ?: FireDatabase(choice.name)
+            choice.db = choice.db ?: FireDatabase(choice.name)
+            return choice.db!!
         }
 
         /**

@@ -20,6 +20,7 @@ import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 import com.github.h3lp3rs.h3lp.messaging.Conversation
 import com.github.h3lp3rs.h3lp.storage.LocalStorage
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 const val EXTRA_NEEDED_MEDICATION = "needed_meds_key"
@@ -103,8 +104,7 @@ class HelpParametersActivity : AppCompatActivity() {
                 "Please select at least one item", Toast.LENGTH_SHORT
             ).show()
         } else {
-
-            val b =Bundle ()
+            val b = Bundle()
             b.putStringArrayList(EXTRA_NEEDED_MEDICATION, meds)
             b.putBoolean(EXTRA_CALLED_EMERGENCIES, calledEmergencies)
             val intent = Intent(this, AwaitHelpActivity::class.java)
@@ -131,9 +131,9 @@ class HelpParametersActivity : AppCompatActivity() {
              *      will serve as a place for helpers to send their unique conversation ids to share
              *      them with the helpee
              */
-            fun onComplete(id: String?) {
+            fun onComplete(id: Int?) {
                 id?.let { helpId ->
-                    helpeeId = helpId
+                    helpeeId = helpId.toString()
                     /*
                      * Sending the emergency information
                      */
@@ -143,7 +143,7 @@ class HelpParametersActivity : AppCompatActivity() {
                         .getStringOrDefault(getString(R.string.medical_info_key), "")
 
                     val emergencyInfo = EmergencyInformation(
-                        id = helpId,
+                        id = helpId.toString(),
                         latitude = latitude!!,
                         longitude = longitude!!,
                         meds = meds,
