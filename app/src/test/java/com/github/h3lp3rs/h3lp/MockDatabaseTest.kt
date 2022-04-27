@@ -128,6 +128,7 @@ class MockDatabaseTest {
     fun incrementIsAtomic() {
         val old = TEST_SEED.nextInt()
         db.setInt(TEST_KEY, old)
+
         val expectedUnordered = listOf(old + 1, old + 2, old + 3)
 
         // We test that each thread atomically adds 1 to the value and each one sees a unique value

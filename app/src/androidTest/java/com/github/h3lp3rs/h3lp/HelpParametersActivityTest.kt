@@ -7,6 +7,7 @@ import android.content.Intent
 import android.location.Location
 import android.net.Uri
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.core.app.ApplicationProvider.*
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -17,6 +18,9 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.GrantPermissionRule
 import com.github.h3lp3rs.h3lp.LocalEmergencyCaller.DEFAULT_EMERGENCY_NUMBER
+import com.github.h3lp3rs.h3lp.database.Databases
+import com.github.h3lp3rs.h3lp.database.Databases.*
+import com.github.h3lp3rs.h3lp.database.MockDatabase
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 import com.github.h3lp3rs.h3lp.locationmanager.LocationManagerInterface
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
@@ -48,7 +52,6 @@ class HelpParametersActivityTest {
         HelpParametersActivity::class.java
     )
 
-
     @get:Rule
     var mRuntimePermissionRule: GrantPermissionRule =
         GrantPermissionRule.grant(Manifest.permission.ACCESS_FINE_LOCATION)
@@ -56,8 +59,12 @@ class HelpParametersActivityTest {
     @Before
     fun setUp() {
         init()
-        globalContext = ApplicationProvider.getApplicationContext()
+        globalContext = getApplicationContext()
         userUid = USER_TEST_ID
+        NEW_EMERGENCIES.db = MockDatabase()
+        val emergencyDb = MockDatabase()
+        emergencyDb.setInt(globalContext.getString(R.string.EMERGENCY_UID_KEY), 0)
+        EMERGENCIES.db = emergencyDb
         resetStorage()
         storageOf(Storages.USER_COOKIE).setBoolean(globalContext.getString(R.string.KEY_USER_AGREE), true)
     }

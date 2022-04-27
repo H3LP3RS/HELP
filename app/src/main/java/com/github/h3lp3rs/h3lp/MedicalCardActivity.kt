@@ -25,12 +25,14 @@ import android.widget.ArrayAdapter
 import android.widget.CheckBox
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import com.github.h3lp3rs.h3lp.dataclasses.BloodType
+import com.github.h3lp3rs.h3lp.dataclasses.Gender
+import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation
 import com.github.h3lp3rs.h3lp.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
-import com.google.gson.Gson
 
 class MedicalCardActivity : AppCompatActivity() {
 
@@ -291,7 +293,7 @@ class MedicalCardActivity : AppCompatActivity() {
 
         val medicalInformation = MedicalInformation(size,weight,gender,year,condition,treatment,allergy,bloodType )
 
-        storage.setObject(getString(R.string.medical_info_prefs), MedicalInformation::class.java, medicalInformation)
+        storage.setObject(getString(R.string.medical_info_key), MedicalInformation::class.java, medicalInformation)
         storage.push()
     }
 
