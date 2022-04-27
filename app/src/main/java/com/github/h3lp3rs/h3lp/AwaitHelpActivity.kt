@@ -2,7 +2,6 @@ package com.github.h3lp3rs.h3lp
 
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -10,9 +9,10 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import com.github.h3lp3rs.h3lp.database.Databases.*
+import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.activateHelpListeners
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
+import com.github.h3lp3rs.h3lp.database.Databases.EMERGENCIES
 import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
 import com.github.h3lp3rs.h3lp.firstaid.AedActivity
 import com.github.h3lp3rs.h3lp.firstaid.AllergyActivity
@@ -104,16 +104,18 @@ class AwaitHelpActivity : AppCompatActivity() {
         helpersId.add(uid)
         showHelperPerson(uid, latitude, longitude)
 
-        findViewById<ProgressBar>(R.id.searchProgressBar).visibility = View.GONE
-        findViewById<TextView>(R.id.progressBarText).visibility = View.GONE
+        runOnUiThread {
+            findViewById<ProgressBar>(R.id.searchProgressBar).visibility = View.GONE
+            findViewById<TextView>(R.id.progressBarText).visibility = View.GONE
 
-        val helpersText = findViewById<TextView>(R.id.incomingHelpersNumber)
-        if (++helpersNumbers > 1) {
-            helpersText.text = String.format( "%d people are coming to help you", helpersNumbers)
-        } else {
-            helpersText.text = String.format( "%d person is coming to help you", helpersNumbers)
+            val helpersText = findViewById<TextView>(R.id.incomingHelpersNumber)
+            if (++helpersNumbers > 1) {
+                helpersText.text = String.format( "%d people are coming to help you", helpersNumbers)
+            } else {
+                helpersText.text = String.format( "%d person is coming to help you", helpersNumbers)
+            }
+            helpersText.visibility = View.VISIBLE
         }
-        helpersText.visibility = View.VISIBLE
     }
 
     /**

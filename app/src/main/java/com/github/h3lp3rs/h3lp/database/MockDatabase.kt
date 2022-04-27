@@ -1,7 +1,6 @@
 package com.github.h3lp3rs.h3lp.database
 
 import android.annotation.SuppressLint
-import com.google.firebase.database.core.utilities.encoding.CustomClassMapper
 import com.google.firebase.database.core.utilities.encoding.CustomClassMapper.*
 import java.lang.NullPointerException
 import java.util.concurrent.CompletableFuture
@@ -85,7 +84,12 @@ class MockDatabase : Database {
     override fun <T> addListener(key: String, type: Class<T>, action: (T) -> Unit) {
         checkHasKey(db, key)
         val wrappedAction: () -> Unit = {
-            val v: T = convertToCustomClass(db[key], type)
+            val v: T = if(type == String::class.java || type == Int::class.java ||
+                type == Double::class.java || type == Boolean::class.java) {
+                convertToCustomClass(db[key], type)
+            } else {
+                getObject(key, type).get()
+            }
             action(v)
         }
         // Enrich the list & add to map
