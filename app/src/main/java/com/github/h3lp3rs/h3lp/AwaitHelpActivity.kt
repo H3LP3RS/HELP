@@ -127,7 +127,7 @@ class AwaitHelpActivity : AppCompatActivity() {
             currentLong = currentLocation.longitude
         } else {
             // In case the permission to access the location is missing
-            //goToActivity(MainPageActivity::class.java)
+            startActivity(Intent(this, MainPageActivity::class.java))
         }
     }
 
