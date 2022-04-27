@@ -110,7 +110,7 @@
                     android:layout_marginTop="@dimen/margin_image_inside_layout"
                     android:background="@drawable/heart_attack"
                     android:contentDescription="@string/heart_attack_tuto_button"
-                    android:onClick="goToHeartAttackActivity"
+                    android:onClick="goToActivity"
                     tools:ignore="TooDeepLayout,ImageContrastCheck" />
 
                 <TextView
@@ -144,7 +144,7 @@
                     android:layout_marginTop="@dimen/margin_image_inside_layout"
                     android:background="@drawable/epipen"
                     android:contentDescription="@string/allergies_tuto_button"
-                    android:onClick="goToAllergyActivity"
+                    android:onClick="goToActivity"
                     tools:ignore="TooDeepLayout,ImageContrastCheck" />
 
                 <TextView
@@ -179,7 +179,7 @@
                     android:layout_marginTop="@dimen/margin_image_inside_layout"
                     android:background="@drawable/defibrillator"
                     android:contentDescription="@string/defibrillator_tuto_button"
-                    android:onClick="goToAedActivity"
+                    android:onClick="goToActivity"
                     tools:ignore="TooDeepLayout,ImageContrastCheck" />
 
                 <TextView
@@ -211,7 +211,7 @@
                     android:layout_marginTop="@dimen/margin_image_inside_layout"
                     android:background="@drawable/asthma"
                     android:contentDescription="@string/asthma_attack_tuto_button"
-                    android:onClick="goToAsthmaActivity"
+                    android:onClick="goToActivity"
                     tools:ignore="TooDeepLayout,ImageContrastCheck" />
 
                 <TextView
@@ -267,7 +267,7 @@
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:contentDescription="@string/cancel_button_description"
-            android:onClick="cancelHelpSearch"
+            android:onClick="goToActivity"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.769"
             app:layout_constraintStart_toEndOf="@+id/await_help_call_button"

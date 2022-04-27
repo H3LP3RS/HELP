@@ -158,38 +158,22 @@ class AwaitHelpActivity : AppCompatActivity() {
     }
 
     /**
-     * Auxiliary function to redirect the buttons presses to a tutorial page
+     * Called when a button is pressed on the layout so that the user is
+     * redirected to the right activity
      */
-    private fun goToActivity(activityName: Class<*>?) {
-        val intent = Intent(this, activityName)
+    fun goToActivity(view: View) {
+        val intent = when (view.id){
+            R.id.heart_attack_tuto_button ->
+                Intent(this, HeartAttackActivity::class.java)
+            R.id.epipen_tuto_button ->
+                Intent(this, AllergyActivity::class.java)
+            R.id.aed_tuto_button ->
+                Intent(this, AedActivity::class.java)
+            R.id.asthma_tuto_button ->
+                Intent(this, AsthmaActivity::class.java)
+            else -> Intent(this, MainPageActivity::class.java)
+        }
+
         startActivity(intent)
-    }
-
-    /** Called when the user taps the asthma attack button */
-    fun goToAsthmaActivity(view: View) {
-        goToActivity(AsthmaActivity::class.java)
-    }
-
-    /** Called when the user taps the defibrillator button */
-    fun goToAedActivity(view: View) {
-        goToActivity(AedActivity::class.java)
-    }
-
-    /** Called when the user taps the allergies button */
-    fun goToAllergyActivity(view: View) {
-        goToActivity(AllergyActivity::class.java)
-    }
-
-    /** Called when the user taps the heart attack button */
-    fun goToHeartAttackActivity(view: View) {
-        goToActivity(HeartAttackActivity::class.java)
-    }
-
-    /**
-     * Cancels the search on the Database and goes back to MainActivity
-     */
-    fun cancelHelpSearch(view: View){
-        // TODO the action on the DB is not yet defined
-        goToActivity(MainPageActivity::class.java)
     }
 }

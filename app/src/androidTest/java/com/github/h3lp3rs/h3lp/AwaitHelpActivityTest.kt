@@ -97,6 +97,37 @@ class AwaitHelpActivityTest {
     }
 
     @Test
+    fun callEmergenciesButtonWorksAndSendIntent() {
+        // close pop-up
+        onView(withId(R.id.close_call_popup_button)).inRoot(RootMatchers.isFocusable()).perform(click())
+
+        val phoneButton = onView(withId(R.id.await_help_call_button))
+
+        phoneButton.check(matches(isDisplayed()))
+        phoneButton.perform(click())
+
+        intended(
+            allOf(
+                IntentMatchers.hasAction(Intent.ACTION_DIAL)
+            )
+        )
+    }
+
+    @Test
+    fun callEmergenciesFromPopUpWorksAndSendsIntent() {
+        val phoneButton = onView(withId(R.id.open_call_popup_button))
+
+        phoneButton.check(matches(isDisplayed()))
+        phoneButton.perform(click())
+
+        intended(
+            allOf(
+                IntentMatchers.hasAction(Intent.ACTION_DIAL)
+            )
+        )
+    }
+
+    @Test
     fun clickingOnHeartAttackButtonWorksAndSendsIntent() {
         clickingOnButtonWorksAndSendsIntent(
             HeartAttackActivity::class.java,
@@ -131,36 +162,7 @@ class AwaitHelpActivityTest {
             withId(R.id.cancel_search_button), false)
     }
 
-    @Test
-    fun callEmergenciesButtonWorksAndSendIntent() {
-        // close pop-up
-        onView(withId(R.id.close_call_popup_button)).inRoot(RootMatchers.isFocusable()).perform(click())
 
-        val phoneButton = onView(withId(R.id.await_help_call_button))
-
-        phoneButton.check(matches(isDisplayed()))
-        phoneButton.perform(click())
-
-        intended(
-            allOf(
-                IntentMatchers.hasAction(Intent.ACTION_DIAL)
-            )
-        )
-    }
-
-    @Test
-    fun callEmergenciesFromPopUpWorksAndSendsIntent() {
-        val phoneButton = onView(withId(R.id.open_call_popup_button))
-
-        phoneButton.check(matches(isDisplayed()))
-        phoneButton.perform(click())
-
-        intended(
-            allOf(
-                IntentMatchers.hasAction(Intent.ACTION_DIAL)
-            )
-        )
-    }
 
     private fun getIntent(): Intent {
         val bundle = Bundle()
