@@ -1,7 +1,8 @@
 package com.github.h3lp3rs.h3lp.database
 
 import com.google.firebase.database.*
-import com.google.firebase.database.ktx.*
+import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import java.util.concurrent.CompletableFuture
@@ -11,10 +12,22 @@ import java.util.concurrent.CompletableFuture
  */
 internal class FireDatabase(path: String) : Database {
 
-    private val db: DatabaseReference = Firebase.database("https://h3lp-signin-default-rtdb.europe-west1.firebasedatabase.app/").reference.child(path)
+    private val db: DatabaseReference =
+        Firebase.database("https://h3lp-signin-default-rtdb.europe-west1.firebasedatabase.app/").reference.child(
+            path
+        )
     private val openListeners = HashMap<String, List<ValueEventListener>>()
 
-    private inline fun <reified  T: Any> get(key: String): CompletableFuture<T> {
+    /**
+     * Utility function to extract values into futures from generic types
+     * Only works on the following types (due to Firebase's policy):
+     * - Boolean
+     * - String
+     * - Int
+     * - Double
+     * @param key The key in the database
+     */
+    private inline fun <reified T : Any> get(key: String): CompletableFuture<T> {
         val future = CompletableFuture<T>()
         db.child(key).get().addOnSuccessListener {
             if (it.value == null) future.completeExceptionally(NoSuchFieldException())
@@ -47,7 +60,7 @@ internal class FireDatabase(path: String) : Database {
         // This causes a type error when getting it since long cannot be directly cast to double.
         // This is fixed by getting the field as the superclass number and then casting it with its function.
 
-        val number :CompletableFuture<Number> = get(key)
+        val number: CompletableFuture<Number> = get(key)
         return number.thenApply { n -> n.toDouble() }
     }
 
@@ -65,17 +78,23 @@ internal class FireDatabase(path: String) : Database {
         db.child(key).setValue(value)
     }
 
-    override fun <T> addListener(key: String, type: Class<T>, action: (T) -> Unit) {
+    override fun addStringConcurrently(key: String, value: String) {
+        // Push generates a unique key for each new child, thus several clients can add children to
+        // the same location at the same time without worrying about write conflicts
+        db.child(key).push().setValue(value)
+    }
+
+    /**
+     * Generic way of adding listeners to a key in the database, allows us to implement
+     * adding of listeners for values (addListener) and lists of values (addListListener) concisely
+     * WARNING: This function automatically triggers at first when linked with a valid key
+     * @param key The key in the database
+     * @param onDataChange The action to take on the new data snapshot
+     */
+    private fun genericAddListener(key: String, onDataChange: (DataSnapshot) -> Unit) {
         val l = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                val v: T = if(type == String::class.java || type == Int::class.java ||
-                    type == Double::class.java || type == Boolean::class.java) {
-                    snapshot.getValue(type)!!
-                } else {
-                    val gson = Gson()
-                    gson.fromJson(snapshot.getValue(String::class.java)!!, type)
-                }
-                action(v)
+                onDataChange(snapshot)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -92,6 +111,41 @@ internal class FireDatabase(path: String) : Database {
         if(!openListeners.containsKey(key)) {
             addListener(key, type, action)
         }
+    }
+
+    override fun <T> addListener(key: String, type: Class<T>, action: (T) -> Unit) {
+        fun onDataChange(snapshot: DataSnapshot) {
+            val v: T = if (type == String::class.java || type == Int::class.java ||
+                type == Double::class.java || type == Boolean::class.java
+            ) {
+                snapshot.getValue(type)!!
+            } else {
+                val gson = Gson()
+                gson.fromJson(snapshot.getValue(String::class.java)!!, type)
+            }
+            action(v)
+        }
+
+        genericAddListener(key) { onDataChange(it) }
+    }
+
+    override fun <T> addListListener(key: String, type: Class<T>, action: (List<T>) -> Unit) {
+        fun onDataChange(snapshot: DataSnapshot) {
+            // We have to call the action on the entire list of values, so we first construct the
+            // list from the children of the snapshot (all the values pushed in
+            // addStringConcurrently), then call the method
+            val valuesList = mutableListOf<T>()
+
+            for (postSnapshot in snapshot.children) {
+                val gson = Gson()
+                val v = gson.fromJson(postSnapshot.getValue(String::class.java)!!, type)
+                valuesList.add(v)
+            }
+            // Run the callback on the newly constructed list of values
+            action(valuesList)
+        }
+
+        genericAddListener(key) { onDataChange(it) }
     }
 
     override fun clearListeners(key: String) {
@@ -114,7 +168,15 @@ internal class FireDatabase(path: String) : Database {
         db.child(key).removeValue()
     }
 
-    override fun incrementAndGet(key: String, increment: Int, onComplete: (String?) -> Unit) {
+    /**
+     * Atomically increments an integer value of the database and calls the callback with the new
+     * value
+     * @param key The key in the database
+     * @param increment The number to increment by
+     * @param onComplete The callback to be called with the new value (the new value can be null
+     * in case of a database error, thus why onComplete takes a nullable Int)
+     */
+    override fun incrementAndGet(key: String, increment: Int, onComplete: (Int?) -> Unit) {
         val keyRef = db.child(key)
         // A transaction is a set of reads and writes that happen atomically
         keyRef.runTransaction(object : Transaction.Handler {
@@ -150,7 +212,7 @@ internal class FireDatabase(path: String) : Database {
                 committed: Boolean,
                 currentData: DataSnapshot?
             ) {
-                onComplete(currentData?.getValue<Int>()?.toString())
+                onComplete(currentData?.getValue<Int>())
             }
         })
     }

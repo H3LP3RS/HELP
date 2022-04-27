@@ -82,4 +82,6 @@ class NotificationTest {
         val clearAll: UiObject2 = uiDevice.findObject(By.textStartsWith("Clear all"))
         clearAll.click()
     }
+
+
 }

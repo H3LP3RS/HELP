@@ -90,10 +90,6 @@ object GoogleSignInAdapter: SignInInterface<AuthResult> {
         return auth.currentUser != null
     }
 
-    /**
-     * Get the unique id of the user
-     * @return uid (null if not signed in)
-     */
     override fun getUid(): String? {
         return auth.currentUser?.uid
     }

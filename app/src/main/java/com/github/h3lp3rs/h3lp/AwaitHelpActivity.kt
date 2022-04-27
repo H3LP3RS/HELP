@@ -14,15 +14,17 @@ import com.github.h3lp3rs.h3lp.database.Databases.Companion.activateHelpListener
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.database.Databases.EMERGENCIES
 import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
+import com.github.h3lp3rs.h3lp.database.Databases.CONVERSATION_IDS
 import com.github.h3lp3rs.h3lp.firstaid.AedActivity
 import com.github.h3lp3rs.h3lp.firstaid.AllergyActivity
 import com.github.h3lp3rs.h3lp.firstaid.AsthmaActivity
 import com.github.h3lp3rs.h3lp.firstaid.HeartAttackActivity
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
-import com.github.h3lp3rs.h3lp.signin.SignInActivity
+import com.github.h3lp3rs.h3lp.messaging.LatestMessagesActivity
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import kotlinx.android.synthetic.main.activity_await_help.*
 
 /**
  * Activity during which the user waits for help from other user.
@@ -37,7 +39,7 @@ class AwaitHelpActivity : AppCompatActivity() {
 
     private lateinit var mapsFragment: MapsFragment
     private lateinit var apiHelper: GoogleAPIHelper
-
+    private var helpeeId : String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,8 +48,9 @@ class AwaitHelpActivity : AppCompatActivity() {
         apiHelper = GoogleAPIHelper(resources.getString(R.string.google_maps_key))
         setupLocation()
 
-        val bundle = this.intent.extras
+        val bundle = intent.extras
         if(bundle != null) {
+            helpeeId = bundle.getString(EXTRA_HELPEE_ID)
             askedMeds.plus(bundle.getStringArrayList(EXTRA_NEEDED_MEDICATION))
 
             // If we did not call emergency services already, show a pop_up
@@ -66,6 +69,15 @@ class AwaitHelpActivity : AppCompatActivity() {
         } else {
             showEmergencyCallPopup()
         }
+
+        /*helpeeId?.let{
+            databaseOf(CONVERSATION_IDS).addListListener(it, String::class.java)
+            {list -> if (list.isNotEmpty()) foundHelperPerson(0.0, 0.0)}
+        }*/
+
+        // Initially the contact helpers is hidden, only after a user responds to the request it
+        // becomes visible.
+        constraint_layout_contact_helpers.visibility = View.INVISIBLE
     }
 
     /**
@@ -97,7 +109,10 @@ class AwaitHelpActivity : AppCompatActivity() {
 
     /**
      * Called when a someone responds to the help request. Replaces the waiting
-     * bar by the number of helpers coming.
+     * bar by the number of helpers coming and makes the contact helpers button visible.
+     * @param uid The uid of the helper
+     * @param latitude Its latitude
+     * @param longitude Its longitude
      */
     private fun foundHelperPerson(uid: String, latitude: Double, longitude: Double){
         if(helpersId.contains(uid)) return
@@ -114,6 +129,10 @@ class AwaitHelpActivity : AppCompatActivity() {
                 helpersText.text = String.format(getString(R.string.many_people_help), helpersNumbers)
             } else {
                 helpersText.text = getString(R.string.one_person_help)
+                // When the first user agrees to provide help, the user can contact
+                // him via the chat feature.
+                constraint_layout_contact_helpers.visibility = View.VISIBLE
+                image_open_latest_messages.setOnClickListener{ goToLatestMessagesActivity() }
             }
             helpersText.visibility = View.VISIBLE
         }
@@ -190,6 +209,12 @@ class AwaitHelpActivity : AppCompatActivity() {
         goToActivity(HeartAttackActivity::class.java)
     }
 
+    private fun goToLatestMessagesActivity(){
+        val intent = Intent(this, LatestMessagesActivity::class.java)
+        intent.putExtra(EXTRA_HELPEE_ID, helpeeId)
+        startActivity(intent)
+    }
+
     /**
      * Cancels the search on the Database and goes back to MainActivity
      */
@@ -203,6 +228,8 @@ class AwaitHelpActivity : AppCompatActivity() {
         databaseOf(EMERGENCIES).delete(emergencyId.toString())
         // Re-listen to other emergencies
         activateHelpListeners()
+        // TODO the action on the DB is not yet defined
+        // TODO should include deleting the conversation from the db
         goToActivity(MainPageActivity::class.java)
     }
 }

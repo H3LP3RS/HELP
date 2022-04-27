@@ -100,26 +100,23 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp">
 
-
-                <ImageView
-                    android:id="@+id/reject"
+            <ImageView
+                    android:id="@+id/button_reject"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_gravity="start"
                     android:layout_marginHorizontal="70dp"
-                    android:onClick="refuseHelp"
                     android:src="@drawable/cancel_button"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
-                    android:id="@+id/accept"
+            <ImageView
+                    android:id="@+id/button_accept"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_gravity="end"
                     android:layout_marginHorizontal="70dp"
-                    android:onClick="acceptHelp"
                     android:src="@drawable/green_tick"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

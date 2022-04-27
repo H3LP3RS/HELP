@@ -3,35 +3,29 @@ package com.github.h3lp3rs.h3lp.database
 import android.annotation.SuppressLint
 import com.google.firebase.database.core.utilities.encoding.CustomClassMapper.*
 import java.lang.NullPointerException
+import com.google.gson.Gson
 import java.util.concurrent.CompletableFuture
 
 /**
  * Implementation of a NoSQL mocked external database
  */
 class MockDatabase : Database {
-
     private val db = HashMap<String, Any>()
+
+    // Lists on which values can be added concurrently, has to be a separate object from db since
+    // it doesn't have the same behaviour when two writes happen at the same time
+    private val concurrentLists = HashMap<String, List<String>>()
     private val listeners = HashMap<String, List<() -> Unit>>()
 
     /**
      * Utility function to extract values into futures from generic types
      * @param key The key in the database
      */
-    private inline fun <reified  T: Any> get(key: String): CompletableFuture<T> {
+    private inline fun <reified T : Any> get(key: String): CompletableFuture<T> {
         val future = CompletableFuture<T>()
-        if(db.containsKey(key)) future.complete(db[key] as T)
+        if (db.containsKey(key)) future.complete(db[key] as T)
         else future.completeExceptionally(NullPointerException("Key: $key not in the database"))
         return future
-    }
-
-    /**
-     * Utility function checking whether the key is associated with a value.
-     * Throws a custom NullPointerException if the key is not present.
-     * @param map The map to perform the check on
-     * @param key The key in the database
-     */
-    private fun checkHasKey(map: Map<String,Any>, key: String) {
-        if(!map.containsKey(key)) throw NullPointerException("Key: $key not in the database")
     }
 
     /**
@@ -43,9 +37,18 @@ class MockDatabase : Database {
     private fun setAndTriggerListeners(key: String, value: Any) {
         val old = db.getOrDefault(key, value)
         db[key] = value
-        if(old != value) {
-            for (l in listeners.getOrDefault(key, emptyList())) l()
+        if (old != value) {
+            triggerListeners(key)
         }
+    }
+
+
+    /**
+     * Utility function to trigger all the listeners related to a specific key
+     * @param key The key in the database
+     */
+    private fun triggerListeners(key: String) {
+        for (l in listeners.getOrDefault(key, emptyList())) l()
     }
 
     override fun getBoolean(key: String): CompletableFuture<Boolean> {
@@ -80,9 +83,16 @@ class MockDatabase : Database {
         setAndTriggerListeners(key, value)
     }
 
+    override fun addStringConcurrently(key: String, value: String) {
+        synchronized(this) {
+            val old = concurrentLists.getOrDefault(key, emptyList())
+            concurrentLists[key] = old.plus(value)
+            triggerListeners(key)
+        }
+    }
+
     @SuppressLint("RestrictedApi")
     override fun <T> addListener(key: String, type: Class<T>, action: (T) -> Unit) {
-        checkHasKey(db, key)
         val wrappedAction: () -> Unit = {
             val v: T = if(type == String::class.java || type == Int::class.java ||
                 type == Double::class.java || type == Boolean::class.java) {
@@ -105,8 +115,24 @@ class MockDatabase : Database {
         }
     }
 
+    @SuppressLint("RestrictedApi")
+    override fun <T> addListListener(key: String, type: Class<T>, action: (List<T>) -> Unit) {
+        val wrappedAction: () -> Unit = {
+            // Reconstructing the entire list to be able to call action on it
+            val gson = Gson()
+            val objectsList = concurrentLists
+                .getOrDefault(key, emptyList())
+                .map { gson.fromJson(it, type) }
+            action(objectsList)
+        }
+        // Enrich the list & add to map
+        val ls = listeners.getOrDefault(key, emptyList()) + listOf(wrappedAction)
+        listeners[key] = ls
+        // First time trigger
+        wrappedAction()
+    }
+
     override fun clearListeners(key: String) {
-        checkHasKey(listeners, key)
         listeners.remove(key)
     }
 
@@ -122,12 +148,13 @@ class MockDatabase : Database {
         listeners.remove(key)
     }
 
-    override fun incrementAndGet(key: String, increment: Int, onComplete: (String?) -> Unit) {
+
+    override fun incrementAndGet(key: String, increment: Int, onComplete: (Int?) -> Unit) {
         synchronized(this) {
             val old = db.getOrDefault(key, 0) as Int
             val new = old + increment
-            db[key] = new
-            onComplete(new.toString())
+            setAndTriggerListeners(key, new)
+            onComplete(new)
         }
     }
 }

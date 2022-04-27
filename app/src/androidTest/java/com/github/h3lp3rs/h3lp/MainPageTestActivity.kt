@@ -24,6 +24,7 @@ import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.UiObject2
 import androidx.test.uiautomator.Until
 import com.github.h3lp3rs.h3lp.database.Databases.*
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.database.MockDatabase
 import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
 import com.github.h3lp3rs.h3lp.dataclasses.HelperSkills
@@ -54,7 +55,7 @@ class MainPageTestActivity {
     fun setup() {
         globalContext = getApplicationContext()
         userUid = USER_TEST_ID
-        PREFERENCES.db = MockDatabase()
+        setDatabase(PREFERENCES, MockDatabase())
         resetStorage()
         storageOf(USER_COOKIE).setBoolean(GUIDE_KEY, true)
     }

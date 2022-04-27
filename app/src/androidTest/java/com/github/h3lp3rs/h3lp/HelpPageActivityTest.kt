@@ -154,7 +154,7 @@ class HelpPageActivityTest {
     fun acceptingAnEmergencyNotifiesTheHelpee() {
         setupEmergencyAndDo {
             // Accept
-            onView(withId(R.id.accept)).perform(click())
+            onView(withId(R.id.button_accept)).perform(click())
             val updatedEmergency = databaseOf(EMERGENCIES).getObject(helpId.toString(), EmergencyInformation::class.java)
             val helpers = ArrayList(updatedEmergency.get().helpers)
             // Check the helper has been added to the emergency object
@@ -170,7 +170,7 @@ class HelpPageActivityTest {
             val intentResult = ActivityResult(Activity.RESULT_OK, i)
             intending(anyIntent()).respondWith(intentResult)
             // Reject
-            onView(withId(R.id.reject)).perform(click())
+            onView(withId(R.id.button_reject)).perform(click())
             intended(allOf(hasComponent(MainPageActivity::class.java.name)))
             release()
         }
@@ -185,7 +185,7 @@ class HelpPageActivityTest {
         bundle.putDouble(EXTRA_DESTINATION_LAT, 1.0)
         bundle.putDouble(EXTRA_DESTINATION_LONG, 1.0)
         val intent = Intent(
-            ApplicationProvider.getApplicationContext(),
+            getApplicationContext(),
             HelpPageActivity::class.java
         ).apply {
             putExtras(bundle)
