@@ -290,6 +290,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         db.addListener(getString(R.string.ventolin_db_key), String::class.java) {
             if (it.equals(getString(R.string.help))) {
                 db.setString(getString(R.string.ventolin_db_key), getString(R.string.nothing))
+                NotificationService.createNotificationChannel(this)
                 NotificationService.sendOpenActivityNotification(this,getString(R.string.emergency), getString(R.string.need_help),HelpPageActivity::class.java)
             }
         }
