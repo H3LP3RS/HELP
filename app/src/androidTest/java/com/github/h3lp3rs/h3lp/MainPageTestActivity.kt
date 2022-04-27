@@ -11,14 +11,17 @@ import androidx.test.core.app.ApplicationProvider.*
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.*
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.GrantPermissionRule
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
+import androidx.test.uiautomator.UiObject2
 import androidx.test.uiautomator.Until
 import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.MockDatabase
@@ -167,6 +170,10 @@ class MainPageTestActivity {
         launchAndDo {
             // Should immediately receive a notification
             uiDevice.wait(Until.hasObject(By.textStartsWith("H3LP")),3000)
+            // Get the notification box
+            val notification = uiDevice.findObject(By.text(globalContext.getString(R.string.emergency)))
+            notification.click()
+            onView(withId(R.id.accept)).check(matches(isDisplayed()))
         }
     }
 }
