@@ -115,7 +115,7 @@ class AwaitHelpActivityTest {
         )
     }
 
-    @Test
+    /*@Test
     fun callEmergenciesFromPopUpWorksAndSendsIntent() {
         val phoneButton = onView(withId(R.id.open_call_popup_button))
 
@@ -127,7 +127,7 @@ class AwaitHelpActivityTest {
                 IntentMatchers.hasAction(Intent.ACTION_DIAL)
             )
         )
-    }
+    }*/
 /*
     @Test
     fun clickingOnHeartAttackButtonWorksAndSendsIntent() {
