@@ -70,6 +70,7 @@ class AwaitHelpActivity : AppCompatActivity() {
         // Initially the contact helpers is hidden, only after a user responds to the request it
         // becomes visible.
         constraint_layout_contact_helpers.visibility = View.INVISIBLE
+
     }
 
     /**
