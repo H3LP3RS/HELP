@@ -27,6 +27,8 @@ import com.github.h3lp3rs.h3lp.firstaid.HeartAttackActivity
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 import com.github.h3lp3rs.h3lp.locationmanager.LocationManagerInterface
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
@@ -43,8 +45,6 @@ class AwaitHelpActivityTest {
     private val locationManagerMock: LocationManagerInterface =
         mock(LocationManagerInterface::class.java)
     private val locationMock: Location = mock(Location::class.java)
-
-    private val selectedMeds = arrayListOf("Epipen")
 
     @get:Rule
     val testRule = ActivityScenarioRule(
@@ -63,11 +63,8 @@ class AwaitHelpActivityTest {
             locationMock
         )
 
-        SignInActivity.globalContext = getApplicationContext()
-        SignInActivity.userUid = USER_TEST_ID
-        resetStorage()
-        storageOf(Storages.USER_COOKIE)
-            .setBoolean(SignInActivity.globalContext.getString(R.string.KEY_USER_AGREE), true)
+        globalContext = getApplicationContext()
+        userUid = USER_TEST_ID
     }
 
     @After
@@ -163,22 +160,5 @@ class AwaitHelpActivityTest {
         clickingOnButtonWorksAndSendsIntent(
             MainPageActivity::class.java,
             withId(R.id.cancel_search_button), false)
-    }
-
-
-
-    private fun getIntent(): Intent {
-        val bundle = Bundle()
-        bundle.putStringArrayList(EXTRA_NEEDED_MEDICATION, selectedMeds)
-        bundle.putBoolean(EXTRA_CALLED_EMERGENCIES, false)
-
-        val intent = Intent(
-            getApplicationContext(),
-            AwaitHelpActivity::class.java
-        ).apply {
-            putExtras(bundle)
-        }
-
-        return intent
     }
 }
