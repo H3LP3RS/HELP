@@ -2,11 +2,8 @@ package com.github.h3lp3rs.h3lp
 
 import com.github.h3lp3rs.h3lp.database.Database
 import com.github.h3lp3rs.h3lp.database.MockDatabase
-<<<<<<< HEAD
-=======
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.containsInAnyOrder
->>>>>>> main
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -131,19 +128,12 @@ class MockDatabaseTest {
     fun incrementIsAtomic() {
         val old = TEST_SEED.nextInt()
         db.setInt(TEST_KEY, old)
-<<<<<<< HEAD
-        val expectedUnordered = listOf(old + 1, old + 2, old + 3).map { it.toString() }
 
-        // We test that each thread atomically adds 1 to the value and each one sees a unique value
-        val incrementValues = Collections.synchronizedList<String>(mutableListOf())
-        val callBack: (String?) -> Unit = { it?.let { incrementValues.add(it) } }
-=======
         val expectedUnordered = listOf(old + 1, old + 2, old + 3)
 
         // We test that each thread atomically adds 1 to the value and each one sees a unique value
         val incrementValues = Collections.synchronizedList<Int>(mutableListOf())
         val callBack: (Int?) -> Unit = { it?.let { incrementValues.add(it) } }
->>>>>>> main
 
         val t1 = thread { db.incrementAndGet(TEST_KEY, 1, callBack) }
         val t2 = thread { db.incrementAndGet(TEST_KEY, 1, callBack) }
@@ -152,13 +142,9 @@ class MockDatabaseTest {
 
         assertEquals(old + 3, db.getInt(TEST_KEY).get())
 
-<<<<<<< HEAD
-        assertTrue(incrementValues.containsAll(listOf(expectedUnordered[0], expectedUnordered[1], expectedUnordered[2])))
-=======
         assertThat(
             incrementValues,
             containsInAnyOrder(expectedUnordered[0], expectedUnordered[1], expectedUnordered[2])
         )
->>>>>>> main
     }
 }
