@@ -297,4 +297,6 @@
     <string name="did_you_call_emergency_services_popup">Did you call emergency services?</string>
     <string name="EMERGENCY_UID_KEY">CurrentEmergencyUid</string>
     <string name="AT_LEAST_ONE_ITEM">Please select at least one item</string>
+    <string name="one_person_help">1 person is coming to help you</string>
+    <string name="many_people_help">%d people are coming to help you</string>
 </resources>

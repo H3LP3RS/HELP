@@ -27,6 +27,8 @@ import com.github.h3lp3rs.h3lp.firstaid.AllergyActivity
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 import com.github.h3lp3rs.h3lp.locationmanager.LocationManagerInterface
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
@@ -65,8 +67,8 @@ class AwaitHelpActivityTest {
             locationMock
         )
 
-        SignInActivity.globalContext = getApplicationContext()
-        SignInActivity.userUid = USER_TEST_ID
+        globalContext = getApplicationContext()
+        userUid = USER_TEST_ID
         resetStorage()
         storageOf(Storages.USER_COOKIE)
             .setBoolean(SignInActivity.globalContext.getString(R.string.KEY_USER_AGREE), true)
@@ -99,7 +101,7 @@ class AwaitHelpActivityTest {
     }
 
     @Test
-    fun callEmergenciesButtonWorksAndSendIntent() {
+    fun callEmergenciesButtonWorksAndSendsIntent() {
         // close pop-up
         onView(withId(R.id.close_call_popup_button)).inRoot(RootMatchers.isFocusable()).perform(click())
 
@@ -209,15 +211,18 @@ class AwaitHelpActivityTest {
             val helper1 = Helper(USER_TEST_ID + 1, 2.0, 2.0)
             val withHelpers = emergency.copy(helpers = ArrayList(listOf(helper1)))
             emergencyDb.setObject(helpId.toString(), EmergencyInformation::class.java, withHelpers)
-            onView(withId(R.id.incomingHelpersNumber)).check(matches(withText("1 person is coming to help you")))
+            onView(withId(R.id.incomingHelpersNumber)).check(matches(withText(globalContext.getString(
+                R.string.one_person_help))))
             // The same person is coming again, should NOT add a helper to the list
             emergencyDb.setObject(helpId.toString(), EmergencyInformation::class.java, withHelpers)
-            onView(withId(R.id.incomingHelpersNumber)).check(matches(withText("1 person is coming to help you")))
+            onView(withId(R.id.incomingHelpersNumber)).check(matches(withText(globalContext.getString(
+                R.string.one_person_help))))
             // A second person is coming
             val helper2 = Helper(USER_TEST_ID + 2, 2.1, 2.1)
             val withMoreHelpers = emergency.copy(helpers = ArrayList(listOf(helper1, helper2)))
             emergencyDb.setObject(helpId.toString(), EmergencyInformation::class.java, withMoreHelpers)
-            onView(withId(R.id.incomingHelpersNumber)).check(matches(withText("2 people are coming to help you")))
+            onView(withId(R.id.incomingHelpersNumber)).check(matches(withText(String.format(
+                globalContext.getString(R.string.many_people_help), 2))))
         }
     }
 }

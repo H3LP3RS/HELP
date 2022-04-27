@@ -19,6 +19,7 @@ import com.github.h3lp3rs.h3lp.firstaid.AllergyActivity
 import com.github.h3lp3rs.h3lp.firstaid.AsthmaActivity
 import com.github.h3lp3rs.h3lp.firstaid.HeartAttackActivity
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
+import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
@@ -110,9 +111,9 @@ class AwaitHelpActivity : AppCompatActivity() {
 
             val helpersText = findViewById<TextView>(R.id.incomingHelpersNumber)
             if (++helpersNumbers > 1) {
-                helpersText.text = String.format( "%d people are coming to help you", helpersNumbers)
+                helpersText.text = String.format(getString(R.string.many_people_help), helpersNumbers)
             } else {
-                helpersText.text = String.format( "%d person is coming to help you", helpersNumbers)
+                helpersText.text = getString(R.string.one_person_help)
             }
             helpersText.visibility = View.VISIBLE
         }

@@ -29,16 +29,11 @@ const val EXTRA_DESTINATION_LONG = "help_page_destination_long"
 class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private lateinit var binding: ActivityHelpPageBinding
 
-    // TODO : currently, the destination is hardcoded, this will change with the task allowing
-    // nearby helpers to go and help people in need (in which case the destination will be the
-    // location of the user in need)
     private var destinationLat = 46.519
     private var destinationLong = 6.667
     private var currentLong: Double = 0.0
     private var currentLat: Double = 0.0
 
-    // TODO : this is only for displaying purposes, helpRequired will be initialized to null when
-    //  we use this activity to retrieve actual helping requests
     // helpRequired contains strings for each medication / specific help required by the user in
     // need e.g. Epipen, CPR
     private var helpRequired: List<String>? = null
@@ -156,7 +151,7 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         databaseOf(EMERGENCIES).getObject(helpId!!, EmergencyInformation::class.java).thenApply {
             // Add the helper to the list of helpers
             val me = Helper(userUid!!, currentLat, currentLong)
-            val helpers = ArrayList<Helper>()
+            val helpers = ArrayList<Helper>(it.helpers)
             if(!helpers.contains(me)) {
                 helpers.add(me)
             }

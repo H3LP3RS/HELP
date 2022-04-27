@@ -52,12 +52,12 @@ enum class Databases {
                                     createNotificationChannel(globalContext)
                                     val intent = Intent(globalContext, HelpPageActivity::class.java)
                                     // Data to transfer to the help page activity
-                                    val b = Bundle()
-                                    b.putString(EXTRA_EMERGENCY_KEY, it.id)
-                                    b.putStringArrayList(EXTRA_HELP_REQUIRED_PARAMETERS, it.meds)
-                                    b.putDouble(EXTRA_DESTINATION_LAT, it.latitude)
-                                    b.putDouble(EXTRA_DESTINATION_LONG, it.longitude)
-                                    intent.putExtras(b)
+                                    val bundle = Bundle()
+                                    bundle.putString(EXTRA_EMERGENCY_KEY, it.id)
+                                    bundle.putStringArrayList(EXTRA_HELP_REQUIRED_PARAMETERS, it.meds)
+                                    bundle.putDouble(EXTRA_DESTINATION_LAT, it.latitude)
+                                    bundle.putDouble(EXTRA_DESTINATION_LONG, it.longitude)
+                                    intent.putExtras(bundle)
                                     sendIntentNotification(globalContext, globalContext.getString(R.string.emergency),
                                         globalContext.getString(R.string.need_help), intent)
                             }

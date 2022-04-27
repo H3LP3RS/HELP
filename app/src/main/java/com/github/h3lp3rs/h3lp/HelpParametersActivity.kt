@@ -107,13 +107,13 @@ class HelpParametersActivity : AppCompatActivity() {
                 getString(R.string.AT_LEAST_ONE_ITEM), Toast.LENGTH_SHORT
             ).show()
         } else {
-            val b = Bundle()
-            b.putStringArrayList(EXTRA_NEEDED_MEDICATION, meds)
-            b.putBoolean(EXTRA_CALLED_EMERGENCIES, calledEmergencies)
+            val bundle = Bundle()
+            bundle.putStringArrayList(EXTRA_NEEDED_MEDICATION, meds)
+            bundle.putBoolean(EXTRA_CALLED_EMERGENCIES, calledEmergencies)
             val intent = Intent(this, AwaitHelpActivity::class.java)
             sendInfoToDB().thenAccept {
-                b.putInt(EXTRA_EMERGENCY_KEY, it)
-                intent.putExtras(b)
+                bundle.putInt(EXTRA_EMERGENCY_KEY, it)
+                intent.putExtras(bundle)
                 startActivity(intent)
             }
         }

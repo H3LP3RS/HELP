@@ -91,7 +91,7 @@ object GoogleSignInAdapter: SignInInterface<AuthResult> {
     }
 
     /**
-     * Get tje unique id of the user
+     * Get the unique id of the user
      * @return uid (null if not signed in)
      */
     override fun getUid(): String? {
