@@ -126,13 +126,13 @@ class AwaitHelpActivityTest {
             )
         )
     }
-/*
+
     @Test
     fun clickingOnHeartAttackButtonWorksAndSendsIntent() {
         clickingOnButtonWorksAndSendsIntent(
             HeartAttackActivity::class.java,
             withId(R.id.heart_attack_tuto_button), true)
-    }*/
+    }
 
     @Test
     fun clickingOnEpipenButtonWorksAndSendsIntent() {
@@ -140,27 +140,27 @@ class AwaitHelpActivityTest {
             AllergyActivity::class.java,
             withId(R.id.epipen_tuto_button), true)
     }
-/*
+
     @Test
     fun clickingOnAedButtonWorksAndSendsIntent() {
         clickingOnButtonWorksAndSendsIntent(
             AedActivity::class.java,
             withId(R.id.aed_tuto_button), true)
     }
-
+/*
     @Test
     fun clickingOnAsthmaButtonWorksAndSendsIntent() {
         clickingOnButtonWorksAndSendsIntent(
             AsthmaActivity::class.java,
             withId(R.id.asthma_tuto_button), true)
     }
-
+*/
     @Test
     fun cancelButtonWorksAndSendsIntent() {
         clickingOnButtonWorksAndSendsIntent(
             MainPageActivity::class.java,
             withId(R.id.cancel_search_button), false)
-    }*/
+    }
 
 
 

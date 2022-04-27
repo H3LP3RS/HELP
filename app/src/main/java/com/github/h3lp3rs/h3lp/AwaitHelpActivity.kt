@@ -43,13 +43,6 @@ class AwaitHelpActivity : AppCompatActivity() {
 
         setupLocation()
 
-
-        // Demo code
-//        val db = databaseOf(Databases.NEW_EMERGENCIES)
-//        db.clearListeners(getString(R.string.ventolin_db_key)) // Avoid being autocalled (for now, we'll need a ds for that later)
-//        db.setString(getString(R.string.ventolin_db_key), getString(R.string.help))
-
-
         val bundle = this.intent.extras
         if(bundle != null) {
             askedMeds.plus(bundle.getStringArrayList(EXTRA_NEEDED_MEDICATION))
@@ -61,9 +54,6 @@ class AwaitHelpActivity : AppCompatActivity() {
         } else {
             showEmergencyCallPopup()
         }
-
-        //TODO add listener on database so that we replace the loading bar by the number of
-        // users coming to help and their position
     }
 
     /**
