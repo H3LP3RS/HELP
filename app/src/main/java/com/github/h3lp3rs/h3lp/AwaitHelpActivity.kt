@@ -10,6 +10,9 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import com.github.h3lp3rs.h3lp.database.Databases
+import com.github.h3lp3rs.h3lp.database.Databases.CONVERSATION_IDS
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.firstaid.AedActivity
 import com.github.h3lp3rs.h3lp.firstaid.AllergyActivity
 import com.github.h3lp3rs.h3lp.firstaid.AsthmaActivity
@@ -183,6 +186,13 @@ class AwaitHelpActivity : AppCompatActivity() {
             else -> Intent(this, MainPageActivity::class.java)
         }
 
+        startActivity(intent)
+    }
+
+
+    private fun goToLatestMessagesActivity(){
+        val intent = Intent(this, LatestMessagesActivity::class.java)
+        intent.putExtra(EXTRA_HELPEE_ID, helpeeId)
         startActivity(intent)
     }
 }
