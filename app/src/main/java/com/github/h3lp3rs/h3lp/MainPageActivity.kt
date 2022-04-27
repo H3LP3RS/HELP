@@ -105,11 +105,33 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         setUpSearchView()
 
         if (checkSelfPermission(this, ACCESS_FINE_LOCATION) != PERMISSION_GRANTED) {
-            requestPermissions(arrayOf(ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+            showExplanationAndRequestPermissions()
         }
 
         //addAlertNotification()
         startAppGuide()
+    }
+
+    /**
+     * Opens a popup explaining why the app needs permission with a nice image.
+     * Once the user closes the popup, the formal system permission is asked.
+     */
+    private fun showExplanationAndRequestPermissions() {
+        val builder = AlertDialog.Builder(this)
+        val emergencyCallPopup = layoutInflater.inflate(R.layout.localization_permission_popup, null)
+
+        builder.setCancelable(false)
+        builder.setView(emergencyCallPopup)
+
+        val alertDialog = builder.create()
+
+        // pass button
+        emergencyCallPopup.findViewById<Button>(R.id.accept_permission_popup_button).setOnClickListener {
+            alertDialog.cancel()
+            requestPermissions(arrayOf(ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+        }
+
+        alertDialog.show()
     }
 
     /**
