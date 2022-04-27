@@ -100,7 +100,7 @@ class AwaitHelpActivityTest {
         )
     }
 
-    @Test
+    /*@Test
     fun callEmergenciesButtonWorksAndSendsIntent() {
         // close pop-up
         onView(withId(R.id.close_call_popup_button)).inRoot(RootMatchers.isFocusable()).perform(click())
@@ -115,7 +115,7 @@ class AwaitHelpActivityTest {
                 IntentMatchers.hasAction(Intent.ACTION_DIAL)
             )
         )
-    }
+    }*/
 
     /*@Test
     fun callEmergenciesFromPopUpWorksAndSendsIntent() {
