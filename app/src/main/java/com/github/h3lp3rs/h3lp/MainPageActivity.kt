@@ -2,15 +2,17 @@ package com.github.h3lp3rs.h3lp
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager.PERMISSION_GRANTED
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat.OnRequestPermissionsResultCallback
 import androidx.core.content.ContextCompat.checkSelfPermission
@@ -117,21 +119,22 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
      * Once the user closes the popup, the formal system permission is asked.
      */
     private fun showExplanationAndRequestPermissions() {
-        val builder = AlertDialog.Builder(this)
+        val dialog = Dialog(this)
         val emergencyCallPopup = layoutInflater.inflate(R.layout.localization_permission_popup, null)
 
-        builder.setCancelable(false)
-        builder.setView(emergencyCallPopup)
+        dialog.setCancelable(false)
+        dialog.setContentView(emergencyCallPopup)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        val alertDialog = builder.create()
+        dialog.create()
 
         // pass button
         emergencyCallPopup.findViewById<Button>(R.id.accept_permission_popup_button).setOnClickListener {
-            alertDialog.cancel()
+            dialog.dismiss()
             requestPermissions(arrayOf(ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
         }
 
-        alertDialog.show()
+        dialog.show()
     }
 
     /**

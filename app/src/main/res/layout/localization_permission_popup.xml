@@ -57,5 +57,4 @@
             android:text="@string/accept_popup_button" />
 
     </LinearLayout>
-
 </RelativeLayout>
