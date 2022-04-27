@@ -301,4 +301,7 @@
     <string name="latest_messages">"   Latest messages"</string>
     <string name="textview_last_message">last Message</string>
     <string name="textview_username">username</string>
+    <string name="accept_popup_button">I accept</string>
+    <string name="permission_popup_text">The app is based on mutual aid and allows you to get help or help other people near you. In order to achieve that the app requires exact access to your localization in order to function properly.\n\n This data is stored safely on your phone and made anonymous before being stored on a safe online database.</string>
+    <string name="permission_popup_title">Access to localization</string>
 </resources>
