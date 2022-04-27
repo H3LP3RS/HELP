@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/round_layout">
 
     <TextView
         android:id="@+id/textView1"
@@ -31,9 +32,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/localization_image"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="15dp"
-        android:layout_marginTop="15dp"
-        android:text="@string/pop_up_call_emergencies_text"
+        android:layout_margin="15dp"
+        android:text="The app is based on mutual aid and allows you to get help or help other people near you. In order to achieve that the app requires exact access to your localization in order to function properly.\n\n This data is stored safely on your phone and made anonymous before being stored on a safe online database."
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textColor="@color/dark_blue"
@@ -48,12 +48,12 @@
 
 
         <Button
-            android:id="@+id/open_call_popup_button"
+            android:id="@+id/accept_permission_popup_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:background="@drawable/round_button"
-            android:text="I agree" />
+            android:text="I accept" />
 
     </LinearLayout>
 
