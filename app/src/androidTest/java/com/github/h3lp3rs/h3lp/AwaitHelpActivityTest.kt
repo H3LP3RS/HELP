@@ -127,12 +127,15 @@ class AwaitHelpActivityTest {
         )
     }
 
+    /*
     @Test
     fun clickingOnHeartAttackButtonWorksAndSendsIntent() {
         clickingOnButtonWorksAndSendsIntent(
             HeartAttackActivity::class.java,
             withId(R.id.heart_attack_tuto_button), true)
     }
+    */
+
 
     @Test
     fun clickingOnEpipenButtonWorksAndSendsIntent() {
