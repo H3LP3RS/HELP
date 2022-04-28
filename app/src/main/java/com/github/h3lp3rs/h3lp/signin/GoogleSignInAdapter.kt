@@ -19,7 +19,7 @@ import com.google.firebase.ktx.Firebase
  * It is used as the central sign in interface in the app
  */
 object GoogleSignInAdapter: SignInInterface<AuthResult> {
-    private var auth: FirebaseAuth = Firebase.auth
+    var auth: FirebaseAuth = Firebase.auth
     lateinit var gso: GoogleSignInOptions
 
     private const val SERVER_CLIENT_ID =

@@ -23,6 +23,8 @@ import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.UiObject2
 import androidx.test.uiautomator.Until
+import com.github.h3lp3rs.h3lp.database.Database
+import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.database.MockDatabase
@@ -30,6 +32,9 @@ import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
 import com.github.h3lp3rs.h3lp.dataclasses.HelperSkills
 import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
+import com.github.h3lp3rs.h3lp.professional.ProMainActivity
+import com.github.h3lp3rs.h3lp.professional.ProUser
+import com.github.h3lp3rs.h3lp.professional.VerificationActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.storage.Storages
@@ -50,12 +55,15 @@ import kotlin.collections.ArrayList
 class MainPageTestActivity {
     @get:Rule
     var mRuntimePermissionRule: GrantPermissionRule = GrantPermissionRule.grant(Manifest.permission.ACCESS_FINE_LOCATION)
+    private lateinit var proUsersDb : Database
 
     @Before
     fun setup() {
         globalContext = getApplicationContext()
         userUid = USER_TEST_ID
         setDatabase(PREFERENCES, MockDatabase())
+        setDatabase(PRO_USERS, MockDatabase())
+        proUsersDb = Databases.databaseOf(PRO_USERS)
         resetStorage()
         storageOf(USER_COOKIE).setBoolean(GUIDE_KEY, true)
     }
@@ -176,6 +184,23 @@ class MainPageTestActivity {
             // notification.click()
             // notification.clear()
             // onView(withId(R.id.accept)).check(matches(isDisplayed()))
+        }
+    }
+
+    @Test
+    fun clickingOnProPortalButtonGoesToProPortalIfVerifiedUser() {
+        val proUser = ProUser(USER_TEST_ID, "","","")
+        proUsersDb.setObject(USER_TEST_ID,ProUser::class.java, proUser)
+        launchAndDo {
+            clickingOnButtonWorksAndSendsIntent(ProMainActivity::class.java, withId(R.id.button_pro), true)
+        }
+    }
+
+    @Test
+    fun clickingOnProPortalButtonGoesToVerificationIfNonVerifiedUser() {
+        proUsersDb.delete(USER_TEST_ID)
+        launchAndDo {
+            clickingOnButtonWorksAndSendsIntent(VerificationActivity::class.java, withId(R.id.button_pro), true)
         }
     }
 }

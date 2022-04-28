@@ -305,4 +305,18 @@
     <string name="latest_messages">"   Latest messages"</string>
     <string name="textview_last_message">last Message</string>
     <string name="textview_username">username</string>
+    <string name="professional_portal">Professional portal</string>
+    <string name="pro_welcome">Welcome to the H3LP professional portal</string>
+    <string name="upload_message">Please upload a proof of your professional status</string>
+    <string name="choose_file">Choose File</string>
+    <string name="enter_file_name">Enter file name</string>
+    <string name="upload">Upload</string>
+    <string name="welcome_pro">Welcome to the H3LP professional portal!</string>
+    <string name="pro_quote">Not all heroes wear capes</string>
+    <string name="faq">FAQ</string>
+    <string name="blood_request">Blood request</string>
+    <string name="emergencies">Emergencies</string>
+    <string name="select_status">Select your status</string>
+    <string name="professional_user">Professional user</string>
+    <string name="normal_user">Normal user</string>
 </resources>
