@@ -124,6 +124,9 @@ class HelpParametersActivityTest {
         )
     }
 
+    /**
+     * Auxiliary function to put a medical emergency contact in the local database
+     */
     private fun loadMedicalDataToLocalStorage() {
         val medicalInformation = MedicalInformation(MedicalInformation.MAX_HEIGHT-1,
             MedicalInformation.MAX_WEIGHT-1,Gender.Male,

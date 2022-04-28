@@ -86,8 +86,8 @@ class AwaitHelpActivity : AppCompatActivity() {
 
         // call button
         emergencyCallPopup.findViewById<Button>(R.id.open_call_popup_button).setOnClickListener {
-            findViewById<ImageView>(R.id.await_help_call_button).callOnClick()
             alertDialog.cancel()
+            launchEmergencyCall()
         }
 
         alertDialog.show()
@@ -142,7 +142,7 @@ class AwaitHelpActivity : AppCompatActivity() {
             currentLong = currentLocation.longitude
         } else {
             // In case the permission to access the location is missing
-            goToActivity(MainPageActivity::class.java)
+            // goToActivity(MainPageActivity::class.java)
         }
     }
 
