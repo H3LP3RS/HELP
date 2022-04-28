@@ -16,6 +16,7 @@ import com.github.h3lp3rs.h3lp.firstaid.HeartAttackActivity
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 import com.github.h3lp3rs.h3lp.messaging.LatestMessagesActivity
 import com.github.h3lp3rs.h3lp.storage.LocalStorage
+import com.github.h3lp3rs.h3lp.storage.Storages
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
@@ -179,7 +180,7 @@ class AwaitHelpActivity : AppCompatActivity() {
 
         // contact button
         emergencyCallPopup.findViewById<ImageButton>(R.id.contact_call_button).setOnClickListener {
-            val medicalInfo = LocalStorage(getString(R.string.medical_info_prefs),this,false)
+            val medicalInfo = Storages.storageOf(Storages.MEDICAL_INFO)
                 .getObjectOrDefault(getString(R.string.medical_info_key), MedicalInformation::class.java, null)
 
             val dial = "tel:${medicalInfo?.emergencyContactNumber}"

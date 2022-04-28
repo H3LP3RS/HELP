@@ -25,6 +25,7 @@ import com.google.android.material.textfield.TextInputLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doAfterTextChanged
+import com.github.h3lp3rs.h3lp.MedicalInformation.Companion.DEFAULT_COUNTRY
 import com.github.h3lp3rs.h3lp.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
@@ -34,7 +35,6 @@ import com.google.gson.Gson
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.google.i18n.phonenumbers.Phonenumber
 import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber
-import com.lamudi.phonefield.PhoneInputLayout
 
 class MedicalCardActivity : AppCompatActivity() {
 
@@ -56,9 +56,18 @@ class MedicalCardActivity : AppCompatActivity() {
         createPrivacyCheckBox()
         createPhoneNumberField()
 
-        createHelpField(findViewById(R.id.medicalInfoConditionTxtLayout), getString(R.string.condition_help_msg))
-        createHelpField(findViewById(R.id.medicalInfoTreatmentTxtLayout), getString(R.string.treatment_help_msg))
-        createHelpField(findViewById(R.id.medicalInfoAllergyTxtLayout), getString(R.string.allergy_help_msg))
+        createHelpField(
+            findViewById(R.id.medicalInfoConditionTxtLayout),
+            getString(R.string.condition_help_msg)
+        )
+        createHelpField(
+            findViewById(R.id.medicalInfoTreatmentTxtLayout),
+            getString(R.string.treatment_help_msg)
+        )
+        createHelpField(
+            findViewById(R.id.medicalInfoAllergyTxtLayout),
+            getString(R.string.allergy_help_msg)
+        )
     }
 
 
@@ -71,14 +80,15 @@ class MedicalCardActivity : AppCompatActivity() {
         val phoneInputLayout = findViewById<TextInputLayout>(R.id.medicalInfoContactNumberTxtLayout)
         phoneInputText.doOnTextChanged { text, _, _, _ ->
             try {
-                val number = PhoneNumberUtil.getInstance().parse(text.toString().trimStart('0'), "CH")
-                if( PhoneNumberUtil.getInstance().isPossibleNumber(number)){
+                val number =
+                    PhoneNumberUtil.getInstance().parse(text.toString().trimStart('0'), "CH")
+                if (PhoneNumberUtil.getInstance().isPossibleNumber(number)) {
                     phoneInputLayout.error = null
                 } else {
-                    phoneInputLayout.error = "Invalid Number"
+                    phoneInputLayout.error = getString(R.string.invalid_number)
                 }
-            } catch(e: Exception){
-                phoneInputLayout.error = "Invalid Number"
+            } catch (e: Exception) {
+                phoneInputLayout.error = getString(R.string.invalid_number)
             }
         }
     }
@@ -92,13 +102,15 @@ class MedicalCardActivity : AppCompatActivity() {
      * @param minErrorMsg the message to display if smallest than min
      * @param maxErrorMsg the message to display if biggest than min
      */
-    private fun createTestField(idEditText: Int, idTextInputLayout: Int, min : Int , max : Int,
-                                 minErrorMsg : String, maxErrorMsg : String) {
+    private fun createTestField(
+        idEditText: Int, idTextInputLayout: Int, min: Int, max: Int,
+        minErrorMsg: String, maxErrorMsg: String
+    ) {
         val editText = findViewById<EditText>(idEditText)
         val textInputLayout = findViewById<TextInputLayout>(idTextInputLayout)
         editText.doOnTextChanged { text, _, _, _ ->
             when {
-                text!!.isEmpty() ->{
+                text!!.isEmpty() -> {
                     textInputLayout.error = getString(R.string.empty_error_msg)
                 }
                 text.toString().toInt() > max -> {
@@ -119,41 +131,47 @@ class MedicalCardActivity : AppCompatActivity() {
      * create the field for the birth year with input check
      */
     private fun createBirthField() {
-        createTestField(R.id.medicalInfoBirthEditTxt, R.id.medicalInfoBirthTxtLayout,
-            resources.getInteger(R.integer.minYear),Calendar.getInstance().get(Calendar.YEAR),
-            getString(R.string.yearTooOld), getString(R.string.yearTooRecent))
+        createTestField(
+            R.id.medicalInfoBirthEditTxt, R.id.medicalInfoBirthTxtLayout,
+            resources.getInteger(R.integer.minYear), Calendar.getInstance().get(Calendar.YEAR),
+            getString(R.string.yearTooOld), getString(R.string.yearTooRecent)
+        )
     }
 
     /**
      * create the field for the height with input check
      */
     private fun createHeightField() {
-        createTestField(R.id.medicalInfoHeightEditTxt, R.id.medicalInfoHeightTxtLayout,
-            resources.getInteger(R.integer.minHeight),resources.getInteger(R.integer.maxHeight),
-            getString(R.string.heightTooShort), getString(R.string.heightTooBig))
+        createTestField(
+            R.id.medicalInfoHeightEditTxt, R.id.medicalInfoHeightTxtLayout,
+            resources.getInteger(R.integer.minHeight), resources.getInteger(R.integer.maxHeight),
+            getString(R.string.heightTooShort), getString(R.string.heightTooBig)
+        )
     }
 
     /**
      * create the field for the weight with input check
      */
     private fun createWeightField() {
-        createTestField(R.id.medicalInfoWeightEditTxt, R.id.medicalInfoWeightTxtLayout,
-            resources.getInteger(R.integer.minWeight),resources.getInteger(R.integer.maxWeight),
-            getString(R.string.weightTooLight), getString(R.string.weightTooHeavy))
+        createTestField(
+            R.id.medicalInfoWeightEditTxt, R.id.medicalInfoWeightTxtLayout,
+            resources.getInteger(R.integer.minWeight), resources.getInteger(R.integer.maxWeight),
+            getString(R.string.weightTooLight), getString(R.string.weightTooHeavy)
+        )
     }
 
     /**
      * create Blood type dropDown menu in an InputTextLayout
      */
     private fun createBloodField() {
-        createDropdownField(BloodType.values().map{it.type},R.id.medicalInfoBloodDropdown)
+        createDropdownField(BloodType.values().map { it.type }, R.id.medicalInfoBloodDropdown)
     }
 
     /**
      * create Gender dropDown menu in an InputTextLayout
      */
     private fun createGenderField() {
-        createDropdownField(Gender.values().map{it.name}, R.id.medicalInfoGenderDropdown)
+        createDropdownField(Gender.values().map { it.name }, R.id.medicalInfoGenderDropdown)
     }
 
     /**
@@ -161,7 +179,7 @@ class MedicalCardActivity : AppCompatActivity() {
      * @param list list of element of the dropdown
      * @param dropdownId of the dropdown layout
      */
-    private fun createDropdownField(list : List<String>, dropdownId : Int){
+    private fun createDropdownField(list: List<String>, dropdownId: Int) {
         val adapter = ArrayAdapter(
             this,
             R.layout.dropdown_menu_popup,
@@ -180,7 +198,7 @@ class MedicalCardActivity : AppCompatActivity() {
      * @param textLayout TeytInputLayout
      * @param str the help message
      */
-    private fun createHelpField( textLayout: TextInputLayout, str: String) {
+    private fun createHelpField(textLayout: TextInputLayout, str: String) {
         textLayout.setEndIconOnClickListener { createSnackbar(it, str) }
     }
 
@@ -210,6 +228,7 @@ class MedicalCardActivity : AppCompatActivity() {
                 // widget.cancelPendingInputEvents()
                 showPolicy()
             }
+
             override fun updateDrawState(ds: TextPaint) {
                 super.updateDrawState(ds)
                 ds.isUnderlineText = true
@@ -222,7 +241,7 @@ class MedicalCardActivity : AppCompatActivity() {
         checkBox.movementMethod = LinkMovementMethod.getInstance()
     }
 
-    private fun showPolicy(){
+    private fun showPolicy() {
         AlertDialog.Builder(this).setTitle(getString(R.string.privacy_policy))
             .setMessage(getString(R.string.medical_info_privacy_policy)).show()
     }
@@ -231,7 +250,7 @@ class MedicalCardActivity : AppCompatActivity() {
      * Send back to MainPageActivity
      */
 
-    fun backHome( view: View){
+    fun backHome(view: View) {
         val intent = Intent(this, MainPageActivity::class.java)
         startActivity(intent)
     }
@@ -241,8 +260,10 @@ class MedicalCardActivity : AppCompatActivity() {
      */
     @RequiresApi(Build.VERSION_CODES.O)
     private fun loadData() {
-        val medicalInformation = storage.getObjectOrDefault(getString(R.string.medical_info_key),
-            MedicalInformation::class.java,  null) ?: return
+        val medicalInformation = storage.getObjectOrDefault(
+            getString(R.string.medical_info_key),
+            MedicalInformation::class.java, null
+        ) ?: return
 
         loadTo(medicalInformation.size, R.id.medicalInfoHeightEditTxt)
         loadTo(medicalInformation.yearOfBirth, R.id.medicalInfoBirthEditTxt)
@@ -257,51 +278,50 @@ class MedicalCardActivity : AppCompatActivity() {
     /**
      * load string in an editTxt
      */
-    private fun loadTo(data: String, editTxtId: Int){
+    private fun loadTo(data: String, editTxtId: Int) {
         findViewById<EditText>(editTxtId).setText(data)
     }
+
     /**
      * load int in an editTxt
      */
-    private fun loadTo(data : Int, editTxtId: Int) {
-        loadTo(data.toString(),editTxtId)
+    private fun loadTo(data: Int, editTxtId: Int) {
+        loadTo(data.toString(), editTxtId)
     }
 
     /**
      * Check the validity of the field and that the policy is checked and then save the data
      */
     @RequiresApi(Build.VERSION_CODES.O)
-    fun checkAndSaveChanges(view: View){
-        if(!checkField()){
-            createSnackbar(view,getString(R.string.invalid_field_msg))
-        }
-        else if(!checkPolicy()){
-            createSnackbar(view,getString(R.string.privacy_policy_not_acceptes))
-        }
-        else{
+    fun checkAndSaveChanges(view: View) {
+        if (!checkField()) {
+            createSnackbar(view, getString(R.string.invalid_field_msg))
+        } else if (!checkPolicy()) {
+            createSnackbar(view, getString(R.string.privacy_policy_not_acceptes))
+        } else {
             saveChanges()
-            createSnackbar(view,getString( R.string.changes_saved))
+            createSnackbar(view, getString(R.string.changes_saved))
         }
     }
 
     /**
      * Check validity of the field
      */
-    private fun checkField(): Boolean{
+    private fun checkField(): Boolean {
         val size = findViewById<TextInputLayout>(R.id.medicalInfoHeightTxtLayout)
         val year = findViewById<TextInputLayout>(R.id.medicalInfoBirthTxtLayout)
         val weight = findViewById<TextInputLayout>(R.id.medicalInfoWeightTxtLayout)
         val gender = findViewById<AutoCompleteTextView>(R.id.medicalInfoGenderDropdown)
         val bloodType = findViewById<AutoCompleteTextView>(R.id.medicalInfoBloodDropdown)
         val contactNumber = findViewById<TextInputLayout>(R.id.medicalInfoContactNumberTxtLayout)
-        return size.error==null && year.error==null && weight.error==null
-                && gender.text!=null && bloodType!=null && contactNumber != null
+        return size.error == null && year.error == null && weight.error == null
+                && gender.text != null && bloodType != null && contactNumber != null
     }
 
     /**
      * Check that the policy was accepted
      */
-    private fun checkPolicy(): Boolean{
+    private fun checkPolicy(): Boolean {
         return findViewById<CheckBox>(R.id.medicalInfoPrivacyCheck).isChecked
     }
 
@@ -316,19 +336,30 @@ class MedicalCardActivity : AppCompatActivity() {
         val condition: String = getStringFromId(R.id.medicalInfoConditionEditTxt)
         val treatment: String = getStringFromId(R.id.medicalInfoTreatmentEditTxt)
         val allergy: String = getStringFromId(R.id.medicalInfoAllergyEditTxt)
-        val gender: Gender = Gender.valueOf(findViewById<AutoCompleteTextView>(R.id.medicalInfoGenderDropdown).text.toString())
-        val bloodType: BloodType = BloodType.valueOf(findViewById<AutoCompleteTextView>(R.id.medicalInfoBloodDropdown).text.toString()
-            .replace('-','n').replace('+','p'))
+        val gender: Gender =
+            Gender.valueOf(findViewById<AutoCompleteTextView>(R.id.medicalInfoGenderDropdown).text.toString())
+        val bloodType: BloodType = BloodType.valueOf(
+            findViewById<AutoCompleteTextView>(R.id.medicalInfoBloodDropdown).text.toString()
+                .replace('-', 'n').replace('+', 'p')
+        )
         val contactName = getStringFromId(R.id.medicalInfoContactNameEditTxt)
 
         val contactNumber = getStringFromId(R.id.medicalInfoContactNumberEditTxt)
-        val number = PhoneNumberUtil.getInstance().parse(contactNumber.trimStart('0'), "CH")
+        val number = PhoneNumberUtil.getInstance().parse(
+            contactNumber.trimStart('0'), DEFAULT_COUNTRY)
+
         val formattedNumber = String.format("+%d%d", number.countryCode, number.nationalNumber)
 
-        val medicalInformation = MedicalInformation(size, weight, gender, year, condition, treatment,
-            allergy, bloodType, contactName, formattedNumber)
+        val medicalInformation = MedicalInformation(
+            size, weight, gender, year, condition, treatment,
+            allergy, bloodType, contactName, formattedNumber
+        )
 
-        storage.setObject(getString(R.string.medical_info_prefs), MedicalInformation::class.java, medicalInformation)
+        storage.setObject(
+            getString(R.string.medical_info_prefs),
+            MedicalInformation::class.java,
+            medicalInformation
+        )
         storage.push()
     }
 

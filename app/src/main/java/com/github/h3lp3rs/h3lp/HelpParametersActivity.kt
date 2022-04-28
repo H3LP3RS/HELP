@@ -69,7 +69,6 @@ class HelpParametersActivity : AppCompatActivity() {
             // current location
             locationInformation.text = getString(R.string.error_retrieving_location)
         }
-
     }
 
     /**

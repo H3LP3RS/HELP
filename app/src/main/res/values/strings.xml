@@ -297,7 +297,6 @@
     <string name="helper_marker_desc">Helper coming to help you</string>
     <string name="pop_up_call_emergencies_text">We are currently looking for help nearby. If you require medical assistance, we highly recommend that you still call the local emergency services with the button below and mention that you are using our app.</string>
     <string name="did_you_call_emergency_services_popup">Did you call emergency services?</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="emergency_contact_title">Your Emergency Contact</string>
     <string name="emergency_call_ambulance">Emergency call ambulance</string>
     <string name="emergencies">Emergencies</string>
@@ -310,4 +309,5 @@
     <string name="latest_messages">"   Latest messages"</string>
     <string name="textview_last_message">last Message</string>
     <string name="textview_username">username</string>
+    <string name="invalid_number">Invalid Number</string>
 </resources>

@@ -22,7 +22,6 @@ import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 import com.github.h3lp3rs.h3lp.locationmanager.LocationManagerInterface
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
-import com.github.h3lp3rs.h3lp.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
@@ -39,6 +38,7 @@ import org.mockito.Mockito.`when` as When
 
 // Case example of a possible query when a user clicks on the call for emergency button
 private val CORRECT_EMERGENCY_CALL = Triple(6.632, 46.519, "144")
+private val VALID_CONTACT_NUMBER = "+41216933000"
 
 @RunWith(AndroidJUnit4::class)
 class HelpParametersActivityTest {
@@ -108,23 +108,24 @@ class HelpParametersActivityTest {
         phoneButton.check(matches(isDisplayed()))
         phoneButton.perform(click())
 
-        val emergencyContactNumber = "+41216933000"
+
 
         val medicalInformation = MedicalInformation(MedicalInformation.MAX_HEIGHT-1,
             MedicalInformation.MAX_WEIGHT-1,Gender.Male,
             Calendar.getInstance().get(Calendar.YEAR),
             "", "","",
-            BloodType.ABn, "", emergencyContactNumber)
+            BloodType.ABn, "", VALID_CONTACT_NUMBER)
 
 
         storageOf(Storages.MEDICAL_INFO)
-            .setObject("MEDICAL_INFO_KEY", MedicalInformation::class.java, medicalInformation)
+            .setObject(globalContext.getString(R.string.medical_info_key),
+                MedicalInformation::class.java, medicalInformation)
 
         // click the contact button in the popup
         onView(withId(R.id.contact_call_button)).inRoot(RootMatchers.isFocusable()).perform(click())
 
         // The expected ambulance phone number given the location (specified by the coordinates)
-        val number = "tel:$emergencyContactNumber"
+        val number = "tel:$VALID_CONTACT_NUMBER"
 
         // Checking that this emergency number is dialed
         intended(

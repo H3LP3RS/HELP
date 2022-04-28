@@ -106,7 +106,7 @@ class MedicalCardActivityTest {
     }
 
     @Test
-    fun validYearNumberDoesNotLeadToError() {
+    fun validYearNumberDoesNotLeadsToError() {
         launchAndDo {
             onView(withId(R.id.medicalInfoBirthEditTxt))
                 .perform(replaceText(Calendar.getInstance().get(Calendar.YEAR).toString()))
