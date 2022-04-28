@@ -11,6 +11,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.*
 import com.github.h3lp3rs.h3lp.notification.NotificationService
+import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import junit.framework.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -29,7 +30,7 @@ class NotificationTest {
 
     @get:Rule
     val testRule = ActivityScenarioRule(
-        MainPageActivity::class.java
+        SignInActivity::class.java
     )
     @Before
     fun setup() {
@@ -81,4 +82,6 @@ class NotificationTest {
         val clearAll: UiObject2 = uiDevice.findObject(By.textStartsWith("Clear all"))
         clearAll.click()
     }
+
+
 }

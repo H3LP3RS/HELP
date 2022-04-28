@@ -47,7 +47,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="20dp"
-                android:background="@drawable/light_background">
+                android:background="@drawable/light_red_background">
 
                 <TextView
                     android:id="@+id/epipenTutorialStep1"
@@ -83,7 +83,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="20dp"
-                android:background="@drawable/light_background">
+                android:background="@drawable/light_red_background">
 
                 <TextView
                     android:id="@+id/epipenTutorialStep2"
@@ -118,7 +118,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="20dp"
-                android:background="@drawable/light_background">
+                android:background="@drawable/light_red_background">
 
                 <TextView
                     android:id="@+id/epipenTutorialStep3"

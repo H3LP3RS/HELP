@@ -38,7 +38,7 @@ interface SignInInterface<T> {
     fun signOut()
 
     /**
-     * Get tje unique id of the user
+     * Get the unique id of the user
      * @return uid (null if not signed in)
      */
     fun getUid(): String?

@@ -66,7 +66,7 @@ class VerificationActivityTest {
         VerificationActivity.imgUri = TEST_URI
         VerificationActivity.currentUserId = TEST_STRING
         VerificationActivity.currentUserName = TEST_STRING
-        Databases.PRO_USERS.db = MockDatabase()
+        Databases.setDatabase(Databases.PRO_USERS,MockDatabase())
 
         // Mock the Firebase cloud storage
         val storageMock = Mockito.mock(StorageReference::class.java)

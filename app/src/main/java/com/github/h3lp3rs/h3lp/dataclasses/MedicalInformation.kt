@@ -1,4 +1,4 @@
-package com.github.h3lp3rs.h3lp
+package com.github.h3lp3rs.h3lp.dataclasses
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -6,7 +6,7 @@ import java.time.Year
 
 @RequiresApi(Build.VERSION_CODES.O)
 class MedicalInformation(
-    val size: Int,val weight: Int,val gender: Gender, val yearOfBirth: Int, val conditions: String, val actualTreatment: String, val allergy: String, val bloodType: BloodType,
+    val size: Int, val weight: Int, val gender: Gender, val yearOfBirth: Int, val conditions: String, val actualTreatment: String, val allergy: String, val bloodType: BloodType,
 ){
     init {
         require(size in MIN_HEIGHT..MAX_HEIGHT)
@@ -22,7 +22,7 @@ class MedicalInformation(
     }
 }
 
-enum class Gender() {
+enum class Gender {
     Male,Female;
 }
 enum class BloodType(val type : String){
