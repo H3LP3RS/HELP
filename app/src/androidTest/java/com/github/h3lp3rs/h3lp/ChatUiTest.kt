@@ -49,6 +49,8 @@ class ChatUiTest {
 
         conversationFrom = Conversation(CONVERSATION_ID, currentMessenger)
         conversationTo = Conversation(CONVERSATION_ID,toMessenger)
+
+        init()
     }
 
     @After
