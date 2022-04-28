@@ -4,30 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.PresIrrelevantActivity">
+    tools:context=".presentation.PresIrrelevantActivity"
+    android:background="@drawable/background_gradient">
 
     <TextView
         android:id="@+id/pres3_textView2"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
         android:text="@string/presentation_placeholder_bad_1"
         android:textAllCaps="false"
+        android:textColor="@color/light_gray"
         android:textSize="20sp"
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.384"
         app:layout_constraintStart_toEndOf="@+id/pres3_imageView1"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.302" />
 
     <TextView
         android:id="@+id/pres3_textView3"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="100dp"
-        android:layout_marginEnd="132dp"
+        android:layout_marginEnd="16dp"
         android:text="@string/presentation_placeholder_bad_2"
+        android:textColor="@color/light_gray"
         android:textSize="20sp"
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -39,10 +45,12 @@
 
     <TextView
         android:id="@+id/pres3_textView4"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="144dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
         android:text="@string/presentation_placeholder_bad_3"
+        android:textColor="@color/light_gray"
         android:textSize="20sp"
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -58,13 +66,14 @@
         android:layout_height="108dp"
         android:fontFamily="casual"
         android:gravity="center"
-        android:text="@string/ascii_left_arrow"
+        android:text="@string/scroll3on3"
+        android:textColor="@color/light_gray"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/pres3_textView6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.835" />
+        app:layout_constraintVertical_bias="0.912" />
 
     <TextView
         android:id="@+id/pres3_textView6"
@@ -74,6 +83,7 @@
         android:text="@string/safelives_all_rights_reserved"
         android:textAlignment="center"
         android:textSize="16sp"
+        android:textColor="@color/light_gray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -89,6 +99,7 @@
         android:text="@string/h3lp_doesn_t_allow_you_to"
         android:textSize="34sp"
         android:textStyle="bold"
+        android:textColor="@color/light_gray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
@@ -102,6 +113,7 @@
         android:layout_height="46dp"
         android:onClick="sendApproval"
         android:text="@string/ok"
+        android:backgroundTint="@color/persimmon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.756"
@@ -113,40 +125,43 @@
         android:id="@+id/pres3_imageView1"
         android:layout_width="45dp"
         android:layout_height="45dp"
+        android:layout_marginStart="10dp"
+        android:contentDescription="@string/red_cross"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.071"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.298"
-        app:srcCompat="@drawable/red_cross"
-        android:contentDescription="@string/red_cross" />
+        app:srcCompat="@drawable/ic_gray_cross" />
 
     <ImageView
         android:id="@+id/pres3_imageView2"
         android:layout_width="45dp"
         android:layout_height="45dp"
+        android:layout_marginStart="10dp"
+        android:contentDescription="@string/red_cross"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.071"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.446"
-        app:srcCompat="@drawable/red_cross"
-        android:contentDescription="@string/red_cross" />
+        app:srcCompat="@drawable/ic_gray_cross" />
 
     <ImageView
         android:id="@+id/pres3_imageView3"
         android:layout_width="45dp"
         android:layout_height="45dp"
+        android:layout_marginStart="10dp"
+        android:contentDescription="@string/red_cross"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.071"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.593"
-        app:srcCompat="@drawable/red_cross"
-        android:contentDescription="@string/red_cross" />
+        app:srcCompat="@drawable/ic_gray_cross" />
 
     <CheckBox
         android:id="@+id/pres3_checkBox"
@@ -154,11 +169,15 @@
         android:layout_height="44dp"
         android:contentDescription="@string/tosbox"
         android:text=""
+        android:textColor="@color/light_gray"
+        android:textColorHighlight="@color/persimmon"
+        android:textColorLink="@color/persimmon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.286"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.912" />
+        app:layout_constraintVertical_bias="0.912"
+        android:buttonTint="@color/persimmon"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

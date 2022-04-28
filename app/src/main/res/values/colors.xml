@@ -12,7 +12,8 @@
     <color name="select_meds_unchecked">#258EC6</color>
     <color name="select_meds_checked">#64AACF</color>
     <color name="dark_blue">#192841</color>
-    <color name="light_grey">#E5E5E5</color>
+    <color name="light_gray">#E5E5E5</color>
+    <color name="gray">#707070</color>
     <color name="light_red">#FEC4C1</color>
     <color name="app_background">#D6E3EF</color>
     <color name="blue">#6E85C8</color>
@@ -21,5 +22,6 @@
     <color name="cancel_search_text">#F44336</color>
     <color name="red">#FF0000</color>
     <color name="semiDarkTransparent">#C6000000</color>
+    <color name="persimmon">#Fe6752</color>
 
 </resources>

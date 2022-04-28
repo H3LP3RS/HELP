@@ -62,7 +62,7 @@
     <string name="h3lp_doesn_t_allow_you_to">H3LP doesn\'t </string>
     <string name="ascii_left_arrow">⟨</string>
     <string name="presentation_placeholder_bad_3">Let you have access to other\'s data</string>
-    <string name="presentation_placeholder_bad_2">Store your medical information without \n your consent</string>
+    <string name="presentation_placeholder_bad_2">Store your medical information without your consent</string>
     <string name="presentation_placeholder_bad_1">Sell your medical data to 3rd parties</string>
     <string name="red_cross">Red cross</string>
     <string name="info_box">Info box</string>
@@ -301,4 +301,7 @@
     <string name="latest_messages">"   Latest messages"</string>
     <string name="textview_last_message">last Message</string>
     <string name="textview_username">username</string>
+    <string name="scroll3on3">○○●</string>
+    <string name="scroll2on3">○●○</string>
+    <string name="scroll1on3">●○○</string>
 </resources>
