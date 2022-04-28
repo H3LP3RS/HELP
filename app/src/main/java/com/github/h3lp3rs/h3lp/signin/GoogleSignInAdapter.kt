@@ -13,6 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import java.util.*
 
 /**
  * This object adapts the Google sign in and Firebase authentication to our general SignInInterface.
@@ -92,5 +93,14 @@ object GoogleSignInAdapter: SignInInterface<AuthResult> {
 
     override fun getUid(): String? {
         return auth.currentUser?.uid
+    }
+
+    /**
+     *
+     */
+    fun getCreationDate(): String{
+        val timeStamp = auth.currentUser?.metadata?.creationTimestamp
+        return timeStamp?.let { Date(it).toString() } ?: run { "" }
+
     }
 }

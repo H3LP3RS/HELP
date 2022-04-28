@@ -295,6 +295,17 @@
     <string name="helper_marker_desc">Helper coming to help you</string>
     <string name="pop_up_call_emergencies_text">We are currently looking for help nearby. If you require medical assistance, we highly recommend that you still call the local emergency services with the button below and mention that you are using our app.</string>
     <string name="did_you_call_emergency_services_popup">Did you call emergency services?</string>
+    <string name="user_cookie">User Cookie</string>
+    <string name="user_id">User Id</string>
+    <string name="user_since">User since</string>
+    <string name="log_out">Log out</string>
+    <string name="remove_sync">Remove all synchronized data</string>
+    <string name="my_account">MY ACCOUNT</string>
+    <string name="synchronization">SYNCHRONIZATION</string>
+    <string name="assistance">ASSISTANCE</string>
+    <string name="need_help_app">I need some help</string>
+    <string name="i_found_a_bug">I found a bug</string>
+    <string name="i_got_a_suggestion">I got a suggestion</string>
     <string name="EMERGENCY_UID_KEY">CurrentEmergencyUid</string>
     <string name="AT_LEAST_ONE_ITEM">Please select at least one item</string>
     <string name="one_person_help">1 person is coming to help you</string>

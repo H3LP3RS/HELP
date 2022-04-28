@@ -14,9 +14,13 @@ import java.lang.Boolean.parseBoolean
  * Implementation of a local storage to store data locally. Not meant for
  * direct use.
  */
-class LocalStorage(private val path: String, context: Context, private val enableOnlineSync: Boolean) {
+class LocalStorage(private val path: String, context: Context) {
     private val pref = context.getSharedPreferences(path, AppCompatActivity.MODE_PRIVATE)
     private val editor = pref.edit()
+    private val enableOnlineSync= parseBoolean(
+        context.getSharedPreferences(Storages.SyncPref, AppCompatActivity.MODE_PRIVATE)
+            .getString(path, "true"))
+
 
     /**
      * Update online parameters if needed
@@ -31,6 +35,16 @@ class LocalStorage(private val path: String, context: Context, private val enabl
                 parseOnlinePrefs(it)
             }
         }
+    }
+
+
+    /**
+     * Delete online data synchronized with the preferences
+     */
+    fun clearOnlineSync(){
+        val uid = getUid()!!
+        val db = databaseOf(PREFERENCES)
+        db.delete("$path/$uid")
     }
 
     /**

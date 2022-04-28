@@ -12,6 +12,10 @@
     <color name="select_meds_unchecked">#258EC6</color>
     <color name="select_meds_checked">#64AACF</color>
     <color name="dark_blue">#192841</color>
+    <color name="grey">#606060</color>
+    <color name="mid_light_grey">#909090</color>
+    <color name="light_grey">#E5E5E5</color>
+    <color name="ultralight_grey">#F0F0F0</color>
     <color name="light_gray">#E5E5E5</color>
     <color name="gray">#707070</color>
     <color name="light_red">#FEC4C1</color>
