@@ -1,4 +1,5 @@
-package com.github.h3lp3rs.h3lp.util
+package com.github.h3lp3rs.h3lp
+import com.github.h3lp3rs.h3lp.util.GDurationJSONParser
 import junit.framework.Assert.assertEquals
 import org.json.JSONObject
 import org.junit.Test
@@ -15,10 +16,10 @@ class GDurationJSONParserTest {
         val expected = ""
 
         val emptyJson = JSONObject("{}")
-        assertEquals(expected, parser.parseResult(emptyJson))
+        assertEquals(expected, GDurationJSONParser.parseResult(emptyJson))
 
         val wrongJson = JSONObject("{results: 0.0}")
-        assertEquals(expected, parser.parseResult(wrongJson))
+        assertEquals(expected, GDurationJSONParser.parseResult(wrongJson))
     }
 
     @Test

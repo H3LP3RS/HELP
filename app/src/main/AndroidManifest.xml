@@ -31,6 +31,12 @@
             android:name=".HelpPageActivity"
             android:exported="true" />
         <activity
+            android:name=".professional.VerificationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".professional.ProMainActivity"
+            android:exported="false" />
+        <activity
             android:name=".MySkillsActivity"
             android:exported="false" />
         <activity
