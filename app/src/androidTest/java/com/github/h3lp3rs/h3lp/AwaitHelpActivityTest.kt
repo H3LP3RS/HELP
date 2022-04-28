@@ -95,8 +95,8 @@ class AwaitHelpActivityTest {
 
         val phoneButton = onView(withId(R.id.await_help_call_button))
 
-        phoneButton.check(matches(isDisplayed()))
-        phoneButton.perform(click())
+        //phoneButton.check(matches(isDisplayed()))
+        phoneButton.inRoot(RootMatchers.isFocusable()).perform(click())
 
         // click the ambulance in the popup
         onView(withId(R.id.ambulance_call_button)).inRoot(RootMatchers.isFocusable()).perform(click())
@@ -118,8 +118,8 @@ class AwaitHelpActivityTest {
         // Clicking on the call for emergency button
         val phoneButton = onView(withId(R.id.await_help_call_button))
 
-        phoneButton.check(matches(isDisplayed()))
-        phoneButton.perform(click())
+        phoneButton.inRoot(RootMatchers.isFocusable()).check(matches(isDisplayed()))
+        phoneButton.inRoot(RootMatchers.isFocusable()).perform(click())
 
         // click the contact button in the popup
         onView(withId(R.id.contact_call_button)).inRoot(RootMatchers.isFocusable()).perform(click())
@@ -140,8 +140,8 @@ class AwaitHelpActivityTest {
     fun callEmergenciesFromPopUpWorksAndSendsIntent() {
         val phoneButton = onView(withId(R.id.open_call_popup_button))
 
-        phoneButton.check(matches(isDisplayed()))
-        phoneButton.perform(click())
+        phoneButton.inRoot(RootMatchers.isFocusable()).check(matches(isDisplayed()))
+        phoneButton.inRoot(RootMatchers.isFocusable()).perform(click())
 
         intended(
             allOf(
