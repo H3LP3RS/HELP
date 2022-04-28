@@ -2,15 +2,15 @@ package com.github.h3lp3rs.h3lp.professional
 
 import android.content.Intent
 import android.net.Uri
-import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.intent.Intents
-import androidx.test.espresso.intent.Intents.init
-import androidx.test.espresso.intent.Intents.release
+import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasType
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.R
@@ -52,13 +52,13 @@ class VerificationActivityTest {
 
     @Test
     fun chooseImgButtonWorks() {
-        Espresso.onView(ViewMatchers.withId(R.id.button_choose_img)).check(
+        onView(withId(R.id.button_choose_img)).check(
             matches(
                 isDisplayed()
             )
         ).perform(ViewActions.click())
-        Intents.intended(IntentMatchers.hasType(INTENT_TYPE))
-        Intents.intended(IntentMatchers.hasAction(Intent.ACTION_GET_CONTENT))
+        intended(hasType(INTENT_TYPE))
+        intended(hasAction(Intent.ACTION_GET_CONTENT))
     }
 
     @Test
@@ -70,7 +70,7 @@ class VerificationActivityTest {
 
         // Mock the Firebase cloud storage
         val storageMock = Mockito.mock(StorageReference::class.java)
-        VerificationActivity.storageRef = storageMock
+        CloudStorage.set(storageMock)
 
         // Mock the uploading task
         val task = Mockito.mock(UploadTask::class.java)
@@ -87,13 +87,13 @@ class VerificationActivityTest {
         Mockito.`when`(storageMock.putFile(any())).thenReturn(task)
         Mockito.`when`(storageMock.child(any())).thenReturn(storageMock)
 
-        Espresso.onView(ViewMatchers.withId(R.id.button_upload)).check(
+        onView(withId(R.id.button_upload)).check(
             matches(
                 isDisplayed()
             )
         ).perform(ViewActions.click())
 
-        Intents.intended(IntentMatchers.hasComponent(ProMainActivity::class.java.name))
+        intended(IntentMatchers.hasComponent(ProMainActivity::class.java.name))
     }
 
 }

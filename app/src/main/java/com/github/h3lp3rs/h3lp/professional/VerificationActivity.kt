@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.webkit.MimeTypeMap
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
@@ -30,17 +29,17 @@ class VerificationActivity : AppCompatActivity() {
         var imgUri: Uri? = null
 
         // Database representing the professional users authenticated
-        val db = Databases.databaseOf(Databases.PRO_USERS)
+        private val db = Databases.databaseOf(Databases.PRO_USERS)
 
         // Reference to the Firebase cloud storage
-        var storageRef = FirebaseStorage.getInstance().getReference("uploads")
+        private lateinit var storageRef: StorageReference
 
         // Type of the intent to launch when choosing an image from the device
         private const val INTENT_TYPE = "image/*"
         private const val UPLOAD_FAILURE_MSG = "Upload failed. Try again!"
         var currentUserId = SignInActivity.userUid.toString()
         var currentUserName = GoogleSignInAdapter.auth.currentUser?.displayName.toString()
-
+        private const val DELAY : Long = 5000
     }
 
     // Layout components
@@ -69,7 +68,7 @@ class VerificationActivity : AppCompatActivity() {
     }
 
     /**
-     * Opens the image file chooser of the device inorder to select an image
+     * Opens the image file chooser of the device in order to select an image
      */
     private fun openFileChooser() {
         val intent = Intent()
@@ -83,10 +82,14 @@ class VerificationActivity : AppCompatActivity() {
      */
     private val resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK && result.data != null && result.data!!.data != null) {
-                imgUri = result.data!!.data!!
-                // Display the selected image
-                Picasso.with(this).load(imgUri).into(img)
+            result.data?.let { data ->
+                data.data?.let {
+                    if (result.resultCode == Activity.RESULT_OK) {
+                        imgUri = it
+                        // Display the selected image
+                        Picasso.with(this).load(imgUri).into(img)
+                    }
+                }
             }
         }
 
@@ -94,30 +97,31 @@ class VerificationActivity : AppCompatActivity() {
      * Retrieves the file extension
      *
      * @param uri Uri of the file
-     * @return the extension of the file
+     * @return The extension of the file
      */
     private fun getFileExtension(uri: Uri): String? {
         return MimeTypeMap.getSingleton().getExtensionFromMimeType(contentResolver.getType(uri))
     }
 
     /**
-     * Uploads the selected file into the cloud storage as well as the stores the current user in the authenticated users
+     * Uploads the selected file into the cloud storage and stores the current user in the authenticated users
      * database
      */
     private fun uploadFile() {
-        if (imgUri != null) {
+        imgUri?.let { uri ->
             // Creates a file in the cloud storage with the current time as name (Sufficient to avoid collision but can be redesigned in the future )
+            storageRef = CloudStorage.get()
             val fileReference: StorageReference = storageRef.child(
                 System.currentTimeMillis().toString() + "." + getFileExtension(
-                    imgUri!!
+                   uri
                 )
             )
             // Stores the file the cloud storage
-            fileReference.putFile(imgUri!!).addOnSuccessListener {
+            fileReference.putFile(uri).addOnSuccessListener {
                 // A delay to be able to see the progress bar at 100% before redirection
                 Handler(Looper.getMainLooper()).postDelayed({
                     progressBar.progress = 0
-                }, 5000)
+                }, DELAY)
 
                 val proUser = ProUser(
                     id = currentUserId,
