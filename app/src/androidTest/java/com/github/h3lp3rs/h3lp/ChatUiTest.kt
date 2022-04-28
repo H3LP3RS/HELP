@@ -9,6 +9,8 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
+import androidx.test.espresso.intent.Intents
+import androidx.test.espresso.intent.Intents.init
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.github.h3lp3rs.h3lp.messaging.ChatActivity
 import com.github.h3lp3rs.h3lp.messaging.Conversation
@@ -45,11 +47,14 @@ class ChatUiTest {
 
         conversationFrom = Conversation(CONVERSATION_ID, currentMessenger)
         conversationTo = Conversation(CONVERSATION_ID,toMessenger)
+
+        init()
     }
 
     @After
     fun release() {
         conversationFrom.deleteConversation()
+        Intents.release()
     }
 
     @Test

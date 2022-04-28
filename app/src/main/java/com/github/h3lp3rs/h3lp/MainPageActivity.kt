@@ -2,8 +2,11 @@ package com.github.h3lp3rs.h3lp
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager.PERMISSION_GRANTED
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -113,13 +116,36 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         setUpSearchView()
 
         if (checkSelfPermission(this, ACCESS_FINE_LOCATION) != PERMISSION_GRANTED) {
-            requestPermissions(arrayOf(ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+            showExplanationAndRequestPermissions()
         }
 
         // Start help listener
         activateHelpListeners()
 
         startAppGuide()
+    }
+
+    /**
+     * Opens a popup explaining why the app needs permission with a nice image.
+     * Once the user closes the popup, the formal system permission is asked.
+     */
+    private fun showExplanationAndRequestPermissions() {
+        val dialog = Dialog(this)
+        val emergencyCallPopup = layoutInflater.inflate(R.layout.localization_permission_popup, null)
+
+        dialog.setCancelable(false)
+        dialog.setContentView(emergencyCallPopup)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        dialog.create()
+
+        // pass button
+        emergencyCallPopup.findViewById<Button>(R.id.accept_permission_popup_button).setOnClickListener {
+            dialog.dismiss()
+            requestPermissions(arrayOf(ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+        }
+
+        dialog.show()
     }
 
     /**

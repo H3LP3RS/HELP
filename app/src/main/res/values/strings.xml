@@ -316,6 +316,8 @@
     <string name="latest_messages">"   Latest messages"</string>
     <string name="textview_last_message">last Message</string>
     <string name="textview_username">username</string>
+    <string name="accept_popup_button">I accept</string>
+    <string name="permission_popup_text">The app is based on mutual aid and allows you to get help or help other people near you. In order to achieve that the app requires exact access to your localization in order to function properly.\n\n This data is stored safely on your phone and sent to a safe online database only when you send help requests.</string>
     <string name="scroll3on3">○○●</string>
     <string name="scroll2on3">○●○</string>
     <string name="scroll1on3">●○○</string>
@@ -333,4 +335,5 @@
     <string name="select_status">Select your status</string>
     <string name="professional_user">Professional user</string>
     <string name="normal_user">Normal user</string>
+    <string name="permission_popup_title">Access to localization</string>
 </resources>
