@@ -306,4 +306,10 @@
     <string name="need_help_app">I need some help</string>
     <string name="i_found_a_bug">I found a bug</string>
     <string name="i_got_a_suggestion">I got a suggestion</string>
+    <string name="type_your_message">Type your message...</string>
+    <string name="sender_s_text">Sender\'s text</string>
+    <string name="receiver_s_text">Receiver\'s text</string>
+    <string name="latest_messages">"   Latest messages"</string>
+    <string name="textview_last_message">last Message</string>
+    <string name="textview_username">username</string>
 </resources>
