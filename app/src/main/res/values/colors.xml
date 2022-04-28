@@ -23,5 +23,6 @@
     <color name="red">#FF0000</color>
     <color name="semiDarkTransparent">#C6000000</color>
     <color name="persimmon">#Fe6752</color>
+    <color name="yellow_orange">#ffb037</color>
 
 </resources>

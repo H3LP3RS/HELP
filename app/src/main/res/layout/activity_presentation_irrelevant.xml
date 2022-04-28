@@ -113,7 +113,7 @@
         android:layout_height="46dp"
         android:onClick="sendApproval"
         android:text="@string/ok"
-        android:backgroundTint="@color/persimmon"
+        android:backgroundTint="@color/yellow_orange"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.756"
@@ -170,14 +170,14 @@
         android:contentDescription="@string/tosbox"
         android:text=""
         android:textColor="@color/light_gray"
-        android:textColorHighlight="@color/persimmon"
-        android:textColorLink="@color/persimmon"
+        android:textColorHighlight="@color/yellow_orange"
+        android:textColorLink="@color/yellow_orange"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.286"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.912"
-        android:buttonTint="@color/persimmon"/>
+        android:buttonTint="@color/yellow_orange"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
