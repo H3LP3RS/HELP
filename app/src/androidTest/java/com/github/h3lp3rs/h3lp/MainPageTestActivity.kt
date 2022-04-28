@@ -62,6 +62,8 @@ class MainPageTestActivity {
         globalContext = getApplicationContext()
         userUid = USER_TEST_ID
         setDatabase(PREFERENCES, MockDatabase())
+        setDatabase(PRO_USERS, MockDatabase())
+        proUsersDb = Databases.databaseOf(PRO_USERS)
         resetStorage()
         storageOf(USER_COOKIE).setBoolean(GUIDE_KEY, true)
     }
