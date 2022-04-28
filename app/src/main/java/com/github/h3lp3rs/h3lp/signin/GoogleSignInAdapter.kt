@@ -20,7 +20,7 @@ import java.util.*
  * It is used as the central sign in interface in the app
  */
 object GoogleSignInAdapter: SignInInterface<AuthResult> {
-    private var auth: FirebaseAuth = Firebase.auth
+    var auth: FirebaseAuth = Firebase.auth
     lateinit var gso: GoogleSignInOptions
 
     private const val SERVER_CLIENT_ID =
@@ -91,10 +91,6 @@ object GoogleSignInAdapter: SignInInterface<AuthResult> {
         return auth.currentUser != null
     }
 
-    /**
-     * Get tje unique id of the user
-     * @return uid (null if not signed in)
-     */
     override fun getUid(): String? {
         return auth.currentUser?.uid
     }

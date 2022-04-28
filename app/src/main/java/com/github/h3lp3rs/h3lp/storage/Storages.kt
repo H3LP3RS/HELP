@@ -1,6 +1,5 @@
 package com.github.h3lp3rs.h3lp.storage
 
-import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.getGlobalCtx
 import java.lang.Boolean.parseBoolean
 
@@ -8,7 +7,7 @@ import java.lang.Boolean.parseBoolean
  * Enumeration of all useful (local) storages in H3LP
  */
 enum class Storages() {
-    USER_COOKIE(), MEDICAL_INFO(), SKILLS();
+    USER_COOKIE(), MEDICAL_INFO(), SKILLS(),EMERGENCIES_RECEIVED();
 
     private val ls = LocalStorage(name, getGlobalCtx())
     private var isFresh = false

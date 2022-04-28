@@ -10,16 +10,24 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat.OnRequestPermissionsResultCallback
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.github.h3lp3rs.h3lp.database.Databases
+import com.github.h3lp3rs.h3lp.database.Databases.*
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.activateHelpListeners
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
+import com.github.h3lp3rs.h3lp.dataclasses.HelperSkills
 import com.github.h3lp3rs.h3lp.notification.NotificationService
+import com.github.h3lp3rs.h3lp.notification.NotificationService.Companion.createNotificationChannel
+import com.github.h3lp3rs.h3lp.notification.NotificationService.Companion.sendOpenActivityNotification
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
+import com.github.h3lp3rs.h3lp.professional.ProMainActivity
+import com.github.h3lp3rs.h3lp.professional.ProUser
+import com.github.h3lp3rs.h3lp.professional.VerificationActivity
+import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
@@ -76,12 +84,12 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     private lateinit var storage: LocalStorage
 
     // List of searchable elements
-    private var searchBarElements: ArrayList<String> = ArrayList()
+    private var searchBarElements : ArrayList<String> = ArrayList()
 
     // Adapter for the list view
-    lateinit var adapter: ArrayAdapter<*>
+    lateinit var adapter : ArrayAdapter<*>
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState : Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_page)
         // Load the storage
@@ -109,7 +117,9 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
             requestPermissions(arrayOf(ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
         }
 
-        //addAlertNotification()
+        // Start help listener
+        activateHelpListeners()
+
         startAppGuide()
     }
 
@@ -152,7 +162,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
      * @param showNextGuide Called once a prompt is shown for all the buttons in the list.
      */
     private fun showButtonPrompt(
-        buttons: List<MainPageButton>, idToPrompt: Map<Int, Int>, showNextGuide: () -> Unit
+        buttons : List<MainPageButton>, idToPrompt : Map<Int, Int>, showNextGuide : () -> Unit
     ) {
         if (buttons.isEmpty()) return showNextGuide()
         // We show the prompt for the head of the list.
@@ -181,7 +191,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         }
     }
 
-    private fun scrollTo(buttonId: Int) {
+    private fun scrollTo(buttonId : Int) {
         val sv = findViewById<HorizontalScrollView>(R.id.horizontalScrollView)
         sv.requestChildFocus(findViewById(buttonId), findViewById(buttonId))
     }
@@ -227,7 +237,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
      */
     private fun setUpSearchView() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
+            override fun onQueryTextSubmit(query : String) : Boolean {
                 if (searchBarElements.contains(query)) {
                     adapter.filter.filter(query)
                 } else {
@@ -236,7 +246,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
                 return false
             }
 
-            override fun onQueryTextChange(newText: String): Boolean {
+            override fun onQueryTextChange(newText : String) : Boolean {
                 if (newText.isEmpty()) {
                     // When the text field of the search bar is empty, the list is hidden
                     listView.visibility = View.GONE
@@ -261,8 +271,8 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
      * Sets up the drawer layout used for the side bar menu.
      */
     private fun setUpDrawerLayout() {
-        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
-        val navView: NavigationView = findViewById(R.id.nav_view)
+        val drawerLayout : DrawerLayout = findViewById(R.id.drawer_layout)
+        val navView : NavigationView = findViewById(R.id.nav_view)
 
         toggle =
             ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_open, R.string.drawer_closed)
@@ -274,7 +284,6 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         navView.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.nav_profile -> goToProfileActivity(findViewById(R.id.button_profile))
-                R.id.nav_settings -> goToSettings(findViewById(R.id.button_profile))
                 R.id.nav_home -> findViewById<DrawerLayout>(R.id.drawer_layout).closeDrawer(
                     GravityCompat.START
                 )
@@ -283,38 +292,16 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         }
     }
 
-    // Demo code
-    // This code is used for sprint demo porpose only
-    // juste uncomment line 109
-    // This will send notification when somebody trigger ventolin on the db
-    private fun addAlertNotification() {
-        val db = databaseOf(Databases.NEW_EMERGENCIES)
-        db.addListener(getString(R.string.ventolin_db_key), String::class.java) {
-            if (it.equals(getString(R.string.help))) {
-                db.setString(getString(R.string.ventolin_db_key), getString(R.string.nothing))
-                NotificationService.createNotificationChannel(this)
-                NotificationService.sendOpenActivityNotification(
-                    this,
-                    getString(R.string.emergency),
-                    getString(R.string.need_help),
-                    HelpPageActivity::class.java
-                )
-            }
-        }
-    }
-
-
     /**
      * Starts activity based on the entered element in the search field.
      */
-    private fun findActivity(listItem: String, view: View) {
+    private fun findActivity(listItem : String, view : View) {
         when (listItem) {
             PROFILE -> goToProfileActivity(view)
             CPR_RATE -> goToCprActivity(view)
             TUTORIAL -> viewPresentation(view)
             HOSPITALS -> goToNearbyHospitals(view)
             PHARMACIES -> goToNearbyPharmacies(view)
-            SETTINGS -> goToSettings(view)
         }
     }
 
@@ -323,7 +310,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
      * @param message message to display
      * @param view the view under which the message is shown
      */
-    private fun displayMessage(message: String, view: View) {
+    private fun displayMessage(message : String, view : View) {
         Snackbar.make(window.decorView.rootView, message, Snackbar.LENGTH_SHORT).setAnchorView(view)
             .show()
     }
@@ -333,16 +320,14 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         displayMessage(getString(R.string.match_not_found), horizontalScrollView)
     }
 
-    private fun displaySelectedItem(item: String) {
+    private fun displaySelectedItem(item : String) {
         val horizontalScrollView = findViewById<View>(R.id.horizontalScrollView)
         displayMessage("Selected item : $item", horizontalScrollView)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.button_tutorial) {
+    override fun onOptionsItemSelected(item : MenuItem) : Boolean {
+        if(item.itemId==R.id.button_tutorial){
             viewPresentation(findViewById<View>(android.R.id.content).rootView)
-        } else if (item.itemId == R.id.toolbar_settings) {
-            goToActivity(SettingsActivity::class.java)
         }
         // TODO ( Allow user to choose data he would like to keep private aka not sent to the database)
 
@@ -350,7 +335,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     }
 
     override fun onRequestPermissionsResult(
-        requestCode: Int, permissions: Array<String>, grantResults: IntArray
+        requestCode : Int, permissions : Array<String>, grantResults : IntArray
     ) {
         if (requestCode != LOCATION_PERMISSION_REQUEST_CODE) {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -422,12 +407,12 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     }
 
     /** Called when the user taps the nearby pharmacies button */
-    fun goToNearbyPharmacies(view: View) {
+    fun goToNearbyPharmacies(view : View) {
         goToNearbyUtilities(resources.getString(R.string.nearby_phamacies))
     }
 
     /** Called when the user taps the first aid tips button */
-    fun goToFirstAid(view: View) {
+    fun goToFirstAid(view : View) {
         goToActivity(FirstAidActivity::class.java)
     }
 
@@ -437,6 +422,21 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     }
 
     private fun goToNearbyUtilities(utility: String) {
+    /** Called when the user taps the professional portal  button */
+    fun goToProfessionalPortal(view : View) {
+        val db = databaseOf(PRO_USERS)
+        db.getObject(SignInActivity.userUid.toString(), ProUser::class.java).handle { _, err ->
+            if(err != null){
+                // If there is no proof of the status of the current user in the database, launch the verification process
+                goToActivity(VerificationActivity::class.java)
+                return@handle
+            }
+            // Otherwise, redirect to the professional main page
+            goToActivity(ProMainActivity::class.java)
+        }
+    }
+
+    private fun goToNearbyUtilities(utility : String) {
         val intent = Intent(this, NearbyUtilitiesActivity::class.java).apply {
             putExtra(EXTRA_NEARBY_UTILITIES, utility)
         }

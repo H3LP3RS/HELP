@@ -13,6 +13,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
@@ -33,6 +34,12 @@
             android:name=".MainPageActivity"
             android:exported="false" />
         <activity
+            android:name=".professional.VerificationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".professional.ProMainActivity"
+            android:exported="false" />
+        <activity
             android:name=".MySkillsActivity"
             android:exported="false" />
         <activity
@@ -42,6 +49,7 @@
             android:name=".firstaid.AedActivity"
             android:exported="false" />
         <activity
+
             android:name=".firstaid.HeartAttackActivity"
             android:exported="false" />
         <activity
@@ -56,9 +64,9 @@
             sign the APK for publishing.
         -->
         <meta-data
+
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-
         <activity
             android:name=".NearbyUtilitiesActivity"
             android:exported="false" />

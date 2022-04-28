@@ -70,7 +70,7 @@ interface Database {
      * @param type The type of the resulting object
      * @return Future of the object
      */
-    fun <T> getObject(key: String, type: Class<T>): CompletableFuture<T> {
+    fun <T> getObject(key: String, type: Class <T>): CompletableFuture<T> {
         val gson = Gson()
         return getString(key).thenApply { s -> gson.fromJson(s, type) }
     }
@@ -116,7 +116,16 @@ interface Database {
      * @param key The key in the database
      * @param action The action taken at change
      */
-    fun <T> addListener(key: String, type: Class<T>, action: (T) -> Unit)
+    fun <T> addListener(key: String, type: Class <T>, action: (T) -> Unit)
+
+    /**
+     * Applies an arbitrary action when the value associated to the key changes
+     * WARNING: This function automatically triggers at first when linked with a valid key
+     * Only succeeds when no existing listener is already linked to the key
+     * @param key The key in the database
+     * @param action The action taken at change
+     */
+    fun <T> addListenerIfNotPresent(key: String, type: Class <T>, action: (T) -> Unit)
 
     /**
      * Applies an arbitrary action when the list of values associated to the key changes
@@ -136,6 +145,11 @@ interface Database {
     fun clearListeners(key: String)
 
     /**
+     * Clears all listeners related for this database
+     */
+    fun clearAllListeners()
+
+    /**
      * Deletes an entry of a given key from the database
      * @param key The key in the database
      */
@@ -147,7 +161,7 @@ interface Database {
      * @param key The key in the database
      * @param increment The number to increment by
      * @param onComplete The callback to be called with the new value (the new value can be null
-     * in case of a database error, thus why onComplete takes a nullable String)
+     * in case of a database error, thus why onComplete takes a nullable Int)
      */
-    fun incrementAndGet(key: String, increment: Int, onComplete: (String?) -> Unit)
+    fun incrementAndGet(key: String, increment: Int, onComplete: (Int?) -> Unit)
 }

@@ -80,7 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/searchBar"
             android:divider="#ad5"
-            android:background="@color/light_grey"
+            android:background="@color/light_gray"
             android:dividerHeight="2dp" />
 
         <SearchView
@@ -90,7 +90,7 @@
             android:layout_below="@+id/staySafe"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="50dp"
-            android:background="@color/light_grey"
+            android:background="@color/light_gray"
             android:iconifiedByDefault="false"
             android:queryHint="Search..."
             android:searchIcon="@drawable/search" />
@@ -161,8 +161,8 @@
                         android:layout_width="@dimen/scroll_view_inside_layout"
                         android:layout_height="@dimen/scroll_view_inside_layout"
                         android:layout_centerInParent="true"
-                        android:backgroundTint="@color/white"
                         android:background="@drawable/round_style"
+                        android:backgroundTint="@color/white"
                         android:orientation="vertical">
 
                         <ImageButton
@@ -254,7 +254,7 @@
                             android:layout_marginTop="@dimen/margin_image_inside_layout"
                             android:background="@drawable/education"
                             android:contentDescription="@string/tips_button"
-                            android:onClick="goToFirstAid"/>
+                            android:onClick="goToFirstAid" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -308,6 +308,45 @@
                     </LinearLayout>
 
                 </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="@dimen/scroll_view_outside_layout"
+                    android:layout_height="@dimen/scroll_view_outside_layout"
+                    android:background="@drawable/round_style"
+                    android:backgroundTint="@color/teal_400"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="@dimen/scroll_view_inside_layout"
+                        android:layout_height="@dimen/scroll_view_inside_layout"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/round_style"
+                        android:backgroundTint="@color/white"
+                        android:orientation="vertical">
+
+                        <ImageButton
+                            android:id="@+id/button_pro"
+                            android:layout_width="@dimen/image_button_home_page"
+                            android:layout_height="@dimen/image_button_home_page"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="@dimen/margin_image_inside_layout"
+                            android:background="@drawable/professional"
+                            android:contentDescription="@string/professional_portal"
+                            android:onClick="goToProfessionalPortal" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="@dimen/scroll_view_margin_text"
+                            android:text="@string/professional_portal"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/icon_font"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
             </LinearLayout>
 
         </HorizontalScrollView>
@@ -316,7 +355,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="@color/light_grey">
+            android:background="@color/light_gray">
 
             <LinearLayout
                 android:layout_width="wrap_content"
