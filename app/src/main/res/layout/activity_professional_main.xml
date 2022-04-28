@@ -80,7 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/searchBar"
             android:divider="#ad5"
-            android:background="@color/light_grey"
+            android:background="@color/light_gray"
             android:dividerHeight="2dp" />
 
         <SearchView
@@ -90,7 +90,7 @@
             android:layout_below="@+id/staySafe"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="50dp"
-            android:background="@color/light_grey"
+            android:background="@color/light_gray"
             android:iconifiedByDefault="false"
             android:queryHint="Search..."
             android:searchIcon="@drawable/search" />
