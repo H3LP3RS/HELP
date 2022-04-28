@@ -7,6 +7,7 @@ import com.github.h3lp3rs.h3lp.EXTRA_HELPEE_ID
 import com.github.h3lp3rs.h3lp.EXTRA_USER_ROLE
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.database.Databases
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.messaging.Messenger.HELPEE
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
@@ -25,6 +26,8 @@ class LatestMessagesActivity : AppCompatActivity() {
 
         val bundle = this.intent.extras
         helpeeId = bundle?.getString(EXTRA_HELPEE_ID) ?: helpeeId
+
+        databaseOf(Databases.MESSAGES).setString("HEWIEWEWE", helpeeId!!)
 
         adapter.setOnItemClickListener { item, view ->
             val userItem = item as HelperConversation

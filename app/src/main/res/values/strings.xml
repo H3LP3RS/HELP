@@ -62,7 +62,7 @@
     <string name="h3lp_doesn_t_allow_you_to">H3LP doesn\'t </string>
     <string name="ascii_left_arrow">⟨</string>
     <string name="presentation_placeholder_bad_3">Let you have access to other\'s data</string>
-    <string name="presentation_placeholder_bad_2">Store your medical information without \n your consent</string>
+    <string name="presentation_placeholder_bad_2">Store your medical information without your consent</string>
     <string name="presentation_placeholder_bad_1">Sell your medical data to 3rd parties</string>
     <string name="red_cross">Red cross</string>
     <string name="info_box">Info box</string>
@@ -126,7 +126,7 @@
     <string name="help">H3LP!</string>
     <string name="nothing">nothing</string>
     <string name="emergency">Emergency</string>
-    <string name="need_help"> Hind needs a ventolin </string>
+    <string name="need_help"> HELP I NEED YOU ! </string>
     <string name="button_selected">Selected</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
@@ -259,7 +259,7 @@
     <string name="asthma_step1">Reassure the casualty and ask them to take their usual dose of their reliever inhaler. Ask them to breathe slowly.</string>
     <string name="asthma_step2">If they don’t improve within a few minutes, ask them to take a puff every 30 to 60 seconds, until they have had 10 puffs.</string>
     <string name="asthma_step3">Monitor their breathing and level of response. If the ambulance hasn\'t arrived within 15 minutes, repeat step 2.</string>
-    <string name="match_not_found">oops... match not found</string>
+    <string name="match_not_found">oops… match not found</string>
     <string name="AppGuideFinished">Congratulations! You\'re done</string>
     <string name="guide_primary_prompt">Click me!</string>
     <string name="tuto_guide_prompt">Here you can get a sense of what the app allows you to do</string>
@@ -291,11 +291,15 @@
     <string name="allergies_tuto_button">allergies tutorial</string>
     <string name="heart_attack_tuto_button">heart attack tutorial</string>
     <string name="tutorials">Tutorials</string>
-    <string name="progress_bar_waiting_help">Looking for help nearby...</string>
+    <string name="progress_bar_waiting_help">Looking for help nearby…</string>
     <string name="helper_marker_desc">Helper coming to help you</string>
     <string name="pop_up_call_emergencies_text">We are currently looking for help nearby. If you require medical assistance, we highly recommend that you still call the local emergency services with the button below and mention that you are using our app.</string>
     <string name="did_you_call_emergency_services_popup">Did you call emergency services?</string>
-    <string name="type_your_message">Type your message...</string>
+    <string name="EMERGENCY_UID_KEY">CurrentEmergencyUid</string>
+    <string name="AT_LEAST_ONE_ITEM">Please select at least one item</string>
+    <string name="one_person_help">1 person is coming to help you</string>
+    <string name="many_people_help">%d people are coming to help you</string>
+    <string name="type_your_message">Type your message…</string>
     <string name="sender_s_text">Sender\'s text</string>
     <string name="receiver_s_text">Receiver\'s text</string>
     <string name="latest_messages">"   Latest messages"</string>
@@ -303,5 +307,21 @@
     <string name="textview_username">username</string>
     <string name="accept_popup_button">I accept</string>
     <string name="permission_popup_text">The app is based on mutual aid and allows you to get help or help other people near you. In order to achieve that the app requires exact access to your localization in order to function properly.\n\n This data is stored safely on your phone and sent to a safe online database only when you send help requests.</string>
-    <string name="permission_popup_title">Access to localization</string>
+    <string name="scroll3on3">○○●</string>
+    <string name="scroll2on3">○●○</string>
+    <string name="scroll1on3">●○○</string>
+    <string name="professional_portal">Professional portal</string>
+    <string name="pro_welcome">Welcome to the H3LP professional portal</string>
+    <string name="upload_message">Please upload a proof of your professional status</string>
+    <string name="choose_file">Choose File</string>
+    <string name="enter_file_name">Enter file name</string>
+    <string name="upload">Upload</string>
+    <string name="welcome_pro">Welcome to the H3LP professional portal!</string>
+    <string name="pro_quote">Not all heroes wear capes</string>
+    <string name="faq">FAQ</string>
+    <string name="blood_request">Blood request</string>
+    <string name="emergencies">Emergencies</string>
+    <string name="select_status">Select your status</string>
+    <string name="professional_user">Professional user</string>
+    <string name="normal_user">Normal user</string>
 </resources>

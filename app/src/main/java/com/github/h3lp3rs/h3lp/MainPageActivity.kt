@@ -19,9 +19,18 @@ import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.github.h3lp3rs.h3lp.database.Databases
+import com.github.h3lp3rs.h3lp.database.Databases.*
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.activateHelpListeners
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
+import com.github.h3lp3rs.h3lp.dataclasses.HelperSkills
 import com.github.h3lp3rs.h3lp.notification.NotificationService
+import com.github.h3lp3rs.h3lp.notification.NotificationService.Companion.createNotificationChannel
+import com.github.h3lp3rs.h3lp.notification.NotificationService.Companion.sendOpenActivityNotification
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
+import com.github.h3lp3rs.h3lp.professional.ProMainActivity
+import com.github.h3lp3rs.h3lp.professional.ProUser
+import com.github.h3lp3rs.h3lp.professional.VerificationActivity
+import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
@@ -110,7 +119,9 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
             showExplanationAndRequestPermissions()
         }
 
-        //addAlertNotification()
+        // Start help listener
+        activateHelpListeners()
+
         startAppGuide()
     }
 
@@ -306,22 +317,6 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         }
     }
 
-    // Demo code
-    // This code is used for sprint demo porpose only
-    // juste uncomment line 109
-    // This will send notification when somebody trigger ventolin on the db
-    private fun addAlertNotification() {
-        val db = databaseOf(Databases.NEW_EMERGENCIES)
-        db.addListener(getString(R.string.ventolin_db_key), String::class.java) {
-            if (it.equals(getString(R.string.help))) {
-                db.setString(getString(R.string.ventolin_db_key), getString(R.string.nothing))
-                NotificationService.createNotificationChannel(this)
-                NotificationService.sendOpenActivityNotification(this,getString(R.string.emergency), getString(R.string.need_help),HelpPageActivity::class.java)
-            }
-        }
-    }
-
-
     /**
      * Starts activity based on the entered element in the search field.
      */
@@ -445,6 +440,20 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     /** Called when the user taps the first aid tips button */
     fun goToFirstAid(view : View) {
         goToActivity(FirstAidActivity::class.java)
+    }
+
+    /** Called when the user taps the professional portal  button */
+    fun goToProfessionalPortal(view : View) {
+        val db = databaseOf(PRO_USERS)
+        db.getObject(SignInActivity.userUid.toString(), ProUser::class.java).handle { _, err ->
+            if(err != null){
+                // If there is no proof of the status of the current user in the database, launch the verification process
+                goToActivity(VerificationActivity::class.java)
+                return@handle
+            }
+            // Otherwise, redirect to the professional main page
+            goToActivity(ProMainActivity::class.java)
+        }
     }
 
     private fun goToNearbyUtilities(utility : String) {

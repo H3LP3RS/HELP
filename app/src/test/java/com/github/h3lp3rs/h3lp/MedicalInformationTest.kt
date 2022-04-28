@@ -1,5 +1,8 @@
 package com.github.h3lp3rs.h3lp
 
+import com.github.h3lp3rs.h3lp.dataclasses.BloodType
+import com.github.h3lp3rs.h3lp.dataclasses.Gender
+import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation
 import org.junit.Test
 import org.junit.Assert.*
 import java.util.*
@@ -9,7 +12,8 @@ class MedicalInformationTest {
     @Test
     fun badSizeThrowIAE() {
         assertThrows(IllegalArgumentException::class.java) {
-            MedicalInformation(MedicalInformation.MIN_HEIGHT-1,MedicalInformation.MAX_WEIGHT-1,Gender.Male,MedicalInformation.MIN_YEAR+1,"","","",BloodType.ABn)
+            MedicalInformation(MedicalInformation.MIN_HEIGHT-1,MedicalInformation.MAX_WEIGHT-1,
+                Gender.Male,MedicalInformation.MIN_YEAR+1,"","","", BloodType.ABn)
         }
         assertThrows(IllegalArgumentException::class.java) {
             MedicalInformation(MedicalInformation.MAX_HEIGHT+1,MedicalInformation.MAX_WEIGHT-1,Gender.Male,MedicalInformation.MIN_YEAR+1,"","","",BloodType.ABn)
