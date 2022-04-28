@@ -416,6 +416,11 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         goToActivity(FirstAidActivity::class.java)
     }
 
+    /** Called when the user taps the first aid tips button */
+    fun goToSettings(view: View) {
+        goToActivity(SettingsActivity::class.java)
+    }
+
     /** Called when the user taps the professional portal  button */
     fun goToProfessionalPortal(view : View) {
         val db = databaseOf(PRO_USERS)
