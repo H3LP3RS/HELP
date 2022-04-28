@@ -264,7 +264,7 @@
               android:backgroundTint="@android:color/transparent"
               android:drawableEnd="@drawable/ic_delete"
               android:fontFamily="sans-serif"
-              android:onClick="removeSync"
+              android:onClick="clearSync"
               android:stateListAnimator="@null"
               android:text="@string/remove_sync"
               android:textAlignment="viewStart"

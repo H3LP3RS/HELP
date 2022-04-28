@@ -68,21 +68,23 @@ class SettingsActivityTest {
             release()
         }
     }
+
     @Test
     fun removeSyncButtonWorks() {
-       launch().use {
-           val db = MockDatabase()
-           db.setString("SKILLS/$USER_TEST_ID","hi")
-           db.setString("USER_COOKIE/$USER_TEST_ID","hi")
-           db.setString("MEDICAL_INFO/$USER_TEST_ID","hi")
-           PREFERENCES.db=db
-           onView(withId(R.id.buttonRemoveSynch)).perform(click())
+        launch().use {
+            val db = MockDatabase()
+            val txt = "txt"
+            db.setString("SKILLS/$USER_TEST_ID", txt)
+            db.setString("USER_COOKIE/$USER_TEST_ID", txt)
+            db.setString("MEDICAL_INFO/$USER_TEST_ID", txt)
+            PREFERENCES.db = db
+            onView(withId(R.id.buttonRemoveSynch)).perform(click())
 
             assert(db.getString("SKILLS/$USER_TEST_ID").isCompletedExceptionally)
-           assert(db.getString("USER_COOKIE/$USER_TEST_ID").isCompletedExceptionally)
-           assert(db.getString("MEDICAL_INFO/$USER_TEST_ID").isCompletedExceptionally)
+            assert(db.getString("USER_COOKIE/$USER_TEST_ID").isCompletedExceptionally)
+            assert(db.getString("MEDICAL_INFO/$USER_TEST_ID").isCompletedExceptionally)
 
-       }
+        }
 
 
     }

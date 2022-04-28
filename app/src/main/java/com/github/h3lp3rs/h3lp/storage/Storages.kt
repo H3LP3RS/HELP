@@ -15,7 +15,8 @@ enum class Storages() {
 
     companion object {
 
-        const val SyncPref :String = "SyncPref"
+        const val SyncPref: String = "SyncPref"
+
         /**
          * Instantiates the storage of the corresponding type
          * If the storage has enabled online sync, it will fetch the data online at the first call
@@ -41,20 +42,24 @@ enum class Storages() {
             }
         }
     }
+
     /**
      * set the Online synchronization for a given storage
      * @param isSyncEnable if the synchronization must be enabled
      */
-    fun setOnlineSync(isSyncEnable : Boolean){
+    fun setOnlineSync(isSyncEnable: Boolean) {
         getGlobalCtx().getSharedPreferences("SyncPref", AppCompatActivity.MODE_PRIVATE)
             .edit().putString(name, isSyncEnable.toString()).apply()
     }
+
     /**
      * get the Online synchronization for a given storage
      */
-    fun getOnlineSync():Boolean{
-        return parseBoolean(getGlobalCtx().getSharedPreferences("SyncPref", AppCompatActivity.MODE_PRIVATE)
-            .getString(name,"true"))
+    fun getOnlineSync(): Boolean {
+        return parseBoolean(
+            getGlobalCtx().getSharedPreferences("SyncPref", AppCompatActivity.MODE_PRIVATE)
+                .getString(name, "true")
+        )
     }
 
 }

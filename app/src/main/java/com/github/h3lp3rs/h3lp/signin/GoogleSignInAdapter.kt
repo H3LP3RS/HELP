@@ -104,11 +104,7 @@ object GoogleSignInAdapter: SignInInterface<AuthResult> {
      */
     fun getCreationDate(): String{
         val timeStamp = auth.currentUser?.metadata?.creationTimestamp
-        return if(timeStamp==null){
-            ""
-        }else{
-            Date(timeStamp).toString()
-        }
+        return timeStamp?.let { Date(it).toString() } ?: run { "" }
 
     }
 }

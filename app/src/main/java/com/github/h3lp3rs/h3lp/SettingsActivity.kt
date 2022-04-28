@@ -1,7 +1,6 @@
 package com.github.h3lp3rs.h3lp
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,27 +8,22 @@ import android.view.View
 import android.widget.CheckBox
 import android.widget.TextView
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AlertDialog
 import com.github.h3lp3rs.h3lp.signin.GoogleSignInAdapter.getCreationDate
 import com.github.h3lp3rs.h3lp.signin.GoogleSignInAdapter.signOut
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.getUid
-import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
-import org.apache.commons.collections4.iterators.SkippingIterator
 
 class SettingsActivity : AppCompatActivity() {
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
         loadSyncPref()
-        findViewById<TextView>(R.id.unique_id_text).text= getUid()
-        findViewById<TextView>(R.id.user_since_text).text= getCreationDate()
-
+        findViewById<TextView>(R.id.unique_id_text).text = getUid()
+        findViewById<TextView>(R.id.user_since_text).text = getCreationDate()
     }
 
     /**
@@ -44,7 +38,7 @@ class SettingsActivity : AppCompatActivity() {
     /**
      * Function for the back button to go back to MainActivity
      */
-    fun backHome(view: View){
+    fun backHome(view: View) {
         val intent = Intent(this, MainPageActivity::class.java)
         startActivity(intent)
     }
@@ -52,25 +46,16 @@ class SettingsActivity : AppCompatActivity() {
     /**
      * Function for the logout button to disconnect from account
      */
-    fun logout(view: View){
+    fun logout(view: View) {
         signOut()
         val intent = Intent(this, SignInActivity::class.java)
         startActivity(intent)
     }
 
-    fun removeSync(view: View){
+    fun clearSync(view: View) {
         storageOf(MEDICAL_INFO).clearOnlineSync()
         storageOf(USER_COOKIE).clearOnlineSync()
         storageOf(SKILLS).clearOnlineSync()
-
-    }
-
-    /**
-     * Show a dialogue with explication on what is the form for
-     */
-    fun helpDialogue(view: View){
-        AlertDialog.Builder(this).setTitle(getString(R.string.my_helper_skills))
-            .setMessage(getString(R.string.help_my_skills)).show()
     }
 
     /**
@@ -87,12 +72,12 @@ class SettingsActivity : AppCompatActivity() {
      * @param toggle if it must check or not
      * @param id the id of the checkbox
      */
-    private fun check(toggle: Boolean, id: Int){
+    private fun check(toggle: Boolean, id: Int) {
         findViewById<CheckBox>(id).isChecked = toggle
     }
 
     /**
-     * Save synch data
+     * Save synchronized data
      */
     private fun saveData() {
         MEDICAL_INFO.setOnlineSync(getBooleanFromSwitch(R.id.medical_info_checkbox))
@@ -103,7 +88,7 @@ class SettingsActivity : AppCompatActivity() {
     /**
      * return the boolean from a switch button
      */
-    private fun getBooleanFromSwitch(id: Int):Boolean{
+    private fun getBooleanFromSwitch(id: Int): Boolean {
         return findViewById<CheckBox>(id).isChecked
     }
 }
