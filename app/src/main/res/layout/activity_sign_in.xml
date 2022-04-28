@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/back_login"
+        android:src="@drawable/back_login2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent=".27"
@@ -21,45 +21,66 @@
         app:layout_constraintVertical_bias="0" />
 
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="@string/welcome_msg"
+        android:layout_height="wrap_content"
+        android:lineSpacingExtra="8sp"
+        android:shadowColor="@color/black"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="20"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="@color/white"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/round_corners"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent=".80"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHeight_percent=".78"
-        app:layout_constraintVertical_bias="1"
-        android:background="@drawable/round_corners">
+        app:layout_constraintVertical_bias="1">
+
 
         <ImageButton
             android:id="@+id/signInButton"
-            android:layout_width="265dp"
-            android:layout_height="59dp"
-            android:adjustViewBounds="false"
-            android:background="@drawable/round_corners"
-            android:src="@drawable/signinbutton"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.646"
-            tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
-
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/welcome_msg"
-            android:textColor="@color/black"
-            android:textSize="30sp"
-            android:textStyle="italic"
+            android:adjustViewBounds="false"
+            android:src="@drawable/signinbutton"
             app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.122" />
+            app:layout_constraintVertical_bias="0.821"
+            tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="32dp"
+            app:layout_constraintBottom_toTopOf="@+id/signInButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/heart_link" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
