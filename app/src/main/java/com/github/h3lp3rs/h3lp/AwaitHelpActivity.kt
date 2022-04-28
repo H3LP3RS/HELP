@@ -153,42 +153,54 @@ class AwaitHelpActivity : AppCompatActivity() {
      */
     @RequiresApi(Build.VERSION_CODES.O)
     fun emergencyCall(view: View) {
-        val builder = AlertDialog.Builder(this)
-        val emergencyCallPopup = layoutInflater.inflate(R.layout.emergency_call_options, null)
+        val medicalInfo = Storages.storageOf(Storages.MEDICAL_INFO)
+            .getObjectOrDefault(getString(R.string.medical_info_key), MedicalInformation::class.java, null)
 
-        builder.setCancelable(false)
-        builder.setView(emergencyCallPopup)
+        if (medicalInfo != null) {
+            val builder = AlertDialog.Builder(this)
+            val emergencyCallPopup = layoutInflater.inflate(R.layout.emergency_call_options, null)
 
-        val alertDialog = builder.create()
+            builder.setCancelable(false)
+            builder.setView(emergencyCallPopup)
 
-        // ambulance button
-        emergencyCallPopup.findViewById<ImageButton>(R.id.ambulance_call_button).setOnClickListener {
-            // In case the getCurrentLocation failed (for example if the location services aren't
-            // activated, currentLocation is still null and the returned phone number will be the
-            // default emergency phone number
-            val emergencyNumber =
-                LocalEmergencyCaller.getLocalEmergencyNumber(
-                    currentLong,
-                    currentLat,
-                    this
-                )
+            val alertDialog = builder.create()
 
-            val dial = "tel:$emergencyNumber"
-            alertDialog.cancel()
-            startActivity(Intent(Intent.ACTION_DIAL, Uri.parse(dial)))
+            // ambulance button
+            emergencyCallPopup.findViewById<ImageButton>(R.id.ambulance_call_button).setOnClickListener {
+                // In case the getCurrentLocation failed (for example if the location services aren't
+                // activated, currentLocation is still null and the returned phone number will be the
+                // default emergency phone number
+                alertDialog.cancel()
+                launchEmergencyCall()
+            }
+
+            // contact button
+            emergencyCallPopup.findViewById<ImageButton>(R.id.contact_call_button).setOnClickListener {
+                alertDialog.cancel()
+
+                val dial = "tel:${medicalInfo.emergencyContactNumber}"
+                startActivity(Intent(Intent.ACTION_DIAL, Uri.parse(dial)))
+            }
+            alertDialog.show()
+        } else {
+            launchEmergencyCall()
         }
 
-        // contact button
-        emergencyCallPopup.findViewById<ImageButton>(R.id.contact_call_button).setOnClickListener {
-            val medicalInfo = Storages.storageOf(Storages.MEDICAL_INFO)
-                .getObjectOrDefault(getString(R.string.medical_info_key), MedicalInformation::class.java, null)
+    }
 
-            val dial = "tel:${medicalInfo?.emergencyContactNumber}"
-            alertDialog.cancel()
-            startActivity(Intent(Intent.ACTION_DIAL, Uri.parse(dial)))
-        }
+    /**
+     * Launches a the phone app with the local emergency number dialed
+     */
+    private fun launchEmergencyCall() {
+        val emergencyNumber =
+            LocalEmergencyCaller.getLocalEmergencyNumber(
+                currentLong,
+                currentLat,
+                this
+            )
 
-        alertDialog.show()
+        val dial = "tel:$emergencyNumber"
+        startActivity(Intent(Intent.ACTION_DIAL, Uri.parse(dial)))
     }
 
     /**
