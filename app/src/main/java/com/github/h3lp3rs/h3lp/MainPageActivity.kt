@@ -47,7 +47,6 @@ const val CPR_RATE = "CPR rate"
 const val TUTORIAL = "Tutorial"
 const val HOSPITALS = "Hospitals"
 const val PHARMACIES = "Pharmacies"
-const val SETTINGS = "Settings"
 
 private val mainPageButton = listOf(
     MainPageButton(R.id.button_profile, false),
@@ -76,11 +75,11 @@ val numberOfButtons = mainPageButton.size
  * Main page of the app
  */
 class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback {
-    private lateinit var toggle: ActionBarDrawerToggle
+    private lateinit var toggle : ActionBarDrawerToggle
     private var locPermissionDenied = false
 
-    private lateinit var searchView: SearchView
-    private lateinit var listView: ListView
+    private lateinit var searchView : SearchView
+    private lateinit var listView : ListView
     private lateinit var storage: LocalStorage
 
     // List of searchable elements
@@ -329,6 +328,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         if(item.itemId==R.id.button_tutorial){
             viewPresentation(findViewById<View>(android.R.id.content).rootView)
         }
+        // else if(item.itemId==R.id.toolbar_settings){ }
         // TODO ( Allow user to choose data he would like to keep private aka not sent to the database)
 
         return if (toggle.onOptionsItemSelected(item)) true else super.onOptionsItemSelected(item)
@@ -362,24 +362,24 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_toolbar, menu)
+    override fun onCreateOptionsMenu(menu : Menu?) : Boolean {
+        menuInflater.inflate(R.menu.menu_toolbar,menu)
         return true
     }
 
     /** Starts the activity by sending intent */
-    private fun goToActivity(ActivityName: Class<*>?) {
+    private fun goToActivity(ActivityName : Class<*>?) {
         val intent = Intent(this, ActivityName)
         startActivity(intent)
     }
 
     /** Called when the user taps the cpr rate button */
-    fun goToCprActivity(view: View) {
+    fun goToCprActivity(view : View) {
         goToActivity(CprRateActivity::class.java)
     }
 
     /** Called when the user taps the help page button */
-    fun goToHelpParametersActivity(view: View) {
+    fun goToHelpParametersActivity(view : View) {
         goToActivity(HelpParametersActivity::class.java)
     }
 
@@ -387,12 +387,12 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
      * Called when the user taps on the info button
      * Starts the presentation of the app
      */
-    private fun viewPresentation(view: View) {
+    private fun viewPresentation(view : View) {
         goToActivity(PresArrivalActivity::class.java)
     }
 
     /** Called when the user taps the profile page button */
-    fun goToProfileActivity(view: View) {
+    fun goToProfileActivity(view : View) {
         goToActivity(MedicalCardActivity::class.java)
     }
 
@@ -402,7 +402,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     }
 
     /** Called when the user taps the nearby hospitals button */
-    fun goToNearbyHospitals(view: View) {
+    fun goToNearbyHospitals(view : View) {
         goToNearbyUtilities(resources.getString(R.string.nearby_hospitals))
     }
 
@@ -421,7 +421,6 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         goToActivity(SettingsActivity::class.java)
     }
 
-    private fun goToNearbyUtilities(utility: String) {
     /** Called when the user taps the professional portal  button */
     fun goToProfessionalPortal(view : View) {
         val db = databaseOf(PRO_USERS)
@@ -453,13 +452,13 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     }
 }
 
-private class MainPageButton(private val buttonId: Int, private val isInScrollView: Boolean) {
+private class MainPageButton(private val buttonId : Int, private val isInScrollView : Boolean) {
 
-    fun isInScrollView(): Boolean {
+    fun isInScrollView() : Boolean {
         return isInScrollView
     }
 
-    fun getButtonId(): Int {
+    fun getButtonId() : Int {
         return buttonId
     }
 

@@ -306,7 +306,6 @@
     <string name="need_help_app">I need some help</string>
     <string name="i_found_a_bug">I found a bug</string>
     <string name="i_got_a_suggestion">I got a suggestion</string>
-    <string name="type_your_message">Type your message...</string>
     <string name="EMERGENCY_UID_KEY">CurrentEmergencyUid</string>
     <string name="AT_LEAST_ONE_ITEM">Please select at least one item</string>
     <string name="one_person_help">1 person is coming to help you</string>
