@@ -223,8 +223,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/medicalInfoWeightTxtLayout"
                     app:startIconDrawable="@drawable/ic_health"
                     app:endIconMode="custom"
-                    app:endIconDrawable="@drawable/ic_question_mark"
-                    >
+                    app:endIconDrawable="@drawable/ic_question_mark">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/medicalInfoConditionEditTxt"
@@ -302,6 +301,81 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <TextView
+                    android:id="@+id/emergencyContactTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:gravity="center"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/medicalInfoTreatmentTxtLayout"
+                    android:text="@string/emergency_contact_title"
+                    android:textSize="20sp"
+                    />
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/medicalInfoContactNameTxtLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:hint="@string/EmergencyContactName"
+                    app:boxStrokeColor="@color/teal_200"
+                    app:counterMaxLength="40"
+                    app:errorEnabled="true"
+                    app:errorIconDrawable="@drawable/ic_error"
+                    app:hintTextColor="@color/teal_700"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/emergencyContactTitle"
+                    app:startIconDrawable="@drawable/ic_profile_icon">
+
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/medicalInfoContactNameEditTxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine"
+                        android:maxLength="100">
+
+                    </com.google.android.material.textfield.TextInputEditText>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/medicalInfoContactNumberTxtLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:hint="@string/EmergencyContactNumber"
+                    app:boxStrokeColor="@color/teal_200"
+                    app:counterMaxLength="15"
+                    app:errorEnabled="true"
+                    app:errorIconDrawable="@drawable/ic_error"
+                    app:hintTextColor="@color/teal_700"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/medicalInfoContactNameTxtLayout"
+                    app:startIconDrawable="@drawable/number_icon">
+
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/medicalInfoContactNumberEditTxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine"
+                        android:maxLength="15">
+
+                    </com.google.android.material.textfield.TextInputEditText>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
 
                 <CheckBox
                     android:id="@+id/medicalInfoPrivacyCheck"
@@ -329,7 +403,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/medicalInfoTreatmentTxtLayout" />
+                    app:layout_constraintTop_toBottomOf="@+id/medicalInfoContactNumberTxtLayout" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

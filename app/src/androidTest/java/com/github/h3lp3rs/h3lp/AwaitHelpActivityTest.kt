@@ -3,12 +3,14 @@ package com.github.h3lp3rs.h3lp
 import android.Manifest
 import android.content.Intent
 import android.location.Location
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import androidx.test.core.app.ActivityScenario.launch
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
+import androidx.test.core.app.ActivityScenario.launch
 import androidx.test.espresso.Espresso.*
 import androidx.test.espresso.action.ViewActions.*
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.assertion.ViewAssertions.*
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.*
@@ -20,35 +22,37 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.rule.GrantPermissionRule
 import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.MockDatabase
-import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
-import com.github.h3lp3rs.h3lp.dataclasses.Helper
-import com.github.h3lp3rs.h3lp.dataclasses.HelperSkills
+import com.github.h3lp3rs.h3lp.dataclasses.*
+import com.github.h3lp3rs.h3lp.firstaid.AedActivity
 import com.github.h3lp3rs.h3lp.firstaid.AllergyActivity
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 import com.github.h3lp3rs.h3lp.locationmanager.LocationManagerInterface
-import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.storage.Storages
-import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
-import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
+import org.mockito.kotlin.anyOrNull
+import java.util.*
 import org.mockito.Mockito.*
 import org.mockito.kotlin.anyOrNull
 import java.util.*
 import kotlin.collections.ArrayList
 
+// Tests work on local but not on Cirrus
+
+private const val VALID_CONTACT_NUMBER = "+41216933000"
+
 class AwaitHelpActivityTest {
     private val locationManagerMock: LocationManagerInterface =
         mock(LocationManagerInterface::class.java)
     private val locationMock: Location = mock(Location::class.java)
-
-    private val selectedMeds = arrayListOf("Epipen")
 
     @get:Rule
     val testRule = ActivityScenarioRule(
@@ -69,9 +73,8 @@ class AwaitHelpActivityTest {
 
         globalContext = getApplicationContext()
         userUid = USER_TEST_ID
-        resetStorage()
-        storageOf(Storages.USER_COOKIE)
-            .setBoolean(SignInActivity.globalContext.getString(R.string.KEY_USER_AGREE), true)
+
+        loadMedicalDataToLocalStorage()
     }
 
     @After
@@ -79,15 +82,89 @@ class AwaitHelpActivityTest {
         Intents.release()
     }
 
+    @Test
+    fun callEmergenciesButtonWorksAndSendIntent() {
+        // close warning pop-up
+        onView(withId(R.id.close_call_popup_button)).inRoot(RootMatchers.isFocusable()).perform(click())
+
+        val phoneButton = onView(withId(R.id.await_help_call_button))
+
+        //phoneButton.check(matches(isDisplayed()))
+        phoneButton.inRoot(RootMatchers.isFocusable()).perform(click())
+
+        // click the ambulance in the popup
+        onView(withId(R.id.ambulance_call_button)).inRoot(RootMatchers.isFocusable()).perform(click())
+
+        intended(
+            allOf(
+                IntentMatchers.hasAction(Intent.ACTION_DIAL)
+            )
+        )
+    }
+
+    @Test
+    fun clickPhoneButtonAndContactButtonDialsEmergencyContactNumber(){
+        // close warning pop-up
+        onView(withId(R.id.close_call_popup_button)).inRoot(RootMatchers.isFocusable()).perform(click())
+
+        // Clicking on the call for emergency button
+        val phoneButton = onView(withId(R.id.await_help_call_button))
+
+        //phoneButton.inRoot(RootMatchers.isFocusable()).check(matches(isDisplayed()))
+        phoneButton.inRoot(RootMatchers.isFocusable()).perform(click())
+
+        // click the contact button in the popup
+        onView(withId(R.id.contact_call_button)).inRoot(RootMatchers.isFocusable()).perform(click())
+
+        // The expected ambulance phone number given the location (specified by the coordinates)
+        val number = "tel:$VALID_CONTACT_NUMBER"
+
+        // Checking that this emergency number is dialed
+        intended(
+            allOf(
+                IntentMatchers.hasAction(Intent.ACTION_DIAL),
+                IntentMatchers.hasData(Uri.parse(number))
+            )
+        )
+    }
+
+    @Test
+    fun callEmergenciesFromPopUpWorksAndSendsIntent() {
+        val phoneButton = onView(withId(R.id.open_call_popup_button))
+
+        phoneButton.inRoot(RootMatchers.isFocusable()).check(matches(isDisplayed()))
+        phoneButton.inRoot(RootMatchers.isFocusable()).perform(click())
+
+        intended(
+            allOf(
+                IntentMatchers.hasAction(Intent.ACTION_DIAL)
+            )
+        )
+    }
+
+    /**
+     * Auxiliary function to put a medical emergency contact in the local database
+     */
+    private fun loadMedicalDataToLocalStorage() {
+        val medicalInformation = MedicalInformation(MedicalInformation.MAX_HEIGHT-1,
+            MedicalInformation.MAX_WEIGHT-1, Gender.Male,
+            Calendar.getInstance().get(Calendar.YEAR),
+            "", "","",
+            BloodType.ABn, "", VALID_CONTACT_NUMBER)
+
+
+        Storages.storageOf(Storages.MEDICAL_INFO)
+            .setObject(globalContext.getString(R.string.medical_info_key),
+                MedicalInformation::class.java, medicalInformation)
+    }
+
     private fun clickingOnButtonWorksAndSendsIntent(
         ActivityName: Class<*>?,
         id: Matcher<View>,
         isInScrollView: Boolean
     ) {
-
         // close pop-up
         onView(withId(R.id.close_call_popup_button)).inRoot(RootMatchers.isFocusable()).perform(click())
-
         if (isInScrollView) {
             onView(id).inRoot(RootMatchers.isFocusable()).perform(/*scrollTo(), */click())
         } else {
@@ -100,43 +177,12 @@ class AwaitHelpActivityTest {
         )
     }
 
-    /*@Test
-    fun callEmergenciesButtonWorksAndSendsIntent() {
-        // close pop-up
-        onView(withId(R.id.close_call_popup_button)).inRoot(RootMatchers.isFocusable()).perform(click())
-
-        val phoneButton = onView(withId(R.id.await_help_call_button))
-
-        phoneButton.check(matches(isDisplayed()))
-        phoneButton.perform(click())
-
-        intended(
-            allOf(
-                IntentMatchers.hasAction(Intent.ACTION_DIAL)
-            )
-        )
-    }*/
-
-    /*@Test
-    fun callEmergenciesFromPopUpWorksAndSendsIntent() {
-        val phoneButton = onView(withId(R.id.open_call_popup_button))
-
-        phoneButton.check(matches(isDisplayed()))
-        phoneButton.perform(click())
-
-        intended(
-            allOf(
-                IntentMatchers.hasAction(Intent.ACTION_DIAL)
-            )
-        )
-    }*/
-/*
-    @Test
-    fun clickingOnHeartAttackButtonWorksAndSendsIntent() {
-        clickingOnButtonWorksAndSendsIntent(
-            HeartAttackActivity::class.java,
-            withId(R.id.heart_attack_tuto_button), true)
-    }*/
+//    @Test
+//    fun clickingOnHeartAttackButtonWorksAndSendsIntent() {
+//        clickingOnButtonWorksAndSendsIntent(
+//            HeartAttackActivity::class.java,
+//            withId(R.id.heart_attack_tuto_button), true)
+//    }
 
     @Test
     fun clickingOnEpipenButtonWorksAndSendsIntent() {
@@ -144,41 +190,26 @@ class AwaitHelpActivityTest {
             AllergyActivity::class.java,
             withId(R.id.epipen_tuto_button), true)
     }
-/*
+
     @Test
     fun clickingOnAedButtonWorksAndSendsIntent() {
         clickingOnButtonWorksAndSendsIntent(
             AedActivity::class.java,
             withId(R.id.aed_tuto_button), true)
     }
-    @Test
-    fun clickingOnAsthmaButtonWorksAndSendsIntent() {
-        clickingOnButtonWorksAndSendsIntent(
-            AsthmaActivity::class.java,
-            withId(R.id.asthma_tuto_button), true)
-    }
+
+//    @Test
+//    fun clickingOnAsthmaButtonWorksAndSendsIntent() {
+//        clickingOnButtonWorksAndSendsIntent(
+//            AsthmaActivity::class.java,
+//            withId(R.id.asthma_tuto_button), true)
+//    }
+
     @Test
     fun cancelButtonWorksAndSendsIntent() {
         clickingOnButtonWorksAndSendsIntent(
             MainPageActivity::class.java,
             withId(R.id.cancel_search_button), false)
-    }*/
-
-
-
-    private fun getIntent(): Intent {
-        val bundle = Bundle()
-        bundle.putStringArrayList(EXTRA_NEEDED_MEDICATION, selectedMeds)
-        bundle.putBoolean(EXTRA_CALLED_EMERGENCIES, false)
-
-        val intent = Intent(
-            getApplicationContext(),
-            AwaitHelpActivity::class.java
-        ).apply {
-            putExtras(bundle)
-        }
-
-        return intent
     }
 
     @Test

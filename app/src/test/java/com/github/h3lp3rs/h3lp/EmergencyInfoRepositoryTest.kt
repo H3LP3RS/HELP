@@ -10,6 +10,7 @@ import org.junit.Test
 import java.util.*
 
 class EmergencyInfoRepositoryTest {
+    private val validNumber = "0216933000"
     private val repository: Repository<EmergencyInformation> =
         EmergencyInfoRepository(MockDatabase())
     private val testKey = "KEY"
@@ -21,7 +22,7 @@ class EmergencyInfoRepositoryTest {
             MedicalInformation.MAX_WEIGHT-1,
             Gender.Male,
             Calendar.getInstance().get(Calendar.YEAR)-1,"condition","treatment","allergy",
-            BloodType.ABn), ArrayList())
+            BloodType.ABn, "", validNumber), ArrayList())
 
     @Test
     fun createdObjectIsCorrect() {

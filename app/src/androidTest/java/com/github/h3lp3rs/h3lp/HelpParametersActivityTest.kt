@@ -13,6 +13,7 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.*
+import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -21,6 +22,9 @@ import com.github.h3lp3rs.h3lp.LocalEmergencyCaller.DEFAULT_EMERGENCY_NUMBER
 import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.MockDatabase
+import com.github.h3lp3rs.h3lp.dataclasses.BloodType
+import com.github.h3lp3rs.h3lp.dataclasses.Gender
+import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 import com.github.h3lp3rs.h3lp.locationmanager.LocationManagerInterface
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
@@ -36,10 +40,12 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.anyOrNull
+import java.util.*
 import org.mockito.Mockito.`when` as When
 
 // Case example of a possible query when a user clicks on the call for emergency button
 private val CORRECT_EMERGENCY_CALL = Triple(6.632, 46.519, "144")
+private const val VALID_CONTACT_NUMBER = "+41216933000"
 
 @RunWith(AndroidJUnit4::class)
 class HelpParametersActivityTest {
@@ -97,6 +103,54 @@ class HelpParametersActivityTest {
     }
 
     @Test
+    fun clickPhoneButtonAndContactButtonDialsEmergencyContactNumber(){
+        val intent = Intent()
+        val intentResult = ActivityResult(Activity.RESULT_OK, intent)
+        intending(anyIntent()).respondWith(intentResult)
+
+        When(locationManagerMock.getCurrentLocation(anyOrNull())).thenReturn(null)
+        GeneralLocationManager.set(locationManagerMock)
+
+        loadMedicalDataToLocalStorage()
+
+        // Clicking on the call for emergency button
+        val phoneButton = onView(withId(R.id.help_params_call_button))
+
+        phoneButton.check(matches(isDisplayed()))
+        phoneButton.perform(click())
+
+        // click the contact button in the popup
+        onView(withId(R.id.contact_call_button)).inRoot(RootMatchers.isFocusable()).perform(click())
+
+        // The expected ambulance phone number given the location (specified by the coordinates)
+        val number = "tel:$VALID_CONTACT_NUMBER"
+
+        // Checking that this emergency number is dialed
+        intended(
+            allOf(
+                hasAction(Intent.ACTION_DIAL),
+                hasData(Uri.parse(number))
+            )
+        )
+    }
+
+    /**
+     * Auxiliary function to put a medical emergency contact in the local database
+     */
+    private fun loadMedicalDataToLocalStorage() {
+        val medicalInformation = MedicalInformation(MedicalInformation.MAX_HEIGHT-1,
+            MedicalInformation.MAX_WEIGHT-1, Gender.Male,
+            Calendar.getInstance().get(Calendar.YEAR),
+            "", "","",
+            BloodType.ABn, "", VALID_CONTACT_NUMBER)
+
+
+        storageOf(Storages.MEDICAL_INFO)
+            .setObject(globalContext.getString(R.string.medical_info_key),
+                MedicalInformation::class.java, medicalInformation)
+    }
+
+    @Test
     fun clickPhoneButtonDialsCorrectEmergencyNumber() {
         val intent = Intent()
         val intentResult = ActivityResult(Activity.RESULT_OK, intent)
@@ -110,11 +164,16 @@ class HelpParametersActivityTest {
         When(locationMock.latitude).thenReturn(CORRECT_EMERGENCY_CALL.second)
         GeneralLocationManager.set(locationManagerMock)
 
+        loadMedicalDataToLocalStorage()
+
         // Clicking on the call for emergency button
         val phoneButton = onView(withId(R.id.help_params_call_button))
 
         phoneButton.check(matches(isDisplayed()))
         phoneButton.perform(click())
+
+        // click the ambulance in the popup
+        onView(withId(R.id.ambulance_call_button)).inRoot(RootMatchers.isFocusable()).perform(click())
 
         // The expected ambulance phone number given the location (specified by the coordinates)
         val number = "tel:${CORRECT_EMERGENCY_CALL.third}"
@@ -135,6 +194,7 @@ class HelpParametersActivityTest {
         val intentResult = ActivityResult(Activity.RESULT_OK, intent)
         intending(anyIntent()).respondWith(intentResult)
 
+        loadMedicalDataToLocalStorage()
 
         // Mocking the location manager as if an error occurred (in which case, the returned location
         // would be null
@@ -145,6 +205,9 @@ class HelpParametersActivityTest {
 
         phoneButton.check(matches(isDisplayed()))
         phoneButton.perform(click())
+
+        // click the ambulance in the popup
+        onView(withId(R.id.ambulance_call_button)).perform(click())
 
         // In case of such an error, the default emergency number should be called
         val number = "tel:${DEFAULT_EMERGENCY_NUMBER}"
@@ -161,6 +224,35 @@ class HelpParametersActivityTest {
 
     @Test
     fun clickPhoneButtonWithSystemLocationManagerDialsEmergencyNumber() {
+        val intent = Intent()
+        val intentResult = ActivityResult(Activity.RESULT_OK, intent)
+        intending(anyIntent()).respondWith(intentResult)
+
+        loadMedicalDataToLocalStorage()
+
+        // Here we are simply testing that using the system location (the one actually used in the
+        // app) also makes an emergency call
+        GeneralLocationManager.setSystemManager()
+
+        val phoneButton = onView(withId(R.id.help_params_call_button))
+
+        phoneButton.check(matches(isDisplayed()))
+        phoneButton.perform(click())
+
+        // click the ambulance in the popup
+        onView(withId(R.id.ambulance_call_button)).perform(click())
+
+        // Here, we can't check for a specific number (the emulator could be anywhere on Earth
+        // but we can verify that a number was indeed called)
+        intended(
+            allOf(
+                hasAction(Intent.ACTION_DIAL)
+            )
+        )
+    }
+
+    @Test
+    fun clickPhoneButtonWithoutContactNumberDialsEmergenciesDirectly() {
         val intent = Intent()
         val intentResult = ActivityResult(Activity.RESULT_OK, intent)
         intending(anyIntent()).respondWith(intentResult)

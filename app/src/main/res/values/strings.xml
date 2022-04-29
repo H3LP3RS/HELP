@@ -49,6 +49,8 @@
     <string name="Condition">Conditions </string>
     <string name="Allergy">Allergy </string>
     <string name="CurrentTreatment">Current Treatment </string>
+    <string name="EmergencyContactName">Contact Name</string>
+    <string name="EmergencyContactNumber">Phone Number</string>
     <string name="bloodType">Blood type</string>
     <string name="back_button_description">Back home button</string>
     <string name="background_image_description">Background image</string>
@@ -56,7 +58,7 @@
     <string name="phone_icon_description">Phone icon</string>
     <string name="keep_calm_meds_selection_msg">Keep Calm and select what you need</string>
     <string name="search_help_button">Search Help Nearby</string>
-    <string name="call_emergency_button">Call Emergency Services</string>
+    <string name="call_emergency_button">Emergency Call</string>
     <string name="help_might_arrive">Help might arrive</string>
     <string name="ok">OK</string>
     <string name="h3lp_doesn_t_allow_you_to">H3LP doesn\'t </string>
@@ -310,12 +312,18 @@
     <string name="AT_LEAST_ONE_ITEM">Please select at least one item</string>
     <string name="one_person_help">1 person is coming to help you</string>
     <string name="many_people_help">%d people are coming to help you</string>
-    <string name="type_your_message">Type your message…</string>
+    <string name="emergency_contact_title">Your Emergency Contact</string>
+    <string name="emergency_call_ambulance">Emergency call ambulance</string>
+    <string name="emergency_contact">Emergency Contact</string>
+    <string name="ambulance_call">Ambulance call</string>
+    <string name="call_emergency_contact">call emergency contact</string>
+    <string name="type_your_message">Type your message...</string>
     <string name="sender_s_text">Sender\'s text</string>
     <string name="receiver_s_text">Receiver\'s text</string>
     <string name="latest_messages">"   Latest messages"</string>
     <string name="textview_last_message">last Message</string>
     <string name="textview_username">username</string>
+    <string name="invalid_number">Invalid Number</string>
     <string name="accept_popup_button">I accept</string>
     <string name="permission_popup_text">The app is based on mutual aid and allows you to get help or help other people near you. In order to achieve that the app requires exact access to your localization in order to function properly.\n\n This data is stored safely on your phone and sent to a safe online database only when you send help requests.</string>
     <string name="scroll3on3">○○●</string>

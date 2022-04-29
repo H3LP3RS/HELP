@@ -40,6 +40,7 @@ import java.util.*
 @RunWith(AndroidJUnit4::class)
 class MedicalCardActivityTest {
     private val ctx: Context = getApplicationContext()
+    private val validNumbers = arrayOf("0216933000", "216933000", "+41216933000")
 
     private fun launch(): ActivityScenario<MedicalCardActivity> {
         return launch(Intent(getApplicationContext(), MedicalCardActivity::class.java))
@@ -108,7 +109,7 @@ class MedicalCardActivityTest {
     }
 
     @Test
-    fun validYearNumberDoesNotLeadToError() {
+    fun validYearNumberDoesNotLeadsToError() {
         launchAndDo {
             onView(withId(R.id.medicalInfoBirthEditTxt))
                 .perform(replaceText(Calendar.getInstance().get(Calendar.YEAR).toString()))
@@ -117,6 +118,51 @@ class MedicalCardActivityTest {
                     not(hasInputLayoutError())
                 )
             )
+        }
+    }
+
+    @Test
+    fun validPhoneNumberDoesNotLeadToError(){
+        launchAndDo {
+            for (validNumber in validNumbers) {
+                onView(withId(R.id.medicalInfoContactNumberEditTxt))
+                    .perform(scrollTo(), replaceText(validNumber))
+                onView(withId(R.id.medicalInfoContactNumberTxtLayout)).check(
+                    matches(
+                        not(hasInputLayoutError())
+                    )
+                )
+            }
+        }
+    }
+
+    @Test
+    fun emergencyNumberAsContactNumberLeadToError(){
+        val emergencyNumber = "144"
+        launchAndDo {
+            onView(withId(R.id.medicalInfoContactNumberEditTxt))
+                .perform(scrollTo(), replaceText(emergencyNumber))
+            onView(withId(R.id.medicalInfoContactNumberTxtLayout)).check(
+                matches(
+                    hasInputLayoutError()
+                )
+            )
+        }
+    }
+
+    @Test
+    fun incorrectContactNumberLeadToError(){
+        val wrongNumbers = arrayOf("118 912", "pizza number", "my mum", "02145566991")
+        launchAndDo {
+            for (wrongNumber in wrongNumbers) {
+                onView(withId(R.id.medicalInfoContactNumberEditTxt))
+                    .perform(scrollTo(), replaceText(wrongNumber))
+                onView(withId(R.id.medicalInfoContactNumberTxtLayout)).check(
+                    matches(
+                        hasInputLayoutError()
+                    )
+                )
+            }
         }
     }
 
@@ -229,6 +275,8 @@ class MedicalCardActivityTest {
             .perform(replaceText(BloodType.ABn.type))
         onView(withId(R.id.medicalInfoGenderDropdown))
             .perform(replaceText(Gender.Male.name))
+        onView(withId(R.id.medicalInfoContactNumberEditTxt))
+            .perform(scrollTo(), replaceText(validNumbers[0]))
     }
 
     @Test
@@ -236,7 +284,7 @@ class MedicalCardActivityTest {
         launchAndDo {
             fillCorrectInfo()
             onView(withId(R.id.medicalInfoHeightEditTxt))
-                .perform(replaceText((ctx.resources.getInteger(R.integer.maxHeight) + 1).toString()))
+                .perform(scrollTo(), replaceText((ctx.resources.getInteger(R.integer.maxHeight) + 1).toString()))
             onView(withId(R.id.medicalInfoSaveButton))
                 .perform(scrollTo(), click())
             onView(withText(R.string.invalid_field_msg))
@@ -267,7 +315,7 @@ class MedicalCardActivityTest {
     }
 
     @Test
-    fun savingChangeWitouErrorAndTickingPolicyWorks() {
+    fun savingChangeWithoutErrorAndTickingPolicyWorks() {
         launchAndDo {
             fillCorrectInfo()
             onView(withId(R.id.medicalInfoPrivacyCheck))
