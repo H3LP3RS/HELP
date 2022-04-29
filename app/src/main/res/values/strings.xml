@@ -312,10 +312,8 @@
     <string name="AT_LEAST_ONE_ITEM">Please select at least one item</string>
     <string name="one_person_help">1 person is coming to help you</string>
     <string name="many_people_help">%d people are coming to help you</string>
-    <string name="type_your_message">Type your message…</string>
     <string name="emergency_contact_title">Your Emergency Contact</string>
     <string name="emergency_call_ambulance">Emergency call ambulance</string>
-    <string name="emergencies">Emergencies</string>
     <string name="emergency_contact">Emergency Contact</string>
     <string name="ambulance_call">Ambulance call</string>
     <string name="call_emergency_contact">call emergency contact</string>
