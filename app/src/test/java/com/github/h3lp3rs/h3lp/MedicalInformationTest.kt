@@ -3,11 +3,11 @@ package com.github.h3lp3rs.h3lp
 import com.github.h3lp3rs.h3lp.dataclasses.BloodType
 import com.github.h3lp3rs.h3lp.dataclasses.Gender
 import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation
-import com.github.h3lp3rs.h3lp.MedicalInformation.Companion.MAX_HEIGHT
-import com.github.h3lp3rs.h3lp.MedicalInformation.Companion.MAX_WEIGHT
-import com.github.h3lp3rs.h3lp.MedicalInformation.Companion.MIN_HEIGHT
-import com.github.h3lp3rs.h3lp.MedicalInformation.Companion.MIN_WEIGHT
-import com.github.h3lp3rs.h3lp.MedicalInformation.Companion.MIN_YEAR
+import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation.Companion.MAX_HEIGHT
+import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation.Companion.MAX_WEIGHT
+import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation.Companion.MIN_HEIGHT
+import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation.Companion.MIN_WEIGHT
+import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation.Companion.MIN_YEAR
 import org.junit.Test
 import org.junit.Assert.*
 import java.util.*
@@ -72,6 +72,7 @@ class MedicalInformationTest {
         assertEquals(medicalInformation.actualTreatment,"treatment")
         assertEquals(medicalInformation.bloodType,BloodType.ABn)
     }
+
     @Test
     fun bloodTypeStringWork(){
         assertEquals(BloodType.ABn.type,"AB-")

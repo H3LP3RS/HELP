@@ -4,18 +4,12 @@ import android.Manifest
 import android.content.Intent
 import android.location.Location
 import android.net.Uri
-import android.location.Location
 import android.os.Bundle
 import android.view.View
-import androidx.test.core.app.ActivityScenario
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
-import androidx.test.espresso.Espresso
 import androidx.test.core.app.ActivityScenario.launch
-import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.*
 import androidx.test.espresso.action.ViewActions.*
-import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.assertion.ViewAssertions.*
 import androidx.test.espresso.intent.Intents
@@ -28,21 +22,15 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.rule.GrantPermissionRule
 import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.MockDatabase
-import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
-import com.github.h3lp3rs.h3lp.dataclasses.Helper
-import com.github.h3lp3rs.h3lp.dataclasses.HelperSkills
+import com.github.h3lp3rs.h3lp.dataclasses.*
+import com.github.h3lp3rs.h3lp.firstaid.AedActivity
 import com.github.h3lp3rs.h3lp.firstaid.AllergyActivity
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 import com.github.h3lp3rs.h3lp.locationmanager.LocationManagerInterface
-import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.storage.Storages
-import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
-import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import org.hamcrest.Matcher
-import org.hamcrest.Matchers.allOf
-import org.hamcrest.Matchers
 import org.hamcrest.Matchers.allOf
 import org.junit.After
 import org.junit.Before
@@ -62,10 +50,6 @@ import kotlin.collections.ArrayList
 private const val VALID_CONTACT_NUMBER = "+41216933000"
 
 class AwaitHelpActivityTest {
-    private val locationManagerMock: LocationManagerInterface =
-        mock(LocationManagerInterface::class.java)
-    private val locationMock: Location = mock(Location::class.java)
-
     private val locationManagerMock: LocationManagerInterface =
         mock(LocationManagerInterface::class.java)
     private val locationMock: Location = mock(Location::class.java)
@@ -163,7 +147,7 @@ class AwaitHelpActivityTest {
      */
     private fun loadMedicalDataToLocalStorage() {
         val medicalInformation = MedicalInformation(MedicalInformation.MAX_HEIGHT-1,
-            MedicalInformation.MAX_WEIGHT-1,Gender.Male,
+            MedicalInformation.MAX_WEIGHT-1, Gender.Male,
             Calendar.getInstance().get(Calendar.YEAR),
             "", "","",
             BloodType.ABn, "", VALID_CONTACT_NUMBER)
