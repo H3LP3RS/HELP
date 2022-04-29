@@ -2,15 +2,11 @@ package com.github.h3lp3rs.h3lp.locationmanager
 
 import android.Manifest
 import android.content.Context
-import android.content.Context.LOCATION_SERVICE
 import android.content.pm.PackageManager
 import android.location.Location
-import android.location.LocationManager
 import androidx.core.content.ContextCompat
-import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.OnSuccessListener
+import java.util.concurrent.CompletableFuture
 
 
 
@@ -20,36 +16,31 @@ import com.google.android.gms.tasks.OnSuccessListener
  * the app
  */
 object SystemLocationAdapter : LocationManagerInterface {
+    private const val GET_LOCATION_EXCEPTION = "Location could not be retrieved"
+    private const val GET_PERMISSIONS_EXCEPTION = "Location permissions were not granted"
 
     /**
      * Gets the user's current location from the system location manager
      * @param context The activity from which the location manager is called to check the user's
      * permissions
      */
-    override fun getCurrentLocation(context: Context): Location? {
+    override fun getCurrentLocation(context: Context): CompletableFuture<Location> {
         // Checking if the location permissions have been granted
+        val futureLocation: CompletableFuture<Location> = CompletableFuture()
         if (ContextCompat.checkSelfPermission(
                 context,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
         ) {
-
-            val locationManager = context.getSystemService(LOCATION_SERVICE) as LocationManager
-            val providers = locationManager.getProviders(true)
-            var bestLocation: Location? = null
-
-            // Finds the best location estimate for the user
-            for (provider in providers) {
-                val location = locationManager.getLastKnownLocation(provider)
-                if (location != null) {
-                    if (bestLocation == null || location.accuracy < bestLocation.accuracy) {
-                        bestLocation = location
-                    }
-                }
-            }
-            return bestLocation
+            val fusedLocationProviderClient =
+                LocationServices.getFusedLocationProviderClient(context)
+            fusedLocationProviderClient.lastLocation
+                .addOnSuccessListener { futureLocation.complete(it) }
+                .addOnFailureListener { futureLocation.completeExceptionally(RuntimeException(GET_LOCATION_EXCEPTION)) }
+        } else {
+            futureLocation.completeExceptionally(RuntimeException(GET_PERMISSIONS_EXCEPTION))
         }
-        return null
+        return futureLocation
     }
 
 }

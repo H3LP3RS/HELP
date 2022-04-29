@@ -269,14 +269,11 @@ class HelpParametersActivity : AppCompatActivity() {
      * Function that updates the user's current coordinates
      */
     private fun updateCoordinates() {
-        val updatedCoordinates = GeneralLocationManager.get().getCurrentLocation(this)
-
-        if (updatedCoordinates != null) {
+        val futureLocation = GeneralLocationManager.get().getCurrentLocation(this)
+        futureLocation.thenAccept {
             userLocation = Location(LocationManager.GPS_PROVIDER)
-            userLocation?.longitude = updatedCoordinates.longitude
-            userLocation?.latitude = updatedCoordinates.latitude
-        } else {
-            userLocation = null
+            userLocation?.longitude = it.longitude
+            userLocation?.latitude = it.latitude
         }
     }
 }
