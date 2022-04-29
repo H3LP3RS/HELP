@@ -22,6 +22,9 @@ import com.github.h3lp3rs.h3lp.LocalEmergencyCaller.DEFAULT_EMERGENCY_NUMBER
 import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.MockDatabase
+import com.github.h3lp3rs.h3lp.dataclasses.BloodType
+import com.github.h3lp3rs.h3lp.dataclasses.Gender
+import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 import com.github.h3lp3rs.h3lp.locationmanager.LocationManagerInterface
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
@@ -136,7 +139,7 @@ class HelpParametersActivityTest {
      */
     private fun loadMedicalDataToLocalStorage() {
         val medicalInformation = MedicalInformation(MedicalInformation.MAX_HEIGHT-1,
-            MedicalInformation.MAX_WEIGHT-1,Gender.Male,
+            MedicalInformation.MAX_WEIGHT-1, Gender.Male,
             Calendar.getInstance().get(Calendar.YEAR),
             "", "","",
             BloodType.ABn, "", VALID_CONTACT_NUMBER)
