@@ -224,31 +224,21 @@ class AwaitHelpActivity : AppCompatActivity() {
     }
 
     /**
-     * Auxiliary function to redirect the buttons presses to a tutorial page
+     * Called when a tutorial button is pressed to redirect to the correct activity
      */
-    private fun goToActivity(activityName: Class<*>?) {
-        val intent = Intent(this, activityName)
+    fun goToActivity(view: View) {
+        val intent = when (view.id) {
+            R.id.heart_attack_tuto_button ->
+                Intent(this, HeartAttackActivity::class.java)
+            R.id.epipen_tuto_button ->
+                Intent(this, AllergyActivity::class.java)
+            R.id.aed_tuto_button ->
+                Intent(this, AedActivity::class.java)
+            R.id.asthma_tuto_button ->
+                Intent(this, AsthmaActivity::class.java)
+            else -> Intent(this, MainPageActivity::class.java)
+        }
         startActivity(intent)
-    }
-
-    /** Called when the user taps the asthma attack button */
-    fun goToAsthmaActivity(view: View) {
-        goToActivity(AsthmaActivity::class.java)
-    }
-
-    /** Called when the user taps the defibrillator button */
-    fun goToAedActivity(view: View) {
-        goToActivity(AedActivity::class.java)
-    }
-
-    /** Called when the user taps the allergies button */
-    fun goToAllergyActivity(view: View) {
-        goToActivity(AllergyActivity::class.java)
-    }
-
-    /** Called when the user taps the heart attack button */
-    fun goToHeartAttackActivity(view: View) {
-        goToActivity(HeartAttackActivity::class.java)
     }
 
     private fun goToLatestMessagesActivity(){
@@ -263,15 +253,16 @@ class AwaitHelpActivity : AppCompatActivity() {
     fun cancelHelpSearch(view: View){
         val bundle = this.intent.extras
         if(bundle == null) {
-            goToActivity(MainPageActivity::class.java)
+            startActivity(Intent(this, MainPageActivity::class.java))
             return
         }
+
         val emergencyId = bundle.getInt(EXTRA_EMERGENCY_KEY)
         databaseOf(EMERGENCIES).delete(emergencyId.toString())
         // Re-listen to other emergencies
         activateHelpListeners()
         // TODO the action on the DB is not yet defined
         // TODO should include deleting the conversation from the db
-        goToActivity(MainPageActivity::class.java)
+        startActivity(Intent(this, MainPageActivity::class.java))
     }
 }
