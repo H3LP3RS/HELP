@@ -26,6 +26,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doAfterTextChanged
 import com.github.h3lp3rs.h3lp.MedicalInformation.Companion.DEFAULT_COUNTRY
+import com.github.h3lp3rs.h3lp.dataclasses.BloodType
+import com.github.h3lp3rs.h3lp.dataclasses.Gender
+import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation
 import com.github.h3lp3rs.h3lp.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
@@ -356,7 +359,7 @@ class MedicalCardActivity : AppCompatActivity() {
         )
 
         storage.setObject(
-            getString(R.string.medical_info_prefs),
+            getString(R.string.medical_info_key),
             MedicalInformation::class.java,
             medicalInformation
         )

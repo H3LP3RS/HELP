@@ -9,6 +9,12 @@ import android.view.View
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.activateHelpListeners
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
+import com.github.h3lp3rs.h3lp.database.Databases.EMERGENCIES
+import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
+import com.github.h3lp3rs.h3lp.database.Databases.CONVERSATION_IDS
 import com.github.h3lp3rs.h3lp.firstaid.AedActivity
 import com.github.h3lp3rs.h3lp.firstaid.AllergyActivity
 import com.github.h3lp3rs.h3lp.firstaid.AsthmaActivity
@@ -31,6 +37,7 @@ class AwaitHelpActivity : AppCompatActivity() {
     private var currentLat: Double = 0.0
     private val askedMeds: List<String> = listOf()
     private var helpersNumbers = 0
+    private val helpersId = ArrayList<String>()
 
     private lateinit var mapsFragment: MapsFragment
     private lateinit var apiHelper: GoogleAPIHelper
@@ -44,7 +51,7 @@ class AwaitHelpActivity : AppCompatActivity() {
 
         setupLocation()
 
-        val bundle = this.intent.extras
+        val bundle = intent.extras
         if(bundle != null) {
             helpeeId = bundle.getString(EXTRA_HELPEE_ID)
             askedMeds.plus(bundle.getStringArrayList(EXTRA_NEEDED_MEDICATION))
@@ -53,17 +60,27 @@ class AwaitHelpActivity : AppCompatActivity() {
             if(!bundle.getBoolean(EXTRA_CALLED_EMERGENCIES)){
                 showEmergencyCallPopup()
             }
+            // Start listening to potential responses
+            val emergencyId = bundle.getInt(EXTRA_EMERGENCY_KEY)
+            val emergencyDb = databaseOf(EMERGENCIES)
+            emergencyDb.addListener(emergencyId.toString(), EmergencyInformation::class.java) {
+                val helpers = it.helpers
+                for(h in helpers) {
+                    foundHelperPerson(h.uid, h.latitude, h.longitude)
+                }
+            }
         } else {
             showEmergencyCallPopup()
         }
 
-        //TODO add listener on database so that we replace the loading bar by the number of
-        // users coming to help and their position
+        /*helpeeId?.let{
+            databaseOf(CONVERSATION_IDS).addListListener(it, String::class.java)
+            {list -> if (list.isNotEmpty()) foundHelperPerson(0.0, 0.0)}
+        }*/
 
         // Initially the contact helpers is hidden, only after a user responds to the request it
         // becomes visible.
         constraint_layout_contact_helpers.visibility = View.INVISIBLE
-
     }
 
     /**
@@ -96,45 +113,50 @@ class AwaitHelpActivity : AppCompatActivity() {
     /**
      * Called when a someone responds to the help request. Replaces the waiting
      * bar by the number of helpers coming and makes the contact helpers button visible.
+     * @param uid The uid of the helper
+     * @param latitude Its latitude
+     * @param longitude Its longitude
      */
-    private fun foundHelperPerson(latitude: Double, longitude: Double){
-        findViewById<ProgressBar>(R.id.searchProgressBar).visibility = View.GONE
-        findViewById<TextView>(R.id.progressBarText).visibility = View.GONE
+    private fun foundHelperPerson(uid: String, latitude: Double, longitude: Double){
+        if(helpersId.contains(uid)) return
 
-        val helpersText = findViewById<TextView>(R.id.incomingHelpersNumber)
-        if (++helpersNumbers > 1) {
-            helpersText.text = String.format( "%d people are coming to help you", helpersNumbers)
-        } else {
-            helpersText.text = String.format( "%d person is coming to help you", helpersNumbers)
-            // When the first user agrees to provide help, the user can contact
-            // him via the chat feature.
-            constraint_layout_contact_helpers.visibility = View.VISIBLE
-            image_open_latest_messages.setOnClickListener{goToLatestMessagesActivity()}
+        helpersId.add(uid)
+        showHelperPerson(uid, latitude, longitude)
 
+        runOnUiThread {
+            findViewById<ProgressBar>(R.id.searchProgressBar).visibility = View.GONE
+            findViewById<TextView>(R.id.progressBarText).visibility = View.GONE
+
+            val helpersText = findViewById<TextView>(R.id.incomingHelpersNumber)
+            if (++helpersNumbers > 1) {
+                helpersText.text = String.format(getString(R.string.many_people_help), helpersNumbers)
+            } else {
+                helpersText.text = getString(R.string.one_person_help)
+                // When the first user agrees to provide help, the user can contact
+                // him via the chat feature.
+                constraint_layout_contact_helpers.visibility = View.VISIBLE
+                image_open_latest_messages.setOnClickListener{ goToLatestMessagesActivity() }
+            }
+            helpersText.visibility = View.VISIBLE
         }
-        helpersText.visibility = View.VISIBLE
-
     }
 
     /**
      * Adds a marker on the map representing the position of someone coming to
      * help.
      */
-    private fun showHelperPerson(latitude: Double, longitude: Double){
+    private fun showHelperPerson(uid: String, latitude: Double, longitude: Double){
         val latLng = LatLng(latitude, longitude)
-        val name = resources.getString(R.string.helper_marker_desc)
+        val name = resources.getString(R.string.helper_marker_desc) + uid
 
         val options = MarkerOptions()
         options.position(latLng)
         options.title(name)
         options.icon(BitmapDescriptorFactory.fromResource(R.drawable.helper_marker))
 
-        mapsFragment.addMarker(options)
+        //mapsFragment.addMarker(options) TODO: Fragment not working
     }
 
-    /**
-     * @see InfoOnHelpTaskActivity.setupLocation
-     */
     private fun setupLocation() {
         val currentLocation = GeneralLocationManager.get().getCurrentLocation(this)
         if (currentLocation != null) {
@@ -241,6 +263,15 @@ class AwaitHelpActivity : AppCompatActivity() {
      * Cancels the search on the Database and goes back to MainActivity
      */
     fun cancelHelpSearch(view: View){
+        val bundle = this.intent.extras
+        if(bundle == null) {
+            goToActivity(MainPageActivity::class.java)
+            return
+        }
+        val emergencyId = bundle.getInt(EXTRA_EMERGENCY_KEY)
+        databaseOf(EMERGENCIES).delete(emergencyId.toString())
+        // Re-listen to other emergencies
+        activateHelpListeners()
         // TODO the action on the DB is not yet defined
         // TODO should include deleting the conversation from the db
         goToActivity(MainPageActivity::class.java)

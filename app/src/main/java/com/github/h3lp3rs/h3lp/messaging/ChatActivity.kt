@@ -40,39 +40,56 @@ class ChatActivity : AppCompatActivity() {
 
         conversation.addListener { messages, messenger ->
             if (messages.isNotEmpty()) {
+                // Only the last message is added to the view as the others had already been added
+                // before.
                 val message = messages.last()
                 if (message.messenger == messenger) adapter.add(
                     MessageLayout(
-                        message.message,
-                        senderLayout
+                        message.message, senderLayout, message.messenger
                     )
                 )
-                else adapter.add(MessageLayout(message.message, receiverLayout))
+                else adapter.add(MessageLayout(message.message, receiverLayout, message.messenger))
+                // Scroll to the last message received or sent.
+                recycler_view_chat.smoothScrollToPosition(adapter.itemCount - 1)
             }
         }
         button_send_message.setOnClickListener {
             val text = text_view_enter_message.text.toString()
-            // When the user clicks on send, the message is sent to the database
+            // When the user clicks on send, the message is sent to the database.
             conversation.sendMessage(text)
-            // Clear the text field when the user hits send
+            // Clears the text field when the user hits send.
             text_view_enter_message.text.clear()
         }
     }
-
 }
 
 /**
  * Class representing the layout of the user's text messages.
  */
-private class MessageLayout(private val message : String, private val layout : Int) :
-    Item<ViewHolder>() {
+private class MessageLayout(
+    private val message : String, private val layout : Int, private val messenger : Messenger
+) : Item<ViewHolder>() {
 
     override fun bind(viewHolder : ViewHolder, position : Int) {
-        if (layout == R.layout.chat_sender) viewHolder.itemView.text_view_sender.text = message
-        else viewHolder.itemView.text_view_receiver.text = message
+        if (layout == R.layout.chat_sender) {
+            viewHolder.itemView.text_view_sender.text = message
+            viewHolder.itemView.sender_profile_picture.setImageResource(getProfilePicture())
+        } else {
+            viewHolder.itemView.text_view_receiver.text = message
+            viewHolder.itemView.receiver_profile_picture.setImageResource(getProfilePicture())
+        }
     }
 
     override fun getLayout() : Int {
         return layout
+    }
+
+    /**
+     * Gets the profile picture of a user
+     * @return the id of the picture
+     */
+    private fun getProfilePicture() : Int {
+        return if (messenger == Messenger.HELPEE) R.drawable.helpee_profile_picture
+        else R.drawable.helper_profile_picture
     }
 }

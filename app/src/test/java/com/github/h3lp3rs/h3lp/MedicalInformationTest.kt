@@ -1,5 +1,8 @@
 package com.github.h3lp3rs.h3lp
 
+import com.github.h3lp3rs.h3lp.dataclasses.BloodType
+import com.github.h3lp3rs.h3lp.dataclasses.Gender
+import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation
 import com.github.h3lp3rs.h3lp.MedicalInformation.Companion.MAX_HEIGHT
 import com.github.h3lp3rs.h3lp.MedicalInformation.Companion.MAX_WEIGHT
 import com.github.h3lp3rs.h3lp.MedicalInformation.Companion.MIN_HEIGHT

@@ -1,4 +1,4 @@
-package com.github.h3lp3rs.h3lp
+package com.github.h3lp3rs.h3lp.dataclasses
 
 import android.os.Build
 import androidx.annotation.RequiresApi
