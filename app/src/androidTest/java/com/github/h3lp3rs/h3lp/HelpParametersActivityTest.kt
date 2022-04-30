@@ -211,11 +211,11 @@ class HelpParametersActivityTest {
         loadMedicalDataToLocalStorage()
 
         // Mocking the location manager as if an error occurred (in which case, the returned location
-        // would be null
+        // would be null)
         When(locationManagerMock.getCurrentLocation(anyOrNull())).thenReturn(
             CompletableFuture.failedFuture(RuntimeException("hi"))// .failedFuture(RuntimeException(GET_LOCATION_EXCEPTION))
-
         )
+
         GeneralLocationManager.set(locationManagerMock)
 
         val phoneButton = onView(withId(R.id.help_params_call_button))

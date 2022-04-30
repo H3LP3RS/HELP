@@ -156,19 +156,15 @@ class AwaitHelpActivity : AppCompatActivity() {
     }
 
     /**
-     * Initializes the user's current location or returns to the main page in case a mistake occurred
-     * during the location information retrieval
+     * Initializes the user's current location or leaves it to null in case a mistake occurred
+     * during the location information retrieval (so that the fallback emergency services number
+     * can still be called)
      */
     private fun setupLocation() {
         val futureLocation = GeneralLocationManager.get().getCurrentLocation(this)
-        futureLocation.handle { location, exception ->
-            if (exception != null) {
-                // In case the permission to access the location is missing
-                goToActivity(MainPageActivity::class.java)
-            } else {
-                currentLat = location.latitude
-                currentLong = location.longitude
-            }
+        futureLocation.thenAccept { location ->
+            currentLat = location.latitude
+            currentLong = location.longitude
         }
     }
 
