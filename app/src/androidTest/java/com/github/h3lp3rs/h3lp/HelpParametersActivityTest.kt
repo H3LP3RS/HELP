@@ -40,9 +40,11 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.anyOrNull
+import java.lang.RuntimeException
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.CompletableFuture.completedFuture
+import java.util.concurrent.CompletableFuture.failedFuture
 import org.mockito.Mockito.`when` as When
 
 // Case example of a possible query when a user clicks on the call for emergency button
@@ -210,10 +212,12 @@ class HelpParametersActivityTest {
 
         loadMedicalDataToLocalStorage()
 
-        // Mocking the location manager as if an error occurred (in which case, the returned location
-        // would be null)
+        // Mocking the location manager as if an error occurred (in which case, the returned future
+        // fails)
+        val failingFuture: CompletableFuture<Location> = CompletableFuture()
+        failingFuture.completeExceptionally(RuntimeException(GET_LOCATION_EXCEPTION))
         When(locationManagerMock.getCurrentLocation(anyOrNull())).thenReturn(
-            CompletableFuture.failedFuture(RuntimeException("hi"))// .failedFuture(RuntimeException(GET_LOCATION_EXCEPTION))
+            failingFuture
         )
 
         GeneralLocationManager.set(locationManagerMock)
