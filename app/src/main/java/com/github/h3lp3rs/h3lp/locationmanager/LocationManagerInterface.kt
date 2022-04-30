@@ -15,8 +15,15 @@ interface LocationManagerInterface {
      * @param context The activity from which the location manager is called to get the user's
      * permissions
      * @return A future with the user's current location or a future completing exceptionally in
-     * case the user didn't have location permissions activated or there was an exception while
-     * getting their location
+     * case the user didn't have location permissions activated (fails with
+     * GET_PERMISSIONS_EXCEPTION message) or there was an exception while getting their location
+     * (fails with GET_LOCATION_EXCEPTION message)
      */
     fun getCurrentLocation(context: Context): CompletableFuture<Location>
+
+    companion object {
+        // Names of the runtime exceptions to throw when getCurrentLocation fails
+        const val GET_LOCATION_EXCEPTION = "Location could not be retrieved"
+        const val GET_PERMISSIONS_EXCEPTION = "Location permissions were not granted"
+    }
 }

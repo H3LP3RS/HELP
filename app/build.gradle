@@ -66,7 +66,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.13.2'
     testImplementation "org.mockito.kotlin:mockito-kotlin:3.2.0"
-    testImplementation "org.mockito:mockito-core:3.2.0"
+    testImplementation "org.mockito:mockito-core:3.9.0"
     testImplementation 'org.json:json:20180813'
     testImplementation("org.hamcrest:hamcrest:2.2")
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:1.6.0"
@@ -79,14 +79,14 @@ dependencies {
     // added for drawer layout testing
     androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:3.0.2'
     // required if you want to use Mockito for unit tests
-    testImplementation 'org.mockito:mockito-core:3.2.0'
+    testImplementation 'org.mockito:mockito-core:3.9.0'
     // required if you want to use Mockito for Android tests
     androidTestImplementation 'org.mockito:mockito-android:3.2.0'
     // required for the implementation of the app guide
     implementation 'uk.co.samuelwall:material-tap-target-prompt:3.3.2'
     // required for the preferences Manager
     implementation 'androidx.preference:preference-ktx:1.2.0'
-    implementation 'com.google.android.material:material:1.2.0-alpha03'
+    implementation 'com.google.android.material:material:1.7.0-alpha01'
     implementation 'com.akexorcist:google-direction-library:1.2.0'
     // Material Design
     implementation 'com.google.android.material:material:1.5.0'

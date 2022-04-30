@@ -2,12 +2,11 @@ package com.github.h3lp3rs.h3lp
 
 import android.Manifest
 import android.app.Activity
-import android.app.Instrumentation.*
+import android.app.Instrumentation.ActivityResult
 import android.content.Intent
 import android.location.Location
 import android.net.Uri
-import androidx.test.core.app.ApplicationProvider
-import androidx.test.core.app.ApplicationProvider.*
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -19,14 +18,15 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.GrantPermissionRule
 import com.github.h3lp3rs.h3lp.LocalEmergencyCaller.DEFAULT_EMERGENCY_NUMBER
-import com.github.h3lp3rs.h3lp.database.Databases
-import com.github.h3lp3rs.h3lp.database.Databases.*
+import com.github.h3lp3rs.h3lp.database.Databases.EMERGENCIES
+import com.github.h3lp3rs.h3lp.database.Databases.NEW_EMERGENCIES
 import com.github.h3lp3rs.h3lp.database.MockDatabase
 import com.github.h3lp3rs.h3lp.dataclasses.BloodType
 import com.github.h3lp3rs.h3lp.dataclasses.Gender
 import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 import com.github.h3lp3rs.h3lp.locationmanager.LocationManagerInterface
+import com.github.h3lp3rs.h3lp.locationmanager.LocationManagerInterface.Companion.GET_LOCATION_EXCEPTION
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.storage.Storages
@@ -41,6 +41,8 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.anyOrNull
 import java.util.*
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.CompletableFuture.completedFuture
 import org.mockito.Mockito.`when` as When
 
 // Case example of a possible query when a user clicks on the call for emergency button
@@ -72,7 +74,10 @@ class HelpParametersActivityTest {
         emergencyDb.setInt(globalContext.getString(R.string.EMERGENCY_UID_KEY), 0)
         EMERGENCIES.db = emergencyDb
         resetStorage()
-        storageOf(Storages.USER_COOKIE).setBoolean(globalContext.getString(R.string.KEY_USER_AGREE), true)
+        storageOf(Storages.USER_COOKIE).setBoolean(
+            globalContext.getString(R.string.KEY_USER_AGREE),
+            true
+        )
     }
 
     @Test
@@ -103,12 +108,16 @@ class HelpParametersActivityTest {
     }
 
     @Test
-    fun clickPhoneButtonAndContactButtonDialsEmergencyContactNumber(){
+    fun clickPhoneButtonAndContactButtonDialsEmergencyContactNumber() {
         val intent = Intent()
         val intentResult = ActivityResult(Activity.RESULT_OK, intent)
         intending(anyIntent()).respondWith(intentResult)
 
-        When(locationManagerMock.getCurrentLocation(anyOrNull())).thenReturn(null)
+        When(locationManagerMock.getCurrentLocation(anyOrNull())).thenReturn(
+            completedFuture(
+                locationMock
+            )
+        )
         GeneralLocationManager.set(locationManagerMock)
 
         loadMedicalDataToLocalStorage()
@@ -138,16 +147,20 @@ class HelpParametersActivityTest {
      * Auxiliary function to put a medical emergency contact in the local database
      */
     private fun loadMedicalDataToLocalStorage() {
-        val medicalInformation = MedicalInformation(MedicalInformation.MAX_HEIGHT-1,
-            MedicalInformation.MAX_WEIGHT-1, Gender.Male,
+        val medicalInformation = MedicalInformation(
+            MedicalInformation.MAX_HEIGHT - 1,
+            MedicalInformation.MAX_WEIGHT - 1, Gender.Male,
             Calendar.getInstance().get(Calendar.YEAR),
-            "", "","",
-            BloodType.ABn, "", VALID_CONTACT_NUMBER)
+            "", "", "",
+            BloodType.ABn, "", VALID_CONTACT_NUMBER
+        )
 
 
         storageOf(Storages.MEDICAL_INFO)
-            .setObject(globalContext.getString(R.string.medical_info_key),
-                MedicalInformation::class.java, medicalInformation)
+            .setObject(
+                globalContext.getString(R.string.medical_info_key),
+                MedicalInformation::class.java, medicalInformation
+            )
     }
 
     @Test
@@ -158,7 +171,7 @@ class HelpParametersActivityTest {
 
         // Mocking the user's location to a predefined set of coordinates
         When(locationManagerMock.getCurrentLocation(anyOrNull())).thenReturn(
-            locationMock
+            completedFuture(locationMock)
         )
         When(locationMock.longitude).thenReturn(CORRECT_EMERGENCY_CALL.first)
         When(locationMock.latitude).thenReturn(CORRECT_EMERGENCY_CALL.second)
@@ -173,7 +186,8 @@ class HelpParametersActivityTest {
         phoneButton.perform(click())
 
         // click the ambulance in the popup
-        onView(withId(R.id.ambulance_call_button)).inRoot(RootMatchers.isFocusable()).perform(click())
+        onView(withId(R.id.ambulance_call_button)).inRoot(RootMatchers.isFocusable())
+            .perform(click())
 
         // The expected ambulance phone number given the location (specified by the coordinates)
         val number = "tel:${CORRECT_EMERGENCY_CALL.third}"
@@ -198,7 +212,10 @@ class HelpParametersActivityTest {
 
         // Mocking the location manager as if an error occurred (in which case, the returned location
         // would be null
-        When(locationManagerMock.getCurrentLocation(anyOrNull())).thenReturn(null)
+        When(locationManagerMock.getCurrentLocation(anyOrNull())).thenReturn(
+            CompletableFuture.failedFuture(RuntimeException("hi"))// .failedFuture(RuntimeException(GET_LOCATION_EXCEPTION))
+
+        )
         GeneralLocationManager.set(locationManagerMock)
 
         val phoneButton = onView(withId(R.id.help_params_call_button))
@@ -294,7 +311,7 @@ class HelpParametersActivityTest {
     fun screenDisplaysCorrectLocation() {
         // Mocking the user's location to a predefined set of coordinates
         When(locationManagerMock.getCurrentLocation(anyOrNull())).thenReturn(
-            locationMock
+            completedFuture(locationMock)
         )
         When(locationMock.longitude).thenReturn(CORRECT_EMERGENCY_CALL.first)
         When(locationMock.latitude).thenReturn(CORRECT_EMERGENCY_CALL.second)

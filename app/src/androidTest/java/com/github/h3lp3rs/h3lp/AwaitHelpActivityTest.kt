@@ -11,7 +11,6 @@ import androidx.test.core.app.ActivityScenario.launch
 import androidx.test.espresso.Espresso.*
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.assertion.ViewAssertions.*
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers
@@ -36,13 +35,15 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mockito.`when`
+import org.mockito.Mockito.`when` as When
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.anyOrNull
 import java.util.*
 import org.mockito.Mockito.*
 import org.mockito.kotlin.anyOrNull
 import java.util.*
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.CompletableFuture.completedFuture
 import kotlin.collections.ArrayList
 
 // Tests work on local but not on Cirrus
@@ -67,8 +68,8 @@ class AwaitHelpActivityTest {
         GeneralLocationManager.set(locationManagerMock)
         init()
 
-        `when`(locationManagerMock.getCurrentLocation(anyOrNull())).thenReturn(
-            locationMock
+        When(locationManagerMock.getCurrentLocation(anyOrNull())).thenReturn(
+            completedFuture(locationMock)
         )
 
         globalContext = getApplicationContext()
