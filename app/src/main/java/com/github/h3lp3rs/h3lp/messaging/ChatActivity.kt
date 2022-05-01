@@ -1,9 +1,18 @@
 package com.github.h3lp3rs.h3lp.messaging
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.EXTRA_USER_ROLE
+import com.github.h3lp3rs.h3lp.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
+import com.github.h3lp3rs.h3lp.database.Databases
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
+import com.google.firebase.database.ChildEventListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.gson.Gson
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
@@ -17,9 +26,10 @@ class ChatActivity : AppCompatActivity() {
 
     private val adapter = GroupAdapter<ViewHolder>()
 
-    private var userRole : Messenger? = null
+    var userRole : Messenger? = null
     private var conversationId : String? = null
     private lateinit var conversation : Conversation
+    private val messagesDatabase = databaseOf(Databases.MESSAGES)
 
     private val receiverLayout = R.layout.chat_receiver
     private val senderLayout = R.layout.chat_sender
@@ -28,7 +38,7 @@ class ChatActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
 
-        // This is to be able to know whether a message is meant to be in the right or left layout.
+        // This is to be able to know whether a message is meant to be in the right or left layout
         val user = intent.getSerializableExtra(EXTRA_USER_ROLE)
         if (user != null) userRole = user as Messenger
 
@@ -38,6 +48,7 @@ class ChatActivity : AppCompatActivity() {
 
         recycler_view_chat.adapter = adapter
 
+        /*
         conversation.addListener { messages, messenger ->
             if (messages.isNotEmpty()) {
                 // Only the last message is added to the view as the others had already been added
@@ -53,13 +64,48 @@ class ChatActivity : AppCompatActivity() {
                 recycler_view_chat.smoothScrollToPosition(adapter.itemCount - 1)
             }
         }
+         */
         button_send_message.setOnClickListener {
             val text = text_view_enter_message.text.toString()
-            // When the user clicks on send, the message is sent to the database.
+            // When the user clicks on send, the message is sent to the database
             conversation.sendMessage(text)
-            // Clears the text field when the user hits send.
+            // Clears the text field when the user hits send
             text_view_enter_message.text.clear()
         }
+        listenForMessages()
+    }
+
+    private fun listenForMessages() {
+        // Event listener that handles the received and sent text messages and correctly updates
+        // the view
+        val childEventListener = object : ChildEventListener {
+
+            override fun onChildAdded(p0 : DataSnapshot, p1 : String?) {
+                val chatMessage =
+                    Gson().fromJson(p0.getValue(String::class.java), Message::class.java)
+
+                chatMessage?.let {
+                    // Compare the messenger to the current user to correctly display the message
+                    if (it.messenger == userRole) {
+                        adapter.add(MessageLayout(it.message, senderLayout, it.messenger))
+                    } else {
+                        adapter.add(MessageLayout(it.message, receiverLayout, it.messenger))
+                    }
+                    // Scroll to the last message received or sent
+                    recycler_view_chat.smoothScrollToPosition(adapter.itemCount - 1)
+                }
+            }
+
+            override fun onCancelled(p0 : DatabaseError) {}
+            override fun onChildChanged(p0 : DataSnapshot, p1 : String?) {}
+            override fun onChildMoved(p0 : DataSnapshot, p1 : String?) {}
+            override fun onChildRemoved(p0 : DataSnapshot) {}
+        }
+        // Reference to the database of the chat messages belonging to the current conversation
+        val conversationDb = messagesDatabase.getDatabaseReference(conversationId.toString())
+        // Add the event listener to the current conversation
+        conversationDb.addChildEventListener(childEventListener)
+
     }
 }
 

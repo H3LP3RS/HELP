@@ -344,4 +344,5 @@
     <string name="professional_user">Professional user</string>
     <string name="normal_user">Normal user</string>
     <string name="permission_popup_title">Access to localization</string>
+    <string name="deleted_conversation_message">The user has deleted the conversation.</string>
 </resources>
