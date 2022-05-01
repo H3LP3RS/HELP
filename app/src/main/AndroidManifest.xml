@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        package="com.github.h3lp3rs.h3lp">
-
+    package="com.github.h3lp3rs.h3lp">
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -15,12 +14,15 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-            android:allowBackup="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/app_name"
-            android:roundIcon="@mipmap/ic_launcher_round"
-            android:supportsRtl="true"
-            android:theme="@style/Theme.H3LP">
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.H3LP">
+        <activity
+            android:name=".professional.ProProfileActivity"
+            android:exported="false" />
         <activity
             android:name=".SettingsActivity"
             android:exported="false" />
@@ -49,7 +51,6 @@
             android:name=".firstaid.AedActivity"
             android:exported="false" />
         <activity
-
             android:name=".firstaid.HeartAttackActivity"
             android:exported="false" />
         <activity
@@ -64,9 +65,9 @@
             sign the APK for publishing.
         -->
         <meta-data
-
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+
         <activity
             android:name=".NearbyUtilitiesActivity"
             android:exported="false" />
