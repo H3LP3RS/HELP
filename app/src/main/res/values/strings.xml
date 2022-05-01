@@ -344,4 +344,8 @@
     <string name="professional_user">Professional user</string>
     <string name="normal_user">Normal user</string>
     <string name="permission_popup_title">Access to localization</string>
+    <string name="domain">Domain</string>
+    <string name="professional_status">Professional status</string>
+    <string name="experience">Experience</string>
+    <string name="my_professional_profile">My professional profile</string>
 </resources>
