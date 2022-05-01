@@ -49,7 +49,7 @@ class ProfessionalTypeSelection : AppCompatActivity() {
      */
     fun helpDialogue(view: View){
         AlertDialog.Builder(this).setTitle(getString(R.string.forum_themes))
-            .setMessage(getString(R.string.help_my_skills)).show()
+            .setMessage(getString(R.string.help_my_forum_theme)).show()
     }
 
     /**

@@ -375,6 +375,7 @@
         </ScrollView>
 
         <ImageButton
+            android:id="@+id/ForumTypeHelp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="32dp"
