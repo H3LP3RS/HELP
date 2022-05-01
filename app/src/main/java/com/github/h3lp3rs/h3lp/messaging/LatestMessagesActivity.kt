@@ -104,7 +104,10 @@ class LatestMessagesActivity : AppCompatActivity() {
             override fun onChildChanged(p0 : DataSnapshot, p1 : String?) {}
             override fun onChildMoved(p0 : DataSnapshot, p1 : String?) {}
             override fun onChildRemoved(p0 : DataSnapshot) {
-
+                // The id that has been deleted
+                val deletedConversationId = p0.getValue(String::class.java)
+                // Remove the conversation button from the view
+                idToItem[deletedConversationId]?.let { adapter.remove(it) }
             }
         }
         // Reference to the database of the conversation ids send by the helpers who agreed to
@@ -113,6 +116,8 @@ class LatestMessagesActivity : AppCompatActivity() {
         conversationDb.addChildEventListener(childEventListener)
 
     }
+
+
 
     /**
      * Class representing a conversation layout of a helper who accepted to provide medical assistance.

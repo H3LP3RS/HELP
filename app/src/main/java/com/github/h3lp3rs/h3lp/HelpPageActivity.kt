@@ -222,7 +222,8 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private fun cancelAfterAccepting() {
         val conversationIdsDb = databaseOf(CONVERSATION_IDS)
         // Remove the conversationId and the conversation from the database
-        conversationIdsDb.delete(conversationId!!)
+        //TODO correct this
+        //conversationIdsDb.delete(helpeeId+"/"+???)
         conversation!!.deleteConversation()
     }
 }
