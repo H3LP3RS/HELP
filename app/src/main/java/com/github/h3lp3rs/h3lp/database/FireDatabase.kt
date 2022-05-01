@@ -168,6 +168,9 @@ internal class FireDatabase(path: String) : Database {
         db.child(key).removeValue()
     }
 
+    override fun setChildEventListener(childEventListener:ChildEventListener) : ChildEventListener {
+        return db.addChildEventListener(childEventListener)
+    }
     /**
      * Atomically increments an integer value of the database and calls the callback with the new
      * value

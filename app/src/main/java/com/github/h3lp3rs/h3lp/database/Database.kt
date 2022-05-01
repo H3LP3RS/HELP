@@ -1,5 +1,7 @@
 package com.github.h3lp3rs.h3lp.database
 
+import com.google.firebase.database.ChildEventListener
+import com.google.firebase.database.DatabaseReference
 import com.google.gson.Gson
 import java.util.concurrent.CompletableFuture
 
@@ -164,4 +166,14 @@ interface Database {
      * in case of a database error, thus why onComplete takes a nullable Int)
      */
     fun incrementAndGet(key: String, increment: Int, onComplete: (Int?) -> Unit)
+
+    /**
+     * Sets the child event listener to eeceive events about changes in the child locations of
+     * the current database.
+     * @param childEventListener the event listener to add to the database
+     * @return A reference to the listener provided
+     */
+    fun setChildEventListener(childEventListener: ChildEventListener) : ChildEventListener
+
+
 }
