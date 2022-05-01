@@ -354,8 +354,9 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         if(item.itemId==R.id.button_tutorial){
             viewPresentation(findViewById<View>(android.R.id.content).rootView)
         }
-        // else if(item.itemId==R.id.toolbar_settings){ }
-        // TODO ( Allow user to choose data he would like to keep private aka not sent to the database)
+        else if(item.itemId==R.id.toolbar_settings){
+            goToSettings(findViewById<View>(android.R.id.content))
+        }
 
         return if (toggle.onOptionsItemSelected(item)) true else super.onOptionsItemSelected(item)
     }

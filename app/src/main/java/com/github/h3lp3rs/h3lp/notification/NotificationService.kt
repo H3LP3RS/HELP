@@ -66,7 +66,8 @@ class NotificationService {
          * @param intent the intent to trigger when the notification is clicked
          */
         fun sendIntentNotification(ctx:Context, title : String, description : String, intent : Intent){
-            val pendingIntent : PendingIntent = PendingIntent.getActivity(ctx,0,intent , FLAG_ONE_SHOT)
+            val pendingIntent : PendingIntent = PendingIntent.getActivity(ctx,
+                FLAG_ONE_SHOT,intent , FLAG_ONE_SHOT)
             val builder = buildBasicNotification(ctx,title,description)
                 .setContentIntent(pendingIntent)
             sendNotification(builder.build(),ctx)
