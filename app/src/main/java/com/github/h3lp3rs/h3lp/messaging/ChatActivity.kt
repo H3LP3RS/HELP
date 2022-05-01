@@ -48,23 +48,6 @@ class ChatActivity : AppCompatActivity() {
 
         recycler_view_chat.adapter = adapter
 
-        /*
-        conversation.addListener { messages, messenger ->
-            if (messages.isNotEmpty()) {
-                // Only the last message is added to the view as the others had already been added
-                // before.
-                val message = messages.last()
-                if (message.messenger == messenger) adapter.add(
-                    MessageLayout(
-                        message.message, senderLayout, message.messenger
-                    )
-                )
-                else adapter.add(MessageLayout(message.message, receiverLayout, message.messenger))
-                // Scroll to the last message received or sent.
-                recycler_view_chat.smoothScrollToPosition(adapter.itemCount - 1)
-            }
-        }
-         */
         button_send_message.setOnClickListener {
             val text = text_view_enter_message.text.toString()
             // When the user clicks on send, the message is sent to the database

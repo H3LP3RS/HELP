@@ -166,6 +166,8 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             // Init chat
             initChat()
         }.exceptionally { goToMainPage() } // Expired
+        // If the user accepts to help, he can change his mind and cancel later.
+        button_reject.setOnClickListener{ cancelAfterAccepting() }
     }
 
     private fun initChat() {
@@ -215,5 +217,12 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     private fun goToMainPage() {
         goToActivity(MainPageActivity::class.java)
+    }
+
+    private fun cancelAfterAccepting() {
+        val conversationIdsDb = databaseOf(CONVERSATION_IDS)
+        // Remove the conversationId and the conversation from the database
+        conversationIdsDb.delete(conversationId!!)
+        conversation!!.deleteConversation()
     }
 }
