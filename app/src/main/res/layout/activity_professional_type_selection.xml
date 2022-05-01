@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".professional.ProfessionalTypeSelection">
+
+
+    <ImageView
+        android:id="@+id/myProTypeBackGround"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/back_login2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent=".27"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0"
+        android:contentDescription="@string/background_image_description"/>
+
+
+    <ImageButton
+        android:id="@+id/myProTypeBackButton"
+        android:layout_width="17dp"
+        android:layout_height="15dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="#00FFFFFF"
+        android:onClick="backHome"
+        android:contentDescription="@string/back_button_description"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_back" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/proTypeConstraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/round_corners"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent=".80"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1">
+
+        <ScrollView
+            android:id="@+id/scrollView2"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="50dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="96dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="32dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@drawable/persimmon_background"
+                        tools:ignore="UselessParent">
+
+
+                        <ImageView
+                            android:id="@+id/generalImage"
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:contentDescription="@string/epipen"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:srcCompat="@drawable/ic_generalist" />
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/generalSwitch"
+                            android:layout_width="184dp"
+                            android:layout_height="88dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginStart="52dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="52dp"
+                            android:layout_marginBottom="16dp"
+                            android:layout_toEndOf="@+id/generalImage"
+                            android:scaleX="1.4"
+                            android:scaleY="1.4"
+                            android:switchPadding="32dp"
+                            android:text="@string/general_medicine"
+                            android:textAlignment="viewStart"
+                            android:textSize="18sp" />
+
+                    </RelativeLayout>
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="96dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="32dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@drawable/persimmon_background"
+                        tools:ignore="UselessParent">
+
+
+                        <ImageView
+                            android:id="@+id/cardioImg"
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:contentDescription="@string/inhaler"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:srcCompat="@drawable/ic_cardiology" />
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/cardioTxt"
+                            android:layout_width="184dp"
+                            android:layout_height="88dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginStart="52dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="52dp"
+                            android:layout_marginBottom="16dp"
+                            android:layout_toEndOf="@+id/cardioImg"
+                            android:scaleX="1.4"
+                            android:scaleY="1.4"
+                            android:switchPadding="32dp"
+                            android:text="@string/cardiology"
+                            android:textAlignment="viewStart"
+                            android:textSize="18sp" />
+
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="96dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="32dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@drawable/persimmon_background"
+                        tools:ignore="UselessParent">
+
+
+                        <ImageView
+                            android:id="@+id/TraumaImg"
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:contentDescription="@string/Insulin"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:srcCompat="@drawable/ic_traumatology" />
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/traumaTxt"
+                            android:layout_width="184dp"
+                            android:layout_height="88dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginStart="52dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="52dp"
+                            android:layout_marginBottom="16dp"
+                            android:layout_toEndOf="@+id/TraumaImg"
+                            android:scaleX="1.4"
+                            android:scaleY="1.4"
+                            android:switchPadding="32dp"
+                            android:text="@string/traumatology"
+                            android:textAlignment="viewStart"
+                            android:textSize="18sp" />
+
+                    </RelativeLayout>
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="96dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="32dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@drawable/persimmon_background"
+                        tools:ignore="UselessParent">
+
+
+                        <ImageView
+                            android:id="@+id/pediatryImg"
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:contentDescription="@string/cpr"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:srcCompat="@drawable/ic_pediatric" />
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/pediatrySwitch"
+                            android:layout_width="184dp"
+                            android:layout_height="88dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginStart="52dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="52dp"
+                            android:layout_marginBottom="16dp"
+                            android:layout_toEndOf="@+id/pediatryImg"
+                            android:scaleX="1.4"
+                            android:scaleY="1.4"
+                            android:switchPadding="32dp"
+                            android:text="@string/pediatry"
+                            android:textAlignment="viewStart"
+                            android:textSize="18sp" />
+
+                    </RelativeLayout>
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="96dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="32dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@drawable/persimmon_background"
+                        tools:ignore="UselessParent">
+
+
+                        <ImageView
+                            android:id="@+id/neurologyImg"
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:contentDescription="@string/first_aid"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:srcCompat="@drawable/ic_neurology" />
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/neurologySwitch"
+                            android:layout_width="184dp"
+                            android:layout_height="88dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginStart="52dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="52dp"
+                            android:layout_marginBottom="16dp"
+                            android:layout_toEndOf="@+id/neurologyImg"
+                            android:scaleX="1.4"
+                            android:scaleY="1.4"
+                            android:switchPadding="32dp"
+                            android:text="@string/neurology"
+                            android:textAlignment="viewStart"
+                            android:textSize="18sp" />
+
+                    </RelativeLayout>
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="96dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="32dp"
+                        android:layout_marginBottom="32dp"
+                        android:background="@drawable/persimmon_background"
+                        tools:ignore="UselessParent">
+
+
+                        <ImageView
+                            android:id="@+id/gynecologieImg"
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:contentDescription="@string/med_pro"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:srcCompat="@drawable/ic_gynecology" />
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/GynecologySwitch"
+                            android:layout_width="184dp"
+                            android:layout_height="88dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginStart="52dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="52dp"
+                            android:layout_marginBottom="16dp"
+                            android:layout_toEndOf="@+id/gynecologieImg"
+                            android:scaleX="1.4"
+                            android:scaleY="1.4"
+                            android:switchPadding="32dp"
+                            android:text="@string/gynecology"
+                            android:textAlignment="viewStart"
+                            android:textSize="18sp" />
+
+                    </RelativeLayout>
+                </RelativeLayout>
+            </LinearLayout>
+        </ScrollView>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="4dp"
+            android:background="#00FFFFFF"
+            android:contentDescription="@string/back_button_description"
+            android:onClick="helpDialogue"
+            app:layout_constraintBottom_toTopOf="@+id/scrollView2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/ic_question_mark" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="@string/forum_themes"
+        android:layout_height="wrap_content"
+        android:lineSpacingExtra="8sp"
+        android:shadowColor="@color/black"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="20"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="@color/white"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/proTypeConstraintLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

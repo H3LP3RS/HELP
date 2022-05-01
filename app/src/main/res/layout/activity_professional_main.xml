@@ -157,9 +157,10 @@
 
                     <ImageButton
                         android:id="@+id/pro_profile_button"
-                        android:background="@drawable/doctor"
                         android:layout_width="80dp"
-                        android:layout_height="80dp"/>
+                        android:layout_height="80dp"
+                        android:background="@drawable/doctor"
+                        android:onClick="gotoForumTheme" />
 
                     <TextView
                         android:text="@string/profile"
