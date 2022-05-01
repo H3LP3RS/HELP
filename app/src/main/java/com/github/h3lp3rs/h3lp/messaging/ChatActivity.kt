@@ -73,6 +73,7 @@ class ChatActivity : AppCompatActivity() {
             text_view_enter_message.text.clear()
         }
         listenForMessages()
+        onConversationDeletion()
     }
 
     private fun listenForMessages() {
@@ -106,6 +107,58 @@ class ChatActivity : AppCompatActivity() {
         // Add the event listener to the current conversation
         conversationDb.addChildEventListener(childEventListener)
 
+    }
+
+    private fun onConversationDeletion() {
+        // Event listener that handles deleting the text messages from the view upon deletion
+        // from the database
+        val childEventListener = object : ChildEventListener {
+
+            override fun onChildAdded(p0 : DataSnapshot, p1 : String?) {}
+            override fun onCancelled(p0 : DatabaseError) {}
+            override fun onChildChanged(p0 : DataSnapshot, p1 : String?) {}
+            override fun onChildMoved(p0 : DataSnapshot, p1 : String?) {}
+
+            override fun onChildRemoved(p0 : DataSnapshot) {
+                val key = p0.key
+                // If the key is the conversation Id, that means that the user deleted the current
+                // conversation
+                if (key == conversationId) {
+                    // Remove all the messages from the view
+                    adapter.clear()
+                    displayMessage(getString(R.string.deleted_conversation_message))
+                    // If the user had previously accepted to provide help, upon cancellation either
+                    // from him or the helpee, he simply goes back to the main page of the app
+                    if (userRole == Messenger.HELPER) backHome()
+                    // If the user is a helpee, finish() allows him to go back to the latest
+                    // messages activity
+                    else finish()
+                }
+            }
+        }
+        // TODO is it better to have it on the conversation IDs db?
+        // Reference to the database of the chat messages
+        val conversationIdsDB = messagesDatabase.getDatabaseReference(null)
+        conversationIdsDB.addChildEventListener(childEventListener)
+
+    }
+
+    /**
+     * Displays a message using snackbar
+     * @param message message to display
+     */
+    private fun displayMessage(message : String) {
+        Toast.makeText(
+            applicationContext, message, Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    /**
+     * Send back to the MainPageActivity
+     */
+    private fun backHome() {
+        val intent = Intent(this, MainPageActivity::class.java)
+        startActivity(intent)
     }
 }
 
