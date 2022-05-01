@@ -171,6 +171,11 @@ internal class FireDatabase(path: String) : Database {
     override fun setChildEventListener(childEventListener:ChildEventListener) : ChildEventListener {
         return db.addChildEventListener(childEventListener)
     }
+
+    override fun getDatabaseReference(childKey : String?) : DatabaseReference {
+        return if(childKey==null) db
+        else db.child(childKey!!)
+    }
     /**
      * Atomically increments an integer value of the database and calls the callback with the new
      * value

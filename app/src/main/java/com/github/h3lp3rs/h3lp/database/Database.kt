@@ -175,5 +175,12 @@ interface Database {
      */
     fun setChildEventListener(childEventListener: ChildEventListener) : ChildEventListener
 
-
+    /**
+     * Gets either the basic database reference or the relative path from this reference
+     * @param childKey The relative path from this reference to the new one that should be created
+     * or null
+     * @return The original database reference if childKey was null or the new DatabaseReference to
+     * the given path
+     */
+    fun getDatabaseReference(childKey : String?) : DatabaseReference
 }
