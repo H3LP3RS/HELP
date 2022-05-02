@@ -5,6 +5,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.CheckBox
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import com.github.h3lp3rs.h3lp.R
@@ -59,12 +60,12 @@ class ProfessionalTypeSelection : AppCompatActivity() {
         val theme = storage.getObjectOrDefault(getString(R.string.forum_theme_key),
             MedicalType::class.java, null) ?: return
 
-        toggleSwitch(theme.cardiology, R.id.cardioTxt)
-        toggleSwitch(theme.generalist, R.id.generalSwitch)
-        toggleSwitch(theme.gynecology, R.id.GynecologySwitch)
-        toggleSwitch(theme.neurology, R.id.neurologySwitch)
-        toggleSwitch(theme.pediatry, R.id.pediatrySwitch)
-        toggleSwitch(theme.traumatology, R.id.traumaTxt)
+        checkCheckBox(theme.cardiology, R.id.cardioTxt)
+        checkCheckBox(theme.generalist, R.id.generalSwitch)
+        checkCheckBox(theme.gynecology, R.id.GynecologySwitch)
+        checkCheckBox(theme.neurology, R.id.neurologySwitch)
+        checkCheckBox(theme.pediatry, R.id.pediatrySwitch)
+        checkCheckBox(theme.traumatology, R.id.traumaTxt)
     }
 
     /**
@@ -72,8 +73,8 @@ class ProfessionalTypeSelection : AppCompatActivity() {
      * @param toggle the boolean to toggle the switch
      * @param id the id of the switch to toggle
      */
-    private fun toggleSwitch(toggle: Boolean, id: Int){
-        findViewById<SwitchMaterial>(id).isChecked = toggle
+    private fun checkCheckBox(toggle: Boolean, id: Int){
+        findViewById<CheckBox>(id).isChecked = toggle
     }
 
     /**
@@ -98,6 +99,6 @@ class ProfessionalTypeSelection : AppCompatActivity() {
      * return the boolean from a switch button
      */
     private fun getBooleanFromSwitch(id: Int):Boolean{
-        return findViewById<SwitchMaterial>(id).isChecked
+        return findViewById<CheckBox>(id).isChecked
     }
 }

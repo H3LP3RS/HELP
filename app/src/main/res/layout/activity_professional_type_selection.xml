@@ -91,7 +91,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:srcCompat="@drawable/ic_generalist" />
 
-                        <com.google.android.material.switchmaterial.SwitchMaterial
+                        <CheckBox
                             android:id="@+id/generalSwitch"
                             android:layout_width="184dp"
                             android:layout_height="88dp"
@@ -108,7 +108,9 @@
                             android:switchPadding="32dp"
                             android:text="@string/general_medicine"
                             android:textAlignment="viewStart"
-                            android:textSize="18sp" />
+                            android:textSize="18sp"
+                            android:button="@null"
+                            android:drawableEnd="@drawable/bell_checkbox"/>
 
                     </RelativeLayout>
                 </RelativeLayout>
@@ -143,7 +145,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:srcCompat="@drawable/ic_cardiology" />
 
-                        <com.google.android.material.switchmaterial.SwitchMaterial
+                        <CheckBox
                             android:id="@+id/cardioTxt"
                             android:layout_width="184dp"
                             android:layout_height="88dp"
@@ -160,7 +162,9 @@
                             android:switchPadding="32dp"
                             android:text="@string/cardiology"
                             android:textAlignment="viewStart"
-                            android:textSize="18sp" />
+                            android:textSize="18sp"
+                            android:button="@null"
+                            android:drawableEnd="@drawable/bell_checkbox"/>
 
                     </RelativeLayout>
                 </RelativeLayout>
@@ -194,7 +198,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:srcCompat="@drawable/ic_traumatology" />
 
-                        <com.google.android.material.switchmaterial.SwitchMaterial
+                        <CheckBox
                             android:id="@+id/traumaTxt"
                             android:layout_width="184dp"
                             android:layout_height="88dp"
@@ -211,7 +215,9 @@
                             android:switchPadding="32dp"
                             android:text="@string/traumatology"
                             android:textAlignment="viewStart"
-                            android:textSize="18sp" />
+                            android:textSize="18sp"
+                            android:button="@null"
+                            android:drawableEnd="@drawable/bell_checkbox"/>
 
                     </RelativeLayout>
                 </RelativeLayout>
@@ -246,7 +252,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:srcCompat="@drawable/ic_pediatric" />
 
-                        <com.google.android.material.switchmaterial.SwitchMaterial
+                        <CheckBox
                             android:id="@+id/pediatrySwitch"
                             android:layout_width="184dp"
                             android:layout_height="88dp"
@@ -263,7 +269,8 @@
                             android:switchPadding="32dp"
                             android:text="@string/pediatry"
                             android:textAlignment="viewStart"
-                            android:textSize="18sp" />
+                            android:textSize="18sp"   android:button="@null"
+                            android:drawableEnd="@drawable/bell_checkbox"/>
 
                     </RelativeLayout>
                 </RelativeLayout>
@@ -298,7 +305,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:srcCompat="@drawable/ic_neurology" />
 
-                        <com.google.android.material.switchmaterial.SwitchMaterial
+                        <CheckBox
                             android:id="@+id/neurologySwitch"
                             android:layout_width="184dp"
                             android:layout_height="88dp"
@@ -315,7 +322,9 @@
                             android:switchPadding="32dp"
                             android:text="@string/neurology"
                             android:textAlignment="viewStart"
-                            android:textSize="18sp" />
+                            android:textSize="18sp"
+                            android:button="@null"
+                            android:drawableEnd="@drawable/bell_checkbox"/>
 
                     </RelativeLayout>
                 </RelativeLayout>
@@ -350,7 +359,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:srcCompat="@drawable/ic_gynecology" />
 
-                        <com.google.android.material.switchmaterial.SwitchMaterial
+                        <CheckBox
                             android:id="@+id/GynecologySwitch"
                             android:layout_width="184dp"
                             android:layout_height="88dp"
@@ -367,7 +376,9 @@
                             android:switchPadding="32dp"
                             android:text="@string/gynecology"
                             android:textAlignment="viewStart"
-                            android:textSize="18sp" />
+                            android:textSize="18sp"
+                            android:button="@null"
+                            android:drawableEnd="@drawable/bell_checkbox"/>
 
                     </RelativeLayout>
                 </RelativeLayout>
