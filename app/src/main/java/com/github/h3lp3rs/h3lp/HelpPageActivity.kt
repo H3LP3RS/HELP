@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.Databases.CONVERSATION_IDS
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
@@ -94,6 +95,8 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         // becomes visible.
         button_accept.setOnClickListener{ acceptHelpRequest() }
         button_reject.setOnClickListener{ goToMainPage() }
+
+        onEmergencyCancellation()
     }
 
 
@@ -223,7 +226,21 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         conversation!!.deleteConversation()
     }
 
+    private fun onEmergencyCancellation() {
+        fun onChildRemoved(id : String) {
+           if(id == helpeeId)
+               goToActivity(MainPageActivity::class.java)
+        }
 
+        // Reference to the database of the conversation ids send by the helpers who agreed to
+        // provide help
+        //val conversationDb = conversationIdsDb.getDatabaseReference(helpeeId)
+
+        databaseOf(CONVERSATION_IDS).addEventListener(
+            null,
+            String::class.java,null,
+        ) { id -> run { onChildRemoved(id) } }
+    }
 
 
 

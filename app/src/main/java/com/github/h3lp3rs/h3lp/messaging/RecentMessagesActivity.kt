@@ -86,6 +86,7 @@ class RecentMessagesActivity : AppCompatActivity() {
         /**
          * Adds the corresponding conversation to the view when a helper sends a unique conversation
          * id to the helpee
+         * @param conversationId The corresponding conversation id
          */
         fun onChildAdded(conversationId : String) {
             val helper = HelperConversation(conversationId)
