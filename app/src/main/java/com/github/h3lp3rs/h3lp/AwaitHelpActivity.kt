@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import com.github.h3lp3rs.h3lp.database.Databases.CONVERSATION_IDS
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.activateHelpListeners
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.database.Databases.EMERGENCIES
@@ -19,7 +20,7 @@ import com.github.h3lp3rs.h3lp.firstaid.AllergyActivity
 import com.github.h3lp3rs.h3lp.firstaid.AsthmaActivity
 import com.github.h3lp3rs.h3lp.firstaid.HeartAttackActivity
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
-import com.github.h3lp3rs.h3lp.messaging.LatestMessagesActivity
+import com.github.h3lp3rs.h3lp.messaging.RecentMessagesActivity
 import com.github.h3lp3rs.h3lp.storage.Storages
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
@@ -242,7 +243,7 @@ class AwaitHelpActivity : AppCompatActivity() {
     }
 
     private fun goToLatestMessagesActivity(){
-        val intent = Intent(this, LatestMessagesActivity::class.java)
+        val intent = Intent(this, RecentMessagesActivity::class.java)
         intent.putExtra(EXTRA_HELPEE_ID, helpeeId)
         startActivity(intent)
     }
@@ -261,8 +262,8 @@ class AwaitHelpActivity : AppCompatActivity() {
         databaseOf(EMERGENCIES).delete(emergencyId.toString())
         // Re-listen to other emergencies
         activateHelpListeners()
-        // TODO the action on the DB is not yet defined
-        // TODO should include deleting the conversation from the db
+        // Delete the helpee's id
+        helpeeId?.let { databaseOf(CONVERSATION_IDS).delete(it) }
         startActivity(Intent(this, MainPageActivity::class.java))
     }
 }

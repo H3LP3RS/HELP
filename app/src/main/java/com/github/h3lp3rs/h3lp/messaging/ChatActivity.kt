@@ -60,50 +60,33 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun listenForMessages() {
-        // Event listener that handles the received and sent text messages and correctly updates
-        // the view
-        val childEventListener = object : ChildEventListener {
+      fun onChildAdded(chatMessage: Message) {
+          //val chatMessage = Gson().fromJson(p0.getValue(String::class.java), Message::class.java)
 
-            override fun onChildAdded(p0 : DataSnapshot, p1 : String?) {
-                val chatMessage =
-                    Gson().fromJson(p0.getValue(String::class.java), Message::class.java)
+          chatMessage.let {
+              // Compare the messenger to the current user to correctly display the message
+              if (it.messenger == userRole) {
+                  adapter.add(MessageLayout(it.message, senderLayout, it.messenger))
+              } else {
+                  adapter.add(MessageLayout(it.message, receiverLayout, it.messenger))
+              }
+              // Scroll to the last message received or sent
+              recycler_view_chat.smoothScrollToPosition(adapter.itemCount - 1)
+          }
+      }
 
-                chatMessage?.let {
-                    // Compare the messenger to the current user to correctly display the message
-                    if (it.messenger == userRole) {
-                        adapter.add(MessageLayout(it.message, senderLayout, it.messenger))
-                    } else {
-                        adapter.add(MessageLayout(it.message, receiverLayout, it.messenger))
-                    }
-                    // Scroll to the last message received or sent
-                    recycler_view_chat.smoothScrollToPosition(adapter.itemCount - 1)
-                }
-            }
-
-            override fun onCancelled(p0 : DatabaseError) {}
-            override fun onChildChanged(p0 : DataSnapshot, p1 : String?) {}
-            override fun onChildMoved(p0 : DataSnapshot, p1 : String?) {}
-            override fun onChildRemoved(p0 : DataSnapshot) {}
-        }
         // Reference to the database of the chat messages belonging to the current conversation
-        val conversationDb = messagesDatabase.getDatabaseReference(conversationId.toString())
+        //val conversationDb = messagesDatabase.getDatabaseReference(conversationId.toString())
         // Add the event listener to the current conversation
-        conversationDb.addChildEventListener(childEventListener)
-
+        //conversationDb.addChildEventListener(childEventListener)
+        messagesDatabase.addEventListener(conversationId, Message::class.java,{ value-> run { onChildAdded(value) } },{ })
     }
 
     private fun onConversationDeletion() {
         // Event listener that handles deleting the text messages from the view upon deletion
         // from the database
-        val childEventListener = object : ChildEventListener {
 
-            override fun onChildAdded(p0 : DataSnapshot, p1 : String?) {}
-            override fun onCancelled(p0 : DatabaseError) {}
-            override fun onChildChanged(p0 : DataSnapshot, p1 : String?) {}
-            override fun onChildMoved(p0 : DataSnapshot, p1 : String?) {}
-
-            override fun onChildRemoved(p0 : DataSnapshot) {
-                val key = p0.key
+            fun onChildRemoved(key:String) {
                 // If the key is the conversation Id, that means that the user deleted the current
                 // conversation
                 if (key == conversationId) {
@@ -118,11 +101,17 @@ class ChatActivity : AppCompatActivity() {
                     else finish()
                 }
             }
-        }
+
         // TODO is it better to have it on the conversation IDs db?
         // Reference to the database of the chat messages
-        val conversationIdsDB = messagesDatabase.getDatabaseReference(null)
-        conversationIdsDB.addChildEventListener(childEventListener)
+        //val conversationIdsDB = messagesDatabase.getDatabaseReference(null)
+        messagesDatabase.addEventListener(null, String::class.java,null) { key ->
+            run {
+                onChildRemoved(
+                    key
+                )
+            }
+        }
 
     }
 

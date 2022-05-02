@@ -1,8 +1,6 @@
 package com.github.h3lp3rs.h3lp.database
 
 import android.annotation.SuppressLint
-import com.google.firebase.database.ChildEventListener
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.core.utilities.encoding.CustomClassMapper.*
 import java.lang.NullPointerException
 import com.google.gson.Gson
@@ -160,11 +158,10 @@ class MockDatabase : Database {
         }
     }
 
-    override fun setChildEventListener(childEventListener : ChildEventListener) : ChildEventListener {
-        TODO("Not yet implemented")
-    }
+    override fun <T> addEventListener(
+        key : String?, type : Class<T>, action : ((T) -> Unit)?,
+        action2 : (String) -> Unit){
+        TODO("IMPLEMENT")
+}
 
-    override fun getDatabaseReference(childKey : String?) : DatabaseReference {
-        TODO("Not yet implemented")
-    }
 }

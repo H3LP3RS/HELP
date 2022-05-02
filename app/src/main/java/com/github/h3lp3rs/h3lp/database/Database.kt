@@ -1,6 +1,7 @@
 package com.github.h3lp3rs.h3lp.database
 
 import com.google.firebase.database.ChildEventListener
+import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseReference
 import com.google.gson.Gson
 import java.util.concurrent.CompletableFuture
@@ -168,19 +169,10 @@ interface Database {
     fun incrementAndGet(key: String, increment: Int, onComplete: (Int?) -> Unit)
 
     /**
-     * Sets the child event listener to eeceive events about changes in the child locations of
-     * the current database.
-     * @param childEventListener the event listener to add to the database
-     * @return A reference to the listener provided
+     * Adds an event listener to a key in the database
+     * @param onDataRemoved The action to take on the new data snapshot when data is deleted
+     * @param onDataChange The action to take on the new data snapshot when data is added
+     * @param childKey The relative path from this reference to the new one or null
      */
-    fun setChildEventListener(childEventListener: ChildEventListener) : ChildEventListener
-
-    /**
-     * Gets either the basic database reference or the relative path from this reference
-     * @param childKey The relative path from this reference to the new one that should be created
-     * or null
-     * @return The original database reference if childKey was null or the new DatabaseReference to
-     * the given path
-     */
-    fun getDatabaseReference(childKey : String?) : DatabaseReference
+    fun <T> addEventListener(key : String?, type : Class<T>, action : ((T) -> Unit)?, action2 : (String) -> Unit)
 }
