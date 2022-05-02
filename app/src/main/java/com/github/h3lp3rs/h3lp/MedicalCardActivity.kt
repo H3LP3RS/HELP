@@ -31,6 +31,9 @@ import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.i18n.phonenumbers.PhoneNumberUtil
+import android.widget.EditText
+import com.google.i18n.phonenumbers.Phonenumber
+
 
 class MedicalCardActivity : AppCompatActivity() {
 
@@ -75,19 +78,28 @@ class MedicalCardActivity : AppCompatActivity() {
         val phoneInputText = findViewById<EditText>(R.id.medicalInfoContactNumberEditTxt)
         val phoneInputLayout = findViewById<TextInputLayout>(R.id.medicalInfoContactNumberTxtLayout)
         phoneInputText.doOnTextChanged { text, _, _, _ ->
-            try {
-                val number =
-                    PhoneNumberUtil.getInstance().parse(text.toString().trimStart('0'), "CH")
-                if (PhoneNumberUtil.getInstance().isPossibleNumber(number)) {
-                    phoneInputLayout.error = null
-                } else {
-                    phoneInputLayout.error = getString(R.string.invalid_number)
+           when{
+               text!!.isEmpty() -> {
+                   phoneInputLayout.error = ""
+               }else -> {
+                      try {
+                        val number =
+                            PhoneNumberUtil.getInstance().parse(text.toString().trimStart('0'), "CH")
+                        if (PhoneNumberUtil.getInstance().isPossibleNumber(number)) {
+                            phoneInputLayout.error = null
+                        } else {
+                            phoneInputLayout.error = getString(R.string.invalid_number)
+                        }
+                    } catch (e: Exception) {
+                        phoneInputLayout.error = getString(R.string.invalid_number)
+                    }
                 }
-            } catch (e: Exception) {
-                phoneInputLayout.error = getString(R.string.invalid_number)
-            }
+           }
         }
+
     }
+
+
 
     /**
      * create an Field that test input and write error 7
@@ -269,6 +281,9 @@ class MedicalCardActivity : AppCompatActivity() {
         loadTo(medicalInformation.allergy, R.id.medicalInfoAllergyEditTxt)
         loadTo(medicalInformation.gender.name, R.id.medicalInfoGenderDropdown)
         loadTo(medicalInformation.bloodType.type, R.id.medicalInfoBloodDropdown)
+        loadTo(medicalInformation.emergencyContactNumber, R.id.medicalInfoContactNumberEditTxt)
+        loadTo(medicalInformation.emergencyContactPrimaryName, R.id.medicalInfoContactNameEditTxt)
+
     }
 
     /**
@@ -292,12 +307,32 @@ class MedicalCardActivity : AppCompatActivity() {
     fun checkAndSaveChanges(view: View) {
         if (!checkField()) {
             createSnackbar(view, getString(R.string.invalid_field_msg))
-        } else if (!checkPolicy()) {
+        }else if(checkNull()){
+            createSnackbar(view,getString(R.string.invalid_empty_msg))
+        }else if (!checkPolicy()) {
             createSnackbar(view, getString(R.string.privacy_policy_not_acceptes))
         } else {
             saveChanges()
             createSnackbar(view, getString(R.string.changes_saved))
         }
+    }
+
+    /**
+     * Check that no deterministic field is left empty
+     */
+    private fun checkNull():Boolean{
+        return isEmpty(R.id.medicalInfoHeightEditTxt) ||
+                isEmpty(R.id.medicalInfoWeightEditTxt) ||
+                isEmpty(R.id.medicalInfoBirthEditTxt) ||
+                noChoice(R.id.medicalInfoGenderDropdown) ||
+                noChoice(R.id.medicalInfoBloodDropdown)
+    }
+
+    private fun isEmpty(id: Int): Boolean {
+        return findViewById<EditText>(id).text.toString().isEmpty()
+    }
+    private fun noChoice(id : Int): Boolean{
+        return  findViewById<AutoCompleteTextView>(id).text.toString().isEmpty()
     }
 
     /**
@@ -311,7 +346,7 @@ class MedicalCardActivity : AppCompatActivity() {
         val bloodType = findViewById<AutoCompleteTextView>(R.id.medicalInfoBloodDropdown)
         val contactNumber = findViewById<TextInputLayout>(R.id.medicalInfoContactNumberTxtLayout)
         return size.error == null && year.error == null && weight.error == null
-                && gender.text != null && bloodType != null && contactNumber != null
+                && gender.text != null && bloodType.text != null && contactNumber.error == null
     }
 
     /**
@@ -341,10 +376,15 @@ class MedicalCardActivity : AppCompatActivity() {
         val contactName = getStringFromId(R.id.medicalInfoContactNameEditTxt)
 
         val contactNumber = getStringFromId(R.id.medicalInfoContactNumberEditTxt)
-        val number = PhoneNumberUtil.getInstance().parse(
-            contactNumber.trimStart('0'), DEFAULT_COUNTRY)
+        var formattedNumber = ""
+        if(contactNumber!=""){
+            val number =
+                PhoneNumberUtil.getInstance().parse(
+                    contactNumber.trimStart('0'), DEFAULT_COUNTRY)
+            formattedNumber = String.format("+%d%d", number.countryCode, number.nationalNumber)
 
-        val formattedNumber = String.format("+%d%d", number.countryCode, number.nationalNumber)
+        }
+
 
         val medicalInformation = MedicalInformation(
             size, weight, gender, year, condition, treatment,
