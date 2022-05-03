@@ -61,8 +61,6 @@ class ChatActivity : AppCompatActivity() {
 
     private fun listenForMessages() {
       fun onChildAdded(chatMessage: Message) {
-          //val chatMessage = Gson().fromJson(p0.getValue(String::class.java), Message::class.java)
-
           chatMessage.let {
               // Compare the messenger to the current user to correctly display the message
               if (it.messenger == userRole) {
@@ -75,10 +73,7 @@ class ChatActivity : AppCompatActivity() {
           }
       }
 
-        // Reference to the database of the chat messages belonging to the current conversation
-        //val conversationDb = messagesDatabase.getDatabaseReference(conversationId.toString())
         // Add the event listener to the current conversation
-        //conversationDb.addChildEventListener(childEventListener)
         messagesDatabase.addEventListener(conversationId, Message::class.java,{ value-> run { onChildAdded(value) } },{ })
     }
 
@@ -110,7 +105,6 @@ class ChatActivity : AppCompatActivity() {
                 )
             }
         }
-
     }
 
     /**
