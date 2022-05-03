@@ -354,7 +354,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         if(item.itemId == R.id.button_tutorial){
             viewPresentation(findViewById<View>(android.R.id.content).rootView)
         }
-        else if(item.itemId==R.id.toolbar_settings){
+        else if(item.itemId == R.id.toolbar_settings){
             goToSettings(findViewById<View>(android.R.id.content))
         }
 
