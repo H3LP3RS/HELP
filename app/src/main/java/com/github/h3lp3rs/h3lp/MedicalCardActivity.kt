@@ -328,10 +328,10 @@ class MedicalCardActivity : AppCompatActivity() {
                 noChoice(R.id.medicalInfoBloodDropdown)
     }
 
-    private fun isEmpty(id: Int): Boolean {
+    private fun textIsEmpty(id: Int): Boolean {
         return findViewById<EditText>(id).text.toString().isEmpty()
     }
-    private fun noChoice(id : Int): Boolean{
+    private fun noChoiceInAutoComplete(id : Int): Boolean{
         return  findViewById<AutoCompleteTextView>(id).text.toString().isEmpty()
     }
 
