@@ -257,13 +257,13 @@ class AwaitHelpActivity : AppCompatActivity() {
             startActivity(Intent(this, MainPageActivity::class.java))
             return
         }
-
         val emergencyId = bundle.getInt(EXTRA_EMERGENCY_KEY)
         databaseOf(EMERGENCIES).delete(emergencyId.toString())
         // Re-listen to other emergencies
         activateHelpListeners()
         // Delete the helpee's id
         helpeeId?.let { databaseOf(CONVERSATION_IDS).delete(it) }
+        // Redirect user to the main page after he cancels his emergency
         startActivity(Intent(this, MainPageActivity::class.java))
     }
 }

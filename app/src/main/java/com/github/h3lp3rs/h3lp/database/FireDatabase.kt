@@ -167,7 +167,8 @@ internal class FireDatabase(path : String) : Database {
         for (key in copy.keys) {
             clearListeners(key)
         }
-        for (key in openEventListeners.keys) {
+        val clone = HashMap(openEventListeners)
+        for (key in clone.keys) {
             clearListeners(key)
         }
     }
@@ -203,6 +204,7 @@ internal class FireDatabase(path : String) : Database {
 
         val key = if (childKey == null) {
             db.addChildEventListener(eventListener)
+            // The listener is added to the entire db
             ""
         } else {
             db.child(childKey).addChildEventListener(eventListener)

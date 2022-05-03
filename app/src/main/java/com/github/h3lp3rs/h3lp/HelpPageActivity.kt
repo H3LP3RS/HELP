@@ -5,17 +5,17 @@ import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.database.Databases.*
-import com.github.h3lp3rs.h3lp.database.Databases.CONVERSATION_IDS
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.databinding.ActivityHelpPageBinding
 import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
 import com.github.h3lp3rs.h3lp.dataclasses.Helper
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
-import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
+import com.github.h3lp3rs.h3lp.messaging.ChatActivity
 import com.github.h3lp3rs.h3lp.messaging.Conversation
 import com.github.h3lp3rs.h3lp.messaging.Conversation.Companion.UNIQUE_CONVERSATION_ID
+import com.github.h3lp3rs.h3lp.messaging.EXTRA_CONVERSATION_ID
 import com.github.h3lp3rs.h3lp.messaging.Messenger.HELPER
-import com.github.h3lp3rs.h3lp.messaging.*
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.util.GDurationJSONParser
 import com.google.android.gms.maps.MapsInitializer
 import kotlinx.android.synthetic.main.activity_help_page.*
@@ -46,16 +46,16 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     // helpRequired contains strings for each medication / specific help required by the user in
     // need e.g. Epipen, CPR
-    private var helpRequired: List<String>? = null
-    private lateinit var apiHelper: GoogleAPIHelper
-    private var helpId: String? = null
+    private var helpRequired : List<String>? = null
+    private lateinit var apiHelper : GoogleAPIHelper
+    private var helpId : String? = null
 
     // Map fragment displayed
     private lateinit var mapsFragment : MapsFragment
 
     // Conversation with the person in need of help (only if the user accepts to help them)
     private var conversation : Conversation? = null
-    private var conversationId: String? = null
+    private var conversationId : String? = null
 
     override fun onCreate(savedInstanceState : Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,8 +91,8 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
         // Initially the contact button is hidden, only after the user accepts the request does it
         // becomes visible.
-        button_accept.setOnClickListener{ acceptHelpRequest() }
-        button_reject.setOnClickListener{ goToMainPage() }
+        button_accept.setOnClickListener { acceptHelpRequest() }
+        button_reject.setOnClickListener { goToMainPage() }
 
         onEmergencyCancelled()
     }
@@ -148,7 +148,7 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
      * (see CommunicationProtocol.md for a detailed explanation)
      */
     private fun acceptHelpRequest() {
-        if(helpId == null) {
+        if (helpId == null) {
             goToMainPage()
             return
         }
@@ -156,19 +156,23 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             // Add the helper to the list of helpers
             val me = Helper(userUid!!, currentLat, currentLong)
             val helpers = ArrayList<Helper>(it.helpers)
-            if(!helpers.contains(me)) {
+            if (!helpers.contains(me)) {
                 helpers.add(me)
             }
             // Stop listening to other emergencies
             databaseOf(NEW_EMERGENCIES).clearAllListeners()
             // TODO: Here we can potentially periodically update the GPS coordinates
             // Update the value to notify that we are coming
-            databaseOf(EMERGENCIES).setObject(helpId!!, EmergencyInformation::class.java, it.copy(helpers = helpers))
+            databaseOf(EMERGENCIES).setObject(
+                helpId!!,
+                EmergencyInformation::class.java,
+                it.copy(helpers = helpers)
+            )
             // Init chat
             initChat()
         }.exceptionally { goToMainPage() } // Expired
-        // If the user accepts to help, he can change his mind and cancel later.
-        button_reject.setOnClickListener{ cancelAfterAccepting() }
+        // If the user accepts to help, he can change his mind and cancel later
+        button_reject.setOnClickListener { cancelAfterAccepting() }
     }
 
     private fun initChat() {
@@ -196,7 +200,7 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         // Once the user accepts to help, the accept button disappears and he is able to
         // start conversations with the person who requested help.
         button_accept.setImageResource(R.drawable.chat)
-        button_accept.setOnClickListener{goToChatActivity()}
+        button_accept.setOnClickListener { goToChatActivity() }
     }
 
     private fun goToChatActivity() {
@@ -226,23 +230,20 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     private fun onEmergencyCancelled() {
         fun onChildRemoved(id : String) {
-           if(id == helpeeId){
-               goToActivity(MainPageActivity::class.java)
-               conversation?.deleteConversation()
-           }
+            if (id == helpeeId) {
+                // If the person the user is trying to help has cancelled his emergency, the
+                // conversation is deleted from the database and the helper is redirected to the
+                // main page
+                conversation?.deleteConversation()
+                goToActivity(MainPageActivity::class.java)
+            }
         }
-
-        // Reference to the database of the conversation ids send by the helpers who agreed to
-        // provide help
-        //val conversationDb = conversationIdsDb.getDatabaseReference(helpeeId)
-
+        // The event is added to the entire conversation IDS database and so no child key is needed
         databaseOf(CONVERSATION_IDS).addEventListener(
             null,
-            String::class.java,null,
+            String::class.java, null,
         ) { id -> run { onChildRemoved(id) } }
     }
-
-
 
 
 }
