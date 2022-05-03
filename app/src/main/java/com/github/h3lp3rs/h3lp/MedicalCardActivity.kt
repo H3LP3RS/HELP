@@ -33,7 +33,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import android.widget.EditText
 import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation.Companion.EMPTY_NB
-import com.google.i18n.phonenumbers.Phonenumber
 
 
 class MedicalCardActivity : AppCompatActivity() {
@@ -326,17 +325,17 @@ class MedicalCardActivity : AppCompatActivity() {
      * Check that no deterministic field is left empty
      */
     private fun checkNull(): Boolean {
-        return isEmpty(R.id.medicalInfoHeightEditTxt) ||
-                isEmpty(R.id.medicalInfoWeightEditTxt) ||
-                isEmpty(R.id.medicalInfoBirthEditTxt) ||
-                noChoice(R.id.medicalInfoGenderDropdown) ||
-                noChoice(R.id.medicalInfoBloodDropdown)
+        return textIsEmpty(R.id.medicalInfoHeightEditTxt) ||
+                textIsEmpty(R.id.medicalInfoWeightEditTxt) ||
+                textIsEmpty(R.id.medicalInfoBirthEditTxt) ||
+                noChoiceSelected(R.id.medicalInfoGenderDropdown) ||
+                noChoiceSelected(R.id.medicalInfoBloodDropdown)
     }
 
-    private fun isEmpty(id: Int): Boolean {
+    private fun textIsEmpty(id: Int): Boolean {
         return findViewById<EditText>(id).text.toString().isEmpty()
     }
-    private fun noChoice(id : Int): Boolean{
+    private fun noChoiceSelected(id : Int): Boolean{
         return  findViewById<AutoCompleteTextView>(id).text.toString().isEmpty()
     }
 
