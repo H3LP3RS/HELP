@@ -16,7 +16,8 @@ internal class FireDatabase(path : String) : Database {
         Firebase.database("https://h3lp-signin-default-rtdb.europe-west1.firebasedatabase.app/").reference.child(
             path
         )
-    private val openListeners = HashMap<String, List<ValueEventListener>>()
+    private val openValueListeners = HashMap<String, List<ValueEventListener>>()
+    private val openEventListeners = HashMap<String, List<ChildEventListener>>()
 
     /**
      * Utility function to extract values into futures from generic types
@@ -103,12 +104,12 @@ internal class FireDatabase(path : String) : Database {
         }
         db.child(key).addValueEventListener(l)
         // Enrich the list & add to map
-        val ls = openListeners.getOrDefault(key, emptyList()) + listOf(l)
-        openListeners[key] = ls
+        val ls = openValueListeners.getOrDefault(key, emptyList()) + listOf(l)
+        openValueListeners[key] = ls
     }
 
     override fun <T> addListenerIfNotPresent(key : String, type : Class<T>, action : (T) -> Unit) {
-        if (!openListeners.containsKey(key)) {
+        if (!openValueListeners.containsKey(key)) {
             addListener(key, type, action)
         }
     }
@@ -148,16 +149,24 @@ internal class FireDatabase(path : String) : Database {
     }
 
     override fun clearListeners(key : String) {
-        val ls = openListeners.getOrDefault(key, emptyList())
+        val ls = openValueListeners.getOrDefault(key, emptyList())
         for (l in ls) {
             db.child(key).removeEventListener(l)
         }
-        openListeners.remove(key)
+        val els = openEventListeners.getOrDefault(key, emptyList())
+        for (l in els) {
+            db.child(key).removeEventListener(l)
+        }
+        openValueListeners.remove(key)
+        openEventListeners.remove(key)
     }
 
     override fun clearAllListeners() {
-        val copy = HashMap(openListeners)
+        val copy = HashMap(openValueListeners)
         for (key in copy.keys) {
+            clearListeners(key)
+        }
+        for (key in openEventListeners.keys) {
             clearListeners(key)
         }
     }
@@ -192,11 +201,15 @@ internal class FireDatabase(path : String) : Database {
 
         val key = if (childKey == null) {
             db.addChildEventListener(eventListener)
-            db.toString()
+            ""
         } else {
             db.child(childKey).addChildEventListener(eventListener)
-            db.toString() + childKey
+            childKey
         }
+
+        // Enrich the list & add to map
+        val ls = openEventListeners.getOrDefault(key, emptyList()) + listOf(eventListener)
+        openEventListeners[key] = ls
     }
 
     override fun <T> addEventListener(

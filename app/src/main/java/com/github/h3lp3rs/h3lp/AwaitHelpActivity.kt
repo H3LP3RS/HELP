@@ -134,7 +134,7 @@ class AwaitHelpActivity : AppCompatActivity() {
                 // When the first user agrees to provide help, the user can contact
                 // him via the chat feature.
                 constraint_layout_contact_helpers.visibility = View.VISIBLE
-                image_open_latest_messages.setOnClickListener{ goToLatestMessagesActivity() }
+                image_open_latest_messages.setOnClickListener{ goToRecentMessagesActivity() }
             }
             helpersText.visibility = View.VISIBLE
         }
@@ -242,7 +242,7 @@ class AwaitHelpActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun goToLatestMessagesActivity(){
+    private fun goToRecentMessagesActivity(){
         val intent = Intent(this, RecentMessagesActivity::class.java)
         intent.putExtra(EXTRA_HELPEE_ID, helpeeId)
         startActivity(intent)

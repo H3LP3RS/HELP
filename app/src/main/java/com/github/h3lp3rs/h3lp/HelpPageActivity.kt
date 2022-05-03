@@ -226,8 +226,10 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     private fun onEmergencyCancelled() {
         fun onChildRemoved(id : String) {
-           if(id == helpeeId)
+           if(id == helpeeId){
                goToActivity(MainPageActivity::class.java)
+               conversation?.deleteConversation()
+           }
         }
 
         // Reference to the database of the conversation ids send by the helpers who agreed to
