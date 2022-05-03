@@ -24,7 +24,7 @@ class MedicalInformation(
         require(size in MIN_HEIGHT..MAX_HEIGHT)
         require(weight in MIN_WEIGHT..MAX_WEIGHT)
         require(yearOfBirth in MIN_YEAR..Year.now().value)
-        if(emergencyContactNumber!=""){
+        if(emergencyContactNumber!= EMPTY_NB){
             try {
                 val number = PhoneNumberUtil.getInstance().parse(emergencyContactNumber, DEFAULT_COUNTRY)
                 require( PhoneNumberUtil.getInstance().isPossibleNumber(number))
@@ -43,6 +43,7 @@ class MedicalInformation(
         // when the emergency contact is entered. This could be made location
         // dependant in the future.
         const val DEFAULT_COUNTRY = "CH"
+        const val EMPTY_NB = ""
     }
 }
 

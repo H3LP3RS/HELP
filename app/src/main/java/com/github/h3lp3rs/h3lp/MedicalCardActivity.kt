@@ -32,6 +32,7 @@ import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import android.widget.EditText
+import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation.Companion.EMPTY_NB
 import com.google.i18n.phonenumbers.Phonenumber
 
 
@@ -74,17 +75,22 @@ class MedicalCardActivity : AppCompatActivity() {
      * initialises the field for emergency contact phone number so that we make
      * sure to allow only valid phone numbers, or display an error.
      */
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun createPhoneNumberField() {
         val phoneInputText = findViewById<EditText>(R.id.medicalInfoContactNumberEditTxt)
         val phoneInputLayout = findViewById<TextInputLayout>(R.id.medicalInfoContactNumberTxtLayout)
         phoneInputText.doOnTextChanged { text, _, _, _ ->
-           when{
-               text!!.isEmpty() -> {
-                   phoneInputLayout.error = ""
-               }else -> {
-                      try {
+            when {
+                text!!.isEmpty() -> {
+                    phoneInputLayout.error = ""
+                }
+                else -> {
+                    try {
                         val number =
-                            PhoneNumberUtil.getInstance().parse(text.toString().trimStart('0'), "CH")
+                            PhoneNumberUtil.getInstance().parse(
+                                text.toString().trimStart('0'),
+                                MedicalInformation.DEFAULT_COUNTRY
+                            )
                         if (PhoneNumberUtil.getInstance().isPossibleNumber(number)) {
                             phoneInputLayout.error = null
                         } else {
@@ -94,11 +100,10 @@ class MedicalCardActivity : AppCompatActivity() {
                         phoneInputLayout.error = getString(R.string.invalid_number)
                     }
                 }
-           }
+            }
         }
 
     }
-
 
 
     /**
@@ -307,9 +312,9 @@ class MedicalCardActivity : AppCompatActivity() {
     fun checkAndSaveChanges(view: View) {
         if (!checkField()) {
             createSnackbar(view, getString(R.string.invalid_field_msg))
-        }else if(checkNull()){
-            createSnackbar(view,getString(R.string.invalid_empty_msg))
-        }else if (!checkPolicy()) {
+        } else if (checkNull()) {
+            createSnackbar(view, getString(R.string.invalid_empty_msg))
+        } else if (!checkPolicy()) {
             createSnackbar(view, getString(R.string.privacy_policy_not_acceptes))
         } else {
             saveChanges()
@@ -320,7 +325,7 @@ class MedicalCardActivity : AppCompatActivity() {
     /**
      * Check that no deterministic field is left empty
      */
-    private fun checkNull():Boolean{
+    private fun checkNull(): Boolean {
         return isEmpty(R.id.medicalInfoHeightEditTxt) ||
                 isEmpty(R.id.medicalInfoWeightEditTxt) ||
                 isEmpty(R.id.medicalInfoBirthEditTxt) ||
@@ -331,8 +336,9 @@ class MedicalCardActivity : AppCompatActivity() {
     private fun isEmpty(id: Int): Boolean {
         return findViewById<EditText>(id).text.toString().isEmpty()
     }
-    private fun noChoice(id : Int): Boolean{
-        return  findViewById<AutoCompleteTextView>(id).text.toString().isEmpty()
+
+    private fun noChoice(id: Int): Boolean {
+        return findViewById<AutoCompleteTextView>(id).text.toString().isEmpty()
     }
 
     /**
@@ -376,11 +382,12 @@ class MedicalCardActivity : AppCompatActivity() {
         val contactName = getStringFromId(R.id.medicalInfoContactNameEditTxt)
 
         val contactNumber = getStringFromId(R.id.medicalInfoContactNumberEditTxt)
-        var formattedNumber = ""
-        if(contactNumber!=""){
+        var formattedNumber = EMPTY_NB
+        if (contactNumber != EMPTY_NB) {
             val number =
                 PhoneNumberUtil.getInstance().parse(
-                    contactNumber.trimStart('0'), DEFAULT_COUNTRY)
+                    contactNumber.trimStart('0'), DEFAULT_COUNTRY
+                )
             formattedNumber = String.format("+%d%d", number.countryCode, number.nationalNumber)
 
         }
