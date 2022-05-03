@@ -9,10 +9,6 @@ import com.github.h3lp3rs.h3lp.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
-import com.google.firebase.database.ChildEventListener
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.gson.Gson
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
@@ -60,45 +56,49 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun listenForMessages() {
-      fun onChildAdded(chatMessage: Message) {
-          chatMessage.let {
-              // Compare the messenger to the current user to correctly display the message
-              if (it.messenger == userRole) {
-                  adapter.add(MessageLayout(it.message, senderLayout, it.messenger))
-              } else {
-                  adapter.add(MessageLayout(it.message, receiverLayout, it.messenger))
-              }
-              // Scroll to the last message received or sent
-              recycler_view_chat.smoothScrollToPosition(adapter.itemCount - 1)
-          }
-      }
+        fun onChildAdded(chatMessage : Message) {
+            chatMessage.let {
+                // Compare the messenger to the current user to correctly display the message
+                if (it.messenger == userRole) {
+                    adapter.add(MessageLayout(it.message, senderLayout, it.messenger))
+                } else {
+                    adapter.add(MessageLayout(it.message, receiverLayout, it.messenger))
+                }
+                // Scroll to the last message received or sent
+                recycler_view_chat.smoothScrollToPosition(adapter.itemCount - 1)
+            }
+        }
 
         // Add the event listener to the current conversation
-        messagesDatabase.addEventListener(conversationId, Message::class.java,{ value-> run { onChildAdded(value) } },{ })
+        messagesDatabase.addEventListener(
+            conversationId,
+            Message::class.java,
+            { value -> run { onChildAdded(value) } },
+            { })
     }
 
     private fun onConversationDeletion() {
         // Event listener that handles deleting the text messages from the view upon deletion
         // from the database
 
-            fun onChildRemoved(key:String) {
-                // If the key is the conversation Id, that means that the user deleted the current
-                // conversation
-                if (key == conversationId) {
-                    // Remove all the messages from the view
-                    adapter.clear()
-                    displayMessage(getString(R.string.deleted_conversation_message))
-                    // If the user had previously accepted to provide help, upon cancellation either
-                    // from him or the helpee, he simply goes back to the main page of the app
-                    if (userRole == Messenger.HELPER) backHome()
-                    // If the user is a helpee, finish() allows him to go back to the latest
-                    // messages activity
-                    else finish()
-                }
+        fun onChildRemoved(key : String) {
+            // If the key is the conversation Id, that means that the user deleted the current
+            // conversation
+            if (key == conversationId) {
+                // Remove all the messages from the view
+                adapter.clear()
+                displayMessage(getString(R.string.deleted_conversation_message))
+                // If the user had previously accepted to provide help, upon cancellation either
+                // from him or the helpee, he simply goes back to the main page of the app
+                if (userRole == Messenger.HELPER) backHome()
+                // If the user is a helpee, finish() allows him to go back to the latest
+                // messages activity
+                else finish()
             }
+        }
 
         // Add the event listener to the entire messages database => key = null
-        messagesDatabase.addEventListener(null, String::class.java,null) { key ->
+        messagesDatabase.addEventListener(null, String::class.java, null) { key ->
             run {
                 onChildRemoved(
                     key

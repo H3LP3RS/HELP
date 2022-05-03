@@ -118,7 +118,8 @@ class RecentMessagesActivity : AppCompatActivity() {
      */
     class HelperConversation(private val conversationId : String) : Item<ViewHolder>() {
         override fun bind(viewHolder : ViewHolder, position : Int) {
-            viewHolder.itemView.textview_username.text = Messenger.HELPER.toString().plus(position+ 1)
+            viewHolder.itemView.textview_username.text =
+                Messenger.HELPER.toString().plus(position + 1)
         }
 
         override fun getLayout() : Int {

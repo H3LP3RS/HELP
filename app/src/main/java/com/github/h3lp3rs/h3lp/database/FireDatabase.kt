@@ -235,6 +235,8 @@ internal class FireDatabase(path : String) : Database {
         }
 
         fun onDataRemoved(snapshot : DataSnapshot) {
+            // It is only necessary to know which element has been deleted, not its value, thus the
+            // action is executed on the key of the element
             onChildRemoved(snapshot.key!!)
         }
 
