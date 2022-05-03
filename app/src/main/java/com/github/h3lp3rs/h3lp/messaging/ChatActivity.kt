@@ -97,7 +97,7 @@ class ChatActivity : AppCompatActivity() {
                 }
             }
 
-        // Reference to the database of the chat messages
+        // Add the event listener to the entire messages database => key = null
         messagesDatabase.addEventListener(null, String::class.java,null) { key ->
             run {
                 onChildRemoved(
