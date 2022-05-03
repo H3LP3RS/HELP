@@ -4,7 +4,9 @@ import com.github.h3lp3rs.h3lp.forum.data.ForumPostData
 import java.util.concurrent.CompletableFuture
 
 /**
- * A forum post containing all the data
+ * A forum post containing all the data.
+ * The interface has as attribute the instance
+ * of the forum that directly points on it.
  */
 interface ForumPost {
 

@@ -4,7 +4,13 @@ import com.github.h3lp3rs.h3lp.forum.data.ForumPostData
 import java.util.concurrent.CompletableFuture
 
 /**
- * Conceptualizes a general-use forum
+ * Conceptualizes a general-use forum. This abstraction is in reality
+ * more of a forum pointer than a real forum with data.
+ * It offers the advantages to work asynchronously, the navigation can
+ * indeed be done without any direct access and simply buffered before a
+ * real write (or read) takes place.
+ * - Note: This interface cannot write on or read a specific post, this is delegated to
+ * the ForumPost interface.
  */
 interface Forum {
 
@@ -25,11 +31,11 @@ interface Forum {
 
     /**
      * Gets the entire post at the given relative path from here
-     * The value is null if no such post exist
+     * The future fails exceptionally if no post exists
      * @param relativePath The relative path to the post
      * @return post The forum post in the form of a future
      */
-    fun getPost(relativePath: String): CompletableFuture<ForumPost?>
+    fun getPost(relativePath: String): CompletableFuture<ForumPost>
 
     /**
      * Gets all the posts at this level
