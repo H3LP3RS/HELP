@@ -107,8 +107,7 @@
     <string name="save_changes">Save changes</string>
     <string name="changes_saved">Changes saved</string>
     <string name="invalid_field_msg">ERROR : Some fields are not fill correctly</string>
-    <string name="invalid_empty_msg">ERROR : You must fill all field with *</string>
-
+    <string name="invalid_empty_msg">ERROR : Some mandatory fields (*) are left empty</string>
     <string name="privacy_policy_not_acceptes">ERROR : You must accept our privacy policy first</string>
     <string name="info_saved">Your information has been saved</string>
 
