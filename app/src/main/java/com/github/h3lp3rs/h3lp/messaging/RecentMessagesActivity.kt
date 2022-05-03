@@ -53,17 +53,7 @@ class RecentMessagesActivity : AppCompatActivity() {
             startActivity(intent)
         }
         recyclerview_latest_messages.adapter = adapter
-/*
-        /*
-         * Preparing to instantiate conversations by adding a listener on the helper id,
-         * on every new conversation id added, we create a corresponding Conversation
-         * object and add it to the conversations list
-        */
-        conversationIdsDb.addListListener(
-            helpeeId!!, String::class.java
-        ) { addNewConversation(it) }
 
- */
         listenForHelpers()
         listenForRemovedHelpers()
     }
