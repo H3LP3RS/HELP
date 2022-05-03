@@ -97,7 +97,6 @@ class RecentMessagesActivity : AppCompatActivity() {
 
         // Reference to the database of the conversation ids send by the helpers who agreed to
         // provide help
-        //val conversationDb = conversationIdsDb.getDatabaseReference(helpeeId)
 
         conversationIdsDb.addEventListener(
             helpeeId,
