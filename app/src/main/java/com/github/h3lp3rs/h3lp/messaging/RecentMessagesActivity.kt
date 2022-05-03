@@ -68,21 +68,6 @@ class RecentMessagesActivity : AppCompatActivity() {
         listenForRemovedHelpers()
     }
 
-    /**
-     * Adds the corresponding conversation to the view when a helper sends a unique conversation
-     * id to the helpee
-     * @param conversationIds The list of all current conversation ids, by definition of
-     * database.addToObjectsList the new conversation id is stored at the end of the list
-     */
-    private fun addNewConversation(conversationIds : List<String>) {
-        // This emptiness check is required since listener callbacks are called at initialisation
-        // (and thus when the list of conversation ids is still empty
-        if (conversationIds.isNotEmpty()) {
-            // Only taking the new conversation id
-            adapter.add(HelperConversation(conversationIds.last()))
-        }
-    }
-
     private fun listenForHelpers() {
         /**
          * Adds the corresponding conversation to the view when a helper sends a unique conversation
