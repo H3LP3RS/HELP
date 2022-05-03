@@ -336,9 +336,8 @@ class MedicalCardActivity : AppCompatActivity() {
     private fun isEmpty(id: Int): Boolean {
         return findViewById<EditText>(id).text.toString().isEmpty()
     }
-
-    private fun noChoice(id: Int): Boolean {
-        return findViewById<AutoCompleteTextView>(id).text.toString().isEmpty()
+    private fun noChoice(id : Int): Boolean{
+        return  findViewById<AutoCompleteTextView>(id).text.toString().isEmpty()
     }
 
     /**
