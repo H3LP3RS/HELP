@@ -70,16 +70,15 @@ class RecentMessagesActivity : AppCompatActivity() {
             idToItem[conversationId] = helper
 
         }
-
         // Reference to the database of the conversation ids send by the helpers who agreed to
         // provide help
 
-        conversationIdsDb.addEventListener(
-            helpeeId,
+        conversationIdsDb.addEventListener(helpeeId,
             String::class.java,
             { id -> run { onChildAdded(id) } },
             {})
     }
+
     /**
      * Displays a message using snackbar
      * @param message message to display
@@ -89,6 +88,7 @@ class RecentMessagesActivity : AppCompatActivity() {
             applicationContext, message, Toast.LENGTH_LONG
         ).show()
     }
+
     private fun listenForRemovedHelpers() {
         // Event listener that handles deleting the conversation from the view upon deletion
         // from the database
@@ -102,7 +102,6 @@ class RecentMessagesActivity : AppCompatActivity() {
                 displayMessage(getString(R.string.helper_cancelled))
             }
         }
-
         // Reference to the database of the chat messages
         messagesDatabase.addEventListener(null, String::class.java, null) { key ->
             run {
@@ -113,14 +112,13 @@ class RecentMessagesActivity : AppCompatActivity() {
         }
     }
 
-
     /**
      * Class representing a conversation layout of a helper who accepted to provide medical assistance.
      * @param conversationId The corresponding conversationId needed to send to the ChatActivity
      */
     class HelperConversation(private val conversationId : String) : Item<ViewHolder>() {
         override fun bind(viewHolder : ViewHolder, position : Int) {
-            viewHolder.itemView.textview_username.text = Messenger.HELPER.toString()
+            viewHolder.itemView.textview_username.text = "Helper ".plus(position+ 1)
         }
 
         override fun getLayout() : Int {
@@ -130,6 +128,5 @@ class RecentMessagesActivity : AppCompatActivity() {
         fun getConversationId() : String {
             return conversationId
         }
-
     }
 }
