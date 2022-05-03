@@ -279,6 +279,9 @@
     <string name="help_my_skills">This tab represents your skills as an helper. \n\n
         Here you can choose what you are able to help for, for example medicine that you carry with you or any health skill that you have.\n\n
         Then when somebody encounter an emergency you can help with you will be notified and can go save life</string>
+    <string name="help_my_forum_theme">This tab represents your speciality as a medical professional. \n\n
+        Here you can choose in which medical domain you will be able to respond other user question.\n\n
+        Then when somebody ask any question related to that domain on our forum you will be notified</string>
     <string name="inhaler">Inhaler</string>
     <string name="on_click_path">Fastest path to the user in need of your help</string>
     <string name="notification_manager_title">Help_notification_manager</string>
@@ -345,4 +348,13 @@
     <string name="professional_user">Professional user</string>
     <string name="normal_user">Normal user</string>
     <string name="permission_popup_title">Access to localization</string>
+    <string name="forum_themes">Forum Themes</string>
+    <string name="general_medicine">General medicine</string>
+    <string name="cardiology">Cardiology</string>
+    <string name="traumatology">Traumatology</string>
+    <string name="pediatry">Pediatry</string>
+    <string name="neurology">Neurology</string>
+    <string name="gynecology">Gynecology</string>
+    <string name="forum_theme_key">forumThemeKey</string>
+
 </resources>
