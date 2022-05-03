@@ -377,7 +377,7 @@ class MedicalCardActivity : AppCompatActivity() {
 
         val contactNumber = getStringFromId(R.id.medicalInfoContactNumberEditTxt)
         var formattedNumber = ""
-        if(contactNumber!=""){
+        if(contactNumber != ""){
             val number =
                 PhoneNumberUtil.getInstance().parse(
                     contactNumber.trimStart('0'), DEFAULT_COUNTRY)
