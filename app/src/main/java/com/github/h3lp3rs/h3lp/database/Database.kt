@@ -1,8 +1,5 @@
 package com.github.h3lp3rs.h3lp.database
 
-import com.google.firebase.database.ChildEventListener
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseReference
 import com.google.gson.Gson
 import java.util.concurrent.CompletableFuture
 
@@ -16,56 +13,56 @@ interface Database {
      * @param key The key in the database
      * @return Future of boolean
      */
-    fun getBoolean(key: String): CompletableFuture<Boolean>
+    fun getBoolean(key : String) : CompletableFuture<Boolean>
 
     /**
      * Sets a boolean to the database
      * @param key The key in the database
      * @param value The value of the boolean
      */
-    fun setBoolean(key: String, value: Boolean)
+    fun setBoolean(key : String, value : Boolean)
 
     /**
      * Gets a string from the database
      * @param key The key in the database
      * @return Future of string
      */
-    fun getString(key: String): CompletableFuture<String>
+    fun getString(key : String) : CompletableFuture<String>
 
     /**
      * Sets a string to the database
      * @param key The key in the database
      * @param value The value of the string
      */
-    fun setString(key: String, value: String)
+    fun setString(key : String, value : String)
 
     /**
      * Gets a double from the database
      * @param key The key in the database
      * @return Future of double
      */
-    fun getDouble(key: String): CompletableFuture<Double>
+    fun getDouble(key : String) : CompletableFuture<Double>
 
     /**
      * Sets a double to the database
      * @param key The key in the database
      * @param value The value of the double
      */
-    fun setDouble(key: String, value: Double)
+    fun setDouble(key : String, value : Double)
 
     /**
      * Gets an int from the database
      * @param key The key in the database
      * @return Future of int
      */
-    fun getInt(key: String): CompletableFuture<Int>
+    fun getInt(key : String) : CompletableFuture<Int>
 
     /**
      * Sets an int to the database
      * @param key The key in the database
      * @param value The value of the int
      */
-    fun setInt(key: String, value: Int)
+    fun setInt(key : String, value : Int)
 
     /**
      * Gets an object from the database, considering Json format as value
@@ -73,7 +70,7 @@ interface Database {
      * @param type The type of the resulting object
      * @return Future of the object
      */
-    fun <T> getObject(key: String, type: Class <T>): CompletableFuture<T> {
+    fun <T> getObject(key : String, type : Class<T>) : CompletableFuture<T> {
         val gson = Gson()
         return getString(key).thenApply { s -> gson.fromJson(s, type) }
     }
@@ -84,7 +81,7 @@ interface Database {
      * @param type The type of the resulting object
      * @param value The value of the object
      */
-    fun <T> setObject(key: String, type: Class<T>, value: T) {
+    fun <T> setObject(key : String, type : Class<T>, value : T) {
         val gson = Gson()
         setString(key, gson.toJson(value, type))
     }
@@ -99,7 +96,7 @@ interface Database {
      * @param type The type of the resulting object
      * @param value The value of the object
      */
-    fun <T> addToObjectsListConcurrently(key: String, type: Class<T>, value: T) {
+    fun <T> addToObjectsListConcurrently(key : String, type : Class<T>, value : T) {
         val gson = Gson()
         addStringConcurrently(key, gson.toJson(value, type))
     }
@@ -111,7 +108,7 @@ interface Database {
      * @param key The key in the database
      * @param value The value of the string
      */
-    fun addStringConcurrently(key: String, value: String)
+    fun addStringConcurrently(key : String, value : String)
 
     /**
      * Applies an arbitrary action when the value associated to the key changes
@@ -119,7 +116,7 @@ interface Database {
      * @param key The key in the database
      * @param action The action taken at change
      */
-    fun <T> addListener(key: String, type: Class <T>, action: (T) -> Unit)
+    fun <T> addListener(key : String, type : Class<T>, action : (T) -> Unit)
 
     /**
      * Applies an arbitrary action when the value associated to the key changes
@@ -128,7 +125,7 @@ interface Database {
      * @param key The key in the database
      * @param action The action taken at change
      */
-    fun <T> addListenerIfNotPresent(key: String, type: Class <T>, action: (T) -> Unit)
+    fun <T> addListenerIfNotPresent(key : String, type : Class<T>, action : (T) -> Unit)
 
     /**
      * Applies an arbitrary action when the list of values associated to the key changes
@@ -139,13 +136,13 @@ interface Database {
      * @param key The key in the database
      * @param action The action taken at change on the list of values
      */
-    fun <T> addListListener(key: String, type: Class<T>, action: (List<T>) -> Unit)
+    fun <T> addListListener(key : String, type : Class<T>, action : (List<T>) -> Unit)
 
     /**
      * Clears all listeners related to a given key
      * @param key The key in the database
      */
-    fun clearListeners(key: String)
+    fun clearListeners(key : String)
 
     /**
      * Clears all listeners related for this database
@@ -156,7 +153,7 @@ interface Database {
      * Deletes an entry of a given key from the database
      * @param key The key in the database
      */
-    fun delete(key: String)
+    fun delete(key : String)
 
     /**
      * Atomically increments an integer value of the database and calls the callback with the new
@@ -166,13 +163,20 @@ interface Database {
      * @param onComplete The callback to be called with the new value (the new value can be null
      * in case of a database error, thus why onComplete takes a nullable Int)
      */
-    fun incrementAndGet(key: String, increment: Int, onComplete: (Int?) -> Unit)
+    fun incrementAndGet(key : String, increment : Int, onComplete : (Int?) -> Unit)
 
     /**
      * Adds an event listener to a key in the database
-     * @param onDataRemoved The action to take on the new data snapshot when data is deleted
-     * @param onDataChange The action to take on the new data snapshot when data is added
-     * @param childKey The relative path from this reference to the new one or null
+     * @param onChildAdded The action to take on the new data snapshot when data is added. Could be
+     * null
+     * @param onChildRemoved The action to take on the new data snapshot when data is removed
+     * @param key The relative path from this reference to the new one or null if the action is to
+     * be taken on the entire original path
      */
-    fun <T> addEventListener(key : String?, type : Class<T>, action : ((T) -> Unit)?, action2 : (String) -> Unit)
+    fun <T> addEventListener(
+        key : String?,
+        type : Class<T>,
+        onChildAdded : ((T) -> Unit)?,
+        onChildRemoved : (String) -> Unit
+    )
 }

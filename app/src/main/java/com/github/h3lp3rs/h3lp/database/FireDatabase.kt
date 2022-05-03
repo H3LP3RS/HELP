@@ -154,8 +154,9 @@ internal class FireDatabase(path : String) : Database {
             db.child(key).removeEventListener(l)
         }
         val els = openEventListeners.getOrDefault(key, emptyList())
+        val database = if (key.isEmpty()) db else db.child(key)
         for (l in els) {
-            db.child(key).removeEventListener(l)
+            database.removeEventListener(l)
         }
         openValueListeners.remove(key)
         openEventListeners.remove(key)
@@ -173,7 +174,8 @@ internal class FireDatabase(path : String) : Database {
 
     override fun delete(key : String) {
         clearListeners(key)
-        db.child(key).removeValue()
+        if (key.isEmpty()) db.removeValue()
+        else db.child(key).removeValue()
     }
 
     private fun setEventListener(
@@ -213,10 +215,13 @@ internal class FireDatabase(path : String) : Database {
     }
 
     override fun <T> addEventListener(
-        key : String?, type : Class<T>, action : ((T) -> Unit)?, action2 : (String) -> Unit
+        key : String?,
+        type : Class<T>,
+        onChildAdded : ((T) -> Unit)?,
+        onChildRemoved : (String) -> Unit
     ) {
         fun onDataChange(snapshot : DataSnapshot) {
-            action?.let {
+            onChildAdded?.let {
                 val v : T =
                     if (type == String::class.java || type == Int::class.java || type == Double::class.java || type == Boolean::class.java) {
                         snapshot.getValue(type)!!
@@ -228,7 +233,7 @@ internal class FireDatabase(path : String) : Database {
         }
 
         fun onDataRemoved(snapshot : DataSnapshot) {
-            action2(snapshot.key!!)
+            onChildRemoved(snapshot.key!!)
         }
 
         setEventListener(key, { onDataChange(it) }, { onDataRemoved(it) })

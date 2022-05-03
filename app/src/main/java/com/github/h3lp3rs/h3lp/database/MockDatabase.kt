@@ -159,8 +159,8 @@ class MockDatabase : Database {
     }
 
     override fun <T> addEventListener(
-        key : String?, type : Class<T>, action : ((T) -> Unit)?,
-        action2 : (String) -> Unit){
+        key : String?, type : Class<T>, onChildAdded : ((T) -> Unit)?,
+        onChildRemoved : (String) -> Unit){
         TODO("IMPLEMENT")
 }
 
