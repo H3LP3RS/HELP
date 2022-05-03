@@ -2,6 +2,7 @@ package com.github.h3lp3rs.h3lp.messaging
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.EXTRA_HELPEE_ID
 import com.github.h3lp3rs.h3lp.EXTRA_USER_ROLE
@@ -104,7 +105,15 @@ class RecentMessagesActivity : AppCompatActivity() {
             { id -> run { onChildAdded(id) } },
             {})
     }
-
+    /**
+     * Displays a message using snackbar
+     * @param message message to display
+     */
+    private fun displayMessage(message : String) {
+        Toast.makeText(
+            applicationContext, message, Toast.LENGTH_LONG
+        ).show()
+    }
     private fun listenForRemovedHelpers() {
         // Event listener that handles deleting the conversation from the view upon deletion
         // from the database
@@ -115,6 +124,7 @@ class RecentMessagesActivity : AppCompatActivity() {
             idToItem[key]?.let {
                 adapter.remove(it)
                 idToItem.remove(key)
+                displayMessage(getString(R.string.helper_cancelled))
             }
         }
 

@@ -226,6 +226,7 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     private fun cancelAfterAccepting() {
         conversation!!.deleteConversation()
+        goToActivity(MainPageActivity::class.java)
     }
 
     private fun onEmergencyCancelled() {

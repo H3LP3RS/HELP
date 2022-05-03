@@ -102,9 +102,7 @@ class ChatActivity : AppCompatActivity() {
                 }
             }
 
-        // TODO is it better to have it on the conversation IDs db?
         // Reference to the database of the chat messages
-        //val conversationIdsDB = messagesDatabase.getDatabaseReference(null)
         messagesDatabase.addEventListener(null, String::class.java,null) { key ->
             run {
                 onChildRemoved(
@@ -121,7 +119,7 @@ class ChatActivity : AppCompatActivity() {
      */
     private fun displayMessage(message : String) {
         Toast.makeText(
-            applicationContext, message, Toast.LENGTH_SHORT
+            applicationContext, message, Toast.LENGTH_LONG
         ).show()
     }
 
