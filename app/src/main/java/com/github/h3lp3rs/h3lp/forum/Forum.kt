@@ -1,5 +1,6 @@
 package com.github.h3lp3rs.h3lp.forum
 
+import com.github.h3lp3rs.h3lp.forum.data.ForumPostData
 import java.util.concurrent.CompletableFuture
 
 /**
@@ -35,6 +36,13 @@ interface Forum {
      * @return posts All posts at this level in the form of a future
      */
     fun getAllPosts(): CompletableFuture<List<ForumPost>>
+
+    /**
+     * Listens to all posts at this level and executes a common lambda on
+     * the new specific post data (for every existing post, and newly created ones)
+     * @param action The action taken when a post change/add occurs
+     */
+    fun listenToAll(action: (ForumPostData) -> Unit)
 
     //--------------------------//
     //-- Navigation functions --//
