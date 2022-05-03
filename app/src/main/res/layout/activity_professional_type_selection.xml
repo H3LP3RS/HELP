@@ -360,7 +360,7 @@
                             app:srcCompat="@drawable/ic_gynecology" />
 
                         <CheckBox
-                            android:id="@+id/GynecologySwitch"
+                            android:id="@+id/gynecologySwitch"
                             android:layout_width="184dp"
                             android:layout_height="88dp"
                             android:layout_alignParentTop="true"

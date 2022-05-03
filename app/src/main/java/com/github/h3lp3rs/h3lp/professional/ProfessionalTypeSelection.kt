@@ -9,13 +9,10 @@ import android.widget.CheckBox
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.database.Databases.Companion.activateHelpListeners
-import com.github.h3lp3rs.h3lp.dataclasses.HelperSkills
 import com.github.h3lp3rs.h3lp.dataclasses.MedicalType
 import com.github.h3lp3rs.h3lp.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
-import com.google.android.material.switchmaterial.SwitchMaterial
 
 class ProfessionalTypeSelection : AppCompatActivity() {
 
@@ -24,12 +21,12 @@ class ProfessionalTypeSelection : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_professional_type_selection)
-        storage = storageOf(FORUM_THEMES)
+        storage = storageOf(FORUM_THEMES_NOTIFICATIONS)
         loadData()
     }
 
     /**
-     * When the user leaves the activity
+     * Save data when the user leaves the activity
      */
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onStop() {
@@ -40,7 +37,7 @@ class ProfessionalTypeSelection : AppCompatActivity() {
     /**
      * Function for the back button to go back to ProMainActivity
      */
-    fun backHome(view: View){
+    fun backHome(view: View) {
         val intent = Intent(this, ProMainActivity::class.java)
         startActivity(intent)
     }
@@ -48,7 +45,7 @@ class ProfessionalTypeSelection : AppCompatActivity() {
     /**
      * Show a dialogue with explication on what is the form for
      */
-    fun helpDialogue(view: View){
+    fun helpDialogue(view: View) {
         AlertDialog.Builder(this).setTitle(getString(R.string.forum_themes))
             .setMessage(getString(R.string.help_my_forum_theme)).show()
     }
@@ -57,12 +54,14 @@ class ProfessionalTypeSelection : AppCompatActivity() {
      * Load forum themes data
      */
     private fun loadData() {
-        val theme = storage.getObjectOrDefault(getString(R.string.forum_theme_key),
-            MedicalType::class.java, null) ?: return
+        val theme = storage.getObjectOrDefault(
+            getString(R.string.forum_theme_key),
+            MedicalType::class.java, null
+        ) ?: return
 
         checkCheckBox(theme.cardiology, R.id.cardioTxt)
         checkCheckBox(theme.generalist, R.id.generalSwitch)
-        checkCheckBox(theme.gynecology, R.id.GynecologySwitch)
+        checkCheckBox(theme.gynecology, R.id.gynecologySwitch)
         checkCheckBox(theme.neurology, R.id.neurologySwitch)
         checkCheckBox(theme.pediatry, R.id.pediatrySwitch)
         checkCheckBox(theme.traumatology, R.id.traumaTxt)
@@ -73,7 +72,7 @@ class ProfessionalTypeSelection : AppCompatActivity() {
      * @param toggle the boolean to toggle the switch
      * @param id the id of the switch to toggle
      */
-    private fun checkCheckBox(toggle: Boolean, id: Int){
+    private fun checkCheckBox(toggle: Boolean, id: Int) {
         findViewById<CheckBox>(id).isChecked = toggle
     }
 
@@ -84,11 +83,11 @@ class ProfessionalTypeSelection : AppCompatActivity() {
     private fun saveData() {
         val theme = MedicalType(
             getBooleanFromSwitch(R.id.generalSwitch),
-            getBooleanFromSwitch( R.id.cardioTxt),
+            getBooleanFromSwitch(R.id.cardioTxt),
             getBooleanFromSwitch(R.id.traumaTxt),
-            getBooleanFromSwitch( R.id.pediatrySwitch),
-            getBooleanFromSwitch( R.id.neurologySwitch ),
-            getBooleanFromSwitch( R.id.GynecologySwitch)
+            getBooleanFromSwitch(R.id.pediatrySwitch),
+            getBooleanFromSwitch(R.id.neurologySwitch),
+            getBooleanFromSwitch(R.id.gynecologySwitch)
         )
 
         storage.setObject(getString(R.string.forum_theme_key), MedicalType::class.java, theme)
@@ -98,7 +97,7 @@ class ProfessionalTypeSelection : AppCompatActivity() {
     /**
      * return the boolean from a switch button
      */
-    private fun getBooleanFromSwitch(id: Int):Boolean{
+    private fun getBooleanFromSwitch(id: Int): Boolean {
         return findViewById<CheckBox>(id).isChecked
     }
 }
