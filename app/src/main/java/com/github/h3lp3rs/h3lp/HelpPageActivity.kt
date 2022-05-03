@@ -164,15 +164,16 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             // TODO: Here we can potentially periodically update the GPS coordinates
             // Update the value to notify that we are coming
             databaseOf(EMERGENCIES).setObject(
-                helpId!!,
-                EmergencyInformation::class.java,
-                it.copy(helpers = helpers)
+                helpId!!, EmergencyInformation::class.java, it.copy(helpers = helpers)
             )
             // Init chat
             initChat()
         }.exceptionally { goToMainPage() } // Expired
         // If the user accepts to help, he can change his mind and cancel later
-        button_reject.setOnClickListener { cancelAfterAccepting() }
+        button_reject.setOnClickListener {
+            conversation!!.deleteConversation()
+            goToActivity(MainPageActivity::class.java)
+        }
     }
 
     private fun initChat() {
@@ -221,11 +222,6 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     }
 
     private fun goToMainPage() {
-        goToActivity(MainPageActivity::class.java)
-    }
-
-    private fun cancelAfterAccepting() {
-        conversation!!.deleteConversation()
         goToActivity(MainPageActivity::class.java)
     }
 
