@@ -133,11 +133,11 @@ class MockDatabaseTest {
 
         // We test that each thread atomically adds 1 to the value and each one sees a unique value
         val incrementValues = Collections.synchronizedList<Int>(mutableListOf())
-        val callBack: (Int?) -> Unit = { it?.let { incrementValues.add(it) } }
+        val callBack: (Int) -> Unit = { incrementValues.add(it) }
 
-        val t1 = thread { db.incrementAndGet(TEST_KEY, 1, callBack) }
-        val t2 = thread { db.incrementAndGet(TEST_KEY, 1, callBack) }
-        db.incrementAndGet(TEST_KEY, 1, callBack)
+        val t1 = thread { db.incrementAndGet(TEST_KEY, 1).thenApply { callBack(it) } }
+        val t2 = thread { db.incrementAndGet(TEST_KEY, 1).thenApply { callBack(it) } }
+        db.incrementAndGet(TEST_KEY, 1).thenApply { callBack(it) }
         t1.join(); t2.join()
 
         assertEquals(old + 3, db.getInt(TEST_KEY).get())
