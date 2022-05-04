@@ -352,4 +352,8 @@
     <string name="experience">Experience</string>
     <string name="my_professional_profile">My professional profile</string>
     <string name="question">Question</string>
+    <string name="add_a_new_post">Add a new post</string>
+    <string name="title">Title</string>
+    <string name="category">Category</string>
+    <string name="post_question">Post question</string>
 </resources>
