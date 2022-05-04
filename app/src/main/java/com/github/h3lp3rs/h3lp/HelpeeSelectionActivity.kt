@@ -81,6 +81,7 @@ class HelpeeSelectionActivity : AppCompatActivity() {
      *  asking the user to choose whether they want to call local emergency
      *  services or their emergency contact, and dials the correct number.
      */
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun emergencyCall(latitude: Double, longitude: Double) {
         val medicalInfo = storageOf(MEDICAL_INFO)
             .getObjectOrDefault(
