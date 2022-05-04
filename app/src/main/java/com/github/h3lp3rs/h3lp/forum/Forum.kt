@@ -4,6 +4,11 @@ import com.github.h3lp3rs.h3lp.forum.data.ForumPostData
 import java.util.concurrent.CompletableFuture
 
 /**
+ * Represents all the posts at one level path (or category)
+ */
+typealias CategoryPosts = Pair<String, Set<ForumPost>>
+
+/**
  * Conceptualizes a general-use forum. This abstraction is in reality
  * more of a forum pointer than a real forum with data.
  * It offers the advantages to work asynchronously, the navigation can
@@ -38,10 +43,14 @@ interface Forum {
     fun getPost(relativePath: String): CompletableFuture<ForumPost>
 
     /**
-     * Gets all the posts at this level
-     * @return posts All posts at this level in the form of a future
+     * Gets all the posts at this path and below
+     * @return posts All posts at this level and below in the form of a future
+     * The pair is a path -> posts relationship
+     * The list orders all posts in path alphabetical order
+     * Note: Kotlin not supporting pattern matching, using a recursive definition
+     * is in reality more cumbersome
      */
-    fun getAllPosts(): CompletableFuture<List<ForumPost>>
+    fun getAll(): CompletableFuture<List<CategoryPosts>>
 
     /**
      * Listens to all posts at this level and executes a common lambda on
