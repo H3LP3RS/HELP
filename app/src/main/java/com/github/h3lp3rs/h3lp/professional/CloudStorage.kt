@@ -24,4 +24,5 @@ object CloudStorage {
     fun set(newStorage: StorageReference) {
         storageRef = newStorage
     }
+    
 }
