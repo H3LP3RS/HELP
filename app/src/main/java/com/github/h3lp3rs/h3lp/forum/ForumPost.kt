@@ -36,5 +36,7 @@ interface ForumPost {
      * as parameter when a change occurs (ie: post added)
      * @param action The action taken when a change occurs
      */
-    fun listen(action: (ForumPostData) -> Unit)
+    fun listen(action: (ForumPostData) -> Unit) {
+        forum.listenToAll(action)
+    }
 }
