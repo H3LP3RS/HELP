@@ -136,6 +136,7 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             // Add the helper to the list of helpers
             val me = Helper(userUid!!, currentLat, currentLong)
             val helpers = ArrayList<Helper>(it.helpers)
+            helpers.add(me)
             // Stop listening to other emergencies
             databaseOf(NEW_EMERGENCIES).clearAllListeners()
             // TODO: Here we can potentially periodically update the GPS coordinates

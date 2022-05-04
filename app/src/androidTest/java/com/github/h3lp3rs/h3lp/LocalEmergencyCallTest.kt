@@ -48,7 +48,7 @@ class LocalEmergencyCallTest : TestCase() {
 
     @get:Rule
     val testRule = ActivityScenarioRule(
-        HelpParametersActivity::class.java
+        HelpeeSelectionActivity::class.java
     )
 
     @Test

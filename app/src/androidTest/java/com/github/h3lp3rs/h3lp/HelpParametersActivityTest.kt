@@ -55,7 +55,7 @@ class HelpParametersActivityTest {
 
     @get:Rule
     val testRule = ActivityScenarioRule(
-        HelpParametersActivity::class.java
+        HelpeeSelectionActivity::class.java
     )
 
     @get:Rule

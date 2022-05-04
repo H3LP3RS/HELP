@@ -132,7 +132,7 @@ class MainPageTestActivity {
     @Test
     fun clickingOnHelpButtonWorksAndSendsIntent() {
         launchAndDo {
-            clickingOnButtonWorksAndSendsIntent(HelpParametersActivity::class.java, withId(R.id.HELP_button), false)
+            clickingOnButtonWorksAndSendsIntent(HelpeeSelectionActivity::class.java, withId(R.id.HELP_button), false)
         }
     }
 
