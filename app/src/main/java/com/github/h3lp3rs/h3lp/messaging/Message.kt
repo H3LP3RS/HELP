@@ -5,5 +5,5 @@ package com.github.h3lp3rs.h3lp.messaging
  * (to be able to distinguish between the current user and the person they are talking to) and the
  * actual message
  */
-data class Message(val messenger: Messenger, val message: String)
+data class Message(val messenger: Messenger, val message: String, val iv: String)
 

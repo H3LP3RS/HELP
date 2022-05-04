@@ -183,7 +183,7 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                 conversationIdsDb.addToObjectsListConcurrently(helpeeId, Int::class.java, it)
 
                 // Creating a conversation on that new unique conversation id
-                conversation = Conversation(it.toString(), HELPER)
+                conversation = Conversation(it.toString(), HELPER, this)
                 conversationId = it.toString()
             }
         }
