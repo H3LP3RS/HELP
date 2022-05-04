@@ -8,7 +8,7 @@
 
 
     <ImageView
-        android:id="@+id/medicalInfoBackGround"
+        android:id="@+id/proProfileInfoBackGround"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:scaleType="centerCrop"
@@ -45,34 +45,6 @@
                 android:layout_height="wrap_content">
 
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/ProProfileDomainTxtLayout"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginEnd="32dp"
-                    android:hint="@string/domain"
-                    app:boxStrokeColor="@color/teal_200"
-                    app:errorEnabled="true"
-                    app:errorIconDrawable="@drawable/ic_error"
-                    app:hintTextColor="@color/teal_700"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ProProfileStatusLayout"
-                    app:startIconDrawable="@drawable/ic_healthcare"
-                    app:suffixText="cm"
-                    >
-
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/ProProfileDomainEditTxt"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="numberSigned"
-                        android:maxLength="3" />
-
-                </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/ProProfileStatusLayout"
@@ -97,9 +69,38 @@
                         android:id="@+id/proProfileStatusEditTxt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="numberSigned"
-                        android:maxLength="4" />
+                        android:inputType="text"
+                        android:maxLength="50" />
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/ProProfileDomainTxtLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:hint="@string/domain"
+                    app:boxStrokeColor="@color/teal_200"
+                    app:errorEnabled="true"
+                    app:errorIconDrawable="@drawable/ic_error"
+                    app:hintTextColor="@color/teal_700"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ProProfileStatusLayout"
+                    app:startIconDrawable="@drawable/ic_healthcare"
+                    >
+
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/proProfileDomainEditTxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:maxLength="50" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/ProProfileExperienceTxtLayout"
@@ -117,7 +118,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ProProfileDomainTxtLayout"
                     app:startIconDrawable="@drawable/ic_experience"
-                    app:suffixText="kg">
+                    >
 
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -125,7 +126,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="numberSigned"
-                        android:maxLength="3" />
+                        android:maxLength="3"
+                        />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
