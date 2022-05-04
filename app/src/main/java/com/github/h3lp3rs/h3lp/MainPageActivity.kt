@@ -18,14 +18,9 @@ import androidx.core.app.ActivityCompat.OnRequestPermissionsResultCallback
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.activateHelpListeners
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
-import com.github.h3lp3rs.h3lp.dataclasses.HelperSkills
-import com.github.h3lp3rs.h3lp.notification.NotificationService
-import com.github.h3lp3rs.h3lp.notification.NotificationService.Companion.createNotificationChannel
-import com.github.h3lp3rs.h3lp.notification.NotificationService.Companion.sendOpenActivityNotification
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
 import com.github.h3lp3rs.h3lp.professional.ProMainActivity
 import com.github.h3lp3rs.h3lp.professional.ProUser
@@ -407,7 +402,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
 
     /** Called when the user taps the help page button */
     fun goToHelpParametersActivity(view : View) {
-        goToActivity(HelpParametersActivity::class.java)
+        goToActivity(HelpeeSelectionActivity::class.java)
     }
 
     /**

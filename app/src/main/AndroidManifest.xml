@@ -81,7 +81,7 @@
             android:name=".AwaitHelpActivity"
             android:exported="false" />
         <activity
-            android:name=".HelpParametersActivity"
+            android:name=".HelpeeSelectionActivity"
             android:exported="true" />
         <activity
             android:name=".CprRateActivity"
