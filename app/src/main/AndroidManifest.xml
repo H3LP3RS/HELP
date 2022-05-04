@@ -27,7 +27,7 @@
             android:name=".SettingsActivity"
             android:exported="false" />
         <activity
-            android:name=".HelpPageActivity"
+            android:name=".HelperPageActivity"
             android:exported="true" />
         <activity
             android:name=".messaging.LatestMessagesActivity"

@@ -2,7 +2,6 @@ package com.github.h3lp3rs.h3lp
 
 import android.Manifest
 import android.app.Activity
-import android.app.Instrumentation
 import android.app.Instrumentation.*
 import android.content.Intent
 import android.location.Location
@@ -15,7 +14,6 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.*
-import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.intent.matcher.IntentMatchers.*
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
@@ -36,7 +34,6 @@ import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import junit.framework.TestCase.assertTrue
-import org.hamcrest.Matchers
 import org.hamcrest.Matchers.*
 import org.junit.Before
 import org.junit.Rule
@@ -63,7 +60,7 @@ const val TEST_TIMEOUT = 5000
 const val TIME_TO_DESTINATION = "1 hour 19 mins"
 
 @RunWith(AndroidJUnit4::class)
-class HelpPageActivityTest {
+class HelperPageActivityTest {
     private val locationManagerMock: LocationManagerInterface =
         mock(LocationManagerInterface::class.java)
     private val locationMock: Location = mock(Location::class.java)
@@ -73,7 +70,7 @@ class HelpPageActivityTest {
 
     @get:Rule
     val testRule = ActivityScenarioRule(
-        HelpPageActivity::class.java
+        HelperPageActivity::class.java
     )
 
 
@@ -97,9 +94,9 @@ class HelpPageActivityTest {
     fun mapIsDisplayed() {
         val intent = Intent(
             getApplicationContext(),
-            HelpPageActivity::class.java
+            HelperPageActivity::class.java
         )
-        launch<HelpPageActivity>(intent).use {
+        launch<HelperPageActivity>(intent).use {
             onView(withId(R.id.mapHelpPage))
                 .check(matches(isDisplayed()))
         }
@@ -138,12 +135,12 @@ class HelpPageActivityTest {
         bundle.putStringArrayList(EXTRA_HELP_REQUIRED_PARAMETERS, arrayListOf(EPIPEN))
         val intent = Intent(
             ApplicationProvider.getApplicationContext(),
-            HelpPageActivity::class.java
+            HelperPageActivity::class.java
         ).apply {
             putExtras(bundle)
         }
 
-        launch<HelpPageActivity>(intent).use {
+        launch<HelperPageActivity>(intent).use {
             onView(withId(R.id.helpRequired))
                 .check(matches(isDisplayed()))
                 .check(matches(withText(containsString(EPIPEN))))
@@ -186,7 +183,7 @@ class HelpPageActivityTest {
         bundle.putDouble(EXTRA_DESTINATION_LONG, 1.0)
         val intent = Intent(
             getApplicationContext(),
-            HelpPageActivity::class.java
+            HelperPageActivity::class.java
         ).apply {
             putExtras(bundle)
         }
@@ -205,7 +202,7 @@ class HelpPageActivityTest {
         // Setup skills storage accordingly
         storageOf(Storages.SKILLS).setObject(globalContext.getString(R.string.my_skills_key),
             HelperSkills::class.java, skills)
-        launch<HelpPageActivity>(intent).use {
+        launch<HelperPageActivity>(intent).use {
             action()
         }
     }

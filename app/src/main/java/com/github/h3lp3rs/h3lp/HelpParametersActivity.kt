@@ -33,7 +33,6 @@ import kotlin.collections.ArrayList
 const val EXTRA_NEEDED_MEDICATION = "needed_meds_key"
 const val EXTRA_CALLED_EMERGENCIES = "has_called_emergencies"
 const val EXTRA_EMERGENCY_KEY = "emergency_key"
-const val EXTRA_HELPEE_ID = "helpee_id"
 
 /**
  * Activity in which the user can select the medications they need urgently
