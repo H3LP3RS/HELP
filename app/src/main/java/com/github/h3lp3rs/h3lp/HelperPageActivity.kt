@@ -139,6 +139,7 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             helpers.add(me)
             // Stop listening to other emergencies
             databaseOf(NEW_EMERGENCIES).clearAllListeners()
+
             // TODO: Here we can potentially periodically update the GPS coordinates
             // Update the value to notify that we are coming
             databaseOf(EMERGENCIES).setObject(
