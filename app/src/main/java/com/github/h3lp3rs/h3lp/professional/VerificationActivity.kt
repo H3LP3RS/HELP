@@ -14,7 +14,6 @@ import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.signin.GoogleSignInAdapter
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
-import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.squareup.picasso.Picasso
 
@@ -26,7 +25,7 @@ class VerificationActivity : AppCompatActivity() {
     // Some attributes are vars only for testing purposes
     companion object {
         // Uri of the image file = proof of status
-        var imgUri: Uri? = null
+        var imgUri : Uri? = null
 
         // Database representing the professional users authenticated
         private val db = Databases.databaseOf(Databases.PRO_USERS)
@@ -39,7 +38,13 @@ class VerificationActivity : AppCompatActivity() {
         private const val UPLOAD_FAILURE_MSG = "Upload failed. Try again!"
         var currentUserId = SignInActivity.userUid.toString()
         var currentUserName = GoogleSignInAdapter.auth.currentUser?.displayName.toString()
+        var currentUserProofName = ""
+        var currentUserProofUri = ""
+        var currentUserStatus = ""
+        var currentUserDomain = ""
+        var currentUserExperience = 0
         private const val DELAY : Long = 5000
+
     }
 
     // Layout components
@@ -123,11 +128,17 @@ class VerificationActivity : AppCompatActivity() {
                     progressBar.progress = 0
                 }, DELAY)
 
+                currentUserProofName = fileName.text.toString().trim()
+                currentUserProofUri = it.uploadSessionUri.toString()
+
                 val proUser = ProUser(
                     id = currentUserId,
                     name = currentUserName,
-                    proofName = fileName.text.toString().trim(),
-                    proofUri = it.uploadSessionUri.toString()
+                    proofName = currentUserProofName,
+                    proofUri = currentUserProofUri,
+                    proStatus = currentUserStatus,
+                    proDomain = currentUserDomain,
+                    proExperience = currentUserExperience
                 )
                 db.setObject(proUser.id, ProUser::class.java, proUser)
 

@@ -8,23 +8,31 @@ import android.text.TextPaint
 import android.text.TextUtils
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
+import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import com.github.h3lp3rs.h3lp.R
+import com.github.h3lp3rs.h3lp.database.Databases
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 
 class ProProfileActivity : AppCompatActivity() {
-    private var proStatus = ""
-    private var proDomain = ""
-    private var proExperience = 0
+    private var proStatus = VerificationActivity.currentUserStatus
+    private var proDomain = VerificationActivity.currentUserDomain
+    private var proExperience = VerificationActivity.currentUserExperience
+    private val proUsersDb = databaseOf(Databases.PRO_USERS)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pro_profile)
 
         createPrivacyCheckBox()
+
+        findViewById<Button>(R.id.ProProfileSaveButton).setOnClickListener { loadData() }
     }
+
     /**
      * Create a PrivacyCheckbox with a clickable link sending to the policy
      */
@@ -34,8 +42,6 @@ class ProProfileActivity : AppCompatActivity() {
         val clickableSpan: ClickableSpan = object : ClickableSpan() {
             override fun onClick(widget: View) {
                 // This avoids checkbox checking when clicking on the policy link
-                // Sadly it is incompatible with Expresso onClick() so is commented for cirrus
-                // widget.cancelPendingInputEvents()
                 showPolicy()
             }
 
@@ -56,11 +62,22 @@ class ProProfileActivity : AppCompatActivity() {
             .setMessage(getString(R.string.pro_profile_privacy_policy)).show()
     }
 
-    private fun loadData(){
+    private fun loadData() {
         proStatus = findViewById<EditText>(R.id.proProfileStatusEditTxt).text.toString()
         proDomain = findViewById<EditText>(R.id.proProfileDomainEditTxt).text.toString()
-        proExperience = findViewById<EditText>(R.id.ProProfileExperienceEditTxt).text.toString().toInt()
-        
+        proExperience =
+            findViewById<EditText>(R.id.ProProfileExperienceEditTxt).text.toString().toInt()
+
+        val updatedProfile = ProUser(
+            id = VerificationActivity.currentUserId,
+            name = VerificationActivity.currentUserName,
+            proofName = VerificationActivity.currentUserProofName,
+            proofUri = VerificationActivity.currentUserProofUri,
+            proStatus = proStatus,
+            proDomain = proDomain,
+            proExperience = proExperience
+        )
+        proUsersDb.setObject(VerificationActivity.currentUserId, ProUser::class.java, updatedProfile)
     }
 
 

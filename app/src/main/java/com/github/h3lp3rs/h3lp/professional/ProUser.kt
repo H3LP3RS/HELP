@@ -11,5 +11,11 @@ data class ProUser(
     // User's status proof name
     val proofName: String,
     // User's status proof Uri
-    val proofUri: String
+    val proofUri: String,
+
+    var proStatus: String,
+
+    var proDomain: String,
+
+    var proExperience: Int
 )
