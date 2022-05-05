@@ -92,15 +92,21 @@ class NearbyUtilitiesActivity : AppCompatActivity(), CoroutineScope by MainScope
         )
     }
 
+    /**
+     * Initializes the user's current location or returns to the main page in case a mistake occurred
+     * during the location information retrieval
+     */
     private fun setupLocation() {
-        val currentLocation = GeneralLocationManager.get().getCurrentLocation(this)
-        if (currentLocation != null) {
-            currentLat = currentLocation.latitude
-            currentLong = currentLocation.longitude
-        } else {
-            // In case the permission to access the location is missing
-            val intent = Intent(this, MainPageActivity::class.java)
-            startActivity(intent)
+        val futureLocation = GeneralLocationManager.get().getCurrentLocation(this)
+        futureLocation.handle { location, exception ->
+            if (exception != null) {
+                // In case the permission to access the location is missing
+                val intent = Intent(this, MainPageActivity::class.java)
+                startActivity(intent)
+            } else {
+                currentLat = location.latitude
+                currentLong = location.longitude
+            }
         }
     }
 

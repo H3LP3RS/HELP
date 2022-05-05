@@ -155,14 +155,16 @@ class AwaitHelpActivity : AppCompatActivity() {
         //mapsFragment.addMarker(options) TODO: Fragment not working
     }
 
+    /**
+     * Initializes the user's current location or leaves it to null in case a mistake occurred
+     * during the location information retrieval (so that the fallback emergency services number
+     * can still be called)
+     */
     private fun setupLocation() {
-        val currentLocation = GeneralLocationManager.get().getCurrentLocation(this)
-        if (currentLocation != null) {
-            currentLat = currentLocation.latitude
-            currentLong = currentLocation.longitude
-        } else {
-            // In case the permission to access the location is missing
-            // goToActivity(MainPageActivity::class.java)
+        val futureLocation = GeneralLocationManager.get().getCurrentLocation(this)
+        futureLocation.thenAccept { location ->
+            currentLat = location.latitude
+            currentLong = location.longitude
         }
     }
 
