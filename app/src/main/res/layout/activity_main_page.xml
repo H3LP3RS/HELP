@@ -408,6 +408,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/scroll_view_margin_text"
+                    android:layout_marginEnd="0dp"
                     android:text="@string/skills"
                     android:textColor="@color/black"
                     android:textSize="@dimen/icon_font"
@@ -418,16 +419,32 @@
 
         <ImageButton
             android:id="@+id/HELP_button"
-            android:layout_width="@dimen/help_button"
-            android:layout_height="@dimen/help_button"
+            android:layout_width="256dp"
+            android:layout_height="256dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="64dp"
-            android:background="@drawable/help_button"
+            android:layout_marginBottom="32dp"
+            android:background="@drawable/help_button_background"
             android:contentDescription="@string/help_button"
             android:onClick="goToHelpParametersActivity"
-            android:scaleX="1.3"
-            android:scaleY="1.3" />
+            android:scaleX="1"
+            android:scaleY="1"
+        />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/HELP_button"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="84dp"
+            android:shadowColor="@color/black"
+            android:shadowRadius="5"
+            android:text="@string/help"
+            android:textColor="@color/white"
+            android:textSize="64sp"
+            android:textStyle="bold" />
+
     </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView
