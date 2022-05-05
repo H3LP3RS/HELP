@@ -267,11 +267,4 @@ class AwaitHelpActivity : AppCompatActivity() {
         // TODO should include deleting the conversation from the db
         startActivity(Intent(this, MainPageActivity::class.java))
     }
-
-
-    /** Starts the activity by sending intent */
-    private fun goToActivity(ActivityName: Class<*>?) {
-        val intent = Intent(this, ActivityName)
-        startActivity(intent)
-    }
 }
