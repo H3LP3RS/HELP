@@ -22,13 +22,12 @@ class ProProfileActivity : AppCompatActivity() {
     private var proStatus = VerificationActivity.currentUserStatus
     private var proDomain = VerificationActivity.currentUserDomain
     private var proExperience = VerificationActivity.currentUserExperience
-    private val proUsersDb = databaseOf(Databases.PRO_USERS)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pro_profile)
 
-        createPrivacyCheckBox()
+        createProPrivacyCheckBox()
 
         findViewById<Button>(R.id.ProProfileSaveButton).setOnClickListener { loadData() }
     }
@@ -36,9 +35,7 @@ class ProProfileActivity : AppCompatActivity() {
     /**
      * Create a PrivacyCheckbox with a clickable link sending to the policy
      */
-    private fun createPrivacyCheckBox() {
-        val checkBox = findViewById<CheckBox>(R.id.ProProfilePrivacyCheck)
-
+    private fun createProPrivacyCheckBox() {
         val clickableSpan: ClickableSpan = object : ClickableSpan() {
             override fun onClick(widget: View) {
                 // This avoids checkbox checking when clicking on the policy link
@@ -53,6 +50,7 @@ class ProProfileActivity : AppCompatActivity() {
         val linkText = SpannableString(getString(R.string.privacy_policy))
         linkText.setSpan(clickableSpan, 0, linkText.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         val cs = TextUtils.expandTemplate("I accept the ^1", linkText)
+        val checkBox = findViewById<CheckBox>(R.id.ProProfilePrivacyCheck)
         checkBox.text = cs
         checkBox.movementMethod = LinkMovementMethod.getInstance()
     }
