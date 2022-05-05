@@ -45,34 +45,38 @@ class HelpeeSelectionActivity : AppCompatActivity() {
 
         // Initialize the current user's location
         val location = getLocation()
-        if (location == null) {
-            // In case the permission to access the location is missing
-            goToActivity(MainPageActivity::class.java)
-            return
-        }
+        if (location != null) {
+            val (latitude, longitude) = location
+            val locationInformation: TextView = findViewById(R.id.location_information)
 
-        val (latitude, longitude) = location
-        val locationInformation: TextView = findViewById(R.id.location_information)
+            val coordinatesText = getString(R.string.current_location)
 
-        val coordinatesText = getString(R.string.current_location)
-
-        locationInformation.text = String.format(
-            "%s latitude: %.4f longitude: %.4f",
-            coordinatesText, latitude, longitude
-        )
-
-        help_params_call_button.setOnClickListener {
-            emergencyCall(
-                latitude,
-                longitude
+            locationInformation.text = String.format(
+                "%s latitude: %.4f longitude: %.4f",
+                coordinatesText, latitude, longitude
             )
-        }
-        help_params_search_button.setOnClickListener {
-            searchHelp(
-                latitude,
-                longitude,
-                help_params_search_button
-            )
+
+            help_params_call_button.setOnClickListener {
+                emergencyCall(
+                    latitude,
+                    longitude
+                )
+            }
+            help_params_search_button.setOnClickListener {
+                searchHelp(
+                    latitude,
+                    longitude,
+                    help_params_search_button
+                )
+            }
+        } else {
+            // If it is null, we still want to be able to call the emergency
+            help_params_call_button.setOnClickListener {
+                emergencyCall(
+                    null,
+                    null
+                )
+            }
         }
     }
 
@@ -82,7 +86,7 @@ class HelpeeSelectionActivity : AppCompatActivity() {
      *  services or their emergency contact, and dials the correct number.
      */
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun emergencyCall(latitude: Double, longitude: Double) {
+    private fun emergencyCall(latitude: Double?, longitude: Double?) {
         val medicalInfo = storageOf(MEDICAL_INFO)
             .getObjectOrDefault(
                 getString(R.string.medical_info_key),
@@ -126,7 +130,7 @@ class HelpeeSelectionActivity : AppCompatActivity() {
     /**
      * Launches a the phone app with the local emergency number dialed
      */
-    private fun launchEmergencyCall(latitude: Double, longitude: Double) {
+    private fun launchEmergencyCall(latitude: Double?, longitude: Double?) {
         calledEmergencies = true
         val emergencyNumber =
             LocalEmergencyCaller.getLocalEmergencyNumber(
