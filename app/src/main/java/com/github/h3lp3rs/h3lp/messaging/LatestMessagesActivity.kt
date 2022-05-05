@@ -78,7 +78,7 @@ class LatestMessagesActivity : AppCompatActivity() {
     class HelperConversation(private val conversationId : String, private val index : Int) :
         Item<ViewHolder>() {
         override fun bind(viewHolder : ViewHolder, position : Int) {
-            viewHolder.itemView.textview_username.text = "Helper $index"
+            viewHolder.itemView.textview_username.text = "Helper"
         }
 
         override fun getLayout() : Int {
