@@ -39,7 +39,7 @@ class ProMainActivityTest {
     }
 
     private fun checkIfDisplayed(id: Int){
-        Espresso.onView(ViewMatchers.withId(id))
+        onView(ViewMatchers.withId(id))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
 

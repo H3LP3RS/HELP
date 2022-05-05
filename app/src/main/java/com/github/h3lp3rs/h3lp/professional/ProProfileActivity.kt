@@ -77,7 +77,7 @@ class ProProfileActivity : AppCompatActivity() {
             proDomain = proDomain,
             proExperience = proExperience
         )
-        proUsersDb.setObject(VerificationActivity.currentUserId, ProUser::class.java, updatedProfile)
+        databaseOf(Databases.PRO_USERS).setObject(VerificationActivity.currentUserId, ProUser::class.java, updatedProfile)
     }
 
 
