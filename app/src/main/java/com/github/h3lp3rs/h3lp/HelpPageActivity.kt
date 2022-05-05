@@ -56,6 +56,7 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     // Conversation with the person in need of help (only if the user accepts to help them)
     private var conversation : Conversation? = null
     private var conversationId : String? = null
+    private val conversationIdsDb = databaseOf(CONVERSATION_IDS)
 
     override fun onCreate(savedInstanceState : Bundle?) {
         super.onCreate(savedInstanceState)
@@ -177,8 +178,6 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     }
 
     private fun initChat() {
-        val conversationIdsDb = databaseOf(CONVERSATION_IDS)
-
         /**
          * Callback function which gets a unique conversation id, shares it with the person in
          * need of help and instantiates a conversation on that id
@@ -236,7 +235,7 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             }
         }
         // The event is added to the entire conversation IDS database and so no child key is needed
-        databaseOf(CONVERSATION_IDS).addEventListener(
+        conversationIdsDb.addEventListener(
             null,
             String::class.java, null,
         ) { id -> run { onChildRemoved(id) } }

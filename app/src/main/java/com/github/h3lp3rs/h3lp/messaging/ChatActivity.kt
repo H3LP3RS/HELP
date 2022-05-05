@@ -56,6 +56,10 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun listenForMessages() {
+        /**
+         * Adds the the recently received text message to the view according to the sender
+         * @param chatMessage The text message
+         */
         fun onChildAdded(chatMessage : Message) {
             chatMessage.let {
                 // Compare the messenger to the current user to correctly display the message
@@ -78,8 +82,11 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun onConversationDeletion() {
-        // Event listener that handles deleting the text messages from the view upon deletion
-        // from the database
+        /**
+         * Event listener that handles deleting the text messages from the view upon deletion
+         * from the database
+         * @param key The key of the element that has been deleted
+         */
 
         fun onChildRemoved(key : String) {
             // If the key is the conversation Id, that means that the user deleted the current
@@ -148,7 +155,7 @@ private class MessageLayout(
     }
 
     /**
-     * Gets the profile picture of a user
+     * Gets the profile picture of a user according to whether he is a helper or a helpee
      * @return the id of the picture
      */
     private fun getProfilePicture() : Int {

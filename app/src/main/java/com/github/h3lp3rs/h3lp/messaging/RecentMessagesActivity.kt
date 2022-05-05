@@ -90,8 +90,11 @@ class RecentMessagesActivity : AppCompatActivity() {
     }
 
     private fun listenForRemovedHelpers() {
-        // Event listener that handles deleting the conversation from the view upon deletion
-        // from the database
+        /**
+         * Event listener that handles deleting the conversation from the view upon deletion
+         * from the database
+         * @param key The key of the element that has been deleted
+         */
 
         fun onChildRemoved(key : String) {
             // If the key is the conversation Id, that means that the user deleted the current
@@ -102,7 +105,6 @@ class RecentMessagesActivity : AppCompatActivity() {
                 displayMessage(getString(R.string.helper_cancelled))
             }
         }
-        // Reference to the database of the chat messages
         messagesDatabase.addEventListener(null, String::class.java, null) { key ->
             run {
                 onChildRemoved(
