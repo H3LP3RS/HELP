@@ -118,7 +118,7 @@ class ChatActivity : AppCompatActivity() {
     }
 
     /**
-     * Send back to the MainPageActivity
+     * Sends back to the MainPageActivity
      */
     private fun backHome() {
         val intent = Intent(this, MainPageActivity::class.java)
