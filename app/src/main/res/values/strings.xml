@@ -356,4 +356,6 @@
     <string name="gynecology">Gynecology</string>
     <string name="forum_theme_key">forumThemeKey</string>
 
+    <string name="deleted_conversation_message">The user has deleted the conversation.</string>
+    <string name="helper_cancelled">The helper has unfortunately cancelled.</string>
 </resources>
