@@ -5,15 +5,11 @@ import java.util.concurrent.CompletableFuture
 
 /**
  * A forum post containing all the data.
- * The interface has as attribute the instance
- * of the forum that directly points on it.
+ * The class has as attribute the instance of the forum that directly points on it
+ * @param forum Forum at the path of the post
+ * @param post Data of the post
  */
-interface ForumPost {
-
-    // Forum at the path of the post
-    val forum: Forum
-    // Data of the post
-    val post: ForumPostData
+class ForumPost(private val forum: Forum, private val post: ForumPostData) {
 
     /**
      * Adds a reply to the post
@@ -22,14 +18,18 @@ interface ForumPost {
      * @return this This post updated with the new reply (and potential replies from others)
      * in the form of a future
      */
-    fun reply(author: String, content: String): CompletableFuture<ForumPost>
+    fun reply(author: String, content: String): CompletableFuture<ForumPost> {
+        return forum.newPost(author, content)
+    }
 
     /**
      * Refreshes the post if possible
      * @return this This post updated with potential replies from other
      * in the form of a future
      */
-    fun refresh(): CompletableFuture<ForumPost>
+    fun refresh(): CompletableFuture<ForumPost> {
+        return forum.getPost(emptyList())
+    }
 
     /**
      * Listens to this post and executes the lambda with the new data
