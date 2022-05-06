@@ -45,6 +45,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.anyOrNull
 import java.util.*
+import java.util.concurrent.CompletableFuture.completedFuture
 import kotlin.collections.ArrayList
 import org.mockito.Mockito.`when` as When
 
@@ -85,7 +86,7 @@ class HelpPageActivityTest {
     fun init() {
         // Mocking the location manager
         When(locationManagerMock.getCurrentLocation(anyOrNull())).thenReturn(
-            locationMock
+            completedFuture(locationMock)
         )
         When(locationMock.latitude).thenReturn(CURRENT_LAT)
         When(locationMock.longitude).thenReturn(CURRENT_LONG)
