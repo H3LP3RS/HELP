@@ -11,8 +11,10 @@ import com.github.h3lp3rs.h3lp.databinding.ActivityHelpPageBinding
 import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
 import com.github.h3lp3rs.h3lp.dataclasses.Helper
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
-import com.github.h3lp3rs.h3lp.messaging.*
+import com.github.h3lp3rs.h3lp.messaging.ChatActivity
+import com.github.h3lp3rs.h3lp.messaging.Conversation
 import com.github.h3lp3rs.h3lp.messaging.Conversation.Companion.UNIQUE_CONVERSATION_ID
+import com.github.h3lp3rs.h3lp.messaging.EXTRA_CONVERSATION_ID
 import com.github.h3lp3rs.h3lp.messaging.Messenger.HELPER
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.util.GDurationJSONParser
@@ -45,16 +47,17 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     // helpRequired contains strings for each medication / specific help required by the user in
     // need e.g. Epipen, CPR
-    private var helpRequired: List<String>? = null
-    private lateinit var apiHelper: GoogleAPIHelper
-    private var helpId: String? = null
+    private var helpRequired : List<String>? = null
+    private lateinit var apiHelper : GoogleAPIHelper
+    private var helpId : String? = null
 
     // Map fragment displayed
     private lateinit var mapsFragment: MapsFragment
 
     // Conversation with the person in need of help (only if the user accepts to help them)
-    private var conversation: Conversation? = null
-    private var conversationId: String? = null
+    private var conversation : Conversation? = null
+    private var conversationId : String? = null
+    private val conversationIdsDb = databaseOf(CONVERSATION_IDS)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,8 +95,9 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         // becomes visible.
         button_accept.setOnClickListener { acceptHelpRequest() }
         button_reject.setOnClickListener { goToMainPage() }
-    }
 
+        setUpEmergencyCancellation()
+    }
 
     /**
      * Initializes the user's current location or returns to the main page in case a mistake occurred
@@ -162,19 +166,15 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             databaseOf(NEW_EMERGENCIES).clearAllListeners()
             // TODO: Here we can potentially periodically update the GPS coordinates
             // Update the value to notify that we are coming
-            databaseOf(EMERGENCIES).setObject(
-                helpId!!,
-                EmergencyInformation::class.java,
-                it.copy(helpers = helpers)
-            )
+            databaseOf(EMERGENCIES).setObject(helpId!!, EmergencyInformation::class.java, it.copy(helpers = helpers))
             // Init chat
             initChat()
         }.exceptionally { goToMainPage() } // Expired
+        // If the user accepts to help, he can change his mind and cancel later
+        button_reject.setOnClickListener { conversation?.let { it.deleteConversation() } }
     }
 
     private fun initChat() {
-        val conversationIdsDb = databaseOf(CONVERSATION_IDS)
-
         /**
          * Callback function which gets a unique conversation id, shares it with the person in
          * need of help and instantiates a conversation on that id
@@ -220,4 +220,23 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private fun goToMainPage() {
         goToActivity(MainPageActivity::class.java)
     }
+
+    private fun setUpEmergencyCancellation() {
+        fun onChildRemoved(id : String) {
+            if (id == helpeeId) {
+                // If the person the user is trying to help has cancelled his emergency, the
+                // conversation is deleted from the database and the helper is redirected to the
+                // main page
+                conversation?.deleteConversation()
+                goToActivity(MainPageActivity::class.java)
+            }
+        }
+        // The event is added to the entire conversation IDS database and so no child key is needed
+        conversationIdsDb.addEventListener(
+            null,
+            String::class.java, null,
+        ) { id -> run { onChildRemoved(id) } }
+    }
+
+
 }
