@@ -111,6 +111,14 @@ interface Database {
     fun addStringConcurrently(key : String, value : String)
 
     /**
+     * Gets the list of objects added with addToObjectsListConcurrently
+     * @param key The key in the database
+     * @param type The type of the objects in the list
+     * @return Future of the list of objects
+     */
+    fun <T> getObjectsList(key: String, type: Class<T>): CompletableFuture<List<T>>
+
+    /**
      * Applies an arbitrary action when the value associated to the key changes
      * WARNING: This function automatically triggers at first when linked with a valid key
      * @param key The key in the database

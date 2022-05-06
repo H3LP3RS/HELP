@@ -10,9 +10,9 @@ import java.util.concurrent.CompletableFuture
 /**
  * Implementation of a NoSQL external database based on Firebase
  */
-internal class FireDatabase(path : String) : Database {
+internal class FireDatabase(path: String) : Database {
 
-    private val db : DatabaseReference =
+    private val db: DatabaseReference =
         Firebase.database("https://h3lp-signin-default-rtdb.europe-west1.firebasedatabase.app/").reference.child(
             path
         )
@@ -28,7 +28,7 @@ internal class FireDatabase(path : String) : Database {
      * - Double
      * @param key The key in the database
      */
-    private inline fun <reified T : Any> get(key : String) : CompletableFuture<T> {
+    private inline fun <reified T : Any> get(key: String): CompletableFuture<T> {
         val future = CompletableFuture<T>()
         db.child(key).get().addOnSuccessListener {
             if (it.value == null) future.completeExceptionally(NoSuchFieldException())
@@ -39,50 +39,62 @@ internal class FireDatabase(path : String) : Database {
         return future
     }
 
-    override fun getBoolean(key : String) : CompletableFuture<Boolean> {
+    override fun getBoolean(key: String): CompletableFuture<Boolean> {
         return get(key)
     }
 
-    override fun setBoolean(key : String, value : Boolean) {
+    override fun setBoolean(key: String, value: Boolean) {
         db.child(key).setValue(value)
     }
 
-    override fun getString(key : String) : CompletableFuture<String> {
+    override fun getString(key: String): CompletableFuture<String> {
         return get(key)
     }
 
-    override fun setString(key : String, value : String) {
+    override fun setString(key: String, value: String) {
         db.child(key).setValue(value)
     }
 
-    override fun getDouble(key : String) : CompletableFuture<Double> {
+    override fun getDouble(key: String): CompletableFuture<Double> {
         // This Fix is due to a misconception in firebase:
         // Storing 3.0 in firebase will automatically transform it into a long integer.
         // This causes a type error when getting it since long cannot be directly cast to double.
         // This is fixed by getting the field as the superclass number and then casting it with its function.
 
-        val number : CompletableFuture<Number> = get(key)
+        val number: CompletableFuture<Number> = get(key)
         return number.thenApply { n -> n.toDouble() }
     }
 
-    override fun setDouble(key : String, value : Double) {
+    override fun setDouble(key: String, value: Double) {
         db.child(key).setValue(value)
     }
 
-    override fun getInt(key : String) : CompletableFuture<Int> {
+    override fun getInt(key: String): CompletableFuture<Int> {
         // NOTE: We have to recode this case as Firebase natively supports
         // Longs and not Ints.
         return get<Long>(key).thenApply { it.toInt() }
     }
 
-    override fun setInt(key : String, value : Int) {
+    override fun setInt(key: String, value: Int) {
         db.child(key).setValue(value)
     }
 
-    override fun addStringConcurrently(key : String, value : String) {
+    override fun addStringConcurrently(key: String, value: String) {
         // Push generates a unique key for each new child, thus several clients can add children to
         // the same location at the same time without worrying about write conflicts
         db.child(key).push().setValue(value)
+    }
+
+    override fun <T> getObjectsList(key: String, type: Class<T>): CompletableFuture<List<T>> {
+        val future = CompletableFuture<List<T>>()
+        db.child(key).get().addOnSuccessListener {
+            if (it.value == null) future.completeExceptionally(NoSuchFieldException())
+            else {
+                val valuesList = getSnapshotChildren(it, type)
+                future.complete(valuesList)
+            }
+        }
+        return future
     }
 
     /**
@@ -92,13 +104,13 @@ internal class FireDatabase(path : String) : Database {
      * @param key The key in the database
      * @param onDataChange The action to take on the new data snapshot
      */
-    private fun genericAddListener(key : String, onDataChange : (DataSnapshot) -> Unit) {
+    private fun genericAddListener(key: String, onDataChange: (DataSnapshot) -> Unit) {
         val l = object : ValueEventListener {
-            override fun onDataChange(snapshot : DataSnapshot) {
+            override fun onDataChange(snapshot: DataSnapshot) {
                 onDataChange(snapshot)
             }
 
-            override fun onCancelled(databaseError : DatabaseError) {
+            override fun onCancelled(databaseError: DatabaseError) {
                 println("Firebase listener error: ${databaseError.toException()}")
             }
         }
@@ -108,15 +120,15 @@ internal class FireDatabase(path : String) : Database {
         openValueListeners[key] = ls
     }
 
-    override fun <T> addListenerIfNotPresent(key : String, type : Class<T>, action : (T) -> Unit) {
+    override fun <T> addListenerIfNotPresent(key: String, type: Class<T>, action: (T) -> Unit) {
         if (!openValueListeners.containsKey(key)) {
             addListener(key, type, action)
         }
     }
 
-    override fun <T> addListener(key : String, type : Class<T>, action : (T) -> Unit) {
-        fun onDataChange(snapshot : DataSnapshot) {
-            val v : T =
+    override fun <T> addListener(key: String, type: Class<T>, action: (T) -> Unit) {
+        fun onDataChange(snapshot: DataSnapshot) {
+            val v: T =
                 if (type == String::class.java || type == Int::class.java || type == Double::class.java || type == Boolean::class.java) {
                     snapshot.getValue(type)!!
                 } else {
@@ -129,18 +141,13 @@ internal class FireDatabase(path : String) : Database {
         genericAddListener(key) { onDataChange(it) }
     }
 
-    override fun <T> addListListener(key : String, type : Class<T>, action : (List<T>) -> Unit) {
-        fun onDataChange(snapshot : DataSnapshot) {
+    override fun <T> addListListener(key: String, type: Class<T>, action: (List<T>) -> Unit) {
+        fun onDataChange(snapshot: DataSnapshot) {
             // We have to call the action on the entire list of values, so we first construct the
             // list from the children of the snapshot (all the values pushed in
             // addStringConcurrently), then call the method
-            val valuesList = mutableListOf<T>()
+            val valuesList = getSnapshotChildren(snapshot, type)
 
-            for (postSnapshot in snapshot.children) {
-                val gson = Gson()
-                val v = gson.fromJson(postSnapshot.getValue(String::class.java)!!, type)
-                valuesList.add(v)
-            }
             // Run the callback on the newly constructed list of values
             action(valuesList)
         }
@@ -148,7 +155,7 @@ internal class FireDatabase(path : String) : Database {
         genericAddListener(key) { onDataChange(it) }
     }
 
-    override fun clearListeners(key : String) {
+    override fun clearListeners(key: String) {
         val ls = openValueListeners.getOrDefault(key, emptyList())
         for (l in ls) {
             db.child(key).removeEventListener(l)
@@ -173,32 +180,32 @@ internal class FireDatabase(path : String) : Database {
         }
     }
 
-    override fun delete(key : String) {
+    override fun delete(key: String) {
         clearListeners(key)
         if (key.isEmpty()) db.removeValue()
         else db.child(key).removeValue()
     }
 
     private fun setEventListener(
-        childKey : String?,
-        onDataChange : (DataSnapshot) -> Unit,
-        onDataRemoved : (DataSnapshot) -> Unit
+        childKey: String?,
+        onDataChange: (DataSnapshot) -> Unit,
+        onDataRemoved: (DataSnapshot) -> Unit
     ) {
         val eventListener = object : ChildEventListener {
-            override fun onChildAdded(snapshot : DataSnapshot, previousChildName : String?) {
+            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 onDataChange(snapshot)
             }
 
-            override fun onChildRemoved(snapshot : DataSnapshot) {
+            override fun onChildRemoved(snapshot: DataSnapshot) {
                 onDataRemoved(snapshot)
             }
 
-            override fun onCancelled(error : DatabaseError) {
+            override fun onCancelled(error: DatabaseError) {
                 println("Firebase listener error: ${error.toException()}")
             }
 
-            override fun onChildChanged(snapshot : DataSnapshot, previousChildName : String?) {}
-            override fun onChildMoved(snapshot : DataSnapshot, previousChildName : String?) {}
+            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
 
         }
 
@@ -217,14 +224,14 @@ internal class FireDatabase(path : String) : Database {
     }
 
     override fun <T> addEventListener(
-        key : String?,
-        type : Class<T>,
-        onChildAdded : ((T) -> Unit)?,
-        onChildRemoved : (String) -> Unit
+        key: String?,
+        type: Class<T>,
+        onChildAdded: ((T) -> Unit)?,
+        onChildRemoved: (String) -> Unit
     ) {
-        fun onDataChange(snapshot : DataSnapshot) {
+        fun onDataChange(snapshot: DataSnapshot) {
             onChildAdded?.let {
-                val v : T =
+                val v: T =
                     if (type == String::class.java || type == Int::class.java || type == Double::class.java || type == Boolean::class.java) {
                         snapshot.getValue(type)!!
                     } else {
@@ -233,7 +240,8 @@ internal class FireDatabase(path : String) : Database {
                 it(v)
             }
         }
-        fun onDataRemoved(snapshot : DataSnapshot) {
+
+        fun onDataRemoved(snapshot: DataSnapshot) {
             // It is only necessary to know which element has been deleted, not its value, thus the
             // action is only executed on the key of the element
             onChildRemoved(snapshot.key!!)
@@ -249,7 +257,7 @@ internal class FireDatabase(path : String) : Database {
      * @param onComplete The callback to be called with the new value (the new value can be null
      * in case of a database error, thus why onComplete takes a nullable Int)
      */
-    override fun incrementAndGet(key : String, increment : Int, onComplete : (Int?) -> Unit) {
+    override fun incrementAndGet(key: String, increment: Int, onComplete: (Int?) -> Unit) {
         val keyRef = db.child(key)
         // A transaction is a set of reads and writes that happen atomically
         keyRef.runTransaction(object : Transaction.Handler {
@@ -263,7 +271,7 @@ internal class FireDatabase(path : String) : Database {
              * @param currentData The current counter value associated to the key
              * @return Either the incremented counter, or an indication to abort the transaction
              */
-            override fun doTransaction(currentData : MutableData) : Transaction.Result {
+            override fun doTransaction(currentData: MutableData): Transaction.Result {
                 val oldValue = currentData.getValue<Int>()
                 // If oldValue is null, this means that there is no counter associated with this
                 // key, we thus initialise it to the requested number (as if the counter were just
@@ -281,10 +289,28 @@ internal class FireDatabase(path : String) : Database {
              * @param currentData The current data at the location or null if an error occurred
              */
             override fun onComplete(
-                error : DatabaseError?, committed : Boolean, currentData : DataSnapshot?
+                error: DatabaseError?, committed: Boolean, currentData: DataSnapshot?
             ) {
                 onComplete(currentData?.getValue<Int>())
             }
         })
+    }
+
+    /**
+     * Extracts the functionality of getting the objects corresponding to the children of an element
+     * in the database
+     * @param snapshot The data snapshot from which to get the list of objects
+     * @param type The type of the objects in the list
+     * @return The current associated list of objects in the database
+     */
+    private fun <T> getSnapshotChildren(snapshot: DataSnapshot, type: Class<T>): List<T> {
+        val valuesList = mutableListOf<T>()
+
+        for (postSnapshot in snapshot.children) {
+            val gson = Gson()
+            val v = gson.fromJson(postSnapshot.getValue(String::class.java)!!, type)
+            valuesList.add(v)
+        }
+        return valuesList
     }
 }

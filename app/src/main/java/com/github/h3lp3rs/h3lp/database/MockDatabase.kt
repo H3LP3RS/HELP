@@ -91,6 +91,18 @@ class MockDatabase : Database {
         }
     }
 
+    override fun <T> getObjectsList(key: String, type: Class<T>): CompletableFuture<List<T>> {
+        val future = CompletableFuture<List<T>>()
+        concurrentLists.get(key)?.let { list ->
+            val gson = Gson()
+            val convertedList = list.map { gson.fromJson(it, type)}
+            future.complete(convertedList)
+        }?.run {
+            future.completeExceptionally(NullPointerException("Key: $key not in the database"))
+        }
+        return future
+    }
+
     @SuppressLint("RestrictedApi")
     override fun <T> addListener(key : String, type : Class<T>, action : (T) -> Unit) {
         val wrappedAction : () -> Unit = {
