@@ -199,8 +199,8 @@ internal class FireDatabase(path : String) : Database {
 
             override fun onChildChanged(snapshot : DataSnapshot, previousChildName : String?) {}
             override fun onChildMoved(snapshot : DataSnapshot, previousChildName : String?) {}
-
         }
+
 
         val key = if (childKey == null) {
             db.addChildEventListener(eventListener)
