@@ -95,9 +95,8 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         button_accept.setOnClickListener { acceptHelpRequest() }
         button_reject.setOnClickListener { goToMainPage() }
 
-        onEmergencyCancelled()
+        setUpEmergencyCancellation()
     }
-
 
     /**
      * Initializes the user's current location or returns to the main page in case a mistake occured
@@ -171,10 +170,7 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             initChat()
         }.exceptionally { goToMainPage() } // Expired
         // If the user accepts to help, he can change his mind and cancel later
-        button_reject.setOnClickListener {
-            conversation!!.deleteConversation()
-            goToActivity(MainPageActivity::class.java)
-        }
+        button_reject.setOnClickListener { conversation?.let { it.deleteConversation() } }
     }
 
     private fun initChat() {
@@ -224,7 +220,7 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         goToActivity(MainPageActivity::class.java)
     }
 
-    private fun onEmergencyCancelled() {
+    private fun setUpEmergencyCancellation() {
         fun onChildRemoved(id : String) {
             if (id == helpeeId) {
                 // If the person the user is trying to help has cancelled his emergency, the

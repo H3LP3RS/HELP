@@ -167,11 +167,12 @@ interface Database {
 
     /**
      * Adds an event listener to a key in the database
+     * @param key The relative path from this reference to the new one or null if the action is to
+     * be taken on the entire original path
+     * @param type The type of the added object
      * @param onChildAdded The action to take on the new data snapshot when data is added. Could be
      * null
      * @param onChildRemoved The action to take on the new data snapshot when data is removed
-     * @param key The relative path from this reference to the new one or null if the action is to
-     * be taken on the entire original path
      */
     fun <T> addEventListener(
         key : String?,
