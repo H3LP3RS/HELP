@@ -2,6 +2,7 @@ package com.github.h3lp3rs.h3lp.forum
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import com.github.h3lp3rs.h3lp.R
@@ -18,6 +19,7 @@ class NewPostActivity : AppCompatActivity() {
         val adapter = ArrayAdapter(
             this,
             R.layout.dropdown_menu_popup,
+            // TODO replace by list of categories
             listOf("a","b")
         )
 
@@ -25,5 +27,11 @@ class NewPostActivity : AppCompatActivity() {
             findViewById<AutoCompleteTextView>(R.id.newPostCategoryDropdown)
 
         editTextFilledExposedDropdown.setAdapter(adapter)
+    }
+
+    fun savePost(view : View){
+        val category = findViewById<AutoCompleteTextView>(R.id.newPostCategoryDropdown).text.toString()
+        val question = findViewById<AutoCompleteTextView>(R.id.newPostTitleEditTxt).text.toString()
+        // TODO save in DB
     }
 }

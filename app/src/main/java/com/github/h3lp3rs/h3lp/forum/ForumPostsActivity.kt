@@ -44,7 +44,7 @@ private class Post(private val question : String, private val questionId : Strin
     Item<ViewHolder>() {
 
     override fun bind(viewHolder : ViewHolder, position : Int) {
-        viewHolder.itemView.text_view_receiver.text = question
+        viewHolder.itemView.question_post.text = question
         viewHolder.itemView.image_post.setImageResource(getImage())
     }
 
