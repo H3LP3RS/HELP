@@ -80,10 +80,11 @@ class HelperPageActivityTest {
         When(locationMock.longitude).thenReturn(CURRENT_LONG)
         GeneralLocationManager.set(locationManagerMock)
 
+        // Setup context
         globalContext = getApplicationContext()
         userUid = USER_TEST_ID
 
-
+        // Setup databases
         resetStorage()
         PREFERENCES.db = MockDatabase()
         val emergencyDb = MockDatabase()
@@ -95,6 +96,7 @@ class HelperPageActivityTest {
             helpId.toString(), 2.0, 2.0, skills,
             ArrayList(listOf("Epipen")), Date(), null, ArrayList()
         )
+
         emergencyDb.setObject(helpId.toString(), EmergencyInformation::class.java, emergency)
         EMERGENCIES.db = emergencyDb
         // Setup skills storage accordingly

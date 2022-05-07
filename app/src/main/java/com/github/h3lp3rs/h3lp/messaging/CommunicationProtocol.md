@@ -10,7 +10,10 @@ Notes:
   of the protocol is then to be able to generate a unique, shared conversation id between the helpee
   and any helper willing to help without sharing personal information nor communication between the 
   helpers.
-
+* Caution: as an implementation optimization, we now use the emergency id in the stead of what we
+  called the helpeeId, indeed, they were both unique to each emergency and could thus serve the same 
+  use (keeping them both would have induced unnecessary duplication and complication of code). The 
+  protocol is still exactly the same.
 
 To keep the conversation anonymous, we have devised the following protocol:
 1. When a user needs help, they generate a unique id (which we'll call helpeeId) and send it as 

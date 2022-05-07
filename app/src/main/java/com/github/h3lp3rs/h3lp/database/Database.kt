@@ -160,8 +160,8 @@ interface Database {
      * value
      * @param key The key in the database
      * @param increment The number to increment by
-     * @return future The incremented value
-     * in case of a database error, thus why onComplete takes a nullable Int)
+     * @return A future of the incremented value, completes exceptionally if there was a problem
+     * while accessing the database
      */
     fun incrementAndGet(key: String, increment: Int): CompletableFuture<Int>
 }

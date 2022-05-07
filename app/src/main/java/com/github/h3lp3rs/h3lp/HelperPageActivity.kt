@@ -90,6 +90,7 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     /**
      * Initializes the user's current location or returns to the main page in case a mistake occured
      * during the location information retrieval
+     * @return The user's current location in the format Pair(latitude, longitude)
      */
     private fun getLocation(): Pair<Double, Double>? {
         val currentLocation = GeneralLocationManager.get().getCurrentLocation(this)
@@ -111,6 +112,7 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     /**
      * Displays the medication / help required by the user in need
+     * @param medication The medication that the user in need specified they needed
      */
     private fun displayRequiredMeds(medication: ArrayList<String>) {
         val helpRequiredText: TextView = findViewById(R.id.helpRequired)
@@ -129,6 +131,9 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     /**
      * Accepts the help requests and initialises a conversation with the person in need of help
      * (see CommunicationProtocol.md for a detailed explanation)
+     * @param emergencyId The unique id of the current emergency
+     * @param currentLat The user's current latitude
+     * @param currentLong The user's current longitude
      */
     private fun acceptHelpRequest(emergencyId: String, currentLat: Double, currentLong: Double) {
         val emergencyDb = databaseOf(EMERGENCIES)
@@ -152,6 +157,11 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         }.exceptionally { goToMainPage() } // Expired
     }
 
+    /**
+     * Initialises a chat between the user (the helper here) and the helpee
+     * @param emergencyId The emergency id (used as a point on the database to communicate a unique
+     * conversation id between each helper / helpee pair)
+     */
     private fun initChat(emergencyId: String) {
         val conversationIdsDb = databaseOf(CONVERSATION_IDS)
         conversationIdsDb.incrementAndGet(UNIQUE_CONVERSATION_ID, 1).thenApply {

@@ -81,6 +81,8 @@ class AwaitHelpActivity : AppCompatActivity() {
     /**
      * Displays a popup asking the user to call the emergency services if they
      * require help, stating that help from other users is not guaranteed.
+     * @param latitude The user's current latitude
+     * @param longitude The user's current longitude
      */
     private fun showEmergencyCallPopup(latitude: Double, longitude: Double){
         val builder = AlertDialog.Builder(this)
@@ -91,12 +93,12 @@ class AwaitHelpActivity : AppCompatActivity() {
 
         val alertDialog = builder.create()
 
-        // pass button
+        // Pass button
         emergencyCallPopup.findViewById<Button>(R.id.close_call_popup_button).setOnClickListener {
             alertDialog.cancel()
         }
 
-        // call button
+        // Call button
         emergencyCallPopup.findViewById<Button>(R.id.open_call_popup_button).setOnClickListener {
             alertDialog.cancel()
             launchEmergencyCall(latitude, longitude)
@@ -109,8 +111,9 @@ class AwaitHelpActivity : AppCompatActivity() {
      * Called when a someone responds to the help request. Replaces the waiting
      * bar by the number of helpers coming and makes the contact helpers button visible.
      * @param uid The uid of the helper
-     * @param latitude Its latitude
-     * @param longitude Its longitude
+     * @param latitude Their latitude
+     * @param longitude Their longitude
+     * @param emergencyId The emergency id (used to set up the conversation with the helper)
      */
     private fun foundHelperPerson(uid: String, latitude: Double, longitude: Double, emergencyId: String){
         if(helpersId.contains(uid)) return
@@ -141,6 +144,9 @@ class AwaitHelpActivity : AppCompatActivity() {
     /**
      * Adds a marker on the map representing the position of someone coming to
      * help.
+     * @param uid The uid of the helper
+     * @param latitude The helper's current latitude
+     * @param longitude The helper's current longitude
      */
     private fun showHelperPerson(uid: String, latitude: Double, longitude: Double){
         val latLng = LatLng(latitude, longitude)
@@ -151,12 +157,13 @@ class AwaitHelpActivity : AppCompatActivity() {
         options.title(name)
         options.icon(BitmapDescriptorFactory.fromResource(R.drawable.helper_marker))
 
-        //mapsFragment.addMarker(options) TODO: Fragment not working
+        mapsFragment.addMarker(options)
     }
 
     /**
      * Initializes the user's current location or returns to the main page in case a mistake occured
      * during the location information retrieval
+     * @return The user's current location in the format Pair(latitude, longitude)
      */
     private fun getLocation(): Pair<Double, Double>? {
         val currentLocation = GeneralLocationManager.get().getCurrentLocation(this)
@@ -167,9 +174,11 @@ class AwaitHelpActivity : AppCompatActivity() {
     }
 
     /**
-     *  Called when the user presses the emergency call button. Opens a pop-up
-     *  asking the user to choose whether they want to call local emergency
-     *  services or their emergency contact, and dials the correct number.
+     * Called when the user presses the emergency call button. Opens a pop-up
+     * asking the user to choose whether they want to call local emergency
+     * services or their emergency contact, and dials the correct number
+     * @param latitude The helper's current latitude
+     * @param longitude The helper's current longitude
      */
     @RequiresApi(Build.VERSION_CODES.O)
     private fun emergencyCall(latitude: Double, longitude: Double) {
@@ -185,16 +194,16 @@ class AwaitHelpActivity : AppCompatActivity() {
 
             val alertDialog = builder.create()
 
-            // ambulance button
+            // Ambulance button
             emergencyCallPopup.findViewById<ImageButton>(R.id.ambulance_call_button).setOnClickListener {
                 // In case the getCurrentLocation failed (for example if the location services aren't
-                // activated, currentLocation is still null and the returned phone number will be the
+                // activated) currentLocation is still null and the returned phone number will be the
                 // default emergency phone number
                 alertDialog.cancel()
                 launchEmergencyCall(latitude, longitude)
             }
 
-            // contact button
+            // Contact button
             emergencyCallPopup.findViewById<ImageButton>(R.id.contact_call_button).setOnClickListener {
                 alertDialog.cancel()
 
@@ -210,6 +219,8 @@ class AwaitHelpActivity : AppCompatActivity() {
 
     /**
      * Launches a the phone app with the local emergency number dialed
+     * @param latitude The helper's current latitude
+     * @param longitude The helper's current longitude
      */
     private fun launchEmergencyCall(latitude: Double, longitude: Double) {
         val emergencyNumber =
