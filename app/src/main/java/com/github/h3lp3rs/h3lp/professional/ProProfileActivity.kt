@@ -83,10 +83,10 @@ class ProProfileActivity : AppCompatActivity() {
     }
 
 
-    private fun createSnackBar(it: View, str: String) {
-        val snack = Snackbar.make(it, str, Snackbar.LENGTH_LONG)
-        snack.animationMode = BaseTransientBottomBar.ANIMATION_MODE_SLIDE
+    private fun createSnackBar(view: View, str: String) {
+        val snack = Snackbar.make(view, str, Snackbar.LENGTH_LONG)
         snack.setBackgroundTint(ContextCompat.getColor(this, R.color.teal_200))
+        snack.animationMode = BaseTransientBottomBar.ANIMATION_MODE_SLIDE
         snack.show()
     }
 
