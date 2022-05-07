@@ -37,7 +37,7 @@ class ProProfileActivityTest {
         VerificationActivity.currentUserName = ""
         setDatabase(Databases.PRO_USERS,MockDatabase())
         val proUsersDb = databaseOf(Databases.PRO_USERS)
-        val proUser = ProUser(USER_TEST_ID, "","","", "", "", 0)
+        val proUser = ProUser(USER_TEST_ID, "","","", "", "", "")
         proUsersDb.setObject(USER_TEST_ID,ProUser::class.java, proUser)
     }
 

@@ -82,11 +82,7 @@ class ProProfileActivity : AppCompatActivity() {
         return findViewById<CheckBox>(R.id.ProProfilePrivacyCheck).isChecked
     }
 
-    /**
-     * Create a stylized Snackbar
-     * @param it the view in which the snack should appeared
-     * @param str the message to display
-     */
+
     private fun createSnackBar(it: View, str: String) {
         val snack = Snackbar.make(it, str, Snackbar.LENGTH_LONG)
         snack.animationMode = BaseTransientBottomBar.ANIMATION_MODE_SLIDE

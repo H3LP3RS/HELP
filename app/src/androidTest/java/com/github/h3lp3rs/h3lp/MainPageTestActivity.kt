@@ -189,7 +189,7 @@ class MainPageTestActivity {
 
     @Test
     fun clickingOnProPortalButtonGoesToProPortalIfVerifiedUser() {
-        val proUser = ProUser(USER_TEST_ID, "","","", "", "", 0)
+        val proUser = ProUser(USER_TEST_ID, "","","", "", "", "")
         proUsersDb.setObject(USER_TEST_ID,ProUser::class.java, proUser)
         launchAndDo {
             clickingOnButtonWorksAndSendsIntent(ProMainActivity::class.java, withId(R.id.button_pro), true)
