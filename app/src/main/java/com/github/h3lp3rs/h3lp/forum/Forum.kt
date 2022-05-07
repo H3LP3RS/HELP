@@ -75,13 +75,6 @@ interface Forum {
     fun root(): Forum
 
     /**
-     * Returns one of the main pre-defined categories sub-forum
-     * @param category One of the pre-defined main categories
-     * @return forum The forum of the given category
-     */
-    fun category(category: ForumCategory): Forum
-
-    /**
      * Returns the child forum at the relative path from here
      * If it does not yet exist, it will be created automatically when
      * a first post is sent

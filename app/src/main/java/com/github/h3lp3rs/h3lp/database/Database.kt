@@ -95,10 +95,13 @@ interface Database {
      * @param key The key in the database
      * @param type The type of the resulting object
      * @param value The value of the object
+     * @return The key of that new object in the database (since to make this adding concurrent, the
+     * database chooses what unique key value to return), is null if an error occured while adding
+     * the object to the list
      */
-    fun <T> addToObjectsListConcurrently(key : String, type : Class<T>, value : T) {
+    fun <T> addToObjectsListConcurrently(key : String, type : Class<T>, value : T): String? {
         val gson = Gson()
-        addStringConcurrently(key, gson.toJson(value, type))
+        return addStringConcurrently(key, gson.toJson(value, type))
     }
 
     /**
@@ -107,8 +110,11 @@ interface Database {
      * added to the list)
      * @param key The key in the database
      * @param value The value of the string
+     * @return The key of that new string in the database (since to make this adding concurrent, the
+     * database chooses what unique key value to return), is null if an error occured while adding
+     * the string to the list
      */
-    fun addStringConcurrently(key : String, value : String)
+    fun addStringConcurrently(key : String, value : String): String?
 
     /**
      * Gets the list of objects added with addToObjectsListConcurrently

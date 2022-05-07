@@ -8,23 +8,29 @@ import java.util.concurrent.CompletableFuture
  * The class has as attribute the instance of the forum that directly points on it
  * @param forum Forum at the path of the post
  * @param post Data of the post
+ * @param replies Replies to this post
  */
-class ForumPost(private val forum: Forum, private val post: ForumPostData) {
+class ForumPost(
+    private val forum: Forum,
+    val post: ForumPostData,
+    val replies: List<ForumPostData>,
+) {
 
     /**
      * Adds a reply to the post
      * @param author The author of the reply
      * @param content The content of the reply
-     * @return this This post updated with the new reply (and potential replies from others)
+     * @return This post updated with the new reply (and potential replies from others)
      * in the form of a future
      */
     fun reply(author: String, content: String): CompletableFuture<ForumPost> {
-        return forum.newPost(author, content)
+        forum.newPost(author, content)
+        return refresh()
     }
 
     /**
      * Refreshes the post if possible
-     * @return this This post updated with potential replies from other
+     * @return this This post updated with potential replies from others
      * in the form of a future
      */
     fun refresh(): CompletableFuture<ForumPost> {
@@ -33,7 +39,7 @@ class ForumPost(private val forum: Forum, private val post: ForumPostData) {
 
     /**
      * Listens to this post and executes the lambda with the new data
-     * as parameter when a change occurs (ie: post added)
+     * as parameter when a change occurs (ie: reply added)
      * @param action The action taken when a change occurs
      */
     fun listen(action: (ForumPostData) -> Unit) {

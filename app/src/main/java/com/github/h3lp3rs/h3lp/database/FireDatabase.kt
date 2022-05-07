@@ -79,10 +79,12 @@ internal class FireDatabase(path: String) : Database {
         db.child(key).setValue(value)
     }
 
-    override fun addStringConcurrently(key: String, value: String) {
+    override fun addStringConcurrently(key: String, value: String): String? {
         // Push generates a unique key for each new child, thus several clients can add children to
         // the same location at the same time without worrying about write conflicts
-        db.child(key).push().setValue(value)
+        val ref = db.child(key).push()
+        ref.setValue(value)
+        return ref.key
     }
 
     override fun <T> getObjectsList(key: String, type: Class<T>): CompletableFuture<List<T>> {

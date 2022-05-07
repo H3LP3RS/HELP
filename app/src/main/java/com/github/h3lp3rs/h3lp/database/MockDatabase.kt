@@ -83,11 +83,12 @@ class MockDatabase : Database {
         setAndTriggerListeners(key, value)
     }
 
-    override fun addStringConcurrently(key : String, value : String) {
+    override fun addStringConcurrently(key : String, value : String): String {
         synchronized(this) {
             val old = concurrentLists.getOrDefault(key, emptyList())
             concurrentLists[key] = old.plus(value)
             triggerListeners(key)
+            return key
         }
     }
 

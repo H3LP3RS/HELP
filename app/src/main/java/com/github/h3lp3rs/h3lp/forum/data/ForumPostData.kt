@@ -7,11 +7,11 @@ import java.time.ZonedDateTime
  * @param author The author of the post
  * @param content The content of the initial message (ie. question)
  * @param postTime The timestamp of the post
- * @param replies The list of all the replies in chronological order
+ * @param key A unique identifier for this post
  */
 data class ForumPostData(
     val author: String,
     val content: String,
     val postTime: ZonedDateTime,
-    val replies: List<ForumPostReplyData>
+    val key: String
 )
