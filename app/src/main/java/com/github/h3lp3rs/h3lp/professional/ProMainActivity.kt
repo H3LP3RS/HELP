@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.github.h3lp3rs.h3lp.R
+import com.github.h3lp3rs.h3lp.forum.NewPostActivity
 
 /**
  * Main activity of the professional portal
@@ -23,7 +24,7 @@ class ProMainActivity : AppCompatActivity() {
     }
 
     fun goToProProfileActivity(view : View){
-        goToActivity(ProProfileActivity::class.java)
+        goToActivity(NewPostActivity::class.java)
     }
 
 

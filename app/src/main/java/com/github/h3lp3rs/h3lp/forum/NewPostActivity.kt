@@ -20,7 +20,7 @@ class NewPostActivity : AppCompatActivity() {
             this,
             R.layout.dropdown_menu_popup,
             // TODO replace by list of categories
-            listOf("a","b")
+            listOf(ForumCategoriesActivity.MedicalCategory.values())
         )
 
         val editTextFilledExposedDropdown =

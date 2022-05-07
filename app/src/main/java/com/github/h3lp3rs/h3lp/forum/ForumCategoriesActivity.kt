@@ -9,4 +9,10 @@ class ForumCategoriesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forum_categories)
     }
+
+    enum class MedicalCategory (val title: String){
+        GENERALIST("generalist"), CARDIOLOGY("cardiology"), TRAUMATOLOGY("traumatology"),
+        PEDIATRY("pediatry"), NEUROLOGY("neurology"), GYNECOLOGY("gynecology")
+
+    }
 }

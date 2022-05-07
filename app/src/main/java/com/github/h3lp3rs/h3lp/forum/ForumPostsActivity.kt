@@ -2,13 +2,11 @@ package com.github.h3lp3rs.h3lp.forum
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.github.h3lp3rs.h3lp.EXTRA_HELPEE_ID
 import com.github.h3lp3rs.h3lp.R
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_forum_posts.*
-import kotlinx.android.synthetic.main.chat_receiver.view.*
 import kotlinx.android.synthetic.main.post_forum_row.view.*
 
 const val EXTRA_QUESTION_ID = "forum_question_id"
@@ -53,7 +51,17 @@ private class Post(private val question : String, private val questionId : Strin
     }
 
     private fun getImage() : Int {
-        TODO("Image per cat")
+        return when (category) {
+            ForumCategoriesActivity.MedicalCategory.GENERALIST.title -> R.drawable.ic_generalist
+            ForumCategoriesActivity.MedicalCategory.CARDIOLOGY.title -> R.drawable.ic_cardiology
+            ForumCategoriesActivity.MedicalCategory.TRAUMATOLOGY.title -> R.drawable.ic_traumatology
+            ForumCategoriesActivity.MedicalCategory.PEDIATRY.title -> R.drawable.ic_pediatric
+            ForumCategoriesActivity.MedicalCategory.NEUROLOGY.title -> R.drawable.ic_neurology
+            ForumCategoriesActivity.MedicalCategory.GYNECOLOGY.title -> R.drawable.ic_gynecology
+            else -> {
+                R.drawable.ic_generalist
+            }
+        }
     }
 
     fun getID() : String {
