@@ -356,4 +356,6 @@
     <string name="title">Title</string>
     <string name="category">Category</string>
     <string name="post_question">Post question</string>
+    <string name="expand_forum">Expand forum</string>
+    <string name="cardiology">Cardiology</string>
 </resources>
