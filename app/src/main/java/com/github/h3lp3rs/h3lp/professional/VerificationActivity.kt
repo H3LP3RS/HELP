@@ -42,7 +42,7 @@ class VerificationActivity : AppCompatActivity() {
         var currentUserProofUri = ""
         var currentUserStatus = ""
         var currentUserDomain = ""
-        var currentUserExperience = 0
+        var currentUserExperience = ""
         private const val DELAY : Long = 5000
 
     }

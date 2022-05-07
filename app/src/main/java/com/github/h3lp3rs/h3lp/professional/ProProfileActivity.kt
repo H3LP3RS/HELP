@@ -8,15 +8,16 @@ import android.text.TextPaint
 import android.text.TextUtils
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
-import android.util.Log
 import android.view.View
-import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
 
 class ProProfileActivity : AppCompatActivity() {
     private var proStatus = VerificationActivity.currentUserStatus
@@ -28,8 +29,6 @@ class ProProfileActivity : AppCompatActivity() {
         setContentView(R.layout.activity_pro_profile)
 
         createProPrivacyCheckBox()
-
-        findViewById<Button>(R.id.ProProfileSaveButton).setOnClickListener { loadData() }
     }
 
     /**
@@ -38,7 +37,6 @@ class ProProfileActivity : AppCompatActivity() {
     private fun createProPrivacyCheckBox() {
         val clickableSpan: ClickableSpan = object : ClickableSpan() {
             override fun onClick(widget: View) {
-                // This avoids checkbox checking when clicking on the policy link
                 showPolicy()
             }
 
@@ -63,8 +61,7 @@ class ProProfileActivity : AppCompatActivity() {
     private fun loadData() {
         proStatus = findViewById<EditText>(R.id.proProfileStatusEditTxt).text.toString()
         proDomain = findViewById<EditText>(R.id.proProfileDomainEditTxt).text.toString()
-        proExperience =
-            findViewById<EditText>(R.id.ProProfileExperienceEditTxt).text.toString().toInt()
+        proExperience = findViewById<EditText>(R.id.ProProfileExperienceEditTxt).text.toString()
 
         val updatedProfile = ProUser(
             id = VerificationActivity.currentUserId,
@@ -78,5 +75,31 @@ class ProProfileActivity : AppCompatActivity() {
         databaseOf(Databases.PRO_USERS).setObject(VerificationActivity.currentUserId, ProUser::class.java, updatedProfile)
     }
 
+    /**
+     * Check that the policy was accepted
+     */
+    private fun checkPolicy(): Boolean {
+        return findViewById<CheckBox>(R.id.ProProfilePrivacyCheck).isChecked
+    }
 
+    /**
+     * Create a stylized Snackbar
+     * @param it the view in which the snack should appeared
+     * @param str the message to display
+     */
+    private fun createSnackBar(it: View, str: String) {
+        val snack = Snackbar.make(it, str, Snackbar.LENGTH_LONG)
+        snack.animationMode = BaseTransientBottomBar.ANIMATION_MODE_SLIDE
+        snack.setBackgroundTint(ContextCompat.getColor(this, R.color.teal_200))
+        snack.show()
+    }
+
+    fun checkAndLoadData(view: View){
+        if (!checkPolicy()) {
+            createSnackBar(view, getString(R.string.privacy_policy_not_acceptes))
+        } else {
+            loadData()
+            createSnackBar(view, getString(R.string.changes_saved))
+        }
+    }
 }

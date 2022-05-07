@@ -17,5 +17,5 @@ data class ProUser(
 
     var proDomain: String,
 
-    var proExperience: Int
+    var proExperience: String
 )
