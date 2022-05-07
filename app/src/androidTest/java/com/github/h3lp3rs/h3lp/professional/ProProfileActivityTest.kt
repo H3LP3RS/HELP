@@ -64,6 +64,13 @@ class ProProfileActivityTest {
         onView(withId(R.id.ProProfileExperienceEditTxt))
             .perform(ViewActions.replaceText("3"))
 
+        onView(withId(R.id.ProProfilePrivacyCheck))
+            .perform(click())
+        
+        onView(withText(R.string.pro_profile_privacy_policy))
+            .inRoot(RootMatchers.isDialog())
+            .perform(ViewActions.pressBack())
+
         onView(withId(R.id.ProProfileSaveButton))
             .perform(click())
 
