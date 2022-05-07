@@ -27,4 +27,9 @@ class ProMainActivity : AppCompatActivity() {
     }
 
 
+    fun goToForumTheme(view: View) {
+        val intent = Intent(this, ProfessionalTypeSelection::class.java)
+        startActivity(intent)
+    }
+
 }
