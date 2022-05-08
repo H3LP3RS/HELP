@@ -14,27 +14,38 @@ class FireForum(override val path: Path) : Forum {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun newPost(author: String, content: String): CompletableFuture<ForumPost> {
         var key = ""
-        return rootForum.incrementAndGet(UNIQUE_POST_ID, 1).thenApply {
-            key = it.toString()
+        // Incrementing by 2 so that a post's replies key is always 1 more than a post's key (this
+        // is also an optimization to avoid us requiring 2 calls to incrementAndGet)
+        return rootForum.incrementAndGet(UNIQUE_POST_ID, 2).thenApply { postKey ->
+            key = postKey.toString()
+            val repliesKey = (postKey + 1).toString()
 
-            val forumPostData = ForumPostData(author, content, ZonedDateTime.now(), key)
-            rootForum.addToObjectsListConcurrently(
-                pathToKey(path),
+            val forumPostData = ForumPostData(author, content, ZonedDateTime.now(), key, repliesKey)
+            rootForum.setObject(
+                pathToKey(path + key),
                 ForumPostData::class.java,
                 forumPostData
             )
-        }.thenCompose {
-            getPost(listOf(key))
+            // We can't use getPost here since we aren't sure that the setObject succeeded yet
+            ForumPost(this, forumPostData, emptyList())
         }
     }
 
     override fun getPost(relativePath: Path): CompletableFuture<ForumPost> {
         val fullPath = path + relativePath
         val key = pathToKey(fullPath)
-        return rootForum.getObject(key, ForumPostData::class.java).thenCompose { post ->
-            rootForum.getObjectsList(key, ForumPostData::class.java).thenApply { replies ->
-                ForumPost(FireForum(fullPath), post, replies)
-            }
+        return rootForum.getObject(key, ForumPostData::class.java).thenCompose { postData ->
+            rootForum.getObjectsList(postData.repliesKey, ForumPostData::class.java)
+                .thenApply { replies ->
+                    ForumPost(this, postData, replies)
+                }.handle { post, error ->
+                    if (error != null) {
+                        // If the post has no replies yet
+                        ForumPost(this, postData, emptyList())
+                    } else {
+                        post
+                    }
+                }
         }
     }
 

@@ -24,7 +24,7 @@ class ForumPost(
      * in the form of a future
      */
     fun reply(author: String, content: String): CompletableFuture<ForumPost> {
-        forum.newPost(author, content)
+        forum.child(listOf(post.repliesKey)).newPost(author, content)
         return refresh()
     }
 
@@ -34,7 +34,7 @@ class ForumPost(
      * in the form of a future
      */
     fun refresh(): CompletableFuture<ForumPost> {
-        return forum.getPost(emptyList())
+        return forum.child(listOf(post.key)).getPost(emptyList())
     }
 
     /**
