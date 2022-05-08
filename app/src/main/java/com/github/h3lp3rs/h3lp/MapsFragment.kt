@@ -34,6 +34,7 @@ class MapsFragment : Fragment(), CoroutineScope by MainScope(), GoogleMap.OnPoly
 
     // places and markers (key is the utility)
     private val placedMarkers = HashMap<String, List<Marker>>()
+    private val shownPaths = HashMap<Marker, Polyline>()
 
 
     private val callback = OnMapReadyCallback { googleMap ->
@@ -65,6 +66,18 @@ class MapsFragment : Fragment(), CoroutineScope by MainScope(), GoogleMap.OnPoly
                     DEFAULT_MAP_ZOOM
                 )
             )
+
+            map.setOnInfoWindowClickListener {
+
+            }
+            map.setOnMarkerClickListener {
+                if (shownPaths.containsKey(it)) {
+                    shownPaths[it]?.remove()
+                } else {
+
+                }
+                true
+            }
         } else {
             // In case the permission to access the location is missing
             val intent = Intent(requireContext(), MainPageActivity::class.java)
@@ -123,7 +136,6 @@ class MapsFragment : Fragment(), CoroutineScope by MainScope(), GoogleMap.OnPoly
                         options.icon(BitmapDescriptorFactory.fromResource(R.drawable.aed_marker))
                     }
                 }
-
                 // Add marker to list so that we can remove it later
                 val marker = map.addMarker(options)
                 if (marker != null) {
