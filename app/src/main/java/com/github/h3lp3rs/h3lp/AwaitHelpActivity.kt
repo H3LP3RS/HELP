@@ -149,17 +149,11 @@ class AwaitHelpActivity : AppCompatActivity() {
      * @param longitude The helper's current longitude
      */
     private fun showHelperPerson(uid: String, latitude: Double, longitude: Double){
-        val latLng = LatLng(latitude, longitude)
         val name = resources.getString(R.string.helper_marker_desc) + uid
-
-        val options = MarkerOptions()
-        options.position(latLng)
-        options.title(name)
-        options.icon(BitmapDescriptorFactory.fromResource(R.drawable.helper_marker))
 
         // Since the testing only checks for modifications on the UI thread, we force its execution
         // on the corresponding thread to enable testing
-        runOnUiThread { mapsFragment.addMarker(options) }
+        runOnUiThread { mapsFragment.addMarker(latitude, longitude, name) }
     }
 
     /**
