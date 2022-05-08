@@ -18,7 +18,7 @@ import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 object EmergencyListener {
 
     // Maximum helpee-helper distance in meters
-    private const val MAX_DISTANCE = 1000
+    private const val MAX_DISTANCE = 5000
 
     /**
      * Activates all listeners for helpees the helper may help

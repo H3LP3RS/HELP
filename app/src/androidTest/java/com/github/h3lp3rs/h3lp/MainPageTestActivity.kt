@@ -4,6 +4,8 @@ import android.Manifest
 import android.app.Activity
 import android.app.Instrumentation.*
 import android.content.Intent
+import android.location.Location
+import android.location.LocationManager
 import android.view.View
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ActivityScenario.*
@@ -26,11 +28,14 @@ import androidx.test.uiautomator.Until
 import com.github.h3lp3rs.h3lp.database.Database
 import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.database.Databases.*
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.database.MockDatabase
 import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
 import com.github.h3lp3rs.h3lp.dataclasses.HelperSkills
 import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation
+import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
+import com.github.h3lp3rs.h3lp.locationmanager.LocationManagerInterface
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
 import com.github.h3lp3rs.h3lp.professional.ProMainActivity
 import com.github.h3lp3rs.h3lp.professional.ProUser
@@ -41,21 +46,33 @@ import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
+import junit.framework.Assert.assertTrue
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito
+import org.mockito.kotlin.anyOrNull
 import java.util.*
 import kotlin.collections.ArrayList
-
+import org.mockito.Mockito.`when` as When
 
 @RunWith(AndroidJUnit4::class)
 class MainPageTestActivity {
+
     @get:Rule
-    var mRuntimePermissionRule: GrantPermissionRule = GrantPermissionRule.grant(Manifest.permission.ACCESS_FINE_LOCATION)
-    private lateinit var proUsersDb : Database
+    var mRuntimePermissionRule: GrantPermissionRule =
+        GrantPermissionRule.grant(Manifest.permission.ACCESS_FINE_LOCATION)
+    private lateinit var proUsersDb: Database
+
+    private val locationManagerMock: LocationManagerInterface =
+        Mockito.mock(LocationManagerInterface::class.java)
+    private val locationMock: Location = Mockito.mock(Location::class.java)
+    private val defaultLongitude = 1.0
+    private val defaultLatitude = 1.0
+    private val maxResponseDistance = 5000.0
 
     @Before
     fun setup() {
@@ -63,9 +80,16 @@ class MainPageTestActivity {
         userUid = USER_TEST_ID
         setDatabase(PREFERENCES, MockDatabase())
         setDatabase(PRO_USERS, MockDatabase())
-        proUsersDb = Databases.databaseOf(PRO_USERS)
+        proUsersDb = databaseOf(PRO_USERS)
         resetStorage()
         storageOf(USER_COOKIE).setBoolean(GUIDE_KEY, true)
+        // Mocking the user's location to a predefined set of coordinates
+        When(locationManagerMock.getCurrentLocation(anyOrNull())).thenReturn(
+            locationMock
+        )
+        When(locationMock.longitude).thenReturn(defaultLongitude)
+        When(locationMock.latitude).thenReturn(defaultLatitude)
+        GeneralLocationManager.set(locationManagerMock)
     }
 
     private fun launch(): ActivityScenario<MainPageActivity> {
@@ -111,74 +135,96 @@ class MainPageTestActivity {
     @Test
     fun pushingInfoButtonLaunchesPresentation() {
         launchAndDo {
-            clickingOnButtonWorksAndSendsIntent(PresArrivalActivity::class.java, withId(R.id.button_tutorial), false)
+            clickingOnButtonWorksAndSendsIntent(
+                PresArrivalActivity::class.java,
+                withId(R.id.button_tutorial),
+                false
+            )
         }
     }
 
     @Test
     fun clickingOnCPRButtonWorksAndSendsIntent() {
         launchAndDo {
-            clickingOnButtonWorksAndSendsIntent(CprRateActivity::class.java, withId(R.id.button_cpr), true)
+            clickingOnButtonWorksAndSendsIntent(
+                CprRateActivity::class.java,
+                withId(R.id.button_cpr),
+                true
+            )
         }
     }
 
     @Test
     fun clickingOnProfileButtonWorksAndSendsIntent() {
         launchAndDo {
-            clickingOnButtonWorksAndSendsIntent(MedicalCardActivity::class.java, withId(R.id.button_profile), false)
+            clickingOnButtonWorksAndSendsIntent(
+                MedicalCardActivity::class.java,
+                withId(R.id.button_profile),
+                false
+            )
         }
     }
 
     @Test
     fun clickingOnHelpButtonWorksAndSendsIntent() {
         launchAndDo {
-            clickingOnButtonWorksAndSendsIntent(HelpeeSelectionActivity::class.java, withId(R.id.HELP_button), false)
+            clickingOnButtonWorksAndSendsIntent(
+                HelpeeSelectionActivity::class.java,
+                withId(R.id.HELP_button),
+                false
+            )
         }
     }
 
     @Test
     fun clickingOnHospitalButtonWorksAndSendsIntent() {
         launchAndDo {
-            clickingOnButtonWorksAndSendsIntent(NearbyUtilitiesActivity::class.java, withId(R.id.button_hospital), true)
+            clickingOnButtonWorksAndSendsIntent(
+                NearbyUtilitiesActivity::class.java,
+                withId(R.id.button_hospital),
+                true
+            )
         }
     }
 
     @Test
     fun clickingOnPharmacyButtonWorksAndSendsIntent() {
         launchAndDo {
-            clickingOnButtonWorksAndSendsIntent(NearbyUtilitiesActivity::class.java, withId(R.id.button_pharmacy), true)
+            clickingOnButtonWorksAndSendsIntent(
+                NearbyUtilitiesActivity::class.java,
+                withId(R.id.button_pharmacy),
+                true
+            )
         }
     }
 
     @Test
     fun clickingOnFirstAidButtonWorksAndSendsIntent() {
         launchAndDo {
-            clickingOnButtonWorksAndSendsIntent(FirstAidActivity::class.java, withId(R.id.button_first_aid), true)
+            clickingOnButtonWorksAndSendsIntent(
+                FirstAidActivity::class.java,
+                withId(R.id.button_first_aid),
+                true
+            )
         }
     }
 
     @Test
-    fun getsNotifiedWhenHelpNeeded() {
-        // Mock an emergency
-        val emergencyId = 1
-        val emergenciesDb = MockDatabase()
-        val skills = HelperSkills(true, false,false,
-                                false,false, false)
-        val emergency = EmergencyInformation(emergencyId.toString(), 1.0,1.0, skills,
-                                ArrayList(listOf("Epipen")), Date(), null, ArrayList())
-        emergenciesDb.setObject(emergencyId.toString(), EmergencyInformation::class.java, emergency)
-        EMERGENCIES.db = emergenciesDb
-        val newEmergenciesDb = MockDatabase()
-        newEmergenciesDb.setInt(globalContext.getString(R.string.epipen), emergencyId)
-        NEW_EMERGENCIES.db = newEmergenciesDb
-        // Add to storage the skills
-        storageOf(SKILLS).setObject(globalContext.getString(R.string.my_skills_key),
-            HelperSkills::class.java, skills)
-        // To track notifications
-        val uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
-        launchAndDo {
+    fun getsNotifiedWhenHelpNeededAndCloseEnough() {
+        launchEmergency(
+            {
+                // Mock close enough behaviour
+                When(locationManagerMock.distanceFrom(anyOrNull(), anyOrNull())).thenReturn(
+                    maxResponseDistance
+                )
+            }
+        ) {
+            val uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
             // Should immediately receive a notification
-            uiDevice.wait(Until.hasObject(By.textStartsWith("H3LP")),3000)
+            uiDevice.wait(Until.hasObject(By.textStartsWith("H3LP")), 3000)
+            val notification =
+                uiDevice.findObject(By.text(globalContext.getString(R.string.emergency)))
+            assertTrue(notification != null)
             // Get the notification box - CIRRUS DOESN'T LIKE THIS
             // val notification = uiDevice.findObject(By.text(globalContext.getString(R.string.emergency)))
             // notification.click()
@@ -188,11 +234,69 @@ class MainPageTestActivity {
     }
 
     @Test
-    fun clickingOnProPortalButtonGoesToProPortalIfVerifiedUser() {
-        val proUser = ProUser(USER_TEST_ID, "","","")
-        proUsersDb.setObject(USER_TEST_ID,ProUser::class.java, proUser)
+    fun notNotifiedWhenHelpNeededAndTooFarAway() {
+        launchEmergency(
+            {
+                // Mock too far away behaviour
+                When(locationManagerMock.distanceFrom(anyOrNull(), anyOrNull())).thenReturn(
+                    2 * maxResponseDistance
+                )
+            }
+        ) {
+            val uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+            // Should immediately receive a notification
+            uiDevice.wait(Until.hasObject(By.textStartsWith("H3LP")), 3000)
+            val notification =
+                uiDevice.findObject(By.text(globalContext.getString(R.string.emergency)))
+            assertTrue(notification == null)
+        }
+    }
+
+    private fun launchEmergency(before: () -> Unit, check: () -> Unit) {
+        before()
+        // Mock an emergency
+        val emergencyId = 1
+        val emergenciesDb = MockDatabase()
+        val skills = HelperSkills(
+            true, false, false,
+            false, false, false
+        )
+        val emergency = EmergencyInformation(
+            emergencyId.toString(),
+            defaultLatitude,
+            defaultLongitude,
+            skills,
+            ArrayList(listOf("Epipen")),
+            Date(),
+            null,
+            ArrayList()
+        )
+        emergenciesDb.setObject(emergencyId.toString(), EmergencyInformation::class.java, emergency)
+        setDatabase(EMERGENCIES, emergenciesDb)
+        val newEmergenciesDb = MockDatabase()
+        newEmergenciesDb.setInt(globalContext.getString(R.string.epipen), emergencyId)
+        setDatabase(NEW_EMERGENCIES, newEmergenciesDb)
+        // Add to storage the skills
+        storageOf(SKILLS).setObject(
+            globalContext.getString(R.string.my_skills_key),
+            HelperSkills::class.java, skills
+        )
+        // To track notifications
         launchAndDo {
-            clickingOnButtonWorksAndSendsIntent(ProMainActivity::class.java, withId(R.id.button_pro), true)
+            check()
+        }
+    }
+
+    @Test
+    fun clickingOnProPortalButtonGoesToProPortalIfVerifiedUser() {
+        val proUser = ProUser(USER_TEST_ID, "", "", "")
+        proUsersDb.setObject(USER_TEST_ID, ProUser::class.java, proUser)
+        launchAndDo {
+            clickingOnButtonWorksAndSendsIntent(
+                ProMainActivity::class.java,
+                withId(R.id.button_pro),
+                true
+            )
         }
     }
 
@@ -200,7 +304,11 @@ class MainPageTestActivity {
     fun clickingOnProPortalButtonGoesToVerificationIfNonVerifiedUser() {
         proUsersDb.delete(USER_TEST_ID)
         launchAndDo {
-            clickingOnButtonWorksAndSendsIntent(VerificationActivity::class.java, withId(R.id.button_pro), true)
+            clickingOnButtonWorksAndSendsIntent(
+                VerificationActivity::class.java,
+                withId(R.id.button_pro),
+                true
+            )
         }
     }
 }
