@@ -45,9 +45,8 @@
                 android:layout_height="wrap_content">
 
 
-
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/ProProfileStatusLayout"
+                    android:id="@+id/proProfileStatusLayout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -56,7 +55,6 @@
                     android:layout_marginEnd="32dp"
                     android:hint="@string/professional_status"
                     app:boxStrokeColor="@color/teal_200"
-                    app:errorEnabled="true"
                     app:errorIconDrawable="@drawable/ic_error"
                     app:hintTextColor="@color/teal_700"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -74,7 +72,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/ProProfileDomainTxtLayout"
+                    android:id="@+id/proProfileDomainTxtLayout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -82,14 +80,12 @@
                     android:layout_marginEnd="32dp"
                     android:hint="@string/domain"
                     app:boxStrokeColor="@color/teal_200"
-                    app:errorEnabled="true"
                     app:errorIconDrawable="@drawable/ic_error"
                     app:hintTextColor="@color/teal_700"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ProProfileStatusLayout"
-                    app:startIconDrawable="@drawable/ic_healthcare"
-                    >
+                    app:layout_constraintTop_toBottomOf="@+id/proProfileStatusLayout"
+                    app:startIconDrawable="@drawable/ic_healthcare">
 
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -103,7 +99,7 @@
 
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/ProProfileExperienceTxtLayout"
+                    android:id="@+id/proProfileExperienceTxtLayout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -111,18 +107,16 @@
                     android:layout_marginEnd="32dp"
                     android:hint="@string/experience"
                     app:boxStrokeColor="@color/teal_200"
-                    app:errorEnabled="true"
                     app:errorIconDrawable="@drawable/ic_error"
                     app:hintTextColor="@color/teal_700"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ProProfileDomainTxtLayout"
-                    app:startIconDrawable="@drawable/ic_experience"
-                    >
+                    app:layout_constraintTop_toBottomOf="@+id/proProfileDomainTxtLayout"
+                    app:startIconDrawable="@drawable/ic_experience">
 
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/ProProfileExperienceEditTxt"
+                        android:id="@+id/proProfileExperienceEditTxt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="numberSigned"
@@ -132,7 +126,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <CheckBox
-                    android:id="@+id/ProProfilePrivacyCheck"
+                    android:id="@+id/proProfilePrivacyCheck"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
@@ -142,11 +136,11 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ProProfileExperienceTxtLayout" />
+                    app:layout_constraintTop_toBottomOf="@+id/proProfileExperienceTxtLayout" />
 
 
                 <Button
-                    android:id="@+id/ProProfileSaveButton"
+                    android:id="@+id/proProfileUpdateButton"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
@@ -157,7 +151,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ProProfilePrivacyCheck" />
+                    app:layout_constraintTop_toBottomOf="@+id/proProfilePrivacyCheck" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

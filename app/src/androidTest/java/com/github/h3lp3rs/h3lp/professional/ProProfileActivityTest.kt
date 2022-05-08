@@ -48,7 +48,7 @@ class ProProfileActivityTest {
 
     @Test
     fun clickingOnPolicyDisplaysDialogue() {
-        onView(withId(R.id.ProProfilePrivacyCheck))
+        onView(withId(R.id.proProfilePrivacyCheck))
             .perform(scrollTo(), click())
         onView(withText(R.string.pro_profile_privacy_policy))
             .inRoot(RootMatchers.isDialog())
@@ -61,17 +61,17 @@ class ProProfileActivityTest {
             .perform(ViewActions.replaceText("doctor"))
         onView(withId(R.id.proProfileDomainEditTxt))
             .perform(ViewActions.replaceText("humans"))
-        onView(withId(R.id.ProProfileExperienceEditTxt))
+        onView(withId(R.id.proProfileExperienceEditTxt))
             .perform(ViewActions.replaceText("3"))
 
-        onView(withId(R.id.ProProfilePrivacyCheck))
+        onView(withId(R.id.proProfilePrivacyCheck))
             .perform(click())
         
         onView(withText(R.string.pro_profile_privacy_policy))
             .inRoot(RootMatchers.isDialog())
             .perform(ViewActions.pressBack())
 
-        onView(withId(R.id.ProProfileSaveButton))
+        onView(withId(R.id.proProfileUpdateButton))
             .perform(click())
 
         val currentProUser = databaseOf(Databases.PRO_USERS).getObject(USER_TEST_ID,ProUser::class.java).get()

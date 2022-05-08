@@ -12,10 +12,10 @@ data class ProUser(
     val proofName: String,
     // User's status proof Uri
     val proofUri: String,
-
+    // User's professional status ex: Doctor, nurse,,,
     var proStatus: String,
-
+    // User's professional domain ex: neurology...
     var proDomain: String,
-
+    // User's professional experience ex: 5 years
     var proExperience: String
 )
