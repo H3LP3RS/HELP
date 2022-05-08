@@ -157,7 +157,9 @@ class AwaitHelpActivity : AppCompatActivity() {
         options.title(name)
         options.icon(BitmapDescriptorFactory.fromResource(R.drawable.helper_marker))
 
-        mapsFragment.addMarker(options)
+        // Since the testing only checks for modifications on the UI thread, we force its execution
+        // on the corresponding thread to enable testing
+        runOnUiThread { mapsFragment.addMarker(options) }
     }
 
     /**
