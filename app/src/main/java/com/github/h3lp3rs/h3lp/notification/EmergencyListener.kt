@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.github.h3lp3rs.h3lp.*
 import com.github.h3lp3rs.h3lp.database.Databases
+import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
 import com.github.h3lp3rs.h3lp.dataclasses.HelperSkills
@@ -13,6 +14,7 @@ import com.github.h3lp3rs.h3lp.notification.NotificationService.Companion.sendIn
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.storage.Storages
+import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 
 object EmergencyListener {
@@ -24,7 +26,7 @@ object EmergencyListener {
      * Activates all listeners for helpees the helper may help
      */
     fun activateListeners() {
-        val skillStorage = storageOf(Storages.SKILLS)
+        val skillStorage = storageOf(SKILLS)
         val skills = skillStorage.getObjectOrDefault(
             SignInActivity.globalContext.getString(R.string.my_skills_key),
             HelperSkills::class.java,
@@ -32,14 +34,14 @@ object EmergencyListener {
         )
         if (skills == null) return
         else {
-            val db = databaseOf(Databases.NEW_EMERGENCIES)
+            val db = databaseOf(NEW_EMERGENCIES)
 
             // Utility function to add a specific listener to a specific key if present
             fun activateListener(isPresent: Boolean, key: String) {
                 if (isPresent) {
                     db.addListenerIfNotPresent(key, Int::class.java) { id ->
                         // Look if we already encountered this id
-                        val emergencyStorage = storageOf(Storages.EMERGENCIES_RECEIVED)
+                        val emergencyStorage = storageOf(EMERGENCIES_RECEIVED)
                         if (emergencyStorage.getBoolOrDefault(id.toString(), false)) {
                             return@addListenerIfNotPresent
                         }
@@ -47,7 +49,7 @@ object EmergencyListener {
                         emergencyStorage.setBoolean(id.toString(), true)
 
                         // Send notification only if the associated object still exists
-                        databaseOf(Databases.EMERGENCIES)
+                        databaseOf(EMERGENCIES)
                             .getObject(id.toString(), EmergencyInformation::class.java)
                             .thenAccept {
                                 // Distance filtering

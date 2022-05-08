@@ -213,6 +213,11 @@ class HelpeeSelectionActivity : AppCompatActivity() {
         return emergenciesDb.incrementAndGet(getString(R.string.EMERGENCY_UID_KEY), 1).thenApply {
             // Stop listening to new emergencies
             newEmergenciesDb.clearAllListeners()
+
+            // Don't get notified by own emergency after recovery
+            val emergencyStorage = storageOf(EMERGENCIES_RECEIVED)
+            emergencyStorage.setBoolean(it.toString(), true)
+
             // Create and send the emergency object
             val emergencyInfo = EmergencyInformation(
                 it.toString(),
@@ -225,6 +230,7 @@ class HelpeeSelectionActivity : AppCompatActivity() {
                 ArrayList()
             )
             EmergencyInfoRepository(emergenciesDb).insert(emergencyInfo)
+
             // Raise the appropriate flags to notify potential helpers
             raiseFlagInDb(skills.hasVentolin, newEmergenciesDb, R.string.asthma_med, it)
             raiseFlagInDb(skills.hasEpipen, newEmergenciesDb, R.string.epipen, it)
@@ -232,6 +238,7 @@ class HelpeeSelectionActivity : AppCompatActivity() {
             raiseFlagInDb(skills.hasInsulin, newEmergenciesDb, R.string.Insulin, it)
             raiseFlagInDb(skills.hasFirstAidKit, newEmergenciesDb, R.string.first_aid_kit, it)
             raiseFlagInDb(skills.isMedicalPro, newEmergenciesDb, R.string.med_pro, it)
+
             // Return unique id for future reference
             it
         }
