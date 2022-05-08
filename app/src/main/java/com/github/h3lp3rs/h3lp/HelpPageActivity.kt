@@ -1,7 +1,7 @@
 package com.github.h3lp3rs.h3lp
 
+import LocationHelper
 import android.content.Intent
-import android.location.Location
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -10,7 +10,6 @@ import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.databinding.ActivityHelpPageBinding
 import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
 import com.github.h3lp3rs.h3lp.dataclasses.Helper
-import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 import com.github.h3lp3rs.h3lp.messaging.ChatActivity
 import com.github.h3lp3rs.h3lp.messaging.Conversation
 import com.github.h3lp3rs.h3lp.messaging.Conversation.Companion.UNIQUE_CONVERSATION_ID
@@ -40,6 +39,7 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private var destinationLong = 6.667
     private var currentLong: Double = 0.0
     private var currentLat: Double = 0.0
+    private val locationHelper = LocationHelper()
 
     // TODO : again, this is hardcoded for testing purposes but it will be removed (and initialized
     //  to null after the linking of activities)
@@ -81,7 +81,10 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         apiHelper = GoogleAPIHelper(resources.getString(R.string.google_maps_key))
 
         // Initialize the current user's location
-        setupLocation()
+        locationHelper.requireAndHandleCoordinates(this) {
+            currentLat = it.latitude
+            currentLong = it.longitude
+        }
 
         // Displays the path to the user in need on the map fragment and, when the path has been
         // retrieved (through a google directions API request), computes and displays the time to
@@ -97,23 +100,6 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         button_reject.setOnClickListener { goToMainPage() }
 
         setUpEmergencyCancellation()
-    }
-
-    /**
-     * Initializes the user's current location or returns to the main page in case a mistake occurred
-     * during the location information retrieval
-     */
-    private fun setupLocation() {
-        val futureLocation = GeneralLocationManager.get().getCurrentLocation(this)
-        futureLocation.handle { location, exception ->
-            if (exception != null) {
-                // In case the permission to access the location is missing
-                goToActivity(MainPageActivity::class.java)
-            } else {
-                currentLat = location.latitude
-                currentLong = location.longitude
-            }
-        }
     }
 
     /**

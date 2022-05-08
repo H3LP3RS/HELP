@@ -1,5 +1,6 @@
 package com.github.h3lp3rs.h3lp
 
+import LocationHelper
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -22,7 +23,6 @@ import com.github.h3lp3rs.h3lp.firstaid.AedActivity
 import com.github.h3lp3rs.h3lp.firstaid.AllergyActivity
 import com.github.h3lp3rs.h3lp.firstaid.AsthmaActivity
 import com.github.h3lp3rs.h3lp.firstaid.HeartAttackActivity
-import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 import com.github.h3lp3rs.h3lp.messaging.RecentMessagesActivity
 import com.github.h3lp3rs.h3lp.storage.Storages
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -35,8 +35,10 @@ import kotlinx.android.synthetic.main.activity_await_help.*
  */
 class AwaitHelpActivity : AppCompatActivity() {
 
-    private var currentLong : Double = 0.0
-    private var currentLat : Double = 0.0
+//    private var currentLong : Double = 0.0
+//    private var currentLat : Double = 0.0
+    private val locationHelper = LocationHelper()
+
     private val askedMeds : List<String> = listOf()
     private var helpersNumbers = 0
     private val helpersId = ArrayList<String>()
@@ -51,7 +53,8 @@ class AwaitHelpActivity : AppCompatActivity() {
 
         apiHelper = GoogleAPIHelper(resources.getString(R.string.google_maps_key))
 
-        setupLocation()
+        locationHelper.updateCoordinates(this)
+        //setupLocation()
 
         val bundle = intent.extras
         if (bundle != null) {
@@ -161,19 +164,6 @@ class AwaitHelpActivity : AppCompatActivity() {
     }
 
     /**
-     * Initializes the user's current location or leaves it to null in case a mistake occurred
-     * during the location information retrieval (so that the fallback emergency services number
-     * can still be called)
-     */
-    private fun setupLocation() {
-        val futureLocation = GeneralLocationManager.get().getCurrentLocation(this)
-        futureLocation.thenAccept { location ->
-            currentLat = location.latitude
-            currentLong = location.longitude
-        }
-    }
-
-    /**
      *  Called when the user presses the emergency call button. Opens a pop-up
      *  asking the user to choose whether they want to call local emergency
      *  services or their emergency contact, and dials the correct number.
@@ -225,7 +215,7 @@ class AwaitHelpActivity : AppCompatActivity() {
      */
     private fun launchEmergencyCall() {
         val emergencyNumber = LocalEmergencyCaller.getLocalEmergencyNumber(
-            currentLong, currentLat, this
+            locationHelper.getUserLongitude(), locationHelper.getUserLatitude(), this
         )
 
         val dial = "tel:$emergencyNumber"

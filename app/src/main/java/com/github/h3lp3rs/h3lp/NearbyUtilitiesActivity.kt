@@ -1,19 +1,13 @@
 package com.github.h3lp3rs.h3lp
 
-import android.content.Intent
+import LocationHelper
 import android.content.res.ColorStateList
 import android.os.Bundle
-import android.util.Log
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.getColorStateList
-import com.github.h3lp3rs.h3lp.GoogleAPIHelper.Companion.DEFAULT_SEARCH_RADIUS
-import com.github.h3lp3rs.h3lp.GoogleAPIHelper.Companion.PLACES_URL
 import com.github.h3lp3rs.h3lp.databinding.ActivityNearbyUtilitiesBinding
-import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
-import com.github.h3lp3rs.h3lp.util.AED_LOCATIONS_LAUSANNE
-import com.github.h3lp3rs.h3lp.util.GPlaceJSONParser
 import kotlinx.coroutines.*
 
 
@@ -30,11 +24,6 @@ class NearbyUtilitiesActivity : AppCompatActivity(), CoroutineScope by MainScope
 
     private var currentLong: Double = 0.0
     private var currentLat: Double = 0.0
-    private lateinit var pathData: String
-
-    private var showingHospitals = false
-    private var showingPharmacies = false
-    private var showingDefibrillators = false
 
     private lateinit var hospitalBackgroundLayout: LinearLayout
     private lateinit var pharmacyBackgroundLayout: LinearLayout
@@ -44,15 +33,9 @@ class NearbyUtilitiesActivity : AppCompatActivity(), CoroutineScope by MainScope
     private var checkedButtonColor: ColorStateList? = null
 
     private lateinit var apiHelper: GoogleAPIHelper
+    private val locationHelper = LocationHelper()
 
-    // Places and markers (key is the utility)
-    private val requestedPlaces = HashMap<String, List<GooglePlace>>()
-
-    // TODO : currently, the destination is hardcoded, this will change with the task allowing
-    // nearby helpers to go and help people in need (in which case the destination will be the
-    // location of the user in need)
-    private val destinationLat = 46.51902895030102
-    private val destinationLong = 6.567597089508282
+    private val isUtilityShown = HashMap<String, Boolean>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,43 +56,19 @@ class NearbyUtilitiesActivity : AppCompatActivity(), CoroutineScope by MainScope
 
         apiHelper = GoogleAPIHelper(resources.getString(R.string.google_maps_key))
 
-        // Initialize the user's current location
-        setupLocation()
-        setupSelectionButtons()
-        setRequestedButton() // TODO : check that since it's called at creation (not when the map is ready necess), it doesn't cause a problem
-
         // Obtain the map fragment
         mapsFragment = supportFragmentManager
             .findFragmentById(R.id.mapNearbyUtilities) as MapsFragment
 
-        // Displays the path to a user in need on the map fragment
-        apiHelper.displayWalkingPath(
-            currentLat,
-            currentLong,
-            destinationLat,
-            destinationLong,
-            mapsFragment
-        )
-    }
-
-    /**
-     * Initializes the user's current location or returns to the main page in case a mistake occurred
-     * during the location information retrieval
-     */
-    private fun setupLocation() {
-        val futureLocation = GeneralLocationManager.get().getCurrentLocation(this)
-        futureLocation.handle { location, exception ->
-            if (exception != null) {
-                // In case the permission to access the location is missing
-                val intent = Intent(this, MainPageActivity::class.java)
-                startActivity(intent)
-            } else {
-                currentLat = location.latitude
-                currentLong = location.longitude
-            }
+        // Initialize the user's current location
+        locationHelper.requireAndHandleCoordinates(this) {
+            currentLat = it.latitude
+            currentLong = it.longitude
         }
-    }
 
+        setupSelectionButtons()
+        mapsFragment.executeOnMapReady(this::setRequestedButton)
+    }
 
     /**
      * Creates listeners for the different buttons allowing the user to select
@@ -120,64 +79,59 @@ class NearbyUtilitiesActivity : AppCompatActivity(), CoroutineScope by MainScope
         val defibrillatorsButton = findViewById<ImageButton>(R.id.show_defibrillators_button)
         val pharmacyButton = findViewById<ImageButton>(R.id.show_pharmacy_button)
 
-        hospitalButton.setOnClickListener {
-            if (!showingHospitals) {
-                findNearbyUtilities(resources.getString(R.string.nearby_hospitals))
+        setupUtilityButtonListener(
+            hospitalButton,
+            resources.getString(R.string.nearby_hospitals),
+            hospitalBackgroundLayout
+        )
+        setupUtilityButtonListener(
+            defibrillatorsButton,
+            resources.getString(R.string.nearby_defibrillators),
+            defibrillatorsBackgroundLayout
+        )
+        setupUtilityButtonListener(
+            pharmacyButton,
+            resources.getString(R.string.nearby_phamacies),
+            pharmacyBackgroundLayout
+        )
+    }
 
-                hospitalBackgroundLayout.backgroundTintList = checkedButtonColor
-                hospitalButton.background.alpha =
-                    resources.getInteger(R.integer.selectionTransparency)
+    /**
+     * Creates the listener linked to a selection button, when the button is already pressed, we
+     * remove the corresponding markers, otherwise we add them.
+     * @param button: the selection button
+     * @param utility: the utility corresponding to the selection button
+     * @param background: the linear layout which that contains the selection button. Will be
+     * transparent when the button is selected.
+     */
+    private fun setupUtilityButtonListener(
+        button: ImageButton,
+        utility: String,
+        background: LinearLayout
+    ) {
+        button.setOnClickListener {
+            val isShowing = isUtilityShown.getOrDefault(utility, false)
+            if (!isShowing) {
+                apiHelper.findNearbyUtilities(utility, currentLong, currentLat, mapsFragment)
 
-                showingHospitals = true
+                background.backgroundTintList = checkedButtonColor
+                button.background.alpha = resources.getInteger(R.integer.selectionTransparency)
             } else {
-                hospitalBackgroundLayout.backgroundTintList = uncheckedButtonColor
-                hospitalButton.background.alpha = resources.getInteger(R.integer.noTransparency)
-                mapsFragment.removeMarkers(resources.getString(R.string.nearby_hospitals))
+                background.backgroundTintList = uncheckedButtonColor
+                button.background.alpha = resources.getInteger(R.integer.noTransparency)
 
-                showingHospitals = false
+                mapsFragment.removeMarkers(utility)
             }
-        }
 
-        defibrillatorsButton.setOnClickListener {
-            if (!showingDefibrillators) {
-                findNearbyUtilities(resources.getString(R.string.nearby_defibrillators))
-
-                defibrillatorsBackgroundLayout.backgroundTintList = checkedButtonColor
-                defibrillatorsButton.background.alpha =
-                    resources.getInteger(R.integer.selectionTransparency)
-
-                showingDefibrillators = true
-            } else {
-                defibrillatorsBackgroundLayout.backgroundTintList = uncheckedButtonColor
-                defibrillatorsButton.background.alpha =
-                    resources.getInteger(R.integer.noTransparency)
-                mapsFragment.removeMarkers(resources.getString(R.string.nearby_defibrillators))
-
-                showingDefibrillators = false
-            }
-        }
-
-        pharmacyButton.setOnClickListener {
-            if (!showingPharmacies) {
-                findNearbyUtilities(resources.getString(R.string.nearby_phamacies))
-
-                pharmacyBackgroundLayout.backgroundTintList = checkedButtonColor
-                pharmacyButton.background.alpha =
-                    resources.getInteger(R.integer.selectionTransparency)
-
-                showingPharmacies = true
-            } else {
-                pharmacyBackgroundLayout.backgroundTintList = uncheckedButtonColor
-                pharmacyButton.background.alpha = resources.getInteger(R.integer.noTransparency)
-                mapsFragment.removeMarkers(resources.getString(R.string.nearby_phamacies))
-
-                showingPharmacies = false
-
-            }
+            isUtilityShown[utility] = !isShowing
         }
     }
 
 
+    /**
+     * Selects the button to show the nearby utility that was asked before before
+     * this activity started.
+     */
     private fun setRequestedButton() {
         when (requestedUtility) {
             resources.getString(R.string.nearby_phamacies) -> {
@@ -188,35 +142,11 @@ class NearbyUtilitiesActivity : AppCompatActivity(), CoroutineScope by MainScope
                 val hospitalButton = findViewById<ImageButton>(R.id.show_hospital_button)
                 hospitalButton.callOnClick()
             }
-        }
-    }
-
-    /**
-     * Finds the nearby utilities and displays them
-     * @param utility The utility searched for (pharmacies, hospitals or defibrillators)
-     */
-    private fun findNearbyUtilities(utility: String) {
-        if (!requestedPlaces.containsKey(utility)) {
-            if (utility == resources.getString(R.string.nearby_defibrillators)) {
-                requestedPlaces[utility] = AED_LOCATIONS_LAUSANNE
-                requestedPlaces[utility]?.let { mapsFragment.showPlaces(it, utility) }
-            } else {
-                val url = PLACES_URL + "?location=" + currentLat + "," + currentLong +
-                        "&radius=$DEFAULT_SEARCH_RADIUS" +
-                        "&types=$utility" +
-                        "&key=" + resources.getString(R.string.google_maps_key)
-
-                // Launches async routines to retrieve nearby places and show them
-                // on the map
-                CoroutineScope(Dispatchers.Main).launch {
-                    pathData = withContext(Dispatchers.IO) { apiHelper.downloadUrl(url) }
-                    Log.i("GPlaces", pathData)
-                    requestedPlaces[utility] = apiHelper.parseTask(pathData, GPlaceJSONParser)
-                    requestedPlaces[utility]?.let { mapsFragment.showPlaces(it, utility) }
-                }
+            resources.getString(R.string.nearby_defibrillators) -> {
+                val defibrillatorsButton =
+                    findViewById<ImageButton>(R.id.show_defibrillators_button)
+                defibrillatorsButton.callOnClick()
             }
-        } else {
-            requestedPlaces[utility]?.let { mapsFragment.showPlaces(it, utility) }
         }
     }
 }
