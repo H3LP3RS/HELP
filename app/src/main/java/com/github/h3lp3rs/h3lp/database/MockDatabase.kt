@@ -167,12 +167,14 @@ class MockDatabase : Database {
     }
 
 
-    override fun incrementAndGet(key : String, increment : Int, onComplete : (Int?) -> Unit) {
+    override fun incrementAndGet(key : String, increment : Int): CompletableFuture<Int> {
         synchronized(this) {
+            val future: CompletableFuture<Int> = CompletableFuture()
             val old = db.getOrDefault(key, 0) as Int
             val new = old + increment
             setAndTriggerListeners(key, new)
-            onComplete(new)
+            future.complete(new)
+            return future
         }
     }
 

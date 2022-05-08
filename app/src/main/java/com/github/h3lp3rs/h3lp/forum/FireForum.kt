@@ -14,17 +14,18 @@ class FireForum(override val path: Path) : Forum {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun newPost(author: String, content: String): CompletableFuture<ForumPost> {
         var key = ""
-        val postKey = rootForum.incrementAndGet(UNIQUE_POST_ID, 1) {
+        return rootForum.incrementAndGet(UNIQUE_POST_ID, 1).thenApply {
             key = it.toString()
+
             val forumPostData = ForumPostData(author, content, ZonedDateTime.now(), key)
-            rootForum.setObject(
-                pathToKey(path + key),
+            rootForum.addToObjectsListConcurrently(
+                pathToKey(path),
                 ForumPostData::class.java,
                 forumPostData
             )
+        }.thenCompose {
+            getPost(listOf(key))
         }
-        //TODO : improve with future implementation of incrementAndGet
-        return getPost(listOf(key))
     }
 
     override fun getPost(relativePath: Path): CompletableFuture<ForumPost> {
@@ -74,7 +75,8 @@ class FireForum(override val path: Path) : Forum {
             .thenApply {
                 futures.map {
                     // The future is already joined (since allOf returned)
-                    f -> f!!.join()
+                        f ->
+                    f!!.join()
                 }
             }
     }

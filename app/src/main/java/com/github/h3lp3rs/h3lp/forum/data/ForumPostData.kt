@@ -1,5 +1,6 @@
 package com.github.h3lp3rs.h3lp.forum.data
 
+import java.io.Serializable
 import java.time.ZonedDateTime
 
 /**

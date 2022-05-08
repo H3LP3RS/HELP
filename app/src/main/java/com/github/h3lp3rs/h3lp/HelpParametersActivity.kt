@@ -187,8 +187,8 @@ class HelpParametersActivity : AppCompatActivity() {
         // TODO: Use future once this is has been changed to avoid double work
         val uid = emergenciesDb.getInt(getString(R.string.EMERGENCY_UID_KEY))
         // Increment
-        emergenciesDb.incrementAndGet(getString(R.string.EMERGENCY_UID_KEY), 1) {}
-        conversationIdsDb.incrementAndGet(Conversation.UNIQUE_CONVERSATION_ID, 1) {}
+        emergenciesDb.incrementAndGet(getString(R.string.EMERGENCY_UID_KEY), 1)
+        conversationIdsDb.incrementAndGet(Conversation.UNIQUE_CONVERSATION_ID, 1)
         return uid.thenApply {
             // Stop listening to new emergencies
             newEmergenciesDb.clearAllListeners()

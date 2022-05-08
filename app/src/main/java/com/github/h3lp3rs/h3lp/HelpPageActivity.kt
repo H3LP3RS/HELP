@@ -33,32 +33,32 @@ const val EXTRA_USER_ROLE = "user_role"
  * The user can then accept to help them (or not)
  */
 class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
-    private lateinit var binding : ActivityHelpPageBinding
+    private lateinit var binding: ActivityHelpPageBinding
 
     private var destinationLat = 46.519
     private var destinationLong = 6.667
-    private var currentLong : Double = 0.0
-    private var currentLat : Double = 0.0
+    private var currentLong: Double = 0.0
+    private var currentLat: Double = 0.0
 
     // TODO : again, this is hardcoded for testing purposes but it will be removed (and initialized
     //  to null after the linking of activities)
-    private var helpeeId : String = "test_end_to_end"
+    private var helpeeId: String = "test_end_to_end"
 
     // helpRequired contains strings for each medication / specific help required by the user in
     // need e.g. Epipen, CPR
-    private var helpRequired : List<String>? = null
-    private lateinit var apiHelper : GoogleAPIHelper
-    private var helpId : String? = null
+    private var helpRequired: List<String>? = null
+    private lateinit var apiHelper: GoogleAPIHelper
+    private var helpId: String? = null
 
     // Map fragment displayed
-    private lateinit var mapsFragment : MapsFragment
+    private lateinit var mapsFragment: MapsFragment
 
     // Conversation with the person in need of help (only if the user accepts to help them)
-    private var conversation : Conversation? = null
-    private var conversationId : String? = null
+    private var conversation: Conversation? = null
+    private var conversationId: String? = null
     private val conversationIdsDb = databaseOf(CONVERSATION_IDS)
 
-    override fun onCreate(savedInstanceState : Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         MapsInitializer.initialize(applicationContext)
 
@@ -87,7 +87,7 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         // get to the user in need
         apiHelper.displayWalkingPath(
             currentLat, currentLong, destinationLat, destinationLong, mapsFragment
-        ) { mapData : String? -> displayPathDuration(mapData) }
+        ) { mapData: String? -> displayPathDuration(mapData) }
         displayRequiredMeds()
 
         // Initially the contact button is hidden, only after the user accepts the request does it
@@ -118,10 +118,10 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
      * Displays the entire duration of a path from one point to another
      * @param pathData The string returned by a call to the Directions API
      */
-    private fun displayPathDuration(pathData : String?) {
+    private fun displayPathDuration(pathData: String?) {
         val duration = pathData?.let { apiHelper.parseTask(it, GDurationJSONParser) }
 
-        val walkingTimeInfo : TextView = findViewById(R.id.timeToPersonInNeed)
+        val walkingTimeInfo: TextView = findViewById(R.id.timeToPersonInNeed)
         walkingTimeInfo.text = String.format("- %s", duration)
     }
 
@@ -130,9 +130,9 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
      */
     private fun displayRequiredMeds() {
         helpRequired?.let { medication ->
-            val helpRequiredText : TextView = findViewById(R.id.helpRequired)
+            val helpRequiredText: TextView = findViewById(R.id.helpRequired)
 
-            val stringBuilder : StringBuilder = StringBuilder()
+            val stringBuilder: StringBuilder = StringBuilder()
             // helpRequired contains strings corresponding to any medication / specific help the person
             // in need requires
             for (med in medication) {
@@ -183,7 +183,7 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
          * need of help and instantiates a conversation on that id
          * @param uniqueId The unique conversation id
          */
-        fun onComplete(uniqueId : Int?) {
+        fun onComplete(uniqueId: Int?) {
             uniqueId?.let {
                 // Sending the conversation id to the person in need of help (share the
                 // conversation id)
@@ -196,7 +196,8 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         }
         // Gets a new conversation id atomically (to avoid 2 helpers getting the same) then
         // calls the callback
-        conversationIdsDb.incrementAndGet(UNIQUE_CONVERSATION_ID, 1) { onComplete(it) }
+        conversationIdsDb.incrementAndGet(UNIQUE_CONVERSATION_ID, 1)
+            .thenApply { onComplete(it) }
         // Once the user accepts to help, the accept button disappears and he is able to
         // start conversations with the person who requested help.
         button_accept.setImageResource(R.drawable.chat)
@@ -215,7 +216,7 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     }
 
     /** Starts the activity by sending intent */
-    private fun goToActivity(ActivityName : Class<*>?) {
+    private fun goToActivity(ActivityName: Class<*>?) {
         val intent = Intent(this, ActivityName)
         startActivity(intent)
     }
@@ -225,7 +226,7 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     }
 
     private fun onEmergencyCancelled() {
-        fun onChildRemoved(id : String) {
+        fun onChildRemoved(id: String) {
             if (id == helpeeId) {
                 // If the person the user is trying to help has cancelled his emergency, the
                 // conversation is deleted from the database and the helper is redirected to the

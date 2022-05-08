@@ -259,8 +259,10 @@ internal class FireDatabase(path: String) : Database {
      * @param onComplete The callback to be called with the new value (the new value can be null
      * in case of a database error, thus why onComplete takes a nullable Int)
      */
-    override fun incrementAndGet(key: String, increment: Int, onComplete: (Int?) -> Unit) {
+    override fun incrementAndGet(key: String, increment: Int): CompletableFuture<Int> {
         val keyRef = db.child(key)
+        val future = CompletableFuture<Int>()
+
         // A transaction is a set of reads and writes that happen atomically
         keyRef.runTransaction(object : Transaction.Handler {
 
@@ -293,9 +295,14 @@ internal class FireDatabase(path: String) : Database {
             override fun onComplete(
                 error: DatabaseError?, committed: Boolean, currentData: DataSnapshot?
             ) {
-                onComplete(currentData?.getValue<Int>())
+                if (error != null) {
+                    future.completeExceptionally(error.toException())
+                } else {
+                    future.complete(currentData?.getValue<Int>())
+                }
             }
         })
+        return future
     }
 
     /**
