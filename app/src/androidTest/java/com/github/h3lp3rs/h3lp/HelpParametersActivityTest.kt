@@ -1,8 +1,6 @@
 package com.github.h3lp3rs.h3lp
 
 import android.Manifest
-import android.app.Activity
-import android.app.Instrumentation.ActivityResult
 import android.content.Intent
 import android.location.Location
 import android.net.Uri
@@ -21,9 +19,6 @@ import com.github.h3lp3rs.h3lp.LocalEmergencyCaller.DEFAULT_EMERGENCY_NUMBER
 import com.github.h3lp3rs.h3lp.database.Databases.EMERGENCIES
 import com.github.h3lp3rs.h3lp.database.Databases.NEW_EMERGENCIES
 import com.github.h3lp3rs.h3lp.database.MockDatabase
-import com.github.h3lp3rs.h3lp.dataclasses.BloodType
-import com.github.h3lp3rs.h3lp.dataclasses.Gender
-import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 import com.github.h3lp3rs.h3lp.locationmanager.LocationManagerInterface
 import com.github.h3lp3rs.h3lp.locationmanager.LocationManagerInterface.Companion.GET_LOCATION_EXCEPTION
@@ -41,18 +36,15 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.anyOrNull
 import java.lang.RuntimeException
-import java.util.*
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.CompletableFuture.completedFuture
-import java.util.concurrent.CompletableFuture.failedFuture
 import org.mockito.Mockito.`when` as When
 
 // Case example of a possible query when a user clicks on the call for emergency button
 private val CORRECT_EMERGENCY_CALL = Triple(6.632, 46.519, "144")
-private const val VALID_CONTACT_NUMBER = "+41216933000"
 
 @RunWith(AndroidJUnit4::class)
-class HelpParametersActivityTest {
+class HelpParametersActivityTest : H3lpAppTest() {
     private val locationManagerMock: LocationManagerInterface =
         mock(LocationManagerInterface::class.java)
     private val locationMock: Location = mock(Location::class.java)
@@ -68,14 +60,18 @@ class HelpParametersActivityTest {
 
     @Before
     fun setUp() {
-        init()
+        initIntentAndCheckResponse()
+
         globalContext = getApplicationContext()
+
         userUid = USER_TEST_ID
         NEW_EMERGENCIES.db = MockDatabase()
         val emergencyDb = MockDatabase()
+
         emergencyDb.setInt(globalContext.getString(R.string.EMERGENCY_UID_KEY), 0)
         EMERGENCIES.db = emergencyDb
         resetStorage()
+
         storageOf(Storages.USER_COOKIE).setBoolean(
             globalContext.getString(R.string.KEY_USER_AGREE),
             true
@@ -84,10 +80,6 @@ class HelpParametersActivityTest {
 
     @Test
     fun clickSearchHelpWithMedsWorksAndSendsIntent() {
-        val intent = Intent()
-        val intentResult = ActivityResult(Activity.RESULT_OK, intent)
-        intending(anyIntent()).respondWith(intentResult)
-
         // select one med
         val medButton0 = onView(withId(R.id.selectMedsButton0))
 
@@ -111,10 +103,6 @@ class HelpParametersActivityTest {
 
     @Test
     fun clickPhoneButtonAndContactButtonDialsEmergencyContactNumber() {
-        val intent = Intent()
-        val intentResult = ActivityResult(Activity.RESULT_OK, intent)
-        intending(anyIntent()).respondWith(intentResult)
-
         When(locationManagerMock.getCurrentLocation(anyOrNull())).thenReturn(
             completedFuture(
                 locationMock
@@ -122,7 +110,7 @@ class HelpParametersActivityTest {
         )
         GeneralLocationManager.set(locationManagerMock)
 
-        loadMedicalDataToLocalStorage()
+        loadValidMedicalDataToStorage()
 
         // Clicking on the call for emergency button
         val phoneButton = onView(withId(R.id.help_params_call_button))
@@ -145,32 +133,8 @@ class HelpParametersActivityTest {
         )
     }
 
-    /**
-     * Auxiliary function to put a medical emergency contact in the local database
-     */
-    private fun loadMedicalDataToLocalStorage() {
-        val medicalInformation = MedicalInformation(
-            MedicalInformation.MAX_HEIGHT - 1,
-            MedicalInformation.MAX_WEIGHT - 1, Gender.Male,
-            Calendar.getInstance().get(Calendar.YEAR),
-            "", "", "",
-            BloodType.ABn, "", VALID_CONTACT_NUMBER
-        )
-
-
-        storageOf(Storages.MEDICAL_INFO)
-            .setObject(
-                globalContext.getString(R.string.medical_info_key),
-                MedicalInformation::class.java, medicalInformation
-            )
-    }
-
     @Test
     fun clickPhoneButtonDialsCorrectEmergencyNumber() {
-        val intent = Intent()
-        val intentResult = ActivityResult(Activity.RESULT_OK, intent)
-        intending(anyIntent()).respondWith(intentResult)
-
         // Mocking the user's location to a predefined set of coordinates
         When(locationManagerMock.getCurrentLocation(anyOrNull())).thenReturn(
             completedFuture(locationMock)
@@ -179,7 +143,7 @@ class HelpParametersActivityTest {
         When(locationMock.latitude).thenReturn(CORRECT_EMERGENCY_CALL.second)
         GeneralLocationManager.set(locationManagerMock)
 
-        loadMedicalDataToLocalStorage()
+        loadValidMedicalDataToStorage()
 
         // Clicking on the call for emergency button
         val phoneButton = onView(withId(R.id.help_params_call_button))
@@ -206,11 +170,7 @@ class HelpParametersActivityTest {
 
     @Test
     fun clickPhoneButtonWithNoLocationDialsDefaultEmergencyNumber() {
-        val intent = Intent()
-        val intentResult = ActivityResult(Activity.RESULT_OK, intent)
-        intending(anyIntent()).respondWith(intentResult)
-
-        loadMedicalDataToLocalStorage()
+        loadValidMedicalDataToStorage()
 
         // Mocking the location manager as if an error occurred (in which case, the returned future
         // fails)
@@ -245,11 +205,7 @@ class HelpParametersActivityTest {
 
     @Test
     fun clickPhoneButtonWithSystemLocationManagerDialsEmergencyNumber() {
-        val intent = Intent()
-        val intentResult = ActivityResult(Activity.RESULT_OK, intent)
-        intending(anyIntent()).respondWith(intentResult)
-
-        loadMedicalDataToLocalStorage()
+        loadValidMedicalDataToStorage()
 
         // Here we are simply testing that using the system location (the one actually used in the
         // app) also makes an emergency call
@@ -274,10 +230,6 @@ class HelpParametersActivityTest {
 
     @Test
     fun clickPhoneButtonWithoutContactNumberDialsEmergenciesDirectly() {
-        val intent = Intent()
-        val intentResult = ActivityResult(Activity.RESULT_OK, intent)
-        intending(anyIntent()).respondWith(intentResult)
-
         // Here we are simply testing that using the system location (the one actually used in the
         // app) also makes an emergency call
         GeneralLocationManager.setSystemManager()
@@ -298,10 +250,6 @@ class HelpParametersActivityTest {
 
     @Test
     fun clickSearchHelpWithNoMedsDoesNotChangeActivity() {
-        val intent = Intent()
-        val intentResult = ActivityResult(Activity.RESULT_OK, intent)
-        intending(anyIntent()).respondWith(intentResult)
-
         val searchHelpButton = onView(withId(R.id.help_params_search_button))
 
         searchHelpButton.check(matches(isDisplayed()))

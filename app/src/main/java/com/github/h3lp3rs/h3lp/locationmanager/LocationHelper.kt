@@ -46,6 +46,7 @@ class LocationHelper {
                 val intent = Intent(context, MainPageActivity::class.java)
                 context.startActivity(intent)
             } else {
+                userLocation = location
                 onSuccess(location)
             }
         }

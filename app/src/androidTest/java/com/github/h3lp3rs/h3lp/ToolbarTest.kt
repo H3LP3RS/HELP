@@ -27,7 +27,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class ToolbarTest {
+class ToolbarTest : H3lpAppTest() {
 
     @get:Rule
     val testRule = ActivityScenarioRule(
@@ -36,10 +36,7 @@ class ToolbarTest {
 
     @Before
     fun setup() {
-        init()
-        val intent = Intent()
-        val intentResult = ActivityResult(RESULT_OK, intent)
-        intending(anyIntent()).respondWith(intentResult)
+        initIntentAndCheckResponse()
     }
 
     @After

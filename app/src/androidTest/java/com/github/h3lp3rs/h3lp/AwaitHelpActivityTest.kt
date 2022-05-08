@@ -28,7 +28,6 @@ import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 import com.github.h3lp3rs.h3lp.locationmanager.LocationManagerInterface
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
-import com.github.h3lp3rs.h3lp.storage.Storages
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 import org.junit.After
@@ -38,19 +37,11 @@ import org.junit.Test
 import org.mockito.Mockito.`when` as When
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.anyOrNull
-import java.util.*
 import org.mockito.Mockito.*
-import org.mockito.kotlin.anyOrNull
-import java.util.*
-import java.util.concurrent.CompletableFuture
 import java.util.concurrent.CompletableFuture.completedFuture
 import kotlin.collections.ArrayList
 
-// Tests work on local but not on Cirrus
-
-private const val VALID_CONTACT_NUMBER = "+41216933000"
-
-class AwaitHelpActivityTest {
+class AwaitHelpActivityTest : H3lpAppTest() {
     private val locationManagerMock: LocationManagerInterface =
         mock(LocationManagerInterface::class.java)
     private val locationMock: Location = mock(Location::class.java)
@@ -75,7 +66,7 @@ class AwaitHelpActivityTest {
         globalContext = getApplicationContext()
         userUid = USER_TEST_ID
 
-        loadMedicalDataToLocalStorage()
+        loadValidMedicalDataToStorage()
     }
 
     @After
@@ -143,22 +134,6 @@ class AwaitHelpActivityTest {
         )
     }
 
-    /**
-     * Auxiliary function to put a medical emergency contact in the local database
-     */
-    private fun loadMedicalDataToLocalStorage() {
-        val medicalInformation = MedicalInformation(MedicalInformation.MAX_HEIGHT-1,
-            MedicalInformation.MAX_WEIGHT-1, Gender.Male,
-            Calendar.getInstance().get(Calendar.YEAR),
-            "", "","",
-            BloodType.ABn, "", VALID_CONTACT_NUMBER)
-
-
-        Storages.storageOf(Storages.MEDICAL_INFO)
-            .setObject(globalContext.getString(R.string.medical_info_key),
-                MedicalInformation::class.java, medicalInformation)
-    }
-
     private fun clickingOnButtonWorksAndSendsIntent(
         ActivityName: Class<*>?,
         id: Matcher<View>,
@@ -218,40 +193,48 @@ class AwaitHelpActivityTest {
         // Forge the right intent
         val helpId = 1
         val bundle = Bundle()
+
         bundle.putInt(EXTRA_EMERGENCY_KEY, helpId)
         bundle.putBoolean(EXTRA_CALLED_EMERGENCIES, true)
         bundle.putStringArrayList(EXTRA_NEEDED_MEDICATION, arrayListOf(EPIPEN))
+
         val intent = Intent(
             getApplicationContext(),
             AwaitHelpActivity::class.java
         ).apply {
             putExtras(bundle)
         }
+
         // Setup the database accordingly
         val emergencyDb = MockDatabase()
-        val skills = HelperSkills(true, true, true, true,
-            true, true)
-        val emergency = EmergencyInformation(helpId.toString(), 2.0, 2.0, skills,
-            ArrayList(listOf("Epipen")), Date(), null, ArrayList())
+
+        val emergency = EPIPEN_EMERGENCY_INFO
+
         emergencyDb.setObject(helpId.toString(), EmergencyInformation::class.java, emergency)
         EMERGENCIES.db = emergencyDb
+
         // Simulate arrival on await page after calling for help
         launch<AwaitHelpActivity>(intent).use {
             // Nobody coming
             onView(withId(R.id.incomingHelpersNumber)).check(matches(withText("")))
+
             // One person is coming
             val helper1 = Helper(USER_TEST_ID + 1, 2.0, 2.0)
             val withHelpers = emergency.copy(helpers = ArrayList(listOf(helper1)))
+
             emergencyDb.setObject(helpId.toString(), EmergencyInformation::class.java, withHelpers)
             onView(withId(R.id.incomingHelpersNumber)).check(matches(withText(globalContext.getString(
                 R.string.one_person_help))))
+
             // The same person is coming again, should NOT add a helper to the list
             emergencyDb.setObject(helpId.toString(), EmergencyInformation::class.java, withHelpers)
             onView(withId(R.id.incomingHelpersNumber)).check(matches(withText(globalContext.getString(
                 R.string.one_person_help))))
+
             // A second person is coming
             val helper2 = Helper(USER_TEST_ID + 2, 2.1, 2.1)
             val withMoreHelpers = emergency.copy(helpers = ArrayList(listOf(helper1, helper2)))
+
             emergencyDb.setObject(helpId.toString(), EmergencyInformation::class.java, withMoreHelpers)
             onView(withId(R.id.incomingHelpersNumber)).check(matches(withText(String.format(
                 globalContext.getString(R.string.many_people_help), 2))))

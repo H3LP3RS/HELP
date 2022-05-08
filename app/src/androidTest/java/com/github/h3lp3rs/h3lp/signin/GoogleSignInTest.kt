@@ -11,9 +11,8 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.hasPackage
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.github.h3lp3rs.h3lp.H3lpAppTest
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.USER_TEST_ID
-import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.database.MockDatabase
@@ -34,7 +33,7 @@ import org.mockito.kotlin.anyOrNull
 import org.mockito.Mockito.`when` as When
 
 @RunWith(AndroidJUnit4::class)
-class GoogleSignInTest {
+class GoogleSignInTest : H3lpAppTest() {
     private lateinit var intent: Intent
     private val googleSignInPackageName = "com.google.android.gms"
     private var authenticationStarted = false
@@ -47,8 +46,10 @@ class GoogleSignInTest {
     @Before
     fun setUp() {
         init()
+
         globalContext = getApplicationContext()
         userUid = USER_TEST_ID
+
         setDatabase(PREFERENCES, MockDatabase())
         resetStorage()
 

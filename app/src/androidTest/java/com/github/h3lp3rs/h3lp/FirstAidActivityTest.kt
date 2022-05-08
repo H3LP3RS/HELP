@@ -25,7 +25,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class FirstAidActivityTest {
+class FirstAidActivityTest : H3lpAppTest() {
 
     @get:Rule
     val testRule = ActivityScenarioRule(
@@ -34,10 +34,7 @@ class FirstAidActivityTest {
 
     @Before
     fun setup() {
-        init()
-        val intent = Intent()
-        val intentResult = ActivityResult(Activity.RESULT_OK, intent)
-        intending(anyIntent()).respondWith(intentResult)
+        initIntentAndCheckResponse()
     }
 
     @After
