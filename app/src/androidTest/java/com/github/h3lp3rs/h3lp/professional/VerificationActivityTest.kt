@@ -13,6 +13,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.github.h3lp3rs.h3lp.H3lpAppTest
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.database.MockDatabase
@@ -28,12 +29,8 @@ import org.mockito.Mockito
 import org.mockito.kotlin.any
 import org.mockito.kotlin.doAnswer
 
-private val TEST_URI = Uri.EMPTY
-private const val TEST_STRING = ""
-private const val INTENT_TYPE = "image/*"
-
 @RunWith(AndroidJUnit4::class)
-class VerificationActivityTest {
+class VerificationActivityTest : H3lpAppTest() {
 
     @get:Rule
     val testRule = ActivityScenarioRule(
@@ -57,7 +54,7 @@ class VerificationActivityTest {
                 isDisplayed()
             )
         ).perform(ViewActions.click())
-        intended(hasType(INTENT_TYPE))
+        intended(hasType(IMAGE_INTENT))
         intended(hasAction(Intent.ACTION_GET_CONTENT))
     }
 

@@ -38,9 +38,8 @@ import org.junit.runner.RunWith
 import java.util.*
 
 @RunWith(AndroidJUnit4::class)
-class MedicalCardActivityTest {
+class MedicalCardActivityTest : H3lpAppTest() {
     private val ctx: Context = getApplicationContext()
-    private val validNumbers = arrayOf("0216933000", "216933000", "+41216933000")
 
     private fun launch(): ActivityScenario<MedicalCardActivity> {
         return launch(Intent(getApplicationContext(), MedicalCardActivity::class.java))
@@ -48,17 +47,10 @@ class MedicalCardActivityTest {
 
     private fun launchAndDo(action: () -> Unit) {
         launch().use {
-            start()
+            initIntentAndCheckResponse()
             action()
             end()
         }
-    }
-
-    private fun start() {
-        init()
-        val intent = Intent()
-        val intentResult = ActivityResult(Activity.RESULT_OK, intent)
-        intending(anyIntent()).respondWith(intentResult)
     }
 
     private fun end() {
@@ -69,6 +61,7 @@ class MedicalCardActivityTest {
     fun setup() {
         globalContext = getApplicationContext()
         userUid = USER_TEST_ID
+
         setDatabase(PREFERENCES, MockDatabase())
         resetStorage()
         storageOf(Storages.USER_COOKIE).setBoolean(GUIDE_KEY, true)
@@ -124,7 +117,7 @@ class MedicalCardActivityTest {
     @Test
     fun validPhoneNumberDoesNotLeadToError(){
         launchAndDo {
-            for (validNumber in validNumbers) {
+            for (validNumber in VALID_FORMAT_NUMBERS) {
                 onView(withId(R.id.medicalInfoContactNumberEditTxt))
                     .perform(scrollTo(), replaceText(validNumber))
                 onView(withId(R.id.medicalInfoContactNumberTxtLayout)).check(
@@ -276,7 +269,7 @@ class MedicalCardActivityTest {
         onView(withId(R.id.medicalInfoGenderDropdown))
             .perform(replaceText(Gender.Male.name))
         onView(withId(R.id.medicalInfoContactNumberEditTxt))
-            .perform(scrollTo(), replaceText(validNumbers[0]))
+            .perform(scrollTo(), replaceText(VALID_CONTACT_NUMBER))
     }
 
     @Test

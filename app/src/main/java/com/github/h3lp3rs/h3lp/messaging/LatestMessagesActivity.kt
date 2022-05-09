@@ -87,6 +87,5 @@ class LatestMessagesActivity : AppCompatActivity() {
         fun getConversationId() : String {
             return conversationId
         }
-
     }
 }

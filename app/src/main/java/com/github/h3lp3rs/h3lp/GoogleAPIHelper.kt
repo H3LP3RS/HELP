@@ -1,7 +1,10 @@
 package com.github.h3lp3rs.h3lp
 
 import android.util.Log
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
+import com.github.h3lp3rs.h3lp.util.AED_LOCATIONS_LAUSANNE
 import com.github.h3lp3rs.h3lp.util.GPathJSONParser
+import com.github.h3lp3rs.h3lp.util.GPlaceJSONParser
 import com.github.h3lp3rs.h3lp.util.JSONParserInterface
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.*
@@ -16,6 +19,9 @@ import java.net.URL
  * use Google APIs, parse the results and display them on any map fragment
  */
 class GoogleAPIHelper(private val apiKey: String): CoroutineScope by MainScope() {
+
+    private val requestedPlaces = HashMap<String, List<GooglePlace>>()
+
 
     /**
      * Retrieves the shortest walking path to the destination and displays it on the map
@@ -58,6 +64,35 @@ class GoogleAPIHelper(private val apiKey: String): CoroutineScope by MainScope()
             }
             // Lets the calling method use the returned JSON for additional calls
             usePathData(data)
+        }
+    }
+
+    /**
+     * Finds the nearby utilities and displays them
+     * @param utility The utility searched for (pharmacies, hospitals or defibrillators)
+     */
+    fun findNearbyUtilities(utility: String, longitude: Double, latitude: Double, map: MapsFragment) {
+        if (!requestedPlaces.containsKey(utility)) {
+            if (utility == globalContext.resources.getString(R.string.nearby_defibrillators)) {
+                requestedPlaces[utility] = AED_LOCATIONS_LAUSANNE
+                requestedPlaces[utility]?.let { map.showPlaces(it, utility) }
+            } else {
+                val url = PLACES_URL + "?location=" + latitude + "," + longitude +
+                        "&radius=$DEFAULT_SEARCH_RADIUS" +
+                        "&types=$utility" +
+                        "&key=" + apiKey
+
+                // Launches async routines to retrieve nearby places and show them
+                // on the map
+                CoroutineScope(Dispatchers.Main).launch {
+                    val pathData = withContext(Dispatchers.IO) { downloadUrl(url) }
+
+                    requestedPlaces[utility] = parseTask(pathData, GPlaceJSONParser)
+                    requestedPlaces[utility]?.let { map.showPlaces(it, utility) }
+                }
+            }
+        } else {
+            requestedPlaces[utility]?.let { map.showPlaces(it, utility) }
         }
     }
 

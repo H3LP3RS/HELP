@@ -348,6 +348,8 @@
     <string name="professional_user">Professional user</string>
     <string name="normal_user">Normal user</string>
     <string name="permission_popup_title">Access to localization</string>
+    <string name="deleted_conversation_message">The user has deleted the conversation.</string>
+    <string name="helper_cancelled">The helper has unfortunately cancelled.</string>
     <string name="forum_themes">Forum Themes</string>
     <string name="general_medicine">General medicine</string>
     <string name="cardiology">Cardiology</string>
@@ -356,6 +358,9 @@
     <string name="neurology">Neurology</string>
     <string name="gynecology">Gynecology</string>
     <string name="forum_theme_key">forumThemeKey</string>
+<<<<<<< HEAD
     <string name="helper">Helper</string>
 
+=======
+>>>>>>> main
 </resources>

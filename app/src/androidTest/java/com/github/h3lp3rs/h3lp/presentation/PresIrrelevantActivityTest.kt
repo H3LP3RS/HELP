@@ -35,7 +35,7 @@ import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 
 @RunWith(AndroidJUnit4::class)
-class PresIrrelevantActivityTest {
+class PresIrrelevantActivityTest : H3lpAppTest() {
 
     private fun alreadyAccepted() {
         storageOf(USER_COOKIE).setBoolean(globalContext.getString(R.string.KEY_USER_AGREE), true)
@@ -70,10 +70,7 @@ class PresIrrelevantActivityTest {
     }
 
     private fun checkLaunchOnApprovalClick(activity: String) {
-        init()
-        val i = Intent()
-        val intentResult = ActivityResult(Activity.RESULT_OK, i)
-        intending(anyIntent()).respondWith(intentResult)
+        initIntentAndCheckResponse()
         onView(withId(R.id.pres3_button)).perform(click())
         intended(allOf(hasComponent(activity)))
         release()
@@ -121,10 +118,7 @@ class PresIrrelevantActivityTest {
     @Test
     fun unsuccessfulApprovalButtonNeverApproved() {
         launch().use {
-            init()
-            val i = Intent()
-            val intentResult = ActivityResult(Activity.RESULT_OK, i)
-            intending(anyIntent()).respondWith(intentResult)
+            initIntentAndCheckResponse()
             onView(withId(R.id.pres3_button)).perform(click())
             assertThat(getIntents().size, `is`(0))
             release()
@@ -166,10 +160,7 @@ class PresIrrelevantActivityTest {
     @Test
     fun tosAreLaunched() {
         launch().use {
-            init()
-            val i = Intent()
-            val intentResult = ActivityResult(Activity.RESULT_OK, i)
-            intending(anyIntent()).respondWith(intentResult)
+            initIntentAndCheckResponse()
             // Kind of ugly but Espresso being Espresso
             onView(withId(R.id.pres3_checkBox)).perform(clickPercent(0.9f, 0.5f))
             intended(allOf(hasComponent(ToSActivity::class.java.name)))

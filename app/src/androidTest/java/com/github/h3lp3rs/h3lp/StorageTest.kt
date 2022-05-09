@@ -16,9 +16,7 @@ import org.junit.Before
 import org.junit.Test
 import kotlin.random.Random
 
-const val USER_TEST_ID = "SECRET_AGENT_007"
-
-class StorageTest {
+class StorageTest : H3lpAppTest() {
 
     // Dummy class for complex types
     private data class Foo(val a1: Int, val a2: String)
@@ -63,9 +61,12 @@ class StorageTest {
         val int = TEST_SEED.nextInt()
         storage.setInt(TEST_KEY, int)
         storage.setInt(TEST_KEY + "1", int + 1)
+
         assertEquals(int, storage.getIntOrDefault(TEST_KEY, int))
         assertEquals(int + 1, storage.getIntOrDefault(TEST_KEY + "1", int + 1))
+
         resetStorage()
+
         assertEquals(int - 2, storage.getIntOrDefault(TEST_KEY, int - 2))
         assertEquals(int - 2, storage.getIntOrDefault(TEST_KEY + "1", int - 2))
     }
@@ -73,11 +74,14 @@ class StorageTest {
     @Test
     fun pushAndPullWorksProperly() {
         assertEquals(-1, storage.getIntOrDefault(TEST_KEY, -1))
+
         storage.setInt(TEST_KEY, 0)
         assertEquals(0, storage.getIntOrDefault(TEST_KEY, -1))
+
         storage.push()
         resetStorage()
         assertEquals(-1, storage.getIntOrDefault(TEST_KEY, -1))
+
         storage.pull()
         assertEquals(0, storage.getIntOrDefault(TEST_KEY, -1))
     }
