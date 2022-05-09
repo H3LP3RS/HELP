@@ -14,7 +14,6 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import com.github.h3lp3rs.h3lp.database.Databases.CONVERSATION_IDS
-import com.github.h3lp3rs.h3lp.database.Databases.Companion.activateHelpListeners
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.database.Databases.EMERGENCIES
 import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
@@ -24,9 +23,9 @@ import com.github.h3lp3rs.h3lp.firstaid.AllergyActivity
 import com.github.h3lp3rs.h3lp.firstaid.AsthmaActivity
 import com.github.h3lp3rs.h3lp.firstaid.HeartAttackActivity
 import com.github.h3lp3rs.h3lp.messaging.RecentMessagesActivity
+import com.github.h3lp3rs.h3lp.notification.EmergencyListener.activateListeners
 import com.github.h3lp3rs.h3lp.storage.Storages
 import kotlinx.android.synthetic.main.activity_await_help.*
-import java.util.concurrent.CompletableFuture
 
 /**
  * Activity during which the user waits for help from other user.
@@ -34,9 +33,6 @@ import java.util.concurrent.CompletableFuture
 class AwaitHelpActivity : AppCompatActivity() {
 
     private val locationHelper = LocationHelper()
-
-    private val askedMeds : List<String> = listOf()
-    private var helpersNumbers = 0
     private val helpersId = ArrayList<String>()
 
     private lateinit var mapsFragment: MapsFragment
@@ -52,31 +48,34 @@ class AwaitHelpActivity : AppCompatActivity() {
         apiHelper = GoogleAPIHelper(resources.getString(R.string.google_maps_key))
 
         locationHelper.updateCoordinates(this)
-        val latitude = locationHelper.getUserLatitude()
-        val longitude = locationHelper.getUserLatitude()
 
         // Bundle can't be null
         val bundle = intent.extras!!
 
-        // If we did not call emergency services already, show a pop_up
-        if (!bundle.getBoolean(EXTRA_CALLED_EMERGENCIES)) {
-            showEmergencyCallPopup(latitude, longitude)
-        }
-        // Start listening to potential responses
-        val emergencyId = bundle.getInt(EXTRA_EMERGENCY_KEY)
-        val emergencyDb = databaseOf(EMERGENCIES)
-        emergencyDb.addListener(emergencyId.toString(), EmergencyInformation::class.java) {
-            val helpers = it.helpers
-            for (h in helpers) {
-                foundHelperPerson(h.uid, h.latitude, h.longitude, emergencyId.toString())
+        locationHelper.requireAndHandleCoordinates(this) { location ->
+            val latitude = location.latitude
+            val longitude = location.longitude
+
+            // If we did not call emergency services already, show a pop_up
+            if (!bundle.getBoolean(EXTRA_CALLED_EMERGENCIES)) {
+                showEmergencyCallPopup(latitude, longitude)
             }
+            // Start listening to potential responses
+            val emergencyId = bundle.getInt(EXTRA_EMERGENCY_KEY)
+            val emergencyDb = databaseOf(EMERGENCIES)
+            emergencyDb.addListener(emergencyId.toString(), EmergencyInformation::class.java) {
+                val helpers = it.helpers
+                for (h in helpers) {
+                    foundHelperPerson(h.uid, h.latitude, h.longitude, emergencyId.toString())
+                }
 
-            await_help_call_button.setOnClickListener { emergencyCall(latitude, longitude) }
+                await_help_call_button.setOnClickListener { emergencyCall(latitude, longitude) }
 
 
-            // Initially the contact helpers is hidden, only after a user responds to the request it
-            // becomes visible.
-            constraint_layout_contact_helpers.visibility = View.INVISIBLE
+                // Initially the contact helpers is hidden, only after a user responds to the request it
+                // becomes visible.
+                constraint_layout_contact_helpers.visibility = View.INVISIBLE
+            }
         }
     }
 
@@ -143,7 +142,7 @@ class AwaitHelpActivity : AppCompatActivity() {
                 // When the first user agrees to provide help, the user can contact
                 // him via the chat feature.
                 constraint_layout_contact_helpers.visibility = View.VISIBLE
-                image_open_latest_messages.setOnClickListener { goToRecentMessagesActivity() }
+                image_open_latest_messages.setOnClickListener { goToRecentMessagesActivity(emergencyId) }
             }
             helpersText.visibility = View.VISIBLE
         }
@@ -254,7 +253,7 @@ class AwaitHelpActivity : AppCompatActivity() {
     /**
      * Cancels the search on the Database and goes back to MainActivity
      */
-    fun cancelHelpSearch(view: View, emergencyId: String) {
+    fun cancelHelpSearch(view: View) {
         val bundle = this.intent.extras
         if (bundle == null) {
             startActivity(Intent(this, MainPageActivity::class.java))
@@ -264,10 +263,10 @@ class AwaitHelpActivity : AppCompatActivity() {
         val emergencyId = bundle.getInt(EXTRA_EMERGENCY_KEY)
         databaseOf(EMERGENCIES).delete(emergencyId.toString())
         // Re-listen to other emergencies
-        EmergencyListener.activateListeners()
+        activateListeners()
         // TODO the action on the DB is not yet defined
         // Delete the helpee's id
-        emergencyId?.let { databaseOf(CONVERSATION_IDS).delete(it) }
+        databaseOf(CONVERSATION_IDS).delete(emergencyId.toString())
         // Redirect user to the main page after he cancels his emergency
         startActivity(Intent(this, MainPageActivity::class.java))
     }

@@ -54,9 +54,10 @@ class HelpeeSelectionActivity : AppCompatActivity() {
         val locationInformation: TextView = findViewById(R.id.location_information)
         val coordinatesText = getString(R.string.current_location)
 
-        val latitude = locationHelper.getUserLatitude()
-        val longitude = locationHelper.getUserLongitude()
-        if (latitude != null && longitude != null) {
+        locationHelper.requireAndHandleCoordinates(this, { location ->
+            val latitude = location.latitude
+            val longitude = location.longitude
+
             locationInformation.text = String.format(
                 "%s latitude: %.4f longitude: %.4f",
                 coordinatesText, latitude, longitude
@@ -76,7 +77,7 @@ class HelpeeSelectionActivity : AppCompatActivity() {
                     help_params_search_button
                 )
             }
-        } else {
+        }, {
             // If the location is null, we still want to be able to call the emergency
             help_params_call_button.setOnClickListener {
                 emergencyCall(
@@ -84,7 +85,7 @@ class HelpeeSelectionActivity : AppCompatActivity() {
                     null
                 )
             }
-        }
+        })
     }
 
     /**
