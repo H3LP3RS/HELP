@@ -60,6 +60,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:background="#00000000"
+                    android:onClick="goToForum"
                     android:padding="20dp"
                     android:text="@string/expand_forum" />
 
@@ -100,7 +101,8 @@
                     android:layout_marginBottom="0dp"
                     android:background="#00000000"
                     android:padding="20dp"
-                    android:text="@string/expand_forum" />
+                    android:text="@string/expand_forum"
+                    android:onClick="goToForum"/>
 
 
             </RelativeLayout>
@@ -141,7 +143,8 @@
                     android:layout_alignParentBottom="true"
                     android:background="#00000000"
                     android:padding="20dp"
-                    android:text="@string/expand_forum" />
+                    android:text="@string/expand_forum"
+                    android:onClick="goToForum"/>
 
 
             </RelativeLayout>
@@ -172,6 +175,48 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-condensed-medium"
                     android:padding="25dp"
+                    android:text="@string/traumatology"
+                    android:textSize="25sp" />
+
+                <Button
+                    android:id="@+id/pedia_expand_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:background="#00000000"
+                    android:padding="20dp"
+                    android:text="@string/expand_forum"
+                    android:onClick="goToForum"/>
+
+
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="150dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="-30dp"
+                android:src="@drawable/ic_pediatric" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="190dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/red_background">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:padding="25dp"
                     android:text="@string/neurology"
                     android:textSize="25sp" />
 
@@ -182,7 +227,8 @@
                     android:layout_alignParentBottom="true"
                     android:background="#00000000"
                     android:padding="20dp"
-                    android:text="@string/expand_forum" />
+                    android:text="@string/expand_forum"
+                    android:onClick="goToForum"/>
 
 
             </RelativeLayout>
@@ -223,7 +269,8 @@
                     android:layout_alignParentBottom="true"
                     android:background="#00000000"
                     android:padding="20dp"
-                    android:text="@string/expand_forum" />
+                    android:text="@string/expand_forum"
+                    android:onClick="goToForum"/>
 
 
             </RelativeLayout>

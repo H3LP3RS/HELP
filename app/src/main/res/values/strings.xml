@@ -371,4 +371,5 @@
     <string name="category">Category</string>
     <string name="post_question">Post question</string>
     <string name="expand_forum">Expand forum</string>
+    <string name="answer">Answer</string>
 </resources>

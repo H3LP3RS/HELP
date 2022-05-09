@@ -10,9 +10,6 @@ import kotlinx.android.synthetic.main.activity_forum_posts.*
 import kotlinx.android.synthetic.main.post_forum_row.view.*
 
 const val EXTRA_QUESTION_ID = "forum_question_id"
-// TODO put it in activity of categories once implemented
-const val EXTRA_FORUM_CATEGORY = "forum_category"
-
 
 class ForumPostsActivity : AppCompatActivity() {
     // TODO extra category
@@ -22,7 +19,7 @@ class ForumPostsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState : Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forum_posts)
-        recycler_view_forum.adapter = adapter
+        recycler_view_forum_posts.adapter = adapter
 
         val bundle = this.intent.extras
         category = bundle?.getString(EXTRA_FORUM_CATEGORY) ?: category
@@ -33,6 +30,8 @@ class ForumPostsActivity : AppCompatActivity() {
             //val intent = Intent(view.context, ForumActivity::class.java)
             //startActivity(intent)
         }
+
+        //listenForPosts()
     }
 
 

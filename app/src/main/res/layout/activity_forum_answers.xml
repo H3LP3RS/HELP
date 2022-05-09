@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".forum.ForumPostsActivity">
+    tools:context=".forum.ForumAnswersActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+
+<androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginRight="5dp"
@@ -23,7 +24,7 @@
         android:background="@drawable/round_layout" >
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view_forum_posts"
+            android:id="@+id/recycler_view_forum_answers"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="8dp"
