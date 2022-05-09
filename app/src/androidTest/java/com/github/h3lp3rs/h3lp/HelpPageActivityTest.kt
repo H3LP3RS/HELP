@@ -35,14 +35,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import kotlin.collections.ArrayList
 
-// Current coordinates to mock a user
-const val CURRENT_LAT = 46.514
-const val CURRENT_LONG = 6.604
-
-// Destination coordinates
-const val DESTINATION_LAT = 46.519
-const val DESTINATION_LONG = 6.667
-
 // Walking time from the user to the destination according to the Google directions API
 const val TIME_TO_DESTINATION = "1 hour 19 mins"
 
@@ -65,7 +57,7 @@ class HelpPageActivityTest : H3lpAppTest() {
 
     @Before
     fun init() {
-        mockLocationToCoordinates(CURRENT_LAT, CURRENT_LONG)
+        mockLocationToCoordinates(SWISS_LAT, SWISS_LONG)
     }
 
     @Test

@@ -2,7 +2,6 @@ package com.github.h3lp3rs.h3lp
 
 import android.Manifest
 import android.content.Intent
-import android.location.Location
 import android.net.Uri
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.onView
@@ -20,8 +19,6 @@ import com.github.h3lp3rs.h3lp.database.Databases.EMERGENCIES
 import com.github.h3lp3rs.h3lp.database.Databases.NEW_EMERGENCIES
 import com.github.h3lp3rs.h3lp.database.MockDatabase
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
-import com.github.h3lp3rs.h3lp.locationmanager.LocationManagerInterface
-import com.github.h3lp3rs.h3lp.locationmanager.LocationManagerInterface.Companion.GET_LOCATION_EXCEPTION
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.storage.Storages
@@ -33,15 +30,8 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito.mock
-import org.mockito.kotlin.anyOrNull
-import java.lang.RuntimeException
-import java.util.concurrent.CompletableFuture
-import java.util.concurrent.CompletableFuture.completedFuture
-import org.mockito.Mockito.`when` as When
 
 // Case example of a possible query when a user clicks on the call for emergency button
-private val CORRECT_EMERGENCY_CALL = Triple(6.632, 46.519, "144")
 
 @RunWith(AndroidJUnit4::class)
 class HelpParametersActivityTest : H3lpAppTest() {
@@ -127,7 +117,7 @@ class HelpParametersActivityTest : H3lpAppTest() {
 
     @Test
     fun clickPhoneButtonDialsCorrectEmergencyNumber() {
-        mockLocationToCoordinates(CORRECT_EMERGENCY_CALL.first, CORRECT_EMERGENCY_CALL.second)
+        mockLocationToCoordinates(SWISS_LONG, SWISS_LAT)
 
         loadValidMedicalDataToStorage()
 
@@ -142,7 +132,7 @@ class HelpParametersActivityTest : H3lpAppTest() {
             .perform(click())
 
         // The expected ambulance phone number given the location (specified by the coordinates)
-        val number = "tel:${CORRECT_EMERGENCY_CALL.third}"
+        val number = "tel:${SWISS_EMERGENCY_NUMBER}"
 
         // Checking that this emergency number is dialed
         intended(
@@ -239,14 +229,14 @@ class HelpParametersActivityTest : H3lpAppTest() {
 
     @Test
     fun screenDisplaysCorrectLocation() {
-        mockLocationToCoordinates(CORRECT_EMERGENCY_CALL.first, CORRECT_EMERGENCY_CALL.second)
+        mockLocationToCoordinates(SWISS_LONG, SWISS_LAT)
 
         // Checking that the user's actual location is displayed before they call an ambulance
         val locationInformation = onView(withId(R.id.location_information))
         locationInformation
-            .check(matches(withText(containsString(CORRECT_EMERGENCY_CALL.first.toString()))))
+            .check(matches(withText(containsString(SWISS_LONG.toString()))))
         locationInformation
-            .check(matches(withText(containsString(CORRECT_EMERGENCY_CALL.second.toString()))))
+            .check(matches(withText(containsString(SWISS_LAT.toString()))))
     }
 
     @After

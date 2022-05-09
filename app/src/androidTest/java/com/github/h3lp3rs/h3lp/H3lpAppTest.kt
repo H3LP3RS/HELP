@@ -115,6 +115,10 @@ open class H3lpAppTest {
         const val WAIT_UI = 500L
         const val TEST_TIMEOUT = 3000L
 
+        const val SWISS_LAT = 46.514
+        const val SWISS_LONG = 6.604
+        const val SWISS_EMERGENCY_NUMBER = "144"
+
         const val EPIPEN = "Epipen"
 
         val EPIPEN_SKILL = HelperSkills(
