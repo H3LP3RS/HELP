@@ -163,10 +163,7 @@ interface Database {
      * @return A future of the incremented value, completes exceptionally if there was a problem
      * while accessing the database
      */
-<<<<<<< HEAD
     fun incrementAndGet(key: String, increment: Int): CompletableFuture<Int>
-=======
-    fun incrementAndGet(key : String, increment : Int, onComplete : (Int?) -> Unit)
 
     /**
      * Adds an event listener to a key in the database
@@ -183,5 +180,4 @@ interface Database {
         onChildAdded : ((T) -> Unit)?,
         onChildRemoved : (String) -> Unit
     )
->>>>>>> main
 }

@@ -249,11 +249,7 @@ internal class FireDatabase(path : String) : Database {
      * @param onComplete The callback to be called with the new value (the new value can be null
      * in case of a database error, thus why onComplete takes a nullable Int)
      */
-<<<<<<< HEAD
     override fun incrementAndGet(key: String, increment: Int): CompletableFuture<Int> {
-=======
-    override fun incrementAndGet(key : String, increment : Int, onComplete : (Int?) -> Unit) {
->>>>>>> main
         val keyRef = db.child(key)
         val future = CompletableFuture<Int>()
 

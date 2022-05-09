@@ -33,101 +33,29 @@ const val EXTRA_USER_ROLE = "user_role"
  * the time to get there, and what help they need
  * The user can then accept to help them (or not)
  */
-<<<<<<< HEAD:app/src/main/java/com/github/h3lp3rs/h3lp/HelperPageActivity.kt
 class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     // UI Initialization
     private lateinit var binding: ActivityHelpPageBinding
     private lateinit var apiHelper: GoogleAPIHelper
     private lateinit var mapsFragment: MapsFragment
 
+    private val locationHelper = LocationHelper()
+
     // Helper connection with helpee data
     private lateinit var conversation: Conversation
 
-=======
-class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
-    private lateinit var binding: ActivityHelpPageBinding
-
-    private var destinationLat = 46.519
-    private var destinationLong = 6.667
-    private val locationHelper = LocationHelper()
-
-    // TODO : again, this is hardcoded for testing purposes but it will be removed (and initialized
-    //  to null after the linking of activities)
-    private var helpeeId: String = "test_end_to_end"
-
-    // helpRequired contains strings for each medication / specific help required by the user in
-    // need e.g. Epipen, CPR
-    private var helpRequired : List<String>? = null
-    private lateinit var apiHelper : GoogleAPIHelper
-    private var helpId : String? = null
-
-    // Map fragment displayed
-    private lateinit var mapsFragment: MapsFragment
-
-    // Conversation with the person in need of help (only if the user accepts to help them)
-    private var conversation : Conversation? = null
-    private var conversationId : String? = null
-    private val conversationIdsDb = databaseOf(CONVERSATION_IDS)
-
->>>>>>> main:app/src/main/java/com/github/h3lp3rs/h3lp/HelpPageActivity.kt
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState : Bundle?) {
         super.onCreate(savedInstanceState)
-        initialize(this)
+        MapsInitializer.initialize(applicationContext)
 
         // Displaying the activity layout
-        binding = inflate(layoutInflater)
+        binding = ActivityHelpPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         mapsFragment = supportFragmentManager.findFragmentById(R.id.mapHelpPage) as MapsFragment
         apiHelper = GoogleAPIHelper(resources.getString(R.string.google_maps_key))
 
         // Initialize the current user's location
-<<<<<<< HEAD:app/src/main/java/com/github/h3lp3rs/h3lp/HelperPageActivity.kt
-        val location = getLocation()
-        if (location == null) {
-            // In case the permission to access the location is missing
-            goToActivity(MainPageActivity::class.java)
-            return
-        }
-        val (latitude, longitude) = location
-
-        // Bundle cannot be empty
-        val bundle = this.intent.extras!!
-
-        val emergencyId = bundle.getString(EXTRA_EMERGENCY_KEY)!!
-
-        val destinationLat = bundle.getDouble(EXTRA_DESTINATION_LAT)
-        val destinationLong = bundle.getDouble(EXTRA_DESTINATION_LONG)
-
-        // Displays the path to the user in need on the map fragment and, when the path has been
-        // retrieved (through a google directions API request), computes and displays the time to
-        // get to the user in need
-        apiHelper.displayWalkingPath(
-            latitude, longitude, destinationLat, destinationLong, mapsFragment
-        ) { mapData: String? -> displayPathDuration(mapData) }
-
-        val medicationRequired = bundle.getStringArrayList(EXTRA_HELP_REQUIRED_PARAMETERS)!!
-        displayRequiredMeds(medicationRequired)
-
-        // Initially the contact button is hidden, only after the user accepts the request does it
-        // becomes visible.
-        button_accept.setOnClickListener { acceptHelpRequest(emergencyId, latitude, longitude) }
-        button_reject.setOnClickListener { goToMainPage() }
-    }
-
-
-    /**
-     * Initializes the user's current location or returns to the main page in case a mistake occured
-     * during the location information retrieval
-     * @return The user's current location in the format Pair(latitude, longitude)
-     */
-    private fun getLocation(): Pair<Double, Double>? {
-        val currentLocation = GeneralLocationManager.get().getCurrentLocation(this)
-        if (currentLocation != null) {
-            return Pair(currentLocation.latitude, currentLocation.longitude)
-        }
-        return null
-=======
         locationHelper.requireAndHandleCoordinates(this) {
 
             // Displays the path to the user in need on the map fragment and, when the path has been
@@ -142,11 +70,10 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
         // Initially the contact button is hidden, only after the user accepts the request does it
         // becomes visible.
-        button_accept.setOnClickListener { acceptHelpRequest() }
+        button_accept.setOnClickListener { acceptHelpRequest(emergencyId, latitude, longitude) }
         button_reject.setOnClickListener { goToMainPage() }
 
         setUpEmergencyCancellation()
->>>>>>> main:app/src/main/java/com/github/h3lp3rs/h3lp/HelpPageActivity.kt
     }
 
     /**
@@ -155,10 +82,6 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
      */
     private fun displayPathDuration(pathData: String?) {
         val duration = pathData?.let { apiHelper.parseTask(it, GDurationJSONParser) }
-<<<<<<< HEAD:app/src/main/java/com/github/h3lp3rs/h3lp/HelperPageActivity.kt
-=======
-
->>>>>>> main:app/src/main/java/com/github/h3lp3rs/h3lp/HelpPageActivity.kt
         val walkingTimeInfo: TextView = findViewById(R.id.timeToPersonInNeed)
         walkingTimeInfo.text = String.format("- %s", duration)
     }
@@ -167,7 +90,6 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
      * Displays the medication / help required by the user in need
      * @param medication The medication that the user in need specified they needed
      */
-<<<<<<< HEAD:app/src/main/java/com/github/h3lp3rs/h3lp/HelperPageActivity.kt
     private fun displayRequiredMeds(medication: ArrayList<String>) {
         val helpRequiredText: TextView = findViewById(R.id.helpRequired)
 
@@ -178,21 +100,6 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             stringBuilder.append("- ")
             stringBuilder.append(med)
             stringBuilder.appendLine()
-=======
-    private fun displayRequiredMeds() {
-        helpRequired?.let { medication ->
-            val helpRequiredText: TextView = findViewById(R.id.helpRequired)
-
-            val stringBuilder: StringBuilder = StringBuilder()
-            // helpRequired contains strings corresponding to any medication / specific help the person
-            // in need requires
-            for (med in medication) {
-                stringBuilder.append("- ")
-                stringBuilder.append(med)
-                stringBuilder.appendLine()
-            }
-            helpRequiredText.text = stringBuilder.toString()
->>>>>>> main:app/src/main/java/com/github/h3lp3rs/h3lp/HelpPageActivity.kt
         }
         helpRequiredText.text = stringBuilder.toString()
     }
@@ -204,28 +111,13 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
      * @param currentLat The user's current latitude
      * @param currentLong The user's current longitude
      */
-<<<<<<< HEAD:app/src/main/java/com/github/h3lp3rs/h3lp/HelperPageActivity.kt
     private fun acceptHelpRequest(emergencyId: String, currentLat: Double, currentLong: Double) {
         val emergencyDb = databaseOf(EMERGENCIES)
         emergencyDb.getObject(emergencyId, EmergencyInformation::class.java).thenApply {
-=======
-    private fun acceptHelpRequest() {
-        if (helpId == null) {
-            goToMainPage()
-            return
-        }
-        databaseOf(EMERGENCIES).getObject(helpId!!, EmergencyInformation::class.java).thenApply {
->>>>>>> main:app/src/main/java/com/github/h3lp3rs/h3lp/HelpPageActivity.kt
             // Add the helper to the list of helpers
             val me = Helper(userUid!!, locationHelper.getUserLatitude()!!, locationHelper.getUserLongitude()!!)
             val helpers = ArrayList<Helper>(it.helpers)
-<<<<<<< HEAD:app/src/main/java/com/github/h3lp3rs/h3lp/HelperPageActivity.kt
             helpers.add(me)
-=======
-            if (!helpers.contains(me)) {
-                helpers.add(me)
-            }
->>>>>>> main:app/src/main/java/com/github/h3lp3rs/h3lp/HelpPageActivity.kt
             // Stop listening to other emergencies
             databaseOf(NEW_EMERGENCIES).clearAllListeners()
 
@@ -239,11 +131,11 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             // Init chat
             initChat(emergencyId)
         }.exceptionally { goToMainPage() } // Expired
+
         // If the user accepts to help, he can change his mind and cancel later
         button_reject.setOnClickListener { conversation?.let { it.deleteConversation() } }
     }
 
-<<<<<<< HEAD:app/src/main/java/com/github/h3lp3rs/h3lp/HelperPageActivity.kt
     /**
      * Initialises a chat between the user (the helper here) and the helpee
      * @param emergencyId The emergency id (used as a point on the database to communicate a unique
@@ -258,24 +150,6 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
             // Creating a conversation on that new unique conversation id
             conversation = Conversation(it.toString(), HELPER)
-=======
-    private fun initChat() {
-        /**
-         * Callback function which gets a unique conversation id, shares it with the person in
-         * need of help and instantiates a conversation on that id
-         * @param uniqueId The unique conversation id
-         */
-        fun onComplete(uniqueId: Int?) {
-            uniqueId?.let {
-                // Sending the conversation id to the person in need of help (share the
-                // conversation id)
-                conversationIdsDb.addToObjectsListConcurrently(helpeeId, Int::class.java, it)
-
-                // Creating a conversation on that new unique conversation id
-                conversation = Conversation(it.toString(), HELPER)
-                conversationId = it.toString()
-            }
->>>>>>> main:app/src/main/java/com/github/h3lp3rs/h3lp/HelpPageActivity.kt
         }
         // Once the user accepts to help, the accept button disappears and he is able to
         // start conversations with the person who requested help.
@@ -304,9 +178,9 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         goToActivity(MainPageActivity::class.java)
     }
 
-    private fun setUpEmergencyCancellation() {
+    private fun setUpEmergencyCancellation(emergencyId: String) {
         fun onChildRemoved(id : String) {
-            if (id == helpeeId) {
+            if (id == emergencyId) {
                 // If the person the user is trying to help has cancelled his emergency, the
                 // conversation is deleted from the database and the helper is redirected to the
                 // main page
@@ -315,7 +189,7 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             }
         }
         // The event is added to the entire conversation IDS database and so no child key is needed
-        conversationIdsDb.addEventListener(
+        databaseOf(CONVERSATION_IDS).addEventListener(
             null,
             String::class.java, null,
         ) { id -> run { onChildRemoved(id) } }

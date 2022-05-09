@@ -1,13 +1,9 @@
 package com.github.h3lp3rs.h3lp
 
-<<<<<<< HEAD:app/src/main/java/com/github/h3lp3rs/h3lp/HelpeeSelectionActivity.kt
-import android.content.Intent
-import android.content.Intent.*
-=======
 
 import LocationHelper
 import android.content.Intent
->>>>>>> main:app/src/main/java/com/github/h3lp3rs/h3lp/HelpParametersActivity.kt
+import android.content.Intent.*
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -27,13 +23,10 @@ import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation
 import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.github.h3lp3rs.h3lp.database.Databases.CONVERSATION_IDS
-<<<<<<< HEAD:app/src/main/java/com/github/h3lp3rs/h3lp/HelpeeSelectionActivity.kt
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 import kotlinx.android.synthetic.main.activity_help_parameters.*
-=======
 import com.github.h3lp3rs.h3lp.messaging.Conversation
 import com.github.h3lp3rs.h3lp.storage.Storages
->>>>>>> main:app/src/main/java/com/github/h3lp3rs/h3lp/HelpParametersActivity.kt
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import kotlin.collections.ArrayList
@@ -45,42 +38,15 @@ const val EXTRA_EMERGENCY_KEY = "emergency_key"
 /**
  * Activity in which the user can select the medications they need urgently
  */
-<<<<<<< HEAD:app/src/main/java/com/github/h3lp3rs/h3lp/HelpeeSelectionActivity.kt
 class HelpeeSelectionActivity : AppCompatActivity() {
     private var calledEmergencies = false
-=======
-class HelpParametersActivity : AppCompatActivity() {
-    // userLocation contains the user's current coordinates (is initialized to null since we could
-    // encounter an error while getting the user's location)
-
-    private var meds: ArrayList<String> = ArrayList()
-    private var skills: HelperSkills? = null
-    private val currentTime: Date = Calendar.getInstance().time
-    private var calledEmergencies = false
     private var locationHelper = LocationHelper()
-    //TODO this is only for testing, it will be put back to null after implementing the
-    // communication of emergencies
-    private var helpeeId : String? = "test_end_to_end"
->>>>>>> main:app/src/main/java/com/github/h3lp3rs/h3lp/HelpParametersActivity.kt
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_help_parameters)
 
-<<<<<<< HEAD:app/src/main/java/com/github/h3lp3rs/h3lp/HelpeeSelectionActivity.kt
-        // Initialize the current user's location
-        val location = getLocation()
-        if (location != null) {
-            val (latitude, longitude) = location
-            val locationInformation: TextView = findViewById(R.id.location_information)
-
-            val coordinatesText = getString(R.string.current_location)
-
-            locationInformation.text = String.format(
-                "%s latitude: %.4f longitude: %.4f",
-                coordinatesText, latitude, longitude
-=======
         // Get the coordinates and display them on the screen to enable the user to give their exact
         // location to the emergency services
         locationHelper.updateCoordinates(this)
@@ -93,10 +59,7 @@ class HelpParametersActivity : AppCompatActivity() {
         if (latitude != null && longitude != null) {
             locationInformation.text = String.format(
                 "%s latitude: %.4f longitude: %.4f",
-                coordinatesText,
-                latitude,
-                longitude
->>>>>>> main:app/src/main/java/com/github/h3lp3rs/h3lp/HelpParametersActivity.kt
+                coordinatesText, latitude, longitude
             )
 
             // Setting up the buttons
@@ -185,19 +148,12 @@ class HelpParametersActivity : AppCompatActivity() {
      */
     private fun launchEmergencyCall(latitude: Double?, longitude: Double?) {
         calledEmergencies = true
-<<<<<<< HEAD:app/src/main/java/com/github/h3lp3rs/h3lp/HelpeeSelectionActivity.kt
-        val emergencyNumber =
-            LocalEmergencyCaller.getLocalEmergencyNumber(
-                longitude,
-                latitude, this
-=======
         locationHelper.updateCoordinates(this)
         val emergencyNumber =
             LocalEmergencyCaller.getLocalEmergencyNumber(
                 locationHelper.getUserLongitude(),
                 locationHelper.getUserLatitude(),
                 this
->>>>>>> main:app/src/main/java/com/github/h3lp3rs/h3lp/HelpParametersActivity.kt
             )
 
         val dial = "tel:$emergencyNumber"
@@ -267,7 +223,6 @@ class HelpParametersActivity : AppCompatActivity() {
             // Stop listening to new emergencies
             newEmergenciesDb.clearAllListeners()
             // Create and send the emergency object
-<<<<<<< HEAD:app/src/main/java/com/github/h3lp3rs/h3lp/HelpeeSelectionActivity.kt
             val emergencyInfo = EmergencyInformation(
                 it.toString(),
                 latitude,
@@ -278,10 +233,6 @@ class HelpParametersActivity : AppCompatActivity() {
                 medicalInfo,
                 ArrayList()
             )
-=======
-            val id = it + 1
-            val emergencyInfo = EmergencyInformation(id.toString(), locationHelper.getUserLatitude()!!, locationHelper.getUserLongitude()!!, skills!!, meds, currentTime, medicalInfo, ArrayList())
->>>>>>> main:app/src/main/java/com/github/h3lp3rs/h3lp/HelpParametersActivity.kt
             EmergencyInfoRepository(emergenciesDb).insert(emergencyInfo)
             // Raise the appropriate flags to notify potential helpers
             raiseFlagInDb(skills.hasVentolin, newEmergenciesDb, R.string.asthma_med, it)
@@ -353,26 +304,10 @@ class HelpParametersActivity : AppCompatActivity() {
         }
         return Pair(meds, skills)
     }
-<<<<<<< HEAD:app/src/main/java/com/github/h3lp3rs/h3lp/HelpeeSelectionActivity.kt
 
     /** Starts the activity by sending intent */
     private fun goToActivity(ActivityName: Class<*>?) {
         val intent = Intent(this, ActivityName)
         startActivity(intent)
     }
-
-    /**
-     * Initializes the user's current location or returns to the main page in case a mistake occured
-     * during the location information retrieval
-     * @return The user's current location in the format Pair(latitude, longitude)
-     */
-    private fun getLocation(): Pair<Double, Double>? {
-        val currentLocation = GeneralLocationManager.get().getCurrentLocation(this)
-        if (currentLocation != null) {
-            return Pair(currentLocation.latitude, currentLocation.longitude)
-        }
-        return null
-    }
-=======
->>>>>>> main:app/src/main/java/com/github/h3lp3rs/h3lp/HelpParametersActivity.kt
 }

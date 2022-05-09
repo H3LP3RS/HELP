@@ -154,11 +154,7 @@ class MockDatabase : Database {
     }
 
 
-<<<<<<< HEAD
     override fun incrementAndGet(key: String, increment: Int): CompletableFuture<Int> {
-=======
-    override fun incrementAndGet(key : String, increment : Int, onComplete : (Int?) -> Unit) {
->>>>>>> main
         synchronized(this) {
             val future: CompletableFuture<Int> = CompletableFuture()
             val old = db.getOrDefault(key, 0) as Int
