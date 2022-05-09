@@ -37,8 +37,6 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     private var destinationLat = 46.519
     private var destinationLong = 6.667
-    private var currentLong: Double = 0.0
-    private var currentLat: Double = 0.0
     private val locationHelper = LocationHelper()
 
     // TODO : again, this is hardcoded for testing purposes but it will be removed (and initialized
@@ -82,16 +80,15 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
         // Initialize the current user's location
         locationHelper.requireAndHandleCoordinates(this) {
-            currentLat = it.latitude
-            currentLong = it.longitude
+
+            // Displays the path to the user in need on the map fragment and, when the path has been
+            // retrieved (through a google directions API request), computes and displays the time to
+            // get to the user in need
+            apiHelper.displayWalkingPath(
+                it.latitude, it.longitude, destinationLat, destinationLong, mapsFragment
+            ) { mapData: String? -> displayPathDuration(mapData) }
         }
 
-        // Displays the path to the user in need on the map fragment and, when the path has been
-        // retrieved (through a google directions API request), computes and displays the time to
-        // get to the user in need
-        apiHelper.displayWalkingPath(
-            currentLat, currentLong, destinationLat, destinationLong, mapsFragment
-        ) { mapData: String? -> displayPathDuration(mapData) }
         displayRequiredMeds()
 
         // Initially the contact button is hidden, only after the user accepts the request does it
@@ -143,7 +140,7 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         }
         databaseOf(EMERGENCIES).getObject(helpId!!, EmergencyInformation::class.java).thenApply {
             // Add the helper to the list of helpers
-            val me = Helper(userUid!!, currentLat, currentLong)
+            val me = Helper(userUid!!, locationHelper.getUserLatitude()!!, locationHelper.getUserLongitude()!!)
             val helpers = ArrayList<Helper>(it.helpers)
             if (!helpers.contains(me)) {
                 helpers.add(me)

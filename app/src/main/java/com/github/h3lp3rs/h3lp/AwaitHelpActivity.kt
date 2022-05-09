@@ -35,8 +35,6 @@ import kotlinx.android.synthetic.main.activity_await_help.*
  */
 class AwaitHelpActivity : AppCompatActivity() {
 
-//    private var currentLong : Double = 0.0
-//    private var currentLat : Double = 0.0
     private val locationHelper = LocationHelper()
 
     private val askedMeds : List<String> = listOf()
@@ -54,7 +52,6 @@ class AwaitHelpActivity : AppCompatActivity() {
         apiHelper = GoogleAPIHelper(resources.getString(R.string.google_maps_key))
 
         locationHelper.updateCoordinates(this)
-        //setupLocation()
 
         val bundle = intent.extras
         if (bundle != null) {

@@ -19,8 +19,7 @@ import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.MEDICAL_INFO
 import org.apache.commons.lang3.RandomUtils.nextBoolean
-import org.mockito.Mockito
-import org.mockito.Mockito.`when`
+import org.mockito.Mockito.`when` as When
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.anyOrNull
 import java.lang.RuntimeException
@@ -63,7 +62,7 @@ open class H3lpAppTest {
      * Mocking the user's location to a null values
      */
     fun mockEmptyLocation(){
-        `when`(locationManagerMock.getCurrentLocation(anyOrNull())).thenReturn(
+        When(locationManagerMock.getCurrentLocation(anyOrNull())).thenReturn(
             CompletableFuture.completedFuture(
                 locationMock
             )
@@ -75,11 +74,11 @@ open class H3lpAppTest {
      * Mocking the user's location to a predefined set of coordinates
      */
     fun mockLocationToCoordinates(longitude: Double, latitude: Double) {
-        `when`(locationManagerMock.getCurrentLocation(anyOrNull())).thenReturn(
+        When(locationManagerMock.getCurrentLocation(anyOrNull())).thenReturn(
             CompletableFuture.completedFuture(locationMock)
         )
-        `when`(locationMock.longitude).thenReturn(longitude)
-        `when`(locationMock.latitude).thenReturn(latitude)
+        When(locationMock.longitude).thenReturn(longitude)
+        When(locationMock.latitude).thenReturn(latitude)
         GeneralLocationManager.set(locationManagerMock)
     }
 
@@ -92,7 +91,7 @@ open class H3lpAppTest {
         // fails)
         val failingFuture: CompletableFuture<Location> = CompletableFuture()
         failingFuture.completeExceptionally(RuntimeException(LocationManagerInterface.GET_LOCATION_EXCEPTION))
-        `when`(locationManagerMock.getCurrentLocation(anyOrNull())).thenReturn(
+        When(locationManagerMock.getCurrentLocation(anyOrNull())).thenReturn(
             failingFuture
         )
 

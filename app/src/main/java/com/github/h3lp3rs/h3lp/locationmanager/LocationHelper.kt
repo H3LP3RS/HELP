@@ -22,7 +22,7 @@ class LocationHelper {
 
     /**
      * Function that updates the user's current coordinates
-     * @param context: the context of the activity using the coordinates
+     * @param context The context of the activity using the coordinates
      */
     fun updateCoordinates(context: Context) {
         val futureLocation = GeneralLocationManager.get().getCurrentLocation(context)
@@ -35,8 +35,9 @@ class LocationHelper {
 
     /**
      * Updates handles the user's current coordinates as wanted, or returns to the
-     * main activity in case of errors.
-     * @param : context:
+     * main activity in case of errors
+     * @param context The context of the activity calling using the location
+     * @param onSuccess The callback to execute once the location is available
      */
     fun requireAndHandleCoordinates(context: Context, onSuccess: (location: Location) -> Unit) {
         val futureLocation = GeneralLocationManager.get().getCurrentLocation(context)

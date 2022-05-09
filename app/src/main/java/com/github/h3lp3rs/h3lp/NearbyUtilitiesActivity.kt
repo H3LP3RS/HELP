@@ -67,6 +67,8 @@ class NearbyUtilitiesActivity : AppCompatActivity(), CoroutineScope by MainScope
         }
 
         setupSelectionButtons()
+
+        // Wait for the map to search and show the utilities asked by the user
         mapsFragment.executeOnMapReady(this::setRequestedButton)
     }
 

@@ -2,14 +2,12 @@ package com.github.h3lp3rs.h3lp
 
 import LocationHelper
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -76,7 +74,7 @@ class MapsFragment : Fragment(), CoroutineScope by MainScope(), GoogleMap.OnPoly
                 )
             )
 
-            // execute pending functions
+            // Execute pending functions
             for (f in onMapReadyQueue){
                 f()
             }
@@ -237,10 +235,8 @@ class MapsFragment : Fragment(), CoroutineScope by MainScope(), GoogleMap.OnPoly
      * Utility function to remove all markers corresponding to one utility
      */
     fun removeMarkers(utility: String) {
-        if(placedMarkers.containsKey(utility)){
-            for (marker in placedMarkers[utility]!!) {
-                marker.remove()
-            }
+        placedMarkers[utility]?.let { markersList ->
+            markersList.map {it.remove()}
         }
 
         placedMarkers[utility] = arrayListOf()
