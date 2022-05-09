@@ -3,14 +3,17 @@ package com.github.h3lp3rs.h3lp
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.*
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import com.github.h3lp3rs.h3lp.database.Databases.*
+import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
+import com.github.h3lp3rs.h3lp.database.Databases.EMERGENCIES
 import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
 import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation
 import com.github.h3lp3rs.h3lp.firstaid.AedActivity
@@ -21,9 +24,6 @@ import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 import com.github.h3lp3rs.h3lp.messaging.LatestMessagesActivity
 import com.github.h3lp3rs.h3lp.notification.EmergencyListener
 import com.github.h3lp3rs.h3lp.storage.Storages
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_await_help.*
 
 /**
@@ -57,7 +57,7 @@ class AwaitHelpActivity : AppCompatActivity() {
         val bundle = intent.extras!!
 
         // If we did not call emergency services already, show a pop_up
-        if(!bundle.getBoolean(EXTRA_CALLED_EMERGENCIES)){
+        if (!bundle.getBoolean(EXTRA_CALLED_EMERGENCIES)) {
             showEmergencyCallPopup(latitude, longitude)
         }
         // Start listening to potential responses
@@ -65,12 +65,12 @@ class AwaitHelpActivity : AppCompatActivity() {
         val emergencyDb = databaseOf(EMERGENCIES)
         emergencyDb.addListener(emergencyId.toString(), EmergencyInformation::class.java) {
             val helpers = it.helpers
-            for(h in helpers) {
+            for (h in helpers) {
                 foundHelperPerson(h.uid, h.latitude, h.longitude, emergencyId.toString())
             }
         }
 
-        await_help_call_button.setOnClickListener {emergencyCall(latitude, longitude)}
+        await_help_call_button.setOnClickListener { emergencyCall(latitude, longitude) }
 
 
         // Initially the contact helpers is hidden, only after a user responds to the request it
@@ -84,7 +84,7 @@ class AwaitHelpActivity : AppCompatActivity() {
      * @param latitude The user's current latitude
      * @param longitude The user's current longitude
      */
-    private fun showEmergencyCallPopup(latitude: Double, longitude: Double){
+    private fun showEmergencyCallPopup(latitude: Double, longitude: Double) {
         val builder = AlertDialog.Builder(this)
         val emergencyCallPopup = layoutInflater.inflate(R.layout.call_emergencies_popup, null)
 
@@ -115,8 +115,13 @@ class AwaitHelpActivity : AppCompatActivity() {
      * @param longitude Their longitude
      * @param emergencyId The emergency id (used to set up the conversation with the helper)
      */
-    private fun foundHelperPerson(uid: String, latitude: Double, longitude: Double, emergencyId: String){
-        if(helpersId.contains(uid)) return
+    private fun foundHelperPerson(
+        uid: String,
+        latitude: Double,
+        longitude: Double,
+        emergencyId: String
+    ) {
+        if (helpersId.contains(uid)) return
 
         helpersId.add(uid)
         showHelperPerson(uid, latitude, longitude)
@@ -129,13 +134,18 @@ class AwaitHelpActivity : AppCompatActivity() {
 
             val helpersText = findViewById<TextView>(R.id.incomingHelpersNumber)
             if (helpersId.size > 1) {
-                helpersText.text = String.format(getString(R.string.many_people_help), helpersId.size)
+                helpersText.text =
+                    String.format(getString(R.string.many_people_help), helpersId.size)
             } else {
                 helpersText.text = getString(R.string.one_person_help)
                 // When the first user agrees to provide help, the user can contact
                 // him via the chat feature.
                 constraint_layout_contact_helpers.visibility = View.VISIBLE
-                image_open_latest_messages.setOnClickListener{ goToLatestMessagesActivity(emergencyId) }
+                image_open_latest_messages.setOnClickListener {
+                    goToLatestMessagesActivity(
+                        emergencyId
+                    )
+                }
             }
             helpersText.visibility = View.VISIBLE
         }
@@ -148,7 +158,7 @@ class AwaitHelpActivity : AppCompatActivity() {
      * @param latitude The helper's current latitude
      * @param longitude The helper's current longitude
      */
-    private fun showHelperPerson(uid: String, latitude: Double, longitude: Double){
+    private fun showHelperPerson(uid: String, latitude: Double, longitude: Double) {
         val name = resources.getString(R.string.helper_marker_desc) + uid
 
         // Since the testing only checks for modifications on the UI thread, we force its execution
@@ -179,7 +189,11 @@ class AwaitHelpActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun emergencyCall(latitude: Double, longitude: Double) {
         val medicalInfo = Storages.storageOf(Storages.MEDICAL_INFO)
-            .getObjectOrDefault(getString(R.string.medical_info_key), MedicalInformation::class.java, null)
+            .getObjectOrDefault(
+                getString(R.string.medical_info_key),
+                MedicalInformation::class.java,
+                null
+            )
 
         if (medicalInfo != null) {
             val builder = AlertDialog.Builder(this)
@@ -191,21 +205,23 @@ class AwaitHelpActivity : AppCompatActivity() {
             val alertDialog = builder.create()
 
             // Ambulance button
-            emergencyCallPopup.findViewById<ImageButton>(R.id.ambulance_call_button).setOnClickListener {
-                // In case the getCurrentLocation failed (for example if the location services aren't
-                // activated) currentLocation is still null and the returned phone number will be the
-                // default emergency phone number
-                alertDialog.cancel()
-                launchEmergencyCall(latitude, longitude)
-            }
+            emergencyCallPopup.findViewById<ImageButton>(R.id.ambulance_call_button)
+                .setOnClickListener {
+                    // In case the getCurrentLocation failed (for example if the location services aren't
+                    // activated) currentLocation is still null and the returned phone number will be the
+                    // default emergency phone number
+                    alertDialog.cancel()
+                    launchEmergencyCall(latitude, longitude)
+                }
 
             // Contact button
-            emergencyCallPopup.findViewById<ImageButton>(R.id.contact_call_button).setOnClickListener {
-                alertDialog.cancel()
+            emergencyCallPopup.findViewById<ImageButton>(R.id.contact_call_button)
+                .setOnClickListener {
+                    alertDialog.cancel()
 
-                val dial = "tel:${medicalInfo.emergencyContactNumber}"
-                startActivity(Intent(Intent.ACTION_DIAL, Uri.parse(dial)))
-            }
+                    val dial = "tel:${medicalInfo.emergencyContactNumber}"
+                    startActivity(Intent(Intent.ACTION_DIAL, Uri.parse(dial)))
+                }
             alertDialog.show()
         } else {
             launchEmergencyCall(latitude, longitude)
@@ -255,7 +271,7 @@ class AwaitHelpActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun goToLatestMessagesActivity(emergencyId: String){
+    private fun goToLatestMessagesActivity(emergencyId: String) {
         val intent = Intent(this, LatestMessagesActivity::class.java)
         intent.putExtra(EXTRA_EMERGENCY_KEY, emergencyId)
         startActivity(intent)
@@ -264,9 +280,9 @@ class AwaitHelpActivity : AppCompatActivity() {
     /**
      * Cancels the search on the Database and goes back to MainActivity
      */
-    fun cancelHelpSearch(view: View){
+    fun cancelHelpSearch(view: View) {
         val bundle = this.intent.extras
-        if(bundle == null) {
+        if (bundle == null) {
             startActivity(Intent(this, MainPageActivity::class.java))
             return
         }
