@@ -1,11 +1,12 @@
 package com.github.h3lp3rs.h3lp
 
 import android.app.Activity
-import android.app.Instrumentation
+import android.app.Instrumentation.ActivityResult
 import android.content.Intent
 import android.location.Location
 import android.net.Uri
 import androidx.test.espresso.intent.Intents
+import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import com.github.h3lp3rs.h3lp.dataclasses.*
 import com.github.h3lp3rs.h3lp.dataclasses.BloodType.ABn
@@ -17,6 +18,7 @@ import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 import com.github.h3lp3rs.h3lp.locationmanager.LocationManagerInterface
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.storage.Storages
+import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.github.h3lp3rs.h3lp.storage.Storages.MEDICAL_INFO
 import org.apache.commons.lang3.RandomUtils.nextBoolean
 import org.mockito.Mockito.`when` as When
@@ -41,10 +43,10 @@ open class H3lpAppTest {
      * intent capture
      */
     fun initIntentAndCheckResponse() {
-        Intents.init()
+        init()
         val intent = Intent()
-        val intentResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
-        Intents.intending(IntentMatchers.anyIntent()).respondWith(intentResult)
+        val intentResult = ActivityResult(Activity.RESULT_OK, intent)
+        intending(IntentMatchers.anyIntent()).respondWith(intentResult)
     }
 
     /**
@@ -52,7 +54,7 @@ open class H3lpAppTest {
      * storage
      */
     fun loadValidMedicalDataToStorage() {
-        Storages.storageOf(MEDICAL_INFO)
+        storageOf(MEDICAL_INFO)
             .setObject(
                 SignInActivity.globalContext.getString(R.string.medical_info_key),
                 MedicalInformation::class.java, VALID_MEDICAL_INFO)
