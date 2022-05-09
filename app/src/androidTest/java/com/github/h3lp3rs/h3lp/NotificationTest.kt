@@ -21,7 +21,7 @@ import org.junit.Test
  * Should use uiDevice instead of espresso to be able to test element outside the scope of application
  */
 
-class NotificationTest {
+class NotificationTest : H3lpAppTest(){
 
     private val ctx: Context = ApplicationProvider.getApplicationContext()
     private val uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
@@ -43,7 +43,7 @@ class NotificationTest {
         NotificationService.sendSimpleNotification(ctx,TITLE,DESCRIPTION)
 
         uiDevice.openNotification()
-        uiDevice.wait(Until.hasObject(By.textStartsWith("H3LP")),3000)
+        uiDevice.wait(Until.hasObject(By.textStartsWith("H3LP")), TEST_TIMEOUT)
 
         val title : UiObject2=uiDevice.findObject(By.text(TITLE))
         val description : UiObject2=uiDevice.findObject(By.text(DESCRIPTION))
@@ -62,8 +62,10 @@ class NotificationTest {
 
         val title : UiObject2=uiDevice.findObject(By.text(TITLE))
         val description : UiObject2=uiDevice.findObject(By.text(DESCRIPTION))
+
         assertEquals(title.text,TITLE)
         assertEquals(description.text,DESCRIPTION)
+
         title.click()
         uiDevice.findObject(By.textStartsWith(ctx.getString(R.string.my_helper_skills)))
 
@@ -78,7 +80,8 @@ class NotificationTest {
      */
     private fun clearAllNotifications() {
         uiDevice.openNotification()
-        uiDevice.wait(Until.hasObject(By.textStartsWith("H3LP")), 1000)
+        uiDevice.wait(Until.hasObject(By.textStartsWith("H3LP")), TEST_TIMEOUT)
+
         val clearAll: UiObject2 = uiDevice.findObject(By.textStartsWith("Clear all"))
         clearAll.click()
     }

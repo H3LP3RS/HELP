@@ -1,5 +1,6 @@
 package com.github.h3lp3rs.h3lp
 
+import LocationHelper
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -22,7 +23,6 @@ import com.github.h3lp3rs.h3lp.firstaid.AedActivity
 import com.github.h3lp3rs.h3lp.firstaid.AllergyActivity
 import com.github.h3lp3rs.h3lp.firstaid.AsthmaActivity
 import com.github.h3lp3rs.h3lp.firstaid.HeartAttackActivity
-import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 import com.github.h3lp3rs.h3lp.messaging.RecentMessagesActivity
 import com.github.h3lp3rs.h3lp.storage.Storages
 import kotlinx.android.synthetic.main.activity_await_help.*
@@ -32,6 +32,11 @@ import java.util.concurrent.CompletableFuture
  * Activity during which the user waits for help from other user.
  */
 class AwaitHelpActivity : AppCompatActivity() {
+
+    private val locationHelper = LocationHelper()
+
+    private val askedMeds : List<String> = listOf()
+    private var helpersNumbers = 0
     private val helpersId = ArrayList<String>()
 
     private lateinit var mapsFragment: MapsFragment
@@ -46,15 +51,9 @@ class AwaitHelpActivity : AppCompatActivity() {
         mapsFragment = supportFragmentManager.findFragmentById(R.id.mapAwaitHelp) as MapsFragment
         apiHelper = GoogleAPIHelper(resources.getString(R.string.google_maps_key))
 
-        // Initialize the current user's location
-        val futureLocation = getLocation()
-        futureLocation.thenApply
-        if (location == null) {
-            // In case the permission to access the location is missing
-            goToActivity(MainPageActivity::class.java)
-            return
-        }
-        val (latitude, longitude) = location
+        locationHelper.updateCoordinates(this)
+        val latitude = locationHelper.getUserLatitude()
+        val longitude = locationHelper.getUserLatitude()
 
         // Bundle can't be null
         val bundle = intent.extras!!
@@ -164,17 +163,6 @@ class AwaitHelpActivity : AppCompatActivity() {
         // on the corresponding thread to enable testing
         runOnUiThread { mapsFragment.addMarker(latitude, longitude, name) }
     }
-
-    /**
-     * Initializes the user's current location or leaves it to null in case a mistake occurred
-     * during the location information retrieval (so that the fallback emergency services number
-     * can still be called)
-     */
-    private fun setupLocation(): CompletableFuture<> {
-        val futureLocation = GeneralLocationManager.get().getCurrentLocation(this)
-        return futureLocation
-    }
-
 
     /**
      * Called when the user presses the emergency call button. Opens a pop-up

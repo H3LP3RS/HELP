@@ -41,6 +41,8 @@ import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
+import com.google.android.gms.common.server.converter.StringToIntConverter
+import org.apache.commons.beanutils.converters.StringConverter
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 import org.junit.Before
@@ -52,7 +54,7 @@ import kotlin.collections.ArrayList
 
 
 @RunWith(AndroidJUnit4::class)
-class MainPageTestActivity {
+class MainPageTestActivity : H3lpAppTest() {
     @get:Rule
     var mRuntimePermissionRule: GrantPermissionRule = GrantPermissionRule.grant(Manifest.permission.ACCESS_FINE_LOCATION)
     private lateinit var proUsersDb : Database
@@ -61,10 +63,13 @@ class MainPageTestActivity {
     fun setup() {
         globalContext = getApplicationContext()
         userUid = USER_TEST_ID
+
         setDatabase(PREFERENCES, MockDatabase())
         setDatabase(PRO_USERS, MockDatabase())
         proUsersDb = Databases.databaseOf(PRO_USERS)
+
         resetStorage()
+
         storageOf(USER_COOKIE).setBoolean(GUIDE_KEY, true)
     }
 
@@ -74,17 +79,10 @@ class MainPageTestActivity {
 
     private fun launchAndDo(action: () -> Unit) {
         launch().use {
-            start()
+            initIntentAndCheckResponse()
             action()
             end()
         }
-    }
-
-    private fun start() {
-        init()
-        val intent = Intent()
-        val intentResult = ActivityResult(Activity.RESULT_OK, intent)
-        intending(anyIntent()).respondWith(intentResult)
     }
 
     private fun end() {
@@ -160,25 +158,23 @@ class MainPageTestActivity {
     @Test
     fun getsNotifiedWhenHelpNeeded() {
         // Mock an emergency
-        val emergencyId = 1
         val emergenciesDb = MockDatabase()
-        val skills = HelperSkills(true, false,false,
-                                false,false, false)
-        val emergency = EmergencyInformation(emergencyId.toString(), 1.0,1.0, skills,
-                                ArrayList(listOf("Epipen")), Date(), null, ArrayList())
-        emergenciesDb.setObject(emergencyId.toString(), EmergencyInformation::class.java, emergency)
+        emergenciesDb.setObject(TEST_EMERGENCY_ID, EmergencyInformation::class.java, EPIPEN_EMERGENCY_INFO)
         EMERGENCIES.db = emergenciesDb
+
         val newEmergenciesDb = MockDatabase()
-        newEmergenciesDb.setInt(globalContext.getString(R.string.epipen), emergencyId)
+        newEmergenciesDb.setInt(globalContext.getString(R.string.epipen), TEST_EMERGENCY_ID.toInt())
+
         NEW_EMERGENCIES.db = newEmergenciesDb
         // Add to storage the skills
         storageOf(SKILLS).setObject(globalContext.getString(R.string.my_skills_key),
-            HelperSkills::class.java, skills)
+            HelperSkills::class.java, EPIPEN_SKILL)
+
         // To track notifications
         val uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
         launchAndDo {
             // Should immediately receive a notification
-            uiDevice.wait(Until.hasObject(By.textStartsWith("H3LP")),3000)
+            uiDevice.wait(Until.hasObject(By.textStartsWith("H3LP")), TEST_TIMEOUT)
             // Get the notification box - CIRRUS DOESN'T LIKE THIS
             // val notification = uiDevice.findObject(By.text(globalContext.getString(R.string.emergency)))
             // notification.click()

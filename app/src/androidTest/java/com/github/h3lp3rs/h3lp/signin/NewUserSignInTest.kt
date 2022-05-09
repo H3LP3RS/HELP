@@ -3,7 +3,6 @@ package com.github.h3lp3rs.h3lp.signin
 import android.app.Activity
 import android.content.Intent
 import androidx.activity.result.ActivityResult
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.core.app.ApplicationProvider.*
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -12,9 +11,8 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.github.h3lp3rs.h3lp.H3lpAppTest
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.USER_TEST_ID
-import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.database.MockDatabase
@@ -34,7 +32,7 @@ import org.mockito.kotlin.anyOrNull
 import org.mockito.Mockito.`when` as When
 
 @RunWith(AndroidJUnit4::class)
-class NewUserSignInTest {
+class NewUserSignInTest : H3lpAppTest() {
 
     private lateinit var intent: Intent
     private var authenticationStarted = false
@@ -47,8 +45,10 @@ class NewUserSignInTest {
     @Before
     fun setUp() {
         init()
+
         globalContext = getApplicationContext()
         userUid = USER_TEST_ID
+
         setDatabase(PREFERENCES, MockDatabase())
         resetStorage()
 
@@ -58,6 +58,7 @@ class NewUserSignInTest {
         testRule.scenario.onActivity { activity ->
             intent = Intent(getApplicationContext(), activity.javaClass)
             val taskMock = mock(Task::class.java)
+
             When(taskMock.isSuccessful).thenReturn(true)
             When(taskMock.isComplete).thenReturn(true)
             When(signInMock.signIn(activity)).thenReturn(intent)
@@ -80,6 +81,7 @@ class NewUserSignInTest {
     @Test
     fun newUserSignInLaunchesAuthenticationProcess() {
         clickSignInButton()
+
         testRule.scenario.onActivity { activity ->
             activity.authenticateUser(
                 ActivityResult(
@@ -88,6 +90,7 @@ class NewUserSignInTest {
                 ), activity
             )
         }
+
         assertEquals(authenticationStarted, true)
     }
 

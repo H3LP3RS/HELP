@@ -1,7 +1,7 @@
 package com.github.h3lp3rs.h3lp
 
+import LocationHelper
 import android.content.Intent
-import android.location.Location
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -11,7 +11,6 @@ import com.github.h3lp3rs.h3lp.databinding.ActivityHelpPageBinding
 import com.github.h3lp3rs.h3lp.databinding.ActivityHelpPageBinding.*
 import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
 import com.github.h3lp3rs.h3lp.dataclasses.Helper
-import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 import com.github.h3lp3rs.h3lp.messaging.ChatActivity
 import com.github.h3lp3rs.h3lp.messaging.Conversation
 import com.github.h3lp3rs.h3lp.messaging.Conversation.Companion.UNIQUE_CONVERSATION_ID
@@ -40,6 +39,8 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private lateinit var apiHelper: GoogleAPIHelper
     private lateinit var mapsFragment: MapsFragment
 
+    private val locationHelper = LocationHelper()
+
     // Helper connection with helpee data
     private lateinit var conversation: Conversation
 
@@ -55,31 +56,17 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         apiHelper = GoogleAPIHelper(resources.getString(R.string.google_maps_key))
 
         // Initialize the current user's location
-        val location = getLocation()
-        if (location == null) {
-            // In case the permission to access the location is missing
-            goToActivity(MainPageActivity::class.java)
-            return
+        locationHelper.requireAndHandleCoordinates(this) {
+
+            // Displays the path to the user in need on the map fragment and, when the path has been
+            // retrieved (through a google directions API request), computes and displays the time to
+            // get to the user in need
+            apiHelper.displayWalkingPath(
+                it.latitude, it.longitude, destinationLat, destinationLong, mapsFragment
+            ) { mapData: String? -> displayPathDuration(mapData) }
         }
-        val (latitude, longitude) = location
 
-        // Bundle cannot be empty
-        val bundle = this.intent.extras!!
-
-        val emergencyId = bundle.getString(EXTRA_EMERGENCY_KEY)!!
-
-        val destinationLat = bundle.getDouble(EXTRA_DESTINATION_LAT)
-        val destinationLong = bundle.getDouble(EXTRA_DESTINATION_LONG)
-
-        // Displays the path to the user in need on the map fragment and, when the path has been
-        // retrieved (through a google directions API request), computes and displays the time to
-        // get to the user in need
-        apiHelper.displayWalkingPath(
-            latitude, longitude, destinationLat, destinationLong, mapsFragment
-        ) { mapData: String? -> displayPathDuration(mapData) }
-
-        val medicationRequired = bundle.getStringArrayList(EXTRA_HELP_REQUIRED_PARAMETERS)!!
-        displayRequiredMeds(medicationRequired)
+        displayRequiredMeds()
 
         // Initially the contact button is hidden, only after the user accepts the request does it
         // becomes visible.
@@ -87,38 +74,6 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         button_reject.setOnClickListener { goToMainPage() }
 
         setUpEmergencyCancellation()
-    }
-
-
-    /**
-     * Initializes the user's current location or returns to the main page in case a mistake occurred
-     * during the location information retrieval
-     * @return The user's current location in the format Pair(latitude, longitude)
-     */
-    private fun getLocation(): Pair<Double, Double>? {
-        val currentLocation = GeneralLocationManager.get().getCurrentLocation(this)
-        if (currentLocation != null) {
-            return Pair(currentLocation.latitude, currentLocation.longitude)
-        }
-        return null
-    }
-
-
-    /**
-     * Initializes the user's current location or returns to the main page in case a mistake occurred
-     * during the location information retrieval
-     */
-    private fun setupLocation() {
-        val futureLocation = GeneralLocationManager.get().getCurrentLocation(this)
-        futureLocation.handle { location, exception ->
-            if (exception != null) {
-                // In case the permission to access the location is missing
-                goToActivity(MainPageActivity::class.java)
-            } else {
-                currentLat = location.latitude
-                currentLong = location.longitude
-            }
-        }
     }
 
     /**
@@ -160,7 +115,7 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         val emergencyDb = databaseOf(EMERGENCIES)
         emergencyDb.getObject(emergencyId, EmergencyInformation::class.java).thenApply {
             // Add the helper to the list of helpers
-            val me = Helper(userUid!!, currentLat, currentLong)
+            val me = Helper(userUid!!, locationHelper.getUserLatitude()!!, locationHelper.getUserLongitude()!!)
             val helpers = ArrayList<Helper>(it.helpers)
             helpers.add(me)
             // Stop listening to other emergencies
@@ -223,9 +178,9 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         goToActivity(MainPageActivity::class.java)
     }
 
-    private fun setUpEmergencyCancellation() {
+    private fun setUpEmergencyCancellation(emergencyId: String) {
         fun onChildRemoved(id : String) {
-            if (id == helpeeId) {
+            if (id == emergencyId) {
                 // If the person the user is trying to help has cancelled his emergency, the
                 // conversation is deleted from the database and the helper is redirected to the
                 // main page

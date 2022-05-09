@@ -1,9 +1,9 @@
 package com.github.h3lp3rs.h3lp
 
+
+import LocationHelper
 import android.content.Intent
 import android.content.Intent.*
-import android.location.Location
-import android.location.LocationManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -25,6 +25,8 @@ import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.github.h3lp3rs.h3lp.database.Databases.CONVERSATION_IDS
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 import kotlinx.android.synthetic.main.activity_help_parameters.*
+import com.github.h3lp3rs.h3lp.messaging.Conversation
+import com.github.h3lp3rs.h3lp.storage.Storages
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import kotlin.collections.ArrayList
@@ -38,20 +40,23 @@ const val EXTRA_EMERGENCY_KEY = "emergency_key"
  */
 class HelpeeSelectionActivity : AppCompatActivity() {
     private var calledEmergencies = false
+    private var locationHelper = LocationHelper()
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_help_parameters)
 
-        // Initialize the current user's location
-        val location = getLocation()
-        if (location != null) {
-            val (latitude, longitude) = location
-            val locationInformation: TextView = findViewById(R.id.location_information)
+        // Get the coordinates and display them on the screen to enable the user to give their exact
+        // location to the emergency services
+        locationHelper.updateCoordinates(this)
 
-            val coordinatesText = getString(R.string.current_location)
+        val locationInformation: TextView = findViewById(R.id.location_information)
+        val coordinatesText = getString(R.string.current_location)
 
+        val latitude = locationHelper.getUserLatitude()
+        val longitude = locationHelper.getUserLongitude()
+        if (latitude != null && longitude != null) {
             locationInformation.text = String.format(
                 "%s latitude: %.4f longitude: %.4f",
                 coordinatesText, latitude, longitude
@@ -143,10 +148,12 @@ class HelpeeSelectionActivity : AppCompatActivity() {
      */
     private fun launchEmergencyCall(latitude: Double?, longitude: Double?) {
         calledEmergencies = true
+        locationHelper.updateCoordinates(this)
         val emergencyNumber =
             LocalEmergencyCaller.getLocalEmergencyNumber(
-                longitude,
-                latitude, this
+                locationHelper.getUserLongitude(),
+                locationHelper.getUserLatitude(),
+                this
             )
 
         val dial = "tel:$emergencyNumber"
@@ -303,31 +310,4 @@ class HelpeeSelectionActivity : AppCompatActivity() {
         val intent = Intent(this, ActivityName)
         startActivity(intent)
     }
-
-    /**
-     * Function that updates the user's current coordinates
-     */
-    private fun updateCoordinates() {
-        val futureLocation = GeneralLocationManager.get().getCurrentLocation(this)
-        futureLocation.thenAccept {
-            userLocation = Location(LocationManager.GPS_PROVIDER)
-            userLocation?.longitude = it.longitude
-            userLocation?.latitude = it.latitude
-        }
-    }
-
-
-    /**
-     * Initializes the user's current location or returns to the main page in case a mistake occured
-     * during the location information retrieval
-     * @return The user's current location in the format Pair(latitude, longitude)
-     */
-    private fun getLocation(): Pair<Double, Double>? {
-        val currentLocation = GeneralLocationManager.get().getCurrentLocation(this)
-        if (currentLocation != null) {
-            return Pair(currentLocation.latitude, currentLocation.longitude)
-        }
-        return null
-    }
-
 }
