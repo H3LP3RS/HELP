@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.github.h3lp3rs.h3lp.*
 import com.github.h3lp3rs.h3lp.database.Databases
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
 import com.github.h3lp3rs.h3lp.dataclasses.HelperSkills
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
@@ -32,7 +33,7 @@ object EmergencyListener {
                         // Never see this emergency again later
                         emergencyStorage.setBoolean(id.toString(), true)
                         // Send notification only if the associated object still exists
-                        Databases.databaseOf(Databases.EMERGENCIES)
+                        databaseOf(Databases.EMERGENCIES)
                             .getObject(id.toString(), EmergencyInformation::class.java)
                             .thenAccept {
                                 NotificationService.createNotificationChannel(SignInActivity.globalContext)

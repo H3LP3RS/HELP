@@ -46,14 +46,22 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     override fun onCreate(savedInstanceState : Bundle?) {
         super.onCreate(savedInstanceState)
-        MapsInitializer.initialize(applicationContext)
+        initialize(applicationContext)
 
         // Displaying the activity layout
-        binding = ActivityHelpPageBinding.inflate(layoutInflater)
+        binding = inflate(layoutInflater)
         setContentView(binding.root)
 
         mapsFragment = supportFragmentManager.findFragmentById(R.id.mapHelpPage) as MapsFragment
         apiHelper = GoogleAPIHelper(resources.getString(R.string.google_maps_key))
+
+        // Bundle cannot be empty
+        val bundle = this.intent.extras!!
+
+        val emergencyId = bundle.getString(EXTRA_EMERGENCY_KEY)!!
+
+        val destinationLat = bundle.getDouble(EXTRA_DESTINATION_LAT)
+        val destinationLong = bundle.getDouble(EXTRA_DESTINATION_LONG)
 
         // Initialize the current user's location
         locationHelper.requireAndHandleCoordinates(this) {
@@ -66,14 +74,19 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             ) { mapData: String? -> displayPathDuration(mapData) }
         }
 
-        displayRequiredMeds()
+        val medicationRequired = bundle.getStringArrayList(EXTRA_HELP_REQUIRED_PARAMETERS)!!
+        displayRequiredMeds(medicationRequired)
 
         // Initially the contact button is hidden, only after the user accepts the request does it
         // becomes visible.
-        button_accept.setOnClickListener { acceptHelpRequest(emergencyId, latitude, longitude) }
-        button_reject.setOnClickListener { goToMainPage() }
+        locationHelper.requireAndHandleCoordinates(this) { location ->
+            val latitude = location.latitude
+            val longitude = location.longitude
+            button_accept.setOnClickListener { acceptHelpRequest(emergencyId, latitude, longitude) }
+            button_reject.setOnClickListener { goToMainPage() }
+        }
 
-        setUpEmergencyCancellation()
+        setUpEmergencyCancellation(emergencyId)
     }
 
     /**
@@ -115,7 +128,7 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         val emergencyDb = databaseOf(EMERGENCIES)
         emergencyDb.getObject(emergencyId, EmergencyInformation::class.java).thenApply {
             // Add the helper to the list of helpers
-            val me = Helper(userUid!!, locationHelper.getUserLatitude()!!, locationHelper.getUserLongitude()!!)
+            val me = Helper(userUid!!, currentLat, currentLong)
             val helpers = ArrayList<Helper>(it.helpers)
             helpers.add(me)
             // Stop listening to other emergencies
@@ -133,7 +146,7 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         }.exceptionally { goToMainPage() } // Expired
 
         // If the user accepts to help, he can change his mind and cancel later
-        button_reject.setOnClickListener { conversation?.let { it.deleteConversation() } }
+        button_reject.setOnClickListener { conversation.deleteConversation() }
     }
 
     /**
@@ -184,7 +197,7 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                 // If the person the user is trying to help has cancelled his emergency, the
                 // conversation is deleted from the database and the helper is redirected to the
                 // main page
-                conversation?.deleteConversation()
+                conversation.deleteConversation()
                 goToActivity(MainPageActivity::class.java)
             }
         }
@@ -194,6 +207,4 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             String::class.java, null,
         ) { id -> run { onChildRemoved(id) } }
     }
-
-
 }
