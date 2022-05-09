@@ -25,6 +25,7 @@ import com.github.h3lp3rs.h3lp.firstaid.AllergyActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.storage.Storages
+import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
@@ -45,10 +46,13 @@ class AwaitHelpActivityTest : H3lpAppTest() {
     @Before
     fun setup() {
         mockEmptyLocation()
-        init()
 
         globalContext = getApplicationContext()
         userUid = USER_TEST_ID
+
+        setDatabase(PREFERENCES, MockDatabase())
+        setDatabase(EMERGENCIES, MockDatabase())
+        resetStorage()
 
         loadValidMedicalDataToStorage()
     }
