@@ -1,22 +1,23 @@
 package com.github.h3lp3rs.h3lp
 
 import android.content.Intent
+import android.location.Location
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.database.Databases.*
-import com.github.h3lp3rs.h3lp.database.Databases.CONVERSATION_IDS
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.databinding.ActivityHelpPageBinding
 import com.github.h3lp3rs.h3lp.databinding.ActivityHelpPageBinding.*
 import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
 import com.github.h3lp3rs.h3lp.dataclasses.Helper
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
-import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
+import com.github.h3lp3rs.h3lp.messaging.ChatActivity
 import com.github.h3lp3rs.h3lp.messaging.Conversation
 import com.github.h3lp3rs.h3lp.messaging.Conversation.Companion.UNIQUE_CONVERSATION_ID
+import com.github.h3lp3rs.h3lp.messaging.EXTRA_CONVERSATION_ID
 import com.github.h3lp3rs.h3lp.messaging.Messenger.HELPER
-import com.github.h3lp3rs.h3lp.messaging.*
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.util.GDurationJSONParser
 import com.google.android.gms.maps.MapsInitializer.*
 import kotlinx.android.synthetic.main.activity_help_page.*
@@ -42,12 +43,12 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     // Helper connection with helpee data
     private lateinit var conversation: Conversation
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState : Bundle?) {
         super.onCreate(savedInstanceState)
-        initialize(this)
+        MapsInitializer.initialize(applicationContext)
 
         // Displaying the activity layout
-        binding = inflate(layoutInflater)
+        binding = ActivityHelpPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         mapsFragment = supportFragmentManager.findFragmentById(R.id.mapHelpPage) as MapsFragment
@@ -84,11 +85,13 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         // becomes visible.
         button_accept.setOnClickListener { acceptHelpRequest(emergencyId, latitude, longitude) }
         button_reject.setOnClickListener { goToMainPage() }
+
+        setUpEmergencyCancellation()
     }
 
 
     /**
-     * Initializes the user's current location or returns to the main page in case a mistake occured
+     * Initializes the user's current location or returns to the main page in case a mistake occurred
      * during the location information retrieval
      * @return The user's current location in the format Pair(latitude, longitude)
      */
@@ -98,6 +101,24 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             return Pair(currentLocation.latitude, currentLocation.longitude)
         }
         return null
+    }
+
+
+    /**
+     * Initializes the user's current location or returns to the main page in case a mistake occurred
+     * during the location information retrieval
+     */
+    private fun setupLocation() {
+        val futureLocation = GeneralLocationManager.get().getCurrentLocation(this)
+        futureLocation.handle { location, exception ->
+            if (exception != null) {
+                // In case the permission to access the location is missing
+                goToActivity(MainPageActivity::class.java)
+            } else {
+                currentLat = location.latitude
+                currentLong = location.longitude
+            }
+        }
     }
 
     /**
@@ -155,6 +176,9 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             // Init chat
             initChat(emergencyId)
         }.exceptionally { goToMainPage() } // Expired
+
+        // If the user accepts to help, he can change his mind and cancel later
+        button_reject.setOnClickListener { conversation?.let { it.deleteConversation() } }
     }
 
     /**
@@ -198,4 +222,23 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private fun goToMainPage() {
         goToActivity(MainPageActivity::class.java)
     }
+
+    private fun setUpEmergencyCancellation() {
+        fun onChildRemoved(id : String) {
+            if (id == helpeeId) {
+                // If the person the user is trying to help has cancelled his emergency, the
+                // conversation is deleted from the database and the helper is redirected to the
+                // main page
+                conversation?.deleteConversation()
+                goToActivity(MainPageActivity::class.java)
+            }
+        }
+        // The event is added to the entire conversation IDS database and so no child key is needed
+        databaseOf(CONVERSATION_IDS).addEventListener(
+            null,
+            String::class.java, null,
+        ) { id -> run { onChildRemoved(id) } }
+    }
+
+
 }

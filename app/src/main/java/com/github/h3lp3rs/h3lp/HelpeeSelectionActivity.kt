@@ -2,6 +2,8 @@ package com.github.h3lp3rs.h3lp
 
 import android.content.Intent
 import android.content.Intent.*
+import android.location.Location
+import android.location.LocationManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -303,6 +305,19 @@ class HelpeeSelectionActivity : AppCompatActivity() {
     }
 
     /**
+     * Function that updates the user's current coordinates
+     */
+    private fun updateCoordinates() {
+        val futureLocation = GeneralLocationManager.get().getCurrentLocation(this)
+        futureLocation.thenAccept {
+            userLocation = Location(LocationManager.GPS_PROVIDER)
+            userLocation?.longitude = it.longitude
+            userLocation?.latitude = it.latitude
+        }
+    }
+
+
+    /**
      * Initializes the user's current location or returns to the main page in case a mistake occured
      * during the location information retrieval
      * @return The user's current location in the format Pair(latitude, longitude)
@@ -314,4 +329,5 @@ class HelpeeSelectionActivity : AppCompatActivity() {
         }
         return null
     }
+
 }

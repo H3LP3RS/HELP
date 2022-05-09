@@ -30,7 +30,7 @@
             android:name=".HelperPageActivity"
             android:exported="true" />
         <activity
-            android:name=".messaging.LatestMessagesActivity"
+            android:name=".messaging.RecentMessagesActivity"
             android:exported="true" />
         <activity
             android:name=".MainPageActivity"

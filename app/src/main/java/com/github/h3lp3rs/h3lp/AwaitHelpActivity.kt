@@ -3,6 +3,7 @@ package com.github.h3lp3rs.h3lp
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -11,7 +12,8 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
+import com.github.h3lp3rs.h3lp.database.Databases.CONVERSATION_IDS
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.activateHelpListeners
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.database.Databases.EMERGENCIES
 import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
@@ -21,10 +23,10 @@ import com.github.h3lp3rs.h3lp.firstaid.AllergyActivity
 import com.github.h3lp3rs.h3lp.firstaid.AsthmaActivity
 import com.github.h3lp3rs.h3lp.firstaid.HeartAttackActivity
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
-import com.github.h3lp3rs.h3lp.messaging.LatestMessagesActivity
-import com.github.h3lp3rs.h3lp.notification.EmergencyListener
+import com.github.h3lp3rs.h3lp.messaging.RecentMessagesActivity
 import com.github.h3lp3rs.h3lp.storage.Storages
 import kotlinx.android.synthetic.main.activity_await_help.*
+import java.util.concurrent.CompletableFuture
 
 /**
  * Activity during which the user waits for help from other user.
@@ -45,7 +47,8 @@ class AwaitHelpActivity : AppCompatActivity() {
         apiHelper = GoogleAPIHelper(resources.getString(R.string.google_maps_key))
 
         // Initialize the current user's location
-        val location = getLocation()
+        val futureLocation = getLocation()
+        futureLocation.thenApply
         if (location == null) {
             // In case the permission to access the location is missing
             goToActivity(MainPageActivity::class.java)
@@ -68,14 +71,14 @@ class AwaitHelpActivity : AppCompatActivity() {
             for (h in helpers) {
                 foundHelperPerson(h.uid, h.latitude, h.longitude, emergencyId.toString())
             }
+
+            await_help_call_button.setOnClickListener { emergencyCall(latitude, longitude) }
+
+
+            // Initially the contact helpers is hidden, only after a user responds to the request it
+            // becomes visible.
+            constraint_layout_contact_helpers.visibility = View.INVISIBLE
         }
-
-        await_help_call_button.setOnClickListener { emergencyCall(latitude, longitude) }
-
-
-        // Initially the contact helpers is hidden, only after a user responds to the request it
-        // becomes visible.
-        constraint_layout_contact_helpers.visibility = View.INVISIBLE
     }
 
     /**
@@ -141,11 +144,7 @@ class AwaitHelpActivity : AppCompatActivity() {
                 // When the first user agrees to provide help, the user can contact
                 // him via the chat feature.
                 constraint_layout_contact_helpers.visibility = View.VISIBLE
-                image_open_latest_messages.setOnClickListener {
-                    goToLatestMessagesActivity(
-                        emergencyId
-                    )
-                }
+                image_open_latest_messages.setOnClickListener { goToRecentMessagesActivity() }
             }
             helpersText.visibility = View.VISIBLE
         }
@@ -167,17 +166,15 @@ class AwaitHelpActivity : AppCompatActivity() {
     }
 
     /**
-     * Initializes the user's current location or returns to the main page in case a mistake occured
-     * during the location information retrieval
-     * @return The user's current location in the format Pair(latitude, longitude)
+     * Initializes the user's current location or leaves it to null in case a mistake occurred
+     * during the location information retrieval (so that the fallback emergency services number
+     * can still be called)
      */
-    private fun getLocation(): Pair<Double, Double>? {
-        val currentLocation = GeneralLocationManager.get().getCurrentLocation(this)
-        if (currentLocation != null) {
-            return Pair(currentLocation.latitude, currentLocation.longitude)
-        }
-        return null
+    private fun setupLocation(): CompletableFuture<> {
+        val futureLocation = GeneralLocationManager.get().getCurrentLocation(this)
+        return futureLocation
     }
+
 
     /**
      * Called when the user presses the emergency call button. Opens a pop-up
@@ -251,28 +248,17 @@ class AwaitHelpActivity : AppCompatActivity() {
      */
     fun goToTutorial(view: View) {
         val intent = when (view.id) {
-            R.id.heart_attack_tuto_button ->
-                Intent(this, HeartAttackActivity::class.java)
-            R.id.epipen_tuto_button ->
-                Intent(this, AllergyActivity::class.java)
-            R.id.aed_tuto_button ->
-                Intent(this, AedActivity::class.java)
-            R.id.asthma_tuto_button ->
-                Intent(this, AsthmaActivity::class.java)
+            R.id.heart_attack_tuto_button -> Intent(this, HeartAttackActivity::class.java)
+            R.id.epipen_tuto_button -> Intent(this, AllergyActivity::class.java)
+            R.id.aed_tuto_button -> Intent(this, AedActivity::class.java)
+            R.id.asthma_tuto_button -> Intent(this, AsthmaActivity::class.java)
             else -> Intent(this, MainPageActivity::class.java)
         }
         startActivity(intent)
     }
 
-
-    /** Starts the activity by sending intent */
-    private fun goToActivity(ActivityName: Class<*>?) {
-        val intent = Intent(this, ActivityName)
-        startActivity(intent)
-    }
-
-    private fun goToLatestMessagesActivity(emergencyId: String) {
-        val intent = Intent(this, LatestMessagesActivity::class.java)
+    private fun goToRecentMessagesActivity(emergencyId: String) {
+        val intent = Intent(this, RecentMessagesActivity::class.java)
         intent.putExtra(EXTRA_EMERGENCY_KEY, emergencyId)
         startActivity(intent)
     }
@@ -280,7 +266,7 @@ class AwaitHelpActivity : AppCompatActivity() {
     /**
      * Cancels the search on the Database and goes back to MainActivity
      */
-    fun cancelHelpSearch(view: View) {
+    fun cancelHelpSearch(view: View, emergencyId: String) {
         val bundle = this.intent.extras
         if (bundle == null) {
             startActivity(Intent(this, MainPageActivity::class.java))
@@ -292,7 +278,9 @@ class AwaitHelpActivity : AppCompatActivity() {
         // Re-listen to other emergencies
         EmergencyListener.activateListeners()
         // TODO the action on the DB is not yet defined
-        // TODO should include deleting the conversation from the db
+        // Delete the helpee's id
+        emergencyId?.let { databaseOf(CONVERSATION_IDS).delete(it) }
+        // Redirect user to the main page after he cancels his emergency
         startActivity(Intent(this, MainPageActivity::class.java))
     }
 }

@@ -51,24 +51,26 @@ class MapsFragment : Fragment(), CoroutineScope by MainScope(), GoogleMap.OnPoly
     @SuppressLint("MissingPermission")
     private fun setupMap() {
         if (!::map.isInitialized) return
-        val currentLocation = GeneralLocationManager.get().getCurrentLocation(requireContext())
-        if (currentLocation != null) {
-            map.isMyLocationEnabled = true
-            currentLat = currentLocation.latitude
-            currentLong = currentLocation.longitude
+        val futureLocation = GeneralLocationManager.get().getCurrentLocation(requireContext())
+        futureLocation.handle { location, exception ->
+            if (exception != null) {
+                // In case the permission to access the location is missing
+                val intent = Intent(requireContext(), MainPageActivity::class.java)
+                startActivity(intent)
+            } else {
+                map.isMyLocationEnabled = true
+                currentLat = location.latitude
+                currentLong = location.longitude
 
-            val myPosition = LatLng(currentLat, currentLong)
+                val myPosition = LatLng(currentLat, currentLong)
 
-            map.moveCamera(
-                CameraUpdateFactory.newLatLngZoom(
-                    myPosition,
-                    DEFAULT_MAP_ZOOM
+                map.moveCamera(
+                    CameraUpdateFactory.newLatLngZoom(
+                        myPosition,
+                        DEFAULT_MAP_ZOOM
+                    )
                 )
-            )
-        } else {
-            // In case the permission to access the location is missing
-            val intent = Intent(requireContext(), MainPageActivity::class.java)
-            startActivity(intent)
+            }
         }
     }
 
