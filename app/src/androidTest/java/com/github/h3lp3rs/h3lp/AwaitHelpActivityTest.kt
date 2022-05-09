@@ -34,17 +34,9 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mockito.`when` as When
-import org.mockito.Mockito.mock
-import org.mockito.kotlin.anyOrNull
-import org.mockito.Mockito.*
-import java.util.concurrent.CompletableFuture.completedFuture
 import kotlin.collections.ArrayList
 
 class AwaitHelpActivityTest : H3lpAppTest() {
-    private val locationManagerMock: LocationManagerInterface =
-        mock(LocationManagerInterface::class.java)
-    private val locationMock: Location = mock(Location::class.java)
 
     @get:Rule
     val testRule = ActivityScenarioRule(
@@ -56,12 +48,8 @@ class AwaitHelpActivityTest : H3lpAppTest() {
 
     @Before
     fun setup() {
-        GeneralLocationManager.set(locationManagerMock)
+        mockEmptyLocation()
         init()
-
-        When(locationManagerMock.getCurrentLocation(anyOrNull())).thenReturn(
-            completedFuture(locationMock)
-        )
 
         globalContext = getApplicationContext()
         userUid = USER_TEST_ID

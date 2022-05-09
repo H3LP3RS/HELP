@@ -3,6 +3,7 @@ package com.github.h3lp3rs.h3lp
 import android.app.Activity
 import android.app.Instrumentation
 import android.content.Intent
+import android.location.Location
 import android.net.Uri
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
@@ -12,18 +13,29 @@ import com.github.h3lp3rs.h3lp.dataclasses.Gender.Female
 import com.github.h3lp3rs.h3lp.dataclasses.Gender.Male
 import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation.Companion.MAX_HEIGHT
 import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation.Companion.MAX_WEIGHT
+import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
+import com.github.h3lp3rs.h3lp.locationmanager.LocationManagerInterface
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.MEDICAL_INFO
-import org.apache.commons.lang3.RandomUtils
 import org.apache.commons.lang3.RandomUtils.nextBoolean
+import org.mockito.Mockito
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
+import org.mockito.kotlin.anyOrNull
+import java.lang.RuntimeException
 import java.util.*
+import java.util.concurrent.CompletableFuture
 
 /**
  * Super class for tests in this app containing useful constants and functions
  * that are common to many tests
  */
 open class H3lpAppTest {
+
+    private val locationManagerMock: LocationManagerInterface = mock(LocationManagerInterface::class.java)
+    private val locationMock: Location = mock(Location::class.java)
+
 
     /**
      * Auxiliary function to perform the repetitive step of starting espresso's
@@ -40,12 +52,54 @@ open class H3lpAppTest {
      * Auxiliary function to load a valid medical information to the corresponding
      * storage
      */
-    fun loadValidMedicalDataToStorage(){
+    fun loadValidMedicalDataToStorage() {
         Storages.storageOf(MEDICAL_INFO)
             .setObject(
                 SignInActivity.globalContext.getString(R.string.medical_info_key),
                 MedicalInformation::class.java, VALID_MEDICAL_INFO)
     }
+
+    /**
+     * Mocking the user's location to a null values
+     */
+    fun mockEmptyLocation(){
+        `when`(locationManagerMock.getCurrentLocation(anyOrNull())).thenReturn(
+            CompletableFuture.completedFuture(
+                locationMock
+            )
+        )
+        GeneralLocationManager.set(locationManagerMock)
+    }
+
+    /**
+     * Mocking the user's location to a predefined set of coordinates
+     */
+    fun mockLocationToCoordinates(longitude: Double, latitude: Double) {
+        `when`(locationManagerMock.getCurrentLocation(anyOrNull())).thenReturn(
+            CompletableFuture.completedFuture(locationMock)
+        )
+        `when`(locationMock.longitude).thenReturn(longitude)
+        `when`(locationMock.latitude).thenReturn(latitude)
+        GeneralLocationManager.set(locationManagerMock)
+    }
+
+    /**
+     * Mocking the location manager as if an error occurred (in which case, the returned future
+     * fails)
+     */
+    fun mockFailingLocation() {
+        // Mocking the location manager as if an error occurred (in which case, the returned future
+        // fails)
+        val failingFuture: CompletableFuture<Location> = CompletableFuture()
+        failingFuture.completeExceptionally(RuntimeException(LocationManagerInterface.GET_LOCATION_EXCEPTION))
+        `when`(locationManagerMock.getCurrentLocation(anyOrNull())).thenReturn(
+            failingFuture
+        )
+
+        GeneralLocationManager.set(locationManagerMock)
+    }
+
+
 
     companion object {
         val TEST_URI: Uri = Uri.EMPTY

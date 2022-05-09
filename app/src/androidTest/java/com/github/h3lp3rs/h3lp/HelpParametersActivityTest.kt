@@ -45,9 +45,6 @@ private val CORRECT_EMERGENCY_CALL = Triple(6.632, 46.519, "144")
 
 @RunWith(AndroidJUnit4::class)
 class HelpParametersActivityTest : H3lpAppTest() {
-    private val locationManagerMock: LocationManagerInterface =
-        mock(LocationManagerInterface::class.java)
-    private val locationMock: Location = mock(Location::class.java)
 
     @get:Rule
     val testRule = ActivityScenarioRule(
@@ -103,12 +100,7 @@ class HelpParametersActivityTest : H3lpAppTest() {
 
     @Test
     fun clickPhoneButtonAndContactButtonDialsEmergencyContactNumber() {
-        When(locationManagerMock.getCurrentLocation(anyOrNull())).thenReturn(
-            completedFuture(
-                locationMock
-            )
-        )
-        GeneralLocationManager.set(locationManagerMock)
+        mockEmptyLocation()
 
         loadValidMedicalDataToStorage()
 
@@ -135,13 +127,7 @@ class HelpParametersActivityTest : H3lpAppTest() {
 
     @Test
     fun clickPhoneButtonDialsCorrectEmergencyNumber() {
-        // Mocking the user's location to a predefined set of coordinates
-        When(locationManagerMock.getCurrentLocation(anyOrNull())).thenReturn(
-            completedFuture(locationMock)
-        )
-        When(locationMock.longitude).thenReturn(CORRECT_EMERGENCY_CALL.first)
-        When(locationMock.latitude).thenReturn(CORRECT_EMERGENCY_CALL.second)
-        GeneralLocationManager.set(locationManagerMock)
+        mockLocationToCoordinates(CORRECT_EMERGENCY_CALL.first, CORRECT_EMERGENCY_CALL.second)
 
         loadValidMedicalDataToStorage()
 
@@ -172,15 +158,7 @@ class HelpParametersActivityTest : H3lpAppTest() {
     fun clickPhoneButtonWithNoLocationDialsDefaultEmergencyNumber() {
         loadValidMedicalDataToStorage()
 
-        // Mocking the location manager as if an error occurred (in which case, the returned future
-        // fails)
-        val failingFuture: CompletableFuture<Location> = CompletableFuture()
-        failingFuture.completeExceptionally(RuntimeException(GET_LOCATION_EXCEPTION))
-        When(locationManagerMock.getCurrentLocation(anyOrNull())).thenReturn(
-            failingFuture
-        )
-
-        GeneralLocationManager.set(locationManagerMock)
+        mockFailingLocation()
 
         val phoneButton = onView(withId(R.id.help_params_call_button))
 
@@ -261,13 +239,7 @@ class HelpParametersActivityTest : H3lpAppTest() {
 
     @Test
     fun screenDisplaysCorrectLocation() {
-        // Mocking the user's location to a predefined set of coordinates
-        When(locationManagerMock.getCurrentLocation(anyOrNull())).thenReturn(
-            completedFuture(locationMock)
-        )
-        When(locationMock.longitude).thenReturn(CORRECT_EMERGENCY_CALL.first)
-        When(locationMock.latitude).thenReturn(CORRECT_EMERGENCY_CALL.second)
-        GeneralLocationManager.set(locationManagerMock)
+        mockLocationToCoordinates(CORRECT_EMERGENCY_CALL.first, CORRECT_EMERGENCY_CALL.second)
 
         // Checking that the user's actual location is displayed before they call an ambulance
         val locationInformation = onView(withId(R.id.location_information))

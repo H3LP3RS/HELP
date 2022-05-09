@@ -2,7 +2,6 @@ package com.github.h3lp3rs.h3lp
 
 import android.Manifest
 import android.content.Intent
-import android.location.Location
 import android.os.Bundle
 import androidx.test.core.app.ActivityScenario.*
 import androidx.test.core.app.ApplicationProvider
@@ -23,8 +22,6 @@ import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.database.MockDatabase
 import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
 import com.github.h3lp3rs.h3lp.dataclasses.HelperSkills
-import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
-import com.github.h3lp3rs.h3lp.locationmanager.LocationManagerInterface
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.storage.Storages
@@ -36,12 +33,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito.mock
-import org.mockito.kotlin.anyOrNull
-import java.util.*
-import java.util.concurrent.CompletableFuture.completedFuture
 import kotlin.collections.ArrayList
-import org.mockito.Mockito.`when` as When
 
 // Current coordinates to mock a user
 const val CURRENT_LAT = 46.514
@@ -56,9 +48,7 @@ const val TIME_TO_DESTINATION = "1 hour 19 mins"
 
 @RunWith(AndroidJUnit4::class)
 class HelpPageActivityTest : H3lpAppTest() {
-    private val locationManagerMock: LocationManagerInterface =
-        mock(LocationManagerInterface::class.java)
-    private val locationMock: Location = mock(Location::class.java)
+
     private val uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
     private val helpId = 1
 
@@ -75,14 +65,7 @@ class HelpPageActivityTest : H3lpAppTest() {
 
     @Before
     fun init() {
-        // Mocking the location manager
-        When(locationManagerMock.getCurrentLocation(anyOrNull())).thenReturn(
-            completedFuture(locationMock)
-        )
-        When(locationMock.latitude).thenReturn(CURRENT_LAT)
-        When(locationMock.longitude).thenReturn(CURRENT_LONG)
-        GeneralLocationManager.set(locationManagerMock)
-
+        mockLocationToCoordinates(CURRENT_LAT, CURRENT_LONG)
     }
 
     @Test
