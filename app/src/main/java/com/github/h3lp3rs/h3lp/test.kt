@@ -8,35 +8,49 @@ import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.forum.ForumCategory
 import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.forumOf
+import com.github.h3lp3rs.h3lp.forum.data.ForumPostData
 
 class test : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test2)
         val db = databaseOf(Databases.FORUM)
-        db.incrementAndGet(UNIQUE_POST_ID, 1)
         val forum = forumOf(ForumCategory.CARDIOLOGY)
         var postKey = ""
-        forum.newPost("TEST", "AAAAAAAAAAAAAa")
-            .handle { postMessage, error ->
-                Log.i("MSG", "HMMMMMMMM are you running?")
-                if (error != null) {
-                    Log.i("MSG", error.message!!)
-                }
-                if (error == null) {
-                    postKey = postMessage.post.key
-                    postMessage.reply("Not me", "Indeed indeed")
-                }
-            }
-        Log.i("MSG", "Thread finished sleeping")
-        forum.getPost(listOf(postKey)).handle { it, error ->
-            Log.i("MSG", "replying")
+//        forum.newPost("ME", "General cardi thing")
+//            .handle { postMessage, error ->
+//                Log.i("MSG", "HMMMMMMMM are you running?")
+//                if (error != null) {
+//                    Log.i("MSG", error.message!!)
+//                }
+//                if (error == null) {
+//                    postKey = postMessage.post.key
+//                    postMessage.reply("Not me", "General cardio reply (wow much original)")
+//                }
+//            }
+//        Log.i("MSG", "Thread finished sleeping")
+//        forum.getPost(listOf("41")).handle { it, error ->
+//            Log.i("MSG", "replying")
+//            if (error != null) {
+//                Log.i("MSG", error.message!!)
+//            } else {
+//                Log.i("MSG", it.replies[0].content)
+////        db.addToObjectsListConcurrently("CARDIOLOGY/24", String::class.java, "TEST")
+//                Log.i("MSG", "hmmm pls print")
+//            }
+//        }
+//        db.getObject("CARDIOLOGY/41", ForumPostData::class.java).handle { it, error ->
+//            Log.i("MSG", "replying")
+//            if (error != null) {
+//                Log.i("MSG", error.message!!)
+//            } else {
+//                Log.i("MSG", it.toString())
+//            }
+//        }
+        forum.getAll().handle { list, error ->
+            Log.i("MSG", "getAll")
             if (error != null) {
                 Log.i("MSG", error.message!!)
-            } else {
-                Log.i("MSG", it.replies.toString())
-//        db.addToObjectsListConcurrently("CARDIOLOGY/24", String::class.java, "TEST")
-                Log.i("MSG", "hmmm pls print")
             }
         }
     }

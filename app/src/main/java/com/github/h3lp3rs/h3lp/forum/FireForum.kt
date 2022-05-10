@@ -26,6 +26,13 @@ class FireForum(override val path: Path) : Forum {
                 ForumPostData::class.java,
                 forumPostData
             )
+            if (isCategory()) {
+                rootForum.addToObjectsListConcurrently(
+                    pathToKey(path + POSTS_LIST),
+                    String::class.java,
+                    key
+                )
+            }
             // We can't use getPost here since we aren't sure that the setObject succeeded yet
             ForumPost(this, forumPostData, emptyList())
         }
@@ -35,7 +42,10 @@ class FireForum(override val path: Path) : Forum {
         val fullPath = path + relativePath
         val key = pathToKey(fullPath)
         return rootForum.getObject(key, ForumPostData::class.java).thenCompose { postData ->
-            rootForum.getObjectsList(postData.repliesKey, ForumPostData::class.java)
+            rootForum.getObjectsList(
+                pathToKey(path + postData.repliesKey),
+                ForumPostData::class.java
+            )
                 .thenApply { replies ->
                     ForumPost(this, postData, replies)
                 }.handle { post, error ->
@@ -56,7 +66,14 @@ class FireForum(override val path: Path) : Forum {
             for (category in ForumCategory.values()) {
                 // For all categories, we add them to the list of category posts
                 val categoryForum = forumOf(category)
-                future.thenCompose { list -> categoryForum.getAll().thenApply { list + it } }
+                future.thenCompose { list ->
+                    categoryForum.getAll().handle {it, error ->
+                        list + it
+                    }
+//                    categoryForum.getAll().thenApply {
+//                        list + it
+//                    }
+                }
             }
             return future
         } else {
@@ -67,10 +84,19 @@ class FireForum(override val path: Path) : Forum {
 
     private fun getAllFromCategory(): CompletableFuture<CategoryPosts> {
         val forumPostsFuture = rootForum
-            .getObjectsList(pathToKey(path), ForumPostData::class.java)
+            .getObjectsList(pathToKey(path + POSTS_LIST), String::class.java)
+            .thenApply { keyList ->
+                keyList.map { rootForum.getObject(pathToKey(path + it), ForumPostData::class.java) }
+            }
             .thenCompose {
                 val cfs: Array<CompletableFuture<ForumPost>> =
-                    it.map { postData -> getPost(listOf(postData.key)) }.toTypedArray()
+                    it.map { futurePostData ->
+                        futurePostData.thenCompose { postData ->
+                            getPost(
+                                listOf(postData.key)
+                            )
+                        }
+                    }.toTypedArray()
                 typedAllOf(*cfs)
             }
 
@@ -129,11 +155,10 @@ class FireForum(override val path: Path) : Forum {
         return path.isEmpty()
     }
 
-
     /**
      * Abstracts away the implementation of the path into the Forum structure, here, a category is
-     * represented by a path with a single element
-     * @return A boolean corresponding to the fact that this forum is (or isn't) a category
+     * represented by a path of length 1
+     * @return A boolean corresponding to the fact that this forum is (or isn't) the root forum
      */
     private fun isCategory(): Boolean {
         return path.size == 1
@@ -141,5 +166,6 @@ class FireForum(override val path: Path) : Forum {
 
     companion object {
         const val UNIQUE_POST_ID = "unique post id"
+        const val POSTS_LIST = "posts"
     }
 }
