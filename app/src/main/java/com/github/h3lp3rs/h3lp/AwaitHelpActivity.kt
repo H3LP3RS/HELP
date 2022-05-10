@@ -1,14 +1,19 @@
 package com.github.h3lp3rs.h3lp
 
+import LocationHelper
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.*
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import com.github.h3lp3rs.h3lp.database.Databases.CONVERSATION_IDS
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.activateHelpListeners
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.database.Databases.EMERGENCIES
@@ -18,8 +23,7 @@ import com.github.h3lp3rs.h3lp.firstaid.AedActivity
 import com.github.h3lp3rs.h3lp.firstaid.AllergyActivity
 import com.github.h3lp3rs.h3lp.firstaid.AsthmaActivity
 import com.github.h3lp3rs.h3lp.firstaid.HeartAttackActivity
-import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
-import com.github.h3lp3rs.h3lp.messaging.LatestMessagesActivity
+import com.github.h3lp3rs.h3lp.messaging.RecentMessagesActivity
 import com.github.h3lp3rs.h3lp.storage.Storages
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
@@ -31,31 +35,31 @@ import kotlinx.android.synthetic.main.activity_await_help.*
  */
 class AwaitHelpActivity : AppCompatActivity() {
 
-    private var currentLong: Double = 0.0
-    private var currentLat: Double = 0.0
-    private val askedMeds: List<String> = listOf()
+    private val locationHelper = LocationHelper()
+
+    private val askedMeds : List<String> = listOf()
     private var helpersNumbers = 0
     private val helpersId = ArrayList<String>()
 
-    private lateinit var mapsFragment: MapsFragment
-    private lateinit var apiHelper: GoogleAPIHelper
+    private lateinit var mapsFragment : MapsFragment
+    private lateinit var apiHelper : GoogleAPIHelper
     private var helpeeId : String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState : Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_await_help)
 
         apiHelper = GoogleAPIHelper(resources.getString(R.string.google_maps_key))
 
-        setupLocation()
+        locationHelper.updateCoordinates(this)
 
         val bundle = intent.extras
-        if(bundle != null) {
+        if (bundle != null) {
             helpeeId = bundle.getString(EXTRA_HELPEE_ID)
             askedMeds.plus(bundle.getStringArrayList(EXTRA_NEEDED_MEDICATION))
 
             // If we did not call emergency services already, show a pop_up
-            if(!bundle.getBoolean(EXTRA_CALLED_EMERGENCIES)){
+            if (!bundle.getBoolean(EXTRA_CALLED_EMERGENCIES)) {
                 showEmergencyCallPopup()
             }
             // Start listening to potential responses
@@ -63,7 +67,7 @@ class AwaitHelpActivity : AppCompatActivity() {
             val emergencyDb = databaseOf(EMERGENCIES)
             emergencyDb.addListener(emergencyId.toString(), EmergencyInformation::class.java) {
                 val helpers = it.helpers
-                for(h in helpers) {
+                for (h in helpers) {
                     foundHelperPerson(h.uid, h.latitude, h.longitude)
                 }
             }
@@ -85,7 +89,7 @@ class AwaitHelpActivity : AppCompatActivity() {
      * Displays a popup asking the user to call the emergency services if they
      * require help, stating that help from other users is not guaranteed.
      */
-    private fun showEmergencyCallPopup(){
+    private fun showEmergencyCallPopup() {
         val builder = AlertDialog.Builder(this)
         val emergencyCallPopup = layoutInflater.inflate(R.layout.call_emergencies_popup, null)
 
@@ -115,8 +119,8 @@ class AwaitHelpActivity : AppCompatActivity() {
      * @param latitude Its latitude
      * @param longitude Its longitude
      */
-    private fun foundHelperPerson(uid: String, latitude: Double, longitude: Double){
-        if(helpersId.contains(uid)) return
+    private fun foundHelperPerson(uid : String, latitude : Double, longitude : Double) {
+        if (helpersId.contains(uid)) return
 
         helpersId.add(uid)
         showHelperPerson(uid, latitude, longitude)
@@ -127,13 +131,14 @@ class AwaitHelpActivity : AppCompatActivity() {
 
             val helpersText = findViewById<TextView>(R.id.incomingHelpersNumber)
             if (++helpersNumbers > 1) {
-                helpersText.text = String.format(getString(R.string.many_people_help), helpersNumbers)
+                helpersText.text =
+                    String.format(getString(R.string.many_people_help), helpersNumbers)
             } else {
                 helpersText.text = getString(R.string.one_person_help)
                 // When the first user agrees to provide help, the user can contact
                 // him via the chat feature.
                 constraint_layout_contact_helpers.visibility = View.VISIBLE
-                image_open_latest_messages.setOnClickListener{ goToLatestMessagesActivity() }
+                image_open_latest_messages.setOnClickListener { goToRecentMessagesActivity() }
             }
             helpersText.visibility = View.VISIBLE
         }
@@ -143,7 +148,7 @@ class AwaitHelpActivity : AppCompatActivity() {
      * Adds a marker on the map representing the position of someone coming to
      * help.
      */
-    private fun showHelperPerson(uid: String, latitude: Double, longitude: Double){
+    private fun showHelperPerson(uid : String, latitude : Double, longitude : Double) {
         val latLng = LatLng(latitude, longitude)
         val name = resources.getString(R.string.helper_marker_desc) + uid
 
@@ -155,26 +160,18 @@ class AwaitHelpActivity : AppCompatActivity() {
         //mapsFragment.addMarker(options) TODO: Fragment not working
     }
 
-    private fun setupLocation() {
-        val currentLocation = GeneralLocationManager.get().getCurrentLocation(this)
-        if (currentLocation != null) {
-            currentLat = currentLocation.latitude
-            currentLong = currentLocation.longitude
-        } else {
-            // In case the permission to access the location is missing
-            // goToActivity(MainPageActivity::class.java)
-        }
-    }
-
     /**
      *  Called when the user presses the emergency call button. Opens a pop-up
      *  asking the user to choose whether they want to call local emergency
      *  services or their emergency contact, and dials the correct number.
      */
     @RequiresApi(Build.VERSION_CODES.O)
-    fun emergencyCall(view: View) {
-        val medicalInfo = Storages.storageOf(Storages.MEDICAL_INFO)
-            .getObjectOrDefault(getString(R.string.medical_info_key), MedicalInformation::class.java, null)
+    fun emergencyCall(view : View) {
+        val medicalInfo = Storages.storageOf(Storages.MEDICAL_INFO).getObjectOrDefault(
+                getString(R.string.medical_info_key),
+                MedicalInformation::class.java,
+                null
+            )
 
         if (medicalInfo != null) {
             val builder = AlertDialog.Builder(this)
@@ -186,21 +183,23 @@ class AwaitHelpActivity : AppCompatActivity() {
             val alertDialog = builder.create()
 
             // ambulance button
-            emergencyCallPopup.findViewById<ImageButton>(R.id.ambulance_call_button).setOnClickListener {
-                // In case the getCurrentLocation failed (for example if the location services aren't
-                // activated, currentLocation is still null and the returned phone number will be the
-                // default emergency phone number
-                alertDialog.cancel()
-                launchEmergencyCall()
-            }
+            emergencyCallPopup.findViewById<ImageButton>(R.id.ambulance_call_button)
+                .setOnClickListener {
+                    // In case the getCurrentLocation failed (for example if the location services aren't
+                    // activated, currentLocation is still null and the returned phone number will be the
+                    // default emergency phone number
+                    alertDialog.cancel()
+                    launchEmergencyCall()
+                }
 
             // contact button
-            emergencyCallPopup.findViewById<ImageButton>(R.id.contact_call_button).setOnClickListener {
-                alertDialog.cancel()
+            emergencyCallPopup.findViewById<ImageButton>(R.id.contact_call_button)
+                .setOnClickListener {
+                    alertDialog.cancel()
 
-                val dial = "tel:${medicalInfo.emergencyContactNumber}"
-                startActivity(Intent(Intent.ACTION_DIAL, Uri.parse(dial)))
-            }
+                    val dial = "tel:${medicalInfo.emergencyContactNumber}"
+                    startActivity(Intent(Intent.ACTION_DIAL, Uri.parse(dial)))
+                }
             alertDialog.show()
         } else {
             launchEmergencyCall()
@@ -212,12 +211,9 @@ class AwaitHelpActivity : AppCompatActivity() {
      * Launches a the phone app with the local emergency number dialed
      */
     private fun launchEmergencyCall() {
-        val emergencyNumber =
-            LocalEmergencyCaller.getLocalEmergencyNumber(
-                currentLong,
-                currentLat,
-                this
-            )
+        val emergencyNumber = LocalEmergencyCaller.getLocalEmergencyNumber(
+            locationHelper.getUserLongitude(), locationHelper.getUserLatitude(), this
+        )
 
         val dial = "tel:$emergencyNumber"
         startActivity(Intent(Intent.ACTION_DIAL, Uri.parse(dial)))
@@ -226,23 +222,19 @@ class AwaitHelpActivity : AppCompatActivity() {
     /**
      * Called when a tutorial button is pressed to redirect to the correct activity
      */
-    fun goToActivity(view: View) {
+    fun goToActivity(view : View) {
         val intent = when (view.id) {
-            R.id.heart_attack_tuto_button ->
-                Intent(this, HeartAttackActivity::class.java)
-            R.id.epipen_tuto_button ->
-                Intent(this, AllergyActivity::class.java)
-            R.id.aed_tuto_button ->
-                Intent(this, AedActivity::class.java)
-            R.id.asthma_tuto_button ->
-                Intent(this, AsthmaActivity::class.java)
+            R.id.heart_attack_tuto_button -> Intent(this, HeartAttackActivity::class.java)
+            R.id.epipen_tuto_button -> Intent(this, AllergyActivity::class.java)
+            R.id.aed_tuto_button -> Intent(this, AedActivity::class.java)
+            R.id.asthma_tuto_button -> Intent(this, AsthmaActivity::class.java)
             else -> Intent(this, MainPageActivity::class.java)
         }
         startActivity(intent)
     }
 
-    private fun goToLatestMessagesActivity(){
-        val intent = Intent(this, LatestMessagesActivity::class.java)
+    private fun goToRecentMessagesActivity() {
+        val intent = Intent(this, RecentMessagesActivity::class.java)
         intent.putExtra(EXTRA_HELPEE_ID, helpeeId)
         startActivity(intent)
     }
@@ -250,19 +242,19 @@ class AwaitHelpActivity : AppCompatActivity() {
     /**
      * Cancels the search on the Database and goes back to MainActivity
      */
-    fun cancelHelpSearch(view: View){
+    fun cancelHelpSearch(view : View) {
         val bundle = this.intent.extras
-        if(bundle == null) {
+        if (bundle == null) {
             startActivity(Intent(this, MainPageActivity::class.java))
             return
         }
-
         val emergencyId = bundle.getInt(EXTRA_EMERGENCY_KEY)
         databaseOf(EMERGENCIES).delete(emergencyId.toString())
         // Re-listen to other emergencies
         activateHelpListeners()
-        // TODO the action on the DB is not yet defined
-        // TODO should include deleting the conversation from the db
+        // Delete the helpee's id
+        helpeeId?.let { databaseOf(CONVERSATION_IDS).delete(it) }
+        // Redirect user to the main page after he cancels his emergency
         startActivity(Intent(this, MainPageActivity::class.java))
     }
 }

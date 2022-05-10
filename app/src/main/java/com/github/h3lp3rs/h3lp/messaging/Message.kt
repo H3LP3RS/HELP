@@ -6,4 +6,8 @@ package com.github.h3lp3rs.h3lp.messaging
  * actual message
  */
 data class Message(val messenger: Messenger, val message: String, val iv: String)
+    // The following constructor is needed in the @addChildEventListener method of firebase which
+    // throws an exception if no constructor without parameters is provided.
+    constructor() : this(Messenger.HELPER, "", "")
 
+}
