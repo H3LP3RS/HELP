@@ -17,7 +17,7 @@ class test : AppCompatActivity() {
         val db = databaseOf(Databases.FORUM)
         val forum = forumOf(ForumCategory.CARDIOLOGY)
         var postKey = ""
-//        forum.newPost("ME", "General cardi thing")
+//        forum.newPost("not a doctor", "how heart?")
 //            .handle { postMessage, error ->
 //                Log.i("MSG", "HMMMMMMMM are you running?")
 //                if (error != null) {
@@ -25,7 +25,7 @@ class test : AppCompatActivity() {
 //                }
 //                if (error == null) {
 //                    postKey = postMessage.post.key
-//                    postMessage.reply("Not me", "General cardio reply (wow much original)")
+//                    postMessage.reply("a doctor", "heart gud")
 //                }
 //            }
 //        Log.i("MSG", "Thread finished sleeping")
@@ -47,10 +47,16 @@ class test : AppCompatActivity() {
 //                Log.i("MSG", it.toString())
 //            }
 //        }
-        forum.getAll().handle { list, error ->
+
+        forum.root().getAll().handle { list, error ->
             Log.i("MSG", "getAll")
-            if (error != null) {
-                Log.i("MSG", error.message!!)
+            if (error == null) {
+                for ((category, posts) in list) {
+                    for (post_ in posts) {
+                        Log.i("MSG", category)
+                        Log.i("MSG", "POST : " + post_.replies[0].content)
+                    }
+                }
             }
         }
     }

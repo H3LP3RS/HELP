@@ -61,18 +61,21 @@ class FireForum(override val path: Path) : Forum {
 
     override fun getAll(): CompletableFuture<List<CategoryPosts>> {
         if (isRoot()) {
-            val future = CompletableFuture<List<CategoryPosts>>()
+//            return getAllFromNextCategories(CompletableFuture.completedFuture(emptyList()), 0)
+            var future: CompletableFuture<List<CategoryPosts>> = CompletableFuture.completedFuture(emptyList())
             // In case we are in the root forum
             for (category in ForumCategory.values()) {
                 // For all categories, we add them to the list of category posts
                 val categoryForum = forumOf(category)
-                future.thenCompose { list ->
+                future = future.thenCompose { list ->
                     categoryForum.getAll().handle {it, error ->
-                        list + it
+                        // If there was no posts on that forum
+                        if (error != null) {
+                            list
+                        } else {
+                            list + it
+                        }
                     }
-//                    categoryForum.getAll().thenApply {
-//                        list + it
-//                    }
                 }
             }
             return future
