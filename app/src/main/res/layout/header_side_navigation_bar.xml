@@ -7,12 +7,12 @@
     android:background="@drawable/sidebar_header_background">
 
     <ImageView
-        android:layout_width="75dp"
-        android:layout_height="75dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="@dimen/app_margin"
-        android:src="@drawable/swiss_flag"
+        android:src="@drawable/heart_link"
         android:contentDescription="@string/h3lp_logo">
 
     </ImageView>

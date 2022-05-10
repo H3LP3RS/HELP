@@ -11,13 +11,14 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@drawable/teal_background"
+            android:background="@color/persimmon"
             android:elevation="5dp"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
@@ -87,9 +88,9 @@
             android:id="@+id/searchBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/staySafe"
+            android:layout_above="@+id/horizontalScrollView"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="50dp"
+            android:layout_marginBottom="16dp"
             android:background="@color/light_gray"
             android:iconifiedByDefault="false"
             android:queryHint="Search..."
@@ -99,8 +100,8 @@
             android:id="@+id/horizontalScrollView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/searchBar"
-            android:layout_marginTop="30dp"
+            android:layout_above="@+id/HELP_button"
+            android:layout_marginBottom="32dp"
             android:background="@color/app_background">
 
             <LinearLayout
@@ -114,7 +115,7 @@
                     android:layout_width="@dimen/scroll_view_outside_layout"
                     android:layout_height="@dimen/scroll_view_outside_layout"
                     android:background="@drawable/round_style"
-                    android:backgroundTint="@color/teal_400"
+                    android:backgroundTint="@color/persimmon"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -154,7 +155,7 @@
                     android:layout_width="@dimen/scroll_view_outside_layout"
                     android:layout_height="@dimen/scroll_view_outside_layout"
                     android:background="@drawable/round_style"
-                    android:backgroundTint="@color/teal_400"
+                    android:backgroundTint="@color/persimmon"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -194,7 +195,7 @@
                     android:layout_width="@dimen/scroll_view_outside_layout"
                     android:layout_height="@dimen/scroll_view_outside_layout"
                     android:background="@drawable/round_style"
-                    android:backgroundTint="@color/teal_400"
+                    android:backgroundTint="@color/persimmon"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -235,7 +236,7 @@
                     android:layout_width="@dimen/scroll_view_outside_layout"
                     android:layout_height="@dimen/scroll_view_outside_layout"
                     android:background="@drawable/round_style"
-                    android:backgroundTint="@color/teal_400"
+                    android:backgroundTint="@color/persimmon"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -274,7 +275,7 @@
                     android:layout_width="@dimen/scroll_view_outside_layout"
                     android:layout_height="@dimen/scroll_view_outside_layout"
                     android:background="@drawable/round_style"
-                    android:backgroundTint="@color/teal_400"
+                    android:backgroundTint="@color/persimmon"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -313,7 +314,7 @@
                     android:layout_width="@dimen/scroll_view_outside_layout"
                     android:layout_height="@dimen/scroll_view_outside_layout"
                     android:background="@drawable/round_style"
-                    android:backgroundTint="@color/teal_400"
+                    android:backgroundTint="@color/persimmon"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -355,7 +356,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="@color/light_gray">
+            android:background="@color/light_gray"
+            android:elevation="4dp"
+            android:outlineProvider="bounds"
+            >
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -423,13 +427,12 @@
             android:layout_height="256dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="32dp"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/help_button_background"
             android:contentDescription="@string/help_button"
             android:onClick="goToHelpParametersActivity"
-            android:scaleX="1"
-            android:scaleY="1"
-        />
+            android:elevation="4dp"
+            />
 
         <TextView
             android:id="@+id/textView3"
@@ -438,8 +441,9 @@
             android:layout_alignBottom="@id/HELP_button"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="84dp"
+            android:elevation="4dp"
             android:shadowColor="@color/black"
-            android:shadowRadius="5"
+            android:shadowRadius="10"
             android:text="@string/help"
             android:textColor="@color/white"
             android:textSize="64sp"

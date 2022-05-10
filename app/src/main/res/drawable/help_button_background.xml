@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="rectangle" >
@@ -9,9 +8,9 @@
             <gradient
                 android:angle="45"
                 android:centerX="70%"
-                android:centerColor="#FE6752"
-                android:startColor="#FE6752"
-                android:endColor="#ffb037"
+                android:centerColor="@color/persimmon"
+                android:startColor="@color/persimmon"
+                android:endColor="@color/yellow_orange"
                 android:type="linear"
                 />
             <padding
@@ -26,7 +25,7 @@
                 />
             <stroke
                 android:width="5dp"
-                android:color="#b24639"
+                android:color="@color/dark_persimmon"
                 />
 
 
@@ -34,11 +33,10 @@
     </item>
     <item
         android:drawable="@drawable/white_logo_transparent"
-        android:bottom="10dp"
-        android:left="10dp"
-        android:right="10dp"
-        android:top="10dp"
-        android:alpha="0.5"
+        android:bottom="16dp"
+        android:left="16dp"
+        android:right="24dp"
+        android:top="16dp"
         />
 </layer-list>
 
