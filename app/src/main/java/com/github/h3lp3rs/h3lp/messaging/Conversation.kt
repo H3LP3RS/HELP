@@ -3,11 +3,13 @@ package com.github.h3lp3rs.h3lp.messaging
 import android.content.Context
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
+import android.util.Base64
 import androidx.security.crypto.MasterKey
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.database.Databases.MESSAGES
 import java.nio.charset.Charset
 import java.security.*
+import java.security.spec.X509EncodedKeySpec
 import javax.crypto.Cipher
 import javax.crypto.spec.GCMParameterSpec
 import kotlin.text.Charsets.UTF_8
@@ -59,8 +61,8 @@ class Conversation(
         val kp = kpg.generateKeyPair()
 
         // send public key to the database
-        // val encodedPublicKey = Base64.encodeToString(kp.public.encoded, Base64.DEFAULT)
-        database.setObject(conversationId + "/KEYS/" + currentMessenger.name, PublicKey::class.java, kp.public)
+        val encodedPublicKey = Base64.encodeToString(kp.public.encoded, Base64.DEFAULT)
+        database.setString(conversationId + "/KEYS/" + currentMessenger.name, encodedPublicKey)
 
         /*
         val cipher = Cipher.getInstance("AES/GCM/NoPadding")
@@ -95,9 +97,11 @@ class Conversation(
         // retrieve public key from Bob
         if (publicKey == null) {
             val path = conversationId + "/KEYS/" + Messenger.values()[(currentMessenger.ordinal + 1) % 2].name
-            database.getObject(path, PublicKey::class.java).thenApply {
-                publicKey = it
-                sendEncryptedMessage(it, messageText)
+            database.getString(path).thenApply {
+                val decodedKey = Base64.decode(it, Base64.DEFAULT)
+                val keySpecs = X509EncodedKeySpec(decodedKey)
+                publicKey = KeyFactory.getInstance("RSA").generatePublic(keySpecs)
+                sendEncryptedMessage(publicKey!!, messageText) //TODO CHANGE THE !!
             }
         } else {
             sendEncryptedMessage(publicKey!!, messageText)
