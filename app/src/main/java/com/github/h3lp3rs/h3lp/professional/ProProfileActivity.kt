@@ -111,7 +111,7 @@ class ProProfileActivity : AppCompatActivity() {
      */
     fun checkAndLoadData(view: View){
         if (!checkPolicy()) {
-            createSnackBar(view, getString(R.string.privacy_policy_not_acceptes))
+            createSnackBar(view, getString(R.string.privacy_policy_not_accepted))
         } else {
             loadData()
             createSnackBar(view, getString(R.string.changes_saved))

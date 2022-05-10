@@ -107,7 +107,7 @@
     <string name="save_changes">Save changes</string>
     <string name="changes_saved">Changes saved</string>
     <string name="invalid_field_msg">ERROR : Some fields are not fill correctly</string>
-    <string name="privacy_policy_not_acceptes">ERROR : You must accept our privacy policy first</string>
+    <string name="privacy_policy_not_accepted">ERROR : You must accept our privacy policy first</string>
     <string name="info_saved">Your information has been saved</string>
 
     <!--Preference Key for now should find better way to store this-->

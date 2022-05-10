@@ -293,7 +293,7 @@ class MedicalCardActivity : AppCompatActivity() {
         if (!checkField()) {
             createSnackbar(view, getString(R.string.invalid_field_msg))
         } else if (!checkPolicy()) {
-            createSnackbar(view, getString(R.string.privacy_policy_not_acceptes))
+            createSnackbar(view, getString(R.string.privacy_policy_not_accepted))
         } else {
             saveChanges()
             createSnackbar(view, getString(R.string.changes_saved))

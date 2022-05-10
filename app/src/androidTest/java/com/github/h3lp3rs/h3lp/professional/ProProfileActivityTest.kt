@@ -56,7 +56,7 @@ class ProProfileActivityTest {
     }
 
     @Test
-    fun updateProfileWorks(){
+    fun updateProfileWithCheckedPolicyWorks(){
         onView(withId(R.id.proProfileStatusEditTxt))
             .perform(ViewActions.replaceText("doctor"))
         onView(withId(R.id.proProfileDomainEditTxt))
@@ -82,6 +82,15 @@ class ProProfileActivityTest {
         assertEquals(currentProUser.proofUri, "")
         assertEquals(currentProUser.proStatus, "doctor")
         assertEquals(currentProUser.proDomain, "humans")
+    }
+
+    @Test
+    fun updateProfileWithoutCheckedPolicyDisplaysError(){
+        onView(withId(R.id.proProfileUpdateButton))
+            .perform(click())
+
+        onView(withText(R.string.privacy_policy_not_accepted))
+            .check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
     }
 
 
