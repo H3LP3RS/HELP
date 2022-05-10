@@ -47,7 +47,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="20dp"
-                android:background="@drawable/light_red_background">
+                android:background="@drawable/persimmon_background">
 
                 <TextView
                     android:id="@+id/epipenTutorialStep1"
@@ -83,7 +83,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="20dp"
-                android:background="@drawable/light_red_background">
+                android:background="@drawable/persimmon_background">
 
                 <TextView
                     android:id="@+id/epipenTutorialStep2"
@@ -118,7 +118,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="20dp"
-                android:background="@drawable/light_red_background">
+                android:background="@drawable/persimmon_background">
 
                 <TextView
                     android:id="@+id/epipenTutorialStep3"
@@ -144,23 +144,18 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp">
+            android:layout_height="200dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp">
 
-            <RelativeLayout
+            <VideoView
+                android:id="@+id/epipenVideo"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="20dp">
-
-                <VideoView
-                    android:id="@+id/epipenVideo"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </RelativeLayout>
-
+                android:layout_height="match_parent" />
         </RelativeLayout>
+
 
 
     </LinearLayout>
