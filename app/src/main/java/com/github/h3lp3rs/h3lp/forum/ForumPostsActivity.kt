@@ -1,11 +1,13 @@
 package com.github.h3lp3rs.h3lp.forum
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.R
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
+import kotlinx.android.synthetic.main.activity_forum_answers.*
 import kotlinx.android.synthetic.main.activity_forum_posts.*
 import kotlinx.android.synthetic.main.post_forum_row.view.*
 
@@ -27,8 +29,17 @@ class ForumPostsActivity : AppCompatActivity() {
         adapter.setOnItemClickListener { item, view ->
             val userItem = item as Post
             intent.putExtra(EXTRA_QUESTION_ID, userItem.getID())
-            //val intent = Intent(view.context, ForumActivity::class.java)
-            //startActivity(intent)
+            val intent = Intent(view.context, ForumAnswersActivity::class.java)
+            startActivity(intent)
+        }
+
+        add_post_button.setOnClickListener{
+            val qst = text_view_enter_post.text.toString()
+            // When the user clicks on add, the message is sent to the database
+            // forum.addAnswer(answer)
+            category?.let { it1 -> Post(qst,"", it1) }?.let { it2 -> adapter.add(it2) }
+            // Clears the text field when the user hits send
+            text_view_enter_post.text.clear()
         }
 
         //listenForPosts()

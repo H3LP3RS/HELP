@@ -27,13 +27,15 @@ class ProMainActivity : AppCompatActivity() {
     }
 
     fun goToProProfileActivity(view : View){
-        goToActivity(ForumAnswersActivity::class.java)
+        goToActivity(ProProfileActivity::class.java)
     }
 
-
     fun goToForumTheme(view: View) {
-        val intent = Intent(this, ProfessionalTypeSelection::class.java)
-        startActivity(intent)
+        goToActivity(ProfessionalTypeSelection::class.java)
+    }
+
+    fun goToForumCategories(view: View) {
+        goToActivity(ForumCategoriesActivity::class.java)
     }
 
 }

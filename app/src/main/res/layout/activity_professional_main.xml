@@ -126,6 +126,7 @@
                         android:background="@drawable/question"
                         android:layout_width="80dp"
                         android:layout_height="80dp"
+                        android:onClick="goToForumCategories"
                         />
 
                     <TextView
@@ -191,12 +192,13 @@
 
                     <ImageButton
                         android:id="@+id/blood_request_button"
-                        android:background="@drawable/blood_donation"
+                        android:background="@drawable/notification"
                         android:layout_width="80dp"
-                        android:layout_height="80dp"/>
+                        android:layout_height="80dp"
+                        android:onClick="goToForumTheme"/>
 
                     <TextView
-                        android:text="@string/blood_request"
+                        android:text="@string/notifications"
                         android:textSize="13sp"
                         android:layout_marginTop="12dp"
                         android:layout_width="wrap_content"

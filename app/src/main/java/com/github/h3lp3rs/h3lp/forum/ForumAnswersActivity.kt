@@ -27,6 +27,7 @@ class ForumAnswersActivity: AppCompatActivity()  {
             val answer = text_view_enter_answer.text.toString()
             // When the user clicks on add, the message is sent to the database
             // forum.addAnswer(answer)
+            adapter.add(Answer(answer,"",""))
             // Clears the text field when the user hits send
             text_view_enter_answer.text.clear()
         }
@@ -34,6 +35,7 @@ class ForumAnswersActivity: AppCompatActivity()  {
 
     }
 
+    // REPLACE BY just diplaying all answers ?
     private fun listenForAnswers() {
         // TODO replace by answer data class
         fun onAnswerAdded(answer : Answer) {
