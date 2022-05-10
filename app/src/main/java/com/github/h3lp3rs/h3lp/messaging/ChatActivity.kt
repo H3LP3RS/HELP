@@ -61,7 +61,7 @@ class ChatActivity : AppCompatActivity() {
          * @param chatMessage The text message
          */
         fun onChildAdded(chatMessage : Message) {
-            conversation.decryptMessage(chatMessage).let {
+            conversation.retrieveDecryptedMessage(chatMessage).let {
 
                 // Compare the messenger to the current user to correctly display the message
                 if (it.messenger == userRole) {

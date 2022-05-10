@@ -7,11 +7,9 @@ import android.util.Base64
 import androidx.security.crypto.MasterKey
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.database.Databases.MESSAGES
-import java.nio.charset.Charset
 import java.security.*
 import java.security.spec.X509EncodedKeySpec
 import javax.crypto.Cipher
-import javax.crypto.spec.GCMParameterSpec
 import kotlin.text.Charsets.UTF_8
 
 /**
@@ -131,35 +129,34 @@ class Conversation(
     fun addListener(onNewMessage: (messages: List<Message>, currentMessenger: Messenger) -> Unit) {
         database.addListListener("$conversationId/MSG/", Message::class.java) {
             val list = it.toList().map{ message ->
-                decryptMessage(message)
+                retrieveDecryptedMessage(message)
             }
             onNewMessage(it.toList(), currentMessenger)
         }
 
     }
 
-    fun decryptMessage(encryptedMessage: Message): Message{
-        val decryptedMessage = allMessages.getOrDefault(encryptedMessage.message, {
-            assert(encryptedMessage.messenger != currentMessenger)
-
-            val keyStore = KeyStore.getInstance(ANDROID_KEY_STORE)
-            keyStore.load(null)
-
-            val entry = keyStore.getEntry(keyAlias, null)
-            val privateKey = (entry as KeyStore.PrivateKeyEntry).privateKey
-            val publicKey = keyStore.getCertificate(keyAlias).publicKey
-
-            val decryptCipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA-256AndMGF1Padding")
-            //val spec = GCMParameterSpec(128, ""/*encryptedMessage.iv.toByteArray(UTF_8)*/   )
-            decryptCipher.init(Cipher.DECRYPT_MODE, privateKey/*, spec*/)
-
-            val plainTextBytes =
-                decryptCipher.doFinal(encryptedMessage.message.toByteArray(UTF_8))
-
-            String(plainTextBytes, UTF_8)
-        })
-
+    fun retrieveDecryptedMessage(encryptedMessage: Message): Message{
+        val decryptedMessage = allMessages.getOrDefault(encryptedMessage.message, decryptMessage(encryptedMessage))
         return Message(encryptedMessage.messenger, decryptedMessage as String, encryptedMessage.iv)
+    }
+
+    private fun decryptMessage(encryptedMessage: Message): String{
+        val keyStore = KeyStore.getInstance(ANDROID_KEY_STORE)
+        keyStore.load(null)
+
+        val entry = keyStore.getEntry(keyAlias, null)
+        val privateKey = (entry as KeyStore.PrivateKeyEntry).privateKey
+        val publicKey = keyStore.getCertificate(keyAlias).publicKey
+
+        val decryptCipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA-256AndMGF1Padding")
+        //val spec = GCMParameterSpec(128, ""/*encryptedMessage.iv.toByteArray(UTF_8)*/   )
+        decryptCipher.init(Cipher.DECRYPT_MODE, privateKey/*, spec*/)
+
+        val plainTextBytes =
+            decryptCipher.doFinal(encryptedMessage.message.toByteArray(UTF_8))
+
+        return String(plainTextBytes, UTF_8)
     }
 
     /**
