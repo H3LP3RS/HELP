@@ -27,6 +27,9 @@
             android:name=".forum.ForumCategoriesActivity"
             android:exported="false" />
         <activity
+            android:name=".forum.ForumAnswersActivity"
+            android:exported="false" />
+        <activity
             android:name=".forum.NewPostActivity"
             android:exported="false" />
         <activity

@@ -7,33 +7,80 @@
     tools:context=".forum.ForumAnswersActivity">
 
 
-<androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginRight="5dp"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="10dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/round_layout"
         android:backgroundTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent=".78"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHeight_percent=".78"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintVertical_bias="1"
-        android:background="@drawable/round_layout" >
+        app:layout_constraintVertical_bias="1">
+
+
+        <TextView
+            android:id="@+id/answer_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:lineSpacingExtra="8sp"
+            android:shadowColor="@color/white"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="20"
+            android:text="Answers:"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="157dp"
+            tools:layout_editor_absoluteY="0dp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_forum_answers"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginBottom="11dp"
+            android:layout_marginTop="80dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@+id/add_answer_button"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginBottom="80dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/answer_title" />
+
+        <AutoCompleteTextView
+            android:id="@+id/text_view_enter_answer"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="16dp"
+            android:hint="@string/type_your_answer"
+            android:minHeight="48dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/add_answer_button"
+            app:layout_constraintHorizontal_bias="0.006"
             app:layout_constraintStart_toStartOf="parent" />
 
+        <ImageButton
+            android:id="@+id/add_answer_button"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="328dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/plus"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recycler_view_forum_answers" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

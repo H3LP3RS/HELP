@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.github.h3lp3rs.h3lp.R
+import com.github.h3lp3rs.h3lp.forum.ForumAnswersActivity
+import com.github.h3lp3rs.h3lp.forum.ForumCategoriesActivity
+import com.github.h3lp3rs.h3lp.forum.ForumPostsActivity
 import com.github.h3lp3rs.h3lp.forum.NewPostActivity
 
 /**
@@ -24,7 +27,7 @@ class ProMainActivity : AppCompatActivity() {
     }
 
     fun goToProProfileActivity(view : View){
-        goToActivity(NewPostActivity::class.java)
+        goToActivity(ForumAnswersActivity::class.java)
     }
 
 

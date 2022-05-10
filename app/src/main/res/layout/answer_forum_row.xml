@@ -13,7 +13,7 @@
         app:cardElevation="6dp"
         app:cardCornerRadius="12dp"
         android:layout_margin="16dp"
-        app:cardBackgroundColor="@color/mid_light_grey"
+        app:cardBackgroundColor="@color/white"
         >
         <androidx.constraintlayout.widget.ConstraintLayout
             android:gravity="center"

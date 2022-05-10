@@ -6,6 +6,7 @@ import com.github.h3lp3rs.h3lp.R
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
+import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.activity_forum_answers.*
 import kotlinx.android.synthetic.main.answer_forum_row.view.*
 
@@ -22,7 +23,14 @@ class ForumAnswersActivity: AppCompatActivity()  {
         questionId = bundle?.getString(EXTRA_QUESTION_ID) ?: questionId
 
         // TODO add button add answer
-        listenForAnswers()
+        add_answer_button.setOnClickListener{
+            val answer = text_view_enter_answer.text.toString()
+            // When the user clicks on add, the message is sent to the database
+            // forum.addAnswer(answer)
+            // Clears the text field when the user hits send
+            text_view_enter_answer.text.clear()
+        }
+        //listenForAnswers()
 
     }
 
