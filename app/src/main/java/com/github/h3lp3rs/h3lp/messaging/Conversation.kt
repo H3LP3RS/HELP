@@ -8,8 +8,11 @@ import androidx.security.crypto.MasterKey
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.database.Databases.MESSAGES
 import java.security.*
+import java.security.spec.MGF1ParameterSpec
 import java.security.spec.X509EncodedKeySpec
 import javax.crypto.Cipher
+import javax.crypto.spec.OAEPParameterSpec
+import javax.crypto.spec.PSource
 import kotlin.text.Charsets.UTF_8
 
 /**
@@ -149,9 +152,9 @@ class Conversation(
         val privateKey = (entry as KeyStore.PrivateKeyEntry).privateKey
         val publicKey = keyStore.getCertificate(keyAlias).publicKey
 
-        val decryptCipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA-256AndMGF1Padding")
-        //val spec = GCMParameterSpec(128, ""/*encryptedMessage.iv.toByteArray(UTF_8)*/   )
-        decryptCipher.init(Cipher.DECRYPT_MODE, privateKey/*, spec*/)
+        val decryptCipher = Cipher.getInstance("RSA/ECB/OAEPPadding")
+        val spec = OAEPParameterSpec("SHA-256", "MGF1", MGF1ParameterSpec("SHA-1"), PSource.PSpecified.DEFAULT)
+        decryptCipher.init(Cipher.DECRYPT_MODE, privateKey, spec)
 
         val plainTextBytes =
             decryptCipher.doFinal(encryptedMessage.message.toByteArray(UTF_8))
