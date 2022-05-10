@@ -50,7 +50,7 @@ class Conversation(
         val parameterSpec: KeyGenParameterSpec = KeyGenParameterSpec.Builder(
             keyAlias,
             KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
-            .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
+            .setDigests(KeyProperties.DIGEST_SHA256, KeyProperties.DIGEST_SHA512)
             .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_RSA_OAEP)
          //   .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
             .build()
@@ -112,13 +112,13 @@ class Conversation(
      *
      */
     private fun sendEncryptedMessage(publicKey: PublicKey, message: String) {
-        val cipher = Cipher.getInstance("AES/GCM/NoPadding")
+        val cipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA-256AndMGF1Padding")
         cipher.init(Cipher.ENCRYPT_MODE, publicKey)
 
         val iv = cipher.iv
 
         val encryption = cipher.doFinal(message.toByteArray(UTF_8))
-        val encryptedMessage = Message(currentMessenger, String(encryption), iv.toString(UTF_8))
+        val encryptedMessage = Message(currentMessenger, String(encryption), ""/*iv.toString(UTF_8)*/)
 
         allMessages[encryptedMessage.message] = message
         database.addToObjectsListConcurrently("$conversationId/MSG/", Message::class.java, encryptedMessage)
@@ -138,7 +138,7 @@ class Conversation(
 
     }
 
-    private fun decryptMessage(encryptedMessage: Message): Message{
+    fun decryptMessage(encryptedMessage: Message): Message{
         val decryptedMessage = allMessages.getOrDefault(encryptedMessage.message, {
             assert(encryptedMessage.messenger != currentMessenger)
 
@@ -149,9 +149,9 @@ class Conversation(
             val privateKey = (entry as KeyStore.PrivateKeyEntry).privateKey
             val publicKey = keyStore.getCertificate(keyAlias).publicKey
 
-            val decryptCipher = Cipher.getInstance("AES/GCM/NoPadding")
-            val spec = GCMParameterSpec(128, encryptedMessage.iv.toByteArray(UTF_8))
-            decryptCipher.init(Cipher.DECRYPT_MODE, privateKey, spec)
+            val decryptCipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA-256AndMGF1Padding")
+            //val spec = GCMParameterSpec(128, ""/*encryptedMessage.iv.toByteArray(UTF_8)*/   )
+            decryptCipher.init(Cipher.DECRYPT_MODE, privateKey/*, spec*/)
 
             val plainTextBytes =
                 decryptCipher.doFinal(encryptedMessage.message.toByteArray(UTF_8))
