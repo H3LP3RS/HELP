@@ -48,8 +48,15 @@ class HelpPageActivityTest : H3lpAppTest() {
         GrantPermissionRule.grant(Manifest.permission.ACCESS_FINE_LOCATION)
 
     @Before
-    fun init() {
+    fun setup() {
         mockLocationToCoordinates(SWISS_LAT, SWISS_LONG)
+
+        globalContext = getApplicationContext()
+        userUid = USER_TEST_ID
+
+        setDatabase(PREFERENCES, MockDatabase())
+        setDatabase(EMERGENCIES, MockDatabase())
+        resetStorage()
     }
 
     private fun launch(): ActivityScenario<HelperPageActivity> {
@@ -139,10 +146,11 @@ class HelpPageActivityTest : H3lpAppTest() {
     @Test
     fun refusingAnEmergencyGoesBackToMainPage() {
         setupEmergencyAndDo {
-            initIntentAndCheckResponse()
+            init()
             // Reject
             onView(withId(R.id.button_reject)).perform(click())
             intended(allOf(hasComponent(MainPageActivity::class.java.name)))
+            release()
         }
     }
 
@@ -162,11 +170,6 @@ class HelpPageActivityTest : H3lpAppTest() {
             putExtras(bundle)
         }
 
-        // Setup the database accordingly
-        globalContext = getApplicationContext()
-        userUid = USER_TEST_ID
-
-        resetStorage()
         setDatabase(PREFERENCES, MockDatabase())
         val emergencyDb = MockDatabase()
 

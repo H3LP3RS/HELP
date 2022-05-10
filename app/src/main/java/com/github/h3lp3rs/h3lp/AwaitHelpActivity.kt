@@ -68,14 +68,12 @@ class AwaitHelpActivity : AppCompatActivity() {
                 for (h in helpers) {
                     foundHelperPerson(h.uid, h.latitude, h.longitude, emergencyId.toString())
                 }
-
-                await_help_call_button.setOnClickListener { emergencyCall(latitude, longitude) }
-
-
-                // Initially the contact helpers is hidden, only after a user responds to the request it
-                // becomes visible.
-                constraint_layout_contact_helpers.visibility = View.INVISIBLE
             }
+            await_help_call_button.setOnClickListener { emergencyCall(latitude, longitude) }
+
+            // Initially the contact helpers is hidden, only after a user responds to the request it
+            // becomes visible.
+            constraint_layout_contact_helpers.visibility = View.INVISIBLE
         }
     }
 

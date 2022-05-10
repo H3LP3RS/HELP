@@ -79,25 +79,6 @@ class AwaitHelpActivityTest : H3lpAppTest() {
         }
     }
 
-    /**
-     * Auxiliary function to put a medical emergency contact in the local database
-     */
-    private fun loadMedicalDataToLocalStorage() {
-        val medicalInformation = MedicalInformation(
-            MedicalInformation.MAX_HEIGHT - 1,
-            MedicalInformation.MAX_WEIGHT - 1, Gender.Male,
-            Calendar.getInstance().get(Calendar.YEAR),
-            "", "", "",
-            BloodType.ABn, "", VALID_CONTACT_NUMBER
-        )
-
-        storageOf(Storages.MEDICAL_INFO)
-            .setObject(
-                globalContext.getString(R.string.medical_info_key),
-                MedicalInformation::class.java, medicalInformation
-            )
-    }
-
     @Test
     fun callEmergenciesButtonWorksAndSendIntent() {
         launchAndDo(false) {

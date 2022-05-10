@@ -83,8 +83,9 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             val latitude = location.latitude
             val longitude = location.longitude
             button_accept.setOnClickListener { acceptHelpRequest(emergencyId, latitude, longitude) }
-            button_reject.setOnClickListener { goToMainPage() }
         }
+
+        button_reject.setOnClickListener { goToMainPage() }
 
         setUpEmergencyCancellation(emergencyId)
     }
