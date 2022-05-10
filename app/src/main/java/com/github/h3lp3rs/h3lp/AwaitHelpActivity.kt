@@ -25,6 +25,8 @@ import com.github.h3lp3rs.h3lp.firstaid.HeartAttackActivity
 import com.github.h3lp3rs.h3lp.messaging.RecentMessagesActivity
 import com.github.h3lp3rs.h3lp.notification.EmergencyListener.activateListeners
 import com.github.h3lp3rs.h3lp.storage.Storages
+import com.google.android.gms.maps.MapsInitializer
+import com.google.android.gms.maps.MapsInitializer.*
 import kotlinx.android.synthetic.main.activity_await_help.*
 
 /**
@@ -42,6 +44,7 @@ class AwaitHelpActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_await_help)
+        initialize(applicationContext)
 
 
         mapsFragment = supportFragmentManager.findFragmentById(R.id.mapAwaitHelp) as MapsFragment

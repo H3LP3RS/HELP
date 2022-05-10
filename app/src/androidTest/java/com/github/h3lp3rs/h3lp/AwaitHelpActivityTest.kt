@@ -211,13 +211,6 @@ class AwaitHelpActivityTest : H3lpAppTest() {
         bundle.putBoolean(EXTRA_CALLED_EMERGENCIES, true)
         bundle.putStringArrayList(EXTRA_NEEDED_MEDICATION, arrayListOf(EPIPEN))
 
-        val intent = Intent(
-            getApplicationContext(),
-            AwaitHelpActivity::class.java
-        ).apply {
-            putExtras(bundle)
-        }
-
         // Setup the database accordingly
         val emergencyDb = MockDatabase()
 
