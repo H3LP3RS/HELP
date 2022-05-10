@@ -140,7 +140,12 @@ class Conversation(
     }
 
     fun retrieveDecryptedMessage(encryptedMessage: Message): Message{
-        val decryptedMessage = allMessages.getOrDefault(encryptedMessage.message, decryptMessage(encryptedMessage))
+        val decryptedMessage = if (allMessages.containsKey(encryptedMessage.message)) {
+            allMessages[encryptedMessage.message]!!
+        } else{
+            decryptMessage(encryptedMessage)
+        }
+
         return Message(encryptedMessage.messenger, decryptedMessage as String, encryptedMessage.iv)
     }
 
