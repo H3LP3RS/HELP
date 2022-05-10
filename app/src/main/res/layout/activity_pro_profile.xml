@@ -59,7 +59,7 @@
                     app:hintTextColor="@color/teal_700"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:startIconDrawable="@drawable/ic_businessman"
+                    app:startIconDrawable="@drawable/ic_profile_icon"
                     tools:ignore="MissingConstraints">
 
 
@@ -85,7 +85,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/proProfileStatusLayout"
-                    app:startIconDrawable="@drawable/ic_healthcare">
+                    app:startIconDrawable="@drawable/ic_health">
 
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -112,7 +112,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/proProfileDomainTxtLayout"
-                    app:startIconDrawable="@drawable/ic_experience">
+                    app:startIconDrawable="@drawable/ic_rate_us_icon">
 
 
                     <com.google.android.material.textfield.TextInputEditText
