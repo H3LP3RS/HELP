@@ -75,7 +75,7 @@ class ChatActivity : AppCompatActivity() {
 
         // Add the event listener to the current conversation
         messagesDatabase.addEventListener(
-            conversationId,
+            "$conversationId/MSG/",
             Message::class.java,
             { value -> run { onChildAdded(value) } },
             { })

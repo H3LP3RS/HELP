@@ -121,7 +121,7 @@ class Conversation(
         val encryptedMessage = Message(currentMessenger, String(encryption), iv.toString(UTF_8))
 
         allMessages[encryptedMessage.message] = message
-        database.addToObjectsListConcurrently(conversationId, Message::class.java, encryptedMessage)
+        database.addToObjectsListConcurrently("$conversationId/MSG/", Message::class.java, encryptedMessage)
     }
     /**
      * Adds a listener on the conversation, the listener is triggered every time a new message is sent to the
@@ -129,7 +129,7 @@ class Conversation(
      * @param onNewMessage Callback called on every new message
      */
     fun addListener(onNewMessage: (messages: List<Message>, currentMessenger: Messenger) -> Unit) {
-        database.addListListener(conversationId, Message::class.java) {
+        database.addListListener("$conversationId/MSG/", Message::class.java) {
             val list = it.toList().map{ message ->
                 decryptMessage(message)
             }
