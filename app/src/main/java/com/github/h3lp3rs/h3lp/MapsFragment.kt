@@ -1,14 +1,13 @@
 package com.github.h3lp3rs.h3lp
 
+import LocationHelper
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -17,6 +16,9 @@ import com.google.android.gms.maps.model.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import java.lang.Double.parseDouble
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 
 typealias GooglePlace = HashMap<String, String>
@@ -28,6 +30,12 @@ typealias GooglePlace = HashMap<String, String>
  */
 class MapsFragment : Fragment(), CoroutineScope by MainScope(), GoogleMap.OnPolylineClickListener {
     private lateinit var map: GoogleMap
+    private var isMapReady = false
+
+    private val locationHelper = LocationHelper()
+
+    // Functions to execute once the map is ready
+    private val onMapReadyQueue = LinkedList<() -> Unit>()
 
     private var currentLong: Double = 0.0
     private var currentLat: Double = 0.0
@@ -41,6 +49,7 @@ class MapsFragment : Fragment(), CoroutineScope by MainScope(), GoogleMap.OnPoly
         map = googleMap
         setupMap()
 
+
         // Set listener for click events.
         map.setOnPolylineClickListener(this)
     }
@@ -52,11 +61,10 @@ class MapsFragment : Fragment(), CoroutineScope by MainScope(), GoogleMap.OnPoly
     @SuppressLint("MissingPermission")
     private fun setupMap() {
         if (!::map.isInitialized) return
-        val currentLocation = GeneralLocationManager.get().getCurrentLocation(requireContext())
-        if (currentLocation != null) {
+        locationHelper.requireAndHandleCoordinates(requireContext()) {
             map.isMyLocationEnabled = true
-            currentLat = currentLocation.latitude
-            currentLong = currentLocation.longitude
+            currentLat = it.latitude
+            currentLong = it.longitude
 
             val myPosition = LatLng(currentLat, currentLong)
 
@@ -67,6 +75,7 @@ class MapsFragment : Fragment(), CoroutineScope by MainScope(), GoogleMap.OnPoly
                 )
             )
 
+            //TODO CHANGE
             map.setOnInfoWindowClickListener {
 
             }
@@ -78,10 +87,27 @@ class MapsFragment : Fragment(), CoroutineScope by MainScope(), GoogleMap.OnPoly
                 }
                 true
             }
+
+            // Execute pending functions
+            for (f in onMapReadyQueue){
+                f()
+            }
+
+            isMapReady = true
+        }
+    }
+
+    /**
+     * Auxiliary function to store a function we would like to execute once
+     * the map is ready.
+     * @param function: function that will be executed once the map is ready, or
+     * right away if it is already the case.
+     */
+    fun executeOnMapReady(function: () -> Unit) {
+        if (isMapReady) {
+            function()
         } else {
-            // In case the permission to access the location is missing
-            val intent = Intent(requireContext(), MainPageActivity::class.java)
-            startActivity(intent)
+            onMapReadyQueue.add(function)
         }
     }
 
@@ -136,6 +162,7 @@ class MapsFragment : Fragment(), CoroutineScope by MainScope(), GoogleMap.OnPoly
                         options.icon(BitmapDescriptorFactory.fromResource(R.drawable.aed_marker))
                     }
                 }
+
                 // Add marker to list so that we can remove it later
                 val marker = map.addMarker(options)
                 if (marker != null) {
@@ -222,8 +249,8 @@ class MapsFragment : Fragment(), CoroutineScope by MainScope(), GoogleMap.OnPoly
      * Utility function to remove all markers corresponding to one utility
      */
     fun removeMarkers(utility: String) {
-        for (marker in placedMarkers[utility]!!) {
-            marker.remove()
+        placedMarkers[utility]?.let { markersList ->
+            markersList.map {it.remove()}
         }
 
         placedMarkers[utility] = arrayListOf()

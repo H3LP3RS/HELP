@@ -9,10 +9,9 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.github.h3lp3rs.h3lp.H3lpAppTest
 import com.github.h3lp3rs.h3lp.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.USER_TEST_ID
-import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.database.MockDatabase
@@ -34,7 +33,7 @@ import org.mockito.kotlin.anyOrNull
 import org.mockito.Mockito.`when` as When
 
 @RunWith(AndroidJUnit4::class)
-class SignedInUserTest {
+class SignedInUserTest : H3lpAppTest() {
 
     @get:Rule
     val testRule = ActivityScenarioRule(
@@ -44,8 +43,10 @@ class SignedInUserTest {
     @Before
     fun setUp() {
         init()
+
         globalContext = getApplicationContext()
         userUid = USER_TEST_ID
+
         setDatabase(PREFERENCES, MockDatabase())
         resetStorage()
 
@@ -55,6 +56,7 @@ class SignedInUserTest {
         testRule.scenario.onActivity { activity ->
             val intent = Intent(getApplicationContext(), activity.javaClass)
             val taskMock = Mockito.mock(Task::class.java)
+
             When(taskMock.isSuccessful).thenReturn(true)
             When(taskMock.isComplete).thenReturn(true)
             When(signInMock.signIn(activity)).thenReturn(intent)
@@ -69,6 +71,7 @@ class SignedInUserTest {
     fun signedInUserMovesToMainPageIfToSAccepted() {
         storageOf(USER_COOKIE).setBoolean(globalContext.getString(R.string.KEY_USER_AGREE), true)
         onView(withId(R.id.signInButton)).perform(click())
+
         intended(hasComponent(MainPageActivity::class.java.name))
     }
 
@@ -76,6 +79,7 @@ class SignedInUserTest {
     fun signedInUserMovesToPresentationIfToSNotAccepted() {
         storageOf(USER_COOKIE).setBoolean(globalContext.getString(R.string.KEY_USER_AGREE), false)
         onView(withId(R.id.signInButton)).perform(click())
+
         intended(hasComponent(PresArrivalActivity::class.java.name))
     }
 

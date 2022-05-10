@@ -1,7 +1,6 @@
 package com.github.h3lp3rs.h3lp
 
-import android.app.Activity.RESULT_OK
-import android.app.Instrumentation.*
+
 import android.content.Intent
 import android.view.KeyEvent
 import android.widget.AutoCompleteTextView
@@ -16,7 +15,6 @@ import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.*
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.database.MockDatabase
@@ -34,7 +32,7 @@ import org.junit.runner.RunWith
 private const val NONEXISTENT_ITEM = "Nonexistent item"
 
 @RunWith(AndroidJUnit4::class)
-class SearchBarTest {
+class SearchBarTest : H3lpAppTest() {
 
     private fun launch(): ActivityScenario<MainPageActivity> {
         return launch(Intent(getApplicationContext(), MainPageActivity::class.java))
@@ -42,7 +40,7 @@ class SearchBarTest {
 
     private fun launchAndDo(action: () -> Unit) {
         launch().use {
-            start()
+            initIntentAndCheckResponse()
             action()
             end()
         }
@@ -55,13 +53,6 @@ class SearchBarTest {
         setDatabase(PREFERENCES, MockDatabase())
         resetStorage()
         storageOf(USER_COOKIE).setBoolean(GUIDE_KEY, true)
-    }
-
-    private fun start() {
-        init()
-        val intent = Intent()
-        val intentResult = ActivityResult(RESULT_OK, intent)
-        intending(anyIntent()).respondWith(intentResult)
     }
 
     private fun end() {
