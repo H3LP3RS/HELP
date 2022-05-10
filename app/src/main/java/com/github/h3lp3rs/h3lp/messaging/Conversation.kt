@@ -40,7 +40,7 @@ class Conversation(
             .build()
 
         val kpg: KeyPairGenerator = KeyPairGenerator.getInstance(
-            KeyProperties.KEY_ALGORITHM_AES,
+            KeyProperties.KEY_ALGORITHM_RSA,
             ANDROID_KEY_STORE
         )
 
@@ -49,7 +49,8 @@ class Conversation(
             keyAlias,
             KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
             .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
-            .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
+            .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_RSA_OAEP)
+         //   .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
             .build()
 
 

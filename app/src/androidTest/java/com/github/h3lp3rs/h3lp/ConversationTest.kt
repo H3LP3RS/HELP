@@ -1,5 +1,6 @@
 package com.github.h3lp3rs.h3lp
 
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.github.h3lp3rs.h3lp.database.Database
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.database.Databases.MESSAGES
@@ -17,11 +18,11 @@ import java.util.concurrent.CompletionException
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertFailsWith
 
-class ConversationTest {
+class ConversationTest : H3lpAppTest() {
     private val CONVERSATION_ID = "ID"
     private val MESSAGE_TEXT = "Hello, how are you?"
     private val MESSENGER = HELPER
-    private val EXPECTED_MESSAGE = Message(MESSENGER, MESSAGE_TEXT)
+    private val EXPECTED_MESSAGE = Message(MESSENGER, MESSAGE_TEXT, "")
 
     private lateinit var db: Database
     private lateinit var conversation: Conversation
@@ -31,7 +32,7 @@ class ConversationTest {
     fun setup() {
         db = MockDatabase()
         setDatabase(MESSAGES, db)
-        conversation = Conversation(CONVERSATION_ID, MESSENGER)
+        conversation = Conversation(CONVERSATION_ID, MESSENGER, getApplicationContext())
     }
 
     @Test
