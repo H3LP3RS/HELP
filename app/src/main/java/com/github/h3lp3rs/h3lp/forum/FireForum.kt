@@ -3,6 +3,7 @@ import androidx.annotation.RequiresApi
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.database.Databases.FORUM
 import com.github.h3lp3rs.h3lp.forum.*
+import com.github.h3lp3rs.h3lp.forum.ForumCategory.*
 import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.forumOf
 import com.github.h3lp3rs.h3lp.forum.data.ForumPostData
 import java.time.ZonedDateTime
@@ -20,7 +21,14 @@ class FireForum(override val path: Path) : Forum {
             key = postKey.toString()
             val repliesKey = (postKey + 1).toString()
 
-            val forumPostData = ForumPostData(author, content, ZonedDateTime.now(), key, repliesKey)
+            val forumPostData = ForumPostData(
+                author,
+                content,
+                ZonedDateTime.now(),
+                key,
+                repliesKey,
+                getCurrentCategory()
+            )
             rootForum.setObject(
                 pathToKey(path + key),
                 ForumPostData::class.java,
@@ -72,7 +80,7 @@ class FireForum(override val path: Path) : Forum {
             // In case we are in the root forum, get the CategoryPosts from all categories
             var future: CompletableFuture<List<CategoryPosts>> =
                 CompletableFuture.completedFuture(emptyList())
-            for (category in ForumCategory.values()) {
+            for (category in values()) {
                 // For all categories, we add them to the list of category posts
                 val categoryForum = forumOf(category)
                 future = future.thenCompose { list ->
@@ -151,7 +159,7 @@ class FireForum(override val path: Path) : Forum {
         when {
             isRoot() -> {
                 // Listen to all categories and to all posts in that category
-                for (category in ForumCategory.values()) {
+                for (category in values()) {
                     forumOf(category).listenToAll(action)
                 }
             }
@@ -232,6 +240,19 @@ class FireForum(override val path: Path) : Forum {
      */
     private fun isCategory(): Boolean {
         return path.size == 1
+    }
+
+    /**
+     * Returns the category of the current forum and the default category "general" in case the
+     * current forum is root
+     */
+    private fun getCurrentCategory(): ForumCategory {
+        return if (!isRoot()) {
+            valueOf(path.first())
+        } else {
+            // The default forum category is "general"
+            GENERAL
+        }
     }
 
     companion object {
