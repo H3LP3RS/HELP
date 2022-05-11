@@ -38,48 +38,31 @@ class Conversation(
         // Generate key pair
         // share public key on DB
 
-        val mainKey = MasterKey.Builder(context)
-            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-            .build()
 
+        val keyStore = KeyStore.getInstance(ANDROID_KEY_STORE).apply { load(null) }
+        val alias = keyStore.aliases().toList()
 
-        val kpg = KeyPairGenerator.getInstance(KeyProperties.KEY_ALGORITHM_RSA, ANDROID_KEY_STORE)
+        if(!alias.contains(keyAlias)) {
+            val kpg =
+                KeyPairGenerator.getInstance(KeyProperties.KEY_ALGORITHM_RSA, ANDROID_KEY_STORE)
 
-        kpg.initialize(KeyGenParameterSpec.Builder(keyAlias, KeyProperties.PURPOSE_ENCRYPT
-                or KeyProperties.PURPOSE_DECRYPT)
-            .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_RSA_OAEP)
-            .setDigests(KeyProperties.DIGEST_SHA1)
-            .build())
+            kpg.initialize(
+                KeyGenParameterSpec.Builder(
+                    keyAlias, KeyProperties.PURPOSE_ENCRYPT
+                            or KeyProperties.PURPOSE_DECRYPT
+                )
+                    .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_RSA_OAEP)
+                    .setDigests(KeyProperties.DIGEST_SHA1)
+                    .build()
+            )
 
-        val kp = kpg.generateKeyPair()
+            val kp = kpg.generateKeyPair()
 
-        // send public key to the database
-        val encodedPublicKey = Base64.encodeToString(kp.public.encoded, Base64.DEFAULT)
-        database.setString(conversationId + "/KEYS/" + currentMessenger.name, encodedPublicKey)
+            // send public key to the database
+            val encodedPublicKey = Base64.encodeToString(kp.public.encoded, Base64.DEFAULT)
+            database.setString(conversationId + "/KEYS/" + currentMessenger.name, encodedPublicKey)
+        }
 
-        /*
-        val cipher = Cipher.getInstance("AES/GCM/NoPadding")
-        cipher.init(Cipher.ENCRYPT_MODE, kp.private)
-
-        val iv = cipher.iv
-
-        val encryption = cipher.doFinal("text".toByteArray(UTF_8))
-
-        val keyStore = KeyStore.getInstance(ANDROID_KEY_STORE)
-        keyStore.load(null)
-
-        val entry = keyStore.getEntry(keyAlias, null)
-        val privateKey = (entry as KeyStore.PrivateKeyEntry).privateKey
-        val publicKey = keyStore.getCertificate(keyAlias).publicKey
-
-        val decryptCipher = Cipher.getInstance("AES/GCM/NoPadding")
-        val spec = GCMParameterSpec(128, iv)
-        decryptCipher.init(Cipher.DECRYPT_MODE, privateKey, spec)
-
-        val plainTextBytes = decryptCipher.doFinal(/* Byte array */)
-
-        val plainText = String(plainTextBytes, UTF_8)
-         */
     }
 
     /**
