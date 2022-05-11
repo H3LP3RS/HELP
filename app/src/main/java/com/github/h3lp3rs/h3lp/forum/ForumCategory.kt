@@ -8,6 +8,9 @@ import FireForum
 enum class ForumCategory {
     GENERAL, CARDIOLOGY, TRAUMATOLOGY, PEDIATRY, NEUROLOGY, GYNECOLOGY;
 
+    // Map linking the string to the enum value
+    val categoriesMap = ForumCategory.values().map { it.name to it }
+
     private var forum: Forum? = null // Var to enable test-time mocking
 
     companion object {
@@ -22,6 +25,5 @@ enum class ForumCategory {
             choice.forum = choice.forum ?: FireForum(listOf(choice.name))
             return choice.forum!!
         }
-
     }
 }

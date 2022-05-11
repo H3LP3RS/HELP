@@ -34,7 +34,7 @@
             android:exported="false" />
         <activity
             android:name=".forum.NewPostActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".forum.ForumPostsActivity"
             android:exported="false" />
@@ -44,8 +44,6 @@
         <activity
             android:name=".SettingsActivity"
             android:exported="false" />
-                android:name=".SettingsActivity"
-                android:exported="false" />
         <activity
                 android:name=".HelpPageActivity"
                 android:exported="true" />
