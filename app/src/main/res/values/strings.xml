@@ -377,5 +377,6 @@
     <string name="notifications">Notifications</string>
     <string name="answers">Answers</string>
     <string name="send">Send</string>
+    <string name="posts">Posts</string>
 
 </resources>
