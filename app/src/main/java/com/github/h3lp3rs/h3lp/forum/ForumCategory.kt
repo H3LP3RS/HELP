@@ -12,8 +12,9 @@ enum class ForumCategory {
     private var forum: Forum? = null // Var to enable test-time mocking
 
     companion object {
+
         // Map linking the string to the enum value
-        val categoriesMap = values().map { it.name to it }.toMap()
+        val categoriesMap = values().associateBy({it.name}, {it})
 
         /**
          * Returns one of the main pre-defined categories sub-forum
