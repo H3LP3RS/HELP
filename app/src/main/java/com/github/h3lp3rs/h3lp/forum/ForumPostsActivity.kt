@@ -7,7 +7,6 @@ import com.github.h3lp3rs.h3lp.R
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
-import kotlinx.android.synthetic.main.activity_forum_answers.*
 import kotlinx.android.synthetic.main.activity_forum_posts.*
 import kotlinx.android.synthetic.main.post_forum_row.view.*
 
@@ -65,7 +64,7 @@ private class Post(private val question : String, private val questionId : Strin
             ForumCategoriesActivity.MedicalCategory.GENERALIST.title -> R.drawable.ic_generalist
             ForumCategoriesActivity.MedicalCategory.CARDIOLOGY.title -> R.drawable.ic_cardiology
             ForumCategoriesActivity.MedicalCategory.TRAUMATOLOGY.title -> R.drawable.ic_traumatology
-            ForumCategoriesActivity.MedicalCategory.PEDIATRY.title -> R.drawable.ic_pediatric
+            ForumCategoriesActivity.MedicalCategory.PEDIATRIC.title -> R.drawable.ic_pediatric
             ForumCategoriesActivity.MedicalCategory.NEUROLOGY.title -> R.drawable.ic_neurology
             ForumCategoriesActivity.MedicalCategory.GYNECOLOGY.title -> R.drawable.ic_gynecology
             else -> {
