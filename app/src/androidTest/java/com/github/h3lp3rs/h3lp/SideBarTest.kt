@@ -1,8 +1,5 @@
 package com.github.h3lp3rs.h3lp
 
-import android.app.Activity
-import android.app.Instrumentation.*
-import android.content.Intent
 import android.view.Gravity
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewInteraction
@@ -25,7 +22,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class SideBarTest {
+class SideBarTest : H3lpAppTest() {
     @get:Rule
     val testRule = ActivityScenarioRule(
         MainPageActivity::class.java
@@ -33,10 +30,7 @@ class SideBarTest {
 
     @Before
     fun setup() {
-        init()
-        val intent = Intent()
-        val intentResult = ActivityResult(Activity.RESULT_OK, intent)
-        intending(anyIntent()).respondWith(intentResult)
+        initIntentAndCheckResponse()
     }
 
     @After
@@ -74,7 +68,7 @@ class SideBarTest {
         openDrawerLayout()
         onView(withId(R.id.nav_view))
             .perform(NavigationViewActions.navigateTo(R.id.nav_home))
-        Thread.sleep(500)
+        Thread.sleep(WAIT_UI)
         drawerLayout?.check(matches(isClosed()))
     }
 

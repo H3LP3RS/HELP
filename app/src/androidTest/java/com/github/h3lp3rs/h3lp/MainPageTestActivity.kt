@@ -1,11 +1,7 @@
 package com.github.h3lp3rs.h3lp
 
 import android.Manifest
-import android.app.Activity
-import android.app.Instrumentation.*
 import android.content.Intent
-import android.location.Location
-import android.location.LocationManager
 import android.view.View
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ActivityScenario.*
@@ -13,36 +9,28 @@ import androidx.test.core.app.ApplicationProvider.*
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.*
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.GrantPermissionRule
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
-import androidx.test.uiautomator.UiObject2
 import androidx.test.uiautomator.Until
 import com.github.h3lp3rs.h3lp.database.Database
-import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.database.MockDatabase
 import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
 import com.github.h3lp3rs.h3lp.dataclasses.HelperSkills
-import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation
-import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
-import com.github.h3lp3rs.h3lp.locationmanager.LocationManagerInterface
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
 import com.github.h3lp3rs.h3lp.professional.ProMainActivity
 import com.github.h3lp3rs.h3lp.professional.ProUser
 import com.github.h3lp3rs.h3lp.professional.VerificationActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
-import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
@@ -53,43 +41,31 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito
 import org.mockito.kotlin.anyOrNull
-import java.util.*
-import kotlin.collections.ArrayList
+import java.util.concurrent.CompletableFuture
 import org.mockito.Mockito.`when` as When
 
 @RunWith(AndroidJUnit4::class)
-class MainPageTestActivity {
-
+class MainPageTestActivity : H3lpAppTest() {
     @get:Rule
     var mRuntimePermissionRule: GrantPermissionRule =
         GrantPermissionRule.grant(Manifest.permission.ACCESS_FINE_LOCATION)
     private lateinit var proUsersDb: Database
 
-    private val locationManagerMock: LocationManagerInterface =
-        Mockito.mock(LocationManagerInterface::class.java)
-    private val locationMock: Location = Mockito.mock(Location::class.java)
-    private val defaultLongitude = 1.0
-    private val defaultLatitude = 1.0
-    private val maxResponseDistance = 5000.0
-
     @Before
     fun setup() {
         globalContext = getApplicationContext()
         userUid = USER_TEST_ID
+
         setDatabase(PREFERENCES, MockDatabase())
         setDatabase(PRO_USERS, MockDatabase())
+
         proUsersDb = databaseOf(PRO_USERS)
+
         resetStorage()
         storageOf(USER_COOKIE).setBoolean(GUIDE_KEY, true)
-        // Mocking the user's location to a predefined set of coordinates
-        When(locationManagerMock.getCurrentLocation(anyOrNull())).thenReturn(
-            locationMock
-        )
-        When(locationMock.longitude).thenReturn(defaultLongitude)
-        When(locationMock.latitude).thenReturn(defaultLatitude)
-        GeneralLocationManager.set(locationManagerMock)
+
+        mockLocationToCoordinates(SWISS_LONG, SWISS_LAT)
     }
 
     private fun launch(): ActivityScenario<MainPageActivity> {
@@ -98,17 +74,10 @@ class MainPageTestActivity {
 
     private fun launchAndDo(action: () -> Unit) {
         launch().use {
-            start()
+            initIntentAndCheckResponse()
             action()
             end()
         }
-    }
-
-    private fun start() {
-        init()
-        val intent = Intent()
-        val intentResult = ActivityResult(Activity.RESULT_OK, intent)
-        intending(anyIntent()).respondWith(intentResult)
     }
 
     private fun end() {
@@ -215,7 +184,7 @@ class MainPageTestActivity {
             {
                 // Mock close enough behaviour
                 When(locationManagerMock.distanceFrom(anyOrNull(), anyOrNull())).thenReturn(
-                    maxResponseDistance
+                    CompletableFuture.completedFuture(MAX_RESPONSE_DISTANCE)
                 )
             }
         ) {
@@ -239,7 +208,7 @@ class MainPageTestActivity {
             {
                 // Mock too far away behaviour
                 When(locationManagerMock.distanceFrom(anyOrNull(), anyOrNull())).thenReturn(
-                    2 * maxResponseDistance
+                    CompletableFuture.completedFuture(2 * MAX_RESPONSE_DISTANCE)
                 )
             }
         ) {
@@ -255,32 +224,18 @@ class MainPageTestActivity {
     private fun launchEmergency(before: () -> Unit, check: () -> Unit) {
         before()
         // Mock an emergency
-        val emergencyId = 1
         val emergenciesDb = MockDatabase()
-        val skills = HelperSkills(
-            true, false, false,
-            false, false, false
-        )
-        val emergency = EmergencyInformation(
-            emergencyId.toString(),
-            defaultLatitude,
-            defaultLongitude,
-            skills,
-            ArrayList(listOf("Epipen")),
-            Date(),
-            null,
-            ArrayList()
-        )
-        emergenciesDb.setObject(emergencyId.toString(), EmergencyInformation::class.java, emergency)
+        emergenciesDb.setObject(TEST_EMERGENCY_ID, EmergencyInformation::class.java, EPIPEN_EMERGENCY_INFO)
         setDatabase(EMERGENCIES, emergenciesDb)
+
         val newEmergenciesDb = MockDatabase()
-        newEmergenciesDb.setInt(globalContext.getString(R.string.epipen), emergencyId)
+        newEmergenciesDb.setInt(globalContext.getString(R.string.epipen), TEST_EMERGENCY_ID.toInt())
+
         setDatabase(NEW_EMERGENCIES, newEmergenciesDb)
         // Add to storage the skills
-        storageOf(SKILLS).setObject(
-            globalContext.getString(R.string.my_skills_key),
-            HelperSkills::class.java, skills
-        )
+        storageOf(SKILLS).setObject(globalContext.getString(R.string.my_skills_key),
+            HelperSkills::class.java, EPIPEN_SKILL)
+
         // To track notifications
         launchAndDo {
             check()

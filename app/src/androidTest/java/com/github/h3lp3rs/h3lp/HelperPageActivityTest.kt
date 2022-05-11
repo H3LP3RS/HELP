@@ -2,7 +2,6 @@ package com.github.h3lp3rs.h3lp
 
 import android.Manifest
 import android.content.Intent
-import android.location.Location
 import android.os.Bundle
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ActivityScenario.launch
@@ -13,19 +12,17 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers.*
-import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.GrantPermissionRule
 import androidx.test.uiautomator.UiDevice
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.database.Databases.EMERGENCIES
 import com.github.h3lp3rs.h3lp.database.Databases.PREFERENCES
 import com.github.h3lp3rs.h3lp.database.MockDatabase
 import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
 import com.github.h3lp3rs.h3lp.dataclasses.HelperSkills
-import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
-import com.github.h3lp3rs.h3lp.locationmanager.LocationManagerInterface
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.storage.Storages
@@ -38,31 +35,11 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito.mock
-import org.mockito.kotlin.anyOrNull
-import java.util.*
-import org.mockito.Mockito.`when` as When
-
-const val EPIPEN = "Epipen"
-
-// Current coordinates to mock a user
-const val CURRENT_LAT = 46.514
-const val CURRENT_LONG = 6.604
-
-// Destination coordinates
-const val DESTINATION_LAT = 46.519
-const val DESTINATION_LONG = 6.667
-
-const val TEST_TIMEOUT = 5000
-
-// Walking time from the user to the destination according to the Google directions API
-const val TIME_TO_DESTINATION = "1 hour 19 mins"
+import kotlin.collections.ArrayList
 
 @RunWith(AndroidJUnit4::class)
-class HelperPageActivityTest {
-    private val locationManagerMock: LocationManagerInterface =
-        mock(LocationManagerInterface::class.java)
-    private val locationMock: Location = mock(Location::class.java)
+class HelpPageActivityTest : H3lpAppTest() {
+
     private val uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
     private val helpId = 1
 
@@ -72,38 +49,14 @@ class HelperPageActivityTest {
 
     @Before
     fun setup() {
-        // Mocking the location manager
-        When(locationManagerMock.getCurrentLocation(anyOrNull())).thenReturn(
-            locationMock
-        )
-        When(locationMock.latitude).thenReturn(CURRENT_LAT)
-        When(locationMock.longitude).thenReturn(CURRENT_LONG)
-        GeneralLocationManager.set(locationManagerMock)
+        mockLocationToCoordinates(SWISS_LAT, SWISS_LONG)
 
-        // Setup context
         globalContext = getApplicationContext()
         userUid = USER_TEST_ID
 
-        // Setup databases
+        setDatabase(PREFERENCES, MockDatabase())
+        setDatabase(EMERGENCIES, MockDatabase())
         resetStorage()
-        PREFERENCES.db = MockDatabase()
-        val emergencyDb = MockDatabase()
-        val skills = HelperSkills(
-            true, true, true, true,
-            true, true
-        )
-        val emergency = EmergencyInformation(
-            helpId.toString(), 2.0, 2.0, skills,
-            ArrayList(listOf("Epipen")), Date(), null, ArrayList()
-        )
-
-        emergencyDb.setObject(helpId.toString(), EmergencyInformation::class.java, emergency)
-        EMERGENCIES.db = emergencyDb
-        // Setup skills storage accordingly
-        storageOf(Storages.SKILLS).setObject(
-            globalContext.getString(R.string.my_skills_key),
-            HelperSkills::class.java, skills
-        )
     }
 
     private fun launch(): ActivityScenario<HelperPageActivity> {
@@ -192,10 +145,12 @@ class HelperPageActivityTest {
 
     @Test
     fun refusingAnEmergencyGoesBackToMainPage() {
-        launchAndDo {
+        setupEmergencyAndDo {
+            init()
             // Reject
             onView(withId(R.id.button_reject)).perform(click())
             intended(allOf(hasComponent(MainPageActivity::class.java.name)))
+            release()
         }
     }
 
@@ -207,15 +162,26 @@ class HelperPageActivityTest {
         bundle.putStringArrayList(EXTRA_HELP_REQUIRED_PARAMETERS, arrayListOf(EPIPEN))
         bundle.putDouble(EXTRA_DESTINATION_LAT, 1.0)
         bundle.putDouble(EXTRA_DESTINATION_LONG, 1.0)
+
         val intent = Intent(
             getApplicationContext(),
             HelperPageActivity::class.java
         ).apply {
             putExtras(bundle)
         }
-        // Setup the database accordingly
-        globalContext = getApplicationContext()
-        userUid = USER_TEST_ID
+
+        setDatabase(PREFERENCES, MockDatabase())
+        val emergencyDb = MockDatabase()
+
+        val skills = EPIPEN_SKILL
+        val emergency = EPIPEN_EMERGENCY_INFO
+
+        emergencyDb.setObject(helpId.toString(), EmergencyInformation::class.java, emergency)
+        setDatabase(EMERGENCIES, emergencyDb)
+
+        // Setup skills storage accordingly
+        storageOf(Storages.SKILLS).setObject(globalContext.getString(R.string.my_skills_key),
+            HelperSkills::class.java, skills)
         launch<HelperPageActivity>(intent).use {
             action()
         }

@@ -26,7 +26,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class MySkillsActivityTest {
+class MySkillsActivityTest : H3lpAppTest() {
 
     private fun launch(): ActivityScenario<MySkillsActivity> {
         return launch(Intent(getApplicationContext(), MySkillsActivity::class.java))
@@ -36,6 +36,7 @@ class MySkillsActivityTest {
     fun dataInit() {
         globalContext = getApplicationContext()
         userUid = USER_TEST_ID
+
         setDatabase(PREFERENCES, MockDatabase())
         resetStorage()
     }
@@ -43,12 +44,11 @@ class MySkillsActivityTest {
     @Test
     fun backButtonWorks() {
         launch().use {
-            init()
-            val intent = Intent()
-            val intentResult = ActivityResult(Activity.RESULT_OK, intent)
-            intending(anyIntent()).respondWith(intentResult)
+            initIntentAndCheckResponse()
             onView(withId(R.id.mySkillsBackButton)).perform(click())
+
             intended(allOf(hasComponent(MainPageActivity::class.java.name)))
+
             release()
         }
     }
@@ -58,6 +58,7 @@ class MySkillsActivityTest {
         launch().use {
             onView(withId(R.id.mySkillsHelpButton))
                 .perform(click())
+
             onView(withText(R.string.my_helper_skills))
                 .inRoot(RootMatchers.isDialog())
                 .check(ViewAssertions.matches(isDisplayed()))

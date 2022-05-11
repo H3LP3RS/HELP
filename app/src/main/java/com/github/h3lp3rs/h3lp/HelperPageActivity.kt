@@ -1,22 +1,22 @@
 package com.github.h3lp3rs.h3lp
 
+import LocationHelper
 import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.database.Databases.*
-import com.github.h3lp3rs.h3lp.database.Databases.CONVERSATION_IDS
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.databinding.ActivityHelpPageBinding
 import com.github.h3lp3rs.h3lp.databinding.ActivityHelpPageBinding.*
 import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
 import com.github.h3lp3rs.h3lp.dataclasses.Helper
-import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
-import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
+import com.github.h3lp3rs.h3lp.messaging.ChatActivity
 import com.github.h3lp3rs.h3lp.messaging.Conversation
 import com.github.h3lp3rs.h3lp.messaging.Conversation.Companion.UNIQUE_CONVERSATION_ID
+import com.github.h3lp3rs.h3lp.messaging.EXTRA_CONVERSATION_ID
 import com.github.h3lp3rs.h3lp.messaging.Messenger.HELPER
-import com.github.h3lp3rs.h3lp.messaging.*
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.util.GDurationJSONParser
 import com.google.android.gms.maps.MapsInitializer.*
 import kotlinx.android.synthetic.main.activity_help_page.*
@@ -39,12 +39,14 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private lateinit var apiHelper: GoogleAPIHelper
     private lateinit var mapsFragment: MapsFragment
 
+    private val locationHelper = LocationHelper()
+
     // Helper connection with helpee data
     private lateinit var conversation: Conversation
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState : Bundle?) {
         super.onCreate(savedInstanceState)
-        initialize(this)
+        initialize(applicationContext)
 
         // Displaying the activity layout
         binding = inflate(layoutInflater)
@@ -52,15 +54,6 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
         mapsFragment = supportFragmentManager.findFragmentById(R.id.mapHelpPage) as MapsFragment
         apiHelper = GoogleAPIHelper(resources.getString(R.string.google_maps_key))
-
-        // Initialize the current user's location
-        val location = getLocation()
-        if (location == null) {
-            // In case the permission to access the location is missing
-            goToActivity(MainPageActivity::class.java)
-            return
-        }
-        val (latitude, longitude) = location
 
         // Bundle cannot be empty
         val bundle = this.intent.extras!!
@@ -70,34 +63,31 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         val destinationLat = bundle.getDouble(EXTRA_DESTINATION_LAT)
         val destinationLong = bundle.getDouble(EXTRA_DESTINATION_LONG)
 
-        // Displays the path to the user in need on the map fragment and, when the path has been
-        // retrieved (through a google directions API request), computes and displays the time to
-        // get to the user in need
-        apiHelper.displayWalkingPath(
-            latitude, longitude, destinationLat, destinationLong, mapsFragment
-        ) { mapData: String? -> displayPathDuration(mapData) }
+        // Initialize the current user's location
+        locationHelper.requireAndHandleCoordinates(this) {
+
+            // Displays the path to the user in need on the map fragment and, when the path has been
+            // retrieved (through a google directions API request), computes and displays the time to
+            // get to the user in need
+            apiHelper.displayWalkingPath(
+                it.latitude, it.longitude, destinationLat, destinationLong, mapsFragment
+            ) { mapData: String? -> displayPathDuration(mapData) }
+        }
 
         val medicationRequired = bundle.getStringArrayList(EXTRA_HELP_REQUIRED_PARAMETERS)!!
         displayRequiredMeds(medicationRequired)
 
         // Initially the contact button is hidden, only after the user accepts the request does it
         // becomes visible.
-        button_accept.setOnClickListener { acceptHelpRequest(emergencyId, latitude, longitude) }
-        button_reject.setOnClickListener { goToMainPage() }
-    }
-
-
-    /**
-     * Initializes the user's current location or returns to the main page in case a mistake occured
-     * during the location information retrieval
-     * @return The user's current location in the format Pair(latitude, longitude)
-     */
-    private fun getLocation(): Pair<Double, Double>? {
-        val currentLocation = GeneralLocationManager.get().getCurrentLocation(this)
-        if (currentLocation != null) {
-            return Pair(currentLocation.latitude, currentLocation.longitude)
+        locationHelper.requireAndHandleCoordinates(this) { location ->
+            val latitude = location.latitude
+            val longitude = location.longitude
+            button_accept.setOnClickListener { acceptHelpRequest(emergencyId, latitude, longitude) }
         }
-        return null
+
+        button_reject.setOnClickListener { goToMainPage() }
+
+        setUpEmergencyCancellation(emergencyId)
     }
 
     /**
@@ -155,6 +145,9 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             // Init chat
             initChat(emergencyId)
         }.exceptionally { goToMainPage() } // Expired
+
+        // If the user accepts to help, he can change his mind and cancel later
+        button_reject.setOnClickListener { conversation.deleteConversation() }
     }
 
     /**
@@ -197,5 +190,22 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     private fun goToMainPage() {
         goToActivity(MainPageActivity::class.java)
+    }
+
+    private fun setUpEmergencyCancellation(emergencyId: String) {
+        fun onChildRemoved(id : String) {
+            if (id == emergencyId) {
+                // If the person the user is trying to help has cancelled his emergency, the
+                // conversation is deleted from the database and the helper is redirected to the
+                // main page
+                conversation.deleteConversation()
+                goToActivity(MainPageActivity::class.java)
+            }
+        }
+        // The event is added to the entire conversation IDS database and so no child key is needed
+        databaseOf(CONVERSATION_IDS).addEventListener(
+            null,
+            String::class.java, null,
+        ) { id -> run { onChildRemoved(id) } }
     }
 }

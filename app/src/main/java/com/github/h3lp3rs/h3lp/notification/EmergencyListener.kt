@@ -1,5 +1,6 @@
 package com.github.h3lp3rs.h3lp.notification
 
+import LocationHelper
 import android.content.Intent
 import android.os.Bundle
 import com.github.h3lp3rs.h3lp.*
@@ -53,33 +54,34 @@ object EmergencyListener {
                             .getObject(id.toString(), EmergencyInformation::class.java)
                             .thenAccept {
                                 // Distance filtering
-                                val distance = GeneralLocationManager.get()
+                                val distance = LocationHelper()
                                     .distanceFrom(Pair(it.latitude, it.longitude), globalContext)
-                                if(distance == null || distance > MAX_DISTANCE) {
-                                    return@thenAccept
+
+                                distance.thenApply { dist ->
+                                    if(dist <= MAX_DISTANCE) {
+                                        // Open notification channel
+                                        createNotificationChannel(globalContext)
+                                        val intent = Intent(
+                                            globalContext,
+                                            HelperPageActivity::class.java
+                                        )
+
+                                        // Data to transfer to the help page activity
+                                        val bundle = Bundle()
+                                        bundle.putString(EXTRA_EMERGENCY_KEY, it.id)
+                                        bundle.putStringArrayList(EXTRA_HELP_REQUIRED_PARAMETERS, it.meds)
+                                        bundle.putDouble(EXTRA_DESTINATION_LAT, it.latitude)
+                                        bundle.putDouble(EXTRA_DESTINATION_LONG, it.longitude)
+                                        intent.putExtras(bundle)
+
+                                        sendIntentNotification(
+                                            globalContext,
+                                            globalContext.getString(R.string.emergency),
+                                            globalContext.getString(R.string.need_help),
+                                            intent
+                                        )
+                                    }
                                 }
-
-                                // Open notification channel
-                                createNotificationChannel(globalContext)
-                                val intent = Intent(
-                                    globalContext,
-                                    HelperPageActivity::class.java
-                                )
-
-                                // Data to transfer to the help page activity
-                                val bundle = Bundle()
-                                bundle.putString(EXTRA_EMERGENCY_KEY, it.id)
-                                bundle.putStringArrayList(EXTRA_HELP_REQUIRED_PARAMETERS, it.meds)
-                                bundle.putDouble(EXTRA_DESTINATION_LAT, it.latitude)
-                                bundle.putDouble(EXTRA_DESTINATION_LONG, it.longitude)
-                                intent.putExtras(bundle)
-
-                                sendIntentNotification(
-                                    globalContext,
-                                    globalContext.getString(R.string.emergency),
-                                    globalContext.getString(R.string.need_help),
-                                    intent
-                                )
                             }
                     }
                 }
