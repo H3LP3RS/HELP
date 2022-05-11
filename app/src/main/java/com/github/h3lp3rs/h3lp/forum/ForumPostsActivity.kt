@@ -3,10 +3,9 @@ package com.github.h3lp3rs.h3lp.forum
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.github.h3lp3rs.h3lp.EXTRA_HELPEE_ID
 import com.github.h3lp3rs.h3lp.R
+import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.forumOf
 import com.github.h3lp3rs.h3lp.forum.data.ForumPostData
-import com.github.h3lp3rs.h3lp.messaging.RecentMessagesActivity
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
@@ -25,36 +24,34 @@ class ForumPostsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState : Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forum_posts)
+
         recycler_view_forum_posts.adapter = adapter
 
         val bundle = intent.extras!!
         category = bundle.getString(EXTRA_FORUM_CATEGORY) ?: category
 
-        forum = ForumCategory.categoriesMap[category]?.let { ForumCategory.forumOf(it) }!!
+        forum = ForumCategory.categoriesMap[category]?.let { forumOf(it) }!!
 
         adapter.setOnItemClickListener { item, view ->
-            val userItem = item as Post
-
+            val post = item as Post
             val intent = Intent(view.context, ForumAnswersActivity::class.java)
-            intent.putExtra(EXTRA_QUESTION_ID, userItem.getID())
-            // added wiam
+            intent.putExtra(EXTRA_QUESTION_ID, post.getID())
             intent.putExtra(EXTRA_FORUM_CATEGORY, category)
             startActivity(intent)
         }
 
-        add_post_button.setOnClickListener{ view ->
+        add_post_button.setOnClickListener { view ->
             // When the user clicks on add, he is redirected to the new post activity to be able to
             // add a post
             val intent = Intent(view.context, NewPostActivity::class.java)
             startActivity(intent)
-           // category?.let { it1 -> Post(qst,"", it1) }?.let { it2 -> adapter.add(it2) }
         }
 
-        listenForPosts()
+        listenToNewPosts()
     }
 
-    private fun listenForPosts(){
-        fun onPostAdded(data: ForumPostData){
+    private fun listenToNewPosts() {
+        fun onPostAdded(data : ForumPostData) {
             category?.let { Post(data.content, data.key, it) }?.let { adapter.add(it) }
             recycler_view_forum_answers.smoothScrollToPosition(adapter.itemCount - 1)
         }
@@ -64,11 +61,13 @@ class ForumPostsActivity : AppCompatActivity() {
         }
     }
 
-
 }
 
-private class Post(private val question : String, private val questionId : String, private val category : String) :
-    Item<ViewHolder>() {
+private class Post(
+    private val question : String,
+    private val questionId : String,
+    private val category : String
+) : Item<ViewHolder>() {
 
     override fun bind(viewHolder : ViewHolder, position : Int) {
         viewHolder.itemView.question_post.text = question
