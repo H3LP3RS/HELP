@@ -25,10 +25,8 @@ class ForumCategoriesActivity : AppCompatActivity() {
             R.id.gyne_expand_button -> ForumCategory.GYNECOLOGY
             else -> ForumCategory.GENERAL
         }
-        val bundle = Bundle()
-        bundle.putString(EXTRA_FORUM_CATEGORY, category.toString())
         val intent = Intent(this, ForumPostsActivity::class.java)
-        intent.putExtras(bundle)
+        intent.putExtra(EXTRA_FORUM_CATEGORY,category.toString())
         startActivity(intent)
     }
 
