@@ -1,5 +1,6 @@
 package com.github.h3lp3rs.h3lp.forum.data
 
+import com.github.h3lp3rs.h3lp.forum.ForumCategory
 import java.time.ZonedDateTime
 
 /**
@@ -9,11 +10,13 @@ import java.time.ZonedDateTime
  * @param postTime The timestamp of the post
  * @param key A unique identifier for this post
  * @param repliesKey A unique identifier for the children of this post
+ * @param category The forum category this post was posted in
  */
 data class ForumPostData(
     val author: String,
     val content: String,
     val postTime: ZonedDateTime,
     val key: String,
-    val repliesKey: String
+    val repliesKey: String,
+    val category: ForumCategory
 )

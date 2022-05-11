@@ -1,6 +1,11 @@
 package com.github.h3lp3rs.h3lp.forum
 
+import android.content.Context
+import android.content.Intent
 import com.github.h3lp3rs.h3lp.forum.data.ForumPostData
+import com.github.h3lp3rs.h3lp.notification.NotificationService
+import com.github.h3lp3rs.h3lp.notification.NotificationService.Companion.sendIntentNotification
+import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import java.util.concurrent.CompletableFuture
 
 /**
@@ -78,6 +83,32 @@ interface Forum {
      */
     fun listenToAll(action: (ForumPostData) -> Unit)
 
+
+    /**
+     * Sends a notification when there's a new post at this level or below. Upon clicking this
+     * notification, the intent will be triggered
+     * @param ctx The context of the app
+     * @param createIntent A callback to create the intent to be called when clicking on the
+     * notification (it depends on the post id and its category for example to enable redirecting
+     * directly to the post)
+     */
+    fun sendIntentNotificationOnNewPosts(
+        ctx: Context,
+        createIntent: (postId: String, category: ForumCategory) -> Intent
+    ) {
+        NotificationService.createNotificationChannel(SignInActivity.globalContext)
+        listenToAll { postData ->
+            val description = postData.content
+            val title = "New post in ${postData.category} from: ${postData.author}"
+            val intent = createIntent(postData.key, postData.category)
+            sendIntentNotification(ctx, title, description, intent)
+        }
+    }
+
+    /**
+     * Sends a notification when a new post happens on this forum
+     */
+
     //--------------------------//
     //-- Navigation functions --//
     //--------------------------//
@@ -115,4 +146,8 @@ interface Forum {
      * @return The parent forum
      */
     fun parent(): Forum
+
+    companion object {
+        private const val MAX_NOTIFICATION_LENGTH = 60
+    }
 }
