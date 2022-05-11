@@ -23,7 +23,7 @@ class ForumAnswersActivity: AppCompatActivity()  {
         setContentView(R.layout.activity_forum_answers)
         recycler_view_forum_answers.adapter = adapter
 
-        val bundle = this.intent.extras
+        val bundle = intent.extras
         questionId = bundle?.getString(EXTRA_QUESTION_ID) ?: questionId
         category = bundle?.getString(EXTRA_FORUM_CATEGORY) ?: category
 
@@ -32,8 +32,7 @@ class ForumAnswersActivity: AppCompatActivity()  {
         // TODO add button add answer
         add_answer_button.setOnClickListener{
             val answer = text_view_enter_answer.text.toString()
-            // When the user clicks on add, the message is sent to the database
-            // forum.getPost()
+
             // Clears the text field when the user hits send
             text_view_enter_answer.text.clear()
         }

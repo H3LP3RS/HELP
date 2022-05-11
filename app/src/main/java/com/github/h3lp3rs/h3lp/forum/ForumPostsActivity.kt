@@ -3,8 +3,10 @@ package com.github.h3lp3rs.h3lp.forum
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.github.h3lp3rs.h3lp.EXTRA_HELPEE_ID
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.forum.data.ForumPostData
+import com.github.h3lp3rs.h3lp.messaging.RecentMessagesActivity
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
@@ -25,15 +27,18 @@ class ForumPostsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_forum_posts)
         recycler_view_forum_posts.adapter = adapter
 
-        val bundle = this.intent.extras
-        category = bundle?.getString(EXTRA_FORUM_CATEGORY) ?: category
+        val bundle = intent.extras!!
+        category = bundle.getString(EXTRA_FORUM_CATEGORY) ?: category
 
         forum = ForumCategory.categoriesMap[category]?.let { ForumCategory.forumOf(it) }!!
 
         adapter.setOnItemClickListener { item, view ->
             val userItem = item as Post
-            intent.putExtra(EXTRA_QUESTION_ID, userItem.getID())
+
             val intent = Intent(view.context, ForumAnswersActivity::class.java)
+            intent.putExtra(EXTRA_QUESTION_ID, userItem.getID())
+            // added wiam
+            intent.putExtra(EXTRA_FORUM_CATEGORY, category)
             startActivity(intent)
         }
 
