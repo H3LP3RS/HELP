@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/back_login"
+        android:src="@drawable/back_login2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent=".27"
@@ -20,6 +20,26 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0"
         android:contentDescription="@string/background_image_description"/>
+
+    <TextView
+        android:id="@+id/MedicalInfoTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lineSpacingExtra="8sp"
+        android:shadowColor="@color/black"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="20"
+        android:text="@string/medicalCard"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="@color/white"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/medicalInfoconstraintLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <ImageButton
@@ -43,7 +63,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHeight_percent=".78"
+        app:layout_constraintHeight_percent=".80"
         app:layout_constraintVertical_bias="1"
         android:background="@drawable/round_corners">
 
@@ -79,7 +99,7 @@
                         android:layout_marginStart="32dp"
                         android:layout_marginTop="0dp"
                         android:hint="@string/gender"
-                        app:boxStrokeColor="@color/teal_200"
+                        app:boxStrokeColor="@color/persimmon"
                         app:hintTextColor="@color/teal_700"
                         >
 
@@ -104,8 +124,8 @@
                         android:layout_marginTop="0dp"
                         android:layout_marginEnd="32dp"
                         android:hint="@string/bloodType"
-                        app:boxStrokeColor="@color/teal_200"
-                        app:hintTextColor="@color/teal_700">
+                        app:boxStrokeColor="@color/persimmon"
+                        app:hintTextColor="@color/dark_persimmon">
 
 
                         <AutoCompleteTextView
@@ -128,10 +148,10 @@
                     android:layout_marginStart="32dp"
                     android:layout_marginEnd="32dp"
                     android:hint="@string/height"
-                    app:boxStrokeColor="@color/teal_200"
+                    app:boxStrokeColor="@color/persimmon"
                     app:errorEnabled="true"
                     app:errorIconDrawable="@drawable/ic_error"
-                    app:hintTextColor="@color/teal_700"
+                    app:hintTextColor="@color/dark_persimmon"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/medicalInfoBirthTxtLayout"
@@ -158,10 +178,10 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="32dp"
                     android:hint="@string/YearOfBirth"
-                    app:boxStrokeColor="@color/teal_200"
+                    app:boxStrokeColor="@color/persimmon"
                     app:errorEnabled="true"
                     app:errorIconDrawable="@drawable/ic_error"
-                    app:hintTextColor="@color/teal_700"
+                    app:hintTextColor="@color/dark_persimmon"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/medicalInfoHorizontalLayout"
@@ -184,10 +204,10 @@
                     android:layout_marginStart="32dp"
                     android:layout_marginEnd="32dp"
                     android:hint="@string/weight"
-                    app:boxStrokeColor="@color/teal_200"
+                    app:boxStrokeColor="@color/persimmon"
                     app:errorEnabled="true"
                     app:errorIconDrawable="@drawable/ic_error"
-                    app:hintTextColor="@color/teal_700"
+                    app:hintTextColor="@color/dark_persimmon"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/medicalInfoHeightTxtLayout"
@@ -212,12 +232,12 @@
                     android:layout_marginStart="32dp"
                     android:layout_marginEnd="32dp"
                     android:hint="@string/Condition"
-                    app:boxStrokeColor="@color/teal_200"
+                    app:boxStrokeColor="@color/persimmon"
                     app:counterEnabled="true"
                     app:counterMaxLength="100"
                     app:errorEnabled="true"
                     app:errorIconDrawable="@drawable/ic_error"
-                    app:hintTextColor="@color/teal_700"
+                    app:hintTextColor="@color/dark_persimmon"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/medicalInfoWeightTxtLayout"
@@ -244,12 +264,12 @@
                     android:layout_marginStart="32dp"
                     android:layout_marginEnd="32dp"
                     android:hint="@string/Allergy"
-                    app:boxStrokeColor="@color/teal_200"
+                    app:boxStrokeColor="@color/persimmon"
                     app:counterEnabled="true"
                     app:counterMaxLength="100"
                     app:errorEnabled="true"
                     app:errorIconDrawable="@drawable/ic_error"
-                    app:hintTextColor="@color/teal_700"
+                    app:hintTextColor="@color/dark_persimmon"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/medicalInfoConditionTxtLayout"
@@ -276,12 +296,12 @@
                     android:layout_marginStart="32dp"
                     android:layout_marginEnd="32dp"
                     android:hint="@string/CurrentTreatment"
-                    app:boxStrokeColor="@color/teal_200"
+                    app:boxStrokeColor="@color/persimmon"
                     app:counterEnabled="true"
                     app:counterMaxLength="100"
                     app:errorEnabled="true"
                     app:errorIconDrawable="@drawable/ic_error"
-                    app:hintTextColor="@color/teal_700"
+                    app:hintTextColor="@color/dark_persimmon"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/medicalInfoAllergyTxtLayout"
@@ -308,12 +328,13 @@
                     android:layout_marginStart="32dp"
                     android:layout_marginEnd="32dp"
                     android:gravity="center"
+                    android:text="@string/emergency_contact_title"
+                    android:textColor="@color/persimmon"
+                    android:textSize="32sp"
+                    android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/medicalInfoTreatmentTxtLayout"
-                    android:text="@string/emergency_contact_title"
-                    android:textSize="20sp"
-                    />
+                    app:layout_constraintTop_toBottomOf="@+id/medicalInfoTreatmentTxtLayout" />
 
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -324,11 +345,11 @@
                     android:layout_marginStart="32dp"
                     android:layout_marginEnd="32dp"
                     android:hint="@string/EmergencyContactName"
-                    app:boxStrokeColor="@color/teal_200"
+                    app:boxStrokeColor="@color/persimmon"
                     app:counterMaxLength="40"
                     app:errorEnabled="true"
                     app:errorIconDrawable="@drawable/ic_error"
-                    app:hintTextColor="@color/teal_700"
+                    app:hintTextColor="@color/dark_persimmon"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/emergencyContactTitle"
@@ -354,11 +375,11 @@
                     android:layout_marginStart="32dp"
                     android:layout_marginEnd="32dp"
                     android:hint="@string/EmergencyContactNumber"
-                    app:boxStrokeColor="@color/teal_200"
+                    app:boxStrokeColor="@color/persimmon"
                     app:counterMaxLength="15"
                     app:errorEnabled="true"
                     app:errorIconDrawable="@drawable/ic_error"
-                    app:hintTextColor="@color/teal_700"
+                    app:hintTextColor="@color/dark_persimmon"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/medicalInfoContactNameTxtLayout"
@@ -388,7 +409,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/medicalInfoSaveButton" />
+                    app:layout_constraintTop_toBottomOf="@+id/medicalInfoSaveButton"
+                    android:buttonTint="@color/yellow_orange"/>
 
 
                 <Button
@@ -397,7 +419,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
                     android:layout_marginEnd="32dp"
-                    android:backgroundTint="@color/teal_200"
+                    android:backgroundTint="@color/persimmon"
                     android:onClick="checkAndSaveChanges"
                     android:text="@string/save_changes"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -410,27 +432,5 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-    <TextView
-        android:id="@+id/MedicalInfoTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:lineSpacingExtra="8sp"
-        android:shadowColor="@color/black"
-        android:shadowDx="1"
-        android:shadowDy="1"
-        android:shadowRadius="20"
-        android:text="@string/medicalCard"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textColor="@color/white"
-        android:textSize="34sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/medicalInfoconstraintLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

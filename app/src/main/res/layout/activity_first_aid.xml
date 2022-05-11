@@ -45,7 +45,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="20dp"
-                android:background="@drawable/red_background">
+                android:background="@drawable/persimmon_background">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -83,7 +83,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:background="@drawable/red_background"
+                android:background="@drawable/persimmon_background"
                 android:layout_margin="20dp">
 
                 <TextView
@@ -123,7 +123,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:background="@drawable/red_background"
+                android:background="@drawable/persimmon_background"
                 android:layout_margin="20dp">
 
                 <TextView
@@ -162,7 +162,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:background="@drawable/red_background"
+                android:background="@drawable/persimmon_background"
                 android:layout_margin="20dp">
 
                 <TextView

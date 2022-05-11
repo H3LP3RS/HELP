@@ -214,6 +214,7 @@
               android:layout_marginEnd="8dp"
               android:button="@null"
               android:drawableEnd="?android:attr/listChoiceIndicatorMultiple"
+              android:drawableTint="@color/yellow_orange"
               android:text="@string/user_cookie"
               android:textColor="@color/grey"
               android:textSize="16sp" />
@@ -233,7 +234,9 @@
               android:drawableEnd="?android:attr/listChoiceIndicatorMultiple"
               android:text="@string/medicalCard"
               android:textColor="@color/grey"
-              android:textSize="16sp" />
+              android:textSize="16sp"
+              android:drawableTint="@color/yellow_orange"
+              />
 
           <View
               android:layout_width="match_parent"
@@ -250,7 +253,9 @@
               android:drawableEnd="?android:attr/listChoiceIndicatorMultiple"
               android:text="@string/my_helper_skills"
               android:textColor="@color/grey"
-              android:textSize="16sp" />
+              android:textSize="16sp"
+              android:drawableTint="@color/yellow_orange"
+              />
 
           <View
               android:layout_width="match_parent"
