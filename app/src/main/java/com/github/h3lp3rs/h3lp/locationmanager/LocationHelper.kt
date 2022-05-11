@@ -34,7 +34,7 @@ class LocationHelper {
     }
 
     /**
-     * Updates handles the user's current coordinates as wanted, or returns to the
+     * Updates and handles the user's current coordinates as wanted, or returns to the
      * main activity in case of errors
      * @param context The context of the activity calling using the location
      * @param onSuccess The callback to execute once the location is available
@@ -55,8 +55,8 @@ class LocationHelper {
 
 
     /**
-     * Updates handles the user's current coordinates as wanted, or returns to the
-     * main activity in case of errors
+     * Updates handles the user's current coordinates as wanted, or calls a failure callback in case
+     * of errors
      * @param context The context of the activity calling using the location
      * @param onSuccess The callback to execute once the location is available
      * @param onFailure The callback to execute if the user didn't activate their location services

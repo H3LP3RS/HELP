@@ -39,8 +39,6 @@ class RecentMessagesActivity : AppCompatActivity() {
         val bundle = this.intent.extras
         helpeeId = bundle?.getString(EXTRA_EMERGENCY_KEY) ?: helpeeId
 
-        databaseOf(Databases.MESSAGES).setString("HEWIEWEWE", helpeeId!!)
-
         adapter.setOnItemClickListener { item, view ->
             val userItem = item as HelperConversation
             val intent = Intent(view.context, ChatActivity::class.java)

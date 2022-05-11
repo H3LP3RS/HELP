@@ -4,7 +4,6 @@ import LocationHelper
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -13,6 +12,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.database.Databases.CONVERSATION_IDS
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.database.Databases.EMERGENCIES
@@ -25,8 +25,7 @@ import com.github.h3lp3rs.h3lp.firstaid.HeartAttackActivity
 import com.github.h3lp3rs.h3lp.messaging.RecentMessagesActivity
 import com.github.h3lp3rs.h3lp.notification.EmergencyListener.activateListeners
 import com.github.h3lp3rs.h3lp.storage.Storages
-import com.google.android.gms.maps.MapsInitializer
-import com.google.android.gms.maps.MapsInitializer.*
+import com.google.android.gms.maps.MapsInitializer.initialize
 import kotlinx.android.synthetic.main.activity_await_help.*
 
 /**
@@ -45,7 +44,6 @@ class AwaitHelpActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_await_help)
         initialize(applicationContext)
-
 
         mapsFragment = supportFragmentManager.findFragmentById(R.id.mapAwaitHelp) as MapsFragment
         apiHelper = GoogleAPIHelper(resources.getString(R.string.google_maps_key))
@@ -131,21 +129,26 @@ class AwaitHelpActivity : AppCompatActivity() {
         // Since the testing only checks for modifications on the UI thread, we force its execution
         // on the corresponding thread to enable testing
         runOnUiThread {
-            findViewById<ProgressBar>(R.id.searchProgressBar).visibility = View.GONE
-            findViewById<TextView>(R.id.progressBarText).visibility = View.GONE
 
             val helpersText = findViewById<TextView>(R.id.incomingHelpersNumber)
             if (helpersId.size > 1) {
                 helpersText.text =
                     String.format(getString(R.string.many_people_help), helpersId.size)
             } else {
+                findViewById<ProgressBar>(R.id.searchProgressBar).visibility = View.GONE
+                findViewById<TextView>(R.id.progressBarText).visibility = View.GONE
+                helpersText.visibility = View.VISIBLE
+
                 helpersText.text = getString(R.string.one_person_help)
                 // When the first user agrees to provide help, the user can contact
                 // him via the chat feature.
                 constraint_layout_contact_helpers.visibility = View.VISIBLE
-                image_open_latest_messages.setOnClickListener { goToRecentMessagesActivity(emergencyId) }
+                image_open_latest_messages.setOnClickListener {
+                    goToRecentMessagesActivity(
+                        emergencyId
+                    )
+                }
             }
-            helpersText.visibility = View.VISIBLE
         }
     }
 
@@ -265,7 +268,6 @@ class AwaitHelpActivity : AppCompatActivity() {
         databaseOf(EMERGENCIES).delete(emergencyId.toString())
         // Re-listen to other emergencies
         activateListeners()
-        // TODO the action on the DB is not yet defined
         // Delete the helpee's id
         databaseOf(CONVERSATION_IDS).delete(emergencyId.toString())
         // Redirect user to the main page after he cancels his emergency

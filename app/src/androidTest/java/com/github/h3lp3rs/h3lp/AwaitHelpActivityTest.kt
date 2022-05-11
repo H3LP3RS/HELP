@@ -2,38 +2,37 @@ package com.github.h3lp3rs.h3lp
 
 import android.Manifest
 import android.content.Intent
-import android.content.Intent.*
+import android.content.Intent.ACTION_DIAL
 import android.os.Bundle
 import android.view.View
 import androidx.test.core.app.ActivityScenario
-import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.core.app.ActivityScenario.launch
-import androidx.test.espresso.Espresso.*
-import androidx.test.espresso.action.ViewActions.*
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents.*
-import androidx.test.espresso.intent.matcher.IntentMatchers.*
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.GrantPermissionRule
-import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
+import com.github.h3lp3rs.h3lp.database.Databases.EMERGENCIES
+import com.github.h3lp3rs.h3lp.database.Databases.PREFERENCES
 import com.github.h3lp3rs.h3lp.database.MockDatabase
-import com.github.h3lp3rs.h3lp.dataclasses.*
+import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
+import com.github.h3lp3rs.h3lp.dataclasses.Helper
 import com.github.h3lp3rs.h3lp.firstaid.AedActivity
 import com.github.h3lp3rs.h3lp.firstaid.AllergyActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
-import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
-import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.util.*
-import kotlin.collections.ArrayList
 
 class AwaitHelpActivityTest : H3lpAppTest() {
 
@@ -230,21 +229,46 @@ class AwaitHelpActivityTest : H3lpAppTest() {
 
             emergencyDb.setObject(helpId.toString(), EmergencyInformation::class.java, withHelpers)
 
-            onView(withId(R.id.incomingHelpersNumber)).check(matches(withText(globalContext.getString(
-                R.string.one_person_help))))
+            onView(withId(R.id.incomingHelpersNumber)).check(
+                matches(
+                    withText(
+                        globalContext.getString(
+                            R.string.one_person_help
+                        )
+                    )
+                )
+            )
 
             // The same person is coming again, should NOT add a helper to the list
             emergencyDb.setObject(helpId.toString(), EmergencyInformation::class.java, withHelpers)
-            onView(withId(R.id.incomingHelpersNumber)).check(matches(withText(globalContext.getString(
-                R.string.one_person_help))))
+            onView(withId(R.id.incomingHelpersNumber)).check(
+                matches(
+                    withText(
+                        globalContext.getString(
+                            R.string.one_person_help
+                        )
+                    )
+                )
+            )
 
             // A second person is coming
             val helper2 = Helper(USER_TEST_ID + 2, 2.1, 2.1)
             val withMoreHelpers = emergency.copy(helpers = ArrayList(listOf(helper1, helper2)))
 
-            emergencyDb.setObject(helpId.toString(), EmergencyInformation::class.java, withMoreHelpers)
-            onView(withId(R.id.incomingHelpersNumber)).check(matches(withText(String.format(
-                globalContext.getString(R.string.many_people_help), 2))))
+            emergencyDb.setObject(
+                helpId.toString(),
+                EmergencyInformation::class.java,
+                withMoreHelpers
+            )
+            onView(withId(R.id.incomingHelpersNumber)).check(
+                matches(
+                    withText(
+                        String.format(
+                            globalContext.getString(R.string.many_people_help), 2
+                        )
+                    )
+                )
+            )
         }
     }
 }
