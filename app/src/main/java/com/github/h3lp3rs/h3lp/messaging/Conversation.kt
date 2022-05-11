@@ -126,17 +126,46 @@ class Conversation(
     }
     /**
      * Adds a listener on the conversation, the listener is triggered every time a new message is sent to the
-     * conversation
+     * conversation. act on the list of all messages
      * @param onNewMessage Callback called on every new message
      */
-    fun addListener(onNewMessage: (messages: List<Message>, currentMessenger: Messenger) -> Unit) {
+    fun addListListener(onNewMessage: (messages: List<Message>, currentMessenger: Messenger) -> Unit) {
         database.addListListener("$conversationId/MSG/", Message::class.java) {
             val list = it.toList().map{ message ->
                 retrieveDecryptedMessage(message)
             }
             onNewMessage(it.toList(), currentMessenger)
         }
+    }
 
+    /**
+     * Adds a listener on the conversation, the listener is triggered every time a new message is sent to the
+     * conversation. act on the new message
+     * @param onNewMessage Callback called on every new message
+     */
+    fun newMessageListener(onNewMessage: (messages : Message) -> Unit){
+        database.addEventListener("$conversationId/MSG/",
+            Message::class.java,
+            {msg -> run {onNewMessage(retrieveDecryptedMessage(msg))}},
+            {})
+
+    }
+
+    /**
+     * Adds a listener on the conversation, the listener is triggered every time a new message is sent to the
+     * conversation. act on the new message
+     * @param onNewMessage Callback called on every new message
+     */
+    fun deleteConversationListener(onDeletedConversation: (key : String) -> Unit){
+        database.addEventListener(null, String::class.java, null) { key ->
+            run {
+                if (key == conversationId) {
+                    onDeletedConversation(
+                        key
+                    )
+                }
+            }
+        }
     }
 
     fun retrieveDecryptedMessage(encryptedMessage: Message): Message{

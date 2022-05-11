@@ -8,7 +8,6 @@ import com.github.h3lp3rs.h3lp.database.MockDatabase
 import com.github.h3lp3rs.h3lp.messaging.Conversation
 import com.github.h3lp3rs.h3lp.messaging.Message
 import com.github.h3lp3rs.h3lp.messaging.Messenger.HELPER
-import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import junit.framework.Assert.assertTrue
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.containsString
@@ -52,7 +51,7 @@ class ConversationTest : H3lpAppTest() {
     fun addListenerTriggeredOnNewMessage() {
         var expectedMessageWasSent = false
 
-        conversation.addListener { messages, curMessenger ->
+        conversation.addListListener { messages, curMessenger ->
             if (messages.size == 1 && messages[0] == EXPECTED_MESSAGE && curMessenger == MESSENGER)
                 expectedMessageWasSent = true
         }
