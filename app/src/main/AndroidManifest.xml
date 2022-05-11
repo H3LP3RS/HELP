@@ -21,9 +21,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.H3LP">
         <activity
-            android:name=".signin.SignInActivity"
-            android:exported="false" />
-        <activity
             android:name=".professional.ProfessionalTypeSelection"
             android:exported="false" />
         <activity
@@ -102,7 +99,7 @@
             android:name=".presentation.PresArrivalActivity"
             android:exported="false" />
         <activity
-            android:name=".forum.Test"
+            android:name=".signin.SignInActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
