@@ -83,12 +83,25 @@ class MockDatabase : Database {
         setAndTriggerListeners(key, value)
     }
 
-    override fun addStringConcurrently(key : String, value : String) {
+    override fun addStringConcurrently(key : String, value : String): String {
         synchronized(this) {
             val old = concurrentLists.getOrDefault(key, emptyList())
             concurrentLists[key] = old.plus(value)
             triggerListeners(key)
+            return key
         }
+    }
+
+    override fun <T> getObjectsList(key: String, type: Class<T>): CompletableFuture<List<T>> {
+        val future = CompletableFuture<List<T>>()
+        concurrentLists.get(key)?.let { list ->
+            val gson = Gson()
+            val convertedList = list.map { gson.fromJson(it, type)}
+            future.complete(convertedList)
+        }?.run {
+            future.completeExceptionally(NullPointerException("Key: $key not in the database"))
+        }
+        return future
     }
 
     @SuppressLint("RestrictedApi")
@@ -154,12 +167,14 @@ class MockDatabase : Database {
     }
 
 
-    override fun incrementAndGet(key : String, increment : Int, onComplete : (Int?) -> Unit) {
+    override fun incrementAndGet(key : String, increment : Int): CompletableFuture<Int> {
         synchronized(this) {
+            val future: CompletableFuture<Int> = CompletableFuture()
             val old = db.getOrDefault(key, 0) as Int
             val new = old + increment
             setAndTriggerListeners(key, new)
-            onComplete(new)
+            future.complete(new)
+            return future
         }
     }
 

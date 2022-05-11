@@ -1,7 +1,6 @@
 package com.github.h3lp3rs.h3lp
 
 import android.content.Intent
-import android.location.Location
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -47,16 +46,16 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     // helpRequired contains strings for each medication / specific help required by the user in
     // need e.g. Epipen, CPR
-    private var helpRequired : List<String>? = null
-    private lateinit var apiHelper : GoogleAPIHelper
-    private var helpId : String? = null
+    private var helpRequired: List<String>? = null
+    private lateinit var apiHelper: GoogleAPIHelper
+    private var helpId: String? = null
 
     // Map fragment displayed
     private lateinit var mapsFragment: MapsFragment
 
     // Conversation with the person in need of help (only if the user accepts to help them)
-    private var conversation : Conversation? = null
-    private var conversationId : String? = null
+    private var conversation: Conversation? = null
+    private var conversationId: String? = null
     private val conversationIdsDb = databaseOf(CONVERSATION_IDS)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -96,11 +95,12 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         button_accept.setOnClickListener { acceptHelpRequest() }
         button_reject.setOnClickListener { goToMainPage() }
 
-        setUpEmergencyCancellation()
+        onEmergencyCancelled()
     }
 
+
     /**
-     * Initializes the user's current location or returns to the main page in case a mistake occurred
+     * Initializes the user's current location or returns to the main page in case a mistake occured
      * during the location information retrieval
      */
     private fun setupLocation() {
@@ -166,12 +166,17 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             databaseOf(NEW_EMERGENCIES).clearAllListeners()
             // TODO: Here we can potentially periodically update the GPS coordinates
             // Update the value to notify that we are coming
-            databaseOf(EMERGENCIES).setObject(helpId!!, EmergencyInformation::class.java, it.copy(helpers = helpers))
+            databaseOf(EMERGENCIES).setObject(
+                helpId!!, EmergencyInformation::class.java, it.copy(helpers = helpers)
+            )
             // Init chat
             initChat()
         }.exceptionally { goToMainPage() } // Expired
         // If the user accepts to help, he can change his mind and cancel later
-        button_reject.setOnClickListener { conversation?.let { it.deleteConversation() } }
+        button_reject.setOnClickListener {
+            conversation!!.deleteConversation()
+            goToActivity(MainPageActivity::class.java)
+        }
     }
 
     private fun initChat() {
@@ -193,7 +198,8 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         }
         // Gets a new conversation id atomically (to avoid 2 helpers getting the same) then
         // calls the callback
-        conversationIdsDb.incrementAndGet(UNIQUE_CONVERSATION_ID, 1) { onComplete(it) }
+        conversationIdsDb.incrementAndGet(UNIQUE_CONVERSATION_ID, 1)
+            .thenApply { onComplete(it) }
         // Once the user accepts to help, the accept button disappears and he is able to
         // start conversations with the person who requested help.
         button_accept.setImageResource(R.drawable.chat)
@@ -221,8 +227,8 @@ class HelpPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         goToActivity(MainPageActivity::class.java)
     }
 
-    private fun setUpEmergencyCancellation() {
-        fun onChildRemoved(id : String) {
+    private fun onEmergencyCancelled() {
+        fun onChildRemoved(id: String) {
             if (id == helpeeId) {
                 // If the person the user is trying to help has cancelled his emergency, the
                 // conversation is deleted from the database and the helper is redirected to the

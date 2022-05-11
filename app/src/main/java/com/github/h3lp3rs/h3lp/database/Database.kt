@@ -95,10 +95,13 @@ interface Database {
      * @param key The key in the database
      * @param type The type of the resulting object
      * @param value The value of the object
+     * @return The key of that new object in the database (since to make this adding concurrent, the
+     * database chooses what unique key value to return), is null if an error occurred while adding
+     * the object to the list
      */
-    fun <T> addToObjectsListConcurrently(key : String, type : Class<T>, value : T) {
+    fun <T> addToObjectsListConcurrently(key : String, type : Class<T>, value : T): String? {
         val gson = Gson()
-        addStringConcurrently(key, gson.toJson(value, type))
+        return addStringConcurrently(key, gson.toJson(value, type))
     }
 
     /**
@@ -107,13 +110,25 @@ interface Database {
      * added to the list)
      * @param key The key in the database
      * @param value The value of the string
+     * @return The key of that new string in the database (since to make this adding concurrent, the
+     * database chooses what unique key value to return), is null if an error occurred while adding
+     * the string to the list
      */
-    fun addStringConcurrently(key : String, value : String)
+    fun addStringConcurrently(key : String, value : String): String?
+
+    /**
+     * Gets the list of objects added with addToObjectsListConcurrently
+     * @param key The key in the database
+     * @param type The type of the objects in the list
+     * @return Future of the list of objects
+     */
+    fun <T> getObjectsList(key: String, type: Class<T>): CompletableFuture<List<T>>
 
     /**
      * Applies an arbitrary action when the value associated to the key changes
      * WARNING: This function automatically triggers at first when linked with a valid key
      * @param key The key in the database
+     * @param type The type of the objects in the list
      * @param action The action taken at change
      */
     fun <T> addListener(key : String, type : Class<T>, action : (T) -> Unit)
@@ -123,6 +138,7 @@ interface Database {
      * WARNING: This function automatically triggers at first when linked with a valid key
      * Only succeeds when no existing listener is already linked to the key
      * @param key The key in the database
+     * @param type The type of the objects in the list
      * @param action The action taken at change
      */
     fun <T> addListenerIfNotPresent(key : String, type : Class<T>, action : (T) -> Unit)
@@ -134,6 +150,7 @@ interface Database {
      * concurrently in addToObjectsList
      * WARNING: This function automatically triggers at first when linked with a valid key
      * @param key The key in the database
+     * @param type The type of the objects in the list
      * @param action The action taken at change on the list of values
      */
     fun <T> addListListener(key : String, type : Class<T>, action : (List<T>) -> Unit)
@@ -160,16 +177,17 @@ interface Database {
      * value
      * @param key The key in the database
      * @param increment The number to increment by
-     * @param onComplete The callback to be called with the new value (the new value can be null
-     * in case of a database error, thus why onComplete takes a nullable Int)
+     * @return A future of the incremented value, completes exceptionally if there was a problem
+     * while accessing the database
      */
-    fun incrementAndGet(key : String, increment : Int, onComplete : (Int?) -> Unit)
+    fun incrementAndGet(key: String, increment: Int): CompletableFuture<Int>
+
 
     /**
      * Adds an event listener to a key in the database
      * @param key The relative path from this reference to the new one or null if the action is to
      * be taken on the entire original path
-     * @param type The type of the added object
+     * @param type The type of the objects in the list
      * @param onChildAdded The action to take on the new data snapshot when data is added. Could be
      * null
      * @param onChildRemoved The action to take on the new data snapshot when data is removed
