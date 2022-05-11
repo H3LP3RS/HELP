@@ -44,6 +44,7 @@ interface LocationManagerInterface {
         // Names of the runtime exceptions to throw when getCurrentLocation fails
         const val GET_LOCATION_EXCEPTION = "Location could not be retrieved"
         const val GET_PERMISSIONS_EXCEPTION = "Location permissions were not granted"
+        const val EARTH_RADIUS = 6371 // Radius of the earth in km
 
         /**
          * Calculates the distance in meters between two lat/lon points on Earth
@@ -58,14 +59,13 @@ interface LocationManagerInterface {
         ): Double {
             val (lat1, lon1) = coordinates1
             val (lat2, lon2) = coordinates2
-            val r = 6371 // Radius of the earth in km
             val dLat = deg2rad(lat2 - lat1)
             val dLon = deg2rad(lon2 - lon1)
             val a = sin(dLat / 2) * sin(dLat / 2) + cos(deg2rad(lat1)) * cos(deg2rad(lat2)) *
                     sin(dLon / 2) * sin(dLon / 2)
 
             val c = 2 * atan2(sqrt(a), sqrt(1 - a))
-            return 1000 * r * c
+            return 1000 * EARTH_RADIUS * c
         }
 
         private fun deg2rad(deg: Double): Double {

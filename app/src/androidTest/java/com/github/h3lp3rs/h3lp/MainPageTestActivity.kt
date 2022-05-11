@@ -34,9 +34,10 @@ import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
-import junit.framework.Assert.assertTrue
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -193,7 +194,7 @@ class MainPageTestActivity : H3lpAppTest() {
             uiDevice.wait(Until.hasObject(By.textStartsWith("H3LP")), 3000)
             val notification =
                 uiDevice.findObject(By.text(globalContext.getString(R.string.emergency)))
-            assertTrue(notification != null)
+            assertNotNull(notification)
             // Get the notification box - CIRRUS DOESN'T LIKE THIS
             // val notification = uiDevice.findObject(By.text(globalContext.getString(R.string.emergency)))
             // notification.click()
@@ -217,7 +218,7 @@ class MainPageTestActivity : H3lpAppTest() {
             uiDevice.wait(Until.hasObject(By.textStartsWith("H3LP")), 3000)
             val notification =
                 uiDevice.findObject(By.text(globalContext.getString(R.string.emergency)))
-            assertTrue(notification == null)
+            assertNull(notification)
         }
     }
 
