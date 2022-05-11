@@ -11,7 +11,7 @@ import java.util.concurrent.CompletableFuture
 /**
  * Represents all the posts at one level path (or category), the posts are in chronological order
  */
-typealias CategoryPosts = Pair<String, List<ForumPost>>
+typealias CategoryPosts = Pair<Path, List<ForumPost>>
 
 /**
  * The path to a forum, every sub-category / post is represented in a string, with the root of the

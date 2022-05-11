@@ -131,7 +131,7 @@ class FireForum(override val path: Path) : Forum {
         return forumPostsFuture
             .thenApply { list ->
                 // path.last contains the category name
-                Pair(path.last(), list)
+                Pair(listOf(path.last()), list)
             }
     }
 
