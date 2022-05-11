@@ -13,8 +13,8 @@ import kotlinx.android.synthetic.main.answer_forum_row.view.*
 
 class ForumAnswersActivity: AppCompatActivity()  {
     private val adapter = GroupAdapter<ViewHolder>()
-    private var questionId : String? = null
-    private var category : String? = null
+    private lateinit var questionId : String
+    private lateinit var category : String
     private lateinit var forum : Forum
 
 
@@ -23,16 +23,15 @@ class ForumAnswersActivity: AppCompatActivity()  {
         setContentView(R.layout.activity_forum_answers)
         recycler_view_forum_answers.adapter = adapter
 
-        val bundle = intent.extras
-        questionId = bundle?.getString(EXTRA_QUESTION_ID) ?: questionId
-        category = bundle?.getString(EXTRA_FORUM_CATEGORY) ?: category
+        val bundle = intent.extras!!
+        questionId = bundle.getString(EXTRA_QUESTION_ID) ?: questionId
+        category = bundle.getString(EXTRA_FORUM_CATEGORY) ?: category
 
         forum = ForumCategory.categoriesMap[category]?.let { ForumCategory.forumOf(it) }!!
 
-        // TODO add button add answer
         add_answer_button.setOnClickListener{
             val answer = text_view_enter_answer.text.toString()
-
+            forum.getPost(questionId).thenAccept { q -> q.reply("7amid 2",answer)}
             // Clears the text field when the user hits send
             text_view_enter_answer.text.clear()
         }
@@ -42,13 +41,15 @@ class ForumAnswersActivity: AppCompatActivity()  {
 
     private fun listenForAnswers() {
         fun onAnswerAdded(data: ForumPostData){
-            category?.let { Answer(data.content, data.key, it) }?.let { adapter.add(it) }
+            Answer(data.content, data.key, category).let { adapter.add(it) }
             recycler_view_forum_answers.smoothScrollToPosition(adapter.itemCount - 1)
         }
-
+        /*
         forum.listenToAll { data ->
             run { onAnswerAdded(data) }
         }
+         */
+        forum.getPost(questionId).thenAccept{ q -> q.listen { onAnswerAdded(q.post) }}
     }
 }
 
