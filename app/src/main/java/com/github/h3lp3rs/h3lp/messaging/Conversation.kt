@@ -113,7 +113,7 @@ class Conversation(
      *
      */
     private fun sendEncryptedMessage(publicKey: PublicKey, message: String) {
-        val cipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA-256AndMGF1Padding")
+        val cipher = Cipher.getInstance("RSA")
         cipher.init(Cipher.ENCRYPT_MODE, publicKey)
 
         val iv = cipher.iv
@@ -186,9 +186,9 @@ class Conversation(
         val privateKey = (entry as KeyStore.PrivateKeyEntry).privateKey
         val publicKey = keyStore.getCertificate(keyAlias).publicKey
 
-        val decryptCipher = Cipher.getInstance("RSA/ECB/OAEPPadding")
-        val spec = OAEPParameterSpec("SHA-256", "MGF1", MGF1ParameterSpec("SHA-1"), PSource.PSpecified.DEFAULT)
-        decryptCipher.init(Cipher.DECRYPT_MODE, privateKey, spec)
+        val decryptCipher = Cipher.getInstance("RSA")
+       // val spec = OAEPParameterSpec("SHA-256", "MGF1", MGF1ParameterSpec("SHA-1"), PSource.PSpecified.DEFAULT)
+        decryptCipher.init(Cipher.DECRYPT_MODE, privateKey)
 
         val plainTextBytes =
             decryptCipher.doFinal(encryptedMessage.message.toByteArray(UTF_8))
