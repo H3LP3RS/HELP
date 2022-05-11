@@ -32,7 +32,7 @@ class Conversation(
     private var publicKey: PublicKey? = null
     private val allMessages: HashMap<String, String> = HashMap()
     private val keyAlias = "CONVERSATION_KEY_$conversationId"
-
+    private val TRANSFORMATION = "RSA/ECB/OAEPwithSHA-1andMGF1Padding"
     init {
         //TODO
         // Generate key pair
@@ -42,22 +42,14 @@ class Conversation(
             .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
             .build()
 
-        val kpg: KeyPairGenerator = KeyPairGenerator.getInstance(
-            KeyProperties.KEY_ALGORITHM_RSA,
-            ANDROID_KEY_STORE
-        )
 
-        val keyAlias = "CONVERSATION_KEY_$conversationId"
-        val parameterSpec: KeyGenParameterSpec = KeyGenParameterSpec.Builder(
-            keyAlias,
-            KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
-            .setDigests(KeyProperties.DIGEST_SHA256, KeyProperties.DIGEST_SHA512)
+        val kpg = KeyPairGenerator.getInstance(KeyProperties.KEY_ALGORITHM_RSA, ANDROID_KEY_STORE)
+
+        kpg.initialize(KeyGenParameterSpec.Builder(keyAlias, KeyProperties.PURPOSE_ENCRYPT
+                or KeyProperties.PURPOSE_DECRYPT)
             .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_RSA_OAEP)
-         //   .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
-            .build()
-
-
-        kpg.initialize(parameterSpec)
+            .setDigests(KeyProperties.DIGEST_SHA1)
+            .build())
 
         val kp = kpg.generateKeyPair()
 
@@ -113,14 +105,12 @@ class Conversation(
      *
      */
     private fun sendEncryptedMessage(publicKey: PublicKey, message: String) {
-        val cipher = Cipher.getInstance("RSA/ECB/OAEP")
-        val spec = OAEPParameterSpec("SHA-256", "MGF1", MGF1ParameterSpec("SHA-1"), PSource.PSpecified.DEFAULT)
-        cipher.init(Cipher.ENCRYPT_MODE, publicKey, spec)
+        val cipher = Cipher.getInstance(TRANSFORMATION)
+        cipher.init(Cipher.ENCRYPT_MODE, publicKey)
 
-        val iv = cipher.iv
+        val bytes = cipher.doFinal(message.toByteArray())
 
-        val encryption = cipher.doFinal(message.toByteArray(UTF_8))
-        val encryptedMessage = Message(currentMessenger, String(encryption), ""/*iv.toString(UTF_8)*/)
+        val encryptedMessage = Message(currentMessenger, Base64.encodeToString(bytes, Base64.DEFAULT), ""/*iv.toString(UTF_8)*/)
 
         allMessages[encryptedMessage.message] = message
         database.addToObjectsListConcurrently("$conversationId/MSG/", Message::class.java, encryptedMessage)
@@ -183,18 +173,13 @@ class Conversation(
         val keyStore = KeyStore.getInstance(ANDROID_KEY_STORE)
         keyStore.load(null)
 
-        val entry = keyStore.getEntry(keyAlias, null)
-        val privateKey = (entry as KeyStore.PrivateKeyEntry).privateKey
-        val publicKey = keyStore.getCertificate(keyAlias).publicKey
+        val privateKey = keyStore.getKey(keyAlias, null) as PrivateKey?
 
-        val decryptCipher = Cipher.getInstance("RSA/ECB/OAEPPadding")
-        val spec = OAEPParameterSpec("SHA-256", "MGF1", MGF1ParameterSpec("SHA-1"), PSource.PSpecified.DEFAULT)
-        decryptCipher.init(Cipher.DECRYPT_MODE, privateKey, spec)
-
-        val plainTextBytes =
-            decryptCipher.doFinal(encryptedMessage.message.toByteArray())
-
-        return String(plainTextBytes, UTF_8)
+        val cipher = Cipher.getInstance(TRANSFORMATION)
+        cipher.init(Cipher.DECRYPT_MODE,privateKey)
+        val encryptedData = Base64.decode(encryptedMessage.message,Base64.DEFAULT)
+        val decodedData = cipher.doFinal(encryptedData)
+        return String(decodedData)
     }
 
     /**
