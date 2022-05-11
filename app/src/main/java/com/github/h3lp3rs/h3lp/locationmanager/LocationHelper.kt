@@ -6,7 +6,6 @@ import com.github.h3lp3rs.h3lp.MainPageActivity
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 import java.util.concurrent.CompletableFuture
 
-
 /**
  * SuperActivity that is common to all activities using localization
  */
