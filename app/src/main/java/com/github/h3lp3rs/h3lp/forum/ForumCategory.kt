@@ -8,12 +8,13 @@ import FireForum
 enum class ForumCategory {
     GENERAL, CARDIOLOGY, TRAUMATOLOGY, PEDIATRY, NEUROLOGY, GYNECOLOGY;
 
-    // Map linking the string to the enum value
-    val categoriesMap = ForumCategory.values().map { it.name to it }
 
     private var forum: Forum? = null // Var to enable test-time mocking
 
     companion object {
+        // Map linking the string to the enum value
+        val categoriesMap = values().map { it.name to it }.toMap()
+
         /**
          * Returns one of the main pre-defined categories sub-forum
          * @param category One of the pre-defined main categories

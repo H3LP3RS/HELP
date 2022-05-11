@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.R
+import com.github.h3lp3rs.h3lp.forum.data.ForumPostData
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
@@ -16,6 +17,7 @@ class ForumPostsActivity : AppCompatActivity() {
     // TODO extra category
     private val adapter = GroupAdapter<ViewHolder>()
     private var category : String? = null
+    private lateinit var forum : Forum
 
     override fun onCreate(savedInstanceState : Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +26,8 @@ class ForumPostsActivity : AppCompatActivity() {
 
         val bundle = this.intent.extras
         category = bundle?.getString(EXTRA_FORUM_CATEGORY) ?: category
+
+        forum = ForumCategory.categoriesMap[category]?.let { ForumCategory.forumOf(it) }!!
 
         adapter.setOnItemClickListener { item, view ->
             val userItem = item as Post
@@ -41,7 +45,17 @@ class ForumPostsActivity : AppCompatActivity() {
             text_view_enter_post.text.clear()
         }
 
-        //listenForPosts()
+        listenForPosts()
+    }
+
+    private fun listenForPosts(){
+        fun onPostAdded(data: ForumPostData){
+            category?.let { Post(data.content, data.key, it) }?.let { adapter.add(it) }
+        }
+
+        forum.listenToAll { data ->
+            run { onPostAdded(data) }
+        }
     }
 
 
@@ -61,12 +75,12 @@ private class Post(private val question : String, private val questionId : Strin
 
     private fun getImage() : Int {
         return when (category) {
-            ForumCategoriesActivity.MedicalCategory.GENERALIST.title -> R.drawable.ic_generalist
-            ForumCategoriesActivity.MedicalCategory.CARDIOLOGY.title -> R.drawable.ic_cardiology
-            ForumCategoriesActivity.MedicalCategory.TRAUMATOLOGY.title -> R.drawable.ic_traumatology
-            ForumCategoriesActivity.MedicalCategory.PEDIATRIC.title -> R.drawable.ic_pediatric
-            ForumCategoriesActivity.MedicalCategory.NEUROLOGY.title -> R.drawable.ic_neurology
-            ForumCategoriesActivity.MedicalCategory.GYNECOLOGY.title -> R.drawable.ic_gynecology
+            ForumCategory.GENERAL.toString() -> R.drawable.ic_generalist
+            ForumCategory.CARDIOLOGY.toString() -> R.drawable.ic_cardiology
+            ForumCategory.TRAUMATOLOGY.toString() -> R.drawable.ic_traumatology
+            ForumCategory.PEDIATRY.toString() -> R.drawable.ic_pediatric
+            ForumCategory.NEUROLOGY.toString() -> R.drawable.ic_neurology
+            ForumCategory.GYNECOLOGY.toString() -> R.drawable.ic_gynecology
             else -> {
                 R.drawable.ic_generalist
             }
