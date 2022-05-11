@@ -1,6 +1,5 @@
 package com.github.h3lp3rs.h3lp
 
-import FireForum.Companion.UNIQUE_POST_ID
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -8,14 +7,13 @@ import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.forum.ForumCategory
 import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.forumOf
-import com.github.h3lp3rs.h3lp.forum.data.ForumPostData
 
 class test : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test2)
         val db = databaseOf(Databases.FORUM)
-        val forum = forumOf(ForumCategory.CARDIOLOGY)
+        val forum = forumOf(ForumCategory.GYNECOLOGY)
         var postKey = ""
 //        forum.newPost("not a doctor", "how heart?")
 //            .handle { postMessage, error ->
@@ -48,16 +46,45 @@ class test : AppCompatActivity() {
 //            }
 //        }
 
-        forum.root().getAll().handle { list, error ->
-            Log.i("MSG", "getAll")
-            if (error == null) {
-                for ((category, posts) in list) {
-                    for (post_ in posts) {
-                        Log.i("MSG", category)
-                        Log.i("MSG", "POST : " + post_.replies[0].content)
-                    }
-                }
-            }
-        }
+//        forum.root().getAll().handle { list, error ->
+//            Log.i("MSG", "getAll")
+//            if (error == null) {
+//                for ((category, posts) in list) {
+//                    for (post_ in posts) {
+//                        Log.i("MSG", category)
+//                        Log.i("MSG", "POST : " + post_.replies[0].content)
+//                    }
+//                }
+//            }
+//        }
+//        forum.root().listenToAll {
+//            Log.i("MSG", "POST / CHILD WAS ADDED")
+//            Log.i("MSG", it.content)
+//        }
+//
+//
+//        forum.newPost("not a doctor", "new 2")
+//            .handle { postMessage, error ->
+//                if (error != null) {
+//                    Log.i("MSG", error.message!!)
+//                }
+//                if (error == null) {
+//                    postKey = postMessage.post.key
+//                    postMessage.reply("a doctor", "acctually")
+//                }
+//            }
+//
+//
+//        forumOf(ForumCategory.PEDIATRICS).newPost("not a doctor", "pediatry")
+//            .handle { postMessage, error ->
+//                if (error != null) {
+//                    Log.i("MSG", error.message!!)
+//                }
+//                if (error == null) {
+//                    postKey = postMessage.post.key
+//                    postMessage.reply("a doctor", "pediatry reply")
+//                }
+//            }
+
     }
 }

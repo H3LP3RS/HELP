@@ -233,12 +233,7 @@ internal class FireDatabase(path: String) : Database {
     ) {
         fun onDataChange(snapshot: DataSnapshot) {
             onChildAdded?.let {
-                val v: T =
-                    if (type == String::class.java || type == Int::class.java || type == Double::class.java || type == Boolean::class.java) {
-                        snapshot.getValue(type)!!
-                    } else {
-                        Gson().fromJson(snapshot.getValue(String::class.java), type)
-                    }
+                val v: T = Gson().fromJson(snapshot.getValue(String::class.java), type)
                 it(v)
             }
         }

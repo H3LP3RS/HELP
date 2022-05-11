@@ -11,7 +11,7 @@ import java.util.concurrent.CompletableFuture
  * @param replies Replies to this post
  */
 class ForumPost(
-    private val forum: Forum,
+    val forum: Forum,
     val post: ForumPostData,
     val replies: List<ForumPostData>,
 ) {
@@ -43,6 +43,6 @@ class ForumPost(
      * @param action The action taken when a change occurs
      */
     fun listen(action: (ForumPostData) -> Unit) {
-        forum.listenToAll(action)
+        forum.child(listOf(post.key)).listenToAll(action)
     }
 }

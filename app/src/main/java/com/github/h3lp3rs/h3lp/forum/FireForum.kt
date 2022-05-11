@@ -47,11 +47,11 @@ class FireForum(override val path: Path) : Forum {
                 ForumPostData::class.java
             )
                 .thenApply { replies ->
-                    ForumPost(this, postData, replies)
+                    ForumPost(parent(), postData, replies)
                 }.handle { post, error ->
                     if (error != null) {
                         // If the post has no replies yet
-                        ForumPost(this, postData, emptyList())
+                        ForumPost(parent(), postData, emptyList())
                     } else {
                         post
                     }
@@ -62,13 +62,14 @@ class FireForum(override val path: Path) : Forum {
     override fun getAll(): CompletableFuture<List<CategoryPosts>> {
         if (isRoot()) {
 //            return getAllFromNextCategories(CompletableFuture.completedFuture(emptyList()), 0)
-            var future: CompletableFuture<List<CategoryPosts>> = CompletableFuture.completedFuture(emptyList())
+            var future: CompletableFuture<List<CategoryPosts>> =
+                CompletableFuture.completedFuture(emptyList())
             // In case we are in the root forum
             for (category in ForumCategory.values()) {
                 // For all categories, we add them to the list of category posts
                 val categoryForum = forumOf(category)
                 future = future.thenCompose { list ->
-                    categoryForum.getAll().handle {it, error ->
+                    categoryForum.getAll().handle { it, error ->
                         // If there was no posts on that forum
                         if (error != null) {
                             list
@@ -123,13 +124,39 @@ class FireForum(override val path: Path) : Forum {
 
     override fun listenToAll(action: (ForumPostData) -> Unit) {
         // In case we are in the root forum
-        if (isRoot()) {
-            for (category in ForumCategory.values()) {
-                // Listen to all posts of that category
-                forumOf(category).listenToAll(action)
+        when {
+            isRoot() -> {
+                for (category in ForumCategory.values()) {
+                    // Listen to all posts of that category
+                    forumOf(category).listenToAll(action)
+                }
             }
-        } else {
-            rootForum.addEventListener(pathToKey(path), ForumPostData::class.java, action) {}
+            isCategory() -> {
+                val onNewPost: (String) -> Unit = { postKey ->
+                    getPost(listOf(postKey)).thenAccept { postForum ->
+                        action(postForum.post)
+
+                        // Also listen for all updates on the posts (when someone replies)
+                        child(listOf(postForum.post.key)).listenToAll(action)
+                    }
+                }
+                rootForum.addEventListener(
+                    pathToKey(path + POSTS_LIST),
+                    String::class.java,
+                    onNewPost
+                ) {}
+            }
+            else -> {
+                // Listening to a single post means listening on all of its children
+                getPost(emptyList()).thenAccept { forumPost ->
+                    val repliesPath = forumPost.forum.path + forumPost.post.repliesKey
+                    rootForum.addEventListener(
+                        pathToKey(repliesPath),
+                        ForumPostData::class.java,
+                        action
+                    ) {}
+                }
+            }
         }
     }
 
@@ -165,6 +192,15 @@ class FireForum(override val path: Path) : Forum {
      */
     private fun isCategory(): Boolean {
         return path.size == 1
+    }
+
+    //TODO : make actual method not private
+    private fun parent(): Forum {
+        if (isRoot()) {
+            return this
+        } else {
+            return FireForum(path.dropLast(1))
+        }
     }
 
     companion object {
