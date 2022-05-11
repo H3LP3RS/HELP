@@ -26,12 +26,14 @@ class ForumAnswersActivity: AppCompatActivity()  {
         val bundle = intent.extras!!
         questionId = bundle.getString(EXTRA_QUESTION_ID) ?: questionId
         category = bundle.getString(EXTRA_FORUM_CATEGORY) ?: category
-
-        forum = ForumCategory.categoriesMap[category]?.let { ForumCategory.forumOf(it) }!!
+        // Forum of replies ?
+        forum = ForumCategory.categoriesMap[category]?.let { ForumCategory.forumOf(it).child(questionId) }!!
 
         add_answer_button.setOnClickListener{
             val answer = text_view_enter_answer.text.toString()
+            // val a =  forum.getPost(emptyList()).getNow(null)
             forum.getPost(questionId).thenAccept { q -> q.reply("7amid 2",answer)}
+           // forum.getPost()
             // Clears the text field when the user hits send
             text_view_enter_answer.text.clear()
         }
@@ -44,12 +46,11 @@ class ForumAnswersActivity: AppCompatActivity()  {
             Answer(data.content, data.key, category).let { adapter.add(it) }
             recycler_view_forum_answers.smoothScrollToPosition(adapter.itemCount - 1)
         }
-        /*
+
         forum.listenToAll { data ->
             run { onAnswerAdded(data) }
         }
-         */
-        forum.getPost(questionId).thenAccept{ q -> q.listen { onAnswerAdded(q.post) }}
+
     }
 }
 
