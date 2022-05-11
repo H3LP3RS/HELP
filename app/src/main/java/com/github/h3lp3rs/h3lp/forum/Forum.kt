@@ -36,7 +36,7 @@ interface Forum {
      * Creates a new post in the forum (at path level)
      * @param author The uid of the author
      * @param content The content of the post
-     * @return this The newly created forum post
+     * @return The newly created forum post
      */
     fun newPost(author: String, content: String): CompletableFuture<ForumPost>
 
@@ -44,9 +44,20 @@ interface Forum {
      * Gets the entire post at the given relative path from here
      * The future fails exceptionally if no post exists
      * @param relativePath The relative path to the post
-     * @return post The forum post in the form of a future
+     * @return The forum post in the form of a future
      */
     fun getPost(relativePath: Path): CompletableFuture<ForumPost>
+
+
+    /**
+     * Overrides getPost to get the post on the child forum
+     * Since this is the most common use-case of getPost, will make calls cleaner
+     * @param child The child where the post is located
+     * @return The forum post in the form of a future
+     */
+    fun getPost(child: String): CompletableFuture<ForumPost> {
+        return getPost(listOf(child))
+    }
 
     /**
      * Gets all the posts at this path and below
@@ -60,6 +71,9 @@ interface Forum {
     /**
      * Listens to all posts at this level and executes a common lambda on
      * the new specific post data (for every existing post, and newly created ones)
+     * WARNING: This function automatically triggers at first (which means that action will be called
+     * on every post that falls in the scope of listenToAll -- all the categories / posts / replies
+     * below it in the hierarchy)
      * @param action The action taken when a post change/add occurs
      */
     fun listenToAll(action: (ForumPostData) -> Unit)
@@ -70,7 +84,7 @@ interface Forum {
 
     /**
      * Returns the root of the forum
-     * @return root The root of the forum
+     * @return The forum root
      */
     fun root(): Forum
 
@@ -79,7 +93,26 @@ interface Forum {
      * If it does not yet exist, it will be created automatically when
      * a first post is sent
      * @param relativePath The relative path to the child forum
-     * @return forum The child forum
+     * @return The child forum
      */
     fun child(relativePath: Path): Forum
+
+    /**
+     * Overrides child with a single child instead of an entire relative path
+     * Since this is the most common use-case of child, this makes the calls cleaner
+     * @param child The name of the child forum
+     * @return The child forum
+     */
+    fun child(child: String): Forum {
+        return child(listOf(child))
+    }
+
+    /**
+     * Returns the parent forum from the current forum
+     * If the current forum is root, it doesn't have a parent and will thus just return itself
+     * Category -> root
+     * Post -> corresponding category
+     * @return The parent forum
+     */
+    fun parent(): Forum
 }

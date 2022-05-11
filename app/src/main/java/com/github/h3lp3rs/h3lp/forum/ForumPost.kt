@@ -20,11 +20,12 @@ class ForumPost(
      * Adds a reply to the post
      * @param author The author of the reply
      * @param content The content of the reply
-     * @return This post updated with the new reply (and potential replies from others)
-     * in the form of a future
+     * @return This post in the form of a future
+     * WARNING: the returned post doesn't necessarily contain the reply since we have no way of
+     * knowing when the database actually got the reply
      */
     fun reply(author: String, content: String): CompletableFuture<ForumPost> {
-        forum.child(listOf(post.repliesKey)).newPost(author, content)
+        forum.child(post.repliesKey).newPost(author, content)
         return refresh()
     }
 
@@ -34,7 +35,7 @@ class ForumPost(
      * in the form of a future
      */
     fun refresh(): CompletableFuture<ForumPost> {
-        return forum.child(listOf(post.key)).getPost(emptyList())
+        return forum.child(post.key).getPost(emptyList())
     }
 
     /**
@@ -43,6 +44,6 @@ class ForumPost(
      * @param action The action taken when a change occurs
      */
     fun listen(action: (ForumPostData) -> Unit) {
-        forum.child(listOf(post.key)).listenToAll(action)
+        forum.child(post.key).listenToAll(action)
     }
 }
