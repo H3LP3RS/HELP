@@ -5,7 +5,6 @@ import android.app.Instrumentation.ActivityResult
 import android.content.Intent
 import android.location.Location
 import android.net.Uri
-import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import com.github.h3lp3rs.h3lp.dataclasses.*
@@ -17,7 +16,6 @@ import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation.Companion.MAX_WEIG
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 import com.github.h3lp3rs.h3lp.locationmanager.LocationManagerInterface
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
-import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.github.h3lp3rs.h3lp.storage.Storages.MEDICAL_INFO
 import org.apache.commons.lang3.RandomUtils.nextBoolean
@@ -100,8 +98,6 @@ open class H3lpAppTest {
         GeneralLocationManager.set(locationManagerMock)
     }
 
-
-
     companion object {
         val TEST_URI: Uri = Uri.EMPTY
 
@@ -113,6 +109,8 @@ open class H3lpAppTest {
         const val USER_TEST_ID = "SECRET_AGENT_007"
         const val TEST_EMERGENCY_ID = "1"
 
+        // Walking time from the user to the destination according to the Google directions API
+        const val TIME_TO_DESTINATION = "1 hour 19 mins"
         const val WAIT_UI = 500L
         const val TEST_TIMEOUT = 3000L
 

@@ -8,8 +8,10 @@ import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import com.github.h3lp3rs.h3lp.database.Databases
-import com.github.h3lp3rs.h3lp.database.Databases.Companion.activateHelpListeners
+import com.github.h3lp3rs.h3lp.database.Databases.Companion
+import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
 import com.github.h3lp3rs.h3lp.dataclasses.HelperSkills
+import com.github.h3lp3rs.h3lp.notification.EmergencyListener
 import com.github.h3lp3rs.h3lp.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
@@ -86,7 +88,7 @@ class MySkillsActivity : AppCompatActivity() {
         storage.setObject(getString(R.string.my_skills_key), HelperSkills::class.java, skills)
         storage.push()
         // Refresh help listeners
-        activateHelpListeners()
+        EmergencyListener.activateListeners()
     }
 
     /**

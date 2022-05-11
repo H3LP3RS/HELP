@@ -1,8 +1,6 @@
 package com.github.h3lp3rs.h3lp
 
 import android.Manifest
-import android.app.Activity
-import android.app.Instrumentation.*
 import android.content.Intent
 import android.view.View
 import androidx.test.core.app.ActivityScenario
@@ -11,17 +9,14 @@ import androidx.test.core.app.ApplicationProvider.*
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.*
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.GrantPermissionRule
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
-import androidx.test.uiautomator.UiObject2
 import androidx.test.uiautomator.Until
 import com.github.h3lp3rs.h3lp.database.Database
 import com.github.h3lp3rs.h3lp.database.Databases
@@ -30,28 +25,21 @@ import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.database.MockDatabase
 import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
 import com.github.h3lp3rs.h3lp.dataclasses.HelperSkills
-import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
 import com.github.h3lp3rs.h3lp.professional.ProMainActivity
 import com.github.h3lp3rs.h3lp.professional.ProUser
 import com.github.h3lp3rs.h3lp.professional.VerificationActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
-import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
-import com.google.android.gms.common.server.converter.StringToIntConverter
-import org.apache.commons.beanutils.converters.StringConverter
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.util.*
-import kotlin.collections.ArrayList
-
 
 @RunWith(AndroidJUnit4::class)
 class MainPageTestActivity : H3lpAppTest() {
@@ -130,7 +118,7 @@ class MainPageTestActivity : H3lpAppTest() {
     @Test
     fun clickingOnHelpButtonWorksAndSendsIntent() {
         launchAndDo {
-            clickingOnButtonWorksAndSendsIntent(HelpParametersActivity::class.java, withId(R.id.HELP_button), false)
+            clickingOnButtonWorksAndSendsIntent(HelpeeSelectionActivity::class.java, withId(R.id.HELP_button), false)
         }
     }
 

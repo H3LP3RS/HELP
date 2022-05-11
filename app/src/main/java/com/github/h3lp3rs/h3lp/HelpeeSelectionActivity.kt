@@ -3,6 +3,7 @@ package com.github.h3lp3rs.h3lp
 
 import LocationHelper
 import android.content.Intent
+import android.content.Intent.*
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -22,6 +23,8 @@ import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation
 import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.github.h3lp3rs.h3lp.database.Databases.CONVERSATION_IDS
+import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
+import kotlinx.android.synthetic.main.activity_help_parameters.*
 import com.github.h3lp3rs.h3lp.messaging.Conversation
 import com.github.h3lp3rs.h3lp.storage.Storages
 import java.util.*
@@ -31,24 +34,15 @@ import kotlin.collections.ArrayList
 const val EXTRA_NEEDED_MEDICATION = "needed_meds_key"
 const val EXTRA_CALLED_EMERGENCIES = "has_called_emergencies"
 const val EXTRA_EMERGENCY_KEY = "emergency_key"
-const val EXTRA_HELPEE_ID = "helpee_id"
 
 /**
  * Activity in which the user can select the medications they need urgently
  */
-class HelpParametersActivity : AppCompatActivity() {
-    // userLocation contains the user's current coordinates (is initialized to null since we could
-    // encounter an error while getting the user's location)
-
-    private var meds: ArrayList<String> = ArrayList()
-    private var skills: HelperSkills? = null
-    private val currentTime: Date = Calendar.getInstance().time
+class HelpeeSelectionActivity : AppCompatActivity() {
     private var calledEmergencies = false
     private var locationHelper = LocationHelper()
-    //TODO this is only for testing, it will be put back to null after implementing the
-    // communication of emergencies
-    private var helpeeId : String? = "test_end_to_end"
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_help_parameters)
@@ -60,35 +54,59 @@ class HelpParametersActivity : AppCompatActivity() {
         val locationInformation: TextView = findViewById(R.id.location_information)
         val coordinatesText = getString(R.string.current_location)
 
-        val latitude = locationHelper.getUserLatitude()
-        val longitude = locationHelper.getUserLongitude()
-        if (latitude != null && longitude != null) {
+        locationHelper.requireAndHandleCoordinates(this, { location ->
+            val latitude = location.latitude
+            val longitude = location.longitude
+
             locationInformation.text = String.format(
                 "%s latitude: %.4f longitude: %.4f",
-                coordinatesText,
-                latitude,
-                longitude
+                coordinatesText, latitude, longitude
             )
-        } else {
-            // If the user didn't allow location permissions, they won't be able to see their
-            // current location
-            locationInformation.text = getString(R.string.error_retrieving_location)
-        }
+
+            // Setting up the buttons
+            help_params_call_button.setOnClickListener {
+                emergencyCall(
+                    latitude,
+                    longitude
+                )
+            }
+            help_params_search_button.setOnClickListener {
+                searchHelp(
+                    latitude,
+                    longitude,
+                    help_params_search_button
+                )
+            }
+        }, {
+            // If the location is null, we still want to be able to call the emergency
+            help_params_call_button.setOnClickListener {
+                emergencyCall(
+                    null,
+                    null
+                )
+            }
+        })
     }
 
     /**
-     *  Called when the user presses the emergency call button. Opens a pop-up
-     *  asking the user to choose whether they want to call local emergency
-     *  services or their emergency contact, and dials the correct number.
-     *  @param view The view of the button pressed
-
+     * Called when the user presses the emergency call button. Opens a pop-up
+     * asking the user to choose whether they want to call local emergency
+     * services or their emergency contact, and dials the correct number.
+     * @param latitude The helper's current latitude (null if the user didn't activate their
+     * location)
+     * @param longitude The helper's current longitude (null if the user didn't activate their
+     * location)
      */
     @RequiresApi(Build.VERSION_CODES.O)
-    fun emergencyCall(view: View) {
-        val medicalInfo = storageOf(Storages.MEDICAL_INFO)
-            .getObjectOrDefault(getString(R.string.medical_info_key), MedicalInformation::class.java, null)
+    private fun emergencyCall(latitude: Double?, longitude: Double?) {
+        val medicalInfo = storageOf(MEDICAL_INFO)
+            .getObjectOrDefault(
+                getString(R.string.medical_info_key),
+                MedicalInformation::class.java,
+                null
+            )
 
-        if(medicalInfo != null) {
+        if (medicalInfo != null) {
             val builder = AlertDialog.Builder(this)
             val emergencyCallPopup = layoutInflater.inflate(R.layout.emergency_call_options, null)
 
@@ -97,34 +115,39 @@ class HelpParametersActivity : AppCompatActivity() {
 
             val alertDialog = builder.create()
 
-            // ambulance button
-            emergencyCallPopup.findViewById<ImageButton>(R.id.ambulance_call_button).setOnClickListener {
-                // In case the getCurrentLocation failed (for example if the location services aren't
-                // activated, currentLocation is still null and the returned phone number will be the
-                // default emergency phone number
-                alertDialog.cancel()
-                launchEmergencyCall()
-            }
+            // Ambulance button
+            emergencyCallPopup.findViewById<ImageButton>(R.id.ambulance_call_button)
+                .setOnClickListener {
+                    // In case the getCurrentLocation failed (for example if the location services aren't
+                    // activated, currentLocation is still null and the returned phone number will be the
+                    // default emergency phone number
+                    alertDialog.cancel()
+                    launchEmergencyCall(latitude, longitude)
+                }
 
-            // contact button
-            emergencyCallPopup.findViewById<ImageButton>(R.id.contact_call_button).setOnClickListener {
-                alertDialog.cancel()
+            // Contact button
+            emergencyCallPopup.findViewById<ImageButton>(R.id.contact_call_button)
+                .setOnClickListener {
+                    alertDialog.cancel()
 
-                val dial = "tel:${medicalInfo.emergencyContactNumber}"
-                startActivity(Intent(Intent.ACTION_DIAL, Uri.parse(dial)))
-            }
-
+                    val dial = "tel:${medicalInfo.emergencyContactNumber}"
+                    startActivity(Intent(ACTION_DIAL, Uri.parse(dial)))
+                }
             alertDialog.show()
         } else {
-            launchEmergencyCall()
+            launchEmergencyCall(latitude, longitude)
         }
-
     }
 
     /**
-     * Launches a the phone app with the local emergency number dialed
+     * Launches a the phone app with the local emergency number dialed (if the location is null,
+     * calls the default global emergency number)
+     * @param latitude The helper's current latitude (null if the user didn't activate their
+     * location)
+     * @param longitude The helper's current longitude (null if the user didn't activate their
+     * location)
      */
-    private fun launchEmergencyCall() {
+    private fun launchEmergencyCall(latitude: Double?, longitude: Double?) {
         calledEmergencies = true
         locationHelper.updateCoordinates(this)
         val emergencyNumber =
@@ -135,19 +158,22 @@ class HelpParametersActivity : AppCompatActivity() {
             )
 
         val dial = "tel:$emergencyNumber"
-        startActivity(Intent(Intent.ACTION_DIAL, Uri.parse(dial)))
+        startActivity(Intent(ACTION_DIAL, Uri.parse(dial)))
     }
-
 
     /**
      *  Called when the user presses the "search for help" button after selecting their need.
-     *  @param view The view of the button pressed
+     * @param latitude The helper's current latitude (null if the user didn't activate their
+     * location)
+     * @param longitude The helper's current longitude (null if the user didn't activate their
+     * location)
+     * @param view The view on which the user specified which medication / kind of help they require
      */
     @RequiresApi(Build.VERSION_CODES.O)
-    fun searchHelp(view: View) {
+    private fun searchHelp(latitude: Double, longitude: Double, view: View) {
         val selectionPair = retrieveSelectedMedication(view)
-        meds = selectionPair.first
-        skills = selectionPair.second
+        val meds = selectionPair.first
+        val skills = selectionPair.second
 
         if (meds.isEmpty()) {
             Toast.makeText(
@@ -158,9 +184,8 @@ class HelpParametersActivity : AppCompatActivity() {
             val bundle = Bundle()
             bundle.putStringArrayList(EXTRA_NEEDED_MEDICATION, meds)
             bundle.putBoolean(EXTRA_CALLED_EMERGENCIES, calledEmergencies)
-            bundle.putString(EXTRA_HELPEE_ID, "test_end_to_end")
             val intent = Intent(this, AwaitHelpActivity::class.java)
-            sendInfoToDB().thenAccept {
+            sendInfoToDB(latitude, longitude, skills, meds).thenAccept {
                 bundle.putInt(EXTRA_EMERGENCY_KEY, it)
                 intent.putExtras(bundle)
                 startActivity(intent)
@@ -170,10 +195,19 @@ class HelpParametersActivity : AppCompatActivity() {
 
     /**
      * Stores the emergency information in the database for further use
+     * @param latitude The helper's current latitude
+     * @param longitude The helper's current longitude
+     * @param skills The skills the helpee requires from a helper in this emergency
+     * @param meds The medication the helpee requires in this emergency
      * @return The id of the emergency in a future
      */
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun sendInfoToDB(): CompletableFuture<Int> {
+    private fun sendInfoToDB(
+        latitude: Double,
+        longitude: Double,
+        skills: HelperSkills,
+        meds: ArrayList<String>
+    ): CompletableFuture<Int> {
         // Database where all the conversation ids generated by helpers will be stored
         val conversationIdsDb = databaseOf(CONVERSATION_IDS)
         // Get emergency related databases
@@ -181,30 +215,35 @@ class HelpParametersActivity : AppCompatActivity() {
         val newEmergenciesDb = databaseOf(NEW_EMERGENCIES)
         // Get own medical storage and extract the information if available
         val storage = storageOf(MEDICAL_INFO)
-        val medicalInfo = storage.getObjectOrDefault(getString(R.string.medical_info_key),
-            MedicalInformation::class.java, null)
-        // TODO: Use future once this is has been changed to avoid double work
-        val uid = emergenciesDb.getInt(getString(R.string.EMERGENCY_UID_KEY))
-        // Increment
-        emergenciesDb.incrementAndGet(getString(R.string.EMERGENCY_UID_KEY), 1) {}
-        conversationIdsDb.incrementAndGet(Conversation.UNIQUE_CONVERSATION_ID, 1) {}
-        return uid.thenApply {
+        val medicalInfo = storage.getObjectOrDefault(
+            getString(R.string.medical_info_key),
+            MedicalInformation::class.java, null
+        )
+
+        return emergenciesDb.incrementAndGet(getString(R.string.EMERGENCY_UID_KEY), 1).thenApply {
             // Stop listening to new emergencies
             newEmergenciesDb.clearAllListeners()
             // Create and send the emergency object
-            val id = it + 1
-            val emergencyInfo = EmergencyInformation(id.toString(), locationHelper.getUserLatitude()!!, locationHelper.getUserLongitude()!!, skills!!, meds, currentTime, medicalInfo, ArrayList())
+            val emergencyInfo = EmergencyInformation(
+                it.toString(),
+                latitude,
+                longitude,
+                skills,
+                meds,
+                Calendar.getInstance().time,
+                medicalInfo,
+                ArrayList()
+            )
             EmergencyInfoRepository(emergenciesDb).insert(emergencyInfo)
             // Raise the appropriate flags to notify potential helpers
-            val needed = skills!!
-            raiseFlagInDb(needed.hasVentolin, newEmergenciesDb, R.string.asthma_med, id)
-            raiseFlagInDb(needed.hasEpipen, newEmergenciesDb, R.string.epipen, id)
-            raiseFlagInDb(needed.knowsCPR, newEmergenciesDb, R.string.cpr, id)
-            raiseFlagInDb(needed.hasInsulin, newEmergenciesDb, R.string.Insulin, id)
-            raiseFlagInDb(needed.hasFirstAidKit, newEmergenciesDb, R.string.first_aid_kit, id)
-            raiseFlagInDb(needed.isMedicalPro, newEmergenciesDb, R.string.med_pro, id)
+            raiseFlagInDb(skills.hasVentolin, newEmergenciesDb, R.string.asthma_med, it)
+            raiseFlagInDb(skills.hasEpipen, newEmergenciesDb, R.string.epipen, it)
+            raiseFlagInDb(skills.knowsCPR, newEmergenciesDb, R.string.cpr, it)
+            raiseFlagInDb(skills.hasInsulin, newEmergenciesDb, R.string.Insulin, it)
+            raiseFlagInDb(skills.hasFirstAidKit, newEmergenciesDb, R.string.first_aid_kit, it)
+            raiseFlagInDb(skills.isMedicalPro, newEmergenciesDb, R.string.med_pro, it)
             // Return unique id for future reference
-            id
+            it
         }
     }
 
@@ -217,19 +256,22 @@ class HelpParametersActivity : AppCompatActivity() {
      * @param emergencyId The unique emergency id
      */
     private fun raiseFlagInDb(flag: Boolean, db: Database, resId: Int, emergencyId: Int) {
-        if(flag) db.setInt(resources.getString(resId), emergencyId)
+        if (flag) db.setInt(resources.getString(resId), emergencyId)
     }
 
     /**
      * Auxiliary function to retrieve the selected meds on the page and the required helper skills
      * @param view The view to retrieve medication from (in its children)
+     * @return The medication and skills that the user requires
      */
     private fun retrieveSelectedMedication(view: View): Pair<ArrayList<String>, HelperSkills> {
         val viewGroup = view.parent as ViewGroup
 
         val meds = arrayListOf<String>()
-        var skills = HelperSkills(false, false, false,
-                                false,false, false)
+        var skills = HelperSkills(
+            false, false, false,
+            false, false, false
+        )
 
         for (i in 0 until viewGroup.childCount) {
             val child = viewGroup.getChildAt(i) as View
@@ -262,5 +304,11 @@ class HelpParametersActivity : AppCompatActivity() {
             }
         }
         return Pair(meds, skills)
+    }
+
+    /** Starts the activity by sending intent */
+    private fun goToActivity(ActivityName: Class<*>?) {
+        val intent = Intent(this, ActivityName)
+        startActivity(intent)
     }
 }

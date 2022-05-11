@@ -27,7 +27,7 @@
             android:name=".SettingsActivity"
             android:exported="false" />
         <activity
-            android:name=".HelpPageActivity"
+            android:name=".HelperPageActivity"
             android:exported="true" />
         <activity
             android:name=".messaging.RecentMessagesActivity"
@@ -81,7 +81,7 @@
             android:name=".AwaitHelpActivity"
             android:exported="false" />
         <activity
-            android:name=".HelpParametersActivity"
+            android:name=".HelpeeSelectionActivity"
             android:exported="true" />
         <activity
             android:name=".CprRateActivity"
