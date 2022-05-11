@@ -175,7 +175,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-condensed-medium"
                     android:padding="25dp"
-                    android:text="@string/traumatology"
+                    android:text="@string/pediatry"
                     android:textSize="25sp" />
 
                 <Button
@@ -184,9 +184,9 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:background="#00000000"
+                    android:onClick="goToForum"
                     android:padding="20dp"
-                    android:text="@string/expand_forum"
-                    android:onClick="goToForum"/>
+                    android:text="@string/expand_forum" />
 
 
             </RelativeLayout>
