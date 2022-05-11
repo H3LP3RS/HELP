@@ -1,26 +1,24 @@
 package com.github.h3lp3rs.h3lp.forum
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.R
+import com.google.android.material.textfield.TextInputEditText
 
 class NewPostActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState : Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_post)
 
-        createDropDown()
+        createDropDownMenu()
     }
 
-    private fun createDropDown(){
+    private fun createDropDownMenu() {
         val adapter = ArrayAdapter(
-            this,
-            R.layout.dropdown_menu_popup,
-            // TODO replace by list of categories
-            listOf(ForumCategoriesActivity.MedicalCategory.values())
+            this, R.layout.dropdown_menu_popup, ForumCategory.values()
         )
 
         val editTextFilledExposedDropdown =
@@ -29,9 +27,17 @@ class NewPostActivity : AppCompatActivity() {
         editTextFilledExposedDropdown.setAdapter(adapter)
     }
 
-    fun savePost(view : View){
-        val category = findViewById<AutoCompleteTextView>(R.id.newPostCategoryDropdown).text.toString()
-        val question = findViewById<AutoCompleteTextView>(R.id.newPostTitleEditTxt).text.toString()
-        // TODO save in DB
+    fun sendPost(view : View) {
+        val category =
+            findViewById<AutoCompleteTextView>(R.id.newPostCategoryDropdown).text.toString()
+        val textViewAnswerQuestion = findViewById<TextInputEditText>(R.id.newPostTitleEditTxt)
+        val question = textViewAnswerQuestion.text.toString()
+        val forum = ForumCategory.categoriesMap[category]?.let { ForumCategory.forumOf(it) }!!
+        // Add post to the database
+        forum.newPost("7amid", question)
+
+        // Clears the text field when the user hits send
+        textViewAnswerQuestion.text?.clear()
     }
 }
+// category?.let { it1 -> Post(qst,"", it1) }?.let { it2 -> adapter.add(it2) }

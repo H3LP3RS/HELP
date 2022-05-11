@@ -37,13 +37,12 @@ class ForumPostsActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        add_post_button.setOnClickListener{
-            val qst = text_view_enter_post.text.toString()
-            // When the user clicks on add, the message is sent to the database
-            // forum.addAnswer(answer)
-            category?.let { it1 -> Post(qst,"", it1) }?.let { it2 -> adapter.add(it2) }
-            // Clears the text field when the user hits send
-            text_view_enter_post.text.clear()
+        add_post_button.setOnClickListener{ view ->
+            // When the user clicks on add, he is redirected to the new post activity to be able to
+            // add a post
+            val intent = Intent(view.context, NewPostActivity::class.java)
+            startActivity(intent)
+           // category?.let { it1 -> Post(qst,"", it1) }?.let { it2 -> adapter.add(it2) }
         }
 
         listenForPosts()
