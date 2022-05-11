@@ -8,6 +8,7 @@ import FireForum
 enum class ForumCategory {
     GENERAL, CARDIOLOGY, TRAUMATOLOGY, PEDIATRY, NEUROLOGY, GYNECOLOGY;
 
+
     private var forum: Forum? = null // Var to enable test-time mocking
 
     companion object {
