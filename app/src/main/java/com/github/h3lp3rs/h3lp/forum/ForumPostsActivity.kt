@@ -8,6 +8,7 @@ import com.github.h3lp3rs.h3lp.forum.data.ForumPostData
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
+import kotlinx.android.synthetic.main.activity_forum_answers.*
 import kotlinx.android.synthetic.main.activity_forum_posts.*
 import kotlinx.android.synthetic.main.post_forum_row.view.*
 
@@ -51,6 +52,7 @@ class ForumPostsActivity : AppCompatActivity() {
     private fun listenForPosts(){
         fun onPostAdded(data: ForumPostData){
             category?.let { Post(data.content, data.key, it) }?.let { adapter.add(it) }
+            recycler_view_forum_answers.smoothScrollToPosition(adapter.itemCount - 1)
         }
 
         forum.listenToAll { data ->
