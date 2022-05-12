@@ -6,9 +6,11 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.R
+import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.google.android.material.textfield.TextInputEditText
 
 class NewPostActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState : Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_post)
@@ -34,10 +36,9 @@ class NewPostActivity : AppCompatActivity() {
         val question = textViewAnswerQuestion.text.toString()
         val forum = ForumCategory.categoriesMap[category]?.let { ForumCategory.forumOf(it) }!!
         // Add post to the database
-        forum.newPost("7amid", question)
+        SignInActivity.userUid?.let { forum.newPost(it, question) }
 
         // Clears the text field when the user hits send
         textViewAnswerQuestion.text?.clear()
     }
 }
-// category?.let { it1 -> Post(qst,"", it1) }?.let { it2 -> adapter.add(it2) }

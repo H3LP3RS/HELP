@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.forum.data.ForumPostData
+import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
@@ -13,7 +14,6 @@ import kotlinx.android.synthetic.main.answer_forum_row.view.*
 
 class ForumAnswersActivity: AppCompatActivity()  {
     private val adapter = GroupAdapter<ViewHolder>()
-    private lateinit var questionId : String
     private lateinit var category : String
     private lateinit var forum : Forum
 
@@ -24,17 +24,12 @@ class ForumAnswersActivity: AppCompatActivity()  {
         recycler_view_forum_answers.adapter = adapter
 
         val bundle = intent.extras!!
-        questionId = bundle.getString(EXTRA_QUESTION_ID) ?: questionId
         category = bundle.getString(EXTRA_FORUM_CATEGORY) ?: category
-        // Forum of replies ?
-        forum = ForumCategory.categoriesMap[category]?.let { ForumCategory.forumOf(it).child(questionId) }!!
+        forum = ForumCategory.categoriesMap[category]?.let { ForumCategory.forumOf(it) }!!
 
         add_answer_button.setOnClickListener{
             val answer = text_view_enter_answer.text.toString()
-            // val a =  forum.getPost(emptyList()).getNow(null)
-            forum.getPost(questionId).thenAccept { q -> q.reply("7amid 2",answer)}
-           // forum.getPost()
-            // Clears the text field when the user hits send
+            SignInActivity.userUid?.let { it1 -> ForumPostsActivity.selectedPost?.reply(it1,answer) }
             text_view_enter_answer.text.clear()
         }
         listenForAnswers()
@@ -47,9 +42,7 @@ class ForumAnswersActivity: AppCompatActivity()  {
             recycler_view_forum_answers.smoothScrollToPosition(adapter.itemCount - 1)
         }
 
-        forum.listenToAll { data ->
-            run { onAnswerAdded(data) }
-        }
+        ForumPostsActivity.selectedPost?.listen { onAnswerAdded(it) }
 
     }
 }

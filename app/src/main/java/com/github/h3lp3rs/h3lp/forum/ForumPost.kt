@@ -1,6 +1,10 @@
 package com.github.h3lp3rs.h3lp.forum
 
+import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.forum.data.ForumPostData
+import com.xwray.groupie.Item
+import com.xwray.groupie.ViewHolder
+import kotlinx.android.synthetic.main.post_forum_row.view.*
 import java.util.concurrent.CompletableFuture
 
 /**
@@ -14,7 +18,7 @@ class ForumPost(
     val forum: Forum,
     val post: ForumPostData,
     val replies: List<ForumPostData>,
-) {
+): Item<ViewHolder>() {
 
     /**
      * Adds a reply to the post
@@ -45,5 +49,28 @@ class ForumPost(
      */
     fun listen(action: (ForumPostData) -> Unit) {
         forum.child(post.key).listenToAll(action)
+    }
+
+    override fun bind(viewHolder: ViewHolder, position: Int) {
+        viewHolder.itemView.question_post.text = post.content
+        viewHolder.itemView.image_post.setImageResource(getImage())
+    }
+
+    override fun getLayout(): Int {
+        return R.layout.post_forum_row
+    }
+
+    private fun getImage() : Int {
+        return when (forum.path[0]) {
+            ForumCategory.GENERAL.toString() -> R.drawable.ic_generalist
+            ForumCategory.CARDIOLOGY.toString() -> R.drawable.ic_cardiology
+            ForumCategory.TRAUMATOLOGY.toString() -> R.drawable.ic_traumatology
+            ForumCategory.PEDIATRY.toString() -> R.drawable.ic_pediatric
+            ForumCategory.NEUROLOGY.toString() -> R.drawable.ic_neurology
+            ForumCategory.GYNECOLOGY.toString() -> R.drawable.ic_gynecology
+            else -> {
+                R.drawable.ic_generalist
+            }
+        }
     }
 }

@@ -13,10 +13,10 @@ import kotlinx.android.synthetic.main.activity_forum_answers.*
 import kotlinx.android.synthetic.main.activity_forum_posts.*
 import kotlinx.android.synthetic.main.post_forum_row.view.*
 
-const val EXTRA_QUESTION_ID = "forum_question_id"
-
 class ForumPostsActivity : AppCompatActivity() {
-    // TODO extra category
+    companion object{
+        var selectedPost: ForumPost? = null
+    }
     private val adapter = GroupAdapter<ViewHolder>()
     private var category : String? = null
     private lateinit var forum : Forum
@@ -33,9 +33,9 @@ class ForumPostsActivity : AppCompatActivity() {
         forum = ForumCategory.categoriesMap[category]?.let { forumOf(it) }!!
 
         adapter.setOnItemClickListener { item, view ->
-            val post = item as Post
+            val post = item as ForumPost
             val intent = Intent(view.context, ForumAnswersActivity::class.java)
-            intent.putExtra(EXTRA_QUESTION_ID, post.getID())
+            selectedPost = post
             intent.putExtra(EXTRA_FORUM_CATEGORY, category)
             startActivity(intent)
         }
@@ -52,48 +52,13 @@ class ForumPostsActivity : AppCompatActivity() {
 
     private fun listenToNewPosts() {
         fun onPostAdded(data : ForumPostData) {
-            category?.let { Post(data.content, data.key, it) }?.let { adapter.add(it) }
+            category?.let { ForumPost(forum,data, emptyList())}?.let { adapter.add(it) }
             recycler_view_forum_answers.smoothScrollToPosition(adapter.itemCount - 1)
         }
 
         forum.listenToAll { data ->
             run { onPostAdded(data) }
         }
-    }
-
-}
-
-private class Post(
-    private val question : String,
-    private val questionId : String,
-    private val category : String
-) : Item<ViewHolder>() {
-
-    override fun bind(viewHolder : ViewHolder, position : Int) {
-        viewHolder.itemView.question_post.text = question
-        viewHolder.itemView.image_post.setImageResource(getImage())
-    }
-
-    override fun getLayout() : Int {
-        return R.layout.post_forum_row
-    }
-
-    private fun getImage() : Int {
-        return when (category) {
-            ForumCategory.GENERAL.toString() -> R.drawable.ic_generalist
-            ForumCategory.CARDIOLOGY.toString() -> R.drawable.ic_cardiology
-            ForumCategory.TRAUMATOLOGY.toString() -> R.drawable.ic_traumatology
-            ForumCategory.PEDIATRY.toString() -> R.drawable.ic_pediatric
-            ForumCategory.NEUROLOGY.toString() -> R.drawable.ic_neurology
-            ForumCategory.GYNECOLOGY.toString() -> R.drawable.ic_gynecology
-            else -> {
-                R.drawable.ic_generalist
-            }
-        }
-    }
-
-    fun getID() : String {
-        return questionId
     }
 
 }
