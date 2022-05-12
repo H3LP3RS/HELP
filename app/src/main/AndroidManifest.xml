@@ -21,9 +21,6 @@
             android:supportsRtl="true"
             android:theme="@style/Theme.H3LP">
         <activity
-                android:name=".test"
-                android:exported="true" />
-        <activity
                 android:name=".professional.ProfessionalTypeSelection"
                 android:exported="false" />
         <activity
