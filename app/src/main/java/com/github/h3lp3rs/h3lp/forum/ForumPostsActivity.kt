@@ -11,10 +11,15 @@ import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_forum_answers.*
 import kotlinx.android.synthetic.main.activity_forum_posts.*
 
+/**
+ * Activity containing the forum posts of a given a category
+ */
 class ForumPostsActivity : AppCompatActivity() {
-    companion object{
-        lateinit var selectedPost: ForumPost
+    companion object {
+        // The post of which the user wants to see the answers
+        lateinit var selectedPost : ForumPost
     }
+
     private val adapter = GroupAdapter<ViewHolder>()
     private var category : String? = null
     private lateinit var forum : Forum
@@ -31,9 +36,8 @@ class ForumPostsActivity : AppCompatActivity() {
         forum = ForumCategory.categoriesMap[category]?.let { forumOf(it) }!!
 
         adapter.setOnItemClickListener { item, view ->
-            val post = item as ForumPost
+            selectedPost = item as ForumPost
             val intent = Intent(view.context, ForumAnswersActivity::class.java)
-            selectedPost = post
             intent.putExtra(EXTRA_FORUM_CATEGORY, category)
             startActivity(intent)
         }
@@ -48,9 +52,12 @@ class ForumPostsActivity : AppCompatActivity() {
         listenToNewPosts()
     }
 
+    /**
+     * Displays all the posts in the forum database
+     */
     private fun listenToNewPosts() {
         fun onPostAdded(data : ForumPostData) {
-            category?.let { ForumPost(forum,data, emptyList())}?.let { adapter.add(it) }
+            category?.let { ForumPost(forum, data, emptyList()) }?.let { adapter.add(it) }
             recycler_view_forum_answers.smoothScrollToPosition(adapter.itemCount - 1)
         }
 

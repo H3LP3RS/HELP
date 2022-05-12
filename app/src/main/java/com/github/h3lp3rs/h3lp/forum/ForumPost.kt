@@ -62,6 +62,9 @@ class ForumPost(
         return R.layout.post_forum_row
     }
 
+    /**
+     * Gets the image corresponding to the current forum category
+     */
     private fun getImage() : Int {
         return when (forum.path[0]) {
             GENERAL.name -> R.drawable.ic_generalist

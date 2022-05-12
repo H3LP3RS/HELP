@@ -13,11 +13,13 @@ import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_forum_answers.*
 import kotlinx.android.synthetic.main.answer_forum_row.view.*
 
+/**
+ * Activity where the user sees all answers of the selected post and enters an answer
+ */
 class ForumAnswersActivity : AppCompatActivity() {
     private val adapter = GroupAdapter<ViewHolder>()
     private lateinit var category : String
     private lateinit var forum : Forum
-
 
     override fun onCreate(savedInstanceState : Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,11 +39,15 @@ class ForumAnswersActivity : AppCompatActivity() {
             // Clear the text field
             text_view_enter_answer.text.clear()
         }
-        listenForAnswers()
 
+        listenForAnswers()
     }
 
+    /**
+     * Displays all the answers of the selected post
+     */
     private fun listenForAnswers() {
+
         fun onAnswerAdded(data : ForumPostData) {
             Answer(data.content, data.author).let { adapter.add(it) }
             recycler_view_forum_answers.smoothScrollToPosition(adapter.itemCount - 1)
@@ -52,10 +58,16 @@ class ForumAnswersActivity : AppCompatActivity() {
     }
 }
 
+/**
+ * Class representing the layout of a forum answer
+ */
 private class Answer(
     private val answer : String,
     private val author : String,
 ) : Item<ViewHolder>() {
+    /**
+     * Class representing the layout of a forum answer
+     */
 
     override fun bind(viewHolder : ViewHolder, position : Int) {
         viewHolder.itemView.answer_post.text = answer
