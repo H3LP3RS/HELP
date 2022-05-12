@@ -2,6 +2,8 @@ package com.github.h3lp3rs.h3lp
 
 import LocationHelper
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,8 +19,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import java.lang.Double.parseDouble
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 
 typealias GooglePlace = HashMap<String, String>
@@ -75,13 +75,17 @@ class MapsFragment : Fragment(), CoroutineScope by MainScope(), GoogleMap.OnPoly
                 )
             )
 
-            //TODO CHANGE
-            map.setOnInfoWindowClickListener {
-
+            map.setOnInfoWindowClickListener { marker ->
+                val intent = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://www.google.com/maps/dir/?api=1&query=" +
+                            "${marker.position.latitude}%2C${marker.position.longitude}")
+                )
+                startActivity(intent)
             }
-            map.setOnMarkerClickListener {
-                if (shownPaths.containsKey(it)) {
-                    shownPaths[it]?.remove()
+            map.setOnMarkerClickListener { marker ->
+                if (shownPaths.containsKey(marker)) {
+                    shownPaths[marker]?.remove()
                 } else {
 
                 }
