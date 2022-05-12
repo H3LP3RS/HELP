@@ -1,4 +1,3 @@
-/*
 package com.github.h3lp3rs.h3lp
 
 import android.Manifest
@@ -43,7 +42,7 @@ class HelpParametersActivityTest : H3lpAppTest() {
         HelpeeSelectionActivity::class.java
     )
 
-    @get:Rule
+   /* @get:Rule
     var mRuntimePermissionRule: GrantPermissionRule =
         GrantPermissionRule.grant(Manifest.permission.ACCESS_FINE_LOCATION)
 
@@ -65,10 +64,9 @@ class HelpParametersActivityTest : H3lpAppTest() {
             globalContext.getString(R.string.KEY_USER_AGREE),
             true
         )
-    }
+    }*/
 
-    */
-/*@Test
+    /*@Test
     fun clickSearchHelpWithMedsWorksAndSendsIntent() {
         // select one med
         val medButton0 = onView(withId(R.id.selectMedsButton0))
@@ -116,11 +114,9 @@ class HelpParametersActivityTest : H3lpAppTest() {
                 hasData(Uri.parse(number))
             )
         )
-    }*//*
+    }*/
 
-
-    */
-/*@Test
+    /*@Test
     fun clickPhoneButtonDialsCorrectEmergencyNumber() {
         mockLocationToCoordinates(SWISS_LONG, SWISS_LAT)
 
@@ -147,11 +143,9 @@ class HelpParametersActivityTest : H3lpAppTest() {
             )
         )
     }
-*//*
+*/
 
-
-    */
-/*@Test
+    /*@Test
     fun clickPhoneButtonWithNoLocationDialsDefaultEmergencyNumber() {
         loadValidMedicalDataToStorage()
 
@@ -174,12 +168,10 @@ class HelpParametersActivityTest : H3lpAppTest() {
                 hasAction(ACTION_DIAL) //TODO: Had to remove data Cirrus
             )
         )
-    }*//*
+    }*/
 
 
-
-    */
-/*@Test
+    /*@Test
     fun clickPhoneButtonWithSystemLocationManagerDialsEmergencyNumber() {
         loadValidMedicalDataToStorage()
 
@@ -202,11 +194,9 @@ class HelpParametersActivityTest : H3lpAppTest() {
                 hasAction(ACTION_DIAL)
             )
         )
-    }*//*
+    }*/
 
-
-    */
-/*@Test
+    /*@Test
     fun clickPhoneButtonWithoutContactNumberDialsEmergenciesDirectly() {
         // Here we are simply testing that using the system location (the one actually used in the
         // app) also makes an emergency call
@@ -235,11 +225,9 @@ class HelpParametersActivityTest : H3lpAppTest() {
 
         // No new intent:
         assertThat(getIntents().size, `is`(0))
-    }*//*
+    }*/
 
-
-    */
-/*@Test
+    /*@Test
     fun screenDisplaysCorrectLocation() {
         mockLocationToCoordinates(SWISS_LONG, SWISS_LAT)
 
@@ -249,11 +237,10 @@ class HelpParametersActivityTest : H3lpAppTest() {
             .check(matches(withText(containsString(SWISS_LONG.toString()))))
         locationInformation
             .check(matches(withText(containsString(SWISS_LAT.toString()))))
-    }*//*
-
+    }*/
 
     @After
     fun cleanUp() {
         release()
     }
-}*/
+}
