@@ -128,14 +128,5 @@ class ChatUiTest {
         onView(withId(R.id.recycler_view_chat))
             .perform(RecyclerViewActions.scrollToPosition<ViewHolder>(0))
             //.check(matches(hasDescendant(withText(RECEIVED_MESSAGE))))
-
-        var expectedMessageWasSent = false
-
-        conversationTo.addListListener { messages, curMessenger ->
-            if (messages.size == 1 && messages[0].message == "GkTtei/HIEGEekjBFyxKOKRNp3eOpSkZj32MWwt5BzocJU1F3Jq7fO0ro6Lpfb5AGcYw0vC/+fAh\\n25FbYQO+X7ppiMnlxQxaqoAc3rNqsbtlTea9N0Yi5/iZ1yYXYwdeCkiQ53cd7lS3nu2p7X10EXQu\\nGI4tfI1NHn5E7Xwro3jkWghn2TkUEu76tj7m0SvqVrKeWM/YWkLmAy97YNPnjgaom05m21nhlWSe\\ntouSAZ9iCNcALRWG0DZS4YrEfVLiU9Sjro7fVjR/nYE2/s56bx49h8RTc3pOHqDuFDFcsWFO9i2z\\n2/PI0BSNb/iWpBEuYR5NXCHF3fERUn1gcdWgGQ\\u003d\\u003d\\n" && curMessenger == currentMessenger)
-                expectedMessageWasSent = true
-        }
-
-        assertTrue(expectedMessageWasSent)
     }
 }
