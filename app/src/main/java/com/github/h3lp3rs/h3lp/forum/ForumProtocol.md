@@ -1,12 +1,12 @@
 ## Forum Posting Protocol
 The forum structure is the following:
 Root
-    CARDIOLOGY
-        Post 1
-            Reply 1 to Post 1
-            Reply 2 to Post 1
-        Post 2
-    GYNECOLOGY
+-----> CARDIOLOGY
+-----> -----> Post 1
+-----> -----> -----> Reply 1 to Post 1
+-----> -----> -----> Reply 2 to Post 1
+-----> -----> Post 2
+-----> GYNECOLOGY
 
 Now due to limitations in Firebase, the actual implementation of this structure is the following:
 
@@ -20,15 +20,15 @@ This may be a little complicated as text so there is a diagram to represent the 
 but this time as it is actually stored in the database:
 
 FORUM
-    CARDIOLOGY
-        Post 1: key = "3", repliesKey = "4"
-        Post 2: key = "5", repliesKey = "6"
-        4:
-            Reply 1 to Post 1
-            Reply 2 to Post 1
-        posts:
-            3
-            5
-    GYNECOLOGY
+-----> CARDIOLOGY
+-----> -----> Post 1: key = "3", repliesKey = "4"
+-----> -----> Post 2: key = "5", repliesKey = "6"
+-----> -----> 4:
+-----> -----> -----> Reply 1 to Post 1
+-----> -----> -----> Reply 2 to Post 1
+-----> -----> posts:
+-----> -----> -----> 3
+-----> -----> -----> 5
+-----> GYNECOLOGY
 
 
