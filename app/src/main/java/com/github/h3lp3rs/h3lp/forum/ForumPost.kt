@@ -6,7 +6,7 @@ import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.post_forum_row.view.*
 import java.util.concurrent.CompletableFuture
-
+import com.github.h3lp3rs.h3lp.forum.ForumCategory.*
 /**
  * A forum post containing all the data.
  * The class has as attribute the instance of the forum that directly points on it
@@ -38,7 +38,7 @@ class ForumPost(
      * @return this This post updated with potential replies from others
      * in the form of a future
      */
-    fun refresh(): CompletableFuture<ForumPost> {
+    private fun refresh(): CompletableFuture<ForumPost> {
         return forum.child(post.key).getPost(emptyList())
     }
 
@@ -62,12 +62,12 @@ class ForumPost(
 
     private fun getImage() : Int {
         return when (forum.path[0]) {
-            ForumCategory.GENERAL.toString() -> R.drawable.ic_generalist
-            ForumCategory.CARDIOLOGY.toString() -> R.drawable.ic_cardiology
-            ForumCategory.TRAUMATOLOGY.toString() -> R.drawable.ic_traumatology
-            ForumCategory.PEDIATRY.toString() -> R.drawable.ic_pediatric
-            ForumCategory.NEUROLOGY.toString() -> R.drawable.ic_neurology
-            ForumCategory.GYNECOLOGY.toString() -> R.drawable.ic_gynecology
+            GENERAL.name -> R.drawable.ic_generalist
+            CARDIOLOGY.name -> R.drawable.ic_cardiology
+            TRAUMATOLOGY.name -> R.drawable.ic_traumatology
+            PEDIATRY.name -> R.drawable.ic_pediatric
+            NEUROLOGY.name -> R.drawable.ic_neurology
+            GYNECOLOGY.name -> R.drawable.ic_gynecology
             else -> {
                 R.drawable.ic_generalist
             }
