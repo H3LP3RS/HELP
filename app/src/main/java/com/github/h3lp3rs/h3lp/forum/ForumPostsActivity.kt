@@ -71,27 +71,4 @@ class ForumPostsActivity : AppCompatActivity() {
         }
     }
 
-    private fun activateNotifications(){
-            val medicalType = enabledCategoriesNotifications.getObjectOrDefault(
-                getString(R.string.forum_theme_key), MedicalType::class.java, null
-            )
-            medicalType?.let {
-                fun checkIfEnabled(medicalType : String) : Boolean {
-                    val enabled = when (medicalType) {
-                        GENERAL.name -> it.generalist
-                        PEDIATRY.name -> it.pediatry
-                        CARDIOLOGY.name -> it.cardiology
-                        TRAUMATOLOGY.name -> it.traumatology
-                        GYNECOLOGY.name -> it.gynecology
-                        NEUROLOGY.name -> it.neurology
-                        else -> false
-                    }
-                    return enabled
-                }
-                if (checkIfEnabled(category!!)){
-                    // TODO
-                }
-        }
-    }
-
 }

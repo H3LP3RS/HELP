@@ -29,9 +29,7 @@ class ForumPostsActivityTest {
         val intent = Intent(
             ApplicationProvider.getApplicationContext(),
             ForumPostsActivity::class.java
-        ).apply {
-            putExtra(EXTRA_FORUM_CATEGORY, "GENERAL")
-        }
+        )
 
         ActivityScenario.launch<ForumPostsActivity>(intent)
         SignInActivity.userUid = USER_TEST_ID

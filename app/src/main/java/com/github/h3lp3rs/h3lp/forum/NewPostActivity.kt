@@ -44,7 +44,7 @@ class NewPostActivity : AppCompatActivity() {
             findViewById<AutoCompleteTextView>(R.id.newPostCategoryDropdown).text.toString()
         val textViewAnswerQuestion = findViewById<TextInputEditText>(R.id.newPostTitleEditTxt)
         val question = textViewAnswerQuestion.text.toString()
-        val forum = category?.let { ForumWrapper.get(it) }!!
+        val forum = ForumWrapper.get(category)
         // Add post to the database
         getName()?.let { forum.newPost(it, question) }
         // Clears the text field when the user hits send
