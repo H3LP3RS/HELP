@@ -85,8 +85,6 @@ class ChatActivity : AppCompatActivity() {
          */
 
         fun onChildRemoved(key : String) {
-            // If the key is the conversation Id, that means that the user deleted the current
-            // conversation
             adapter.clear()
             displayMessage(getString(R.string.deleted_conversation_message))
             // If the user had previously accepted to provide help, upon cancellation either

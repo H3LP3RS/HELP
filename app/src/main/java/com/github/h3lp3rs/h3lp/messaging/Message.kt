@@ -5,9 +5,9 @@ package com.github.h3lp3rs.h3lp.messaging
  * (to be able to distinguish between the current user and the person they are talking to) and the
  * actual message
  */
-data class Message(val messenger: Messenger, val message: String, val iv: String) {
+data class Message(val messenger: Messenger, val message: String) {
     // The following constructor is needed in the @addChildEventListener method of firebase which
     // throws an exception if no constructor without parameters is provided.
-    constructor() : this(Messenger.HELPER, "", "")
+    constructor() : this(Messenger.HELPER, "")
 
 }
