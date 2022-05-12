@@ -35,7 +35,7 @@ class VerificationActivity : AppCompatActivity() {
 
         // Type of the intent to launch when choosing an image from the device
         private const val INTENT_TYPE = "image/*"
-        private const val UPLOAD_FAILURE_MSG = "Upload failed. Try again!"
+        private const val UPLOAD_FAILURE_MSG = R.string.upload_failed
         var currentUserId = SignInActivity.userUid.toString()
         var currentUserName = GoogleSignInAdapter.auth.currentUser?.displayName.toString()
         var currentUserProofName = ""

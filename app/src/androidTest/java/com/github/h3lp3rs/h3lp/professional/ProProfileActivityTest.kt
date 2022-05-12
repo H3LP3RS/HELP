@@ -23,6 +23,11 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
+private const val STATUS_TEST = "doctor"
+private const val DOMAIN_TEST = "humans"
+private const val EXPERIENCE_TEST = "3"
+
+
 @RunWith(AndroidJUnit4::class)
 class ProProfileActivityTest {
     @get:Rule
@@ -58,11 +63,11 @@ class ProProfileActivityTest {
     @Test
     fun updateProfileWithCheckedPolicyWorks(){
         onView(withId(R.id.proProfileStatusEditTxt))
-            .perform(ViewActions.replaceText("doctor"))
+            .perform(ViewActions.replaceText(STATUS_TEST))
         onView(withId(R.id.proProfileDomainEditTxt))
-            .perform(ViewActions.replaceText("humans"))
+            .perform(ViewActions.replaceText(DOMAIN_TEST))
         onView(withId(R.id.proProfileExperienceEditTxt))
-            .perform(ViewActions.replaceText("3"))
+            .perform(ViewActions.replaceText(EXPERIENCE_TEST))
 
         onView(withId(R.id.proProfilePrivacyCheck))
             .perform(click())
@@ -80,8 +85,10 @@ class ProProfileActivityTest {
         assertEquals(currentProUser.name, "")
         assertEquals(currentProUser.proofName, "")
         assertEquals(currentProUser.proofUri, "")
-        assertEquals(currentProUser.proStatus, "doctor")
-        assertEquals(currentProUser.proDomain, "humans")
+        assertEquals(currentProUser.proStatus, STATUS_TEST)
+        assertEquals(currentProUser.proDomain, DOMAIN_TEST)
+        assertEquals(currentProUser.proExperience, EXPERIENCE_TEST)
+
     }
 
     @Test

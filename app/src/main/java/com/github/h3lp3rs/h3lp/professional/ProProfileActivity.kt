@@ -108,6 +108,8 @@ class ProProfileActivity : AppCompatActivity() {
 
     /**
      * Checks if the policy is accepted and if so, loads data into the database
+     *
+     * @param view The view from where to load data
      */
     fun checkAndLoadData(view: View){
         if (!checkPolicy()) {
