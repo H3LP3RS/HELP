@@ -116,7 +116,7 @@ class HelpParametersActivityTest : H3lpAppTest() {
         )
     }
 
-    @Test
+    /*@Test
     fun clickPhoneButtonDialsCorrectEmergencyNumber() {
         mockLocationToCoordinates(SWISS_LONG, SWISS_LAT)
 
@@ -143,9 +143,9 @@ class HelpParametersActivityTest : H3lpAppTest() {
             )
         )
     }
+*/
 
-
-    @Test
+    /*@Test
     fun clickPhoneButtonWithNoLocationDialsDefaultEmergencyNumber() {
         loadValidMedicalDataToStorage()
 
@@ -162,13 +162,13 @@ class HelpParametersActivityTest : H3lpAppTest() {
         // In case of such an error, the default emergency number should be called
         val number = "tel:${DEFAULT_EMERGENCY_NUMBER}"
 
-        // Checking that this emergency number is dialed
+        // Checking that this emerclickPhoneButtonDialsCorrectEmergencyNumbergency number is dialed
         intended(
             allOf(
                 hasAction(ACTION_DIAL) //TODO: Had to remove data Cirrus
             )
         )
-    }
+    }*/
 
 
     @Test
