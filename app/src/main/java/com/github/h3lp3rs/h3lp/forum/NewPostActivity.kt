@@ -44,7 +44,7 @@ class NewPostActivity : AppCompatActivity() {
             findViewById<AutoCompleteTextView>(R.id.newPostCategoryDropdown).text.toString()
         val textViewAnswerQuestion = findViewById<TextInputEditText>(R.id.newPostTitleEditTxt)
         val question = textViewAnswerQuestion.text.toString()
-        val forum = ForumCategory.categoriesMap[category]?.let { ForumCategory.forumOf(it) }!!
+        val forum = category?.let { ForumWrapper.get(it) }!!
         // Add post to the database
         SignInActivity.userUid?.let { forum.newPost(it, question) }
 
