@@ -94,9 +94,19 @@ class CachedForum(private val forum: Forum) : Forum {
     private fun updateCacheWithPost(post: ForumPost) {
         // Copy for mutability issues
         val posts = ArrayList(getCacheEntry().posts)
-        posts.add(CachePost(post.post, ArrayList(post.replies)))
 
-        // Update cache with new post
+        // Look for post with same key
+        for (i in 0..posts.size) {
+            val p = posts[i]
+            if (p.postData.key == post.post.key) {
+                posts[i] = CachePost(post.post, ArrayList(post.replies))
+                setCacheEntry(CacheEntry(posts))
+                return
+            }
+        }
+
+        // First occurrence of key
+        posts.add(CachePost(post.post, ArrayList(post.replies)))
         setCacheEntry(CacheEntry(posts))
     }
 
@@ -118,21 +128,30 @@ class CachedForum(private val forum: Forum) : Forum {
         cache.setObject(cachePath, CacheEntry::class.java, entry)
     }
 
-    private fun addCachePathIfNeeded(path: String) {
+    private fun addCachePathIfNeeded(cachePath: String) {
         // Copy for mutability issues
         val newPaths = ArrayList(getCacheHeader().categoryPaths)
-        if (!newPaths.contains(path)) {
-            newPaths.add(path)
+        if (!newPaths.contains(cachePath)) {
+            newPaths.add(cachePath)
         }
 
         // Add path to category posts
-        cache.setObject(CACHE_HEADER, CacheHeader::class.java, CacheHeader(newPaths))
+        cache.setObject(
+            "$CACHE_HEADER//$cachePath", CacheHeader::class.java,
+            CacheHeader(newPaths)
+        )
+        // Recursive call to update parent
+        if (path.isNotEmpty()){
+            CachedForum(forum.parent()).addCachePathIfNeeded(cachePath)
+        }
     }
 
     private fun getCacheHeader(): CacheHeader {
+        val cachePath = path.joinToString(separator = "/")
+
         // Never null due to non-null default parameter
         return cache.getObjectOrDefault(
-            CACHE_HEADER,
+            "$CACHE_HEADER//$cachePath",
             CacheHeader::class.java,
             CacheHeader(ArrayList())
         )!!
