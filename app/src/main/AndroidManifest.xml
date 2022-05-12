@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        package="com.github.h3lp3rs.h3lp">
+    package="com.github.h3lp3rs.h3lp">
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -14,96 +14,93 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-            android:allowBackup="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/app_name"
-            android:roundIcon="@mipmap/ic_launcher_round"
-            android:supportsRtl="true"
-            android:theme="@style/Theme.H3LP">
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.H3LP">
         <activity
-                android:name=".test"
-                android:exported="true" />
+            android:name=".professional.ProfessionalTypeSelection"
+            android:exported="false" />
         <activity
-                android:name=".professional.ProfessionalTypeSelection"
-                android:exported="false" />
+            android:name=".SettingsActivity"
+            android:exported="false" />
         <activity
-                android:name=".SettingsActivity"
-                android:exported="false" />
+            android:name=".HelpPageActivity"
+            android:exported="true" />
         <activity
-                android:name=".HelpPageActivity"
-                android:exported="true" />
+            android:name=".messaging.RecentMessagesActivity"
+            android:exported="true" />
         <activity
-                android:name=".messaging.RecentMessagesActivity"
-                android:exported="true" />
+            android:name=".MainPageActivity"
+            android:exported="false" />
         <activity
-                android:name=".MainPageActivity"
-                android:exported="false" />
+            android:name=".professional.VerificationActivity"
+            android:exported="false" />
         <activity
-                android:name=".professional.VerificationActivity"
-                android:exported="false" />
+            android:name=".professional.ProMainActivity"
+            android:exported="false" />
         <activity
-                android:name=".professional.ProMainActivity"
-                android:exported="false" />
+            android:name=".MySkillsActivity"
+            android:exported="false" />
         <activity
-                android:name=".MySkillsActivity"
-                android:exported="false" />
+            android:name=".firstaid.AsthmaActivity"
+            android:exported="false" />
         <activity
-                android:name=".firstaid.AsthmaActivity"
-                android:exported="false" />
+            android:name=".firstaid.AedActivity"
+            android:exported="false" />
         <activity
-                android:name=".firstaid.AedActivity"
-                android:exported="false" />
+            android:name=".firstaid.HeartAttackActivity"
+            android:exported="false" />
         <activity
-                android:name=".firstaid.HeartAttackActivity"
-                android:exported="false" />
+            android:name=".firstaid.AllergyActivity"
+            android:exported="true" />
         <activity
-                android:name=".firstaid.AllergyActivity"
-                android:exported="true" />
-        <activity
-                android:name=".FirstAidActivity"
-                android:exported="false" />
+            android:name=".FirstAidActivity"
+            android:exported="false" />
         <!--
             Note that the API key is linked to the encryption key used to sign the APK.
             You need a different API key for each encryption key, including the release key that is used to
             sign the APK for publishing.
         -->
         <meta-data
-                android:name="com.google.android.geo.API_KEY"
-                android:value="@string/google_maps_key" />
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
 
         <activity
-                android:name=".NearbyUtilitiesActivity"
-                android:exported="false" />
+            android:name=".NearbyUtilitiesActivity"
+            android:exported="false" />
         <activity
-                android:name=".presentation.ToSActivity"
-                android:exported="false" />
+            android:name=".presentation.ToSActivity"
+            android:exported="false" />
         <activity
-                android:name=".MedicalCardActivity"
-                android:exported="false" />
+            android:name=".MedicalCardActivity"
+            android:exported="false" />
         <activity
-                android:name=".AwaitHelpActivity"
-                android:exported="false" />
+            android:name=".AwaitHelpActivity"
+            android:exported="false" />
         <activity
-                android:name=".HelpParametersActivity"
-                android:exported="true" />
+            android:name=".HelpParametersActivity"
+            android:exported="true" />
         <activity
-                android:name=".CprRateActivity"
-                android:exported="false" />
+            android:name=".CprRateActivity"
+            android:exported="false" />
         <activity
-                android:name=".messaging.ChatActivity"
-                android:exported="false" />
+            android:name=".messaging.ChatActivity"
+            android:exported="false" />
         <activity
-                android:name=".presentation.PresIrrelevantActivity"
-                android:exported="false" />
+            android:name=".presentation.PresIrrelevantActivity"
+            android:exported="false" />
         <activity
-                android:name=".presentation.PresRelevantActivity"
-                android:exported="false" />
+            android:name=".presentation.PresRelevantActivity"
+            android:exported="false" />
         <activity
-                android:name=".presentation.PresArrivalActivity"
-                android:exported="false" />
+            android:name=".presentation.PresArrivalActivity"
+            android:exported="false" />
         <activity
-                android:name=".signin.SignInActivity"
-                android:exported="true">
+            android:name=".signin.SignInActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
