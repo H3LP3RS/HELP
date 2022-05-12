@@ -32,7 +32,7 @@ import java.util.concurrent.CompletableFuture
  */
 open class H3lpAppTest {
 
-    private val locationManagerMock: LocationManagerInterface = mock(LocationManagerInterface::class.java)
+    protected val locationManagerMock: LocationManagerInterface = mock(LocationManagerInterface::class.java)
     private val locationMock: Location = mock(Location::class.java)
 
 
@@ -116,6 +116,7 @@ open class H3lpAppTest {
 
         const val SWISS_LAT = 46.514
         const val SWISS_LONG = 6.604
+        const val MAX_RESPONSE_DISTANCE = 5000.0
         const val SWISS_EMERGENCY_NUMBER = "144"
 
         const val EPIPEN = "Epipen"

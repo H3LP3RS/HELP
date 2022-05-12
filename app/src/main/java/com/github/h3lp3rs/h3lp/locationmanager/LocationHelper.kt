@@ -4,7 +4,7 @@ import android.location.Location
 import android.location.LocationManager
 import com.github.h3lp3rs.h3lp.MainPageActivity
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
-
+import java.util.concurrent.CompletableFuture
 
 /**
  * SuperActivity that is common to all activities using localization
@@ -31,6 +31,18 @@ class LocationHelper {
             userLocation?.longitude = it.longitude
             userLocation?.latitude = it.latitude
         }
+    }
+
+    /**
+     * Returns the distance in meters from the user to the target coordinates, future fails
+     * if the user's location cannot be retrieved
+     * @param coordinates The coordinates (latitude, longitude) of the target
+     * @param context The activity from which the location manager is called to get
+     * the user's permissions
+     * @return distance (in meters)
+     */
+    fun distanceFrom(coordinates: Pair<Double, Double>, context: Context): CompletableFuture<Double> {
+        return GeneralLocationManager.get().distanceFrom(coordinates, context)
     }
 
     /**
