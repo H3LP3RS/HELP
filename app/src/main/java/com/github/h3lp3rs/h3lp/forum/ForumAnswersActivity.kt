@@ -51,7 +51,6 @@ class ForumAnswersActivity : AppCompatActivity() {
         }
 
         selectedPost.listen { onAnswerAdded(it) }
-
     }
 }
 
