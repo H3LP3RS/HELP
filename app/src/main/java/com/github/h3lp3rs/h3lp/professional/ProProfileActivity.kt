@@ -123,5 +123,6 @@ class ProProfileActivity : AppCompatActivity() {
             loadData()
             createSnackBar(view, getString(R.string.changes_saved))
         }
+        
     }
 }
