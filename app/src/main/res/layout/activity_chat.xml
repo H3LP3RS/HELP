@@ -58,6 +58,21 @@
             app:layout_constraintHorizontal_bias="0.006"
             app:layout_constraintStart_toStartOf="parent" />
 
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_style"
+            android:backgroundTint="@color/light_grey"
+            android:text="  This conversation is encrypted from end-to-end  "
+            android:textColor="@color/gray"
+            app:layout_constraintBottom_toBottomOf="@+id/recycler_view_chat"
+            app:layout_constraintEnd_toEndOf="@+id/recycler_view_chat"
+            app:layout_constraintHorizontal_bias="0.546"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/recycler_view_chat"
+            app:layout_constraintVertical_bias="0.026" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

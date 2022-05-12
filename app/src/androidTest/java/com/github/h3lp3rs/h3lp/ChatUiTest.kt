@@ -110,7 +110,6 @@ class ChatUiTest {
     fun sendMessageDisplaysTheCorrectMessage() {
         onView(withId(R.id.text_view_enter_message)).perform(click()).perform(typeText(SENT_MESSAGE))
         onView(withId(R.id.button_send_message)).perform(click()).perform(ViewActions.closeSoftKeyboard())
-        Thread.sleep(H3lpAppTest.WAIT_UI)
         onView(withId(R.id.recycler_view_chat))
             .perform(RecyclerViewActions.scrollToPosition<ViewHolder>(0))
             //.check(matches(hasDescendant(withText(SENT_MESSAGE))))
