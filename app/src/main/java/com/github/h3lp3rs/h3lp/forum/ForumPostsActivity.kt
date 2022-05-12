@@ -13,15 +13,20 @@ import kotlinx.android.synthetic.main.activity_forum_answers.*
 import kotlinx.android.synthetic.main.activity_forum_posts.*
 import kotlinx.android.synthetic.main.post_forum_row.view.*
 
+/**
+ * Activity containing the forum posts of a given a category
+ */
 class ForumPostsActivity : AppCompatActivity() {
-    companion object{
+    companion object {
+        // The post of which the user wants to see the answers
         var selectedPost: ForumPost? = null
     }
-    private val adapter = GroupAdapter<ViewHolder>()
-    private var category : String? = null
-    private lateinit var forum : Forum
 
-    override fun onCreate(savedInstanceState : Bundle?) {
+    private val adapter = GroupAdapter<ViewHolder>()
+    private var category: String? = null
+    private lateinit var forum: Forum
+
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forum_posts)
 
@@ -33,9 +38,8 @@ class ForumPostsActivity : AppCompatActivity() {
         forum = ForumCategory.categoriesMap[category]?.let { forumOf(it) }!!
 
         adapter.setOnItemClickListener { item, view ->
-            val post = item as ForumPost
+            selectedPost = item as ForumPost
             val intent = Intent(view.context, ForumAnswersActivity::class.java)
-            selectedPost = post
             intent.putExtra(EXTRA_FORUM_CATEGORY, category)
             startActivity(intent)
         }
@@ -50,9 +54,12 @@ class ForumPostsActivity : AppCompatActivity() {
         listenToNewPosts()
     }
 
+    /**
+     * Displays all the posts in the forum database
+     */
     private fun listenToNewPosts() {
-        fun onPostAdded(data : ForumPostData) {
-            category?.let { ForumPost(forum,data, emptyList())}?.let { adapter.add(it) }
+        fun onPostAdded(data: ForumPostData) {
+            category?.let { ForumPost(forum, data, emptyList()) }?.let { adapter.add(it) }
             recycler_view_forum_answers.smoothScrollToPosition(adapter.itemCount - 1)
         }
 

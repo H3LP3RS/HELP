@@ -12,13 +12,15 @@ import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.activity_forum_answers.*
 import kotlinx.android.synthetic.main.answer_forum_row.view.*
 
-class ForumAnswersActivity: AppCompatActivity()  {
+/**
+ * Activity where the user sees all answers of the selected post and enters an answer
+ */
+class ForumAnswersActivity : AppCompatActivity() {
     private val adapter = GroupAdapter<ViewHolder>()
-    private lateinit var category : String
-    private lateinit var forum : Forum
+    private lateinit var category: String
+    private lateinit var forum: Forum
 
-
-    override fun onCreate(savedInstanceState : Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forum_answers)
         recycler_view_forum_answers.adapter = adapter
@@ -27,17 +29,25 @@ class ForumAnswersActivity: AppCompatActivity()  {
         category = bundle.getString(EXTRA_FORUM_CATEGORY) ?: category
         forum = ForumCategory.categoriesMap[category]?.let { ForumCategory.forumOf(it) }!!
 
-        add_answer_button.setOnClickListener{
+        add_answer_button.setOnClickListener {
             val answer = text_view_enter_answer.text.toString()
-            SignInActivity.userUid?.let { it1 -> ForumPostsActivity.selectedPost?.reply(it1,answer) }
+            SignInActivity.userUid?.let { author ->
+                ForumPostsActivity.selectedPost?.reply(
+                    author,
+                    answer
+                )
+            }
             text_view_enter_answer.text.clear()
         }
-        listenForAnswers()
 
+        listenForAnswers()
     }
 
+    /**
+     * Displays all the answers of the selected post
+     */
     private fun listenForAnswers() {
-        fun onAnswerAdded(data: ForumPostData){
+        fun onAnswerAdded(data: ForumPostData) {
             Answer(data.content, data.key, category).let { adapter.add(it) }
             recycler_view_forum_answers.smoothScrollToPosition(adapter.itemCount - 1)
         }
@@ -47,22 +57,29 @@ class ForumAnswersActivity: AppCompatActivity()  {
     }
 }
 
-private class Answer(private val answer : String, private val answerId : String, private val questionId : String) :
+/**
+ * Class representing the layout of a forum answer
+ */
+private class Answer(
+    private val answer: String,
+    private val answerId: String,
+    private val questionId: String
+) :
     Item<ViewHolder>() {
 
-    override fun bind(viewHolder : ViewHolder, position : Int) {
+    override fun bind(viewHolder: ViewHolder, position: Int) {
         viewHolder.itemView.answer_post.text = answer
     }
 
-    override fun getLayout() : Int {
+    override fun getLayout(): Int {
         return R.layout.answer_forum_row
     }
 
-    fun getID() : String {
+    fun getID(): String {
         return answerId
     }
 
-    fun getQuestionID() : String {
+    fun getQuestionID(): String {
         return questionId
     }
 

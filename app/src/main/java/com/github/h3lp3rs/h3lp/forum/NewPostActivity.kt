@@ -9,15 +9,21 @@ import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.google.android.material.textfield.TextInputEditText
 
+/**
+ * Activity where a user sends a Posts in the forum
+ */
 class NewPostActivity : AppCompatActivity() {
 
-    override fun onCreate(savedInstanceState : Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_post)
 
         createDropDownMenu()
     }
 
+    /**
+     * Creates the dropDown containing the forum categories
+     */
     private fun createDropDownMenu() {
         val adapter = ArrayAdapter(
             this, R.layout.dropdown_menu_popup, ForumCategory.values()
@@ -29,7 +35,11 @@ class NewPostActivity : AppCompatActivity() {
         editTextFilledExposedDropdown.setAdapter(adapter)
     }
 
-    fun sendPost(view : View) {
+    /**
+     * Sends the post to the forum
+     * @param view Current view
+     */
+    fun sendPost(view: View) {
         val category =
             findViewById<AutoCompleteTextView>(R.id.newPostCategoryDropdown).text.toString()
         val textViewAnswerQuestion = findViewById<TextInputEditText>(R.id.newPostTitleEditTxt)
