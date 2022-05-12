@@ -25,8 +25,7 @@ import kotlin.text.Charsets.UTF_8
  */
 class Conversation(
     private val conversationId: String,
-    private val currentMessenger: Messenger,
-    private val context: Context
+    private val currentMessenger: Messenger
 ) {
     private val database = databaseOf(MESSAGES)
     private var publicKey: PublicKey? = null
