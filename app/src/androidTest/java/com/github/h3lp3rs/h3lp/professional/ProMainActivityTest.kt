@@ -71,7 +71,7 @@ class ProMainActivityTest : H3lpAppTest() {
     }
 
     @Test
-    fun clickProfileButtonWorksAndSendsIntent() {
+    fun clickingProfileButtonWorksAndSendsIntent() {
         clickingOnButtonWorksAndSendsIntent(
             ProProfileActivity::class.java,
             ViewMatchers.withId(R.id.pro_profile_button)
