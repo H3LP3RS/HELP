@@ -52,7 +52,7 @@ class ForumNewPostActivityTest {
             .perform(ViewActions.replaceText("question"))
 
         onView(withId(R.id.newPostSaveButton))
-            .perform(ViewActions.scrollTo(),ViewActions.click())
+            .perform(ViewActions.click())
 
         assertEquals(forumPosts["question"], emptyList<String>())
     }
