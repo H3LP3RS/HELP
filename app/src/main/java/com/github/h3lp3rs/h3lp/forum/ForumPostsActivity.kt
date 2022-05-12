@@ -7,11 +7,9 @@ import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.forumOf
 import com.github.h3lp3rs.h3lp.forum.data.ForumPostData
 import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_forum_answers.*
 import kotlinx.android.synthetic.main.activity_forum_posts.*
-import kotlinx.android.synthetic.main.post_forum_row.view.*
 
 class ForumPostsActivity : AppCompatActivity() {
     companion object{

@@ -20,7 +20,7 @@
             android:padding="16dp"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/image_post"
@@ -33,7 +33,7 @@
             <TextView
                 android:id="@+id/question_post"
                 android:layout_width="250dp"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:text="@string/question"
                 android:textColor="@color/black"
                 android:textSize="15sp"
@@ -45,20 +45,19 @@
                 app:layout_constraintVertical_bias="1.0" />
 
             <TextView
-                android:id="@+id/post_author"
+                android:id="@+id/authpost_author"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="4dp"
-                app:layout_constraintHorizontal_bias="0.673"
                 android:text="@string/textview_username"
                 android:textColor="@color/black"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/question_post"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/image_post"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0" />
+                app:layout_constraintVertical_bias="0.0" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

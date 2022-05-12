@@ -12,7 +12,6 @@ import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_forum_answers.*
 import kotlinx.android.synthetic.main.answer_forum_row.view.*
-import kotlinx.android.synthetic.main.post_forum_row.view.*
 
 class ForumAnswersActivity : AppCompatActivity() {
     private val adapter = GroupAdapter<ViewHolder>()
@@ -34,7 +33,7 @@ class ForumAnswersActivity : AppCompatActivity() {
         add_answer_button.setOnClickListener {
             val answer = text_view_enter_answer.text.toString()
             // Currently uses the firebase uid as the post's author, could ba changed later
-            getName()!!.let { id -> ForumPostsActivity.selectedPost?.reply(id, answer) }
+            getName()!!.let { id -> ForumPostsActivity.selectedPost.reply(id, answer) }
             // Clear the text field
             text_view_enter_answer.text.clear()
         }
@@ -44,11 +43,11 @@ class ForumAnswersActivity : AppCompatActivity() {
 
     private fun listenForAnswers() {
         fun onAnswerAdded(data : ForumPostData) {
-            Answer(data.content,data.author).let { adapter.add(it) }
+            Answer(data.content, data.author).let { adapter.add(it) }
             recycler_view_forum_answers.smoothScrollToPosition(adapter.itemCount - 1)
         }
 
-        ForumPostsActivity.selectedPost?.listen { onAnswerAdded(it) }
+        ForumPostsActivity.selectedPost.listen { onAnswerAdded(it) }
 
     }
 }
