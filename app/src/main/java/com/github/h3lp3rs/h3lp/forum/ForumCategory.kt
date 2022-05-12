@@ -23,5 +23,7 @@ enum class ForumCategory {
             return choice.forum!!
         }
 
+        // The default category for a forum post
+        val DEFAULT_CATEGORY = GENERAL
     }
 }

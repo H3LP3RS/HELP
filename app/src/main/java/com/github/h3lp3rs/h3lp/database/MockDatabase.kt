@@ -99,7 +99,7 @@ class MockDatabase : Database {
             val convertedList = list.map { gson.fromJson(it, type)}
             future.complete(convertedList)
         }?.run {
-            future.completeExceptionally(NullPointerException("Key: $key not in the database"))
+            future.completeExceptionally(NoSuchFieldException("Key: $key not in the database"))
         }
         return future
     }
