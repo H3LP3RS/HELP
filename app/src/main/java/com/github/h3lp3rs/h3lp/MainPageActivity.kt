@@ -1,5 +1,6 @@
 package com.github.h3lp3rs.h3lp
 
+import FireForum
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.annotation.SuppressLint
 import android.app.Dialog
@@ -18,6 +19,7 @@ import androidx.core.app.ActivityCompat.OnRequestPermissionsResultCallback
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.activateHelpListeners
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.database.Databases.PRO_USERS
@@ -120,7 +122,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         // Start help listener
         activateHelpListeners()
         // Start listening to forum posts
-        ForumCategory.forumOf(ForumCategory.GENERAL).root().sendIntentNotificationOnNewPosts(
+        FireForum(emptyList()).sendIntentNotificationOnNewPosts(
             globalContext, ForumPostsActivity::class.java
         )
         startAppGuide()
