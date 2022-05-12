@@ -60,6 +60,7 @@ class ForumAnswersActivityTest {
             ),
             emptyList()
         )
+        
         ActivityScenario.launch<ForumAnswersActivity>(intent)
 
         init()
