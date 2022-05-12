@@ -6,7 +6,7 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.signin.SignInActivity
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.getName
 import com.google.android.material.textfield.TextInputEditText
 
 /**
@@ -46,8 +46,7 @@ class NewPostActivity : AppCompatActivity() {
         val question = textViewAnswerQuestion.text.toString()
         val forum = category?.let { ForumWrapper.get(it) }!!
         // Add post to the database
-        SignInActivity.userUid?.let { forum.newPost(it, question) }
-
+        getName()?.let { forum.newPost(it, question) }
         // Clears the text field when the user hits send
         textViewAnswerQuestion.text?.clear()
     }

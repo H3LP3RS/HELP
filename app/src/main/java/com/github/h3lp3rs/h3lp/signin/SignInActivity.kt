@@ -11,13 +11,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
+import com.github.h3lp3rs.h3lp.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuth.*
+import com.google.firebase.auth.FirebaseAuth.getInstance
 
 class SignInActivity : AppCompatActivity() {
     lateinit var signInClient : SignInInterface<AuthResult>
@@ -42,6 +41,7 @@ class SignInActivity : AppCompatActivity() {
     private fun checkIfSignedIn() {
         if (signInClient.isSignedIn()) {
             userUid = signInClient.getUid()
+            username = getInstance().currentUser?.displayName?.substringBefore(" ")
             checkToSAndLaunchIfNotAcceptedElseMain()
         }
     }
@@ -84,6 +84,8 @@ class SignInActivity : AppCompatActivity() {
             ?.addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
                     userUid = signInClient.getUid()
+                    // Only get the first name for privacy reasons
+                    username = getInstance().currentUser?.displayName?.substringBefore(" ")
                     checkToSAndLaunchIfNotAcceptedElseMain()
                 }
             }
@@ -97,6 +99,7 @@ class SignInActivity : AppCompatActivity() {
         @SuppressLint("StaticFieldLeak")
         lateinit var globalContext: Context
         var userUid: String? = null
+        private var username : String? = null
 
         /**
          * Getter on the global context
@@ -110,6 +113,12 @@ class SignInActivity : AppCompatActivity() {
          */
         fun getUid(): String? {
             return userUid
+        }
+        /**
+         * Getter on the user's name
+         */
+        fun getName():String? {
+            return username
         }
     }
 }
