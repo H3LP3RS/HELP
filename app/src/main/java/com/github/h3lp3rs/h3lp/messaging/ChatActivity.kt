@@ -74,11 +74,7 @@ class ChatActivity : AppCompatActivity() {
         }
 
         // Add the event listener to the current conversation
-        messagesDatabase.addEventListener(
-            conversationId,
-            Message::class.java,
-            { value -> run { onChildAdded(value) } },
-            { })
+        conversation.newMessageListener (::onChildAdded)
     }
 
     private fun onConversationDeletion() {
@@ -89,29 +85,18 @@ class ChatActivity : AppCompatActivity() {
          */
 
         fun onChildRemoved(key : String) {
-            // If the key is the conversation Id, that means that the user deleted the current
-            // conversation
-            if (key == conversationId) {
-                // Remove all the messages from the view
-                adapter.clear()
-                displayMessage(getString(R.string.deleted_conversation_message))
-                // If the user had previously accepted to provide help, upon cancellation either
-                // from him or the helpee, he simply goes back to the main page of the app
-                if (userRole == Messenger.HELPER) backHome()
-                // If the user is a helpee, finish() allows him to go back to the latest
-                // messages activity
-                else finish()
-            }
+            adapter.clear()
+            displayMessage(getString(R.string.deleted_conversation_message))
+            // If the user had previously accepted to provide help, upon cancellation either
+            // from him or the helpee, he simply goes back to the main page of the app
+            if (userRole == Messenger.HELPER) backHome()
+            // If the user is a helpee, finish() allows him to go back to the latest
+            // messages activity
+            else finish()
         }
 
         // Add the event listener to the entire messages database => key = null
-        messagesDatabase.addEventListener(null, String::class.java, null) { key ->
-            run {
-                onChildRemoved(
-                    key
-                )
-            }
-        }
+        conversation.deleteConversationListener(::onChildRemoved)
     }
 
     /**
