@@ -3,8 +3,7 @@ package com.github.h3lp3rs.h3lp.forum
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.categoriesMap
-import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.forumOf
+import com.github.h3lp3rs.h3lp.forum.ForumPostsActivity.Companion.selectedPost
 import com.github.h3lp3rs.h3lp.forum.data.ForumPostData
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.getName
 import com.xwray.groupie.GroupAdapter
@@ -26,16 +25,14 @@ class ForumAnswersActivity : AppCompatActivity() {
         setContentView(R.layout.activity_forum_answers)
 
         recycler_view_forum_answers.adapter = adapter
+        category = selectedPost.post.category.name
 
-        val bundle = intent.extras!!
-        category = bundle.getString(EXTRA_FORUM_CATEGORY) ?: category
-
-        forum = category?.let { ForumWrapper.get(it) }!!
+        forum = category.let { ForumWrapper.get(it) }
 
         add_answer_button.setOnClickListener {
             val answer = text_view_enter_answer.text.toString()
             // Currently uses the firebase uid as the post's author, could ba changed later
-            getName()!!.let { id -> ForumPostsActivity.selectedPost.reply(id, answer) }
+            getName()!!.let { id -> selectedPost.reply(id, answer) }
             // Clear the text field
             text_view_enter_answer.text.clear()
         }
@@ -53,7 +50,7 @@ class ForumAnswersActivity : AppCompatActivity() {
             recycler_view_forum_answers.smoothScrollToPosition(adapter.itemCount - 1)
         }
 
-        ForumPostsActivity.selectedPost.listen { onAnswerAdded(it) }
+        selectedPost.listen { onAnswerAdded(it) }
 
     }
 }

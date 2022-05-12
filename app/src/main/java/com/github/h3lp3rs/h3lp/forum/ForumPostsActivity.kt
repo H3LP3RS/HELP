@@ -44,7 +44,6 @@ class ForumPostsActivity : AppCompatActivity() {
         adapter.setOnItemClickListener { item, view ->
             selectedPost = item as ForumPost
             val intent = Intent(view.context, ForumAnswersActivity::class.java)
-            intent.putExtra(EXTRA_FORUM_CATEGORY, category)
             startActivity(intent)
         }
 
@@ -65,34 +64,33 @@ class ForumPostsActivity : AppCompatActivity() {
         fun onPostAdded(data : ForumPostData) {
             category?.let { ForumPost(forum, data, emptyList()) }?.let { adapter.add(it) }
             recycler_view_forum_answers.smoothScrollToPosition(adapter.itemCount - 1)
-            // Send a notification only if the user is not the author of the post
-            if (data.author != getName()) {
-                val medicalType = enabledCategoriesNotifications.getObjectOrDefault(
-                    getString(R.string.forum_theme_key), MedicalType::class.java, null
-                )
-                medicalType?.let {
-                    fun checkIfEnabled(medicalType : String) : Boolean {
-                        val enabled = when (medicalType) {
-                            GENERAL.name -> it.generalist
-                            PEDIATRY.name -> it.pediatry
-                            CARDIOLOGY.name -> it.cardiology
-                            TRAUMATOLOGY.name -> it.traumatology
-                            GYNECOLOGY.name -> it.gynecology
-                            NEUROLOGY.name -> it.neurology
-                            else -> false
-                        }
-                        return enabled
-                    }
-                    if (checkIfEnabled(category!!)){
-                        // TODO
-                    }
-
-                }
-            }
         }
 
         forum.listenToAll { data ->
             run { onPostAdded(data) }
+        }
+    }
+
+    private fun activateNotifications(){
+            val medicalType = enabledCategoriesNotifications.getObjectOrDefault(
+                getString(R.string.forum_theme_key), MedicalType::class.java, null
+            )
+            medicalType?.let {
+                fun checkIfEnabled(medicalType : String) : Boolean {
+                    val enabled = when (medicalType) {
+                        GENERAL.name -> it.generalist
+                        PEDIATRY.name -> it.pediatry
+                        CARDIOLOGY.name -> it.cardiology
+                        TRAUMATOLOGY.name -> it.traumatology
+                        GYNECOLOGY.name -> it.gynecology
+                        NEUROLOGY.name -> it.neurology
+                        else -> false
+                    }
+                    return enabled
+                }
+                if (checkIfEnabled(category!!)){
+                    // TODO
+                }
         }
     }
 
