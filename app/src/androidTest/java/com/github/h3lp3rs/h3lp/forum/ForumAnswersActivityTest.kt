@@ -40,7 +40,7 @@ class ForumAnswersActivityTest {
             putExtra(EXTRA_FORUM_CATEGORY, CATEGORY_TEST)
         }
 
-        SignInActivity.username = USER_TEST_ID
+        SignInActivity.setName(USER_TEST_ID)
 
         val forum = Mockito.mock(Forum::class.java)
         ForumWrapper.set(forum)
