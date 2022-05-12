@@ -33,7 +33,7 @@ class ForumNewPostActivityTest {
         SignInActivity.setName(USER_TEST_ID)
 
         val forum = Mockito.mock(Forum::class.java)
-        ForumWrapper.set(forum)
+        ForumCategory.setForum(CATEGORY_TEST,forum)
         Mockito.`when`(forum.newPost(any(), any())).then {
             val content = it.getArgument<String>(1)
             forumPosts[content] = emptyList()
@@ -48,6 +48,9 @@ class ForumNewPostActivityTest {
 
     @Test
     fun addNewPostWorks(){
+        onView(withId(R.id.newPostCategoryDropdown))
+            .perform(ViewActions.replaceText(CATEGORY_TEST_STRING))
+
         onView(withId(R.id.newPostTitleEditTxt))
             .perform(ViewActions.replaceText("question"))
 

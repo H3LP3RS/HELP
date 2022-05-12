@@ -23,7 +23,8 @@ import org.mockito.Mockito
 import org.mockito.kotlin.any
 import java.time.ZonedDateTime
 
-const val CATEGORY_TEST = "GENERAL"
+const val CATEGORY_TEST_STRING = "GENERAL"
+val CATEGORY_TEST = ForumCategory.GENERAL
 const val QUESTION_TEST = "question"
 const val ANSWER_TEST = "answer"
 
@@ -37,13 +38,13 @@ class ForumAnswersActivityTest {
             ApplicationProvider.getApplicationContext(),
             ForumAnswersActivity::class.java
         ).apply {
-            putExtra(EXTRA_FORUM_CATEGORY, CATEGORY_TEST)
+            putExtra(EXTRA_FORUM_CATEGORY, CATEGORY_TEST_STRING)
         }
 
         SignInActivity.setName(USER_TEST_ID)
 
         val forum = Mockito.mock(Forum::class.java)
-        ForumWrapper.set(forum)
+        ForumCategory.setForum(CATEGORY_TEST,forum)
         Mockito.`when`(forum.newPost(any(), any())).then {
             val content = it.getArgument<String>(1)
             forumPosts[QUESTION_TEST] = listOf(content)

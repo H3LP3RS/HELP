@@ -31,12 +31,14 @@ class ForumPostsActivityTest {
         val intent = Intent(
             ApplicationProvider.getApplicationContext(),
             ForumPostsActivity::class.java
-        )
+        ).apply {
+            putExtra(EXTRA_FORUM_CATEGORY, CATEGORY_TEST_STRING)
+        }
 
         ActivityScenario.launch<ForumPostsActivity>(intent)
 
         val forum = Mockito.mock(Forum::class.java)
-        ForumWrapper.set(forum)
+        ForumCategory.setForum(CATEGORY_TEST,forum)
         Mockito.`when`(forum.newPost(any(), any())).then {
             val content = it.getArgument<String>(1)
             forumPosts[content] = emptyList()

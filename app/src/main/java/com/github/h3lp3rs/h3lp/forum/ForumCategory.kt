@@ -1,6 +1,8 @@
 package com.github.h3lp3rs.h3lp.forum
 
 import FireForum
+import com.github.h3lp3rs.h3lp.database.Database
+import com.github.h3lp3rs.h3lp.database.Databases
 
 /**
  * Enumeration of the standard, pre-defined forum main categories (root level)
@@ -26,6 +28,14 @@ enum class ForumCategory {
             // empty list)
             choice.forum = choice.forum ?: FireForum(listOf(choice.name))
             return choice.forum!!
+        }
+
+        /**
+         * Used for testing purposes to give forum instances
+         * @param newForum The forum to use
+         */
+        fun setForum(choice: ForumCategory, newForum: Forum) {
+            choice.forum = newForum
         }
     }
 }

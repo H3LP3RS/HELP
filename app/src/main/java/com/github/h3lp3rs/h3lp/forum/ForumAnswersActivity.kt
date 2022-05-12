@@ -27,7 +27,7 @@ class ForumAnswersActivity : AppCompatActivity() {
         recycler_view_forum_answers.adapter = adapter
         category = selectedPost.post.category.name
 
-        forum = category.let { ForumWrapper.get(it) }
+        forum = ForumCategory.categoriesMap[category]?.let { ForumCategory.forumOf(it) }!!
 
         add_answer_button.setOnClickListener {
             val answer = text_view_enter_answer.text.toString()
