@@ -42,6 +42,7 @@ class SignInActivity : AppCompatActivity() {
     private fun checkIfSignedIn() {
         if (signInClient.isSignedIn()) {
             userUid = signInClient.getUid()
+            username = getInstance().currentUser?.displayName?.substringBefore(" ")
             checkToSAndLaunchIfNotAcceptedElseMain()
         }
     }
@@ -84,6 +85,8 @@ class SignInActivity : AppCompatActivity() {
             ?.addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
                     userUid = signInClient.getUid()
+                    // Only get the first name for privacy reasons
+                    username = getInstance().currentUser?.displayName?.substringBefore(" ")
                     checkToSAndLaunchIfNotAcceptedElseMain()
                 }
             }
@@ -97,6 +100,7 @@ class SignInActivity : AppCompatActivity() {
         @SuppressLint("StaticFieldLeak")
         lateinit var globalContext: Context
         var userUid: String? = null
+        private var username : String? = null
 
         /**
          * Getter on the global context
@@ -110,6 +114,12 @@ class SignInActivity : AppCompatActivity() {
          */
         fun getUid(): String? {
             return userUid
+        }
+        /**
+         * Getter on the user's name
+         */
+        fun getName():String? {
+            return username
         }
     }
 }

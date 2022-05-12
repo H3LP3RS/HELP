@@ -7,6 +7,8 @@ import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.post_forum_row.view.*
 import java.util.concurrent.CompletableFuture
 import com.github.h3lp3rs.h3lp.forum.ForumCategory.*
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.getName
+
 /**
  * A forum post containing all the data.
  * The class has as attribute the instance of the forum that directly points on it
@@ -54,6 +56,7 @@ class ForumPost(
     override fun bind(viewHolder: ViewHolder, position: Int) {
         viewHolder.itemView.question_post.text = post.content
         viewHolder.itemView.image_post.setImageResource(getImage())
+        viewHolder.itemView.post_author.text = post.author
     }
 
     override fun getLayout(): Int {

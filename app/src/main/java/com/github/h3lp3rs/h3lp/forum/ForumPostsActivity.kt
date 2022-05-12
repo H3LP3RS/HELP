@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.post_forum_row.view.*
 
 class ForumPostsActivity : AppCompatActivity() {
     companion object{
-        var selectedPost: ForumPost? = null
+        lateinit var selectedPost: ForumPost
     }
     private val adapter = GroupAdapter<ViewHolder>()
     private var category : String? = null
