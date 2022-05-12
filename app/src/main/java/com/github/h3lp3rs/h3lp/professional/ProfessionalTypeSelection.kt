@@ -2,17 +2,19 @@ package com.github.h3lp3rs.h3lp.professional
 
 import android.content.Intent
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.CheckBox
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.dataclasses.MedicalType
+import com.github.h3lp3rs.h3lp.forum.ForumCategory
+import com.github.h3lp3rs.h3lp.forum.ForumCategory.*
 import com.github.h3lp3rs.h3lp.storage.LocalStorage
-import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
+import com.github.h3lp3rs.h3lp.storage.Storages.FORUM_THEMES_NOTIFICATIONS
 
 class ProfessionalTypeSelection : AppCompatActivity() {
 
@@ -59,16 +61,16 @@ class ProfessionalTypeSelection : AppCompatActivity() {
             MedicalType::class.java, null
         ) ?: return
 
-        checkCheckBox(theme.cardiology, R.id.cardioTxt)
-        checkCheckBox(theme.generalist, R.id.generalSwitch)
-        checkCheckBox(theme.gynecology, R.id.gynecologySwitch)
-        checkCheckBox(theme.neurology, R.id.neurologySwitch)
-        checkCheckBox(theme.pediatry, R.id.pediatrySwitch)
-        checkCheckBox(theme.traumatology, R.id.traumaTxt)
+        checkCheckBox(theme.hasCategory(CARDIOLOGY), R.id.cardioTxt)
+        checkCheckBox(theme.hasCategory(GENERAL), R.id.generalSwitch)
+        checkCheckBox(theme.hasCategory(GYNECOLOGY), R.id.gynecologySwitch)
+        checkCheckBox(theme.hasCategory(NEUROLOGY), R.id.neurologySwitch)
+        checkCheckBox(theme.hasCategory(PEDIATRY), R.id.pediatrySwitch)
+        checkCheckBox(theme.hasCategory(TRAUMATOLOGY), R.id.traumaTxt)
     }
 
     /**
-     * toggle a given switch
+     * Toggle a given switch
      * @param toggle the boolean to toggle the switch
      * @param id the id of the switch to toggle
      */
@@ -81,23 +83,23 @@ class ProfessionalTypeSelection : AppCompatActivity() {
      */
     @RequiresApi(Build.VERSION_CODES.O)
     private fun saveData() {
-        val theme = MedicalType(
-            getBooleanFromSwitch(R.id.generalSwitch),
-            getBooleanFromSwitch(R.id.cardioTxt),
-            getBooleanFromSwitch(R.id.traumaTxt),
-            getBooleanFromSwitch(R.id.pediatrySwitch),
-            getBooleanFromSwitch(R.id.neurologySwitch),
-            getBooleanFromSwitch(R.id.gynecologySwitch)
-        )
+        val categoriesList = emptyList<ForumCategory?>() +
+                getCategoriesFromSwitch(R.id.generalSwitch, GENERAL) +
+                getCategoriesFromSwitch(R.id.cardioTxt, CARDIOLOGY) +
+                getCategoriesFromSwitch(R.id.traumaTxt, TRAUMATOLOGY) +
+                getCategoriesFromSwitch(R.id.pediatrySwitch, PEDIATRY) +
+                getCategoriesFromSwitch(R.id.neurologySwitch, NEUROLOGY) +
+                getCategoriesFromSwitch(R.id.gynecologySwitch, GYNECOLOGY)
+        val theme = MedicalType(categoriesList.filterNotNull())
 
         storage.setObject(getString(R.string.forum_theme_key), MedicalType::class.java, theme)
         storage.push()
     }
 
     /**
-     * return the boolean from a switch button
+     * Returns the given category if it is checked, null otherwise
      */
-    private fun getBooleanFromSwitch(id: Int): Boolean {
-        return findViewById<CheckBox>(id).isChecked
+    private fun getCategoriesFromSwitch(id: Int, currentCategory: ForumCategory): ForumCategory? {
+        return if (findViewById<CheckBox>(id).isChecked) currentCategory else null
     }
 }
