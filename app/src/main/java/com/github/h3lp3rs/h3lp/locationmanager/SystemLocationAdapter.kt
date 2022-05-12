@@ -10,9 +10,6 @@ import com.github.h3lp3rs.h3lp.locationmanager.LocationManagerInterface.Companio
 import com.google.android.gms.location.LocationServices
 import java.util.concurrent.CompletableFuture
 
-
-
-
 /**
  * This object adapts the System location manager, it is used as the central location manager in
  * the app
@@ -45,5 +42,4 @@ object SystemLocationAdapter : LocationManagerInterface {
         }
         return futureLocation
     }
-
 }

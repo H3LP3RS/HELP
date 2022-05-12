@@ -10,8 +10,8 @@ import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.github.h3lp3rs.h3lp.H3lpAppTest.Companion.USER_TEST_ID
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.USER_TEST_ID
 import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
@@ -27,6 +27,8 @@ private const val STATUS_TEST = "doctor"
 private const val DOMAIN_TEST = "humans"
 private const val EXPERIENCE_TEST = "3"
 
+private val proUsersDb = databaseOf(Databases.PRO_USERS)
+private val proUser = ProUser(USER_TEST_ID, "","","", "", "", "")
 
 @RunWith(AndroidJUnit4::class)
 class ProProfileActivityTest {
@@ -41,8 +43,6 @@ class ProProfileActivityTest {
         VerificationActivity.currentUserId = USER_TEST_ID
         VerificationActivity.currentUserName = ""
         setDatabase(Databases.PRO_USERS,MockDatabase())
-        val proUsersDb = databaseOf(Databases.PRO_USERS)
-        val proUser = ProUser(USER_TEST_ID, "","","", "", "", "")
         proUsersDb.setObject(USER_TEST_ID,ProUser::class.java, proUser)
     }
 

@@ -12,7 +12,7 @@ import com.github.h3lp3rs.h3lp.database.Databases.MESSAGES
  *  matching Messenger as sent by the current user
  */
 class Conversation(
-    private val conversationId: String,
+    val conversationId: String,
     private val currentMessenger: Messenger
 ) {
     private val database = databaseOf(MESSAGES)

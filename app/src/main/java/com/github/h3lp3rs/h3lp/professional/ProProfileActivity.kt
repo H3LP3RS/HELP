@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
+import android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
 import android.text.TextPaint
 import android.text.TextUtils
 import android.text.method.LinkMovementMethod
@@ -16,6 +17,10 @@ import androidx.core.content.ContextCompat
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
+import com.github.h3lp3rs.h3lp.professional.VerificationActivity.Companion.currentUserId
+import com.github.h3lp3rs.h3lp.professional.VerificationActivity.Companion.currentUserName
+import com.github.h3lp3rs.h3lp.professional.VerificationActivity.Companion.currentUserProofName
+import com.github.h3lp3rs.h3lp.professional.VerificationActivity.Companion.currentUserProofUri
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 
@@ -50,7 +55,7 @@ class ProProfileActivity : AppCompatActivity() {
             }
         }
         val linkText = SpannableString(getString(R.string.privacy_policy))
-        linkText.setSpan(clickableSpan, 0, linkText.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        linkText.setSpan(clickableSpan, 0, linkText.length, SPAN_EXCLUSIVE_EXCLUSIVE)
         val cs = TextUtils.expandTemplate("I accept the ^1", linkText)
         val checkBox = findViewById<CheckBox>(R.id.proProfilePrivacyCheck)
         checkBox.text = cs
@@ -74,10 +79,10 @@ class ProProfileActivity : AppCompatActivity() {
         proExperience = findViewById<EditText>(R.id.proProfileExperienceEditTxt).text.toString()
 
         val updatedProfile = ProUser(
-            id = VerificationActivity.currentUserId,
-            name = VerificationActivity.currentUserName,
-            proofName = VerificationActivity.currentUserProofName,
-            proofUri = VerificationActivity.currentUserProofUri,
+            id = currentUserId,
+            name = currentUserName,
+            proofName = currentUserProofName,
+            proofUri = currentUserProofUri,
             proStatus = proStatus,
             proDomain = proDomain,
             proExperience = proExperience
