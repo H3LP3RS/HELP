@@ -30,7 +30,7 @@ class ForumNewPostActivityTest {
     @Before
     fun setup() {
         Intents.init()
-        SignInActivity.userUid = USER_TEST_ID
+        SignInActivity.username = USER_TEST_ID
 
         val forum = Mockito.mock(Forum::class.java)
         ForumWrapper.set(forum)

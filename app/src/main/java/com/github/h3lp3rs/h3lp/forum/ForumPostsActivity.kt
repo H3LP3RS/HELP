@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.activity_forum_posts.*
 class ForumPostsActivity : AppCompatActivity() {
     companion object {
         // The post of which the user wants to see the answers
-        var selectedPost : ForumPost? = null
+       lateinit var selectedPost : ForumPost
     }
 
     private val adapter = GroupAdapter<ViewHolder>()

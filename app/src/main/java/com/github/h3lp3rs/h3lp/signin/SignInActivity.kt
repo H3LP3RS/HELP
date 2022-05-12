@@ -99,7 +99,7 @@ class SignInActivity : AppCompatActivity() {
         @SuppressLint("StaticFieldLeak")
         lateinit var globalContext: Context
         var userUid: String? = null
-        private var username : String? = null
+        var username : String? = null
 
         /**
          * Getter on the global context

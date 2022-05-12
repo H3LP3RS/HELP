@@ -29,16 +29,14 @@ class ForumAnswersActivity : AppCompatActivity() {
 
         val bundle = intent.extras!!
         category = bundle.getString(EXTRA_FORUM_CATEGORY) ?: category
-        forum = category.let { ForumWrapper.get(it) }
+
+        forum = category?.let { ForumWrapper.get(it) }!!
 
         add_answer_button.setOnClickListener {
             val answer = text_view_enter_answer.text.toString()
-            SignInActivity.userUid?.let { author ->
-                ForumPostsActivity.selectedPost?.reply(
-                    author,
-                    answer
-                )
-            }
+            // Currently uses the firebase uid as the post's author, could ba changed later
+            getName()!!.let { id -> ForumPostsActivity.selectedPost.reply(id, answer) }
+            // Clear the text field
             text_view_enter_answer.text.clear()
         }
 
@@ -49,12 +47,13 @@ class ForumAnswersActivity : AppCompatActivity() {
      * Displays all the answers of the selected post
      */
     private fun listenForAnswers() {
-        fun onAnswerAdded(data: ForumPostData) {
-            Answer(data.content, data.key, category).let { adapter.add(it) }
+
+        fun onAnswerAdded(data : ForumPostData) {
+            Answer(data.content, data.author).let { adapter.add(it) }
             recycler_view_forum_answers.smoothScrollToPosition(adapter.itemCount - 1)
         }
 
-        ForumPostsActivity.selectedPost?.listen { onAnswerAdded(it) }
+        ForumPostsActivity.selectedPost.listen { onAnswerAdded(it) }
 
     }
 }
@@ -63,26 +62,20 @@ class ForumAnswersActivity : AppCompatActivity() {
  * Class representing the layout of a forum answer
  */
 private class Answer(
-    private val answer: String,
-    private val answerId: String,
-    private val questionId: String
-) :
-    Item<ViewHolder>() {
+    private val answer : String,
+    private val author : String,
+) : Item<ViewHolder>() {
+    /**
+     * Class representing the layout of a forum answer
+     */
 
-    override fun bind(viewHolder: ViewHolder, position: Int) {
+    override fun bind(viewHolder : ViewHolder, position : Int) {
         viewHolder.itemView.answer_post.text = answer
+        viewHolder.itemView.answer_author.text = author
     }
 
-    override fun getLayout(): Int {
+    override fun getLayout() : Int {
         return R.layout.answer_forum_row
-    }
-
-    fun getID(): String {
-        return answerId
-    }
-
-    fun getQuestionID(): String {
-        return questionId
     }
 
 }

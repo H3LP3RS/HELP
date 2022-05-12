@@ -40,8 +40,7 @@ class ForumAnswersActivityTest {
             putExtra(EXTRA_FORUM_CATEGORY, CATEGORY_TEST)
         }
 
-        ActivityScenario.launch<ForumAnswersActivity>(intent)
-        SignInActivity.userUid = USER_TEST_ID
+        SignInActivity.username = USER_TEST_ID
 
         val forum = Mockito.mock(Forum::class.java)
         ForumWrapper.set(forum)
@@ -60,6 +59,7 @@ class ForumAnswersActivityTest {
             ),
             emptyList()
         )
+        ActivityScenario.launch<ForumAnswersActivity>(intent)
 
         init()
     }
