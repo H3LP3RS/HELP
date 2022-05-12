@@ -290,7 +290,7 @@ class MedicalCardActivityTest : H3lpAppTest() {
             fillCorrectInfo()
             onView(withId(R.id.medicalInfoSaveButton))
                 .perform(scrollTo(), click())
-            onView(withText(R.string.privacy_policy_not_acceptes))
+            onView(withText(R.string.privacy_policy_not_accepted))
                 .check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
         }
     }
@@ -313,7 +313,7 @@ class MedicalCardActivityTest : H3lpAppTest() {
             fillCorrectInfo()
             onView(withId(R.id.medicalInfoPrivacyCheck))
                 .perform(scrollTo(), click())
-            onView(withText(R.string.privacy_policy_not_acceptes))
+            onView(withText(R.string.privacy_policy_not_accepted))
             onView(withText(R.string.privacy_policy))
                 .inRoot(isDialog())
                 .perform(pressBack())

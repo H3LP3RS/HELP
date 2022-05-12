@@ -245,8 +245,8 @@ class MainPageTestActivity : H3lpAppTest() {
 
     @Test
     fun clickingOnProPortalButtonGoesToProPortalIfVerifiedUser() {
-        val proUser = ProUser(USER_TEST_ID, "", "", "")
-        proUsersDb.setObject(USER_TEST_ID, ProUser::class.java, proUser)
+        val proUser = ProUser(USER_TEST_ID, "","","", "", "", "")
+        proUsersDb.setObject(USER_TEST_ID,ProUser::class.java, proUser)
         launchAndDo {
             clickingOnButtonWorksAndSendsIntent(
                 ProMainActivity::class.java,
