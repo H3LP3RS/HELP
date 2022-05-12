@@ -18,7 +18,7 @@ enum class ForumCategory {
 
         /**
          * Returns one of the main pre-defined categories sub-forum
-         * @param category One of the pre-defined main categories
+         * @param choice One of the pre-defined main categories
          * @return forum The forum of the given category
          */
         fun forumOf(choice: ForumCategory): Forum {

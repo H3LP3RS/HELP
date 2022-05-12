@@ -4,11 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.dataclasses.MedicalType
-import com.github.h3lp3rs.h3lp.forum.ForumCategory.*
-import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.forumOf
 import com.github.h3lp3rs.h3lp.forum.data.ForumPostData
-import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.getName
 import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.xwray.groupie.GroupAdapter
@@ -22,13 +18,12 @@ import kotlinx.android.synthetic.main.activity_forum_posts.*
 class ForumPostsActivity : AppCompatActivity() {
     companion object {
         // The post of which the user wants to see the answers
-       lateinit var selectedPost : ForumPost
+        lateinit var selectedPost : ForumPost
     }
 
     private val adapter = GroupAdapter<ViewHolder>()
     private var category : String? = null
     private lateinit var forum : Forum
-    private val enabledCategoriesNotifications = storageOf(Storages.FORUM_THEMES_NOTIFICATIONS)
 
     override fun onCreate(savedInstanceState : Bundle?) {
         super.onCreate(savedInstanceState)
