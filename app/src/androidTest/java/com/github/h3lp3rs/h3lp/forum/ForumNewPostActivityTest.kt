@@ -20,7 +20,7 @@ import org.mockito.kotlin.any
 
 @RunWith(AndroidJUnit4::class)
 class ForumNewPostActivityTest {
-    private val forumPosts: MutableMap<String, List<String>> = mutableMapOf()
+    private val forumPosts : MutableMap<String, List<String>> = mutableMapOf()
 
     @get:Rule
     val testRule = ActivityScenarioRule(
@@ -54,8 +54,7 @@ class ForumNewPostActivityTest {
         onView(withId(R.id.newPostTitleEditTxt))
             .perform(ViewActions.replaceText("question"))
 
-        onView(withId(R.id.newPostSaveButton))
-            .perform(ViewActions.click())
+        onView(withId(R.id.newPostSaveButton)).perform(ViewActions.click())
 
         assertEquals(forumPosts["question"], emptyList<String>())
     }

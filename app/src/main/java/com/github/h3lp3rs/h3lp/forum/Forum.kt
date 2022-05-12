@@ -103,7 +103,6 @@ interface Forum {
 
         listenToAll { postData ->
             // Only display notifications of posts written by other users
-            if (postData.author == getName()) return@listenToAll
 
             val medicalType = enabledCategoriesNotifications.getObjectOrDefault(
                 THEME_KEY, MedicalType::class.java, null
@@ -122,7 +121,8 @@ interface Forum {
                     return enabled
                 }
                 // Display the notification if the user has enabled this category's notifications
-                if (checkIfEnabled(postData.category.name)) {
+                // and the post hadn't been posted by him
+                if (checkIfEnabled(postData.category.name) && postData.author != getName() ) {
                     val description = postData.content
                     val title = "New post in ${postData.category} from: ${postData.author}"
                     val intent = Intent(
