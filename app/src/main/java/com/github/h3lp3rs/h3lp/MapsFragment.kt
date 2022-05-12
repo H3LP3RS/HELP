@@ -8,10 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
@@ -196,14 +193,17 @@ class MapsFragment : Fragment(), CoroutineScope by MainScope(), GoogleMap.OnPoly
      * @param markerName Name to give to the marker (is visible upon clicking on it)
      */
     fun addMarker(destinationLat: Double, destinationLong: Double, markerName: String) {
-        val options = MarkerOptions()
-        val latLng = LatLng(destinationLat, destinationLong)
+        // Only add a marker when the map is ready
+        executeOnMapReady {
+            val options = MarkerOptions()
+            val latLng = LatLng(destinationLat, destinationLong)
 
-        options.position(latLng)
-        options.title(markerName)
-        options.icon(BitmapDescriptorFactory.fromResource(R.drawable.end_point_pin))
+            options.position(latLng)
+            options.title(markerName)
+            options.icon(BitmapDescriptorFactory.fromResource(R.drawable.end_point_pin))
 
-        map.addMarker(options)
+            map.addMarker(options)
+        }
     }
 
     /**

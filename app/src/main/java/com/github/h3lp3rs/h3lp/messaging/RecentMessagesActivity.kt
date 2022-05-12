@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.github.h3lp3rs.h3lp.EXTRA_HELPEE_ID
+import com.github.h3lp3rs.h3lp.EXTRA_EMERGENCY_KEY
 import com.github.h3lp3rs.h3lp.EXTRA_USER_ROLE
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.database.Databases
@@ -37,9 +37,7 @@ class RecentMessagesActivity : AppCompatActivity() {
         setContentView(R.layout.activity_latest_messages)
 
         val bundle = this.intent.extras
-        helpeeId = bundle?.getString(EXTRA_HELPEE_ID) ?: helpeeId
-
-        databaseOf(Databases.MESSAGES).setString("HEWIEWEWE", helpeeId!!)
+        helpeeId = bundle?.getString(EXTRA_EMERGENCY_KEY) ?: helpeeId
 
         adapter.setOnItemClickListener { item, view ->
             val userItem = item as HelperConversation
