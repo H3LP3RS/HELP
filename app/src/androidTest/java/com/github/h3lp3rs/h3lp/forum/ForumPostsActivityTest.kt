@@ -26,13 +26,14 @@ class ForumPostsActivityTest {
 
     @Before
     fun setup() {
+        SignInActivity.globalContext = ApplicationProvider.getApplicationContext()
+        SignInActivity.userUid = USER_TEST_ID
         val intent = Intent(
             ApplicationProvider.getApplicationContext(),
             ForumPostsActivity::class.java
         )
 
         ActivityScenario.launch<ForumPostsActivity>(intent)
-        SignInActivity.userUid = USER_TEST_ID
 
         val forum = Mockito.mock(Forum::class.java)
         ForumWrapper.set(forum)

@@ -1,6 +1,7 @@
 package com.github.h3lp3rs.h3lp.forum
 
 import android.view.View
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.intent.Intents
@@ -9,6 +10,8 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.R
+import com.github.h3lp3rs.h3lp.USER_TEST_ID
+import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 import org.junit.After
@@ -27,6 +30,8 @@ class ForumCategoriesActivityTest {
 
     @Before
     fun setup() {
+        SignInActivity.globalContext = ApplicationProvider.getApplicationContext()
+        SignInActivity.userUid = USER_TEST_ID
         Intents.init()
     }
 
