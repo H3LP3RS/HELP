@@ -5,13 +5,11 @@ import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import android.util.Base64
 import androidx.test.core.app.ActivityScenario
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.typeText
-import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.init
@@ -24,17 +22,13 @@ import com.github.h3lp3rs.h3lp.messaging.Conversation
 import com.github.h3lp3rs.h3lp.messaging.EXTRA_CONVERSATION_ID
 import com.github.h3lp3rs.h3lp.messaging.Messenger
 import com.xwray.groupie.ViewHolder
-import junit.framework.Assert.assertTrue
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import java.security.KeyPairGenerator
-import java.security.KeyStore
 import java.security.PrivateKey
 import java.security.PublicKey
-import org.mockito.Mockito.`when` as When
-import java.util.concurrent.CompletableFuture
-import javax.crypto.Cipher.PUBLIC_KEY
+
 
 private const val CONVERSATION_ID = "testing_id"
 private const val SENT_MESSAGE = "Testing Chat UI"
@@ -98,8 +92,8 @@ class ChatUiTest {
 
 
 
-        conversationFrom = Conversation(CONVERSATION_ID, currentMessenger, getApplicationContext())
-        conversationTo = Conversation(CONVERSATION_ID,toMessenger, getApplicationContext())
+        conversationFrom = Conversation(CONVERSATION_ID, currentMessenger)
+        conversationTo = Conversation(CONVERSATION_ID,toMessenger)
 
         ActivityScenario.launch<ChatActivity>(intent)
 
