@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.activity_forum_posts.*
 class ForumPostsActivity : AppCompatActivity() {
     companion object {
         // The post of which the user wants to see the answers
-        lateinit var selectedPost : ForumPost
+       lateinit var selectedPost : ForumPost
     }
 
     private val adapter = GroupAdapter<ViewHolder>()
@@ -39,7 +39,7 @@ class ForumPostsActivity : AppCompatActivity() {
         val bundle = intent.extras!!
         category = bundle.getString(EXTRA_FORUM_CATEGORY) ?: category
 
-        forum = ForumCategory.categoriesMap[category]?.let { forumOf(it) }!!
+        forum = category?.let { ForumWrapper.get(it) }!!
 
         adapter.setOnItemClickListener { item, view ->
             selectedPost = item as ForumPost

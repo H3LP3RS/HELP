@@ -30,7 +30,7 @@ class ForumAnswersActivity : AppCompatActivity() {
         val bundle = intent.extras!!
         category = bundle.getString(EXTRA_FORUM_CATEGORY) ?: category
 
-        forum = categoriesMap[category]?.let { forumOf(it) }!!
+        forum = category?.let { ForumWrapper.get(it) }!!
 
         add_answer_button.setOnClickListener {
             val answer = text_view_enter_answer.text.toString()

@@ -120,5 +120,12 @@ class SignInActivity : AppCompatActivity() {
         fun getName():String? {
             return username
         }
+
+        /**
+         * Setter on the user's name
+         */
+        fun setName(newUsername: String) {
+            username = newUsername
+        }
     }
 }

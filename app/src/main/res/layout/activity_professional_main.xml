@@ -191,7 +191,7 @@
                     android:layout_height="match_parent">
 
                     <ImageButton
-                        android:id="@+id/blood_request_button"
+                        android:id="@+id/categories_selection_button"
                         android:background="@drawable/notification"
                         android:layout_width="80dp"
                         android:layout_height="80dp"
