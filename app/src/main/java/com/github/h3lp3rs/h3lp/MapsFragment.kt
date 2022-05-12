@@ -45,6 +45,8 @@ class MapsFragment : Fragment(), CoroutineScope by MainScope(), GoogleMap.OnPoly
     private val shownPaths = HashMap<Marker, Polyline>()
 
 
+    private lateinit var apiHelper: GoogleAPIHelper
+
     private val callback = OnMapReadyCallback { googleMap ->
         map = googleMap
         setupMap()
@@ -67,6 +69,8 @@ class MapsFragment : Fragment(), CoroutineScope by MainScope(), GoogleMap.OnPoly
             currentLong = it.longitude
 
             val myPosition = LatLng(currentLat, currentLong)
+
+            apiHelper = GoogleAPIHelper(resources.getString(R.string.google_maps_key))
 
             map.moveCamera(
                 CameraUpdateFactory.newLatLngZoom(
