@@ -19,7 +19,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class GuideTest {
+class GuideTest : H3lpAppTest() {
 
     private fun launch(): ActivityScenario<MainPageActivity> {
         return launch(Intent(getApplicationContext(), MainPageActivity::class.java))

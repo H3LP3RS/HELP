@@ -36,10 +36,10 @@
     <br/>All work and no play makes Jack a dull boy<br/>
     ]]></string>
     <string name="medicalCard">My Medical Card</string>
-    <string name="YearOfBirth">Year of birth</string>
-    <string name="gender">Gender</string>
-    <string name="height">Height</string>
-    <string name="weight">Weight</string>
+    <string name="YearOfBirth">Year of birth*</string>
+    <string name="gender">Gender*</string>
+    <string name="height">Height*</string>
+    <string name="weight">Weight*</string>
     <string name="yearTooRecent">Invalid year : You can not be born in the future </string>
     <string name="yearTooOld">Invalid year : You seem too old to be alive </string>
     <string name="heightTooShort">Invalid height : You seem too short </string>
@@ -51,7 +51,7 @@
     <string name="CurrentTreatment">Current Treatment </string>
     <string name="EmergencyContactName">Contact Name</string>
     <string name="EmergencyContactNumber">Phone Number</string>
-    <string name="bloodType">Blood type</string>
+    <string name="bloodType">Blood type*</string>
     <string name="back_button_description">Back home button</string>
     <string name="background_image_description">Background image</string>
     <string name="welcome_msg">Welcome to H3LP</string>
@@ -107,6 +107,8 @@
     <string name="save_changes">Save changes</string>
     <string name="changes_saved">Changes saved</string>
     <string name="invalid_field_msg">ERROR : Some fields are not fill correctly</string>
+    <string name="invalid_empty_msg">ERROR : Some mandatory fields (*) are left empty</string>
+    <string name="privacy_policy_not_acceptes">ERROR : You must accept our privacy policy first</string>
     <string name="privacy_policy_not_accepted">ERROR : You must accept our privacy policy first</string>
     <string name="info_saved">Your information has been saved</string>
 
@@ -281,6 +283,9 @@
     <string name="help_my_skills">This tab represents your skills as an helper. \n\n
         Here you can choose what you are able to help for, for example medicine that you carry with you or any health skill that you have.\n\n
         Then when somebody encounter an emergency you can help with you will be notified and can go save life</string>
+    <string name="help_my_forum_theme">This tab represents your speciality as a medical professional. \n\n
+        Here you can choose in which medical domain you will be able to respond other user question.\n\n
+        Then when somebody ask any question related to that domain on our forum you will be notified</string>
     <string name="inhaler">Inhaler</string>
     <string name="on_click_path">Fastest path to the user in need of your help</string>
     <string name="notification_manager_title">Help_notification_manager</string>
@@ -347,6 +352,16 @@
     <string name="professional_user">Professional user</string>
     <string name="normal_user">Normal user</string>
     <string name="permission_popup_title">Access to localization</string>
+    <string name="deleted_conversation_message">The user has deleted the conversation.</string>
+    <string name="helper_cancelled">The helper has unfortunately cancelled.</string>
+    <string name="forum_themes">Forum Themes</string>
+    <string name="general_medicine">General medicine</string>
+    <string name="cardiology">Cardiology</string>
+    <string name="traumatology">Traumatology</string>
+    <string name="pediatry">Pediatry</string>
+    <string name="neurology">Neurology</string>
+    <string name="gynecology">Gynecology</string>
+    <string name="forum_theme_key">forumThemeKey</string>
     <string name="domain">Domain</string>
     <string name="professional_status">Professional status</string>
     <string name="experience">Experience</string>

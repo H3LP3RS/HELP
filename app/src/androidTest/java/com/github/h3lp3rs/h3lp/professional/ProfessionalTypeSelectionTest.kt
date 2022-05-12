@@ -1,7 +1,5 @@
-package com.github.h3lp3rs.h3lp
+package com.github.h3lp3rs.h3lp.professional
 
-import android.app.Activity
-import android.app.Instrumentation.*
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ActivityScenario.*
@@ -14,6 +12,9 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.*
 import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.github.h3lp3rs.h3lp.H3lpAppTest
+import com.github.h3lp3rs.h3lp.MySkillsActivity
+import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.database.MockDatabase
@@ -26,17 +27,16 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class MySkillsActivityTest : H3lpAppTest() {
+class ProfessionalTypeSelectionTest : H3lpAppTest() {
 
     private fun launch(): ActivityScenario<MySkillsActivity> {
-        return launch(Intent(getApplicationContext(), MySkillsActivity::class.java))
+        return launch(Intent(getApplicationContext(), ProfessionalTypeSelection::class.java))
     }
 
     @Before
     fun dataInit() {
         globalContext = getApplicationContext()
         userUid = USER_TEST_ID
-
         setDatabase(PREFERENCES, MockDatabase())
         resetStorage()
     }
@@ -45,10 +45,8 @@ class MySkillsActivityTest : H3lpAppTest() {
     fun backButtonWorks() {
         launch().use {
             initIntentAndCheckResponse()
-            onView(withId(R.id.mySkillsBackButton)).perform(click())
-
-            intended(allOf(hasComponent(MainPageActivity::class.java.name)))
-
+            onView(withId(R.id.myProTypeBackButton)).perform(click())
+            intended(allOf(hasComponent(ProMainActivity::class.java.name)))
             release()
         }
     }
@@ -56,10 +54,9 @@ class MySkillsActivityTest : H3lpAppTest() {
     @Test
     fun clickingOnHelpDisplayDialogue() {
         launch().use {
-            onView(withId(R.id.mySkillsHelpButton))
+            onView(withId(R.id.ForumTypeHelp))
                 .perform(click())
-
-            onView(withText(R.string.my_helper_skills))
+            onView(withText(R.string.forum_themes))
                 .inRoot(RootMatchers.isDialog())
                 .check(ViewAssertions.matches(isDisplayed()))
         }

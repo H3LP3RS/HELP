@@ -21,6 +21,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.H3LP">
         <activity
+            android:name=".professional.ProfessionalTypeSelection"
+            android:exported="false" />
+        <activity
             android:name=".professional.ProProfileActivity"
             android:exported="false" />
         <activity
@@ -30,7 +33,7 @@
             android:name=".HelpPageActivity"
             android:exported="true" />
         <activity
-            android:name=".messaging.LatestMessagesActivity"
+            android:name=".messaging.RecentMessagesActivity"
             android:exported="true" />
         <activity
             android:name=".MainPageActivity"

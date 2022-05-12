@@ -1,9 +1,8 @@
 package com.github.h3lp3rs.h3lp
 
 
+import LocationHelper
 import android.content.Intent
-import android.location.Location
-import android.location.LocationManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -23,7 +22,6 @@ import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation
 import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.github.h3lp3rs.h3lp.database.Databases.CONVERSATION_IDS
-import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 import com.github.h3lp3rs.h3lp.messaging.Conversation
 import com.github.h3lp3rs.h3lp.storage.Storages
 import java.util.*
@@ -41,13 +39,12 @@ const val EXTRA_HELPEE_ID = "helpee_id"
 class HelpParametersActivity : AppCompatActivity() {
     // userLocation contains the user's current coordinates (is initialized to null since we could
     // encounter an error while getting the user's location)
-    private var userLocation: Location? = null
-    private var latitude: Double? = null
-    private var longitude: Double? = null
+
     private var meds: ArrayList<String> = ArrayList()
     private var skills: HelperSkills? = null
     private val currentTime: Date = Calendar.getInstance().time
     private var calledEmergencies = false
+    private var locationHelper = LocationHelper()
     //TODO this is only for testing, it will be put back to null after implementing the
     // communication of emergencies
     private var helpeeId : String? = "test_end_to_end"
@@ -58,17 +55,19 @@ class HelpParametersActivity : AppCompatActivity() {
 
         // Get the coordinates and display them on the screen to enable the user to give their exact
         // location to the emergency services
-        updateCoordinates()
+        locationHelper.updateCoordinates(this)
+
         val locationInformation: TextView = findViewById(R.id.location_information)
         val coordinatesText = getString(R.string.current_location)
-        if (userLocation != null) {
-            latitude = userLocation!!.latitude
-            longitude = userLocation!!.longitude
+
+        val latitude = locationHelper.getUserLatitude()
+        val longitude = locationHelper.getUserLongitude()
+        if (latitude != null && longitude != null) {
             locationInformation.text = String.format(
                 "%s latitude: %.4f longitude: %.4f",
                 coordinatesText,
-                userLocation!!.latitude,
-                userLocation!!.longitude
+                latitude,
+                longitude
             )
         } else {
             // If the user didn't allow location permissions, they won't be able to see their
@@ -127,11 +126,11 @@ class HelpParametersActivity : AppCompatActivity() {
      */
     private fun launchEmergencyCall() {
         calledEmergencies = true
-        updateCoordinates()
+        locationHelper.updateCoordinates(this)
         val emergencyNumber =
             LocalEmergencyCaller.getLocalEmergencyNumber(
-                userLocation?.longitude,
-                userLocation?.latitude,
+                locationHelper.getUserLongitude(),
+                locationHelper.getUserLatitude(),
                 this
             )
 
@@ -194,7 +193,7 @@ class HelpParametersActivity : AppCompatActivity() {
             newEmergenciesDb.clearAllListeners()
             // Create and send the emergency object
             val id = it + 1
-            val emergencyInfo = EmergencyInformation(id.toString(), latitude!!, longitude!!, skills!!, meds, currentTime, medicalInfo, ArrayList())
+            val emergencyInfo = EmergencyInformation(id.toString(), locationHelper.getUserLatitude()!!, locationHelper.getUserLongitude()!!, skills!!, meds, currentTime, medicalInfo, ArrayList())
             EmergencyInfoRepository(emergenciesDb).insert(emergencyInfo)
             // Raise the appropriate flags to notify potential helpers
             val needed = skills!!
@@ -263,20 +262,5 @@ class HelpParametersActivity : AppCompatActivity() {
             }
         }
         return Pair(meds, skills)
-    }
-
-    /**
-     * Function that updates the user's current coordinates
-     */
-    private fun updateCoordinates() {
-        val updatedCoordinates = GeneralLocationManager.get().getCurrentLocation(this)
-
-        if (updatedCoordinates != null) {
-            userLocation = Location(LocationManager.GPS_PROVIDER)
-            userLocation?.longitude = updatedCoordinates.longitude
-            userLocation?.latitude = updatedCoordinates.latitude
-        } else {
-            userLocation = null
-        }
     }
 }
