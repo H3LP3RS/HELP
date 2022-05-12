@@ -32,7 +32,7 @@ class ForumCategoriesActivity : AppCompatActivity() {
             else -> ForumCategory.GENERAL
         }
         val intent = Intent(this, ForumPostsActivity::class.java)
-        intent.putExtra(EXTRA_FORUM_CATEGORY,category.toString())
+        intent.putExtra(EXTRA_FORUM_CATEGORY,category.name)
         startActivity(intent)
     }
 

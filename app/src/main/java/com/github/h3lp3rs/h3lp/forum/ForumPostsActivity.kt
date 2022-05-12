@@ -4,8 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.R
+import com.github.h3lp3rs.h3lp.dataclasses.MedicalType
+import com.github.h3lp3rs.h3lp.forum.ForumCategory.*
 import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.forumOf
 import com.github.h3lp3rs.h3lp.forum.data.ForumPostData
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.getName
+import com.github.h3lp3rs.h3lp.storage.Storages
+import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_forum_answers.*
@@ -23,6 +28,7 @@ class ForumPostsActivity : AppCompatActivity() {
     private val adapter = GroupAdapter<ViewHolder>()
     private var category : String? = null
     private lateinit var forum : Forum
+    private val enabledCategoriesNotifications = storageOf(Storages.FORUM_THEMES_NOTIFICATIONS)
 
     override fun onCreate(savedInstanceState : Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +65,30 @@ class ForumPostsActivity : AppCompatActivity() {
         fun onPostAdded(data : ForumPostData) {
             category?.let { ForumPost(forum, data, emptyList()) }?.let { adapter.add(it) }
             recycler_view_forum_answers.smoothScrollToPosition(adapter.itemCount - 1)
+            // Send a notification only if the user is not the author of the post
+            if (data.author != getName()) {
+                val medicalType = enabledCategoriesNotifications.getObjectOrDefault(
+                    getString(R.string.forum_theme_key), MedicalType::class.java, null
+                )
+                medicalType?.let {
+                    fun checkIfEnabled(medicalType : String) : Boolean {
+                        val enabled = when (medicalType) {
+                            GENERAL.name -> it.generalist
+                            PEDIATRY.name -> it.pediatry
+                            CARDIOLOGY.name -> it.cardiology
+                            TRAUMATOLOGY.name -> it.traumatology
+                            GYNECOLOGY.name -> it.gynecology
+                            NEUROLOGY.name -> it.neurology
+                            else -> false
+                        }
+                        return enabled
+                    }
+                    if (checkIfEnabled(category!!)){
+                        // TODO
+                    }
+
+                }
+            }
         }
 
         forum.listenToAll { data ->
