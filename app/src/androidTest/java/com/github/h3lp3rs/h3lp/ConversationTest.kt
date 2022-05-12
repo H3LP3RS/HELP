@@ -15,7 +15,10 @@
 //import org.junit.Test
 //import java.util.concurrent.CompletionException
 //import java.util.concurrent.TimeUnit
-//
+
+
+// WAS A UNIT TEST => CAN NO LONGER BE DUE TO ANDROID KEY STORE
+
 //class ConversationTest : H3lpAppTest() {
 //    private val CONVERSATION_ID = "ID"
 //    private val MESSAGE_TEXT = "Hello, how are you?"

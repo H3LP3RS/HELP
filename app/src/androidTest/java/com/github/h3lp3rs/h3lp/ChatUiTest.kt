@@ -3,6 +3,7 @@ package com.github.h3lp3rs.h3lp
 import android.content.Intent
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
+import android.security.keystore.KeyProperties.*
 import android.util.Base64
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
@@ -14,8 +15,10 @@ import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.init
 import androidx.test.espresso.matcher.ViewMatchers.*
-import com.github.h3lp3rs.h3lp.database.Database
 import com.github.h3lp3rs.h3lp.database.Databases
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
+import com.github.h3lp3rs.h3lp.database.Databases.MESSAGES
 import com.github.h3lp3rs.h3lp.database.MockDatabase
 import com.github.h3lp3rs.h3lp.messaging.ChatActivity
 import com.github.h3lp3rs.h3lp.messaging.Conversation
@@ -42,8 +45,6 @@ class ChatUiTest {
     private lateinit var conversationFrom: Conversation
     private lateinit var conversationTo: Conversation
 
-    private lateinit var db: Database
-
     private lateinit var foreignUserPublicKey: PublicKey
     private lateinit var foreignUserPrivateKey: PrivateKey
 
@@ -67,11 +68,11 @@ class ChatUiTest {
 
         kpg.initialize(
             KeyGenParameterSpec.Builder(
-                "key", KeyProperties.PURPOSE_ENCRYPT
-                        or KeyProperties.PURPOSE_DECRYPT
+                "key", PURPOSE_ENCRYPT
+                        or PURPOSE_DECRYPT
             )
-                .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_RSA_OAEP)
-                .setDigests(KeyProperties.DIGEST_SHA1)
+                .setEncryptionPaddings(ENCRYPTION_PADDING_RSA_OAEP)
+                .setDigests(DIGEST_SHA1)
                 .build()
         )
 
@@ -82,12 +83,13 @@ class ChatUiTest {
         // Public key that would be on the database
         val encodedPublicKey = Base64.encodeToString(kp.public.encoded, Base64.DEFAULT)
 
-        db = MockDatabase()
-        Databases.setDatabase(Databases.MESSAGES, db)
+
+        setDatabase(MESSAGES, MockDatabase())
 
         // Mock the public keys
-        db.setString(CONVERSATION_ID + "/KEYS/" + toMessenger.name, MOCK_KEY)
-        db.setString(CONVERSATION_ID + "/KEYS/" + currentMessenger.name, MOCK_KEY)
+        val db = databaseOf(MESSAGES)
+        db.setString(CONVERSATION_ID + "/" + Conversation.KEYS_SUB_PATH + "/" + toMessenger.name, MOCK_KEY)
+        db.setString(CONVERSATION_ID + "/" + Conversation.KEYS_SUB_PATH + "/" + currentMessenger.name, MOCK_KEY)
 
 
 

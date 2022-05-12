@@ -2,6 +2,7 @@ package com.github.h3lp3rs.h3lp.messaging
 
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
+import android.security.keystore.KeyProperties.KEY_ALGORITHM_RSA
 import android.util.Base64
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.database.Databases.MESSAGES
@@ -34,7 +35,7 @@ class Conversation(
 
         if (!alias.contains(keyAlias)) {
             val kpg =
-                KeyPairGenerator.getInstance(KeyProperties.KEY_ALGORITHM_RSA, ANDROID_KEY_STORE)
+                KeyPairGenerator.getInstance(KEY_ALGORITHM_RSA, ANDROID_KEY_STORE)
 
             kpg.initialize(
                 KeyGenParameterSpec.Builder(
@@ -65,7 +66,7 @@ class Conversation(
     fun sendMessage(messageText: String) {
         // Retrieve public key from Bob
         publicKey?.let { publicKey ->
-            encryptAndSend(publicKey!!, messageText)
+            encryptAndSend(publicKey, messageText)
         }?.run {
             val path = conversationId + "/" + KEYS_SUB_PATH + "/" +
                     Messenger.values()[(currentMessenger.ordinal + 1) % 2].name
@@ -73,7 +74,7 @@ class Conversation(
             database.getString(path).thenApply {
                 val decodedKey = Base64.decode(it, Base64.DEFAULT)
                 val keySpecs = X509EncodedKeySpec(decodedKey)
-                publicKey = KeyFactory.getInstance("RSA").generatePublic(keySpecs)
+                publicKey = KeyFactory.getInstance(KEY_ALGORITHM_RSA).generatePublic(keySpecs)
                 encryptAndSend(publicKey!!, messageText)
             }
         }
