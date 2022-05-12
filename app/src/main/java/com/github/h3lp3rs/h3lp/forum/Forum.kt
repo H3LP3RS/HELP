@@ -103,7 +103,6 @@ interface Forum {
 
         listenToAll { postData ->
             // Only display notifications of posts written by other users
-            if (postData.author == getName()) return@listenToAll
 
             val medicalType = enabledCategoriesNotifications.getObjectOrDefault(
                 THEME_KEY, MedicalType::class.java, null

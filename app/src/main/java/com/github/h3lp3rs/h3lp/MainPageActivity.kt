@@ -120,7 +120,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         // Start help listener
         activateHelpListeners()
         // Start listening to forum posts
-        ForumCategory.forumOf(ForumCategory.NEUROLOGY).sendIntentNotificationOnNewPosts(
+        ForumCategory.forumOf(ForumCategory.GENERAL).root().sendIntentNotificationOnNewPosts(
             globalContext, ForumPostsActivity::class.java
         )
         startAppGuide()
