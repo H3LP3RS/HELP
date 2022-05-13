@@ -6,6 +6,7 @@ import com.github.h3lp3rs.h3lp.forum.data.ForumPostData
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.post_forum_row.view.*
+import java.io.Serializable
 import java.util.concurrent.CompletableFuture
 
 /**

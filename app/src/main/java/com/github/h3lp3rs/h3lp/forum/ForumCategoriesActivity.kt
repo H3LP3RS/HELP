@@ -1,10 +1,11 @@
 package com.github.h3lp3rs.h3lp.forum
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import com.github.h3lp3rs.h3lp.*
+import androidx.appcompat.app.AppCompatActivity
+import com.github.h3lp3rs.h3lp.R
+import com.github.h3lp3rs.h3lp.forum.ForumCategory.*
 
 const val EXTRA_FORUM_CATEGORY = "forum_category"
 
@@ -12,7 +13,7 @@ const val EXTRA_FORUM_CATEGORY = "forum_category"
  * Activity where the user selects the forum category he/she wants to go to
  */
 class ForumCategoriesActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState : Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forum_categories)
 
@@ -21,19 +22,19 @@ class ForumCategoriesActivity : AppCompatActivity() {
     /**
      * Goes to the activity containing forum posts of the selected category
      */
-    fun goToForum(view: View) {
+    fun goToForum(view : View) {
         val category = when (view.id) {
-            R.id.generalist_expand_button -> ForumCategory.GENERAL
-            R.id.cardio_expand_button -> ForumCategory.CARDIOLOGY
-            R.id.traum_expand_button -> ForumCategory.TRAUMATOLOGY
-            R.id.pedia_expand_button -> ForumCategory.PEDIATRY
-            R.id.neuro_expand_button -> ForumCategory.NEUROLOGY
-            R.id.gyne_expand_button -> ForumCategory.GYNECOLOGY
-            else -> ForumCategory.GENERAL
+            R.id.generalist_expand_button -> GENERAL
+            R.id.cardio_expand_button -> CARDIOLOGY
+            R.id.traum_expand_button -> TRAUMATOLOGY
+            R.id.pedia_expand_button -> PEDIATRY
+            R.id.neuro_expand_button -> NEUROLOGY
+            R.id.gyne_expand_button -> GYNECOLOGY
+            else -> GENERAL
         }
-        
+
         val intent = Intent(this, ForumPostsActivity::class.java)
-        intent.putExtra(EXTRA_FORUM_CATEGORY,category.name)
+        intent.putExtra(EXTRA_FORUM_CATEGORY, category.name)
         startActivity(intent)
     }
 
