@@ -33,9 +33,9 @@ class CachedForum(private val forum: Forum) : Forum {
     data class CacheHeader(val categoryPaths: ArrayList<String>)
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun newPost(author: String, content: String): CompletableFuture<ForumPost> {
+    override fun newPost(author: String, content: String, isPost: Boolean): CompletableFuture<ForumPost> {
         // Cache the post if successfully returned
-        return forum.newPost(author, content).thenApply {
+        return forum.newPost(author, content, isPost).thenApply {
             updateCacheWithPost(it)
             it
         }

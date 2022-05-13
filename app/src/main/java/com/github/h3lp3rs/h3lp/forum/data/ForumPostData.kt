@@ -18,5 +18,6 @@ data class ForumPostData(
     val postTime: ZonedDateTime,
     val key: String,
     val repliesKey: String,
-    val category: ForumCategory
+    val category: ForumCategory,
+    val isPost : Boolean
 )

@@ -46,7 +46,7 @@ class NewPostActivity : AppCompatActivity() {
         val question = textViewAnswerQuestion.text.toString()
         val forum = ForumCategory.categoriesMap[category]?.let { ForumCategory.forumOf(it) }!!
         // Add post to the database
-        getName()?.let { forum.newPost(it, question) }
+        getName()?.let { forum.newPost(it, question,true) }
         // Clears the text field when the user hits send
         textViewAnswerQuestion.text?.clear()
     }

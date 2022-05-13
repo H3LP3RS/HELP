@@ -46,9 +46,10 @@ interface Forum {
      * Creates a new post in the forum (at path level)
      * @param author The uid of the author
      * @param content The content of the post
+     * @param isPost Whether this is a post or a reply to a post
      * @return The newly created forum post
      */
-    fun newPost(author : String, content : String) : CompletableFuture<ForumPost>
+    fun newPost(author : String, content : String, isPost : Boolean) : CompletableFuture<ForumPost>
 
     /**
      * Gets the entire post at the given relative path from here
@@ -108,10 +109,9 @@ interface Forum {
                 THEME_KEY, MedicalType::class.java, null
             )
             medicalType?.let {
-
                 // Display the notification if the user has enabled this category's notifications
-                // and the post hadn't been posted by him
-                if (medicalType.hasCategory(postData.category) && postData.author != getName() ) {
+                // and the post hadn't been posted by him and the post is actually a post and not a reply
+                if (medicalType.hasCategory(postData.category) && postData.author != getName() && postData.isPost ) {
                     val description = postData.content
                     val title = "New post in ${postData.category} from: ${postData.author}"
                     val intent = Intent(

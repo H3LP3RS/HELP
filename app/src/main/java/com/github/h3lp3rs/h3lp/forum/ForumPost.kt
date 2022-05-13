@@ -31,7 +31,7 @@ class ForumPost(
      * knowing when the database actually got the reply
      */
     fun reply(author : String, content : String) : CompletableFuture<ForumPost> {
-        forum.child(post.repliesKey).newPost(author, content)
+        forum.child(post.repliesKey).newPost(author, content,false)
         return refresh()
     }
 
