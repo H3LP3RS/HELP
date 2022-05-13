@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario.launch
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -12,6 +13,8 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.GrantPermissionRule
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -29,25 +32,34 @@ class NearbyUtilitiesActivityTest {
     )
 
     @get:Rule
-    var mRuntimePermissionRule: GrantPermissionRule = GrantPermissionRule.grant(Manifest.permission.ACCESS_FINE_LOCATION)
+    var mRuntimePermissionRule: GrantPermissionRule =
+        GrantPermissionRule.grant(Manifest.permission.ACCESS_FINE_LOCATION)
+
+    @Before
+    fun setup() {
+        globalContext = getApplicationContext()
+    }
 
     @Test
     fun canLaunchMapWithPharmacyRequest() {
         val utility = R.string.nearby_phamacies
+
         val intent = Intent(
-            ApplicationProvider.getApplicationContext(),
+            getApplicationContext(),
             NearbyUtilitiesActivity::class.java
         ).apply {
             putExtra(EXTRA_NEARBY_UTILITIES, utility)
         }
+
         canLaunchMap(intent)
     }
 
     @Test
     fun canLaunchMapWithHospitalRequest() {
         val utility = R.string.nearby_hospitals
+
         val intent = Intent(
-            ApplicationProvider.getApplicationContext(),
+            getApplicationContext(),
             NearbyUtilitiesActivity::class.java
         ).apply {
             putExtra(EXTRA_NEARBY_UTILITIES, utility)
@@ -74,10 +86,8 @@ class NearbyUtilitiesActivityTest {
 
     private fun canLaunchMap(intent: Intent) {
         launch<NearbyUtilitiesActivity>(intent).use {
-            launch<NearbyUtilitiesActivity>(intent).use {
-                onView(ViewMatchers.withId(R.id.mapNearbyUtilities))
-                    .check(matches(isDisplayed()))
-            }
+            onView(ViewMatchers.withId(R.id.mapNearbyUtilities))
+                .check(matches(isDisplayed()))
         }
     }
 

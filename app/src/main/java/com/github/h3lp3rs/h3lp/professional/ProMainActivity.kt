@@ -16,9 +16,15 @@ class ProMainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_professional_main)
     }
 
-    fun goToForumTheme(view: View) {
-        val intent = Intent(this, ProfessionalTypeSelection::class.java)
+    /** Starts the activity by sending intent */
+    private fun goToActivity(ActivityName : Class<*>?) {
+        val intent = Intent(this, ActivityName)
         startActivity(intent)
     }
+
+    fun goToProProfileActivity(view : View){
+        goToActivity(ProProfileActivity::class.java)
+    }
+
 
 }

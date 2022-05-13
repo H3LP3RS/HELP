@@ -1,7 +1,5 @@
 package com.github.h3lp3rs.h3lp.professional
 
-import android.app.Activity
-import android.app.Instrumentation.*
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ActivityScenario.*
@@ -14,9 +12,9 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.*
 import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.github.h3lp3rs.h3lp.H3lpAppTest
 import com.github.h3lp3rs.h3lp.MySkillsActivity
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.USER_TEST_ID
 import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.database.MockDatabase
@@ -29,7 +27,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class ProfessionalTypeSelectionTest {
+class ProfessionalTypeSelectionTest : H3lpAppTest() {
 
     private fun launch(): ActivityScenario<MySkillsActivity> {
         return launch(Intent(getApplicationContext(), ProfessionalTypeSelection::class.java))
@@ -46,10 +44,7 @@ class ProfessionalTypeSelectionTest {
     @Test
     fun backButtonWorks() {
         launch().use {
-            init()
-            val intent = Intent()
-            val intentResult = ActivityResult(Activity.RESULT_OK, intent)
-            intending(anyIntent()).respondWith(intentResult)
+            initIntentAndCheckResponse()
             onView(withId(R.id.myProTypeBackButton)).perform(click())
             intended(allOf(hasComponent(ProMainActivity::class.java.name)))
             release()

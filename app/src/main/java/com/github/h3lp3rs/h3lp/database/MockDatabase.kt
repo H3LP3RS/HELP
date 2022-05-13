@@ -118,8 +118,8 @@ class MockDatabase : Database {
         // Enrich the list & add to map
         val ls = listeners.getOrDefault(key, emptyList()) + listOf(wrappedAction)
         listeners[key] = ls
-        // First time trigger
-        wrappedAction()
+        // First time trigger if present
+        if(db.containsKey(key)) wrappedAction()
     }
 
     override fun <T> addListenerIfNotPresent(key : String, type : Class<T>, action : (T) -> Unit) {
