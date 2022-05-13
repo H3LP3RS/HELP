@@ -117,7 +117,7 @@ class SignInActivity : AppCompatActivity() {
         /**
          * Getter on the user's name
          */
-        fun getName():String? {
+        fun getName(): String? {
             return username
         }
 
