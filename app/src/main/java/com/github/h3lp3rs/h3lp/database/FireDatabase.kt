@@ -210,7 +210,6 @@ internal class FireDatabase(path : String) : Database {
             override fun onChildMoved(snapshot : DataSnapshot, previousChildName : String?) {}
         }
 
-
         val key = if (childKey == null) {
             db.addChildEventListener(eventListener)
             // The listener is added to the entire db

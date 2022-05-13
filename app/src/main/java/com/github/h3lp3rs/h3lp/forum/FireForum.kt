@@ -1,3 +1,5 @@
+package com.github.h3lp3rs.h3lp.forum
+
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf

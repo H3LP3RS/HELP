@@ -21,14 +21,18 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.notification.EmergencyListener
+import com.github.h3lp3rs.h3lp.database.Databases.PRO_USERS
+import com.github.h3lp3rs.h3lp.forum.FireForum
+import com.github.h3lp3rs.h3lp.forum.ForumPostsActivity
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
 import com.github.h3lp3rs.h3lp.professional.ProMainActivity
 import com.github.h3lp3rs.h3lp.professional.ProUser
 import com.github.h3lp3rs.h3lp.professional.VerificationActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.storage.LocalStorage
-import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
+import com.github.h3lp3rs.h3lp.storage.Storages.USER_COOKIE
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
@@ -78,7 +82,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
 
     private lateinit var searchView : SearchView
     private lateinit var listView : ListView
-    private lateinit var storage: LocalStorage
+    private lateinit var storage : LocalStorage
 
     // List of searchable elements
     private var searchBarElements : ArrayList<String> = ArrayList()
@@ -114,7 +118,10 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
             showExplanationAndRequestPermissions()
         }
 
-        // Start help listener
+        // Start listening to forum posts
+        FireForum(emptyList()).sendIntentNotificationOnNewPosts(
+            globalContext, ForumPostsActivity::class.java
+        )
         EmergencyListener.activateListeners()
 
         startAppGuide()

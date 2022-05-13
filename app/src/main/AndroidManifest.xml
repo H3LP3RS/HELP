@@ -21,7 +21,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.H3LP">
         <activity
-            android:name=".professional.ProfessionalTypeSelection"
+                android:name=".professional.ProfessionalTypeSelection"
+                android:exported="false" />
+        <activity
+            android:name=".forum.ForumCategoriesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".forum.ForumAnswersActivity"
+            android:exported="false" />
+        <activity
+            android:name=".forum.NewPostActivity"
+            android:exported="true" />
+        <activity
+            android:name=".forum.ForumPostsActivity"
             android:exported="false" />
         <activity
             android:name=".professional.ProProfileActivity"
@@ -57,8 +69,8 @@
             android:name=".firstaid.HeartAttackActivity"
             android:exported="false" />
         <activity
-            android:name=".firstaid.AllergyActivity"
-            android:exported="true" />
+                android:name=".firstaid.AllergyActivity"
+                android:exported="false" />
         <activity
             android:name=".FirstAidActivity"
             android:exported="false" />

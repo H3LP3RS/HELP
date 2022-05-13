@@ -1,6 +1,12 @@
 package com.github.h3lp3rs.h3lp.forum
 
+import com.github.h3lp3rs.h3lp.R
+import com.github.h3lp3rs.h3lp.forum.ForumCategory.*
 import com.github.h3lp3rs.h3lp.forum.data.ForumPostData
+import com.xwray.groupie.Item
+import com.xwray.groupie.ViewHolder
+import kotlinx.android.synthetic.main.post_forum_row.view.*
+import java.io.Serializable
 import java.util.concurrent.CompletableFuture
 
 /**
@@ -11,10 +17,10 @@ import java.util.concurrent.CompletableFuture
  * @param replies Replies to this post
  */
 class ForumPost(
-    val forum: Forum,
-    val post: ForumPostData,
-    val replies: List<ForumPostData>,
-) {
+    val forum : Forum,
+    val post : ForumPostData,
+    val replies : List<ForumPostData>,
+) : Item<ViewHolder>() {
 
     /**
      * Adds a reply to the post
@@ -24,7 +30,7 @@ class ForumPost(
      * WARNING: the returned post doesn't necessarily contain the reply since we have no way of
      * knowing when the database actually got the reply
      */
-    fun reply(author: String, content: String): CompletableFuture<ForumPost> {
+    fun reply(author : String, content : String) : CompletableFuture<ForumPost> {
         forum.child(post.repliesKey).newPost(author, content)
         return refresh()
     }
@@ -34,7 +40,7 @@ class ForumPost(
      * @return this This post updated with potential replies from others
      * in the form of a future
      */
-    fun refresh(): CompletableFuture<ForumPost> {
+    private fun refresh() : CompletableFuture<ForumPost> {
         return forum.child(post.key).getPost(emptyList())
     }
 
@@ -43,7 +49,34 @@ class ForumPost(
      * as parameter when a change occurs (ie: reply added)
      * @param action The action taken when a change occurs
      */
-    fun listen(action: (ForumPostData) -> Unit) {
+    fun listen(action : (ForumPostData) -> Unit) {
         forum.child(post.key).listenToAll(action)
+    }
+
+    override fun bind(viewHolder : ViewHolder, position : Int) {
+        viewHolder.itemView.question_post.text = post.content
+        viewHolder.itemView.image_post.setImageResource(getImage())
+        viewHolder.itemView.authpost_author.text = post.author
+    }
+
+    override fun getLayout() : Int {
+        return R.layout.post_forum_row
+    }
+
+    /**
+     * Gets the image corresponding to the current forum category
+     */
+    private fun getImage() : Int {
+        return when (forum.path[0]) {
+            GENERAL.name -> R.drawable.ic_generalist
+            CARDIOLOGY.name -> R.drawable.ic_cardiology
+            TRAUMATOLOGY.name -> R.drawable.ic_traumatology
+            PEDIATRY.name -> R.drawable.ic_pediatric
+            NEUROLOGY.name -> R.drawable.ic_neurology
+            GYNECOLOGY.name -> R.drawable.ic_gynecology
+            else -> {
+                R.drawable.ic_generalist
+            }
+        }
     }
 }

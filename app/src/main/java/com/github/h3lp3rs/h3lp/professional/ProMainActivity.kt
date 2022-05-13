@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.github.h3lp3rs.h3lp.R
+import com.github.h3lp3rs.h3lp.forum.ForumCategoriesActivity
 
 /**
  * Main activity of the professional portal
@@ -26,5 +27,12 @@ class ProMainActivity : AppCompatActivity() {
         goToActivity(ProProfileActivity::class.java)
     }
 
+    fun goToForumTheme(view: View) {
+        goToActivity(ProfessionalTypeSelection::class.java)
+    }
+
+    fun goToForumCategories(view: View) {
+        goToActivity(ForumCategoriesActivity::class.java)
+    }
 
 }

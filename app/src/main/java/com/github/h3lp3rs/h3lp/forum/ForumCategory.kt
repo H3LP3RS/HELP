@@ -1,6 +1,5 @@
 package com.github.h3lp3rs.h3lp.forum
 
-import FireForum
 
 /**
  * Enumeration of the standard, pre-defined forum main categories (root level)
@@ -8,12 +7,17 @@ import FireForum
 enum class ForumCategory {
     GENERAL, CARDIOLOGY, TRAUMATOLOGY, PEDIATRY, NEUROLOGY, GYNECOLOGY;
 
+
     private var forum: Forum? = null // Var to enable test-time mocking
 
     companion object {
+
+        // Map linking the string to the enum value
+        val categoriesMap = values().associateBy({it.name}, {it})
+
         /**
          * Returns one of the main pre-defined categories sub-forum
-         * @param category One of the pre-defined main categories
+         * @param choice One of the pre-defined main categories
          * @return forum The forum of the given category
          */
         fun forumOf(choice: ForumCategory): Forum {
@@ -23,6 +27,13 @@ enum class ForumCategory {
             return choice.forum!!
         }
 
+        /**
+         * Used for testing purposes to give forum instances
+         * @param newForum The forum to use
+         */
+        fun setForum(choice: ForumCategory, newForum: Forum) {
+            choice.forum = newForum
+        }
         // The default category for a forum post
         val DEFAULT_CATEGORY = GENERAL
     }
