@@ -61,7 +61,7 @@ class ForumNewPostActivityTest {
         onView(withId(R.id.newPostTitleEditTxt))
             .perform(ViewActions.replaceText(QUESTION))
 
-        onView(withId(R.id.newPostSaveButton)).perform(ViewActions.click())
+        onView(withId(R.id.newPostSaveButton)).perform(ViewActions.scrollTo(),ViewActions.click())
 
         assertEquals(forumPosts[QUESTION], emptyList<String>())
     }
