@@ -33,7 +33,6 @@ class ForumPostsActivity : AppCompatActivity() {
 
         val bundle = intent.extras!!
         category = bundle.getString(EXTRA_FORUM_CATEGORY) ?: category
-
         forum = ForumCategory.categoriesMap[category]?.let { ForumCategory.forumOf(it) }!!
 
         adapter.setOnItemClickListener { item, view ->

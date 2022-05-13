@@ -117,7 +117,7 @@ interface Forum {
                     val intent = Intent(
                         ctx, activityName
                     ).apply {
-                        putExtra(EXTRA_FORUM_CATEGORY, postData.category)
+                        putExtra(EXTRA_FORUM_CATEGORY, postData.category.name)
                     }
                     sendIntentNotification(ctx, title, description, intent)
                 }
