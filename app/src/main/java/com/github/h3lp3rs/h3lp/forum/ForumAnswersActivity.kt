@@ -3,6 +3,7 @@ package com.github.h3lp3rs.h3lp.forum
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.R
+import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.categoriesMap
 import com.github.h3lp3rs.h3lp.forum.ForumPostsActivity.Companion.selectedPost
 import com.github.h3lp3rs.h3lp.forum.data.ForumPostData
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.getName
@@ -27,11 +28,10 @@ class ForumAnswersActivity : AppCompatActivity() {
         recycler_view_forum_answers.adapter = adapter
         category = selectedPost.post.category.name
 
-        forum = ForumCategory.categoriesMap[category]?.let { ForumCategory.forumOf(it) }!!
+        forum = categoriesMap[category]?.let { ForumCategory.forumOf(it) }!!
 
         add_answer_button.setOnClickListener {
             val answer = text_view_enter_answer.text.toString()
-            // Currently uses the firebase uid as the post's author, could ba changed later
             getName()!!.let { id -> selectedPost.reply(id, answer) }
             // Clear the text field
             text_view_enter_answer.text.clear()

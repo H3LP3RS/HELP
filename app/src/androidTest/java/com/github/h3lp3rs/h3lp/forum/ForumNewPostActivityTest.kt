@@ -23,6 +23,8 @@ import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.any
 
+private const val QUESTION = "question"
+
 @RunWith(AndroidJUnit4::class)
 class ForumNewPostActivityTest {
     private val forumPosts : MutableMap<String, List<String>> = mutableMapOf()
@@ -57,11 +59,11 @@ class ForumNewPostActivityTest {
             .perform(ViewActions.replaceText(CATEGORY_TEST_STRING))
 
         onView(withId(R.id.newPostTitleEditTxt))
-            .perform(ViewActions.replaceText("question"))
+            .perform(ViewActions.replaceText(QUESTION))
 
         onView(withId(R.id.newPostSaveButton)).perform(ViewActions.click())
 
-        assertEquals(forumPosts["question"], emptyList<String>())
+        assertEquals(forumPosts[QUESTION], emptyList<String>())
     }
 
 }
