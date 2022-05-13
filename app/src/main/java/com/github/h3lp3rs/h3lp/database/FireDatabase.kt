@@ -79,10 +79,24 @@ internal class FireDatabase(path : String) : Database {
         db.child(key).setValue(value)
     }
 
-    override fun addStringConcurrently(key : String, value : String) {
+    override fun addStringConcurrently(key: String, value: String): String? {
         // Push generates a unique key for each new child, thus several clients can add children to
         // the same location at the same time without worrying about write conflicts
-        db.child(key).push().setValue(value)
+        val ref = db.child(key).push()
+        ref.setValue(value)
+        return ref.key
+    }
+
+    override fun <T> getObjectsList(key: String, type: Class<T>): CompletableFuture<List<T>> {
+        val future = CompletableFuture<List<T>>()
+        db.child(key).get().addOnSuccessListener {
+            if (it.value == null) future.completeExceptionally(NoSuchFieldException())
+            else {
+                val valuesList = getSnapshotChildren(it, type)
+                future.complete(valuesList)
+            }
+        }
+        return future
     }
 
     /**
@@ -134,13 +148,8 @@ internal class FireDatabase(path : String) : Database {
             // We have to call the action on the entire list of values, so we first construct the
             // list from the children of the snapshot (all the values pushed in
             // addStringConcurrently), then call the method
-            val valuesList = mutableListOf<T>()
+            val valuesList = getSnapshotChildren(snapshot, type)
 
-            for (postSnapshot in snapshot.children) {
-                val gson = Gson()
-                val v = gson.fromJson(postSnapshot.getValue(String::class.java)!!, type)
-                valuesList.add(v)
-            }
             // Run the callback on the newly constructed list of values
             action(valuesList)
         }
@@ -224,16 +233,12 @@ internal class FireDatabase(path : String) : Database {
     ) {
         fun onDataChange(snapshot : DataSnapshot) {
             onChildAdded?.let {
-                val v : T =
-                    if (type == String::class.java || type == Int::class.java || type == Double::class.java || type == Boolean::class.java) {
-                        snapshot.getValue(type)!!
-                    } else {
-                        Gson().fromJson(snapshot.getValue(String::class.java), type)
-                    }
+                val v: T = Gson().fromJson(snapshot.getValue(String::class.java), type)
                 it(v)
             }
         }
-        fun onDataRemoved(snapshot : DataSnapshot) {
+
+        fun onDataRemoved(snapshot: DataSnapshot) {
             // It is only necessary to know which element has been deleted, not its value, thus the
             // action is only executed on the key of the element
             onChildRemoved(snapshot.key!!)
@@ -293,5 +298,23 @@ internal class FireDatabase(path : String) : Database {
             }
         })
         return future
+    }
+
+    /**
+     * Extracts the functionality of getting the objects corresponding to the children of an element
+     * in the database
+     * @param snapshot The data snapshot from which to get the list of objects
+     * @param type The type of the objects in the list
+     * @return The current associated list of objects in the database
+     */
+    private fun <T> getSnapshotChildren(snapshot: DataSnapshot, type: Class<T>): List<T> {
+        val valuesList = mutableListOf<T>()
+
+        for (postSnapshot in snapshot.children) {
+            val gson = Gson()
+            val v = gson.fromJson(postSnapshot.getValue(String::class.java)!!, type)
+            valuesList.add(v)
+        }
+        return valuesList
     }
 }
