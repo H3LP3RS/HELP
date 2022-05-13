@@ -70,7 +70,7 @@
                 android:exported="false" />
         <activity
                 android:name=".firstaid.AllergyActivity"
-                android:exported="true" />
+                android:exported="false" />
         <activity
                 android:name=".FirstAidActivity"
                 android:exported="false" />

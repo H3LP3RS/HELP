@@ -3,12 +3,15 @@ package com.github.h3lp3rs.h3lp.forum
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.intent.Intents
+import androidx.test.espresso.intent.Intents.init
+import androidx.test.espresso.intent.Intents.release
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.USER_TEST_ID
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.setName
 import junit.framework.Assert.assertEquals
 import org.junit.After
 import org.junit.Before
@@ -16,6 +19,8 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
 import org.mockito.kotlin.any
 
 @RunWith(AndroidJUnit4::class)
@@ -29,12 +34,12 @@ class ForumNewPostActivityTest {
 
     @Before
     fun setup() {
-        Intents.init()
-        SignInActivity.setName(USER_TEST_ID)
+        init()
+        setName(USER_TEST_ID)
 
-        val forum = Mockito.mock(Forum::class.java)
+        val forum = mock(Forum::class.java)
         ForumCategory.setForum(CATEGORY_TEST,forum)
-        Mockito.`when`(forum.newPost(any(), any())).then {
+        `when`(forum.newPost(any(), any())).then {
             val content = it.getArgument<String>(1)
             forumPosts[content] = emptyList()
             return@then any()
@@ -43,7 +48,7 @@ class ForumNewPostActivityTest {
 
     @After
     fun clean() {
-        Intents.release()
+        release()
     }
 
     @Test

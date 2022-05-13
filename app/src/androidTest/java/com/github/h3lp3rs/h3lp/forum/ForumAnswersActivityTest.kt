@@ -12,14 +12,18 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.USER_TEST_ID
+import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.setForum
 import com.github.h3lp3rs.h3lp.forum.data.ForumPostData
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.setName
 import junit.framework.Assert.assertEquals
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
 import org.mockito.kotlin.any
 import java.time.ZonedDateTime
 
@@ -41,17 +45,17 @@ class ForumAnswersActivityTest {
             putExtra(EXTRA_FORUM_CATEGORY, CATEGORY_TEST_STRING)
         }
 
-        SignInActivity.setName(USER_TEST_ID)
+        setName(USER_TEST_ID)
 
-        val forum = Mockito.mock(Forum::class.java)
-        ForumCategory.setForum(CATEGORY_TEST,forum)
-        Mockito.`when`(forum.newPost(any(), any())).then {
+        val forum = mock(Forum::class.java)
+        setForum(CATEGORY_TEST,forum)
+        `when`(forum.newPost(any(), any())).then {
             val content = it.getArgument<String>(1)
             forumPosts[QUESTION_TEST] = listOf(content)
-            return@then any()
+            any()
         }
-        Mockito.`when`(forum.child(any() as String)).thenReturn(forum)
-        Mockito.`when`(forum.child(any() as Path)).thenReturn(forum)
+        `when`(forum.child(any() as String)).thenReturn(forum)
+        `when`(forum.child(any() as Path)).thenReturn(forum)
 
         ForumPostsActivity.selectedPost = ForumPost(
             forum, ForumPostData(

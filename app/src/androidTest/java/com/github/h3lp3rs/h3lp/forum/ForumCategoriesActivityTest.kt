@@ -3,8 +3,12 @@ package com.github.h3lp3rs.h3lp.forum
 import android.view.View
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.intent.Intents
+import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.rules.ActivityScenarioRule
@@ -12,6 +16,9 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.USER_TEST_ID
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
+import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 import org.junit.After
@@ -30,20 +37,20 @@ class ForumCategoriesActivityTest {
 
     @Before
     fun setup() {
-        SignInActivity.globalContext = ApplicationProvider.getApplicationContext()
-        SignInActivity.userUid = USER_TEST_ID
-        Intents.init()
+        globalContext = ApplicationProvider.getApplicationContext()
+        userUid = USER_TEST_ID
+        init()
     }
 
     @After
     fun clean() {
-        Intents.release()
+        release()
     }
 
     private fun clickingOnButtonWorksAndSendsIntent(ActivityName: Class<*>?, id: Matcher<View>) {
-        Espresso.onView(id).perform(ViewActions.scrollTo(),ViewActions.click())
-        Intents.intended(
-            Matchers.allOf(
+        onView(id).perform(scrollTo(), click())
+        intended(
+            allOf(
                 IntentMatchers.hasComponent(ActivityName!!.name)
             )
         )

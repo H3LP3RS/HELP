@@ -56,6 +56,8 @@ class ForumAnswersActivity : AppCompatActivity() {
 
 /**
  * Class representing the layout of a forum answer
+ * @param answer Answer's text
+ * @param author Answer's authors
  */
 private class Answer(
     private val answer : String,
