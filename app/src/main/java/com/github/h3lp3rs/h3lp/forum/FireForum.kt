@@ -6,6 +6,7 @@ import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.database.Databases.FORUM
 import com.github.h3lp3rs.h3lp.forum.*
 import com.github.h3lp3rs.h3lp.forum.ForumCategory.*
+import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.DEFAULT_CATEGORY
 import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.forumOf
 import com.github.h3lp3rs.h3lp.forum.data.ForumPostData
 import java.time.ZonedDateTime
@@ -106,6 +107,9 @@ class FireForum(override val path: Path) : Forum {
         }
     }
 
+    /**
+     * @return Returns all the posts in this forum's category in a future
+     */
     private fun getAllFromCategory(): CompletableFuture<CategoryPosts> {
         val forumPostsFuture = rootForum
             .getObjectsList(pathToKey(path + POSTS_LIST), String::class.java)
@@ -133,7 +137,7 @@ class FireForum(override val path: Path) : Forum {
         return forumPostsFuture
             .thenApply { list ->
                 // path.last contains the category name
-                Pair(path.last(), list)
+                Pair(listOf(path.last()), list)
             }
     }
 
@@ -245,15 +249,14 @@ class FireForum(override val path: Path) : Forum {
     }
 
     /**
-     * Returns the category of the current forum and the default category "general" in case the
+     * @return The category of the current forum and the default category in case the
      * current forum is root
      */
     private fun getCurrentCategory(): ForumCategory {
         return if (!isRoot()) {
             valueOf(path.first())
         } else {
-            // The default forum category is "general"
-            GENERAL
+            DEFAULT_CATEGORY
         }
     }
 

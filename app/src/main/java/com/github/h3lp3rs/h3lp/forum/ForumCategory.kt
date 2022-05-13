@@ -34,5 +34,7 @@ enum class ForumCategory {
         fun setForum(choice: ForumCategory, newForum: Forum) {
             choice.forum = newForum
         }
+        // The default category for a forum post
+        val DEFAULT_CATEGORY = GENERAL
     }
 }

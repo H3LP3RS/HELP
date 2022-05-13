@@ -28,8 +28,7 @@ import org.junit.runner.RunWith
 import java.lang.NullPointerException
 
 @RunWith(AndroidJUnit4::class)
-class SettingsActivityTest {
-
+class SettingsActivityTest : H3lpAppTest() {
 
     private fun launch(): ActivityScenario<SettingsActivity> {
         return launch(Intent(getApplicationContext(), SettingsActivity::class.java))
@@ -46,10 +45,7 @@ class SettingsActivityTest {
     @Test
     fun backButtonWorks() {
         launch().use {
-            init()
-            val intent = Intent()
-            val intentResult = ActivityResult(Activity.RESULT_OK, intent)
-            intending(anyIntent()).respondWith(intentResult)
+            initIntentAndCheckResponse()
             onView(withId(R.id.settingsBackButton)).perform(click())
             intended(allOf(hasComponent(MainPageActivity::class.java.name)))
             release()
@@ -59,10 +55,7 @@ class SettingsActivityTest {
     @Test
     fun logoutButtonWorks() {
         launch().use {
-            init()
-            val intent = Intent()
-            val intentResult = ActivityResult(Activity.RESULT_OK, intent)
-            intending(anyIntent()).respondWith(intentResult)
+            initIntentAndCheckResponse()
             onView(withId(R.id.logoutSettingsButton)).perform(click())
             intended(allOf(hasComponent(SignInActivity::class.java.name)))
             release()

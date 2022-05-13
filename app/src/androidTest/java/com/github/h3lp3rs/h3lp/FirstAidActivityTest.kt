@@ -1,8 +1,5 @@
 package com.github.h3lp3rs.h3lp
 
-import android.app.Activity
-import android.app.Instrumentation.*
-import android.content.Intent
 import android.view.View
 import androidx.test.espresso.Espresso.*
 import androidx.test.espresso.action.ViewActions
@@ -25,7 +22,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class FirstAidActivityTest {
+class FirstAidActivityTest : H3lpAppTest() {
 
     @get:Rule
     val testRule = ActivityScenarioRule(
@@ -34,10 +31,7 @@ class FirstAidActivityTest {
 
     @Before
     fun setup() {
-        init()
-        val intent = Intent()
-        val intentResult = ActivityResult(Activity.RESULT_OK, intent)
-        intending(anyIntent()).respondWith(intentResult)
+        initIntentAndCheckResponse()
     }
 
     @After

@@ -99,7 +99,7 @@ class MockDatabase : Database {
             val convertedList = list.map { gson.fromJson(it, type)}
             future.complete(convertedList)
         }?.run {
-            future.completeExceptionally(NullPointerException("Key: $key not in the database"))
+            future.completeExceptionally(NoSuchFieldException("Key: $key not in the database"))
         }
         return future
     }
@@ -118,8 +118,8 @@ class MockDatabase : Database {
         // Enrich the list & add to map
         val ls = listeners.getOrDefault(key, emptyList()) + listOf(wrappedAction)
         listeners[key] = ls
-        // First time trigger
-        wrappedAction()
+        // First time trigger if present
+        if(db.containsKey(key)) wrappedAction()
     }
 
     override fun <T> addListenerIfNotPresent(key : String, type : Class<T>, action : (T) -> Unit) {

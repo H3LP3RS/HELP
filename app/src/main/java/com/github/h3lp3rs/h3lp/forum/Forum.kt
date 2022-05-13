@@ -14,7 +14,7 @@ import java.util.concurrent.CompletableFuture
 /**
  * Represents all the posts at one level path (or category), the posts are in chronological order
  */
-typealias CategoryPosts = Pair<String, List<ForumPost>>
+typealias CategoryPosts = Pair<Path, List<ForumPost>>
 
 const val THEME_KEY = "forumThemeKey"
 
@@ -108,21 +108,10 @@ interface Forum {
                 THEME_KEY, MedicalType::class.java, null
             )
             medicalType?.let {
-                fun checkIfEnabled(medicalType : String) : Boolean {
-                    val enabled = when (medicalType) {
-                        ForumCategory.GENERAL.name -> it.generalist
-                        ForumCategory.PEDIATRY.name -> it.pediatry
-                        ForumCategory.CARDIOLOGY.name -> it.cardiology
-                        ForumCategory.TRAUMATOLOGY.name -> it.traumatology
-                        ForumCategory.GYNECOLOGY.name -> it.gynecology
-                        ForumCategory.NEUROLOGY.name -> it.neurology
-                        else -> false
-                    }
-                    return enabled
-                }
+
                 // Display the notification if the user has enabled this category's notifications
                 // and the post hadn't been posted by him
-                if (checkIfEnabled(postData.category.name) && postData.author != getName() ) {
+                if (medicalType.hasCategory(postData.category) && postData.author != getName() ) {
                     val description = postData.content
                     val title = "New post in ${postData.category} from: ${postData.author}"
                     val intent = Intent(

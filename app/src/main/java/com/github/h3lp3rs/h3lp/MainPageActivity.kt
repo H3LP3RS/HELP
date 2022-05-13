@@ -18,8 +18,9 @@ import androidx.core.app.ActivityCompat.OnRequestPermissionsResultCallback
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import com.github.h3lp3rs.h3lp.database.Databases.Companion.activateHelpListeners
+import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
+import com.github.h3lp3rs.h3lp.notification.EmergencyListener
 import com.github.h3lp3rs.h3lp.database.Databases.PRO_USERS
 import com.github.h3lp3rs.h3lp.forum.FireForum
 import com.github.h3lp3rs.h3lp.forum.ForumPostsActivity
@@ -117,12 +118,12 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
             showExplanationAndRequestPermissions()
         }
 
-        // Start help listener
-        activateHelpListeners()
         // Start listening to forum posts
         FireForum(emptyList()).sendIntentNotificationOnNewPosts(
             globalContext, ForumPostsActivity::class.java
         )
+        EmergencyListener.activateListeners()
+
         startAppGuide()
     }
 
@@ -132,8 +133,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
      */
     private fun showExplanationAndRequestPermissions() {
         val dialog = Dialog(this)
-        val emergencyCallPopup =
-            layoutInflater.inflate(R.layout.localization_permission_popup, null)
+        val emergencyCallPopup = layoutInflater.inflate(R.layout.localization_permission_popup, null)
 
         dialog.setCancelable(false)
         dialog.setContentView(emergencyCallPopup)
@@ -142,11 +142,10 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         dialog.create()
 
         // pass button
-        emergencyCallPopup.findViewById<Button>(R.id.accept_permission_popup_button)
-            .setOnClickListener {
-                dialog.dismiss()
-                requestPermissions(arrayOf(ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
-            }
+        emergencyCallPopup.findViewById<Button>(R.id.accept_permission_popup_button).setOnClickListener {
+            dialog.dismiss()
+            requestPermissions(arrayOf(ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+        }
 
         dialog.show()
     }
@@ -354,9 +353,10 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     }
 
     override fun onOptionsItemSelected(item : MenuItem) : Boolean {
-        if (item.itemId == R.id.button_tutorial) {
+        if(item.itemId == R.id.button_tutorial){
             viewPresentation(findViewById<View>(android.R.id.content).rootView)
-        } else if (item.itemId == R.id.toolbar_settings) {
+        }
+        else if(item.itemId == R.id.toolbar_settings){
             goToSettings(findViewById<View>(android.R.id.content))
         }
 
@@ -392,7 +392,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     }
 
     override fun onCreateOptionsMenu(menu : Menu?) : Boolean {
-        menuInflater.inflate(R.menu.menu_toolbar, menu)
+        menuInflater.inflate(R.menu.menu_toolbar,menu)
         return true
     }
 
@@ -409,7 +409,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
 
     /** Called when the user taps the help page button */
     fun goToHelpParametersActivity(view : View) {
-        goToActivity(HelpParametersActivity::class.java)
+        goToActivity(HelpeeSelectionActivity::class.java)
     }
 
     /**
@@ -426,7 +426,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     }
 
     /** Called when the user taps the my skills button */
-    fun goToMySkillsActivity(view : View) {
+    fun goToMySkillsActivity(view: View) {
         goToActivity(MySkillsActivity::class.java)
     }
 
@@ -446,7 +446,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     }
 
     /** Called when the user taps the first aid tips button */
-    fun goToSettings(view : View) {
+    fun goToSettings(view: View) {
         goToActivity(SettingsActivity::class.java)
     }
 
@@ -454,7 +454,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     fun goToProfessionalPortal(view : View) {
         val db = databaseOf(PRO_USERS)
         db.getObject(SignInActivity.userUid.toString(), ProUser::class.java).handle { _, err ->
-            if (err != null) {
+            if(err != null){
                 // If there is no proof of the status of the current user in the database, launch the verification process
                 goToActivity(VerificationActivity::class.java)
                 return@handle

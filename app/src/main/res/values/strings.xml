@@ -109,6 +109,7 @@
     <string name="invalid_field_msg">ERROR : Some fields are not fill correctly</string>
     <string name="invalid_empty_msg">ERROR : Some mandatory fields (*) are left empty</string>
     <string name="privacy_policy_not_acceptes">ERROR : You must accept our privacy policy first</string>
+    <string name="privacy_policy_not_accepted">ERROR : You must accept our privacy policy first</string>
     <string name="info_saved">Your information has been saved</string>
 
     <!--Preference Key for now should find better way to store this-->
@@ -378,5 +379,7 @@
     <string name="answers">Answers</string>
     <string name="send">Send</string>
     <string name="posts">Posts</string>
-
+    <string name="update_profile">Update profile</string>
+    <string name="upload_failed">"Upload failed. Try again!"</string>
+    <string name="helper">Helper</string>
 </resources>

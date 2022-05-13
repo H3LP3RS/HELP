@@ -10,8 +10,8 @@ import androidx.test.espresso.intent.Intents.init
 import androidx.test.espresso.intent.Intents.release
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.github.h3lp3rs.h3lp.H3lpAppTest.Companion.USER_TEST_ID
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.USER_TEST_ID
 import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.setForum
 import com.github.h3lp3rs.h3lp.forum.ForumPostsActivity.Companion.selectedPost
 import com.github.h3lp3rs.h3lp.forum.data.ForumPostData
