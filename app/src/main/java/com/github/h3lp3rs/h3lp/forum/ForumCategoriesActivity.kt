@@ -31,6 +31,7 @@ class ForumCategoriesActivity : AppCompatActivity() {
             R.id.gyne_expand_button -> ForumCategory.GYNECOLOGY
             else -> ForumCategory.GENERAL
         }
+        
         val intent = Intent(this, ForumPostsActivity::class.java)
         intent.putExtra(EXTRA_FORUM_CATEGORY,category.name)
         startActivity(intent)
