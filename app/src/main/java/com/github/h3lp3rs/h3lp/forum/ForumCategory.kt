@@ -1,8 +1,5 @@
 package com.github.h3lp3rs.h3lp.forum
 
-import FireForum
-import com.github.h3lp3rs.h3lp.database.Database
-import com.github.h3lp3rs.h3lp.database.Databases
 
 /**
  * Enumeration of the standard, pre-defined forum main categories (root level)
