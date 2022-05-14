@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.ImageButton
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -22,7 +21,7 @@ import com.google.firebase.auth.FirebaseAuth.getInstance
 class SignInActivity : AppCompatActivity() {
     lateinit var signInClient : SignInInterface<AuthResult>
     private lateinit var userCookie: LocalStorage
-    private lateinit var userSignin: LocalStorage
+    private lateinit var userSignIn: LocalStorage
 
     private fun checkToSAndLaunchIfNotAcceptedElseMain() {
         // Check ToS agreement
@@ -49,10 +48,10 @@ class SignInActivity : AppCompatActivity() {
     }
 
     private fun offlineCheckIfSignedIn(){
-        userSignin = storageOf(Storages.SIGN_IN) // Fetch from storage
-        if(userSignin.getBoolOrDefault(getString(R.string.KEY_USER_SIGNED_IN), false)){
-            userUid = userSignin.getStringOrDefault(getString(R.string.KEY_USER_UID),"")
-            username = userSignin.getStringOrDefault(getString(R.string.KEY_USER_NAME),"")
+        userSignIn = storageOf(Storages.SIGN_IN) // Fetch from storage
+        if(userSignIn.getBoolOrDefault(getString(R.string.KEY_USER_SIGNED_IN), false)){
+            userUid = userSignIn.getStringOrDefault(getString(R.string.KEY_USER_UID),"")
+            username = userSignIn.getStringOrDefault(getString(R.string.KEY_USER_NAME),"")
             checkToSAndLaunchIfNotAcceptedElseMain()
         }
     }
@@ -60,9 +59,9 @@ class SignInActivity : AppCompatActivity() {
     private fun saveAuthentication(){
         userUid = signInClient.getUid()
         username = getInstance().currentUser?.displayName?.substringBefore(" ")
-        userSignin.setBoolean(getString(R.string.KEY_USER_SIGNED_IN), true)
-        userUid?.let { userSignin.setString(getString(R.string.KEY_USER_UID), it) }
-        username?.let { userSignin.setString(getString(R.string.KEY_USER_NAME), it) }
+        userSignIn.setBoolean(getString(R.string.KEY_USER_SIGNED_IN), true)
+        userUid?.let { userSignIn.setString(getString(R.string.KEY_USER_UID), it) }
+        username?.let { userSignIn.setString(getString(R.string.KEY_USER_NAME), it) }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

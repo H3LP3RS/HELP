@@ -18,6 +18,7 @@ import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.database.MockDatabase
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
+import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
@@ -54,6 +55,9 @@ class NewUserSignInTest : H3lpAppTest() {
 
         val signInMock = mock(SignInInterface::class.java)
         When(signInMock.isSignedIn()).thenReturn(false)
+
+        val userSignIn = Storages.storageOf(Storages.SIGN_IN)
+        userSignIn.setBoolean(globalContext.getString(R.string.KEY_USER_SIGNED_IN), false)
 
         testRule.scenario.onActivity { activity ->
             intent = Intent(getApplicationContext(), activity.javaClass)
