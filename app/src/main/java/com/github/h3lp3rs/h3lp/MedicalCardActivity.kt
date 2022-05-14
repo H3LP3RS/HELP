@@ -23,6 +23,7 @@ import androidx.core.widget.doOnTextChanged
 import com.github.h3lp3rs.h3lp.dataclasses.BloodType
 import com.github.h3lp3rs.h3lp.dataclasses.Gender
 import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation
+import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation.Companion.ADULT_AGE
 import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation.Companion.DEFAULT_COUNTRY
 import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation.Companion.EMPTY_NB
 import com.github.h3lp3rs.h3lp.storage.LocalStorage
@@ -48,9 +49,12 @@ class MedicalCardActivity : AppCompatActivity() {
 
         // Create the field for the birth year with input check
         createTestField(
-            R.id.medicalInfoBirthEditTxt, R.id.medicalInfoBirthTxtLayout,
-            resources.getInteger(R.integer.minYear), Calendar.getInstance().get(Calendar.YEAR),
-            getString(R.string.yearTooOld), getString(R.string.yearTooRecent)
+            R.id.medicalInfoBirthEditTxt,
+            R.id.medicalInfoBirthTxtLayout,
+            resources.getInteger(R.integer.minYear),
+            Calendar.getInstance().get(Calendar.YEAR) - ADULT_AGE,
+            getString(R.string.yearTooOld),
+            getString(R.string.yearTooRecent)
         )
 
         // Create the field for the height with input check
