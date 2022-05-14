@@ -49,7 +49,6 @@ class GoogleAPIHelper(private val apiKey: String): CoroutineScope by MainScope()
         // Launches async routines to retrieve the path to the destination and display it on the map
         CoroutineScope(Dispatchers.Main).launch {
             val data: String = withContext(Dispatchers.IO) { downloadUrl(url) }
-            Log.i("GPath", data)
 
             // Retrieve the path from the JSON received
             val path = parseTask(data, GPathJSONParser)
@@ -69,6 +68,9 @@ class GoogleAPIHelper(private val apiKey: String): CoroutineScope by MainScope()
     /**
      * Finds the nearby utilities and displays them
      * @param utility The utility searched for (pharmacies, hospitals or defibrillators)
+     * @param longitude The longitude of the user (to define what "nearby" means)
+     * @param latitude The latitude of the user (to define what "nearby" means)
+     * @param mapsFragment The map fragment to display the utilities on
      */
     fun findNearbyUtilities(utility: String, longitude: Double, latitude: Double, map: MapsFragment) {
         if (!requestedPlaces.containsKey(utility)) {
@@ -99,6 +101,9 @@ class GoogleAPIHelper(private val apiKey: String): CoroutineScope by MainScope()
 
     /**
      * General method to parse a string with any JSON parser
+     * @param data The string to parse
+     * @param parser The JSON parser to parse this string
+     * @return The parsed object (or null if there was a parsing error)
      */
     fun <T> parseTask(data: String, parser: JSONParserInterface<T>): T? {
         return parser.parseResult(JSONObject(data))

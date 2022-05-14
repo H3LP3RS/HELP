@@ -101,6 +101,8 @@ object LocalEmergencyCaller {
             row = csvReader.readNext()
         }
 
+        csvReader.close()
+
         // If no matching country has been found, return the default value
         return DEFAULT_EMERGENCY_NUMBER
     }

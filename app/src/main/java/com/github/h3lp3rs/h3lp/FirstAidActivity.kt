@@ -13,17 +13,18 @@ import kotlinx.android.synthetic.main.activity_first_aid.*
 
 class FirstAidActivity : AppCompatActivity() {
     // Maps the clicked button to the activity it should launch to avoid code duplication
-    private val buttonToActivity =
-        hashMapOf<Button, Class<*>>(
-            allergy_expand_button to AllergyActivity::class.java,
-            heart_attack_expand_button to HeartAttackActivity::class.java,
-            aed_expand_button to AedActivity::class.java,
-            asthma_expand_button to AsthmaActivity::class.java
-        )
+    private lateinit var buttonToActivity: Map<Button, Class<*>>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_first_aid)
+        buttonToActivity =
+            hashMapOf(
+                allergy_expand_button to AllergyActivity::class.java,
+                heart_attack_expand_button to HeartAttackActivity::class.java,
+                aed_expand_button to AedActivity::class.java,
+                asthma_expand_button to AsthmaActivity::class.java
+            )
     }
 
     /** Starts the activity by sending intent */
