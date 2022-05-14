@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageButton
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -21,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuth.getInstance
 class SignInActivity : AppCompatActivity() {
     lateinit var signInClient : SignInInterface<AuthResult>
     private lateinit var userCookie: LocalStorage
+    private lateinit var userSignin: LocalStorage
 
     private fun checkToSAndLaunchIfNotAcceptedElseMain() {
         // Check ToS agreement
@@ -46,6 +48,23 @@ class SignInActivity : AppCompatActivity() {
         }
     }
 
+    private fun offlineCheckIfSignedIn(){
+        userSignin = storageOf(Storages.SIGN_IN) // Fetch from storage
+        if(userSignin.getBoolOrDefault(getString(R.string.KEY_USER_SIGNED_IN), false)){
+            userUid = userSignin.getStringOrDefault(getString(R.string.KEY_USER_UID),"")
+            username = userSignin.getStringOrDefault(getString(R.string.KEY_USER_NAME),"")
+            checkToSAndLaunchIfNotAcceptedElseMain()
+        }
+    }
+
+    private fun saveAuthentication(){
+        userUid = signInClient.getUid()
+        username = getInstance().currentUser?.displayName?.substringBefore(" ")
+        userSignin.setBoolean(getString(R.string.KEY_USER_SIGNED_IN), true)
+        userUid?.let { userSignin.setString(getString(R.string.KEY_USER_UID), it) }
+        username?.let { userSignin.setString(getString(R.string.KEY_USER_NAME), it) }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -57,6 +76,9 @@ class SignInActivity : AppCompatActivity() {
         findViewById<ImageButton>(R.id.signInButton).setOnClickListener{
             launchSignIn()
         }
+
+        Storages.SIGN_IN.setOnlineSync(false)
+        offlineCheckIfSignedIn()
     }
 
     /**
@@ -64,7 +86,7 @@ class SignInActivity : AppCompatActivity() {
      */
     private fun launchSignIn(){
         signInClient = SignIn.get()
-        checkIfSignedIn()
+        //checkIfSignedIn()
         val signInIntent = signInClient.signIn(this)
         resultLauncher.launch(signInIntent)
     }
@@ -86,6 +108,7 @@ class SignInActivity : AppCompatActivity() {
                     userUid = signInClient.getUid()
                     // Only get the first name for privacy reasons
                     username = getInstance().currentUser?.displayName?.substringBefore(" ")
+                    saveAuthentication()
                     checkToSAndLaunchIfNotAcceptedElseMain()
                 }
             }
