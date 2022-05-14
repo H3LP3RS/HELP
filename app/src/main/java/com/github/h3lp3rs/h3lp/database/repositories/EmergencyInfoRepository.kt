@@ -6,6 +6,7 @@ import java.util.concurrent.CompletableFuture
 
 /**
  * Repository for emergency information communication with the database
+ * @param database The database from which to create the repository
  */
 class EmergencyInfoRepository(private val database: Database) : Repository<EmergencyInformation>{
 

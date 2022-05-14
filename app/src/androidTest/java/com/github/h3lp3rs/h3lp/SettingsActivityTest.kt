@@ -15,6 +15,7 @@ import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.database.Databases.*
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.database.MockDatabase
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
@@ -38,7 +39,7 @@ class SettingsActivityTest : H3lpAppTest() {
     fun dataInit() {
         globalContext = getApplicationContext()
         userUid = USER_TEST_ID
-        PREFERENCES.db = MockDatabase()
+        setDatabase(PREFERENCES, MockDatabase())
         resetStorage()
     }
 
@@ -70,7 +71,7 @@ class SettingsActivityTest : H3lpAppTest() {
             db.setString("SKILLS/$USER_TEST_ID", txt)
             db.setString("USER_COOKIE/$USER_TEST_ID", txt)
             db.setString("MEDICAL_INFO/$USER_TEST_ID", txt)
-            PREFERENCES.db = db
+            setDatabase(PREFERENCES, db)
             onView(withId(R.id.buttonRemoveSynch)).perform(click())
 
             assert(db.getString("SKILLS/$USER_TEST_ID").isCompletedExceptionally)
