@@ -73,6 +73,11 @@ class PresIrrelevantActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Adds a clickable text that launches an intent on click
+     * @param tosIntent Intent to be called when the ToS text is clicked
+     * @param checkBox The checkbox whose text should be clickable
+     */
     private fun addClickableText(tosIntent: Intent, checkBox: CheckBox) {
         val clickableSpan: ClickableSpan = object : ClickableSpan() {
             override fun onClick(widget: View) {
