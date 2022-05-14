@@ -32,7 +32,6 @@ class GoogleAPIHelper(private val apiKey: String): CoroutineScope by MainScope()
      * @param mapsFragment The map fragment to display the path on
      * @param usePathData Method that acts as a future on the String returned by the Google
      *  directions API in case the caller needs to reuse it, the default is doing nothing
-     * @param
      */
     fun displayWalkingPath(
         currentLat: Double,
@@ -54,9 +53,9 @@ class GoogleAPIHelper(private val apiKey: String): CoroutineScope by MainScope()
 
             // Retrieve the path from the JSON received
             val path = parseTask(data, GPathJSONParser)
-            path.let {
+            path?.let {
                 // Displays the path and adds a marker for the end point
-                mapsFragment.showPolyline(path)
+                mapsFragment.showPolyline(it)
                 mapsFragment.addMarker(
                     destinationLat, destinationLong,
                     END_POINT_NAME
@@ -87,8 +86,10 @@ class GoogleAPIHelper(private val apiKey: String): CoroutineScope by MainScope()
                 CoroutineScope(Dispatchers.Main).launch {
                     val pathData = withContext(Dispatchers.IO) { downloadUrl(url) }
 
-                    requestedPlaces[utility] = parseTask(pathData, GPlaceJSONParser)
-                    requestedPlaces[utility]?.let { map.showPlaces(it, utility) }
+                    parseTask(pathData, GPlaceJSONParser)?.let {
+                        requestedPlaces[utility] = it
+                        map.showPlaces(it, utility)
+                    }
                 }
             }
         } else {
@@ -99,15 +100,16 @@ class GoogleAPIHelper(private val apiKey: String): CoroutineScope by MainScope()
     /**
      * General method to parse a string with any JSON parser
      */
-    fun <T> parseTask(data: String, parser: JSONParserInterface<T>): T {
+    fun <T> parseTask(data: String, parser: JSONParserInterface<T>): T? {
         return parser.parseResult(JSONObject(data))
     }
 
     /**
      * General method to download the information returned by accessing an url
      * @param url The url to download from
+     * @return The information (as a String) that was contained on that url
      */
-    fun downloadUrl(url: String): String {
+    private fun downloadUrl(url: String): String {
         val connection = URL(url).openConnection() as HttpURLConnection
         connection.connect()
 

@@ -153,8 +153,7 @@ class AwaitHelpActivity : AppCompatActivity() {
     }
 
     /**
-     * Adds a marker on the map representing the position of someone coming to
-     * help.
+     * Adds a marker on the map representing the position of someone coming to help.
      * @param uid The uid of the helper
      * @param latitude The helper's current latitude
      * @param longitude The helper's current longitude
@@ -248,6 +247,12 @@ class AwaitHelpActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    /**
+     * Launches the RecentMessagesActivity with the given emergency key to display the messaging
+     * screen
+     * @param emergencyId The emergency id where the conversations are stored (see the communication
+     * protocol)
+     */
     private fun goToRecentMessagesActivity(emergencyId: String) {
         val intent = Intent(this, RecentMessagesActivity::class.java)
         intent.putExtra(EXTRA_EMERGENCY_KEY, emergencyId)

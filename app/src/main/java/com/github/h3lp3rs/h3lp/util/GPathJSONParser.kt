@@ -13,17 +13,17 @@ import org.json.JSONObject
 object GPathJSONParser: JSONParserInterface<List<LatLng>> {
 
     /**
-     * Parses the json of a google direction search into a list of coordinates corresponding to
+     * Parses the JSON of a google direction search into a list of coordinates corresponding to
      * a path
-     * @param obj: Json object returned by a Google directions query
+     * @param obj: JSON object returned by a Google directions query
      * @return a list of coordinates that form a polyline (a path)
      */
-    override fun parseResult(obj: JSONObject): List<LatLng> {
+    override fun parseResult(obj: JSONObject): List<LatLng>? {
         return try {
             val steps = parseSteps(obj)
             getPathFromSteps(steps)
         } catch (e: JSONException) {
-            arrayListOf()
+            null
         }
 
     }

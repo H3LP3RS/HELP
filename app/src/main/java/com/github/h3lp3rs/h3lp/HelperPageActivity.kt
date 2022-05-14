@@ -96,8 +96,10 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
      */
     private fun displayPathDuration(pathData: String?) {
         val duration = pathData?.let { apiHelper.parseTask(it, GDurationJSONParser) }
-        val walkingTimeInfo: TextView = findViewById(R.id.timeToPersonInNeed)
-        walkingTimeInfo.text = String.format("- %s", duration)
+        duration?.let {
+            val walkingTimeInfo: TextView = findViewById(R.id.timeToPersonInNeed)
+            walkingTimeInfo.text = String.format("- %s", it)
+        }
     }
 
     /**
