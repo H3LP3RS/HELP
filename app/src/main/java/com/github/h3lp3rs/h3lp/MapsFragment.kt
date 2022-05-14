@@ -120,8 +120,6 @@ class MapsFragment : Fragment(), CoroutineScope by MainScope(), GoogleMap.OnPoly
             if (place.containsKey("lat")
                 && place.containsKey("lng")
                 && place.containsKey("name")
-                && place["lat"] != null
-                && place["lng"] != null
             ) {
                 val lat = parseDouble(place["lat"]!!)
                 val lng = parseDouble(place["lng"]!!)
@@ -187,7 +185,8 @@ class MapsFragment : Fragment(), CoroutineScope by MainScope(), GoogleMap.OnPoly
     }
 
     /**
-     * Puts a pin marker at the end of the path
+     * Puts a pin marker at the end of the path with default marker options (a location and a name
+     * for the marker)
      * @param destinationLat Latitude of the endpoint of the path
      * @param destinationLong Longitude of the endpoint of the path
      * @param markerName Name to give to the marker (is visible upon clicking on it)
@@ -202,7 +201,7 @@ class MapsFragment : Fragment(), CoroutineScope by MainScope(), GoogleMap.OnPoly
             options.title(markerName)
             options.icon(BitmapDescriptorFactory.fromResource(R.drawable.end_point_pin))
 
-            map.addMarker(options)
+            addMarker(options)
         }
     }
 
