@@ -19,9 +19,13 @@ import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth.getInstance
 
 class SignInActivity : AppCompatActivity() {
-    lateinit var signInClient : SignInInterface<AuthResult>
+    private lateinit var signInClient : SignInInterface<AuthResult>
     private lateinit var userCookie: LocalStorage
 
+    /**
+     * Checks the Terms of Service to see if they were already accepted, if they were, launches the
+     * app by going to the main page, if not, goes back to the activity to accept the ToS
+     */
     private fun checkToSAndLaunchIfNotAcceptedElseMain() {
         // Check ToS agreement
         userCookie = storageOf(Storages.USER_COOKIE) // Fetch from storage

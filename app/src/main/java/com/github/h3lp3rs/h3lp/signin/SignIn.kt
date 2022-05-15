@@ -19,6 +19,7 @@ object SignIn {
     /**
      * Used for testing purposes to give mock sign in instances, can also be used to enable
      * multiple sign in methods for the app
+     * @param newSignIn The new sign in to set
      */
     fun set(newSignIn: SignInInterface<AuthResult>) {
         signIn = newSignIn

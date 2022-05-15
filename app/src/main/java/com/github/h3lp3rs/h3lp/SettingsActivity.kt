@@ -23,7 +23,7 @@ class SettingsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_settings)
         loadSyncPref()
         findViewById<TextView>(R.id.unique_id_text).text = getUid()
-        findViewById<TextView>(R.id.user_since_text).text = getCreationDate()
+        findViewById<TextView>(R.id.user_since_text).text = getCreationDate() ?: ""
     }
 
     /**
