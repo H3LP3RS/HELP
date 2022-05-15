@@ -33,9 +33,7 @@ class SignedInUserTest : H3lpAppTest() {
     private fun setUp(tosAccepted: Boolean){
         val intent = Intent(
             getApplicationContext(), SignInActivity::class.java
-        ).apply {
-            putExtra(EXTRA_FORUM_CATEGORY, CATEGORY_TEST_STRING)
-        }
+        )
 
         globalContext = getApplicationContext()
         userUid = USER_TEST_ID
@@ -57,7 +55,7 @@ class SignedInUserTest : H3lpAppTest() {
         ActivityScenario.launch<SignInActivity>(intent)
     }
 
-    @Test // TODO: Need authentication mocking
+    @Test
     fun signedInUserMovesToMainPageIfToSAccepted() {
         setUp(true)
         intended(hasComponent(MainPageActivity::class.java.name))

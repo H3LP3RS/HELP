@@ -39,14 +39,6 @@ class SignInActivity : AppCompatActivity() {
     /**
      * Check if the current user is already signed in and update activity accordingly
      */
-    private fun checkIfSignedIn() {
-        if (signInClient.isSignedIn()) {
-            userUid = signInClient.getUid()
-            username = getInstance().currentUser?.displayName?.substringBefore(" ")
-            checkToSAndLaunchIfNotAcceptedElseMain()
-        }
-    }
-
     private fun offlineCheckIfSignedIn(){
         userSignIn = storageOf(Storages.SIGN_IN) // Fetch from storage
         if(userSignIn.getBoolOrDefault(getString(R.string.KEY_USER_SIGNED_IN), false)){
@@ -56,6 +48,9 @@ class SignInActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Save the user authentication information to the local storage
+     */
     private fun saveAuthentication(){
         userUid = signInClient.getUid()
         username = getInstance().currentUser?.displayName?.substringBefore(" ")
@@ -75,8 +70,9 @@ class SignInActivity : AppCompatActivity() {
         findViewById<ImageButton>(R.id.signInButton).setOnClickListener{
             launchSignIn()
         }
-
+        // Sign in local storage doesn't need online sync
         Storages.SIGN_IN.setOnlineSync(false)
+        // Check if the user is already signed in
         offlineCheckIfSignedIn()
     }
 
