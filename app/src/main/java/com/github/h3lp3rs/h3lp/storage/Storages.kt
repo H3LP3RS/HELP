@@ -24,6 +24,7 @@ enum class Storages {
          * - USER_COOKIE
          * The storage is only pushed to the database after a push() call
          * @param choice The chosen database
+         * @return The instantiated storage of the required type
          */
         fun storageOf(choice: Storages): LocalStorage {
             if (!choice.isFresh) {
@@ -44,16 +45,16 @@ enum class Storages {
     }
 
     /**
-     * set the Online synchronization for a given storage
-     * @param isSyncEnable if the synchronization must be enabled
+     * Set the online synchronization for a given storage
+     * @param isSyncEnabled if the synchronization must be enabled
      */
-    fun setOnlineSync(isSyncEnable: Boolean) {
+    fun setOnlineSync(isSyncEnabled: Boolean) {
         getGlobalCtx().getSharedPreferences("SyncPref", AppCompatActivity.MODE_PRIVATE)
-            .edit().putString(name, isSyncEnable.toString()).apply()
+            .edit().putString(name, isSyncEnabled.toString()).apply()
     }
 
     /**
-     * get the Online synchronization for a given storage
+     * Get the online synchronization for a given storage
      */
     fun getOnlineSync(): Boolean {
         return parseBoolean(
