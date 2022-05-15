@@ -12,7 +12,7 @@ import java.util.stream.Collectors.toList
  * This wrapper class forwards all calls to a Forum implementation and adds an additional
  * layer of caching. This way, negative responses due to connectivity issues still resolve
  * as valid old data output.
- * NOTE: This cache behaves according to the ForumProtocol.md limitations (subset of FireForum
+ * NOTE: This cache behaves according to the ForumProtocol.md limitations (subset of Forum
  * interface)
  * @param forum The wrapped forum we want to cache
  */
