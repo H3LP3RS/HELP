@@ -55,6 +55,7 @@ class ForumPost(
 
     override fun bind(viewHolder : ViewHolder, position : Int) {
         viewHolder.itemView.question_post.text = post.content
+        viewHolder.itemView.timestamp.text = post.postTime
         viewHolder.itemView.image_post.setImageResource(getImage())
         viewHolder.itemView.authpost_author.text = post.author
     }

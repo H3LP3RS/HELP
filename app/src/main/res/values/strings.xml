@@ -382,4 +382,5 @@
     <string name="update_profile">Update profile</string>
     <string name="upload_failed">"Upload failed. Try again!"</string>
     <string name="helper">Helper</string>
+    <string name="date">Date</string>
 </resources>

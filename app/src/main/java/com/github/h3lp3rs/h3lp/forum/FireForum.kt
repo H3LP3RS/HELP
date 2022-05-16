@@ -4,47 +4,40 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.database.Databases.FORUM
-import com.github.h3lp3rs.h3lp.forum.*
-import com.github.h3lp3rs.h3lp.forum.ForumCategory.*
 import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.DEFAULT_CATEGORY
 import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.forumOf
+import com.github.h3lp3rs.h3lp.forum.ForumCategory.valueOf
+import com.github.h3lp3rs.h3lp.forum.ForumCategory.values
 import com.github.h3lp3rs.h3lp.forum.data.ForumPostData
 import java.time.ZonedDateTime
 import java.util.concurrent.CompletableFuture
 
-class FireForum(override val path: Path) : Forum {
+class FireForum(override val path : Path) : Forum {
     private val rootForum = databaseOf(FORUM)
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun newPost(author: String, content: String): CompletableFuture<ForumPost> {
+    override fun newPost(author : String, content : String) : CompletableFuture<ForumPost> {
         var key = ""
         // Incrementing by 2 so that a post's replies key is always 1 more than a post's key (this
         // is also an optimization to avoid us requiring 2 calls to incrementAndGet)
         return rootForum.incrementAndGet(UNIQUE_POST_ID, 2).thenApply { postKey ->
             key = postKey.toString()
             val repliesKey = (postKey + 1).toString()
-
+            val currentTime = ZonedDateTime.now()
+            val date =
+                currentTime.dayOfMonth.toString() + "" + currentTime.month.toString() + " " + currentTime.toLocalTime().hour + ":" + currentTime.toLocalTime().minute
             val forumPostData = ForumPostData(
-                author,
-                content,
-                ZonedDateTime.now(),
-                key,
-                repliesKey,
-                getCurrentCategory()
+                author, content, date, key, repliesKey, getCurrentCategory()
             )
             rootForum.setObject(
-                pathToKey(path + key),
-                ForumPostData::class.java,
-                forumPostData
+                pathToKey(path + key), ForumPostData::class.java, forumPostData
             )
 
             // If the forum is a category, this means that the post is a "main post" (not a reply)
             // we thus add it to the posts in the database (as explained in the forum protocol)
             if (isCategory()) {
                 rootForum.addToObjectsListConcurrently(
-                    pathToKey(path + POSTS_LIST),
-                    String::class.java,
-                    key
+                    pathToKey(path + POSTS_LIST), String::class.java, key
                 )
             }
             // We can't use getPost here since we aren't sure that the setObject succeeded yet
@@ -52,7 +45,7 @@ class FireForum(override val path: Path) : Forum {
         }
     }
 
-    override fun getPost(relativePath: Path): CompletableFuture<ForumPost> {
+    override fun getPost(relativePath : Path) : CompletableFuture<ForumPost> {
         val fullPath = path + relativePath
         val key = pathToKey(fullPath)
 
@@ -63,8 +56,7 @@ class FireForum(override val path: Path) : Forum {
         val postAndRepliesFuture = postFuture.thenCompose { postData ->
             // Get all the replies from that post
             rootForum.getObjectsList(
-                pathToKey(path + postData.repliesKey),
-                ForumPostData::class.java
+                pathToKey(path + postData.repliesKey), ForumPostData::class.java
             ).handle { replies, error ->
                 if (error != null) {
                     // If the post has no replies yet
@@ -78,10 +70,10 @@ class FireForum(override val path: Path) : Forum {
         return postAndRepliesFuture
     }
 
-    override fun getAll(): CompletableFuture<List<CategoryPosts>> {
+    override fun getAll() : CompletableFuture<List<CategoryPosts>> {
         if (isRoot()) {
             // In case we are in the root forum, get the CategoryPosts from all categories
-            var future: CompletableFuture<List<CategoryPosts>> =
+            var future : CompletableFuture<List<CategoryPosts>> =
                 CompletableFuture.completedFuture(emptyList())
             for (category in values()) {
                 // For all categories, we add them to the list of category posts
@@ -110,18 +102,21 @@ class FireForum(override val path: Path) : Forum {
     /**
      * @return Returns all the posts in this forum's category in a future
      */
-    private fun getAllFromCategory(): CompletableFuture<CategoryPosts> {
-        val forumPostsFuture = rootForum
-            .getObjectsList(pathToKey(path + POSTS_LIST), String::class.java)
-            .thenApply { keyList ->
-                // For all posts in this category, get their forum post data
-                keyList.map { rootForum.getObject(pathToKey(path + it), ForumPostData::class.java) }
-            }
-            .thenCompose {
-                // We need an array since this is the type expected by the method allOf used in
-                // typeAllOf
-                val cfs: Array<CompletableFuture<ForumPost>> =
-                    it.map { futurePostData ->
+    private fun getAllFromCategory() : CompletableFuture<CategoryPosts> {
+        val forumPostsFuture =
+            rootForum.getObjectsList(pathToKey(path + POSTS_LIST), String::class.java)
+                .thenApply { keyList ->
+                    // For all posts in this category, get their forum post data
+                    keyList.map {
+                        rootForum.getObject(
+                            pathToKey(path + it),
+                            ForumPostData::class.java
+                        )
+                    }
+                }.thenCompose {
+                    // We need an array since this is the type expected by the method allOf used in
+                    // typeAllOf
+                    val cfs : Array<CompletableFuture<ForumPost>> = it.map { futurePostData ->
                         futurePostData.thenCompose { postData ->
                             // Get the forum post for each post in the category
                             getPost(
@@ -129,13 +124,12 @@ class FireForum(override val path: Path) : Forum {
                             )
                         }
                     }.toTypedArray()
-                typedAllOf(*cfs)
-            }
+                    typedAllOf(*cfs)
+                }
 
         // Transforming the future<list<ForumPost>> into the required format
         // future<Pair<Category name, list<ForumPost>>
-        return forumPostsFuture
-            .thenApply { list ->
+        return forumPostsFuture.thenApply { list ->
                 // path.last contains the category name
                 Pair(listOf(path.last()), list)
             }
@@ -148,9 +142,8 @@ class FireForum(override val path: Path) : Forum {
      * @return A future that completes with the value of all the futures in the "futures" list
      *  once they have completed
      */
-    private fun typedAllOf(vararg futures: CompletableFuture<ForumPost>?): CompletableFuture<List<ForumPost>> {
-        return CompletableFuture.allOf(*futures)
-            .thenApply {
+    private fun typedAllOf(vararg futures : CompletableFuture<ForumPost>?) : CompletableFuture<List<ForumPost>> {
+        return CompletableFuture.allOf(*futures).thenApply {
                 futures.map {
                     // The futures are already all completed (since we are in the thenApply of allOf)
                     // thus the join call won't be a problem
@@ -160,7 +153,7 @@ class FireForum(override val path: Path) : Forum {
             }
     }
 
-    override fun listenToAll(action: (ForumPostData) -> Unit) {
+    override fun listenToAll(action : (ForumPostData) -> Unit) {
         // In case we are in the root forum
         when {
             isRoot() -> {
@@ -172,7 +165,7 @@ class FireForum(override val path: Path) : Forum {
             isCategory() -> {
                 // Callback called on every new post in a category, calls "action" on that new post
                 // and adds listeners for replies on that new post
-                val onNewPost: (String) -> Unit = { postKey ->
+                val onNewPost : (String) -> Unit = { postKey ->
                     getPost(postKey).thenAccept { postForum ->
                         action(postForum.post)
                         child(postForum.post.key).listenToAll(action)
@@ -181,9 +174,7 @@ class FireForum(override val path: Path) : Forum {
                 // We add the listener on the POSTS_LIST key since as explained in the protocol,
                 // it is updated with new post keys on every new post
                 rootForum.addEventListener(
-                    pathToKey(path + POSTS_LIST),
-                    String::class.java,
-                    onNewPost
+                    pathToKey(path + POSTS_LIST), String::class.java, onNewPost
                 ) {}
             }
             else -> {
@@ -193,24 +184,22 @@ class FireForum(override val path: Path) : Forum {
                     // Adding a listener on the replies key since this is where all replies to that
                     // post are stored
                     rootForum.addEventListener(
-                        pathToKey(repliesPath),
-                        ForumPostData::class.java,
-                        action
+                        pathToKey(repliesPath), ForumPostData::class.java, action
                     ) {}
                 }
             }
         }
     }
 
-    override fun root(): Forum {
+    override fun root() : Forum {
         return FireForum(emptyList())
     }
 
-    override fun child(relativePath: Path): Forum {
+    override fun child(relativePath : Path) : Forum {
         return FireForum(path + relativePath)
     }
 
-    override fun parent(): Forum {
+    override fun parent() : Forum {
         return if (isRoot()) {
             this
         } else {
@@ -225,7 +214,7 @@ class FireForum(override val path: Path) : Forum {
      * @param path The path to transform into a string according to Firebase
      * @return The corresponding string
      */
-    private fun pathToKey(path: Path): String {
+    private fun pathToKey(path : Path) : String {
         return path.joinToString(separator = "/")
     }
 
@@ -234,7 +223,7 @@ class FireForum(override val path: Path) : Forum {
      * represented by an empty path
      * @return A boolean corresponding to the fact that this forum is (or isn't) the root forum
      */
-    private fun isRoot(): Boolean {
+    private fun isRoot() : Boolean {
         return path.isEmpty()
     }
 
@@ -244,7 +233,7 @@ class FireForum(override val path: Path) : Forum {
      * represented by a path of length 1
      * @return A boolean corresponding to the fact that this forum is (or isn't) the root forum
      */
-    private fun isCategory(): Boolean {
+    private fun isCategory() : Boolean {
         return path.size == 1
     }
 
@@ -252,7 +241,7 @@ class FireForum(override val path: Path) : Forum {
      * @return The category of the current forum and the default category in case the
      * current forum is root
      */
-    private fun getCurrentCategory(): ForumCategory {
+    private fun getCurrentCategory() : ForumCategory {
         return if (!isRoot()) {
             valueOf(path.first())
         } else {
