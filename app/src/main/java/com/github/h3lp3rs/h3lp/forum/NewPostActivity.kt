@@ -43,8 +43,7 @@ class NewPostActivity : AppCompatActivity() {
      * @param view Current view
      */
     fun sendPost(view : View) {
-        val category =
-            newPostCategoryDropdown.text.toString()
+        val category = newPostCategoryDropdown.text.toString()
         val textViewAnswerQuestion = findViewById<TextInputEditText>(R.id.newPostTitleEditTxt)
         val question = textViewAnswerQuestion.text.toString()
         val forum = ForumCategory.categoriesMap[category]?.let { forumOf(it) }!!

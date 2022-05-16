@@ -18,8 +18,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito
-import org.mockito.Mockito.`when`
+import org.mockito.Mockito.`when` as When
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.any
 
@@ -40,7 +39,7 @@ class ForumPostsActivityTest {
 
         val forum = mock(Forum::class.java)
         ForumCategory.setForum(CATEGORY_TEST,forum)
-        `when`(forum.newPost(any(), any(), any())).then {
+        When(forum.newPost(any(), any(), any())).then {
             val content = it.getArgument<String>(1)
             forumPosts[content] = emptyList()
             return@then any()

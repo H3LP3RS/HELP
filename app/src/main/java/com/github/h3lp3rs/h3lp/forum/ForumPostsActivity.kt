@@ -5,8 +5,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.forum.data.ForumPostData
-import com.github.h3lp3rs.h3lp.storage.Storages
-import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_forum_answers.*
@@ -20,6 +18,7 @@ class ForumPostsActivity : AppCompatActivity() {
         // The post of which the user wants to see the answers
         lateinit var selectedPost : ForumPost
     }
+
     private val adapter = GroupAdapter<ViewHolder>()
     private var category : String? = null
     private lateinit var forum : Forum
