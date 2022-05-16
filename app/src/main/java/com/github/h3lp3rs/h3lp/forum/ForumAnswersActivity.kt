@@ -1,12 +1,20 @@
 package com.github.h3lp3rs.h3lp.forum
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.R
+import com.github.h3lp3rs.h3lp.database.Databases
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.categoriesMap
 import com.github.h3lp3rs.h3lp.forum.ForumPostsActivity.Companion.selectedPost
 import com.github.h3lp3rs.h3lp.forum.data.ForumPostData
+import com.github.h3lp3rs.h3lp.professional.ProMainActivity
+import com.github.h3lp3rs.h3lp.professional.ProUser
+import com.github.h3lp3rs.h3lp.professional.VerificationActivity
+import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.getName
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
@@ -30,11 +38,25 @@ class ForumAnswersActivity : AppCompatActivity() {
 
         forum = categoriesMap[category]?.let { ForumCategory.forumOf(it) }!!
 
-        add_answer_button.setOnClickListener {
-            val answer = text_view_enter_answer.text.toString()
-            getName()!!.let { id -> selectedPost.reply(id, answer) }
-            // Clear the text field
-            text_view_enter_answer.text.clear()
+        val db = databaseOf(Databases.PRO_USERS)
+
+        db.getObject(userUid.toString(), ProUser::class.java).handle { _, err ->
+           err?.let{
+                // If the user is not a doctor, he can't reply to posts
+                text_view_enter_answer.visibility = View.GONE
+                add_answer_button.visibility = View.GONE
+                return@handle
+            }
+            // Otherwise, allow him to reply to posts
+            add_answer_button.setOnClickListener {
+                // If the user is not a doctor, he can't reply to posts
+                text_view_enter_answer.visibility = View.VISIBLE
+                add_answer_button.visibility = View.VISIBLE
+                val answer = text_view_enter_answer.text.toString()
+                getName()!!.let { id -> selectedPost.reply(id, answer) }
+                // Clear the text field
+                text_view_enter_answer.text.clear()
+            }
         }
 
         listenForAnswers()

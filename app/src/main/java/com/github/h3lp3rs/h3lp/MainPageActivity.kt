@@ -410,7 +410,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     fun goToCprActivity(view : View) {
         goToActivity(CprRateActivity::class.java)
     }
-    /** Called when the user taps the cpr rate button */
+    /** Called when the user taps the forum button */
     fun goToForumActivity(view : View) {
         goToActivity(ForumCategoriesActivity::class.java)
     }
@@ -453,7 +453,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     }
 
     /** Called when the user taps the first aid tips button */
-    fun goToSettings(view: View) {
+    private fun goToSettings(view: View) {
         goToActivity(SettingsActivity::class.java)
     }
 
