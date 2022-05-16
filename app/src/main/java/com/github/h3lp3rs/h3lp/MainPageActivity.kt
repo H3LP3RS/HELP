@@ -22,7 +22,9 @@ import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.notification.EmergencyListener
 import com.github.h3lp3rs.h3lp.database.Databases.PRO_USERS
+import com.github.h3lp3rs.h3lp.forum.CategoryPosts
 import com.github.h3lp3rs.h3lp.forum.FireForum
+import com.github.h3lp3rs.h3lp.forum.ForumCategoriesActivity
 import com.github.h3lp3rs.h3lp.forum.ForumPostsActivity
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
 import com.github.h3lp3rs.h3lp.professional.ProMainActivity
@@ -58,7 +60,8 @@ private val mainPageButton = listOf(
     MainPageButton(R.id.button_defibrillator, true),
     MainPageButton(R.id.button_pharmacy, true),
     MainPageButton(R.id.button_first_aid, true),
-    MainPageButton(R.id.button_cpr, true)
+    MainPageButton(R.id.button_cpr, true),
+    MainPageButton(R.id.button_forum,true)
 )
 
 private val buttonsGuidePrompts = mapOf(
@@ -69,7 +72,8 @@ private val buttonsGuidePrompts = mapOf(
     R.id.button_defibrillator to R.string.defibrillators_guide_prompt,
     R.id.button_pharmacy to R.string.pharmacies_guide_prompt,
     R.id.button_first_aid to R.string.first_aid_guide_prompt,
-    R.id.button_cpr to R.string.cpr_guide_prompt
+    R.id.button_cpr to R.string.cpr_guide_prompt,
+    R.id.button_forum to R.string.forum_guide_prompt
 )
 val numberOfButtons = mainPageButton.size
 
@@ -406,7 +410,10 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     fun goToCprActivity(view : View) {
         goToActivity(CprRateActivity::class.java)
     }
-
+    /** Called when the user taps the cpr rate button */
+    fun goToForumActivity(view : View) {
+        goToActivity(ForumCategoriesActivity::class.java)
+    }
     /** Called when the user taps the help page button */
     fun goToHelpParametersActivity(view : View) {
         goToActivity(HelpeeSelectionActivity::class.java)
