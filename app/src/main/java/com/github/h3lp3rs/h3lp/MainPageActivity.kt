@@ -22,7 +22,7 @@ import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.notification.EmergencyListener
 import com.github.h3lp3rs.h3lp.database.Databases.PRO_USERS
-import com.github.h3lp3rs.h3lp.forum.FireForum
+import com.github.h3lp3rs.h3lp.forum.ForumCategory
 import com.github.h3lp3rs.h3lp.forum.ForumPostsActivity
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
 import com.github.h3lp3rs.h3lp.professional.ProMainActivity
@@ -119,7 +119,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         }
 
         // Start listening to forum posts
-        FireForum(emptyList()).sendIntentNotificationOnNewPosts(
+        ForumCategory.root().sendIntentNotificationOnNewPosts(
             globalContext, ForumPostsActivity::class.java
         )
         EmergencyListener.activateListeners()

@@ -9,6 +9,8 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.H3lpAppTest.Companion.USER_TEST_ID
 import com.github.h3lp3rs.h3lp.R
+import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.forumOf
+import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.mockForum
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.setName
 import junit.framework.Assert.assertEquals
 import org.junit.After
@@ -24,43 +26,29 @@ private const val QUESTION = "question"
 
 @RunWith(AndroidJUnit4::class)
 class ForumNewPostActivityTest {
-    private val forumPosts : MutableMap<String, List<String>> = mutableMapOf()
-
     @get:Rule
     val testRule = ActivityScenarioRule(
         NewPostActivity::class.java
     )
 
+    private lateinit var forum: Forum
+
     @Before
     fun setup() {
-        init()
         setName(USER_TEST_ID)
-
-        val forum = mock(Forum::class.java)
-        ForumCategory.setForum(CATEGORY_TEST,forum)
-        `when`(forum.newPost(any(), any())).then {
-            val content = it.getArgument<String>(1)
-            forumPosts[content] = emptyList()
-            return@then any()
-        }
-    }
-
-    @After
-    fun clean() {
-        release()
+        mockForum()
+        forum = forumOf(CATEGORY_TEST)
     }
 
     @Test
-    fun addNewPostWorks(){
+    fun addNewPostWorks() {
+        forum.listenToAll { post ->
+            assertEquals(post.content, QUESTION) // TODO Not triggering for some reason
+        }
         onView(withId(R.id.newPostCategoryDropdown))
             .perform(ViewActions.replaceText(CATEGORY_TEST_STRING))
-
         onView(withId(R.id.newPostTitleEditTxt))
             .perform(ViewActions.replaceText(QUESTION))
-
-        onView(withId(R.id.newPostSaveButton)).perform(ViewActions.scrollTo(),ViewActions.click())
-
-        assertEquals(forumPosts[QUESTION], emptyList<String>())
+        onView(withId(R.id.newPostSaveButton)).perform(ViewActions.scrollTo(), ViewActions.click())
     }
-
 }

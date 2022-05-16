@@ -18,15 +18,9 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
-import org.mockito.kotlin.any
 
 @RunWith(AndroidJUnit4::class)
 class ForumPostsActivityTest {
-    private val forumPosts: MutableMap<String, List<String>> = mutableMapOf()
-
     @Before
     fun setup() {
         globalContext = ApplicationProvider.getApplicationContext()
@@ -38,13 +32,6 @@ class ForumPostsActivityTest {
             putExtra(EXTRA_FORUM_CATEGORY, CATEGORY_TEST_STRING)
         }
 
-        val forum = mock(Forum::class.java)
-        ForumCategory.setForum(CATEGORY_TEST,forum)
-        `when`(forum.newPost(any(), any())).then {
-            val content = it.getArgument<String>(1)
-            forumPosts[content] = emptyList()
-            return@then any()
-        }
         ActivityScenario.launch<ForumPostsActivity>(intent)
         init()
     }
@@ -63,5 +50,4 @@ class ForumPostsActivityTest {
             )
         )
     }
-
 }

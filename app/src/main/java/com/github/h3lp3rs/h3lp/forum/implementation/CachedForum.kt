@@ -1,7 +1,11 @@
-package com.github.h3lp3rs.h3lp.forum
+package com.github.h3lp3rs.h3lp.forum.implementation
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.github.h3lp3rs.h3lp.forum.CategoryPosts
+import com.github.h3lp3rs.h3lp.forum.Forum
+import com.github.h3lp3rs.h3lp.forum.ForumPost
+import com.github.h3lp3rs.h3lp.forum.Path
 import com.github.h3lp3rs.h3lp.forum.data.ForumPostData
 import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf

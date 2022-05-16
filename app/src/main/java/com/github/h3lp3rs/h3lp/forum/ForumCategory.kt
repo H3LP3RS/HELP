@@ -1,5 +1,9 @@
 package com.github.h3lp3rs.h3lp.forum
 
+import com.github.h3lp3rs.h3lp.database.FireDatabase
+import com.github.h3lp3rs.h3lp.database.MockDatabase
+import com.github.h3lp3rs.h3lp.forum.implementation.FireDBForum
+import com.github.h3lp3rs.h3lp.forum.implementation.MockDBForum
 
 /**
  * Enumeration of the standard, pre-defined forum main categories (root level)
@@ -7,13 +11,15 @@ package com.github.h3lp3rs.h3lp.forum
 enum class ForumCategory {
     GENERAL, CARDIOLOGY, TRAUMATOLOGY, PEDIATRY, NEUROLOGY, GYNECOLOGY;
 
-
-    private var forum: Forum? = null // Var to enable test-time mocking
-
     companion object {
 
+        private const val ROOT_FORUM_DB_PATH = "FORUM"
+
+        // Var to enable test-time mocking
+        private var root: Forum = FireDBForum(emptyList(), FireDatabase(ROOT_FORUM_DB_PATH))
+
         // Map linking the string to the enum value
-        val categoriesMap = values().associateBy({it.name}, {it})
+        val categoriesMap = values().associateBy({ it.name }, { it })
 
         /**
          * Returns one of the main pre-defined categories sub-forum
@@ -23,17 +29,23 @@ enum class ForumCategory {
         fun forumOf(choice: ForumCategory): Forum {
             // The categories are the first sub-level of the forum, thus they lie after root (the
             // empty list)
-            choice.forum = choice.forum ?: FireForum(listOf(choice.name))
-            return choice.forum!!
+            return root.child(choice.name)
         }
 
         /**
-         * Used for testing purposes to give forum instances
-         * @param newForum The forum to use
+         * Returns the root of the forum
          */
-        fun setForum(choice: ForumCategory, newForum: Forum) {
-            choice.forum = newForum
+        fun root(): Forum {
+            return root
         }
+
+        /**
+         * Used for testing purposes to activate mocking of the forum
+         */
+        fun mockForum() {
+            root = MockDBForum(emptyList(), MockDatabase())
+        }
+
         // The default category for a forum post
         val DEFAULT_CATEGORY = GENERAL
     }
