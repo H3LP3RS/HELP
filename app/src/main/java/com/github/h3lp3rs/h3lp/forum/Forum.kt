@@ -107,9 +107,9 @@ interface Forum {
                 THEME_KEY, MedicalType::class.java, null
             )
             medicalType?.let {
-                // Display the notification if the user has enabled this category's notifications
-                // and the post hadn't been posted by him and the post is actually a post and not a reply
-                if (medicalType.hasCategory(postData.category) && postData.author != getName() && postData.isPost ) {
+                // Display the notification if the user has enabled this category's notifications,
+                // the post hadn't been posted by him and the post is actually a post and not a reply
+                if (medicalType.hasCategory(postData.category) && postData.author != getName() && postData.isPost) {
                     val description = postData.content
                     val title = "New post in ${postData.category} from: ${postData.author}"
                     val intent = Intent(

@@ -44,7 +44,6 @@
                 android:layout_height="wrap_content">
 
 
-
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/newPostTitleLayout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -53,15 +52,17 @@
                     android:layout_marginStart="32dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="32dp"
+                    android:layout_marginBottom="2dp"
                     android:hint="@string/question"
                     app:boxStrokeColor="@color/teal_200"
                     app:errorEnabled="true"
                     app:errorIconDrawable="@drawable/ic_error"
                     app:hintTextColor="@color/teal_700"
+                    app:layout_constraintBottom_toTopOf="@+id/enable_notifications"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:startIconDrawable="@drawable/ic_question"
                     app:layout_constraintTop_toBottomOf="@+id/newPostCategoryTxtLayout"
+                    app:startIconDrawable="@drawable/ic_question"
                     tools:ignore="MissingConstraints">
 
 
@@ -103,20 +104,34 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/enable_notifications"
+                        android:layout_width="match_parent"
+                        android:layout_marginStart="35dp"
+                        app:boxStrokeColor="@color/teal_200"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/newPostTitleLayout"
+                        android:layout_marginEnd="35dp"
+                        android:textSize="20sp"
+                        android:hint="@string/toggle_switch_enable_notifications"
+                        android:layout_height="wrap_content" />
+
 
                 <Button
                     android:id="@+id/newPostSaveButton"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
-                    android:layout_marginTop="80dp"
+                    android:layout_marginTop="40dp"
                     android:layout_marginEnd="32dp"
                     android:backgroundTint="@color/teal_200"
                     android:onClick="sendPost"
                     android:text="@string/post_question"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/newPostTitleLayout" />
+                    app:layout_constraintTop_toBottomOf="@+id/enable_notifications" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
