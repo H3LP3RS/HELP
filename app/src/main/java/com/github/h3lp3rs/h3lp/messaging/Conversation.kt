@@ -25,39 +25,7 @@ class Conversation(
     private val database = databaseOf(MESSAGES)
     private var publicKey: PublicKey? = null
     private val allMessages: HashMap<String, String> = HashMap()
-    private val keyAlias = "CONVERSATION_KEY_$conversationId"
 
-
-    init {
-
-        val keyStore = KeyStore.getInstance(ANDROID_KEY_STORE).apply { load(null) }
-        val alias = keyStore.aliases().toList()
-
-        if (!alias.contains(keyAlias)) {
-            val kpg =
-                KeyPairGenerator.getInstance(KEY_ALGORITHM_RSA, ANDROID_KEY_STORE)
-
-            kpg.initialize(
-                KeyGenParameterSpec.Builder(
-                    keyAlias, KeyProperties.PURPOSE_ENCRYPT
-                            or KeyProperties.PURPOSE_DECRYPT
-                )
-                    .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_RSA_OAEP)
-                    .setDigests(KeyProperties.DIGEST_SHA1)
-                    .build()
-            )
-
-            val kp = kpg.generateKeyPair()
-
-            // Send public key to the database
-            val encodedPublicKey = Base64.encodeToString(kp.public.encoded, Base64.DEFAULT)
-            database.setString(
-                conversationId + "/" + KEYS_SUB_PATH + "/" + currentMessenger.name,
-                encodedPublicKey
-            )
-        }
-
-    }
 
     /**
      * Sends a message from the current user to the database
@@ -68,10 +36,9 @@ class Conversation(
         publicKey?.let { publicKey ->
             encryptAndSend(publicKey, messageText)
         }?.run {
-            val path = conversationId + "/" + KEYS_SUB_PATH + "/" +
-                    Messenger.values()[(currentMessenger.ordinal + 1) % 2].name
+            val messengerName = Messenger.values()[(currentMessenger.ordinal + 1) % 2].name
 
-            database.getString(path).thenApply {
+            database.getString(publicKeyPath(conversationId, messengerName)).thenApply {
                 val decodedKey = Base64.decode(it, Base64.DEFAULT)
                 val keySpecs = X509EncodedKeySpec(decodedKey)
                 publicKey = KeyFactory.getInstance(KEY_ALGORITHM_RSA).generatePublic(keySpecs)
@@ -163,7 +130,7 @@ class Conversation(
         val keyStore = KeyStore.getInstance(ANDROID_KEY_STORE)
         keyStore.load(null)
 
-        val privateKey = keyStore.getKey(keyAlias, null) as PrivateKey?
+        val privateKey = keyStore.getKey(keyAlias(conversationId), null) as PrivateKey?
 
         val cipher = Cipher.getInstance(TRANSFORMATION)
         cipher.init(Cipher.DECRYPT_MODE, privateKey)
@@ -186,5 +153,60 @@ class Conversation(
         const val ANDROID_KEY_STORE = "AndroidKeyStore"
         const val KEYS_SUB_PATH = "KEYS"
         private const val TRANSFORMATION = "RSA/ECB/OAEPwithSHA-1andMGF1Padding"
+
+        /**
+         * Auxiliary function to get the key alias.
+         * @param conversationId conversationId corresponding to the conversation
+         * we want the key for
+         */
+        fun keyAlias(conversationId: String): String {
+            return "CONVERSATION_KEY_$conversationId"
+        }
+
+        /**
+         * Auxiliary function to get the path of the public key.
+         * @param conversationId Id of the conversation
+         * @param messengerName name of the messenger whose key we want
+         */
+        fun publicKeyPath(conversationId: String, messengerName: String): String {
+            return "${conversationId}/${KEYS_SUB_PATH}/${messengerName}"
+        }
+
+        /**
+         * Creates a key pair for a given conversation. The public key is sent to
+         * the database and the private key remains in Android's keystore.
+         * @param conversationId Id of the conversation
+         * @param messengerName name of the messenger creating the key pair
+         */
+        fun createAndSendKeyPair(conversationId: String, messenger: Messenger) {
+            val keyStore = KeyStore.getInstance(ANDROID_KEY_STORE).apply { load(null) }
+            val aliases = keyStore.aliases().toList()
+            val keyAlias = keyAlias(conversationId)
+
+            // Create the key pair if it does not exist already
+            if (!aliases.contains(keyAlias)) {
+                val kpg =
+                    KeyPairGenerator.getInstance(KEY_ALGORITHM_RSA, ANDROID_KEY_STORE)
+
+                kpg.initialize(
+                    KeyGenParameterSpec.Builder(
+                        keyAlias, KeyProperties.PURPOSE_ENCRYPT
+                                or KeyProperties.PURPOSE_DECRYPT
+                    )
+                        .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_RSA_OAEP)
+                        .setDigests(KeyProperties.DIGEST_SHA1)
+                        .build()
+                )
+
+                val kp = kpg.generateKeyPair()
+
+                // Send public key to the database
+                val encodedPublicKey = Base64.encodeToString(kp.public.encoded, Base64.DEFAULT)
+                databaseOf(MESSAGES).setString(
+                    publicKeyPath(conversationId, messenger.name),
+                    encodedPublicKey
+                )
+            }
+        }
     }
 }
