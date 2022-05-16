@@ -20,7 +20,6 @@ class ForumPostsActivity : AppCompatActivity() {
         // The post of which the user wants to see the answers
         lateinit var selectedPost : ForumPost
     }
-
     private val adapter = GroupAdapter<ViewHolder>()
     private var category : String? = null
     private lateinit var forum : Forum
