@@ -58,7 +58,7 @@
                     app:errorEnabled="true"
                     app:errorIconDrawable="@drawable/ic_error"
                     app:hintTextColor="@color/teal_700"
-                    app:layout_constraintBottom_toTopOf="@+id/enable_notifications"
+                    app:layout_constraintBottom_toTopOf="@+id/switch_enable_notifications"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/newPostCategoryTxtLayout"
@@ -102,7 +102,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/enable_notifications"
+                    android:id="@+id/switch_enable_notifications"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="35dp"
@@ -126,7 +126,7 @@
                     android:text="@string/post_question"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/enable_notifications" />
+                    app:layout_constraintTop_toBottomOf="@+id/switch_enable_notifications" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>

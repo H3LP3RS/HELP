@@ -51,7 +51,7 @@ class NewPostActivity : AppCompatActivity() {
         // Add post to the database
         val post = getName()?.let { forum.newPost(it, question, true) }
         // Enable notifications on replies to this post if user has activated it
-        if (enable_notifications.isChecked) {
+        if (switch_enable_notifications.isChecked) {
             post?.thenAccept {
                 it.sendIntentNotificationOnNewReplies(
                     globalContext, ForumPostsActivity::class.java
