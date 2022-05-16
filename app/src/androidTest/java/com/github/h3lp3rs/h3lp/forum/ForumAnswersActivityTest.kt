@@ -48,7 +48,7 @@ class ForumAnswersActivityTest {
 
         val forum = mock(Forum::class.java)
         setForum(CATEGORY_TEST, forum)
-        When(forum.newPost(any(), any())).then {
+        When(forum.newPost(any(), any(), any())).then {
             val content = it.getArgument<String>(1)
             forumPosts[QUESTION_TEST] = listOf(content)
             any()
@@ -58,7 +58,7 @@ class ForumAnswersActivityTest {
 
         selectedPost = ForumPost(
             forum, ForumPostData(
-                "", QUESTION_TEST, ZonedDateTime.now(), "", "", GENERAL
+                "", QUESTION_TEST, ZonedDateTime.now(), "", "", GENERAL, isPost = true
             ), emptyList()
         )
 

@@ -38,7 +38,7 @@ class ForumNewPostActivityTest {
 
         val forum = mock(Forum::class.java)
         ForumCategory.setForum(CATEGORY_TEST,forum)
-        `when`(forum.newPost(any(), any())).then {
+        `when`(forum.newPost(any(), any(),any())).then {
             val content = it.getArgument<String>(1)
             forumPosts[content] = emptyList()
             return@then any()
