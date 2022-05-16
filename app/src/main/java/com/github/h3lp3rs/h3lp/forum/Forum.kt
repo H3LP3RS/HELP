@@ -91,7 +91,7 @@ interface Forum {
 
 
     /**
-     * Sends a notification when there's a new post at this level or below. Upon clicking this
+     * Sends a notification when there's a new post at this level. Upon clicking this
      * notification, the intent will be triggered
      * @param ctx The context of the app
      * @param activityName The activity to launch
