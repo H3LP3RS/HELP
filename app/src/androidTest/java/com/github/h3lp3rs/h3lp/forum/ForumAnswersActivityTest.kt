@@ -23,6 +23,7 @@ import com.github.h3lp3rs.h3lp.forum.ForumPostsActivity.Companion.selectedPost
 import com.github.h3lp3rs.h3lp.forum.data.ForumPostData
 import com.github.h3lp3rs.h3lp.professional.ProUser
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.setName
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import junit.framework.Assert.assertEquals
 import org.hamcrest.Matchers
@@ -67,6 +68,7 @@ class ForumAnswersActivityTest {
 
         globalContext = getApplicationContext()
         userUid = USER_ID_NAME
+        setName(USER_ID_NAME)
         Databases.setDatabase(PRO_USERS, MockDatabase())
         proUsersDb = Databases.databaseOf(PRO_USERS)
     }
@@ -94,6 +96,7 @@ class ForumAnswersActivityTest {
         launchActivity()
 
         onView(withId(R.id.text_view_enter_answer)).perform(replaceText(ANSWER_TEST))
+        Thread.sleep(1000)
         onView(withId(R.id.add_answer_button)).perform(click())
         assertEquals(forumPosts[QUESTION_TEST], listOf(ANSWER_TEST))
     }
