@@ -22,8 +22,11 @@ import com.github.h3lp3rs.h3lp.database.Databases.MESSAGES
 import com.github.h3lp3rs.h3lp.database.MockDatabase
 import com.github.h3lp3rs.h3lp.messaging.ChatActivity
 import com.github.h3lp3rs.h3lp.messaging.Conversation
+import com.github.h3lp3rs.h3lp.messaging.Conversation.Companion.createAndSendKeyPair
 import com.github.h3lp3rs.h3lp.messaging.EXTRA_CONVERSATION_ID
 import com.github.h3lp3rs.h3lp.messaging.Messenger
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
+import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
 import com.xwray.groupie.ViewHolder
 import org.junit.After
 import org.junit.Before
@@ -60,39 +63,18 @@ class ChatUiTest {
             putExtra(EXTRA_USER_ROLE, Messenger.HELPEE)
         }
 
-        val kpg =
-            KeyPairGenerator.getInstance(
-                KeyProperties.KEY_ALGORITHM_RSA,
-                Conversation.ANDROID_KEY_STORE
-            )
-
-        kpg.initialize(
-            KeyGenParameterSpec.Builder(
-                "key", PURPOSE_ENCRYPT
-                        or PURPOSE_DECRYPT
-            )
-                .setEncryptionPaddings(ENCRYPTION_PADDING_RSA_OAEP)
-                .setDigests(DIGEST_SHA1)
-                .build()
-        )
-
-        val kp = kpg.generateKeyPair()
-        foreignUserPrivateKey = kp.private
-        foreignUserPublicKey = kp.public
-
-        // Public key that would be on the database
-        val encodedPublicKey = Base64.encodeToString(kp.public.encoded, Base64.DEFAULT)
-
+        globalContext = getApplicationContext()
+        resetStorage()
 
         setDatabase(MESSAGES, MockDatabase())
 
         // Mock the public keys
         val db = databaseOf(MESSAGES)
-        db.setString(CONVERSATION_ID + "/" + Conversation.KEYS_SUB_PATH + "/" + toMessenger.name, MOCK_KEY)
-        db.setString(CONVERSATION_ID + "/" + Conversation.KEYS_SUB_PATH + "/" + currentMessenger.name, MOCK_KEY)
+//        db.setString(CONVERSATION_ID + "/" + Conversation.KEYS_SUB_PATH + "/" + toMessenger.name, MOCK_KEY)
+//        db.setString(CONVERSATION_ID + "/" + Conversation.KEYS_SUB_PATH + "/" + currentMessenger.name, MOCK_KEY)
 
-
-
+        createAndSendKeyPair(CONVERSATION_ID, Messenger.HELPEE)
+        createAndSendKeyPair(CONVERSATION_ID, Messenger.HELPER)
 
         conversationFrom = Conversation(CONVERSATION_ID, currentMessenger)
         conversationTo = Conversation(CONVERSATION_ID,toMessenger)

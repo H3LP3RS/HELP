@@ -38,7 +38,7 @@ class Conversation(
     fun sendMessage(messageText: String) {
         // Retrieve public key from Bob
 
-        if(publicKey == null) {
+        if (publicKey == null) {
             val messengerName = Messenger.values()[(currentMessenger.ordinal + 1) % 2].name
 
             database.getString(publicKeyPath(conversationId, messengerName)).thenApply {
@@ -47,21 +47,9 @@ class Conversation(
                 publicKey = KeyFactory.getInstance(KEY_ALGORITHM_RSA).generatePublic(keySpecs)
                 encryptAndSend(publicKey!!, messageText)
             }
-        }else{
+        } else {
             encryptAndSend(publicKey!!, messageText)
         }
-//        publicKey?.let { publicKey ->
-//            encryptAndSend(publicKey, messageText)
-//        }?.run {
-//            val messengerName = Messenger.values()[(currentMessenger.ordinal + 1) % 2].name
-//
-//            database.getString(publicKeyPath(conversationId, messengerName)).thenApply {
-//                val decodedKey = Base64.decode(it, Base64.DEFAULT)
-//                val keySpecs = X509EncodedKeySpec(decodedKey)
-//                publicKey = KeyFactory.getInstance(KEY_ALGORITHM_RSA).generatePublic(keySpecs)
-//                encryptAndSend(publicKey!!, messageText)
-//            }
-//        }
     }
 
     /**
@@ -167,9 +155,13 @@ class Conversation(
      * Load the cache if exist
      * @warning should be called in onCreate method of the activity
      */
-    fun loadCache(){
-        val storage= storageOf(Storages.MSG_CACHE)
-        val cache : HashMap<String,String> = storage.getObjectOrDefault(conversationId,HashMap::class.java,HashMap<String,String>())as HashMap<String, String>
+    fun loadCache() {
+        val storage = storageOf(Storages.MSG_CACHE)
+        val cache: HashMap<String, String> = storage.getObjectOrDefault(
+            conversationId,
+            HashMap::class.java,
+            HashMap<String, String>()
+        ) as HashMap<String, String>
         allMessages.putAll(cache)
     }
 
@@ -178,10 +170,10 @@ class Conversation(
      * Save the cache for the conversation
      * @warning should be called in the onPause method of the activity
      */
-    fun saveCache(){
+    fun saveCache() {
         Storages.MSG_CACHE.setOnlineSync(false)
         val storage = storageOf(Storages.MSG_CACHE)
-        storage.setObject(conversationId,HashMap::class.java,allMessages)
+        storage.setObject(conversationId, HashMap::class.java, allMessages)
     }
 
     companion object {
