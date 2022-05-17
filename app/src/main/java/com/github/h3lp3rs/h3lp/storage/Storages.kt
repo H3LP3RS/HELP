@@ -8,7 +8,7 @@ import java.lang.Boolean.parseBoolean
  * Enumeration of all useful (local) storages in H3LP
  */
 enum class Storages {
-    USER_COOKIE, MEDICAL_INFO, SKILLS, EMERGENCIES_RECEIVED, FORUM_THEMES_NOTIFICATIONS, FORUM_CACHE;
+    USER_COOKIE, MEDICAL_INFO, SKILLS, EMERGENCIES_RECEIVED, FORUM_THEMES_NOTIFICATIONS, FORUM_CACHE,MSG_CACHE;
 
     private val ls = LocalStorage(name, getGlobalCtx())
     private var isFresh = false

@@ -6,6 +6,10 @@ import android.security.keystore.KeyProperties.KEY_ALGORITHM_RSA
 import android.util.Base64
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.database.Databases.MESSAGES
+import com.github.h3lp3rs.h3lp.storage.Storages
+import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
+import com.google.gson.reflect.TypeToken
+import java.lang.reflect.Type
 import java.security.*
 import java.security.spec.X509EncodedKeySpec
 import javax.crypto.Cipher
@@ -43,8 +47,9 @@ class Conversation(
                 publicKey = KeyFactory.getInstance(KEY_ALGORITHM_RSA).generatePublic(keySpecs)
                 encryptAndSend(publicKey!!, messageText)
             }
+        }else{
+            encryptAndSend(publicKey!!, messageText)
         }
-        encryptAndSend(publicKey!!, messageText)
 //        publicKey?.let { publicKey ->
 //            encryptAndSend(publicKey, messageText)
 //        }?.run {
@@ -110,9 +115,8 @@ class Conversation(
     }
 
     /**
-     * Adds a listener on the conversation, the listener is triggered every time a new message is sent to the
-     * conversation. act on the new message
-     * @param onNewMessage Callback called on every new message
+     * Adds a listener on the conversation, the listener is triggered when the conversation is deleted
+     * @param onDeletedConversation Callback called when deleted
      */
     fun deleteConversationListener(onDeletedConversation: (key: String) -> Unit) {
         database.addEventListener(null, String::class.java, null) { key ->
@@ -156,6 +160,28 @@ class Conversation(
      */
     fun deleteConversation() {
         database.delete(conversationId)
+    }
+
+
+    /**
+     * Load the cache if exist
+     * @warning should be called in onCreate method of the activity
+     */
+    fun loadCache(){
+        val storage= storageOf(Storages.MSG_CACHE)
+        val cache : HashMap<String,String> = storage.getObjectOrDefault(conversationId,HashMap::class.java,HashMap<String,String>())as HashMap<String, String>
+        allMessages.putAll(cache)
+    }
+
+
+    /**
+     * Save the cache for the conversation
+     * @warning should be called in the onPause method of the activity
+     */
+    fun saveCache(){
+        Storages.MSG_CACHE.setOnlineSync(false)
+        val storage = storageOf(Storages.MSG_CACHE)
+        storage.setObject(conversationId,HashMap::class.java,allMessages)
     }
 
     companion object {

@@ -42,6 +42,9 @@ class ChatActivity : AppCompatActivity() {
         conversationId = intent.getStringExtra(EXTRA_CONVERSATION_ID) ?: conversationId
         conversation = Conversation(conversationId!!, userRole!!)
 
+        conversation.loadCache()
+
+
         recycler_view_chat.adapter = adapter
 
         button_send_message.setOnClickListener {
@@ -116,6 +119,12 @@ class ChatActivity : AppCompatActivity() {
         val intent = Intent(this, MainPageActivity::class.java)
         startActivity(intent)
     }
+
+    override fun onPause() {
+        super.onPause()
+        conversation.saveCache()
+    }
+
 }
 
 /**
@@ -147,4 +156,6 @@ private class MessageLayout(
         return if (messenger == Messenger.HELPEE) R.drawable.helpee_profile_picture
         else R.drawable.helper_profile_picture
     }
+
+
 }
