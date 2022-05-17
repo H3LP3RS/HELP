@@ -12,8 +12,6 @@ import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.database.MockDatabase
-import com.github.h3lp3rs.h3lp.forum.CATEGORY_TEST_STRING
-import com.github.h3lp3rs.h3lp.forum.EXTRA_FORUM_CATEGORY
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid

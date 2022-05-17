@@ -52,8 +52,6 @@ class SignInActivity : AppCompatActivity() {
      * Save the user authentication information to the local storage
      */
     private fun saveAuthentication(){
-        userUid = signInClient.getUid()
-        username = getInstance().currentUser?.displayName?.substringBefore(" ")
         userSignIn.setBoolean(getString(R.string.KEY_USER_SIGNED_IN), true)
         userUid?.let { userSignIn.setString(getString(R.string.KEY_USER_UID), it) }
         username?.let { userSignIn.setString(getString(R.string.KEY_USER_NAME), it) }
