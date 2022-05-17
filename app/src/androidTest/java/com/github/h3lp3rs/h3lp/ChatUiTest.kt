@@ -25,6 +25,8 @@ import com.github.h3lp3rs.h3lp.messaging.Conversation
 import com.github.h3lp3rs.h3lp.messaging.Conversation.Companion.createAndSendKeyPair
 import com.github.h3lp3rs.h3lp.messaging.EXTRA_CONVERSATION_ID
 import com.github.h3lp3rs.h3lp.messaging.Messenger
+import com.github.h3lp3rs.h3lp.messaging.Messenger.HELPEE
+import com.github.h3lp3rs.h3lp.messaging.Messenger.HELPER
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
 import com.xwray.groupie.ViewHolder
@@ -32,18 +34,19 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import java.security.KeyPairGenerator
+import java.security.KeyStore
 import java.security.PrivateKey
 import java.security.PublicKey
 
 
-private const val CONVERSATION_ID = "testing_id"
+private const val CONVERSATION_ID = "testing_id1"
 private const val SENT_MESSAGE = "Testing Chat UI"
 private const val RECEIVED_MESSAGE = "Tests succeeded!"
 private const val MOCK_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApsYM7sd4KIA23DG6MtexJ2dhWfWfXjfWddKuAh4mNn2Dh1+thy0Qb5TGKJPOjFcGdB19c68g3mAUdje0wtAJ7B3GvCdpJsZa3LUgw3Rk70OCSaRdP8p1QKcDE7V+c6jQlkZ6+QldHigH+OA3pOO9tIumtcmw6Yko0Zz1dvhJ/giLC3y34kxUx0mD/gC6ZbCNshKO++/tEenRhFD8970OuwD7V5pROZ5NFY1O3VVTORDulVSm6fTH/VDT492IiZ8wX/X+AwBZORPbZtIB5A5tEsX5s20bnD7xJq+Ia06A0hr3LjVE1I69nVO6xvavwwe6So7Sr1H8xkwqpxOE85gVeQIDAQAB"
 
 class ChatUiTest {
-    private val currentMessenger = Messenger.HELPEE
-    private val toMessenger = Messenger.HELPER
+    private val currentMessenger = HELPEE
+    private val toMessenger = HELPER
 
     private lateinit var conversationFrom: Conversation
     private lateinit var conversationTo: Conversation
@@ -60,20 +63,20 @@ class ChatUiTest {
             ChatActivity::class.java
         ).apply {
             putExtra(EXTRA_CONVERSATION_ID, CONVERSATION_ID)
-            putExtra(EXTRA_USER_ROLE, Messenger.HELPEE)
+            putExtra(EXTRA_USER_ROLE, HELPEE)
         }
 
         globalContext = getApplicationContext()
         setDatabase(MESSAGES, MockDatabase())
         resetStorage()
 
-        // Mock the public keys
-        val db = databaseOf(MESSAGES)
-//        db.setString(CONVERSATION_ID + "/" + Conversation.KEYS_SUB_PATH + "/" + toMessenger.name, MOCK_KEY)
-//        db.setString(CONVERSATION_ID + "/" + Conversation.KEYS_SUB_PATH + "/" + currentMessenger.name, MOCK_KEY)
+        // Remove existing keys from the keyStore
+        val keyStore = KeyStore.getInstance(Conversation.ANDROID_KEY_STORE).apply { load(null) }
+        keyStore.deleteEntry(Conversation.keyAlias(CONVERSATION_ID, HELPEE.name))
+        keyStore.deleteEntry(Conversation.keyAlias(CONVERSATION_ID, HELPER.name))
 
-        createAndSendKeyPair(CONVERSATION_ID, Messenger.HELPEE)
-        createAndSendKeyPair(CONVERSATION_ID, Messenger.HELPER)
+        createAndSendKeyPair(CONVERSATION_ID, HELPEE)
+        createAndSendKeyPair(CONVERSATION_ID, HELPER)
 
         conversationFrom = Conversation(CONVERSATION_ID, currentMessenger)
         conversationTo = Conversation(CONVERSATION_ID,toMessenger)
