@@ -111,7 +111,7 @@ interface Forum {
 
                 // Display the notification if the user has enabled this category's notifications
                 // and the post hadn't been posted by him
-                if (medicalType.hasCategory(postData.category) && postData.author != getName() ) {
+                if (medicalType.hasCategory(postData.category) && postData.author != getName()) {
                     val description = postData.content
                     val title = "New post in ${postData.category} from: ${postData.author}"
                     val intent = Intent(

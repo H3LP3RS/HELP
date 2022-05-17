@@ -13,6 +13,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.H3lpAppTest.Companion.USER_TEST_ID
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.setForum
+import com.github.h3lp3rs.h3lp.forum.ForumCategory.GENERAL
 import com.github.h3lp3rs.h3lp.forum.ForumPostsActivity.Companion.selectedPost
 import com.github.h3lp3rs.h3lp.forum.data.ForumPostData
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.setName
@@ -23,9 +24,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.any
-import java.time.ZonedDateTime
 import org.mockito.Mockito.`when` as When
-import com.github.h3lp3rs.h3lp.forum.ForumCategory.GENERAL
 
 const val CATEGORY_TEST_STRING = "GENERAL"
 val CATEGORY_TEST = GENERAL

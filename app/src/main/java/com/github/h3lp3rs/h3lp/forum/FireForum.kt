@@ -24,10 +24,13 @@ class FireForum(override val path : Path) : Forum {
             key = postKey.toString()
             val repliesKey = (postKey + 1).toString()
             val currentTime = ZonedDateTime.now()
-            val date =
-                currentTime.dayOfMonth.toString() + "" + currentTime.month.toString() + " " + currentTime.toLocalTime().hour + ":" + currentTime.toLocalTime().minute
             val forumPostData = ForumPostData(
-                author, content, date, key, repliesKey, getCurrentCategory()
+                author,
+                content,
+                getFormattedPostTime(currentTime),
+                key,
+                repliesKey,
+                getCurrentCategory()
             )
             rootForum.setObject(
                 pathToKey(path + key), ForumPostData::class.java, forumPostData
@@ -43,6 +46,17 @@ class FireForum(override val path : Path) : Forum {
             // We can't use getPost here since we aren't sure that the setObject succeeded yet
             ForumPost(this, forumPostData, emptyList())
         }
+    }
+
+    /**
+     * Gets the post date in the following format day of month month hour-minutes
+     * @param currentTime The current date
+     * @return Formatted current date
+     */
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun getFormattedPostTime(currentTime : ZonedDateTime) : String {
+        return currentTime.dayOfMonth.toString() + "" + currentTime.month.toString() + " " +
+                currentTime.toLocalTime().hour + ":" + currentTime.toLocalTime().minute
     }
 
     override fun getPost(relativePath : Path) : CompletableFuture<ForumPost> {
@@ -109,8 +123,7 @@ class FireForum(override val path : Path) : Forum {
                     // For all posts in this category, get their forum post data
                     keyList.map {
                         rootForum.getObject(
-                            pathToKey(path + it),
-                            ForumPostData::class.java
+                            pathToKey(path + it), ForumPostData::class.java
                         )
                     }
                 }.thenCompose {
@@ -130,9 +143,9 @@ class FireForum(override val path : Path) : Forum {
         // Transforming the future<list<ForumPost>> into the required format
         // future<Pair<Category name, list<ForumPost>>
         return forumPostsFuture.thenApply { list ->
-                // path.last contains the category name
-                Pair(listOf(path.last()), list)
-            }
+            // path.last contains the category name
+            Pair(listOf(path.last()), list)
+        }
     }
 
     /**
@@ -144,13 +157,13 @@ class FireForum(override val path : Path) : Forum {
      */
     private fun typedAllOf(vararg futures : CompletableFuture<ForumPost>?) : CompletableFuture<List<ForumPost>> {
         return CompletableFuture.allOf(*futures).thenApply {
-                futures.map {
-                    // The futures are already all completed (since we are in the thenApply of allOf)
-                    // thus the join call won't be a problem
-                        f ->
-                    f!!.join()
-                }
+            futures.map {
+                // The futures are already all completed (since we are in the thenApply of allOf)
+                // thus the join call won't be a problem
+                    f ->
+                f!!.join()
             }
+        }
     }
 
     override fun listenToAll(action : (ForumPostData) -> Unit) {
