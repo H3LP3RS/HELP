@@ -28,7 +28,7 @@ abstract class SimpleDBForum(private val rootForum: Database) : Forum {
             val forumPostData = ForumPostData(
                 author,
                 content,
-                ZonedDateTime.now(),
+                getFormattedPostTime(ZonedDateTime.now()),
                 key,
                 repliesKey,
                 getCurrentCategory()
@@ -47,10 +47,27 @@ abstract class SimpleDBForum(private val rootForum: Database) : Forum {
                     String::class.java,
                     key
                 )
+            } else { // For mocking purposes this needs to be added
+                rootForum.addToObjectsListConcurrently(
+                    pathToKey(path),
+                    ForumPostData::class.java,
+                    forumPostData
+                )
             }
             // We can't use getPost here since we aren't sure that the setObject succeeded yet
             ForumPost(this, forumPostData, emptyList())
         }
+    }
+
+    /**
+     * Gets the post date in the following format day of month month hour-minutes
+     * @param currentTime The current date
+     * @return Formatted current date
+     */
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun getFormattedPostTime(currentTime: ZonedDateTime): String {
+        return currentTime.dayOfMonth.toString() + "" + currentTime.month.toString() + " " +
+                currentTime.toLocalTime().hour + ":" + currentTime.toLocalTime().minute
     }
 
     override fun getPost(relativePath: Path): CompletableFuture<ForumPost> {
@@ -64,7 +81,7 @@ abstract class SimpleDBForum(private val rootForum: Database) : Forum {
         return postFuture.thenCompose { postData ->
             // Get all the replies from that post
             rootForum.getObjectsList(
-                pathToKey(path + postData.repliesKey),
+                pathToKey(fullPath.dropLast(1) + postData.repliesKey),
                 ForumPostData::class.java
             ).handle { replies, error ->
                 if (error != null) {

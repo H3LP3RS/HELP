@@ -12,17 +12,15 @@ import com.github.h3lp3rs.h3lp.H3lpAppTest.Companion.USER_TEST_ID
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.forumOf
 import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.mockForum
+import com.github.h3lp3rs.h3lp.forum.ForumCategory.TRAUMATOLOGY
 import com.github.h3lp3rs.h3lp.forum.ForumPostsActivity.Companion.selectedPost
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.setName
 import junit.framework.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import com.github.h3lp3rs.h3lp.forum.ForumCategory.GENERAL
-import com.github.h3lp3rs.h3lp.forum.ForumCategory.TRAUMATOLOGY
 
-const val CATEGORY_TEST_STRING = "GENERAL"
-val CATEGORY_TEST = GENERAL
+const val CATEGORY_TEST_STRING = "TRAUMATOLOGY"
 const val QUESTION_TEST = "question"
 const val ANSWER_TEST = "answer"
 
@@ -49,14 +47,22 @@ class ForumAnswersActivityTest {
             selectedPost = post
 
             launch<ForumAnswersActivity>(launchIntent).use {
-                // Listen to all replies
-                post.listen { reply ->
-                    assertEquals(reply.content, ANSWER_TEST) // TODO Not triggering for some reason
-                }
-
+                // Add an answer to post
                 onView(withId(R.id.text_view_enter_answer)).perform(replaceText(ANSWER_TEST))
                 onView(withId(R.id.add_answer_button)).perform(click())
+
+                // No other way to do this, since delayed futures are not supported by Kotlin
+                // --> java.lang.NoSuchMethodError when using a delayed executor
+                Thread.sleep(DELAY)
+                post.refresh().thenApply { newPost ->
+                    // Answer should be in the first element of the list
+                    assertEquals(newPost.replies[0].content, ANSWER_TEST)
+                }.join()
             }
         }.join()
+    }
+
+    companion object {
+        private const val DELAY = 2000L
     }
 }

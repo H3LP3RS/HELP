@@ -7,6 +7,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers
+import androidx.test.espresso.intent.matcher.IntentMatchers.*
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.H3lpAppTest.Companion.USER_TEST_ID
@@ -14,6 +15,7 @@ import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import org.hamcrest.Matchers
+import org.hamcrest.Matchers.*
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -42,11 +44,11 @@ class ForumPostsActivityTest {
     }
 
     @Test
-    fun addNewPostButtonWorks(){
+    fun addNewPostButtonWorks() {
         onView(withId(R.id.add_post_button)).perform(click())
         intended(
-            Matchers.allOf(
-                IntentMatchers.hasComponent(NewPostActivity::class.java.name)
+            allOf(
+                hasComponent(NewPostActivity::class.java.name)
             )
         )
     }

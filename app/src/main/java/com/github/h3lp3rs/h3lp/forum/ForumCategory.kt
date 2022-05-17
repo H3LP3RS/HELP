@@ -16,7 +16,7 @@ enum class ForumCategory {
         private const val ROOT_FORUM_DB_PATH = "FORUM"
 
         // Var to enable test-time mocking
-        private var root: Forum = FireDBForum(emptyList(), FireDatabase(ROOT_FORUM_DB_PATH))
+        private var root: Forum? = null
 
         // Map linking the string to the enum value
         val categoriesMap = values().associateBy({ it.name }, { it })
@@ -29,14 +29,22 @@ enum class ForumCategory {
         fun forumOf(choice: ForumCategory): Forum {
             // The categories are the first sub-level of the forum, thus they lie after root (the
             // empty list)
-            return root.child(choice.name)
+            root?.let {
+                return it.child(choice.name)
+            }
+            root = FireDBForum(emptyList(), FireDatabase(ROOT_FORUM_DB_PATH))
+            return root!!.child(choice.name)
         }
 
         /**
          * Returns the root of the forum
          */
         fun root(): Forum {
-            return root
+            root?.let {
+                return it
+            }
+            root = FireDBForum(emptyList(), FireDatabase(ROOT_FORUM_DB_PATH))
+            return root!!
         }
 
         /**

@@ -31,8 +31,8 @@ class ForumPost(
      * knowing when the database actually got the reply
      */
     fun reply(author : String, content : String) : CompletableFuture<ForumPost> {
-        return forum.child(post.repliesKey).newPost(author, content)
-        // return refresh() TODO test
+        forum.child(post.repliesKey).newPost(author, content)
+        return refresh()
     }
 
     /**
@@ -40,7 +40,7 @@ class ForumPost(
      * @return this This post updated with potential replies from others
      * in the form of a future
      */
-    private fun refresh() : CompletableFuture<ForumPost> {
+    fun refresh() : CompletableFuture<ForumPost> {
         return forum.child(post.key).getPost(emptyList())
     }
 
