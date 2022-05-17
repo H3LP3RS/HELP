@@ -28,6 +28,7 @@ import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
 import com.github.h3lp3rs.h3lp.professional.ProMainActivity
 import com.github.h3lp3rs.h3lp.professional.ProUser
 import com.github.h3lp3rs.h3lp.professional.VerificationActivity
+import com.github.h3lp3rs.h3lp.signin.SignIn
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.storage.LocalStorage
@@ -311,9 +312,19 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         navView.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.nav_profile -> goToProfileActivity(findViewById(R.id.button_profile))
-                R.id.nav_home -> findViewById<DrawerLayout>(R.id.drawer_layout).closeDrawer(
-                    GravityCompat.START
-                )
+                R.id.nav_home -> {
+                    findViewById<DrawerLayout>(R.id.drawer_layout).closeDrawer(
+                        GravityCompat.START
+                    )
+                    // Only to deselect the home button
+                    goToActivity(MainPageActivity::class.java)
+                }
+                R.id.nav_settings -> goToActivity(SettingsActivity::class.java)
+                R.id.nav_about_us -> goToActivity(PresArrivalActivity::class.java)
+                R.id.nav_logout -> {
+                    SignIn.get().signOut()
+                    goToActivity(SignInActivity::class.java)
+                }
             }
             true
         }
