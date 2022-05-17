@@ -212,6 +212,7 @@ class Conversation(
             val keyStore = KeyStore.getInstance(ANDROID_KEY_STORE).apply { load(null) }
             val aliases = keyStore.aliases().toList()
             val keyAlias = keyAlias(conversationId, messenger.name)
+            val pubKey: PublicKey
 
             // Create the key pair if it does not exist already
             if (!aliases.contains(keyAlias)) {
@@ -229,24 +230,18 @@ class Conversation(
                 )
 
                 val kp = kpg.generateKeyPair()
-
-                // Send public key to the database
-                val encodedPublicKey = Base64.encodeToString(kp.public.encoded, Base64.DEFAULT)
-                databaseOf(MESSAGES).setString(
-                    publicKeyPath(conversationId, messenger.name),
-                    encodedPublicKey
-                )
+                pubKey = kp.public
             } else {
                 val cert = keyStore.getCertificate(keyAlias)
-                val pubKey = cert.publicKey
-
-                // Send public key to the database
-                val encodedPublicKey = Base64.encodeToString(pubKey.encoded, Base64.DEFAULT)
-                databaseOf(MESSAGES).setString(
-                    publicKeyPath(conversationId, messenger.name),
-                    encodedPublicKey
-                )
+                pubKey = cert.publicKey
             }
+
+            // Send public key to the database
+            val encodedPublicKey = Base64.encodeToString(pubKey.encoded, Base64.DEFAULT)
+            databaseOf(MESSAGES).setString(
+                publicKeyPath(conversationId, messenger.name),
+                encodedPublicKey
+            )
         }
     }
 }
