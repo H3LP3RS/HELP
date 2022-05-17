@@ -58,7 +58,7 @@ class ForumAnswersActivityTest {
 
         selectedPost = ForumPost(
             forum, ForumPostData(
-                "", QUESTION_TEST, ZonedDateTime.now(), "", "", GENERAL
+                "", QUESTION_TEST, "", "", "", GENERAL
             ), emptyList()
         )
 
