@@ -325,6 +325,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
                     SignIn.get().signOut()
                     goToActivity(SignInActivity::class.java)
                 }
+                R.id.nav_rate_us -> goToActivity(RatingActivity::class.java)
             }
             true
         }
