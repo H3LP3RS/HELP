@@ -42,14 +42,13 @@ class ForumAnswersActivity : AppCompatActivity() {
 
         db.getObject(userUid.toString(), ProUser::class.java).handle { _, err ->
            err?.let{
-                // If the user is not a doctor, he can't reply to posts
+                // If the user is not a registered as a professional user, he can't reply to posts
                 text_view_enter_answer.visibility = View.GONE
                 add_answer_button.visibility = View.GONE
                 return@handle
             }
-            // Otherwise, allow him to reply to posts
+            // Otherwise, allow the user to reply to posts
             add_answer_button.setOnClickListener {
-                // If the user is not a doctor, he can't reply to posts
                 text_view_enter_answer.visibility = View.VISIBLE
                 add_answer_button.visibility = View.VISIBLE
                 val answer = text_view_enter_answer.text.toString()
