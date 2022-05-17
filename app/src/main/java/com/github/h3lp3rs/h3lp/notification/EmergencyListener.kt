@@ -53,35 +53,35 @@ object EmergencyListener {
                         databaseOf(EMERGENCIES)
                             .getObject(id.toString(), EmergencyInformation::class.java)
                             .thenAccept {
-                                // Distance filtering
-                                val distance = LocationHelper()
-                                    .distanceFrom(Pair(it.latitude, it.longitude), globalContext)
+//                                // Distance filtering
+//                                val distance = LocationHelper()
+//                                    .distanceFrom(Pair(it.latitude, it.longitude), globalContext)
+//
+//                                distance.thenApply { dist ->
+//                                    if(dist <= MAX_DISTANCE) {
+//                                        // Open notification channel
+                                createNotificationChannel(globalContext)
+                                val intent = Intent(
+                                    globalContext,
+                                    HelperPageActivity::class.java
+                                )
 
-                                distance.thenApply { dist ->
-                                    if(dist <= MAX_DISTANCE) {
-                                        // Open notification channel
-                                        createNotificationChannel(globalContext)
-                                        val intent = Intent(
-                                            globalContext,
-                                            HelperPageActivity::class.java
-                                        )
+                                // Data to transfer to the help page activity
+                                val bundle = Bundle()
+                                bundle.putString(EXTRA_EMERGENCY_KEY, it.id)
+                                bundle.putStringArrayList(EXTRA_HELP_REQUIRED_PARAMETERS, it.meds)
+                                bundle.putDouble(EXTRA_DESTINATION_LAT, it.latitude)
+                                bundle.putDouble(EXTRA_DESTINATION_LONG, it.longitude)
+                                intent.putExtras(bundle)
 
-                                        // Data to transfer to the help page activity
-                                        val bundle = Bundle()
-                                        bundle.putString(EXTRA_EMERGENCY_KEY, it.id)
-                                        bundle.putStringArrayList(EXTRA_HELP_REQUIRED_PARAMETERS, it.meds)
-                                        bundle.putDouble(EXTRA_DESTINATION_LAT, it.latitude)
-                                        bundle.putDouble(EXTRA_DESTINATION_LONG, it.longitude)
-                                        intent.putExtras(bundle)
-
-                                        sendIntentNotification(
-                                            globalContext,
-                                            globalContext.getString(R.string.emergency),
-                                            globalContext.getString(R.string.need_help),
-                                            intent
-                                        )
-                                    }
-                                }
+                                sendIntentNotification(
+                                    globalContext,
+                                    globalContext.getString(R.string.emergency),
+                                    globalContext.getString(R.string.need_help),
+                                    intent
+                                )
+//                                    }
+//                                }
                             }
                     }
                 }
