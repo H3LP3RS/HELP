@@ -33,9 +33,8 @@ class Conversation(
      */
     fun sendMessage(messageText: String) {
         // Retrieve public key from Bob
-        publicKey?.let { publicKey ->
-            encryptAndSend(publicKey, messageText)
-        }?.run {
+
+        if(publicKey == null) {
             val messengerName = Messenger.values()[(currentMessenger.ordinal + 1) % 2].name
 
             database.getString(publicKeyPath(conversationId, messengerName)).thenApply {
@@ -45,6 +44,19 @@ class Conversation(
                 encryptAndSend(publicKey!!, messageText)
             }
         }
+        encryptAndSend(publicKey!!, messageText)
+//        publicKey?.let { publicKey ->
+//            encryptAndSend(publicKey, messageText)
+//        }?.run {
+//            val messengerName = Messenger.values()[(currentMessenger.ordinal + 1) % 2].name
+//
+//            database.getString(publicKeyPath(conversationId, messengerName)).thenApply {
+//                val decodedKey = Base64.decode(it, Base64.DEFAULT)
+//                val keySpecs = X509EncodedKeySpec(decodedKey)
+//                publicKey = KeyFactory.getInstance(KEY_ALGORITHM_RSA).generatePublic(keySpecs)
+//                encryptAndSend(publicKey!!, messageText)
+//            }
+//        }
     }
 
     /**
