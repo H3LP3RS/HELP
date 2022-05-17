@@ -178,7 +178,7 @@ class MainPageTestActivity : H3lpAppTest() {
             )
         }
     }
-    /*
+
     @Test
     fun getsNotifiedWhenHelpNeededAndCloseEnough() {
         launchEmergency(
@@ -202,7 +202,6 @@ class MainPageTestActivity : H3lpAppTest() {
             // onView(withId(R.id.accept)).check(matches(isDisplayed()))
         }
     }
-     */
 
     @Test
     fun notNotifiedWhenHelpNeededAndTooFarAway() {
