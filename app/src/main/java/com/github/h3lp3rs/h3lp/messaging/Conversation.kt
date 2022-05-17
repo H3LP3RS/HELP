@@ -134,7 +134,7 @@ class Conversation(
         val keyStore = KeyStore.getInstance(ANDROID_KEY_STORE)
         keyStore.load(null)
 
-        val privateKey = keyStore.getKey(keyAlias(conversationId), null) as PrivateKey?
+        val privateKey = keyStore.getKey(keyAlias(conversationId, currentMessenger.name), null) as PrivateKey?
 
         val cipher = Cipher.getInstance(TRANSFORMATION)
         cipher.init(Cipher.DECRYPT_MODE, privateKey)
@@ -189,8 +189,8 @@ class Conversation(
          * @param conversationId conversationId corresponding to the conversation
          * we want the key for
          */
-        fun keyAlias(conversationId: String): String {
-            return "CONVERSATION_KEY_$conversationId"
+        fun keyAlias(conversationId: String, messengerName: String): String {
+            return "CONVERSATION_KEY_${conversationId}_${messengerName}"
         }
 
         /**
@@ -211,7 +211,7 @@ class Conversation(
         fun createAndSendKeyPair(conversationId: String, messenger: Messenger) {
             val keyStore = KeyStore.getInstance(ANDROID_KEY_STORE).apply { load(null) }
             val aliases = keyStore.aliases().toList()
-            val keyAlias = keyAlias(conversationId)
+            val keyAlias = keyAlias(conversationId, messenger.name)
 
             // Create the key pair if it does not exist already
             if (!aliases.contains(keyAlias)) {
@@ -232,6 +232,16 @@ class Conversation(
 
                 // Send public key to the database
                 val encodedPublicKey = Base64.encodeToString(kp.public.encoded, Base64.DEFAULT)
+                databaseOf(MESSAGES).setString(
+                    publicKeyPath(conversationId, messenger.name),
+                    encodedPublicKey
+                )
+            } else {
+                val cert = keyStore.getCertificate(keyAlias)
+                val pubKey = cert.publicKey
+
+                // Send public key to the database
+                val encodedPublicKey = Base64.encodeToString(pubKey.encoded, Base64.DEFAULT)
                 databaseOf(MESSAGES).setString(
                     publicKeyPath(conversationId, messenger.name),
                     encodedPublicKey

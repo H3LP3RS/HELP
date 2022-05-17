@@ -64,9 +64,8 @@ class ChatUiTest {
         }
 
         globalContext = getApplicationContext()
-        resetStorage()
-
         setDatabase(MESSAGES, MockDatabase())
+        resetStorage()
 
         // Mock the public keys
         val db = databaseOf(MESSAGES)
