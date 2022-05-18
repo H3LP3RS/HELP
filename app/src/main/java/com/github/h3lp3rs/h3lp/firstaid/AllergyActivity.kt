@@ -1,9 +1,12 @@
 package com.github.h3lp3rs.h3lp.firstaid
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ImageButton
 import android.widget.MediaController
 import android.widget.VideoView
+import com.github.h3lp3rs.h3lp.FirstAidActivity
 import com.github.h3lp3rs.h3lp.R
 
 class AllergyActivity : AppCompatActivity() {
@@ -18,5 +21,11 @@ class AllergyActivity : AppCompatActivity() {
         val mediaController = MediaController(this)
         mediaController.setAnchorView(epipenVideo)
         epipenVideo.setMediaController(mediaController)
+
+        findViewById<ImageButton>(R.id.allergy_back_button).setOnClickListener{
+            val intent = Intent(this, FirstAidActivity::class.java)
+            startActivity(intent)
+        }
     }
+
 }
