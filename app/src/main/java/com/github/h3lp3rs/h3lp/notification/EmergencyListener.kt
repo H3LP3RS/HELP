@@ -53,13 +53,6 @@ object EmergencyListener {
                         databaseOf(EMERGENCIES)
                             .getObject(id.toString(), EmergencyInformation::class.java)
                             .thenAccept {
-//                                // Distance filtering
-//                                val distance = LocationHelper()
-//                                    .distanceFrom(Pair(it.latitude, it.longitude), globalContext)
-//
-//                                distance.thenApply { dist ->
-//                                    if(dist <= MAX_DISTANCE) {
-//                                        // Open notification channel
                                 createNotificationChannel(globalContext)
                                 val intent = Intent(
                                     globalContext,
@@ -80,8 +73,6 @@ object EmergencyListener {
                                     globalContext.getString(R.string.need_help),
                                     intent
                                 )
-//                                    }
-//                                }
                             }
                     }
                 }
