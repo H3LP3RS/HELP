@@ -383,4 +383,5 @@
     <string name="upload_failed">"Upload failed. Try again!"</string>
     <string name="helper">Helper</string>
     <string name="toggle_switch_enable_notifications">Enable notifications for this post</string>
+    <string name="date">Date</string>
 </resources>
