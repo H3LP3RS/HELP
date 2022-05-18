@@ -4,12 +4,6 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.github.h3lp3rs.h3lp.database.Database
 import com.github.h3lp3rs.h3lp.forum.*
-import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
-import com.github.h3lp3rs.h3lp.database.Databases.FORUM
-import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.DEFAULT_CATEGORY
-import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.forumOf
-import com.github.h3lp3rs.h3lp.forum.ForumCategory.valueOf
-import com.github.h3lp3rs.h3lp.forum.ForumCategory.values
 import com.github.h3lp3rs.h3lp.forum.data.ForumPostData
 import java.time.ZonedDateTime
 import java.util.concurrent.CompletableFuture
@@ -20,13 +14,11 @@ import java.util.concurrent.CompletableFuture
  *
  * @param rootForum An implementation of the underlying database acting as root of our forum.
  */
-abstract class SimpleDBForum(private val rootForum: Database) : Forum {
+abstract class SimpleDBForum(private val rootForum : Database) : Forum {
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun newPost(
-        author : String,
-        content : String,
-        isPost : Boolean
+        author : String, content : String, isPost : Boolean
     ) : CompletableFuture<ForumPost> {
         var key = ""
         // Incrementing by 2 so that a post's replies key is always 1 more than a post's key (this
@@ -41,12 +33,11 @@ abstract class SimpleDBForum(private val rootForum: Database) : Forum {
                 getFormattedPostTime(ZonedDateTime.now()),
                 key,
                 repliesKey,
-                getCurrentCategory()
+                getCurrentCategory(),
+                isPost = isPost
             )
             rootForum.setObject(
-                pathToKey(path + key),
-                ForumPostData::class.java,
-                forumPostData
+                pathToKey(path + key), ForumPostData::class.java, forumPostData
             )
 
             // If the forum is a category, this means that the post is a "main post" (not a reply)
@@ -57,9 +48,7 @@ abstract class SimpleDBForum(private val rootForum: Database) : Forum {
                 )
             } else { // For mocking purposes this needs to be added
                 rootForum.addToObjectsListConcurrently(
-                    pathToKey(path),
-                    ForumPostData::class.java,
-                    forumPostData
+                    pathToKey(path), ForumPostData::class.java, forumPostData
                 )
             }
             // We can't use getPost here since we aren't sure that the setObject succeeded yet
@@ -67,19 +56,17 @@ abstract class SimpleDBForum(private val rootForum: Database) : Forum {
         }
     }
 
-    override fun getPost(relativePath : Path) : CompletableFuture<ForumPost> {
     /**
      * Gets the post date in the following format day of month month hour-minutes
      * @param currentTime The current date
      * @return Formatted current date
      */
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun getFormattedPostTime(currentTime: ZonedDateTime): String {
-        return currentTime.dayOfMonth.toString() + "" + currentTime.month.toString() + " " +
-                currentTime.toLocalTime().hour + ":" + currentTime.toLocalTime().minute
+    private fun getFormattedPostTime(currentTime : ZonedDateTime) : String {
+        return currentTime.dayOfMonth.toString() + "" + currentTime.month.toString() + " " + currentTime.toLocalTime().hour + ":" + currentTime.toLocalTime().minute
     }
 
-    override fun getPost(relativePath: Path): CompletableFuture<ForumPost> {
+    override fun getPost(relativePath : Path) : CompletableFuture<ForumPost> {
         val fullPath = path + relativePath
         val key = pathToKey(fullPath)
 
@@ -90,8 +77,7 @@ abstract class SimpleDBForum(private val rootForum: Database) : Forum {
         return postFuture.thenCompose { postData ->
             // Get all the replies from that post
             rootForum.getObjectsList(
-                pathToKey(fullPath.dropLast(1) + postData.repliesKey),
-                ForumPostData::class.java
+                pathToKey(fullPath.dropLast(1) + postData.repliesKey), ForumPostData::class.java
             ).handle { replies, error ->
                 if (error != null) {
                     // If the post has no replies yet
@@ -104,10 +90,10 @@ abstract class SimpleDBForum(private val rootForum: Database) : Forum {
         }
     }
 
-    override fun getAll(): CompletableFuture<List<CategoryPosts>> {
+    override fun getAll() : CompletableFuture<List<CategoryPosts>> {
         if (isRoot()) {
             // In case we are in the root forum, get the CategoryPosts from all categories
-            var future: CompletableFuture<List<CategoryPosts>> =
+            var future : CompletableFuture<List<CategoryPosts>> =
                 CompletableFuture.completedFuture(emptyList())
             for (category in ForumCategory.values()) {
                 // For all categories, we add them to the list of category posts
@@ -143,8 +129,7 @@ abstract class SimpleDBForum(private val rootForum: Database) : Forum {
                     // For all posts in this category, get their forum post data
                     keyList.map {
                         rootForum.getObject(
-                            pathToKey(path + it),
-                            ForumPostData::class.java
+                            pathToKey(path + it), ForumPostData::class.java
                         )
                     }
                 }.thenCompose {
@@ -164,9 +149,9 @@ abstract class SimpleDBForum(private val rootForum: Database) : Forum {
         // Transforming the future<list<ForumPost>> into the required format
         // future<Pair<Category name, list<ForumPost>>
         return forumPostsFuture.thenApply { list ->
-                // path.last contains the category name
-                Pair(listOf(path.last()), list)
-            }
+            // path.last contains the category name
+            Pair(listOf(path.last()), list)
+        }
     }
 
     /**
@@ -178,13 +163,13 @@ abstract class SimpleDBForum(private val rootForum: Database) : Forum {
      */
     private fun typedAllOf(vararg futures : CompletableFuture<ForumPost>?) : CompletableFuture<List<ForumPost>> {
         return CompletableFuture.allOf(*futures).thenApply {
-                futures.map {
-                    // The futures are already all completed (since we are in the thenApply of allOf)
-                    // thus the join call won't be a problem
-                        f ->
-                    f!!.join()
-                }
+            futures.map {
+                // The futures are already all completed (since we are in the thenApply of allOf)
+                // thus the join call won't be a problem
+                    f ->
+                f!!.join()
             }
+        }
     }
 
     override fun listenToAll(action : (ForumPostData) -> Unit) {
@@ -225,22 +210,6 @@ abstract class SimpleDBForum(private val rootForum: Database) : Forum {
         }
     }
 
-    override fun root() : Forum {
-        return FireForum(emptyList())
-    }
-
-    override fun child(relativePath : Path) : Forum {
-        return FireForum(path + relativePath)
-    }
-
-    override fun parent() : Forum {
-        return if (isRoot()) {
-            this
-        } else {
-            FireForum(path.dropLast(1))
-        }
-    }
-
     /**
      * Translates a Path into its corresponding key as understood by Firebase (in Firebase, strings
      * separated by a "/" represent a path, as in a filesystem with "files" or children in the case
@@ -257,7 +226,7 @@ abstract class SimpleDBForum(private val rootForum: Database) : Forum {
      * represented by an empty path
      * @return A boolean corresponding to the fact that this forum is (or isn't) the root forum
      */
-    protected fun isRoot(): Boolean {
+    protected fun isRoot() : Boolean {
         return path.isEmpty()
     }
 
