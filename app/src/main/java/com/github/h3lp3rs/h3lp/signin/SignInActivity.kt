@@ -14,6 +14,7 @@ import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
 import com.github.h3lp3rs.h3lp.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.storage.Storages
+import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth.getInstance
@@ -50,7 +51,6 @@ class SignInActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         // Store the context for local storage use
         globalContext = this
-
         setContentView(R.layout.activity_sign_in)
         // Initialize Firebase Auth
         findViewById<ImageButton>(R.id.signInButton).setOnClickListener{

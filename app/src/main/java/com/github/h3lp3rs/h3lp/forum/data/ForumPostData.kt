@@ -13,10 +13,11 @@ import java.time.ZonedDateTime
  * @param category The forum category this post was posted in
  */
 data class ForumPostData(
-    val author : String,
-    val content : String,
-    val postTime : String,
-    val key : String,
-    val repliesKey : String,
-    val category : ForumCategory
+    val author: String,
+    val content: String,
+    val postTime: String,
+    val key: String,
+    val repliesKey: String,
+    val category: ForumCategory,
+    val isPost : Boolean
 )
