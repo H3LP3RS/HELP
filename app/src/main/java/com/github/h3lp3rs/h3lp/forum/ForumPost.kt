@@ -40,7 +40,7 @@ class ForumPost(
      * @return this This post updated with potential replies from others
      * in the form of a future
      */
-    private fun refresh() : CompletableFuture<ForumPost> {
+    fun refresh() : CompletableFuture<ForumPost> {
         return forum.child(post.key).getPost(emptyList())
     }
 
