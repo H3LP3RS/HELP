@@ -28,8 +28,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/toolbar"
-            android:layout_marginTop="10dp"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="175dp"
+            android:fontFamily="@font/visbycf_demibold"
             android:lineSpacingExtra="8sp"
             android:shadowColor="@color/white"
             android:shadowDx="1"
@@ -47,33 +49,35 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/HelloText"
             android:layout_centerHorizontal="true"
-            android:text="@string/welcome_text"
-            android:textSize="20sp"
+            android:fontFamily="@font/visbycf_demibold"
             android:lineSpacingExtra="8sp"
             android:shadowColor="@color/white"
             android:shadowDx="1"
             android:shadowDy="1"
             android:shadowRadius="20"
+            android:text="@string/welcome_text"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/staySafe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/welcomeText"
-            android:text="@string/stay_safe"
-            android:textSize="20sp"
             android:layout_centerHorizontal="true"
+            android:fontFamily="@font/visbycf_demibold"
             android:lineSpacingExtra="8sp"
             android:shadowColor="@color/white"
             android:shadowDx="1"
             android:shadowDy="1"
             android:shadowRadius="20"
+            android:text="@string/stay_safe"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textSize="20sp" />
 
         <ListView
             android:id="@+id/listView"
@@ -102,7 +106,7 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/HELP_button"
             android:layout_marginBottom="32dp"
-            android:background="@color/app_background">
+            android:background="@color/white">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -141,6 +145,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="@dimen/scroll_view_margin_text"
+                            android:fontFamily="@font/visbycf_regular"
                             android:text="@string/hospital"
                             android:textColor="@color/black"
                             android:textSize="@dimen/icon_font"
@@ -180,6 +185,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="@dimen/scroll_view_margin_text"
+                            android:fontFamily="@font/visbycf_regular"
                             android:text="@string/defibrillator"
                             android:textColor="@color/black"
                             android:textSize="@dimen/icon_font"
@@ -222,6 +228,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="@dimen/scroll_view_margin_text"
+                            android:fontFamily="@font/visbycf_regular"
                             android:text="@string/pharmacy"
                             android:textColor="@color/black"
                             android:textSize="@dimen/icon_font"
@@ -253,7 +260,7 @@
                             android:layout_height="@dimen/image_button_home_page"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="@dimen/margin_image_inside_layout"
-                            android:background="@drawable/education"
+                            android:background="@drawable/ic_idea_book"
                             android:contentDescription="@string/tips_button"
                             android:onClick="goToFirstAid" />
 
@@ -262,6 +269,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="@dimen/scroll_view_margin_text"
+                            android:fontFamily="@font/visbycf_regular"
                             android:text="@string/first_aid"
                             android:textColor="@color/black"
                             android:textSize="@dimen/icon_font"
@@ -301,6 +309,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="@dimen/scroll_view_margin_text"
+                            android:fontFamily="@font/visbycf_regular"
                             android:text="@string/cpr_rate"
                             android:textColor="@color/black"
                             android:textSize="@dimen/icon_font"
@@ -331,7 +340,7 @@
                             android:layout_height="@dimen/image_button_home_page"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="@dimen/margin_image_inside_layout"
-                            android:background="@drawable/professional"
+                            android:background="@drawable/ic_doctor_flat"
                             android:contentDescription="@string/professional_portal"
                             android:onClick="goToProfessionalPortal" />
 
@@ -340,6 +349,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="@dimen/scroll_view_margin_text"
+                            android:fontFamily="@font/visbycf_regular"
                             android:text="@string/professional_portal"
                             android:textColor="@color/black"
                             android:textSize="@dimen/icon_font"
@@ -358,8 +368,7 @@
             android:layout_alignParentBottom="true"
             android:background="@color/light_gray"
             android:elevation="4dp"
-            android:outlineProvider="bounds"
-            >
+            android:outlineProvider="bounds">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -382,6 +391,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/scroll_view_margin_text"
+                    android:fontFamily="@font/visbycf_regular"
                     android:text="@string/my_profile"
                     android:textColor="@color/black"
                     android:textSize="@dimen/icon_font"
@@ -413,6 +423,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/scroll_view_margin_text"
                     android:layout_marginEnd="0dp"
+                    android:fontFamily="@font/visbycf_regular"
                     android:text="@string/skills"
                     android:textColor="@color/black"
                     android:textSize="@dimen/icon_font"
@@ -442,6 +453,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="84dp"
             android:elevation="4dp"
+            android:fontFamily="sans-serif"
             android:shadowColor="@color/black"
             android:shadowRadius="10"
             android:text="@string/help"

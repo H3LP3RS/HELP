@@ -29,11 +29,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/allergy_title"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:textSize="36sp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/visbycf_medium"
             android:padding="10dp"
-            android:layout_gravity="center"/>
+            android:text="@string/allergy_title"
+            android:textSize="36sp" />
 
 
         <RelativeLayout

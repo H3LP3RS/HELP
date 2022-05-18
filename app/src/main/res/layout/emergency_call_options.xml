@@ -10,17 +10,20 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/visbycf_medium"
         android:text="@string/emergency_contact_title"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textColor="@color/dark_blue"
         android:textSize="20sp"
-        android:textStyle="bold"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+        android:textStyle="bold" />
 
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/emergency_call_popup_title"
+        android:layout_marginBottom="16dp"
         android:layout_centerHorizontal="true">
 
         <LinearLayout
@@ -40,7 +43,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/emergencies"/>
+                android:fontFamily="@font/visbycf_regular"
+                android:text="@string/emergencies"
+                android:textSize="16sp" />
 
         </LinearLayout>
 
@@ -56,10 +61,13 @@
                 android:layout_height="60dp"
                 android:background="@drawable/help_person"
                 android:contentDescription="@string/call_emergency_contact" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/emergency_contact" />
+                android:fontFamily="@font/visbycf_regular"
+                android:text="@string/emergency_contact"
+                android:textSize="16sp" />
         </LinearLayout>
 
     </LinearLayout>

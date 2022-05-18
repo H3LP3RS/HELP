@@ -7,10 +7,10 @@
     <dimen name="app_margin">5dp</dimen>
     <dimen name="scroll_view_outside_layout">117dp</dimen>
     <dimen name="scroll_view_inside_layout">105dp</dimen>
-    <dimen name="scroll_view_tuto_layout">102dp</dimen>
-    <dimen name="icon_font">11sp</dimen>
+    <dimen name="scroll_view_tuto_layout">80dp</dimen>
+    <dimen name="icon_font">12.5sp</dimen>
     <dimen name="margin_image_inside_layout">5dp</dimen>
-    <dimen name="scroll_view_margin_text">10dp</dimen>
+    <dimen name="scroll_view_margin_text">6dp</dimen>
     <dimen name="help_button">150dp</dimen>
     <dimen name="select_meds_button">110dp</dimen>
     <dimen name="map_utilities_button_layout">100dp</dimen>
