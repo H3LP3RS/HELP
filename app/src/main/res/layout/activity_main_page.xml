@@ -172,7 +172,8 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="@dimen/margin_image_inside_layout"
                             android:background="@drawable/defibrillator2"
-                            android:contentDescription="@string/defibrillator_button" />
+                            android:contentDescription="@string/defibrillator_button"
+                            android:onClick="goToNearbyDefibrillators"/>
 
                         <TextView
                             android:layout_width="wrap_content"

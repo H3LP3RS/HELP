@@ -225,13 +225,14 @@
                     android:layout_height="match_parent">
 
                     <ImageButton
-                        android:id="@+id/emergencies_button"
-                        android:background="@drawable/alarm"
+                        android:id="@+id/basic_portal_button"
+                        android:background="@drawable/user"
                         android:layout_width="80dp"
-                        android:layout_height="80dp"/>
+                        android:layout_height="80dp"
+                        android:onClick="goToBasicPortal"/>
 
                     <TextView
-                        android:text="@string/emergencies"
+                        android:text="@string/basic_portal"
                         android:textSize="14sp"
                         android:layout_marginTop="12dp"
                         android:layout_width="wrap_content"

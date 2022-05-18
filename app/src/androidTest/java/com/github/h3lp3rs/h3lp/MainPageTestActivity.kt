@@ -169,6 +169,17 @@ class MainPageTestActivity : H3lpAppTest() {
     }
 
     @Test
+    fun clickingOnDefibrillatorsButtonWorksAndSendsIntent() {
+        launchAndDo {
+            clickingOnButtonWorksAndSendsIntent(
+                NearbyUtilitiesActivity::class.java,
+                withId(R.id.button_defibrillator),
+                true
+            )
+        }
+    }
+
+    @Test
     fun clickingOnFirstAidButtonWorksAndSendsIntent() {
         launchAndDo {
             clickingOnButtonWorksAndSendsIntent(

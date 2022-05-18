@@ -447,6 +447,11 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         goToNearbyUtilities(resources.getString(R.string.nearby_hospitals))
     }
 
+    /** Called when the user taps the nearby hospitals button */
+    fun goToNearbyDefibrillators(view : View) {
+        goToNearbyUtilities(resources.getString(R.string.nearby_defibrillators))
+    }
+
     /** Called when the user taps the nearby pharmacies button */
     fun goToNearbyPharmacies(view : View) {
         goToNearbyUtilities(resources.getString(R.string.nearby_phamacies))
