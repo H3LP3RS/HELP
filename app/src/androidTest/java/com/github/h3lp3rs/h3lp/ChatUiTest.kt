@@ -15,6 +15,7 @@ import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.init
 import androidx.test.espresso.matcher.ViewMatchers.*
+import com.github.h3lp3rs.h3lp.H3lpAppTest.Companion.USER_TEST_ID
 import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
@@ -27,7 +28,9 @@ import com.github.h3lp3rs.h3lp.messaging.EXTRA_CONVERSATION_ID
 import com.github.h3lp3rs.h3lp.messaging.Messenger
 import com.github.h3lp3rs.h3lp.messaging.Messenger.HELPEE
 import com.github.h3lp3rs.h3lp.messaging.Messenger.HELPER
+import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
 import com.xwray.groupie.ViewHolder
 import org.junit.After
@@ -42,7 +45,6 @@ import java.security.PublicKey
 private const val CONVERSATION_ID = "testing_id1"
 private const val SENT_MESSAGE = "Testing Chat UI"
 private const val RECEIVED_MESSAGE = "Tests succeeded!"
-private const val MOCK_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApsYM7sd4KIA23DG6MtexJ2dhWfWfXjfWddKuAh4mNn2Dh1+thy0Qb5TGKJPOjFcGdB19c68g3mAUdje0wtAJ7B3GvCdpJsZa3LUgw3Rk70OCSaRdP8p1QKcDE7V+c6jQlkZ6+QldHigH+OA3pOO9tIumtcmw6Yko0Zz1dvhJ/giLC3y34kxUx0mD/gC6ZbCNshKO++/tEenRhFD8970OuwD7V5pROZ5NFY1O3VVTORDulVSm6fTH/VDT492IiZ8wX/X+AwBZORPbZtIB5A5tEsX5s20bnD7xJq+Ia06A0hr3LjVE1I69nVO6xvavwwe6So7Sr1H8xkwqpxOE85gVeQIDAQAB"
 
 class ChatUiTest {
     private val currentMessenger = HELPEE
@@ -51,8 +53,6 @@ class ChatUiTest {
     private lateinit var conversationFrom: Conversation
     private lateinit var conversationTo: Conversation
 
-    private lateinit var foreignUserPublicKey: PublicKey
-    private lateinit var foreignUserPrivateKey: PrivateKey
 
 
     @Before
@@ -67,6 +67,8 @@ class ChatUiTest {
         }
 
         globalContext = getApplicationContext()
+        userUid = USER_TEST_ID
+
         setDatabase(MESSAGES, MockDatabase())
         resetStorage()
 
