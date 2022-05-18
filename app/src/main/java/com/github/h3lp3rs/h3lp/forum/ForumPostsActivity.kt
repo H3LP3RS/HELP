@@ -5,8 +5,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.forum.data.ForumPostData
-import com.github.h3lp3rs.h3lp.storage.Storages
-import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_forum_answers.*
@@ -33,7 +31,6 @@ class ForumPostsActivity : AppCompatActivity() {
 
         val bundle = intent.extras!!
         category = bundle.getString(EXTRA_FORUM_CATEGORY) ?: category
-
         forum = ForumCategory.categoriesMap[category]?.let { ForumCategory.forumOf(it) }!!
 
         adapter.setOnItemClickListener { item, view ->

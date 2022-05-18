@@ -384,4 +384,5 @@
     <string name="helper">Helper</string>
     <string name="forum">Forum</string>
     <string name="forum_guide_prompt">Here you can ask any medical questions you have</string>
+    <string name="toggle_switch_enable_notifications">Enable notifications for this post</string>
 </resources>

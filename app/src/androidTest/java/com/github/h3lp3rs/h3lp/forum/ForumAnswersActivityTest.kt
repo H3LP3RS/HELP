@@ -61,8 +61,8 @@ class ForumAnswersActivityTest {
     fun addNewAnswerWorks() {
         val proUser = ProUser(USER_TEST_ID, USER_TEST_ID, "", "", "", "", "")
         proUsersDb.setObject(USER_TEST_ID, ProUser::class.java, proUser)
-
-        forum.newPost("", QUESTION_TEST).thenAccept { post ->
+        
+        forum.newPost("", QUESTION_TEST,isPost = false).thenAccept { post ->
             selectedPost = post
 
             launch<ForumAnswersActivity>(launchIntent).use {
