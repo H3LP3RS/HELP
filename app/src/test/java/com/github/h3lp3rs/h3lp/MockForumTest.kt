@@ -22,7 +22,7 @@ class MockForumTest {
 
     @Test
     fun newPostReturnsPost() {
-        forum.newPost(AUTHOR, CONTENT).thenApply { p ->
+        forum.newPost(AUTHOR, CONTENT,isPost = true).thenApply { p ->
             assertEquals(p.post.content, CONTENT)
             assertEquals(p.post.author, AUTHOR)
         }.orTimeout(TIMEOUT, MILLISECONDS).exceptionally { fail(TIMEOUT_FAIL_MSG) }
@@ -31,7 +31,7 @@ class MockForumTest {
 
     @Test
     fun replyReturnsPost() {
-        forum.newPost(AUTHOR, CONTENT).thenApply { p ->
+        forum.newPost(AUTHOR, CONTENT,isPost = false).thenApply { p ->
             p.reply(AUTHOR, CONTENT).thenApply { r ->
                 assertEquals(r.post.content, CONTENT)
                 assertEquals(r.post.author, AUTHOR)
@@ -51,7 +51,7 @@ class MockForumTest {
 
     @Test
     fun getWorksAfterPost() {
-        forum.newPost(AUTHOR, CONTENT).thenApply { p1 ->
+        forum.newPost(AUTHOR, CONTENT,isPost = true).thenApply { p1 ->
             forum.getPost(listOf(p1.post.key)).thenApply { p2 ->
                 assertEquals(p1.post.author, p2.post.author)
                 assertEquals(p1.post.content, p2.post.content)

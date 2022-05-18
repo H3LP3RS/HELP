@@ -43,7 +43,7 @@ class ForumAnswersActivityTest {
 
     @Test
     fun addNewAnswerWorks() {
-        forum.newPost("", QUESTION_TEST).thenAccept { post ->
+        forum.newPost("", QUESTION_TEST,isPost = false).thenAccept { post ->
             selectedPost = post
 
             launch<ForumAnswersActivity>(launchIntent).use {

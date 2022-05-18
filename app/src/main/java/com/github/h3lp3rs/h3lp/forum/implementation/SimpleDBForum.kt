@@ -14,10 +14,12 @@ import java.util.concurrent.CompletableFuture
  *
  * @param rootForum An implementation of the underlying database acting as root of our forum.
  */
-abstract class SimpleDBForum(private val rootForum: Database) : Forum {
+abstract class SimpleDBForum(private val rootForum : Database) : Forum {
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun newPost(author: String, content: String): CompletableFuture<ForumPost> {
+    override fun newPost(
+        author : String, content : String, isPost : Boolean
+    ) : CompletableFuture<ForumPost> {
         var key = ""
         // Incrementing by 2 so that a post's replies key is always 1 more than a post's key (this
         // is also an optimization to avoid us requiring 2 calls to incrementAndGet)
@@ -31,27 +33,22 @@ abstract class SimpleDBForum(private val rootForum: Database) : Forum {
                 getFormattedPostTime(ZonedDateTime.now()),
                 key,
                 repliesKey,
-                getCurrentCategory()
+                getCurrentCategory(),
+                isPost = isPost
             )
             rootForum.setObject(
-                pathToKey(path + key),
-                ForumPostData::class.java,
-                forumPostData
+                pathToKey(path + key), ForumPostData::class.java, forumPostData
             )
 
             // If the forum is a category, this means that the post is a "main post" (not a reply)
             // we thus add it to the posts in the database (as explained in the forum protocol)
             if (isCategory()) {
                 rootForum.addToObjectsListConcurrently(
-                    pathToKey(path + POSTS_LIST),
-                    String::class.java,
-                    key
+                    pathToKey(path + POSTS_LIST), String::class.java, key
                 )
             } else { // For mocking purposes this needs to be added
                 rootForum.addToObjectsListConcurrently(
-                    pathToKey(path),
-                    ForumPostData::class.java,
-                    forumPostData
+                    pathToKey(path), ForumPostData::class.java, forumPostData
                 )
             }
             // We can't use getPost here since we aren't sure that the setObject succeeded yet
@@ -65,12 +62,11 @@ abstract class SimpleDBForum(private val rootForum: Database) : Forum {
      * @return Formatted current date
      */
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun getFormattedPostTime(currentTime: ZonedDateTime): String {
-        return currentTime.dayOfMonth.toString() + "" + currentTime.month.toString() + " " +
-                currentTime.toLocalTime().hour + ":" + currentTime.toLocalTime().minute
+    private fun getFormattedPostTime(currentTime : ZonedDateTime) : String {
+        return currentTime.dayOfMonth.toString() + "" + currentTime.month.toString() + " " + currentTime.toLocalTime().hour + ":" + currentTime.toLocalTime().minute
     }
 
-    override fun getPost(relativePath: Path): CompletableFuture<ForumPost> {
+    override fun getPost(relativePath : Path) : CompletableFuture<ForumPost> {
         val fullPath = path + relativePath
         val key = pathToKey(fullPath)
 
@@ -81,8 +77,7 @@ abstract class SimpleDBForum(private val rootForum: Database) : Forum {
         return postFuture.thenCompose { postData ->
             // Get all the replies from that post
             rootForum.getObjectsList(
-                pathToKey(fullPath.dropLast(1) + postData.repliesKey),
-                ForumPostData::class.java
+                pathToKey(fullPath.dropLast(1) + postData.repliesKey), ForumPostData::class.java
             ).handle { replies, error ->
                 if (error != null) {
                     // If the post has no replies yet
@@ -95,10 +90,10 @@ abstract class SimpleDBForum(private val rootForum: Database) : Forum {
         }
     }
 
-    override fun getAll(): CompletableFuture<List<CategoryPosts>> {
+    override fun getAll() : CompletableFuture<List<CategoryPosts>> {
         if (isRoot()) {
             // In case we are in the root forum, get the CategoryPosts from all categories
-            var future: CompletableFuture<List<CategoryPosts>> =
+            var future : CompletableFuture<List<CategoryPosts>> =
                 CompletableFuture.completedFuture(emptyList())
             for (category in ForumCategory.values()) {
                 // For all categories, we add them to the list of category posts
@@ -127,18 +122,20 @@ abstract class SimpleDBForum(private val rootForum: Database) : Forum {
     /**
      * @return Returns all the posts in this forum's category in a future
      */
-    private fun getAllFromCategory(): CompletableFuture<CategoryPosts> {
-        val forumPostsFuture = rootForum
-            .getObjectsList(pathToKey(path + POSTS_LIST), String::class.java)
-            .thenApply { keyList ->
-                // For all posts in this category, get their forum post data
-                keyList.map { rootForum.getObject(pathToKey(path + it), ForumPostData::class.java) }
-            }
-            .thenCompose {
-                // We need an array since this is the type expected by the method allOf used in
-                // typeAllOf
-                val cfs: Array<CompletableFuture<ForumPost>> =
-                    it.map { futurePostData ->
+    private fun getAllFromCategory() : CompletableFuture<CategoryPosts> {
+        val forumPostsFuture =
+            rootForum.getObjectsList(pathToKey(path + POSTS_LIST), String::class.java)
+                .thenApply { keyList ->
+                    // For all posts in this category, get their forum post data
+                    keyList.map {
+                        rootForum.getObject(
+                            pathToKey(path + it), ForumPostData::class.java
+                        )
+                    }
+                }.thenCompose {
+                    // We need an array since this is the type expected by the method allOf used in
+                    // typeAllOf
+                    val cfs : Array<CompletableFuture<ForumPost>> = it.map { futurePostData ->
                         futurePostData.thenCompose { postData ->
                             // Get the forum post for each post in the category
                             getPost(
@@ -146,16 +143,15 @@ abstract class SimpleDBForum(private val rootForum: Database) : Forum {
                             )
                         }
                     }.toTypedArray()
-                typedAllOf(*cfs)
-            }
+                    typedAllOf(*cfs)
+                }
 
         // Transforming the future<list<ForumPost>> into the required format
         // future<Pair<Category name, list<ForumPost>>
-        return forumPostsFuture
-            .thenApply { list ->
-                // path.last contains the category name
-                Pair(listOf(path.last()), list)
-            }
+        return forumPostsFuture.thenApply { list ->
+            // path.last contains the category name
+            Pair(listOf(path.last()), list)
+        }
     }
 
     /**
@@ -165,19 +161,18 @@ abstract class SimpleDBForum(private val rootForum: Database) : Forum {
      * @return A future that completes with the value of all the futures in the "futures" list
      *  once they have completed
      */
-    private fun typedAllOf(vararg futures: CompletableFuture<ForumPost>?): CompletableFuture<List<ForumPost>> {
-        return CompletableFuture.allOf(*futures)
-            .thenApply {
-                futures.map {
-                    // The futures are already all completed (since we are in the thenApply of allOf)
-                    // thus the join call won't be a problem
-                        f ->
-                    f!!.join()
-                }
+    private fun typedAllOf(vararg futures : CompletableFuture<ForumPost>?) : CompletableFuture<List<ForumPost>> {
+        return CompletableFuture.allOf(*futures).thenApply {
+            futures.map {
+                // The futures are already all completed (since we are in the thenApply of allOf)
+                // thus the join call won't be a problem
+                    f ->
+                f!!.join()
             }
+        }
     }
 
-    override fun listenToAll(action: (ForumPostData) -> Unit) {
+    override fun listenToAll(action : (ForumPostData) -> Unit) {
         // In case we are in the root forum
         when {
             isRoot() -> {
@@ -189,7 +184,7 @@ abstract class SimpleDBForum(private val rootForum: Database) : Forum {
             isCategory() -> {
                 // Callback called on every new post in a category, calls "action" on that new post
                 // and adds listeners for replies on that new post
-                val onNewPost: (String) -> Unit = { postKey ->
+                val onNewPost : (String) -> Unit = { postKey ->
                     getPost(postKey).thenAccept { postForum ->
                         action(postForum.post)
                         child(postForum.post.key).listenToAll(action)
@@ -198,9 +193,7 @@ abstract class SimpleDBForum(private val rootForum: Database) : Forum {
                 // We add the listener on the POSTS_LIST key since as explained in the protocol,
                 // it is updated with new post keys on every new post
                 rootForum.addEventListener(
-                    pathToKey(path + POSTS_LIST),
-                    String::class.java,
-                    onNewPost
+                    pathToKey(path + POSTS_LIST), String::class.java, onNewPost
                 ) {}
             }
             else -> {
@@ -210,9 +203,7 @@ abstract class SimpleDBForum(private val rootForum: Database) : Forum {
                     // Adding a listener on the replies key since this is where all replies to that
                     // post are stored
                     rootForum.addEventListener(
-                        pathToKey(repliesPath),
-                        ForumPostData::class.java,
-                        action
+                        pathToKey(repliesPath), ForumPostData::class.java, action
                     ) {}
                 }
             }
@@ -226,7 +217,7 @@ abstract class SimpleDBForum(private val rootForum: Database) : Forum {
      * @param path The path to transform into a string according to Firebase
      * @return The corresponding string
      */
-    private fun pathToKey(path: Path): String {
+    private fun pathToKey(path : Path) : String {
         return path.joinToString(separator = "/")
     }
 
@@ -235,7 +226,7 @@ abstract class SimpleDBForum(private val rootForum: Database) : Forum {
      * represented by an empty path
      * @return A boolean corresponding to the fact that this forum is (or isn't) the root forum
      */
-    protected fun isRoot(): Boolean {
+    protected fun isRoot() : Boolean {
         return path.isEmpty()
     }
 
@@ -245,7 +236,7 @@ abstract class SimpleDBForum(private val rootForum: Database) : Forum {
      * represented by a path of length 1
      * @return A boolean corresponding to the fact that this forum is (or isn't) the root forum
      */
-    private fun isCategory(): Boolean {
+    private fun isCategory() : Boolean {
         return path.size == 1
     }
 
@@ -253,7 +244,7 @@ abstract class SimpleDBForum(private val rootForum: Database) : Forum {
      * @return The category of the current forum and the default category in case the
      * current forum is root
      */
-    private fun getCurrentCategory(): ForumCategory {
+    private fun getCurrentCategory() : ForumCategory {
         return if (!isRoot()) {
             ForumCategory.valueOf(path.first())
         } else {
