@@ -9,6 +9,7 @@ import android.widget.RatingBar
 import android.widget.TextView
 import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.dataclasses.Rating
+import com.github.h3lp3rs.h3lp.signin.SignInActivity
 
 class RatingActivity : AppCompatActivity() {
     private lateinit var ratingBar: RatingBar
@@ -35,7 +36,8 @@ class RatingActivity : AppCompatActivity() {
     private fun sendFeedback(){
         val comment = findViewById<EditText>(R.id.comment).text.toString()
         val rating = Rating(ratingBar.rating, comment)
-        Databases.databaseOf(Databases.RATINGS).setObject(System.currentTimeMillis().toString(),Rating::class.java,rating)
+        SignInActivity.getName()
+            ?.let { Databases.databaseOf(Databases.RATINGS).setObject(it,Rating::class.java,rating) }
     }
 }
 
