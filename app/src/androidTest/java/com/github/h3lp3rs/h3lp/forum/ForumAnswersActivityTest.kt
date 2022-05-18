@@ -13,7 +13,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.H3lpAppTest.Companion.USER_TEST_ID
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.database.Database
-import com.github.h3lp3rs.h3lp.database.Databases
+import com.github.h3lp3rs.h3lp.database.Databases.PRO_USERS
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.database.MockDatabase
@@ -53,8 +53,8 @@ class ForumAnswersActivityTest {
         forum = forumOf(TRAUMATOLOGY)
         globalContext = getApplicationContext()
         userUid = USER_TEST_ID
-        setDatabase(Databases.PRO_USERS, MockDatabase())
-        proUsersDb = databaseOf(Databases.PRO_USERS)
+        setDatabase(PRO_USERS, MockDatabase())
+        proUsersDb = databaseOf(PRO_USERS)
     }
 
     @Test
@@ -84,24 +84,27 @@ class ForumAnswersActivityTest {
     @Test
     fun simpleUserCantAnswerPost() {
         proUsersDb.delete(USER_TEST_ID)
+        forum.newPost("", QUESTION_TEST).thenAccept { post ->
+            selectedPost = post
 
-        launch<ForumAnswersActivity>(launchIntent).use {
+            launch<ForumAnswersActivity>(launchIntent).use {
 
-            onView(withId(R.id.text_view_enter_answer)).check(
-                matches(
-                    not(
-                        isDisplayed()
+                onView(withId(R.id.text_view_enter_answer)).check(
+                    matches(
+                        not(
+                            isDisplayed()
+                        )
                     )
                 )
-            )
-            onView(withId(R.id.add_answer_button)).check(
-                matches(
-                    not(
-                        isDisplayed()
+                onView(withId(R.id.add_answer_button)).check(
+                    matches(
+                        not(
+                            isDisplayed()
+                        )
                     )
                 )
-            )
 
+            }
         }
     }
 
