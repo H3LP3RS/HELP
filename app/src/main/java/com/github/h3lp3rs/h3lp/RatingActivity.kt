@@ -13,7 +13,9 @@ import com.github.h3lp3rs.h3lp.signin.SignInActivity
 
 class RatingActivity : AppCompatActivity() {
     private lateinit var ratingBar: RatingBar
+    // the number of full stars in the rating bar
     private lateinit var value: TextView
+    private val prefix = "Value: "
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,22 +24,26 @@ class RatingActivity : AppCompatActivity() {
 
         ratingBar = findViewById(R.id.rating_bar)
         value = findViewById(R.id.value)
-        value.text = "Value: " + ratingBar.rating
+        value.text = prefix + ratingBar.rating
 
         ratingBar.onRatingBarChangeListener =
-            RatingBar.OnRatingBarChangeListener{ _, rating, _ ->
-                value.text = "Value: $rating"
+            RatingBar.OnRatingBarChangeListener { _, rating, _ ->
+                value.text = "$prefix $rating"
             }
 
         findViewById<Button>(R.id.send_feedback_button).setOnClickListener { sendFeedback() }
-
     }
 
-    private fun sendFeedback(){
+    /**
+     * Store feedback in the database
+     */
+    private fun sendFeedback() {
         val comment = findViewById<EditText>(R.id.comment).text.toString()
         val rating = Rating(ratingBar.rating, comment)
         SignInActivity.getName()
-            ?.let { Databases.databaseOf(Databases.RATINGS).setObject(it,Rating::class.java,rating) }
+            ?.let {
+                Databases.databaseOf(Databases.RATINGS).setObject(it, Rating::class.java, rating)
+            }
     }
 }
 
