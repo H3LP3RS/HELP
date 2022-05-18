@@ -16,18 +16,20 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.GrantPermissionRule
 import androidx.test.uiautomator.UiDevice
+import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
-import com.github.h3lp3rs.h3lp.database.Databases.EMERGENCIES
-import com.github.h3lp3rs.h3lp.database.Databases.PREFERENCES
 import com.github.h3lp3rs.h3lp.database.MockDatabase
 import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
 import com.github.h3lp3rs.h3lp.dataclasses.HelperSkills
+import com.github.h3lp3rs.h3lp.messaging.Conversation.Companion.publicKeyPath
+import com.github.h3lp3rs.h3lp.messaging.Messenger.HELPER
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
+import junit.framework.TestCase.assertNotNull
 import junit.framework.TestCase.assertTrue
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.containsString
@@ -140,6 +142,23 @@ class HelpPageActivityTest : H3lpAppTest() {
             val helpers = ArrayList(updatedEmergency.get().helpers)
             // Check the helper has been added to the emergency object
             assertTrue(helpers[0].uid == USER_TEST_ID)
+        }
+    }
+
+    @Test
+    fun acceptingAnEmergencySendsPublicKeyOnDb() {
+        setupEmergencyAndDo {
+            // Accept
+            onView(withId(R.id.button_accept)).perform(click())
+
+            val conversationIds = databaseOf(CONVERSATION_IDS).getObjectsList(
+                TEST_EMERGENCY_ID,
+                Int::class.java
+            ).get()
+
+            // retrieve the public key sent on the database
+            val key = databaseOf(MESSAGES).getString(publicKeyPath(conversationIds[conversationIds.size - 1].toString(), HELPER.name)).get()
+            assertNotNull(key)
         }
     }
 
