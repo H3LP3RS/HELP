@@ -12,6 +12,7 @@ import androidx.test.espresso.intent.Intents.release
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.github.h3lp3rs.h3lp.H3lpAppTest.Companion.USER_TEST_ID
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.database.Database
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
@@ -41,7 +42,7 @@ const val CATEGORY_TEST_STRING = "GENERAL"
 val CATEGORY_TEST = GENERAL
 const val QUESTION_TEST = "question"
 const val ANSWER_TEST = "answer"
-const val USER_ID_NAME = "Jane Doe"
+const val USER_NAME_TEST = "Jane Doe"
 
 @RunWith(AndroidJUnit4::class)
 class ForumAnswersActivityTest {
@@ -68,8 +69,8 @@ class ForumAnswersActivityTest {
         )
 
         globalContext = getApplicationContext()
-        userUid = USER_ID_NAME
-        setName(USER_ID_NAME)
+        userUid = USER_TEST_ID
+        setName(USER_NAME_TEST)
         setDatabase(PRO_USERS, MockDatabase())
         proUsersDb = databaseOf(PRO_USERS)
     }
@@ -91,8 +92,8 @@ class ForumAnswersActivityTest {
 
     @Test
     fun addNewAnswerWorksForVerifiedProUser() {
-        val proUser = ProUser(USER_ID_NAME, USER_ID_NAME, "", "", "", "", "")
-        proUsersDb.setObject(USER_ID_NAME, ProUser::class.java, proUser)
+        val proUser = ProUser(USER_TEST_ID, USER_NAME_TEST, "", "", "", "", "")
+        proUsersDb.setObject(USER_TEST_ID, ProUser::class.java, proUser)
 
         launchActivity()
 
@@ -103,7 +104,7 @@ class ForumAnswersActivityTest {
 
     @Test
     fun simpleUserCantAnswerPost() {
-        proUsersDb.delete(USER_ID_NAME)
+        proUsersDb.delete(USER_TEST_ID)
 
         launchActivity()
 
