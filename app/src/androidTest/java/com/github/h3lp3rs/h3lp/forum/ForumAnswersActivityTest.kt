@@ -6,15 +6,16 @@ import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.replaceText
-import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents.init
 import androidx.test.espresso.intent.Intents.release
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.database.Database
-import com.github.h3lp3rs.h3lp.database.Databases
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.database.Databases.PRO_USERS
 import com.github.h3lp3rs.h3lp.database.MockDatabase
 import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.setForum
@@ -26,7 +27,7 @@ import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.setName
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import junit.framework.Assert.assertEquals
-import org.hamcrest.Matchers
+import org.hamcrest.Matchers.not
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -69,8 +70,8 @@ class ForumAnswersActivityTest {
         globalContext = getApplicationContext()
         userUid = USER_ID_NAME
         setName(USER_ID_NAME)
-        Databases.setDatabase(PRO_USERS, MockDatabase())
-        proUsersDb = Databases.databaseOf(PRO_USERS)
+        setDatabase(PRO_USERS, MockDatabase())
+        proUsersDb = databaseOf(PRO_USERS)
     }
 
     private fun launchActivity() {
@@ -96,7 +97,6 @@ class ForumAnswersActivityTest {
         launchActivity()
 
         onView(withId(R.id.text_view_enter_answer)).perform(replaceText(ANSWER_TEST))
-        Thread.sleep(1000)
         onView(withId(R.id.add_answer_button)).perform(click())
         assertEquals(forumPosts[QUESTION_TEST], listOf(ANSWER_TEST))
     }
@@ -108,16 +108,16 @@ class ForumAnswersActivityTest {
         launchActivity()
 
         onView(withId(R.id.text_view_enter_answer)).check(
-            ViewAssertions.matches(
-                Matchers.not(
-                    ViewMatchers.isDisplayed()
+            matches(
+                not(
+                    isDisplayed()
                 )
             )
         )
         onView(withId(R.id.add_answer_button)).check(
-            ViewAssertions.matches(
-                Matchers.not(
-                    ViewMatchers.isDisplayed()
+            matches(
+                not(
+                    isDisplayed()
                 )
             )
         )

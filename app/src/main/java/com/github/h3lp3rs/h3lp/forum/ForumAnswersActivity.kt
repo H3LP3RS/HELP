@@ -4,15 +4,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
+import com.github.h3lp3rs.h3lp.database.Databases.PRO_USERS
 import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.categoriesMap
 import com.github.h3lp3rs.h3lp.forum.ForumPostsActivity.Companion.selectedPost
 import com.github.h3lp3rs.h3lp.forum.data.ForumPostData
-import com.github.h3lp3rs.h3lp.professional.ProMainActivity
 import com.github.h3lp3rs.h3lp.professional.ProUser
-import com.github.h3lp3rs.h3lp.professional.VerificationActivity
-import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.getName
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.xwray.groupie.GroupAdapter
@@ -38,27 +35,40 @@ class ForumAnswersActivity : AppCompatActivity() {
 
         forum = categoriesMap[category]?.let { ForumCategory.forumOf(it) }!!
 
-        val db = databaseOf(Databases.PRO_USERS)
+        val db = databaseOf(PRO_USERS)
 
         db.getObject(userUid.toString(), ProUser::class.java).handle { _, err ->
-           err?.let{
+            err?.let {
                 // If the user is not a registered as a professional user, he can't reply to posts
-                text_view_enter_answer.visibility = View.GONE
-                add_answer_button.visibility = View.GONE
+                setAnswersFieldsVisibility(View.GONE)
                 return@handle
             }
             // Otherwise, allow the user to reply to posts
             add_answer_button.setOnClickListener {
-                text_view_enter_answer.visibility = View.VISIBLE
-                add_answer_button.visibility = View.VISIBLE
-                val answer = text_view_enter_answer.text.toString()
-                getName()!!.let { id -> selectedPost.reply(id, answer) }
-                // Clear the text field
-                text_view_enter_answer.text.clear()
+                setAnswersFieldsVisibility(View.VISIBLE)
+                sendAnswer()
             }
         }
-
         listenForAnswers()
+    }
+
+    /**
+     * Sets the visibility of the answer field and the send button.
+     * @param visibility The visibility id
+     */
+    private fun setAnswersFieldsVisibility(visibility : Int) {
+        text_view_enter_answer.visibility = visibility
+        add_answer_button.visibility = visibility
+    }
+
+    /**
+     * Sends the user's answer on the database, and clears the text field.
+     */
+    private fun sendAnswer() {
+        val answer = text_view_enter_answer.text.toString()
+        getName()!!.let { id -> selectedPost.reply(id, answer) }
+        // Clear the text field
+        text_view_enter_answer.text.clear()
     }
 
     /**
