@@ -6,8 +6,9 @@ import com.github.h3lp3rs.h3lp.database.Database
 import com.github.h3lp3rs.h3lp.forum.*
 import com.github.h3lp3rs.h3lp.forum.data.ForumPostData
 import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 import java.util.concurrent.CompletableFuture
-
+const val DATE_TIME_FORMAT = "MM/dd/yyyy - HH:mm:ss"
 /**
  * This abstract forum behaves according to the ForumProtocol.md limitations (subset of Forum
  * interface) and uses our key-value database as an underlying data structure.
@@ -57,14 +58,16 @@ abstract class SimpleDBForum(private val rootForum : Database) : Forum {
     }
 
     /**
-     * Gets the post date in the following format day of month month hour-minutes
-     * @param currentTime The current date
-     * @return Formatted current date
+     * Gets the post date in the following format MM/dd/yyyy - HH:mm:ss
+     * @param currentTime The current date-time
+     * @return Formatted current date-time
      */
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getFormattedPostTime(currentTime : ZonedDateTime) : String {
-        return currentTime.dayOfMonth.toString() + "" + currentTime.month.toString() + " " + currentTime.toLocalTime().hour + ":" + currentTime.toLocalTime().minute
+        val formatter = DateTimeFormatter.ofPattern(DATE_TIME_FORMAT)
+        return currentTime.format(formatter)
     }
+
 
     override fun getPost(relativePath : Path) : CompletableFuture<ForumPost> {
         val fullPath = path + relativePath
