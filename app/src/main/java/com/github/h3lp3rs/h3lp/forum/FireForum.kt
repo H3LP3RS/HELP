@@ -55,7 +55,7 @@ class FireForum(override val path : Path) : Forum {
      */
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getFormattedPostTime(currentTime : ZonedDateTime) : String {
-        return currentTime.dayOfMonth.toString() + "" + currentTime.month.toString() + " " +
+        return currentTime.dayOfMonth.toString() + " " + currentTime.month.toString() + " " +
                 currentTime.toLocalTime().hour + ":" + currentTime.toLocalTime().minute
     }
 
