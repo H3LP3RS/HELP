@@ -54,7 +54,7 @@ class ProMainActivityTest : H3lpAppTest() {
     }
 
     private fun clickingOnButtonWorksAndSendsIntent(ActivityName: Class<*>?, id: Matcher<View>) {
-        onView(id).perform(scrollTo(),click())
+        onView(id).perform(click())
         Intents.intended(
             Matchers.allOf(
                 IntentMatchers.hasComponent(ActivityName!!.name)
