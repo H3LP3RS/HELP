@@ -233,7 +233,6 @@
     <string name="drawer_closed">Close navigation drawer</string>
     <string name="h3lp3rs">H3LP3RS</string>
     <string name="about_us">About us</string>
-    <string name="rate_us">Rate us</string>
     <string name="logout">Logout</string>
     <string name="profile">Profile</string>
     <string name="login">Login</string>
@@ -279,6 +278,10 @@
     <string name="first_aid_guide_prompt">Basic first aid training tips and procedures for any emergency !</string>
     <string name="guide_search_bar_prompt">In case of emergency, you can quickly find what you\'re looking for thanks to our available search bar! </string>
     <string name="KEY_USER_AGREE">USER_AGREE</string>
+    <string name="KEY_USER_SIGNED_IN">USER_SIGNED_IN</string>
+    <string name="KEY_USER_UID">USER_UID</string>
+    <string name="KEY_USER_NAME">USER_NAME</string>
+
     <string name="my_helper_skills">My Helper Skills</string>
     <string name="help_my_skills">This tab represents your skills as an helper. \n\n
         Here you can choose what you are able to help for, for example medicine that you carry with you or any health skill that you have.\n\n
@@ -358,7 +361,7 @@
     <string name="general_medicine">General medicine</string>
     <string name="cardiology">Cardiology</string>
     <string name="traumatology">Traumatology</string>
-    <string name="pediatry">Pediatry</string>
+    <string name="pediatry">Pediatric</string>
     <string name="neurology">Neurology</string>
     <string name="gynecology">Gynecology</string>
     <string name="forum_theme_key">forumThemeKey</string>
@@ -372,7 +375,30 @@
     <string name="professional_status">Professional status</string>
     <string name="experience">Experience</string>
     <string name="my_professional_profile">My professional profile</string>
+    <string name="question">Question</string>
+    <string name="add_a_new_post">Add a new post</string>
+    <string name="title">Title</string>
+    <string name="category">Category</string>
+    <string name="post_question">Post question</string>
+    <string name="expand_forum">Expand forum</string>
+    <string name="answer">Answer</string>
+    <string name="type_your_answer">Type your answer</string>
+    <string name="type_your_question">Type your question</string>
+    <string name="notifications">Notifications</string>
+    <string name="answers">Answers</string>
+    <string name="send">Send</string>
+    <string name="posts">Posts</string>
     <string name="update_profile">Update profile</string>
     <string name="upload_failed">"Upload failed. Try again!"</string>
     <string name="helper">Helper</string>
+    <string name="basic_portal">Basic portal</string>
+    <string name="we_hope_you_had_a_great_experience_using_our_app">We hope you had a great experience using our app</string>
+    <string name="rate_us">Rate us</string>
+    <string name="value">Value</string>
+    <string name="leave_a_comment">Leave a comment</string>
+    <string name="send_feedback">Send feedback</string>
+    <string name="forum">Forum</string>
+    <string name="forum_guide_prompt">Here you can ask any medical questions you have</string>
+    <string name="toggle_switch_enable_notifications">Enable notifications for this post</string>
+    <string name="date">Date</string>
 </resources>

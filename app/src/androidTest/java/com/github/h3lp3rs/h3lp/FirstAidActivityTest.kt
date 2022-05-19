@@ -1,6 +1,7 @@
 package com.github.h3lp3rs.h3lp
 
 import android.view.View
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.*
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.intent.Intents
@@ -13,6 +14,7 @@ import com.github.h3lp3rs.h3lp.firstaid.AedActivity
 import com.github.h3lp3rs.h3lp.firstaid.AllergyActivity
 import com.github.h3lp3rs.h3lp.firstaid.AsthmaActivity
 import com.github.h3lp3rs.h3lp.firstaid.HeartAttackActivity
+import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.*
 import org.junit.After
@@ -31,6 +33,8 @@ class FirstAidActivityTest : H3lpAppTest() {
 
     @Before
     fun setup() {
+        SignInActivity.userUid = USER_TEST_ID
+        SignInActivity.globalContext = ApplicationProvider.getApplicationContext()
         initIntentAndCheckResponse()
     }
 
@@ -66,5 +70,10 @@ class FirstAidActivityTest : H3lpAppTest() {
     @Test
     fun clickAsthmaExpandButtonWorksAndSendsIntent() {
         clickingOnButtonWorksAndSendsIntent(AsthmaActivity::class.java, withId(R.id.asthma_expand_button))
+    }
+
+    @Test
+    fun clickBackButtonWorksAndSendsIntent() {
+        clickingOnButtonWorksAndSendsIntent(MainPageActivity::class.java, withId(R.id.first_aid_back_button))
     }
 }
