@@ -92,9 +92,9 @@
             android:id="@+id/searchBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/horizontalScrollView"
+            android:layout_below="@+id/staySafe"
             android:layout_alignParentEnd="true"
-            android:layout_marginBottom="50dp"
+            android:layout_marginTop="35dp"
             android:background="@color/light_gray"
             android:iconifiedByDefault="false"
             android:queryHint="Search..."
@@ -366,7 +366,7 @@
                     android:layout_width="@dimen/scroll_view_outside_layout"
                     android:layout_height="@dimen/scroll_view_outside_layout"
                     android:background="@drawable/round_style"
-                    android:backgroundTint="@color/teal_400"
+                    android:backgroundTint="@color/persimmon"
                     android:orientation="vertical">
 
                 <LinearLayout
