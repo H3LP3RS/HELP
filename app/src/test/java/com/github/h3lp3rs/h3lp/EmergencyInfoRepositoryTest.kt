@@ -1,6 +1,6 @@
 package com.github.h3lp3rs.h3lp
 
-import com.github.h3lp3rs.h3lp.database.MockDatabase
+import com.github.h3lp3rs.h3lp.mockdatabase.MockDatabase
 import com.github.h3lp3rs.h3lp.database.repositories.EmergencyInfoRepository
 import com.github.h3lp3rs.h3lp.database.repositories.Repository
 import com.github.h3lp3rs.h3lp.dataclasses.*

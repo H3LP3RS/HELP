@@ -1,7 +1,5 @@
 package com.github.h3lp3rs.h3lp.presentation
 
-import android.app.Activity
-import android.app.Instrumentation.*
 import android.content.Intent
 import android.view.InputDevice.*
 import android.view.MotionEvent.*
@@ -24,10 +22,9 @@ import androidx.test.espresso.action.Tap
 import androidx.test.espresso.action.GeneralClickAction
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.Press.*
-import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
-import com.github.h3lp3rs.h3lp.database.MockDatabase
+import com.github.h3lp3rs.h3lp.mockdatabase.MockDatabase
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.storage.Storages.*

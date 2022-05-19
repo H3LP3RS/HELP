@@ -1,7 +1,6 @@
 package com.github.h3lp3rs.h3lp.professional
 
 import android.content.Intent
-import android.net.Uri
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -16,7 +15,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.H3lpAppTest
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.database.Databases
-import com.github.h3lp3rs.h3lp.database.MockDatabase
+import com.github.h3lp3rs.h3lp.mockdatabase.MockDatabase
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
@@ -63,7 +62,7 @@ class VerificationActivityTest : H3lpAppTest() {
         VerificationActivity.imgUri = TEST_URI
         VerificationActivity.currentUserId = TEST_STRING
         VerificationActivity.currentUserName = TEST_STRING
-        Databases.setDatabase(Databases.PRO_USERS,MockDatabase())
+        Databases.setDatabase(Databases.PRO_USERS, MockDatabase())
 
         // Mock the Firebase cloud storage
         val storageMock = Mockito.mock(StorageReference::class.java)

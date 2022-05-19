@@ -1,6 +1,7 @@
-package com.github.h3lp3rs.h3lp.database
+package com.github.h3lp3rs.h3lp.mockdatabase
 
 import android.annotation.SuppressLint
+import com.github.h3lp3rs.h3lp.database.Database
 import com.google.firebase.database.core.utilities.encoding.CustomClassMapper.convertToCustomClass
 import com.google.gson.Gson
 import java.util.concurrent.CompletableFuture

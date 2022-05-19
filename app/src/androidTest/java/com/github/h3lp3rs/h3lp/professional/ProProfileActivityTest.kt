@@ -15,7 +15,7 @@ import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
-import com.github.h3lp3rs.h3lp.database.MockDatabase
+import com.github.h3lp3rs.h3lp.mockdatabase.MockDatabase
 import junit.framework.Assert.assertEquals
 import org.junit.After
 import org.junit.Before
@@ -42,7 +42,7 @@ class ProProfileActivityTest {
         Intents.init()
         VerificationActivity.currentUserId = USER_TEST_ID
         VerificationActivity.currentUserName = ""
-        setDatabase(Databases.PRO_USERS,MockDatabase())
+        setDatabase(Databases.PRO_USERS, MockDatabase())
         proUsersDb.setObject(USER_TEST_ID,ProUser::class.java, proUser)
     }
 

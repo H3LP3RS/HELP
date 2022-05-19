@@ -18,12 +18,11 @@ import androidx.core.app.ActivityCompat.OnRequestPermissionsResultCallback
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
-import com.github.h3lp3rs.h3lp.notification.EmergencyListener
 import com.github.h3lp3rs.h3lp.database.Databases.PRO_USERS
 import com.github.h3lp3rs.h3lp.forum.FireForum
 import com.github.h3lp3rs.h3lp.forum.ForumPostsActivity
+import com.github.h3lp3rs.h3lp.notification.EmergencyListener
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
 import com.github.h3lp3rs.h3lp.professional.ProMainActivity
 import com.github.h3lp3rs.h3lp.professional.ProUser
@@ -35,6 +34,7 @@ import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.github.h3lp3rs.h3lp.storage.Storages.USER_COOKIE
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_main_page.*
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
 import uk.co.samuelwall.materialtaptargetprompt.extras.backgrounds.RectanglePromptBackground
 import uk.co.samuelwall.materialtaptargetprompt.extras.focals.RectanglePromptFocal
@@ -51,48 +51,50 @@ const val HOSPITALS = "Hospitals"
 const val PHARMACIES = "Pharmacies"
 
 private val mainPageButton = listOf(
-    MainPageButton(R.id.button_profile, false),
-    MainPageButton(R.id.button_tutorial, false),
-    MainPageButton(R.id.button_my_skills, false),
-    MainPageButton(R.id.button_hospital, true),
-    MainPageButton(R.id.button_defibrillator, true),
-    MainPageButton(R.id.button_pharmacy, true),
-    MainPageButton(R.id.button_first_aid, true),
-    MainPageButton(R.id.button_cpr, true)
+    MainPageButton(R.id.button_profile, false, R.string.profile_guide_prompt),
+    MainPageButton(R.id.button_tutorial, false, R.string.tuto_guide_prompt),
+    MainPageButton(R.id.button_my_skills, false, R.string.skills_guide_prompt),
+    MainPageButton(R.id.button_hospital, true, R.string.hospitals_guide_prompt),
+    MainPageButton(R.id.button_defibrillator, true, R.string.defibrillators_guide_prompt),
+    MainPageButton(R.id.button_pharmacy, true, R.string.pharmacies_guide_prompt),
+    MainPageButton(R.id.button_first_aid, true, R.string.first_aid_guide_prompt),
+    MainPageButton(R.id.button_cpr, true, R.string.cpr_guide_prompt)
 )
-
-private val buttonsGuidePrompts = mapOf(
-    R.id.button_tutorial to R.string.tuto_guide_prompt,
-    R.id.button_profile to R.string.profile_guide_prompt,
-    R.id.button_my_skills to R.string.skills_guide_prompt,
-    R.id.button_hospital to R.string.hospitals_guide_prompt,
-    R.id.button_defibrillator to R.string.defibrillators_guide_prompt,
-    R.id.button_pharmacy to R.string.pharmacies_guide_prompt,
-    R.id.button_first_aid to R.string.first_aid_guide_prompt,
-    R.id.button_cpr to R.string.cpr_guide_prompt
-)
-val numberOfButtons = mainPageButton.size
 
 /**
  * Main page of the app
  */
 class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback {
-    private lateinit var toggle : ActionBarDrawerToggle
+    private lateinit var toggle: ActionBarDrawerToggle
     private var locPermissionDenied = false
 
-    private lateinit var searchView : SearchView
-    private lateinit var listView : ListView
-    private lateinit var storage : LocalStorage
+    // Maps the clicked button to the activity it should launch to avoid code duplication
+    // only has keys for the buttons whose behaviour is a simple goToActivity
+    private lateinit var buttonToActivity: Map<View, Class<*>>
+
+    private lateinit var searchView: SearchView
+    private lateinit var listView: ListView
+    private lateinit var storage: LocalStorage
 
     // List of searchable elements
-    private var searchBarElements : ArrayList<String> = ArrayList()
+    private var searchBarElements: ArrayList<String> = ArrayList()
 
     // Adapter for the list view
-    lateinit var adapter : ArrayAdapter<*>
+    lateinit var adapter: ArrayAdapter<*>
 
-    override fun onCreate(savedInstanceState : Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_page)
+
+        // Set up the basic buttons functionality
+        buttonToActivity = mapOf(
+            button_profile to MedicalCardActivity::class.java,
+            button_my_skills to MySkillsActivity::class.java,
+            button_first_aid to FirstAidActivity::class.java,
+            button_cpr to CprRateActivity::class.java,
+            HELP_button to HelpeeSelectionActivity::class.java,
+        )
+
         // Load the storage
         storage = storageOf(USER_COOKIE)
 
@@ -133,7 +135,8 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
      */
     private fun showExplanationAndRequestPermissions() {
         val dialog = Dialog(this)
-        val emergencyCallPopup = layoutInflater.inflate(R.layout.localization_permission_popup, null)
+        val emergencyCallPopup =
+            layoutInflater.inflate(R.layout.localization_permission_popup, null)
 
         dialog.setCancelable(false)
         dialog.setContentView(emergencyCallPopup)
@@ -142,10 +145,11 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         dialog.create()
 
         // pass button
-        emergencyCallPopup.findViewById<Button>(R.id.accept_permission_popup_button).setOnClickListener {
-            dialog.dismiss()
-            requestPermissions(arrayOf(ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
-        }
+        emergencyCallPopup.findViewById<Button>(R.id.accept_permission_popup_button)
+            .setOnClickListener {
+                dialog.dismiss()
+                requestPermissions(arrayOf(ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+            }
 
         dialog.show()
     }
@@ -173,7 +177,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
             storage.setBoolean(GUIDE_KEY, true)
             // Starts the guide of main page buttons. Once it finishes, it shows the
             // prompt for the search bar by executing the showSearchBarPrompt.
-            showButtonPrompt(mainPageButton, buttonsGuidePrompts) { showSearchBarPrompt() }
+            showButtonPrompt(mainPageButton) { showSearchBarPrompt() }
         }
     }
 
@@ -185,40 +189,37 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
      * Recursive function that handles showing the prompt for the buttons in the list buttons.
      * If the list is empty a call to showNextGuide is made.
      * @param buttons The list of the buttons' ids for which a prompt has to be shown.
-     * @param idToPrompt Map between a button id and the corresponding text to be shown.
      * @param showNextGuide Called once a prompt is shown for all the buttons in the list.
      */
     private fun showButtonPrompt(
-        buttons : List<MainPageButton>, idToPrompt : Map<Int, Int>, showNextGuide : () -> Unit
+        buttons: List<MainPageButton>, showNextGuide: () -> Unit
     ) {
         if (buttons.isEmpty()) return showNextGuide()
         // We show the prompt for the head of the list.
         val button = buttons[0]
-        val buttonId = button.getButtonId()
+        val buttonId = button.buttonId
 
         // If the button is in the scroll view, it may be necessary to scroll to the button.
-        if (button.isInScrollView()) scrollTo(buttonId)
+        if (button.isInScrollView) scrollTo(buttonId)
 
         // The default shape of the highlighter is circular which is perfect for the buttons,
         // thus we do not change it. The default text color is white.
-        idToPrompt[buttonId]?.let {
-            MaterialTapTargetPrompt.Builder(this)
-                // Sets which button to highlight
-                .setTarget(buttonId).setPrimaryText(R.string.guide_primary_prompt)
-                .setSecondaryText(it).setBackButtonDismissEnabled(false).setBackgroundColour(
-                    R.color.black
-                ).setPromptStateChangeListener { _, state ->
-                    // If the user clicks anywhere on the screen, we move to the next button
-                    if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED || state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED) {
-                        // Recursive call by removing the head of the list for which the prompt
-                        // has already been shown
-                        showButtonPrompt(buttons.drop(1), idToPrompt, showNextGuide)
-                    }
-                }.show()
-        }
+        MaterialTapTargetPrompt.Builder(this)
+            // Sets which button to highlight
+            .setTarget(buttonId).setPrimaryText(R.string.guide_primary_prompt)
+            .setSecondaryText(button.promptTextId).setBackButtonDismissEnabled(false).setBackgroundColour(
+                R.color.black
+            ).setPromptStateChangeListener { _, state ->
+                // If the user clicks anywhere on the screen, we move to the next button
+                if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED || state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED) {
+                    // Recursive call by removing the head of the list for which the prompt
+                    // has already been shown
+                    showButtonPrompt(buttons.drop(1), showNextGuide)
+                }
+            }.show()
     }
 
-    private fun scrollTo(buttonId : Int) {
+    private fun scrollTo(buttonId: Int) {
         val sv = findViewById<HorizontalScrollView>(R.id.horizontalScrollView)
         sv.requestChildFocus(findViewById(buttonId), findViewById(buttonId))
     }
@@ -264,7 +265,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
      */
     private fun setUpSearchView() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query : String) : Boolean {
+            override fun onQueryTextSubmit(query: String): Boolean {
                 if (searchBarElements.contains(query)) {
                     adapter.filter.filter(query)
                 } else {
@@ -273,7 +274,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
                 return false
             }
 
-            override fun onQueryTextChange(newText : String) : Boolean {
+            override fun onQueryTextChange(newText: String): Boolean {
                 if (newText.isEmpty()) {
                     // When the text field of the search bar is empty, the list is hidden
                     listView.visibility = View.GONE
@@ -298,8 +299,8 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
      * Sets up the drawer layout used for the side bar menu.
      */
     private fun setUpDrawerLayout() {
-        val drawerLayout : DrawerLayout = findViewById(R.id.drawer_layout)
-        val navView : NavigationView = findViewById(R.id.nav_view)
+        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
+        val navView: NavigationView = findViewById(R.id.nav_view)
 
         toggle =
             ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_open, R.string.drawer_closed)
@@ -310,7 +311,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
 
         navView.setNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.nav_profile -> goToProfileActivity(findViewById(R.id.button_profile))
+                R.id.nav_profile -> goToButtonActivity(button_profile)
                 R.id.nav_home -> findViewById<DrawerLayout>(R.id.drawer_layout).closeDrawer(
                     GravityCompat.START
                 )
@@ -322,10 +323,10 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     /**
      * Starts activity based on the entered element in the search field.
      */
-    private fun findActivity(listItem : String, view : View) {
+    private fun findActivity(listItem: String, view: View) {
         when (listItem) {
-            PROFILE -> goToProfileActivity(view)
-            CPR_RATE -> goToCprActivity(view)
+            PROFILE -> goToButtonActivity(view)
+            CPR_RATE -> goToButtonActivity(view)
             TUTORIAL -> viewPresentation(view)
             HOSPITALS -> goToNearbyHospitals(view)
             PHARMACIES -> goToNearbyPharmacies(view)
@@ -337,7 +338,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
      * @param message message to display
      * @param view the view under which the message is shown
      */
-    private fun displayMessage(message : String, view : View) {
+    private fun displayMessage(message: String, view: View) {
         Snackbar.make(window.decorView.rootView, message, Snackbar.LENGTH_SHORT).setAnchorView(view)
             .show()
     }
@@ -347,24 +348,23 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         displayMessage(getString(R.string.match_not_found), horizontalScrollView)
     }
 
-    private fun displaySelectedItem(item : String) {
+    private fun displaySelectedItem(item: String) {
         val horizontalScrollView = findViewById<View>(R.id.horizontalScrollView)
         displayMessage("Selected item : $item", horizontalScrollView)
     }
 
-    override fun onOptionsItemSelected(item : MenuItem) : Boolean {
-        if(item.itemId == R.id.button_tutorial){
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.button_tutorial) {
             viewPresentation(findViewById<View>(android.R.id.content).rootView)
-        }
-        else if(item.itemId == R.id.toolbar_settings){
-            goToSettings(findViewById<View>(android.R.id.content))
+        } else if (item.itemId == R.id.toolbar_settings) {
+            goToSettings(findViewById(android.R.id.content))
         }
 
         return if (toggle.onOptionsItemSelected(item)) true else super.onOptionsItemSelected(item)
     }
 
     override fun onRequestPermissionsResult(
-        requestCode : Int, permissions : Array<String>, grantResults : IntArray
+        requestCode: Int, permissions: Array<String>, grantResults: IntArray
     ) {
         if (requestCode != LOCATION_PERMISSION_REQUEST_CODE) {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -391,38 +391,23 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         }
     }
 
-    override fun onCreateOptionsMenu(menu : Menu?) : Boolean {
-        menuInflater.inflate(R.menu.menu_toolbar,menu)
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_toolbar, menu)
         return true
     }
 
     /** Starts the activity by sending intent */
-    private fun goToActivity(ActivityName : Class<*>?) {
+    private fun goToActivity(ActivityName: Class<*>?) {
         val intent = Intent(this, ActivityName)
         startActivity(intent)
-    }
-
-    /** Called when the user taps the cpr rate button */
-    fun goToCprActivity(view : View) {
-        goToActivity(CprRateActivity::class.java)
-    }
-
-    /** Called when the user taps the help page button */
-    fun goToHelpParametersActivity(view : View) {
-        goToActivity(HelpeeSelectionActivity::class.java)
     }
 
     /**
      * Called when the user taps on the info button
      * Starts the presentation of the app
      */
-    private fun viewPresentation(view : View) {
+    private fun viewPresentation(view: View) {
         goToActivity(PresArrivalActivity::class.java)
-    }
-
-    /** Called when the user taps the profile page button */
-    fun goToProfileActivity(view : View) {
-        goToActivity(MedicalCardActivity::class.java)
     }
 
     /** Called when the user taps the my skills button */
@@ -431,30 +416,37 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     }
 
     /** Called when the user taps the nearby hospitals button */
-    fun goToNearbyHospitals(view : View) {
+    fun goToNearbyHospitals(view: View) {
         goToNearbyUtilities(resources.getString(R.string.nearby_hospitals))
     }
 
     /** Called when the user taps the nearby pharmacies button */
-    fun goToNearbyPharmacies(view : View) {
+    fun goToNearbyPharmacies(view: View) {
         goToNearbyUtilities(resources.getString(R.string.nearby_phamacies))
     }
 
     /** Called when the user taps the first aid tips button */
-    fun goToFirstAid(view : View) {
-        goToActivity(FirstAidActivity::class.java)
-    }
-
-    /** Called when the user taps the first aid tips button */
-    fun goToSettings(view: View) {
+    private fun goToSettings(view: View) {
         goToActivity(SettingsActivity::class.java)
     }
 
+
+    /**
+     * Called whenever a user clicks a button in the activity, launches the button's corresponding
+     * activity (as defined in buttonToActivity), only used for buttons that directly launch an
+     * activity
+     * @param view The button that was clicked
+     */
+    fun goToButtonActivity(view: View) {
+        // If the view isn't one of the buttons, don't do anything
+        buttonToActivity[view]?.let { goToActivity(it) }
+    }
+
     /** Called when the user taps the professional portal  button */
-    fun goToProfessionalPortal(view : View) {
+    fun goToProfessionalPortal(view: View) {
         val db = databaseOf(PRO_USERS)
         db.getObject(SignInActivity.userUid.toString(), ProUser::class.java).handle { _, err ->
-            if(err != null){
+            if (err != null) {
                 // If there is no proof of the status of the current user in the database, launch the verification process
                 goToActivity(VerificationActivity::class.java)
                 return@handle
@@ -464,7 +456,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         }
     }
 
-    private fun goToNearbyUtilities(utility : String) {
+    private fun goToNearbyUtilities(utility: String) {
         val intent = Intent(this, NearbyUtilitiesActivity::class.java).apply {
             putExtra(EXTRA_NEARBY_UTILITIES, utility)
         }
@@ -481,14 +473,18 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     }
 }
 
-private class MainPageButton(private val buttonId : Int, private val isInScrollView : Boolean) {
-
-    fun isInScrollView() : Boolean {
-        return isInScrollView
-    }
-
-    fun getButtonId() : Int {
-        return buttonId
-    }
-
-}
+/**
+ * Data class that represents the main page buttons and some information about them (the fact that
+ * they are in the scroll view as well as the prompt that should appear for them in the guide) to be
+ * able to directly get the information on that button
+ * @param buttonId The button's id
+ * @param isInScrollView If the button appears in the scroll view (the scrolling window in the middle
+ * of the main page activity)
+ * @param promptTextId The text that should be shown when the guide does an explanation for that
+ *  button
+ */
+private data class MainPageButton(
+    val buttonId: Int,
+    val isInScrollView: Boolean,
+    val promptTextId: Int
+)
