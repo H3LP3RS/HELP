@@ -9,6 +9,7 @@ import com.github.h3lp3rs.h3lp.EXTRA_USER_ROLE
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
+import com.github.h3lp3rs.h3lp.messaging.Conversation.Companion.createAndSendKeyPair
 import com.github.h3lp3rs.h3lp.messaging.Messenger.HELPEE
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
@@ -65,8 +66,11 @@ class RecentMessagesActivity : AppCompatActivity() {
         fun onChildAdded(conversationId : String) {
             val helper = HelperConversation(conversationId)
             adapter.add(helper)
-            idToItem[conversationId] = helper
 
+            // Create the key pair used to encrypt the conversation from end-to-end
+            createAndSendKeyPair(conversationId, HELPEE)
+
+            idToItem[conversationId] = helper
         }
         // Reference to the database of the conversation ids send by the helpers who agreed to
         // provide help
