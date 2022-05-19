@@ -42,4 +42,9 @@ class FirstAidActivity : AppCompatActivity() {
         // If the view isn't one of the buttons, don't do anything
         buttonToActivity[view]?.let { goToActivity(it) }
     }
+
+    /** Called when the user taps the back button */
+    fun goToMainActivity(view: View) {
+        goToActivity(MainPageActivity::class.java)
+    }
 }

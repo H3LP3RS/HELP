@@ -2,7 +2,7 @@ package com.github.h3lp3rs.h3lp.dataclasses
 
 import com.github.h3lp3rs.h3lp.forum.ForumCategory
 
-class MedicalType(val categories: List<ForumCategory>) {
+class MedicalType(private val categories: List<ForumCategory>) {
 
     /**
      * Returns the fact that this medical type has the given category

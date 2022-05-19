@@ -131,7 +131,7 @@
                             android:layout_height="@dimen/image_button_home_page"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="@dimen/margin_image_inside_layout"
-                            android:background="@drawable/hospital"
+                            android:background="@drawable/hospital2"
                             android:contentDescription="@string/hospital_button"
                             android:onClick="goToNearbyHospitals" />
 
@@ -171,8 +171,9 @@
                             android:layout_height="@dimen/image_button_home_page"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="@dimen/margin_image_inside_layout"
-                            android:background="@drawable/defibrillator"
-                            android:contentDescription="@string/defibrillator_button" />
+                            android:background="@drawable/defibrillator2"
+                            android:contentDescription="@string/defibrillator_button"
+                            android:onClick="goToNearbyDefibrillators"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -211,7 +212,7 @@
                             android:layout_height="@dimen/image_button_home_page"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="@dimen/margin_image_inside_layout"
-                            android:background="@drawable/pharmacy"
+                            android:background="@drawable/pharmacy2"
                             android:contentDescription="@string/pharmacy_button"
                             android:onClick="goToNearbyPharmacies"
                             tools:ignore="TooDeepLayout,ImageContrastCheck" />
@@ -309,6 +310,7 @@
 
                 </RelativeLayout>
 
+                <!-- Sixth button in scroll view -->
                 <RelativeLayout
                     android:layout_width="@dimen/scroll_view_outside_layout"
                     android:layout_height="@dimen/scroll_view_outside_layout"
@@ -347,6 +349,46 @@
                     </LinearLayout>
 
                 </RelativeLayout>
+
+                <!-- Seventh button in scroll view -->
+                <RelativeLayout
+                    android:layout_width="@dimen/scroll_view_outside_layout"
+                    android:layout_height="@dimen/scroll_view_outside_layout"
+                    android:background="@drawable/round_style"
+                    android:backgroundTint="@color/teal_400"
+                    android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="@dimen/scroll_view_inside_layout"
+                    android:layout_height="@dimen/scroll_view_inside_layout"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/round_style"
+                    android:backgroundTint="@color/white"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/button_forum"
+                        android:layout_width="@dimen/image_button_home_page"
+                        android:layout_height="@dimen/image_button_home_page"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/margin_image_inside_layout"
+                        android:background = "@drawable/question"
+                        android:contentDescription="@string/professional_portal"
+                        android:onClick="goToForumActivity" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/scroll_view_margin_text"
+                        android:text="@string/forum"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/icon_font"
+                        android:textStyle="bold" />
+                </LinearLayout>
+                </RelativeLayout>
+
+
             </LinearLayout>
 
         </HorizontalScrollView>

@@ -21,8 +21,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.H3LP">
         <activity
-                android:name=".professional.ProfessionalTypeSelection"
-                android:exported="false" />
+            android:name=".RatingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".professional.ProfessionalTypeSelection"
+            android:exported="false" />
         <activity
             android:name=".forum.ForumCategoriesActivity"
             android:exported="false" />
@@ -69,8 +72,8 @@
             android:name=".firstaid.HeartAttackActivity"
             android:exported="false" />
         <activity
-                android:name=".firstaid.AllergyActivity"
-                android:exported="false" />
+            android:name=".firstaid.AllergyActivity"
+            android:exported="false" />
         <activity
             android:name=".FirstAidActivity"
             android:exported="true" />

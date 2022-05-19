@@ -14,7 +14,7 @@ import java.util.concurrent.CompletableFuture
  * in actuality, they are all on the same Firebase database but are different children on it to
  * allow us to separate the database into its different uses
  */
-internal class FireDatabase(path: String) : Database {
+class FireDatabase(path : String) : Database {
 
     private val db: DatabaseReference = Firebase
         .database("https://h3lp-signin-default-rtdb.europe-west1.firebasedatabase.app/")
