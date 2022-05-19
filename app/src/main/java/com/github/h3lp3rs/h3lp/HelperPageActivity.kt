@@ -14,6 +14,7 @@ import com.github.h3lp3rs.h3lp.dataclasses.Helper
 import com.github.h3lp3rs.h3lp.messaging.ChatActivity
 import com.github.h3lp3rs.h3lp.messaging.Conversation
 import com.github.h3lp3rs.h3lp.messaging.Conversation.Companion.UNIQUE_CONVERSATION_ID
+import com.github.h3lp3rs.h3lp.messaging.Conversation.Companion.createAndSendKeyPair
 import com.github.h3lp3rs.h3lp.messaging.EXTRA_CONVERSATION_ID
 import com.github.h3lp3rs.h3lp.messaging.Messenger.HELPER
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
@@ -161,6 +162,9 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             // Sending the conversation id to the person in need of help (share the
             // conversation id)
             conversationIdsDb.addToObjectsListConcurrently(emergencyId, Int::class.java, it)
+
+            // Create the key pair used to encrypt the conversation from end-to-end
+            createAndSendKeyPair(it.toString(), HELPER)
 
             // Creating a conversation on that new unique conversation id
             conversation = Conversation(it.toString(), HELPER)
