@@ -41,6 +41,15 @@ enum class Storages {
                 storage.ls.clearAll()
             }
         }
+
+        /**
+         * disables online sync for all storages. Typically used for guests.
+         */
+        fun disableOnlineSync() {
+            for (s in values()) {
+                s.setOnlineSync(false)
+            }
+        }
     }
 
     /**

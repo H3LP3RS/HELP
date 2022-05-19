@@ -1,11 +1,11 @@
 package com.github.h3lp3rs.h3lp.storage
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
 import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.getUid
-import com.google.firebase.auth.FirebaseAuth
+import com.github.h3lp3rs.h3lp.storage.Storages.Companion.SyncPref
 import com.google.gson.Gson
 import org.json.JSONObject
 import java.lang.Boolean.parseBoolean
@@ -14,20 +14,30 @@ import java.lang.Boolean.parseBoolean
  * Implementation of a local storage to store data locally. Not meant for
  * direct use.
  */
-class LocalStorage(private val path: String, context: Context) {
-    private val pref = context.getSharedPreferences(path, AppCompatActivity.MODE_PRIVATE)
+class LocalStorage(private val path: String, val context: Context) {
+    private val pref = context.getSharedPreferences(path, MODE_PRIVATE)
     private val editor = pref.edit()
-    private val enableOnlineSync= parseBoolean(
-        context.getSharedPreferences(Storages.SyncPref, AppCompatActivity.MODE_PRIVATE)
-            .getString(path, "true"))
 
+    /**
+     * Checks whether a storage is meant to be synced online or not. Is
+     * re-evaluated everytime because the behaviour can change at run time
+     * depending on the user's desire.
+     * @return true if the storage should be synced online and false otherwise.
+     * Default value is true
+     */
+    private fun isOnlineSyncEnabled(): Boolean {
+        return parseBoolean(
+            context.getSharedPreferences(SyncPref, MODE_PRIVATE).getString(path, "false")
+        )
+    }
 
     /**
      * Update online parameters if needed
-     * @throws NullPointerException if the user is not authenticated AND online sync is enabled.
+     * @throws NullPointerException if the user is not authenticated AND online
+     * sync is enabled.
      */
     fun pull(){
-        if (enableOnlineSync) {
+        if (isOnlineSyncEnabled()) {
             // Need to be authenticated if online sync is enabled
             val uid = getUid()!!
             val db = databaseOf(PREFERENCES)
@@ -36,7 +46,6 @@ class LocalStorage(private val path: String, context: Context) {
             }
         }
     }
-
 
     /**
      * Delete online data synchronized with the preferences
@@ -61,7 +70,7 @@ class LocalStorage(private val path: String, context: Context) {
      * Pushes the cached updates to the online storage in a JSON format.
      */
     fun push() {
-        if (enableOnlineSync) {
+        if (isOnlineSyncEnabled()) {
             val uid = getUid()!!
             val db = databaseOf(PREFERENCES)
 
