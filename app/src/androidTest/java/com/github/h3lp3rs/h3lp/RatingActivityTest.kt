@@ -44,6 +44,5 @@ class RatingActivityTest: H3lpAppTest() {
         ratingDb.getObject(USER_TEST_ID,Rating::class.java).thenAccept {
             assertEquals(it.comment, TEST_COMMENT)
         }
-
     }
 }
