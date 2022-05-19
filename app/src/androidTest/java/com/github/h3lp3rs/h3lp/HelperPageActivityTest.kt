@@ -29,6 +29,7 @@ import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
+import junit.framework.TestCase
 import junit.framework.TestCase.assertNotNull
 import junit.framework.TestCase.assertTrue
 import org.hamcrest.Matchers.allOf
@@ -157,8 +158,10 @@ class HelpPageActivityTest : H3lpAppTest() {
             ).get()
 
             // retrieve the public key sent on the database
-            val key = databaseOf(MESSAGES).getString(publicKeyPath(conversationIds[conversationIds.size - 1].toString(), HELPER.name)).get()
-            assertNotNull(key)
+            databaseOf(MESSAGES)
+                .getString(publicKeyPath(conversationIds[conversationIds.size - 1].toString(), HELPER.name))
+                .thenAccept(TestCase::assertNotNull)
+
         }
     }
 

@@ -104,7 +104,7 @@ class Conversation(
 
     /**
      * Adds a listener on the conversation, the listener is triggered when the conversation is deleted
-     * @param onDeletedConversation Callback called when deleted
+     * @param onDeletedConversation Callback called when the conversation deleted
      */
     fun deleteConversationListener(onDeletedConversation: (key: String) -> Unit) {
         database.addEventListener(null, String::class.java, null) { key ->
@@ -120,7 +120,12 @@ class Conversation(
         }
     }
 
-    fun retrieveDecryptedMessage(encryptedMessage: Message): Message {
+    /**
+     * Auxiliary function to retrieve a message from its encrypted value
+     * @param encryptedMessage the full encrypted message
+     * @return the full decrypted message
+     */
+    private fun retrieveDecryptedMessage(encryptedMessage: Message): Message {
         val decryptedMessage = if (allMessages.containsKey(encryptedMessage.message)) {
             allMessages[encryptedMessage.message]!!
         } else {
@@ -130,6 +135,11 @@ class Conversation(
         return Message(encryptedMessage.messenger, decryptedMessage)
     }
 
+    /**
+     * Auxiliary function to decrypt a message using the user's private key
+     * @param encryptedMessage message to decrypt
+     * @return the decrypted message's content
+     */
     private fun decryptMessage(encryptedMessage: Message): String {
         val keyStore = KeyStore.getInstance(ANDROID_KEY_STORE)
         keyStore.load(null)
@@ -152,16 +162,18 @@ class Conversation(
 
 
     /**
-     * Load the cache if exist
+     * Load the cache if it exists
      * @warning should be called in onCreate method of the activity
      */
-    fun loadCache() {
+    fun loadChatCache() {
         val storage = storageOf(Storages.MSG_CACHE)
+
         val cache: HashMap<String, String> = storage.getObjectOrDefault(
             conversationId,
             HashMap::class.java,
             HashMap<String, String>()
         ) as HashMap<String, String>
+
         allMessages.putAll(cache)
     }
 
@@ -170,9 +182,10 @@ class Conversation(
      * Save the cache for the conversation
      * @warning should be called in the onPause method of the activity
      */
-    fun saveCache() {
+    fun saveChatCache() {
         Storages.MSG_CACHE.setOnlineSync(false)
         val storage = storageOf(Storages.MSG_CACHE)
+
         storage.setObject(conversationId, HashMap::class.java, allMessages)
     }
 
@@ -188,6 +201,8 @@ class Conversation(
          * Auxiliary function to get the key alias.
          * @param conversationId conversationId corresponding to the conversation
          * we want the key for
+         * @param messengerName name of the current messenger
+         * @return the corresponding key alias
          */
         fun keyAlias(conversationId: String, messengerName: String): String {
             return "CONVERSATION_KEY_${conversationId}_${messengerName}"

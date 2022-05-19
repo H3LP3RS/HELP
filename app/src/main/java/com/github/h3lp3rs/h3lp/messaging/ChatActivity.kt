@@ -42,7 +42,7 @@ class ChatActivity : AppCompatActivity() {
         conversationId = intent.getStringExtra(EXTRA_CONVERSATION_ID) ?: conversationId
         conversation = Conversation(conversationId!!, userRole!!)
 
-        conversation.loadCache()
+        conversation.loadChatCache()
 
 
         recycler_view_chat.adapter = adapter
@@ -122,7 +122,7 @@ class ChatActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        conversation.saveCache()
+        conversation.saveChatCache()
     }
 
 }
