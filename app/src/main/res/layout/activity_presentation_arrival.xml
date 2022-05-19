@@ -90,6 +90,8 @@
         android:text="@string/scroll1on3"
         android:textColor="@color/light_gray"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
