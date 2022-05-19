@@ -83,6 +83,14 @@ class SignedInUserTest : H3lpAppTest() {
         intended(hasComponent(PresArrivalActivity::class.java.name))
     }
 
+    @Test
+    fun guestUserMovesToPresentation() {
+        storageOf(USER_COOKIE).setBoolean(globalContext.getString(R.string.KEY_USER_AGREE), false)
+        onView(withId(R.id.noSignInText)).perform(click())
+
+        intended(hasComponent(PresArrivalActivity::class.java.name))
+    }
+
     @After
     fun cleanUp() {
         release()

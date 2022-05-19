@@ -80,4 +80,22 @@ class SettingsActivityTest : H3lpAppTest() {
         }
     }
 
+    @Test
+    fun checkBoxWithoutSignInShowsPopUp() {
+        // Not signed in
+        userUid = null
+
+        launch().use {
+            initIntentAndCheckResponse()
+
+            onView(withId(R.id.user_cookie_checkbox)).perform(click())
+
+            // We can close the popup => It's displayed :)
+            onView(withId(R.id.close_popup_button)).perform(click())
+
+            release()
+        }
+
+    }
+
 }

@@ -154,6 +154,24 @@ class HelpPageActivityTest : H3lpAppTest() {
         }
     }
 
+    @Test
+    fun showsPopUpWhenNotSignedIn(){
+        // Not signed in
+        userUid = null
+
+        launchAndDo {
+
+            // We can close the popup => It's displayed :)
+            onView(withId(R.id.close_popup_button)).perform(click())
+
+            intended(
+                allOf(
+                    hasComponent(MainPageActivity::class.java.name)
+                )
+            )
+        }
+    }
+
     /* Forge an emergency situation */
     private fun setupEmergencyAndDo(action: () -> Unit) {
         // Forge the right intent

@@ -10,6 +10,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
+import android.widget.CompoundButton
+import android.widget.CompoundButton.OnCheckedChangeListener
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import com.github.h3lp3rs.h3lp.signin.GoogleSignInAdapter.getCreationDate
@@ -28,6 +30,25 @@ class SettingsActivity : AppCompatActivity() {
         loadSyncPref()
         findViewById<TextView>(R.id.unique_id_text).text = getUid()
         findViewById<TextView>(R.id.user_since_text).text = getCreationDate()
+
+        enforceSignInToCheck(R.id.medical_info_checkbox)
+        enforceSignInToCheck(R.id.user_cookie_checkbox)
+        enforceSignInToCheck(R.id.my_skills_checkbox)
+    }
+
+    /**
+     * Adds a listener so that a checkbox cannot be checked unless the user
+     * is signed in.
+     * @param id the id of the check box
+     */
+    private fun enforceSignInToCheck(id: Int) {
+        val checkBox = findViewById<CheckBox>(id)
+        checkBox.setOnCheckedChangeListener { _: CompoundButton, b: Boolean ->
+            if (getUid() == null) {
+                checkBox.isChecked = false
+                showSignInPopUp()
+            }
+        }
     }
 
     /**
@@ -77,11 +98,7 @@ class SettingsActivity : AppCompatActivity() {
      * @param id the id of the checkbox
      */
     private fun check(toggle: Boolean, id: Int) {
-        if (getUid() == null) {
-            showSignInPopUp()
-        } else {
-            findViewById<CheckBox>(id).isChecked = toggle
-        }
+        findViewById<CheckBox>(id).isChecked = toggle
     }
 
     /**
