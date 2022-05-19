@@ -101,6 +101,7 @@ class SignInActivity : AppCompatActivity() {
                     userUid = signInClient.getUid()
                     // Only get the first name for privacy reasons
                     username = getInstance().currentUser?.displayName?.substringBefore(" ")
+                    
                     saveAuthentication()
                     checkToSAndLaunchIfNotAcceptedElseMain()
                 }
