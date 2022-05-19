@@ -1,21 +1,32 @@
 package com.github.h3lp3rs.h3lp.forum
 
 import android.content.Intent
-import androidx.test.core.app.ActivityScenario.*
-import androidx.test.core.app.ApplicationProvider
+import androidx.test.core.app.ActivityScenario.launch
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.replaceText
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.H3lpAppTest.Companion.USER_TEST_ID
 import com.github.h3lp3rs.h3lp.R
+import com.github.h3lp3rs.h3lp.database.Database
+import com.github.h3lp3rs.h3lp.database.Databases.PRO_USERS
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
+import com.github.h3lp3rs.h3lp.database.MockDatabase
 import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.forumOf
 import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.mockForum
 import com.github.h3lp3rs.h3lp.forum.ForumCategory.TRAUMATOLOGY
 import com.github.h3lp3rs.h3lp.forum.ForumPostsActivity.Companion.selectedPost
+import com.github.h3lp3rs.h3lp.professional.ProUser
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.setName
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import junit.framework.Assert.assertEquals
+import org.hamcrest.Matchers.not
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -26,10 +37,11 @@ const val ANSWER_TEST = "answer"
 
 @RunWith(AndroidJUnit4::class)
 class ForumAnswersActivityTest {
-    private lateinit var forum: Forum
+    private lateinit var forum : Forum
+    private lateinit var proUsersDb : Database
 
     private val launchIntent = Intent(
-        ApplicationProvider.getApplicationContext(), ForumAnswersActivity::class.java
+        getApplicationContext(), ForumAnswersActivity::class.java
     ).apply {
         putExtra(EXTRA_FORUM_CATEGORY, CATEGORY_TEST_STRING)
     }
@@ -39,10 +51,17 @@ class ForumAnswersActivityTest {
         setName(USER_TEST_ID)
         mockForum()
         forum = forumOf(TRAUMATOLOGY)
+        globalContext = getApplicationContext()
+        userUid = USER_TEST_ID
+        setDatabase(PRO_USERS, MockDatabase())
+        proUsersDb = databaseOf(PRO_USERS)
     }
 
     @Test
     fun addNewAnswerWorks() {
+        val proUser = ProUser(USER_TEST_ID, USER_TEST_ID, "", "", "", "", "")
+        proUsersDb.setObject(USER_TEST_ID, ProUser::class.java, proUser)
+        
         forum.newPost("", QUESTION_TEST,isPost = false).thenAccept { post ->
             selectedPost = post
 
@@ -60,6 +79,33 @@ class ForumAnswersActivityTest {
                 }.join()
             }
         }.join()
+    }
+
+    @Test
+    fun simpleUserCantAnswerPost() {
+        proUsersDb.delete(USER_TEST_ID)
+        forum.newPost("", QUESTION_TEST,isPost = false).thenAccept { post ->
+            selectedPost = post
+
+            launch<ForumAnswersActivity>(launchIntent).use {
+
+                onView(withId(R.id.text_view_enter_answer)).check(
+                    matches(
+                        not(
+                            isDisplayed()
+                        )
+                    )
+                )
+                onView(withId(R.id.add_answer_button)).check(
+                    matches(
+                        not(
+                            isDisplayed()
+                        )
+                    )
+                )
+
+            }
+        }
     }
 
     companion object {
