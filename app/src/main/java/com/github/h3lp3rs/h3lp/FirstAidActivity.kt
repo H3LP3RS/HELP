@@ -40,4 +40,9 @@ class FirstAidActivity : AppCompatActivity() {
     fun goToAsthmaActivity(view: View) {
         goToActivity(AsthmaActivity::class.java)
     }
+
+    /** Called when the user taps the back button */
+    fun goToMainActivity(view: View) {
+        goToActivity(MainPageActivity::class.java)
+    }
 }
