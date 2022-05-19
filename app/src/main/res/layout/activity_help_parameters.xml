@@ -19,16 +19,15 @@
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
         android:layout_marginEnd="2dp"
-        android:layout_marginBottom="60dp"
+        android:background="@drawable/kit_button_selector"
+        android:backgroundTint="#60FFFFFF"
+        android:backgroundTintMode="screen"
         android:checked="false"
         android:filterTouchesWhenObscured="false"
-        android:textOff="@string/first_aid_kit"
-        android:background="@drawable/first_aid_kit"
-        android:backgroundTint="#E0FFFFFF"
-        android:backgroundTintMode="src_over"
+        android:fontFamily="@font/visbycf_bold"
         android:textFontWeight="900"
-        android:textOn="@string/button_selected"
-        app:layout_constraintBottom_toTopOf="@+id/help_params_call_button"
+        android:textOff="@string/first_aid_kit"
+        android:textOn="@string/first_aid_kit"
         app:layout_constraintEnd_toStartOf="@+id/selectMedsButton5"
         app:layout_constraintStart_toEndOf="@+id/selectMedsButton3"
         app:layout_constraintTop_toBottomOf="@+id/selectMedsButton1" />
@@ -40,15 +39,14 @@
         android:layout_marginStart="25dp"
         android:layout_marginTop="2dp"
         android:layout_marginEnd="2dp"
-        android:layout_marginBottom="60dp"
-        android:checked="false"
-        android:textOff="@string/cpr"
-        android:textOn="@string/button_selected"
-        android:background="@drawable/cardio"
-        android:backgroundTint="#D0FFFFFF"
+        android:background="@drawable/cardio_button_selector"
+        android:backgroundTint="#60ffffff"
         android:backgroundTintMode="src_over"
+        android:checked="false"
+        android:fontFamily="@font/visbycf_bold"
+        android:textOff="@string/cpr"
+        android:textOn="@string/cpr"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/help_params_call_button"
         app:layout_constraintEnd_toStartOf="@+id/selectMedsButton4"
         app:layout_constraintHorizontal_bias="0.848"
         app:layout_constraintStart_toStartOf="parent"
@@ -62,19 +60,20 @@
         android:layout_marginTop="224dp"
         android:layout_marginEnd="2dp"
         android:layout_marginBottom="2dp"
-        android:checked="false"
-        android:textOff="@string/epipen"
-        android:textOn="@string/button_selected"
-        android:background="@drawable/epipen"
-        android:backgroundTint="#CFFFFFFF"
+        android:background="@drawable/epipen_button_selector"
+        android:backgroundTint="#60ffffff"
         android:backgroundTintMode="src_over"
+        android:checked="false"
+        android:fontFamily="@font/visbycf_bold"
+        android:textOff="@string/epipen"
+        android:textOn="@string/epipen"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/selectMedsButton3"
         app:layout_constraintEnd_toStartOf="@+id/selectMedsButton1"
         app:layout_constraintHorizontal_bias="0.7"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.787" >
+        app:layout_constraintVertical_bias="0.787">
 
     </ToggleButton>
 
@@ -85,15 +84,15 @@
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
         android:layout_marginEnd="25dp"
-        android:layout_marginBottom="60dp"
-        android:checked="false"
-        android:textOff="@string/med_pro"
-        android:textOn="@string/button_selected"
-        android:background="@drawable/doctor"
-        android:backgroundTint="#DFFFFFFF"
+        android:background="@drawable/doctor_button_selector"
+        android:backgroundTint="#60FFFFFF"
         android:backgroundTintMode="src_over"
+        android:checked="false"
+        android:fontFamily="@font/visbycf_bold"
+        android:textOff="@string/med_pro"
+        android:textOn="@string/med_pro"
+        android:textSize="14sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/help_params_call_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/selectMedsButton4"
         app:layout_constraintTop_toBottomOf="@+id/selectMedsButton2" />
@@ -106,13 +105,14 @@
         android:layout_marginTop="224dp"
         android:layout_marginEnd="25dp"
         android:layout_marginBottom="2dp"
+        android:background="@drawable/insulin_button_selector"
+        android:backgroundTint="#60ffffff"
+        android:backgroundTintMode="src_over"
         android:button="@drawable/select_meds_button"
         android:checked="false"
+        android:fontFamily="@font/visbycf_bold"
         android:textOff="@string/Insulin"
-        android:textOn="@string/button_selected"
-        android:background="@drawable/insuline"
-        android:backgroundTint="#AFFFFFFF"
-        android:backgroundTintMode="src_over"
+        android:textOn="@string/Insulin"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/selectMedsButton5"
         app:layout_constraintEnd_toEndOf="parent"
@@ -128,12 +128,13 @@
         android:layout_marginTop="224dp"
         android:layout_marginEnd="2dp"
         android:layout_marginBottom="2dp"
-        android:checked="false"
-        android:textOff="@string/asthma_med"
-        android:textOn="@string/button_selected"
-        android:background="@drawable/inhaler"
-        android:backgroundTint="#DFFFFFFF"
+        android:background="@drawable/inhaler_button_selector"
+        android:backgroundTint="#60FFFFFF"
         android:backgroundTintMode="src_over"
+        android:checked="false"
+        android:fontFamily="@font/visbycf_bold"
+        android:textOff="@string/asthma_med"
+        android:textOn="@string/asthma_med"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/selectMedsButton4"
         app:layout_constraintEnd_toStartOf="@+id/selectMedsButton2"
@@ -141,78 +142,93 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.777" />
 
-    <ImageView
-        android:id="@+id/help_params_call_button"
-        android:layout_width="60dp"
-        android:layout_height="70dp"
-        android:layout_centerInParent="true"
-        android:layout_marginStart="76dp"
-        android:layout_marginBottom="80dp"
-        android:contentDescription="@string/phone_icon_description"
-        android:onClick="emergencyCall"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/emergency_call"
-        tools:ignore="MissingConstraints,RedundantDescriptionCheck" />
-
-    <Button
-        android:id="@+id/help_params_search_button"
-        android:layout_width="145dp"
-        android:layout_height="77dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="68dp"
-        android:backgroundTint="#DD1818"
-        android:onClick="searchHelp"
-        android:text="@string/search_help_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.531"
-        app:layout_constraintStart_toEndOf="@+id/help_params_call_button" />
-
-    <TextView
-        android:id="@+id/call_button_description_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="44dp"
-        android:text="@string/call_emergency_button"
-        android:textColor="#FF0000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/help_params_call_button"
-        app:layout_constraintVertical_bias="0.0" />
-
     <TextView
         android:id="@+id/help_breath_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/visbycf_bold"
         android:text="@string/keep_calm_meds_selection_msg"
         android:textAlignment="center"
         android:textAllCaps="true"
-        android:textColor="@color/teal_400"
-        android:textStyle="bold"
+        android:textColor="@color/persimmon"
         android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.129"
-        />
+        app:layout_constraintVertical_bias="0.129" />
 
 
     <TextView
         android:id="@+id/location_information"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
+        android:fontFamily="@font/visbycf_medium"
         android:text="@string/current_location"
+        android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/help_breath_text"
         app:layout_constraintBottom_toTopOf="@+id/selectMedsButton1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/help_breath_text"
         app:layout_constraintVertical_bias="0.2" />
+
+    <LinearLayout
+        android:layout_width="409dp"
+        android:layout_height="223dp"
+        android:layout_marginTop="90dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/selectMedsButton4"
+        tools:layout_editor_absoluteX="2dp">
+
+        <LinearLayout
+            android:layout_width="212dp"
+            android:layout_height="175dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/help_params_call_button"
+                android:layout_height="70dp"
+                android:layout_width="70dp"
+                android:layout_gravity="center"
+                android:contentDescription="@string/phone_icon_description"
+                android:onClick="emergencyCall"
+                app:srcCompat="@drawable/emergency_call"
+                tools:ignore="MissingConstraints,RedundantDescriptionCheck" />
+
+            <TextView
+                android:id="@+id/call_button_description_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/visbycf_medium"
+                android:text="@string/call_emergency_button"
+                android:textColor="@color/persimmon" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/help_params_search_button"
+                android:layout_width="145dp"
+                android:layout_height="77dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="68dp"
+                android:backgroundTint="@color/persimmon"
+                android:fontFamily="@font/visbycf_medium"
+                android:onClick="searchHelp"
+                android:text="@string/search_help_button"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

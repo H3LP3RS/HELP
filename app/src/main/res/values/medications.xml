@@ -5,7 +5,7 @@
     <string name="med_pro">Medical Professional</string>
     <string name="Insulin">Insulin</string>
     <string name="asthma_med">Ventolin</string>
-    <string name="first_aid_kit">First help kit and Bandages</string>
+    <string name="first_aid_kit">First help kit</string>
     <string-array name="help_meds_and_skills">
         <item>@string/epipen</item>
         <item>@string/cpr</item>

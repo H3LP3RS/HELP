@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item>
+        <shape android:shape="rectangle">
+            <corners
+                android:radius="10dp"
+                />
+            <gradient
+                android:angle="45"
+                android:centerX="70%"
+                android:centerColor="@color/persimmon"
+                android:startColor="@color/persimmon"
+                android:endColor="@color/yellow_orange"
+                android:type="linear"
+                />
+            <padding
+                android:left="0dp"
+                android:top="0dp"
+                android:right="0dp"
+                android:bottom="0dp"
+                />
+            <size
+                android:width="64dp"
+                android:height="64dp"
+                />
+        </shape>
+    </item>
+    <item
+        android:drawable="@drawable/epipen"
+        android:bottom="6dp"
+        android:left="6dp"
+        android:right="6dp"
+        android:top="6dp"
+        />
+
+</layer-list>
