@@ -142,7 +142,7 @@
                 android:layout_marginTop="@dimen/margin_image_inside_layout"
                 android:background="@drawable/heart_attack"
                 android:contentDescription="@string/heart_attack_tuto_button"
-                android:onClick="goToActivity"
+                android:onClick="goToTutorial"
                 tools:ignore="TooDeepLayout,ImageContrastCheck" />
 
             <TextView
@@ -176,7 +176,7 @@
                 android:layout_marginTop="@dimen/margin_image_inside_layout"
                 android:background="@drawable/epipen"
                 android:contentDescription="@string/allergies_tuto_button"
-                android:onClick="goToActivity"
+                android:onClick="goToTutorial"
                 tools:ignore="TooDeepLayout,ImageContrastCheck" />
 
             <TextView
@@ -213,7 +213,7 @@
                 android:layout_marginTop="@dimen/margin_image_inside_layout"
                 android:background="@drawable/defibrillator"
                 android:contentDescription="@string/defibrillator_tuto_button"
-                android:onClick="goToActivity"
+                android:onClick="goToTutorial"
                 tools:ignore="TooDeepLayout,ImageContrastCheck" />
 
             <TextView
@@ -248,6 +248,7 @@
                 android:layout_marginTop="@dimen/margin_image_inside_layout"
                 android:background="@drawable/asthma"
                 android:contentDescription="@string/asthma_attack_tuto_button"
+                android:onClick="goToTutorial"
                 tools:ignore="TooDeepLayout,ImageContrastCheck" />
 
             <TextView
@@ -286,7 +287,6 @@
                 android:layout_marginTop="50dp"
                 android:contentDescription="@string/phone_icon_description"
                 android:foregroundGravity="center"
-                android:onClick="emergencyCall"
                 app:srcCompat="@drawable/emergency_call"
                 tools:ignore="MissingConstraints,RedundantDescriptionCheck" />
 
