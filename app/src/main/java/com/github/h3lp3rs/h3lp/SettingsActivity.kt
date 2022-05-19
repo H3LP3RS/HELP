@@ -43,7 +43,7 @@ class SettingsActivity : AppCompatActivity() {
      */
     private fun enforceSignInToCheck(id: Int) {
         val checkBox = findViewById<CheckBox>(id)
-        checkBox.setOnCheckedChangeListener { _: CompoundButton, b: Boolean ->
+        checkBox.setOnCheckedChangeListener { _: CompoundButton, _: Boolean ->
             if (getUid() == null) {
                 checkBox.isChecked = false
                 showSignInPopUp()

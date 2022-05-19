@@ -133,7 +133,6 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         startAppGuide()
     }
 
-
     /**
      * Opens a popup asking the user to sign in to continue.
      */
@@ -498,15 +497,19 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
 
     /** Called when the user taps the professional portal  button */
     fun goToProfessionalPortal(view: View) {
-        val db = databaseOf(PRO_USERS)
-        db.getObject(SignInActivity.userUid.toString(), ProUser::class.java).handle { _, err ->
-            if (err != null) {
-                // If there is no proof of the status of the current user in the database, launch the verification process
-                goToActivity(VerificationActivity::class.java)
-                return@handle
+        if (getUid() == null) {
+            showSignInPopUp()
+        } else {
+            val db = databaseOf(PRO_USERS)
+            db.getObject(SignInActivity.userUid.toString(), ProUser::class.java).handle { _, err ->
+                if (err != null) {
+                    // If there is no proof of the status of the current user in the database, launch the verification process
+                    goToActivity(VerificationActivity::class.java)
+                    return@handle
+                }
+                // Otherwise, redirect to the professional main page
+                goToActivity(ProMainActivity::class.java)
             }
-            // Otherwise, redirect to the professional main page
-            goToActivity(ProMainActivity::class.java)
         }
     }
 

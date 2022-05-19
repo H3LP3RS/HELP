@@ -387,4 +387,8 @@
     <string name="forum_guide_prompt">Here you can ask any medical questions you have</string>
     <string name="toggle_switch_enable_notifications">Enable notifications for this post</string>
     <string name="date">Date</string>
+    <string name="sign_in_required">Sign in Required</string>
+    <string name="sign_in_popup_text">This feature is only accessible for signed in users. \n\n Sign in now to get help or help people in need.</string>
+    <string name="cancel">Cancel</string>
+    <string name="sign_in">Sign in</string>
 </resources>

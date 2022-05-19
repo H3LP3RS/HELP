@@ -111,7 +111,6 @@ class MainPageTestActivity : H3lpAppTest() {
         // Not signed in:
         userUid = null
 
-
         launchAndDo {
             onView(withId(R.id.HELP_button)).perform(click())
 

@@ -43,7 +43,7 @@ enum class Storages {
         }
 
         /**
-         * disables online sync for all storages. Typically used for guests.
+         * Disables online sync for all storages. Typically used for guests.
          */
         fun disableOnlineSync() {
             for (s in values()) {

@@ -19,7 +19,7 @@ class LocalStorage(private val path: String, val context: Context) {
     private val editor = pref.edit()
 
     /**
-     * Checks whether a storage is meant to be synced online or not. Is
+     * Checks whether a storage is meant to be synced online or not. It's
      * re-evaluated everytime because the behaviour can change at run time
      * depending on the user's desire.
      * @return true if the storage should be synced online and false otherwise.
