@@ -383,4 +383,8 @@
     <string name="upload_failed">"Upload failed. Try again!"</string>
     <string name="helper">Helper</string>
     <string name="without_sign_in_text"><u>Continue without sign in</u></string>
+    <string name="forum">Forum</string>
+    <string name="forum_guide_prompt">Here you can ask any medical questions you have</string>
+    <string name="toggle_switch_enable_notifications">Enable notifications for this post</string>
+    <string name="date">Date</string>
 </resources>

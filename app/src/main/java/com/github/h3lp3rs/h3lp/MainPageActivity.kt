@@ -20,10 +20,10 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
-import com.github.h3lp3rs.h3lp.notification.EmergencyListener
-import com.github.h3lp3rs.h3lp.database.Databases.PRO_USERS
-import com.github.h3lp3rs.h3lp.forum.FireForum
+import com.github.h3lp3rs.h3lp.forum.ForumCategoriesActivity
+import com.github.h3lp3rs.h3lp.forum.ForumCategory
 import com.github.h3lp3rs.h3lp.forum.ForumPostsActivity
+import com.github.h3lp3rs.h3lp.notification.EmergencyListener
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
 import com.github.h3lp3rs.h3lp.professional.ProMainActivity
 import com.github.h3lp3rs.h3lp.professional.ProUser
@@ -31,6 +31,7 @@ import com.github.h3lp3rs.h3lp.professional.VerificationActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.storage.LocalStorage
+import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.github.h3lp3rs.h3lp.storage.Storages.USER_COOKIE
 import com.google.android.material.navigation.NavigationView
@@ -58,7 +59,8 @@ private val mainPageButton = listOf(
     MainPageButton(R.id.button_defibrillator, true),
     MainPageButton(R.id.button_pharmacy, true),
     MainPageButton(R.id.button_first_aid, true),
-    MainPageButton(R.id.button_cpr, true)
+    MainPageButton(R.id.button_cpr, true),
+    MainPageButton(R.id.button_forum, true)
 )
 
 private val buttonsGuidePrompts = mapOf(
@@ -69,7 +71,8 @@ private val buttonsGuidePrompts = mapOf(
     R.id.button_defibrillator to R.string.defibrillators_guide_prompt,
     R.id.button_pharmacy to R.string.pharmacies_guide_prompt,
     R.id.button_first_aid to R.string.first_aid_guide_prompt,
-    R.id.button_cpr to R.string.cpr_guide_prompt
+    R.id.button_cpr to R.string.cpr_guide_prompt,
+    R.id.button_forum to R.string.forum_guide_prompt
 )
 val numberOfButtons = mainPageButton.size
 
@@ -119,7 +122,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         }
 
         // Start listening to forum posts
-        FireForum(emptyList()).sendIntentNotificationOnNewPosts(
+        ForumCategory.root().sendIntentNotificationOnNewPosts(
             globalContext, ForumPostsActivity::class.java
         )
         EmergencyListener.activateListeners()
@@ -133,7 +136,8 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
      */
     private fun showExplanationAndRequestPermissions() {
         val dialog = Dialog(this)
-        val emergencyCallPopup = layoutInflater.inflate(R.layout.localization_permission_popup, null)
+        val emergencyCallPopup =
+            layoutInflater.inflate(R.layout.localization_permission_popup, null)
 
         dialog.setCancelable(false)
         dialog.setContentView(emergencyCallPopup)
@@ -142,10 +146,11 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         dialog.create()
 
         // pass button
-        emergencyCallPopup.findViewById<Button>(R.id.accept_permission_popup_button).setOnClickListener {
-            dialog.dismiss()
-            requestPermissions(arrayOf(ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
-        }
+        emergencyCallPopup.findViewById<Button>(R.id.accept_permission_popup_button)
+            .setOnClickListener {
+                dialog.dismiss()
+                requestPermissions(arrayOf(ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+            }
 
         dialog.show()
     }
@@ -353,10 +358,9 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     }
 
     override fun onOptionsItemSelected(item : MenuItem) : Boolean {
-        if(item.itemId == R.id.button_tutorial){
+        if (item.itemId == R.id.button_tutorial) {
             viewPresentation(findViewById<View>(android.R.id.content).rootView)
-        }
-        else if(item.itemId == R.id.toolbar_settings){
+        } else if (item.itemId == R.id.toolbar_settings) {
             goToSettings(findViewById<View>(android.R.id.content))
         }
 
@@ -392,7 +396,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     }
 
     override fun onCreateOptionsMenu(menu : Menu?) : Boolean {
-        menuInflater.inflate(R.menu.menu_toolbar,menu)
+        menuInflater.inflate(R.menu.menu_toolbar, menu)
         return true
     }
 
@@ -405,6 +409,11 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     /** Called when the user taps the cpr rate button */
     fun goToCprActivity(view : View) {
         goToActivity(CprRateActivity::class.java)
+    }
+
+    /** Called when the user taps the forum button */
+    fun goToForumActivity(view : View) {
+        goToActivity(ForumCategoriesActivity::class.java)
     }
 
     /** Called when the user taps the help page button */
@@ -426,7 +435,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     }
 
     /** Called when the user taps the my skills button */
-    fun goToMySkillsActivity(view: View) {
+    fun goToMySkillsActivity(view : View) {
         goToActivity(MySkillsActivity::class.java)
     }
 
@@ -446,7 +455,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     }
 
     /** Called when the user taps the first aid tips button */
-    fun goToSettings(view: View) {
+    private fun goToSettings(view : View) {
         goToActivity(SettingsActivity::class.java)
     }
 
@@ -454,7 +463,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     fun goToProfessionalPortal(view : View) {
         val db = databaseOf(PRO_USERS)
         db.getObject(SignInActivity.userUid.toString(), ProUser::class.java).handle { _, err ->
-            if(err != null){
+            if (err != null) {
                 // If there is no proof of the status of the current user in the database, launch the verification process
                 goToActivity(VerificationActivity::class.java)
                 return@handle

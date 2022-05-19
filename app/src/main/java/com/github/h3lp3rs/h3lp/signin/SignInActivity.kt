@@ -18,6 +18,7 @@ import com.github.h3lp3rs.h3lp.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.disableOnlineSync
+import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth.getInstance
