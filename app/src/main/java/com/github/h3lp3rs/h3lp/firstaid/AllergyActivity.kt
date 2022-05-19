@@ -8,6 +8,7 @@ import android.widget.MediaController
 import android.widget.VideoView
 import com.github.h3lp3rs.h3lp.FirstAidActivity
 import com.github.h3lp3rs.h3lp.R
+import kotlinx.android.synthetic.main.activity_allergy.*
 
 class AllergyActivity : AppCompatActivity() {
     private val pathPrefix = "android.resource://"
@@ -22,7 +23,7 @@ class AllergyActivity : AppCompatActivity() {
         mediaController.setAnchorView(epipenVideo)
         epipenVideo.setMediaController(mediaController)
 
-        findViewById<ImageButton>(R.id.allergy_back_button).setOnClickListener{
+        allergy_back_button.setOnClickListener{
             val intent = Intent(this, FirstAidActivity::class.java)
             startActivity(intent)
         }

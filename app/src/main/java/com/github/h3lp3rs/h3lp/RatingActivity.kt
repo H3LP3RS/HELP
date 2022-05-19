@@ -10,11 +10,13 @@ import android.widget.TextView
 import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.dataclasses.Rating
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
+import kotlinx.android.synthetic.main.activity_forum_answers.*
 
 class RatingActivity : AppCompatActivity() {
     private lateinit var ratingBar: RatingBar
     // the number of full stars in the rating bar
-    private lateinit var value: TextView
+    private lateinit var ratingValue: TextView
     private val prefix = "Value: "
 
     @SuppressLint("SetTextI18n")
@@ -23,12 +25,12 @@ class RatingActivity : AppCompatActivity() {
         setContentView(R.layout.activity_rating)
 
         ratingBar = findViewById(R.id.rating_bar)
-        value = findViewById(R.id.value)
-        value.text = prefix + ratingBar.rating
+        ratingValue = findViewById(R.id.value)
+        ratingValue.text = prefix + ratingBar.rating
 
         ratingBar.onRatingBarChangeListener =
             RatingBar.OnRatingBarChangeListener { _, rating, _ ->
-                value.text = "$prefix $rating"
+                ratingValue.text = "$prefix $rating"
             }
 
         findViewById<Button>(R.id.send_feedback_button).setOnClickListener { sendFeedback() }
@@ -40,10 +42,11 @@ class RatingActivity : AppCompatActivity() {
     private fun sendFeedback() {
         val comment = findViewById<EditText>(R.id.comment).text.toString()
         val rating = Rating(ratingBar.rating, comment)
-        SignInActivity.getName()
+        userUid
             ?.let {
                 Databases.databaseOf(Databases.RATINGS).setObject(it, Rating::class.java, rating)
             }
+        findViewById<EditText>(R.id.comment).text.clear()
     }
 }
 

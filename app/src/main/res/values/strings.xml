@@ -233,7 +233,6 @@
     <string name="drawer_closed">Close navigation drawer</string>
     <string name="h3lp3rs">H3LP3RS</string>
     <string name="about_us">About us</string>
-    <string name="rate_us">Rate us</string>
     <string name="logout">Logout</string>
     <string name="profile">Profile</string>
     <string name="login">Login</string>
@@ -383,4 +382,9 @@
     <string name="upload_failed">"Upload failed. Try again!"</string>
     <string name="helper">Helper</string>
     <string name="basic_portal">Basic portal</string>
+    <string name="we_hope_you_had_a_great_experience_using_our_app">We hope you had a great experience using our app</string>
+    <string name="rate_us">Rate us</string>
+    <string name="value">Value</string>
+    <string name="leave_a_comment">Leave a comment</string>
+    <string name="send_feedback">Send feedback</string>
 </resources>

@@ -8,6 +8,7 @@ import android.widget.MediaController
 import android.widget.VideoView
 import com.github.h3lp3rs.h3lp.FirstAidActivity
 import com.github.h3lp3rs.h3lp.R
+import kotlinx.android.synthetic.main.activity_aed.*
 
 class AedActivity : AppCompatActivity() {
     private val pathPrefix = "android.resource://"
@@ -22,7 +23,7 @@ class AedActivity : AppCompatActivity() {
         mediaController.setAnchorView(aedVideo)
         aedVideo.setMediaController(mediaController)
 
-        findViewById<ImageButton>(R.id.aed_back_button).setOnClickListener{
+        aed_back_button.setOnClickListener{
             val intent = Intent(this, FirstAidActivity::class.java)
             startActivity(intent)
         }
