@@ -16,6 +16,7 @@ import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
  */
 enum class Databases {
     PREFERENCES, EMERGENCIES, NEW_EMERGENCIES, MESSAGES, CONVERSATION_IDS, PRO_USERS, FORUM, RATINGS;
+
     var db: Database? = null // Var to enable test-time mocking
     companion object {
         /**

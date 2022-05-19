@@ -387,4 +387,8 @@
     <string name="value">Value</string>
     <string name="leave_a_comment">Leave a comment</string>
     <string name="send_feedback">Send feedback</string>
+    <string name="forum">Forum</string>
+    <string name="forum_guide_prompt">Here you can ask any medical questions you have</string>
+    <string name="toggle_switch_enable_notifications">Enable notifications for this post</string>
+    <string name="date">Date</string>
 </resources>
