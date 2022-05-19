@@ -12,6 +12,7 @@ import com.github.h3lp3rs.h3lp.dataclasses.Rating
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import kotlinx.android.synthetic.main.activity_forum_answers.*
+import kotlinx.android.synthetic.main.activity_rating.*
 
 class RatingActivity : AppCompatActivity() {
     private lateinit var ratingBar: RatingBar
@@ -37,16 +38,16 @@ class RatingActivity : AppCompatActivity() {
     }
 
     /**
-     * Store feedback in the database
+     * Stores the user's feedback in the database
      */
     private fun sendFeedback() {
-        val comment = findViewById<EditText>(R.id.comment).text.toString()
-        val rating = Rating(ratingBar.rating, comment)
+        val feedbackComment = comment.text.toString()
+        val rating = Rating(ratingBar.rating, feedbackComment)
         userUid
             ?.let {
                 Databases.databaseOf(Databases.RATINGS).setObject(it, Rating::class.java, rating)
             }
-        findViewById<EditText>(R.id.comment).text.clear()
+       comment.text.clear()
     }
 }
 
