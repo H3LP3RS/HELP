@@ -11,6 +11,7 @@ import com.github.h3lp3rs.h3lp.dataclasses.*
 import com.github.h3lp3rs.h3lp.dataclasses.BloodType.ABn
 import com.github.h3lp3rs.h3lp.dataclasses.Gender.Female
 import com.github.h3lp3rs.h3lp.dataclasses.Gender.Male
+import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation.Companion.ADULT_AGE
 import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation.Companion.MAX_HEIGHT
 import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation.Companion.MAX_WEIGHT
 import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
@@ -132,8 +133,9 @@ open class H3lpAppTest {
         val VALID_MEDICAL_INFO = MedicalInformation(
             MAX_HEIGHT -1,
             MAX_WEIGHT -1,
-            if(nextBoolean()) Male else Female, // no gender is more valid than the other
-            Calendar.getInstance().get(Calendar.YEAR),
+            if(nextBoolean()) Male else Female, // No gender is more valid than the other
+            // Make it so that the user is an adult
+            Calendar.getInstance().get(Calendar.YEAR) - ADULT_AGE,
             "",
             "",
             "",
