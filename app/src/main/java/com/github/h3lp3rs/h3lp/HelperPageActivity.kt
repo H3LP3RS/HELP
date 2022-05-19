@@ -69,7 +69,9 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         val destinationLong = bundle.getDouble(EXTRA_DESTINATION_LONG)
 
         // Require user to sign in
-        showSignInPopUp()
+        if(userUid == null) {
+            showSignInPopUp()
+        }
 
         // Initialize the current user's location
         locationHelper.requireAndHandleCoordinates(this) {
