@@ -248,7 +248,6 @@
                 android:layout_marginTop="@dimen/margin_image_inside_layout"
                 android:background="@drawable/asthma"
                 android:contentDescription="@string/asthma_attack_tuto_button"
-                android:onClick="goToActivity"
                 tools:ignore="TooDeepLayout,ImageContrastCheck" />
 
             <TextView
