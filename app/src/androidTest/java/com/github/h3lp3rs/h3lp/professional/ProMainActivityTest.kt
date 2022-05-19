@@ -80,9 +80,14 @@ class ProMainActivityTest : H3lpAppTest() {
         clickingOnButtonWorksAndSendsIntent(ForumCategoriesActivity::class.java, withId(R.id.faq_button))
     }
 
-    /*@Test
+    @Test
     fun basicPortalButtonWorks() {
         clickingOnButtonWorksAndSendsIntent(MainPageActivity::class.java, withId(R.id.basic_portal_button))
-    }*/
+    }
+
+    @Test
+    fun notificationsButtonWorks() {
+        clickingOnButtonWorksAndSendsIntent(ProfessionalTypeSelection::class.java, withId(R.id.categories_selection_button))
+    }
 
 }

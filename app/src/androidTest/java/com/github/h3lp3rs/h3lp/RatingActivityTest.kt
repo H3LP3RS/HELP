@@ -24,7 +24,7 @@ private const val USER_TEST_NAME = ""
 private const val TEST_COMMENT = "comment"
 
 @RunWith(AndroidJUnit4::class)
-class RatingActivityTest {
+class RatingActivityTest: H3lpAppTest() {
     @get:Rule
     val testRule = ActivityScenarioRule(
         RatingActivity::class.java

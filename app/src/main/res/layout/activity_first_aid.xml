@@ -17,6 +17,7 @@
             android:layout_width="?actionBarSize" >
 
             <ImageView
+                android:id="@+id/first_aid_back_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
