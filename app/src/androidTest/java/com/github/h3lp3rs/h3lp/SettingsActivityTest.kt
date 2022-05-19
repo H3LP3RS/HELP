@@ -78,8 +78,6 @@ class SettingsActivityTest : H3lpAppTest() {
             assert(db.getString("MEDICAL_INFO/$USER_TEST_ID").isCompletedExceptionally)
 
         }
-
-
     }
 
 }

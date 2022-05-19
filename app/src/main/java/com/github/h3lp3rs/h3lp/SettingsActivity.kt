@@ -1,10 +1,14 @@
 package com.github.h3lp3rs.h3lp
 
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.CheckBox
 import android.widget.TextView
 import androidx.annotation.RequiresApi
@@ -73,7 +77,11 @@ class SettingsActivity : AppCompatActivity() {
      * @param id the id of the checkbox
      */
     private fun check(toggle: Boolean, id: Int) {
-        findViewById<CheckBox>(id).isChecked = toggle
+        if (getUid() == null) {
+            showSignInPopUp()
+        } else {
+            findViewById<CheckBox>(id).isChecked = toggle
+        }
     }
 
     /**
@@ -90,5 +98,35 @@ class SettingsActivity : AppCompatActivity() {
      */
     private fun getBooleanFromSwitch(id: Int): Boolean {
         return findViewById<CheckBox>(id).isChecked
+    }
+
+    /**
+     * Opens a popup asking the user to sign in to continue.
+     */
+    private fun showSignInPopUp() {
+        val dialog = Dialog(this)
+        val signInPopup =
+            layoutInflater.inflate(R.layout.sign_in_required_pop_up, null)
+
+        dialog.setCancelable(false)
+        dialog.setContentView(signInPopup)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        dialog.create()
+
+        // Cancel button
+        signInPopup.findViewById<Button>(R.id.close_popup_button)
+            .setOnClickListener {
+                dialog.dismiss()
+            }
+
+        // Sign in button
+        signInPopup.findViewById<Button>(R.id.sign_in_popup_button)
+            .setOnClickListener {
+                dialog.dismiss()
+                startActivity(Intent(this, SignInActivity::class.java))
+            }
+
+        dialog.show()
     }
 }

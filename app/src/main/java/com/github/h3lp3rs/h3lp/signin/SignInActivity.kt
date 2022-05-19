@@ -147,5 +147,6 @@ class SignInActivity : AppCompatActivity() {
         fun setName(newUsername: String) {
             username = newUsername
         }
+
     }
 }
