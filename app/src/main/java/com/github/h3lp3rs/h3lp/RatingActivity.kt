@@ -35,7 +35,7 @@ class RatingActivity : AppCompatActivity() {
     }
 
     /**
-     * Store feedback in the database
+     * Stores the user's feedback in the database
      */
     private fun sendFeedback() {
         val comment = findViewById<EditText>(R.id.comment).text.toString()
