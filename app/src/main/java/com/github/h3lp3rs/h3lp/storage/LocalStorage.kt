@@ -36,9 +36,8 @@ class LocalStorage(private val path: String, context: Context) {
     fun pull() {
         if (enableOnlineSync) {
             // Need to be authenticated if online sync is enabled
-            if (SignIn.get().isSignedIn()) {
-                // The uid can't be null if the user is signed in
-                val uid = getUid()!!
+            val uid = getUid()
+            if (uid != null) {
                 val db = databaseOf(PREFERENCES)
                 db.getString("$path/$uid").exceptionally { JSONObject().toString() }
                     .thenAccept {
