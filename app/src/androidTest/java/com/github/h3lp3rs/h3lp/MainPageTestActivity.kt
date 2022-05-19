@@ -135,7 +135,7 @@ class MainPageTestActivity : H3lpAppTest() {
             )
         }
     }
-
+/*
     @Test
     fun clickingOnProfileButtonWorksAndSendsIntent() {
         launchAndDo {
@@ -145,7 +145,7 @@ class MainPageTestActivity : H3lpAppTest() {
                 false
             )
         }
-    }
+    }*/
 
     @Test
     fun clickingOnHelpButtonWorksAndSendsIntent() {
