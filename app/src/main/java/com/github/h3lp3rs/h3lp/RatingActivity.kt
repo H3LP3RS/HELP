@@ -13,7 +13,7 @@ import com.github.h3lp3rs.h3lp.signin.SignInActivity
 
 class RatingActivity : AppCompatActivity() {
     private lateinit var ratingBar: RatingBar
-    // the number of full stars in the rating bar
+    // The number of full stars in the rating bar
     private lateinit var value: TextView
     private val prefix = "Value: "
 
