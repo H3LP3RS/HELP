@@ -3,20 +3,20 @@ package com.github.h3lp3rs.h3lp
 import com.github.h3lp3rs.h3lp.util.GPathJSONParser
 import com.google.android.gms.maps.model.LatLng
 import junit.framework.Assert.assertEquals
+import junit.framework.Assert.assertNull
 import org.json.JSONObject
 import org.junit.Test
 
 class GPathJsonParserTest {
     @Test
-    fun parseResultReturnsEmptyListWithWrongInputs() {
+    fun parseResultReturnsNullWithWrongInputs() {
         val parser = GPathJSONParser
-        val expected = listOf<LatLng>()
 
         val emptyJson = JSONObject("{}")
-        assertEquals(expected, parser.parseResult(emptyJson))
+        assertNull(parser.parseResult(emptyJson))
 
         val wrongJson = JSONObject("{results: 0.0}")
-        assertEquals(expected, parser.parseResult(wrongJson))
+        assertNull(parser.parseResult(wrongJson))
     }
 
 
