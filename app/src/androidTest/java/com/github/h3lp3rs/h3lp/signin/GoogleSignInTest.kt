@@ -33,6 +33,8 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.anyOrNull
 import org.mockito.Mockito.`when` as When
+import com.github.h3lp3rs.h3lp.storage.Storages.SIGN_IN
+
 
 @RunWith(AndroidJUnit4::class)
 class GoogleSignInTest : H3lpAppTest() {
@@ -58,7 +60,7 @@ class GoogleSignInTest : H3lpAppTest() {
         val signInMock = mock(SignInInterface::class.java)
         When(signInMock.isSignedIn()).thenReturn(false)
 
-        val userSignIn = storageOf(Storages.SIGN_IN)
+        val userSignIn = storageOf(SIGN_IN)
         userSignIn.setBoolean(globalContext.getString(R.string.KEY_USER_SIGNED_IN), false)
 
         testRule.scenario.onActivity { activity ->
