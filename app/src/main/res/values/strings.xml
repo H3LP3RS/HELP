@@ -321,7 +321,7 @@
     <string name="emergency_contact">Emergency Contact</string>
     <string name="ambulance_call">Ambulance call</string>
     <string name="call_emergency_contact">call emergency contact</string>
-    <string name="type_your_message">Type your message...</string>
+    <string name="type_your_message">Type your message…</string>
     <string name="sender_s_text">Sender\'s text</string>
     <string name="receiver_s_text">Receiver\'s text</string>
     <string name="latest_messages">"   Latest messages"</string>
@@ -358,5 +358,8 @@
     <string name="forum_theme_key">forumThemeKey</string>
     <string name="accept">Accept</string>
     <string name="refuse">Refuse</string>
+    <string name="call_option">Who do you want to call?</string>
+    <string name="pass">Pass</string>
+    <string name="call_now">Call now</string>
 
 </resources>

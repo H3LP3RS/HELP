@@ -9,12 +9,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="10dp"
         android:fontFamily="@font/visbycf_medium"
-        android:text="@string/emergency_contact_title"
+        android:text="@string/call_option"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textColor="@color/dark_blue"
+        android:textColor="@color/dark_persimmon"
         android:textSize="20sp"
         android:textStyle="bold" />
 

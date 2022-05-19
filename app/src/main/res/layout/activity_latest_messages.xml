@@ -15,7 +15,7 @@
             android:layout_height="?attr/actionBarSize"
             android:layout_alignParentTop="true"
             android:layout_marginTop="7dp"
-            android:background="@drawable/teal_background"
+            android:background="@drawable/persimmon_background"
             android:elevation="5dp"
             android:gravity="center_vertical"
             android:text="@string/latest_messages"
