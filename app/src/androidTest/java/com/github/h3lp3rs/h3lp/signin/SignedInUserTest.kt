@@ -70,8 +70,8 @@ class SignedInUserTest : H3lpAppTest() {
 
     @Test
     fun guestUserMovesToPresentation() {
-        storageOf(USER_COOKIE).setBoolean(globalContext.getString(R.string.KEY_USER_AGREE), false)
-        onView(withId(R.id.noSignInText)).perform(click())
+        setUp(false)
+        userUid = null //TODO: does not actually test guest user...
 
         intended(hasComponent(PresArrivalActivity::class.java.name))
     }
