@@ -22,6 +22,10 @@ class SignInActivity : AppCompatActivity() {
     lateinit var signInClient : SignInInterface<AuthResult>
     private lateinit var userCookie: LocalStorage
     private lateinit var userSignIn: LocalStorage
+    private lateinit var USER_SIGNED_IN: String
+    private lateinit var USER_UID: String
+    private lateinit var USER_NAME: String
+
 
     private fun checkToSAndLaunchIfNotAcceptedElseMain() {
         // Check ToS agreement
@@ -41,9 +45,9 @@ class SignInActivity : AppCompatActivity() {
      */
     private fun offlineCheckIfSignedIn(){
         userSignIn = storageOf(Storages.SIGN_IN) // Fetch from storage
-        if(userSignIn.getBoolOrDefault(getString(R.string.KEY_USER_SIGNED_IN), false)){
-            userUid = userSignIn.getStringOrDefault(getString(R.string.KEY_USER_UID),"")
-            username = userSignIn.getStringOrDefault(getString(R.string.KEY_USER_NAME),"")
+        if(userSignIn.getBoolOrDefault(USER_SIGNED_IN, false)){
+            userUid = userSignIn.getStringOrDefault(USER_UID,"")
+            username = userSignIn.getStringOrDefault(USER_NAME,"")
             checkToSAndLaunchIfNotAcceptedElseMain()
         }
     }
@@ -52,9 +56,9 @@ class SignInActivity : AppCompatActivity() {
      * Save the user authentication information to the local storage
      */
     private fun saveAuthentication(){
-        userSignIn.setBoolean(getString(R.string.KEY_USER_SIGNED_IN), true)
-        userUid?.let { userSignIn.setString(getString(R.string.KEY_USER_UID), it) }
-        username?.let { userSignIn.setString(getString(R.string.KEY_USER_NAME), it) }
+        userSignIn.setBoolean(USER_SIGNED_IN, true)
+        userUid?.let { userSignIn.setString(USER_UID, it) }
+        username?.let { userSignIn.setString(USER_NAME, it) }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,6 +74,9 @@ class SignInActivity : AppCompatActivity() {
         }
         // Sign in local storage doesn't need online sync
         Storages.SIGN_IN.setOnlineSync(false)
+        USER_SIGNED_IN = getString(R.string.KEY_USER_SIGNED_IN)
+        USER_UID = getString(R.string.KEY_USER_UID)
+        USER_NAME = getString(R.string.KEY_USER_NAME)
         // Check if the user is already signed in
         offlineCheckIfSignedIn()
     }
@@ -79,7 +86,6 @@ class SignInActivity : AppCompatActivity() {
      */
     private fun launchSignIn(){
         signInClient = SignIn.get()
-        //checkIfSignedIn()
         val signInIntent = signInClient.signIn(this)
         resultLauncher.launch(signInIntent)
     }

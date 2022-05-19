@@ -11,7 +11,6 @@ enum class Storages(private var isFresh: Boolean) {
     USER_COOKIE(false), MEDICAL_INFO(false), SKILLS(false), EMERGENCIES_RECEIVED(false), FORUM_THEMES_NOTIFICATIONS(false), FORUM_CACHE(false), SIGN_IN(true);
 
     private val ls = LocalStorage(name, getGlobalCtx())
-    //private var isFresh = false
 
     companion object {
 
