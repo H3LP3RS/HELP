@@ -110,6 +110,7 @@ class MainPageTestActivity : H3lpAppTest() {
     fun pushingHelpButtonWithoutSignInShowsPopUp() {
         // Not signed in:
         userUid = null
+        USER_COOKIE.setOnlineSync(false)
 
         launchAndDo {
             onView(withId(R.id.HELP_button)).perform(click())
