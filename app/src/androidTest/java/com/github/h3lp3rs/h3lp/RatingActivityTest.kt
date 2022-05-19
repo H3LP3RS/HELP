@@ -20,7 +20,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-private const val USER_TEST_NAME = ""
 private const val TEST_COMMENT = "comment"
 
 @RunWith(AndroidJUnit4::class)
