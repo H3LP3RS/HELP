@@ -2,16 +2,21 @@ package com.github.h3lp3rs.h3lp.forum
 
 import android.content.Context
 import android.content.Intent
+import com.github.h3lp3rs.h3lp.dataclasses.MedicalType
 import com.github.h3lp3rs.h3lp.forum.data.ForumPostData
 import com.github.h3lp3rs.h3lp.notification.NotificationService
 import com.github.h3lp3rs.h3lp.notification.NotificationService.Companion.sendIntentNotification
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.getName
+import com.github.h3lp3rs.h3lp.storage.Storages
 import java.util.concurrent.CompletableFuture
 
 /**
  * Represents all the posts at one level path (or category), the posts are in chronological order
  */
 typealias CategoryPosts = Pair<Path, List<ForumPost>>
+
+const val THEME_KEY = "forumThemeKey"
 
 /**
  * The path to a forum, every sub-category / post is represented in a string, with the root of the
@@ -31,7 +36,7 @@ typealias Path = List<String>
 interface Forum {
 
     // The current path to the forum instance (pointer)
-    val path: Path
+    val path : Path
 
     //----------------------//
     //-- Action functions --//
@@ -41,9 +46,10 @@ interface Forum {
      * Creates a new post in the forum (at path level)
      * @param author The uid of the author
      * @param content The content of the post
+     * @param isPost Whether this is a post or a reply to a post
      * @return The newly created forum post
      */
-    fun newPost(author: String, content: String): CompletableFuture<ForumPost>
+    fun newPost(author : String, content : String, isPost : Boolean) : CompletableFuture<ForumPost>
 
     /**
      * Gets the entire post at the given relative path from here
@@ -51,7 +57,7 @@ interface Forum {
      * @param relativePath The relative path to the post
      * @return The forum post in the form of a future
      */
-    fun getPost(relativePath: Path): CompletableFuture<ForumPost>
+    fun getPost(relativePath : Path) : CompletableFuture<ForumPost>
 
 
     /**
@@ -60,7 +66,7 @@ interface Forum {
      * @param child The child where the post is located
      * @return The forum post in the form of a future
      */
-    fun getPost(child: String): CompletableFuture<ForumPost> {
+    fun getPost(child : String) : CompletableFuture<ForumPost> {
         return getPost(listOf(child))
     }
 
@@ -71,7 +77,7 @@ interface Forum {
      * Note: Kotlin not supporting pattern matching, using a recursive definition
      * is in reality more cumbersome
      */
-    fun getAll(): CompletableFuture<List<CategoryPosts>>
+    fun getAll() : CompletableFuture<List<CategoryPosts>>
 
     /**
      * Listens to all posts at this level and executes a common lambda on
@@ -81,30 +87,42 @@ interface Forum {
      * below it in the hierarchy)
      * @param action The action taken when a post change/add occurs
      */
-    fun listenToAll(action: (ForumPostData) -> Unit)
+    fun listenToAll(action : (ForumPostData) -> Unit)
 
 
     /**
-     * Sends a notification when there's a new post at this level or below. Upon clicking this
+     * Sends a notification when there's a new post at this level. Upon clicking this
      * notification, the intent will be triggered
      * @param ctx The context of the app
-     * @param createIntent A callback to create the intent to be called when clicking on the
-     * notification (it depends on the post id and its category for example to enable redirecting
-     * directly to the post)
+     * @param activityName The activity to launch
      */
     fun sendIntentNotificationOnNewPosts(
-        ctx: Context,
-        createIntent: (postId: String, category: ForumCategory) -> Intent
+        ctx : Context, activityName : Class<*>?
     ) {
         NotificationService.createNotificationChannel(SignInActivity.globalContext)
+        val enabledCategoriesNotifications = Storages.storageOf(Storages.FORUM_THEMES_NOTIFICATIONS)
+
         listenToAll { postData ->
-            val description = postData.content
-            val title = "New post in ${postData.category} from: ${postData.author}"
-            val intent = createIntent(postData.key, postData.category)
-            sendIntentNotification(ctx, title, description, intent)
+            val medicalType = enabledCategoriesNotifications.getObjectOrDefault(
+                THEME_KEY, MedicalType::class.java, null
+            )
+            medicalType?.let {
+                // Display the notification if the user has enabled this category's notifications,
+                // the post hadn't been posted by him and the post is actually a post and not a reply
+                if (medicalType.hasCategory(postData.category) && postData.author != getName() && postData.isPost) {
+                    val description = postData.content
+                    val title = "New post in ${postData.category} from: ${postData.author}"
+                    val intent = Intent(
+                        ctx, activityName
+                    ).apply {
+                        putExtra(EXTRA_FORUM_CATEGORY, postData.category.name)
+                    }
+                    sendIntentNotification(ctx, title, description, intent)
+                }
+
+            }
         }
     }
-
     /**
      * Sends a notification when a new post happens on this forum
      */
@@ -117,7 +135,7 @@ interface Forum {
      * Returns the root of the forum
      * @return The forum root
      */
-    fun root(): Forum
+    fun root() : Forum
 
     /**
      * Returns the child forum at the relative path from here
@@ -126,7 +144,7 @@ interface Forum {
      * @param relativePath The relative path to the child forum
      * @return The child forum
      */
-    fun child(relativePath: Path): Forum
+    fun child(relativePath : Path) : Forum
 
     /**
      * Overrides child with a single child instead of an entire relative path
@@ -134,7 +152,7 @@ interface Forum {
      * @param child The name of the child forum
      * @return The child forum
      */
-    fun child(child: String): Forum {
+    fun child(child : String) : Forum {
         return child(listOf(child))
     }
 
@@ -145,7 +163,7 @@ interface Forum {
      * Post -> corresponding category
      * @return The parent forum
      */
-    fun parent(): Forum
+    fun parent() : Forum
 
     companion object {
         private const val MAX_NOTIFICATION_LENGTH = 60

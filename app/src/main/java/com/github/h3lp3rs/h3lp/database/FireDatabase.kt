@@ -10,7 +10,7 @@ import java.util.concurrent.CompletableFuture
 /**
  * Implementation of a NoSQL external database based on Firebase
  */
-internal class FireDatabase(path : String) : Database {
+class FireDatabase(path : String) : Database {
 
     private val db : DatabaseReference =
         Firebase.database("https://h3lp-signin-default-rtdb.europe-west1.firebasedatabase.app/").reference.child(
@@ -209,7 +209,6 @@ internal class FireDatabase(path : String) : Database {
             override fun onChildChanged(snapshot : DataSnapshot, previousChildName : String?) {}
             override fun onChildMoved(snapshot : DataSnapshot, previousChildName : String?) {}
         }
-
 
         val key = if (childKey == null) {
             db.addChildEventListener(eventListener)

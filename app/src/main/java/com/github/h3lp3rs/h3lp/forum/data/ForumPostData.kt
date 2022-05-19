@@ -15,8 +15,9 @@ import java.time.ZonedDateTime
 data class ForumPostData(
     val author: String,
     val content: String,
-    val postTime: ZonedDateTime,
+    val postTime: String,
     val key: String,
     val repliesKey: String,
-    val category: ForumCategory
+    val category: ForumCategory,
+    val isPost : Boolean
 )
