@@ -407,7 +407,10 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="8dp"
             android:background="@color/light_gray"
             android:elevation="4dp"
             android:outlineProvider="bounds">
@@ -426,7 +429,8 @@
                     android:layout_marginTop="@dimen/margin_image_inside_layout"
                     android:background="@drawable/profile"
                     android:contentDescription="@string/profile_button"
-                    android:onClick="goToProfileActivity" />
+                    android:onClick="goToProfileActivity"
+                    tools:ignore="ImageContrastCheck,ImageContrastCheck" />
 
                 <TextView
                     android:layout_width="wrap_content"
