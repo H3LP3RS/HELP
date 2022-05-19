@@ -17,11 +17,10 @@ class FireForum(override val path: Path) : Forum {
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun newPost(author: String, content: String): CompletableFuture<ForumPost> {
-        var key = ""
         // Incrementing by 2 so that a post's replies key is always 1 more than a post's key (this
         // is also an optimization to avoid us requiring 2 calls to incrementAndGet)
         return rootForum.incrementAndGet(UNIQUE_POST_ID, 2).thenApply { postKey ->
-            key = postKey.toString()
+            val key = postKey.toString()
             val repliesKey = (postKey + 1).toString()
 
             val forumPostData = ForumPostData(

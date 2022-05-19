@@ -1,25 +1,28 @@
 package com.github.h3lp3rs.h3lp
+
 import com.github.h3lp3rs.h3lp.util.GDurationJSONParser
 import junit.framework.Assert.assertEquals
+import junit.framework.Assert.assertNull
 import org.json.JSONObject
 import org.junit.Test
 
 // Example of a time value returned by the directions api, it corresponds to 1 day, 3 hours and 2 mins
 // number of seconds
 const val NB_SECONDS = 97320
+
 // The corresponding number of seconds in text
 const val NB_SECONDS_TEXT = "1 day 3 hours 2 mins"
+
 class GDurationJSONParserTest {
     @Test
-    fun parseResultReturnsEmptyListWithWrongInputs() {
+    fun parseResultReturnsNullWithWrongInputs() {
         val parser = GDurationJSONParser
-        val expected = ""
 
         val emptyJson = JSONObject("{}")
-        assertEquals(expected, GDurationJSONParser.parseResult(emptyJson))
+        assertNull(parser.parseResult(emptyJson))
 
         val wrongJson = JSONObject("{results: 0.0}")
-        assertEquals(expected, GDurationJSONParser.parseResult(wrongJson))
+        assertNull(parser.parseResult(wrongJson))
     }
 
     @Test
