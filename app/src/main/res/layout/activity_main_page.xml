@@ -131,7 +131,7 @@
                             android:layout_height="@dimen/image_button_home_page"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="@dimen/margin_image_inside_layout"
-                            android:background="@drawable/hospital"
+                            android:background="@drawable/hospital2"
                             android:contentDescription="@string/hospital_button"
                             android:onClick="goToNearbyHospitals" />
 
@@ -171,8 +171,9 @@
                             android:layout_height="@dimen/image_button_home_page"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="@dimen/margin_image_inside_layout"
-                            android:background="@drawable/defibrillator"
-                            android:contentDescription="@string/defibrillator_button" />
+                            android:background="@drawable/defibrillator2"
+                            android:contentDescription="@string/defibrillator_button"
+                            android:onClick="goToNearbyDefibrillators"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -211,7 +212,7 @@
                             android:layout_height="@dimen/image_button_home_page"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="@dimen/margin_image_inside_layout"
-                            android:background="@drawable/pharmacy"
+                            android:background="@drawable/pharmacy2"
                             android:contentDescription="@string/pharmacy_button"
                             android:onClick="goToNearbyPharmacies"
                             tools:ignore="TooDeepLayout,ImageContrastCheck" />

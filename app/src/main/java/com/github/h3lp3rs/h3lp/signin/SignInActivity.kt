@@ -26,6 +26,11 @@ import com.google.firebase.auth.FirebaseAuth.getInstance
 class SignInActivity : AppCompatActivity() {
     lateinit var signInClient : SignInInterface<AuthResult>
     private lateinit var userCookie: LocalStorage
+    private lateinit var userSignIn: LocalStorage
+    private lateinit var USER_SIGNED_IN: String
+    private lateinit var USER_UID: String
+    private lateinit var USER_NAME: String
+
 
     private fun checkToSAndLaunchIfNotAcceptedElseMain() {
         // Check ToS agreement
@@ -43,12 +48,22 @@ class SignInActivity : AppCompatActivity() {
     /**
      * Check if the current user is already signed in and update activity accordingly
      */
-    private fun checkIfSignedIn() {
-        if (signInClient.isSignedIn()) {
-            userUid = signInClient.getUid()
-            username = getInstance().currentUser?.displayName?.substringBefore(" ")
+    private fun offlineCheckIfSignedIn(){
+        userSignIn = storageOf(Storages.SIGN_IN) // Fetch from storage
+        if(userSignIn.getBoolOrDefault(USER_SIGNED_IN, false)){
+            userUid = userSignIn.getStringOrDefault(USER_UID,"")
+            username = userSignIn.getStringOrDefault(USER_NAME,"")
             checkToSAndLaunchIfNotAcceptedElseMain()
         }
+    }
+
+    /**
+     * Save the user authentication information to the local storage
+     */
+    private fun saveAuthentication(){
+        userSignIn.setBoolean(USER_SIGNED_IN, true)
+        userUid?.let { userSignIn.setString(USER_UID, it) }
+        username?.let { userSignIn.setString(USER_NAME, it) }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,6 +84,13 @@ class SignInActivity : AppCompatActivity() {
             disableOnlineSync()
             checkToSAndLaunchIfNotAcceptedElseMain()
         }
+
+        // Sign in local storage doesn't need online sync
+        USER_SIGNED_IN = getString(R.string.KEY_USER_SIGNED_IN)
+        USER_UID = getString(R.string.KEY_USER_UID)
+        USER_NAME = getString(R.string.KEY_USER_NAME)
+        // Check if the user is already signed in
+        offlineCheckIfSignedIn()
     }
 
     /**
@@ -76,7 +98,6 @@ class SignInActivity : AppCompatActivity() {
      */
     private fun launchSignIn(){
         signInClient = SignIn.get()
-        checkIfSignedIn()
         val signInIntent = signInClient.signIn(this)
         resultLauncher.launch(signInIntent)
     }
@@ -98,6 +119,8 @@ class SignInActivity : AppCompatActivity() {
                     userUid = signInClient.getUid()
                     // Only get the first name for privacy reasons
                     username = getInstance().currentUser?.displayName?.substringBefore(" ")
+
+                    saveAuthentication()
 
                     // Enable online sync for meaningful storages:
                     SKILLS.setOnlineSync(true)
@@ -147,6 +170,5 @@ class SignInActivity : AppCompatActivity() {
         fun setName(newUsername: String) {
             username = newUsername
         }
-
     }
 }

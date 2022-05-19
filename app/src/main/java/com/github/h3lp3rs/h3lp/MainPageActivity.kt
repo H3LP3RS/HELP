@@ -348,9 +348,20 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         navView.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.nav_profile -> goToProfileActivity(findViewById(R.id.button_profile))
-                R.id.nav_home -> findViewById<DrawerLayout>(R.id.drawer_layout).closeDrawer(
-                    GravityCompat.START
-                )
+                R.id.nav_home -> {
+                    findViewById<DrawerLayout>(R.id.drawer_layout).closeDrawer(
+                        GravityCompat.START
+                    )
+                    // Only to deselect the home button
+                    goToActivity(MainPageActivity::class.java)
+                }
+                R.id.nav_settings -> goToActivity(SettingsActivity::class.java)
+                R.id.nav_about_us -> goToActivity(PresArrivalActivity::class.java)
+                R.id.nav_logout -> {
+                    SignIn.get().signOut()
+                    goToActivity(SignInActivity::class.java)
+                }
+                R.id.nav_rate_us -> goToActivity(RatingActivity::class.java)
             }
             true
         }
@@ -478,6 +489,11 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     /** Called when the user taps the nearby hospitals button */
     fun goToNearbyHospitals(view: View) {
         goToNearbyUtilities(resources.getString(R.string.nearby_hospitals))
+    }
+
+    /** Called when the user taps the nearby defibrillators button */
+    fun goToNearbyDefibrillators(view : View) {
+        goToNearbyUtilities(resources.getString(R.string.nearby_defibrillators))
     }
 
     /** Called when the user taps the nearby pharmacies button */

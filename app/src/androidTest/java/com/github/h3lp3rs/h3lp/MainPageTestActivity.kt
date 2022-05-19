@@ -198,6 +198,17 @@ class MainPageTestActivity : H3lpAppTest() {
     }
 
     @Test
+    fun clickingOnDefibrillatorsButtonWorksAndSendsIntent() {
+        launchAndDo {
+            clickingOnButtonWorksAndSendsIntent(
+                NearbyUtilitiesActivity::class.java,
+                withId(R.id.button_defibrillator),
+                true
+            )
+        }
+    }
+
+    @Test
     fun clickingOnFirstAidButtonWorksAndSendsIntent() {
         launchAndDo {
             clickingOnButtonWorksAndSendsIntent(
@@ -232,24 +243,25 @@ class MainPageTestActivity : H3lpAppTest() {
         }
     }
 
-    @Test
-    fun notNotifiedWhenHelpNeededAndTooFarAway() {
-        launchEmergency(
-            {
-                // Mock too far away behaviour
-                When(locationManagerMock.distanceFrom(anyOrNull(), anyOrNull())).thenReturn(
-                    CompletableFuture.completedFuture(2 * MAX_RESPONSE_DISTANCE)
-                )
-            }
-        ) {
-            val uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
-            // Should immediately receive a notification
-            uiDevice.wait(Until.hasObject(By.textStartsWith("H3LP")), 3000)
-            val notification =
-                uiDevice.findObject(By.text(globalContext.getString(R.string.emergency)))
-            // assertNull(notification)
-        }
-    }
+// Distance check was removed :/
+//    @Test
+//    fun notNotifiedWhenHelpNeededAndTooFarAway() {
+//        launchEmergency(
+//            {
+//                // Mock too far away behaviour
+//                When(locationManagerMock.distanceFrom(anyOrNull(), anyOrNull())).thenReturn(
+//                    CompletableFuture.completedFuture(2 * MAX_RESPONSE_DISTANCE)
+//                )
+//            }
+//        ) {
+//            val uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+//            // Should immediately receive a notification
+//            uiDevice.wait(Until.hasObject(By.textStartsWith("H3LP")), 3000)
+//            val notification =
+//                uiDevice.findObject(By.text(globalContext.getString(R.string.emergency)))
+//            assertNull(notification)
+//        }
+//    }
 
     private fun launchEmergency(before: () -> Unit, check: () -> Unit) {
         before()

@@ -1,13 +1,10 @@
 package com.github.h3lp3rs.h3lp.signin
 
 import android.content.Intent
+import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider.*
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.H3lpAppTest
 import com.github.h3lp3rs.h3lp.MainPageActivity
@@ -21,28 +18,20 @@ import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import org.junit.After
-import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
-import org.mockito.kotlin.anyOrNull
 import org.mockito.Mockito.`when` as When
 
 @RunWith(AndroidJUnit4::class)
 class SignedInUserTest : H3lpAppTest() {
 
-    @get:Rule
-    val testRule = ActivityScenarioRule(
-        SignInActivity::class.java
-    )
-
-    @Before
-    fun setUp() {
-        init()
+    private fun setUp(tosAccepted: Boolean){
+        val intent = Intent(
+            getApplicationContext(), SignInActivity::class.java
+        )
 
         globalContext = getApplicationContext()
         userUid = USER_TEST_ID
@@ -52,34 +41,27 @@ class SignedInUserTest : H3lpAppTest() {
 
         val signInMock = Mockito.mock(SignInInterface::class.java)
         When(signInMock.isSignedIn()).thenReturn(true)
+        val userSignIn = storageOf(SIGN_IN)
+        userSignIn.setBoolean(globalContext.getString(R.string.KEY_USER_SIGNED_IN), true)
+        userSignIn.setString(globalContext.getString(R.string.KEY_USER_UID), "")
+        userSignIn.setString(globalContext.getString(R.string.KEY_USER_NAME), "")
 
-        testRule.scenario.onActivity { activity ->
-            val intent = Intent(getApplicationContext(), activity.javaClass)
-            val taskMock = Mockito.mock(Task::class.java)
-
-            When(taskMock.isSuccessful).thenReturn(true)
-            When(taskMock.isComplete).thenReturn(true)
-            When(signInMock.signIn(activity)).thenReturn(intent)
-            When(signInMock.getUid()).thenReturn(USER_TEST_ID)
-            When(signInMock.authenticate(anyOrNull(), anyOrNull())).thenReturn(taskMock)
-        }
+        storageOf(USER_COOKIE).setBoolean(globalContext.getString(R.string.KEY_USER_AGREE), tosAccepted)
 
         SignIn.set(signInMock as SignInInterface<AuthResult>)
+        init()
+        ActivityScenario.launch<SignInActivity>(intent)
     }
 
-    @Test // TODO: Need authentication mocking
+    @Test
     fun signedInUserMovesToMainPageIfToSAccepted() {
-        storageOf(USER_COOKIE).setBoolean(globalContext.getString(R.string.KEY_USER_AGREE), true)
-        onView(withId(R.id.signInButton)).perform(click())
-
+        setUp(true)
         intended(hasComponent(MainPageActivity::class.java.name))
     }
 
     @Test
     fun signedInUserMovesToPresentationIfToSNotAccepted() {
-        storageOf(USER_COOKIE).setBoolean(globalContext.getString(R.string.KEY_USER_AGREE), false)
-        onView(withId(R.id.signInButton)).perform(click())
-
+        setUp(false)
         intended(hasComponent(PresArrivalActivity::class.java.name))
     }
 

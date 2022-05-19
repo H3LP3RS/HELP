@@ -15,7 +15,8 @@ import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
  * Enumeration of all useful databases in H3LP
  */
 enum class Databases {
-    PREFERENCES, EMERGENCIES, NEW_EMERGENCIES, MESSAGES, CONVERSATION_IDS, PRO_USERS;
+    PREFERENCES, EMERGENCIES, NEW_EMERGENCIES, MESSAGES, CONVERSATION_IDS, PRO_USERS, FORUM, RATINGS;
+
     var db: Database? = null // Var to enable test-time mocking
     companion object {
         /**
