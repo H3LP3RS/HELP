@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import com.github.h3lp3rs.h3lp.FirstAidActivity
+import com.github.h3lp3rs.h3lp.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.forum.ForumCategoriesActivity
 
@@ -33,6 +35,10 @@ class ProMainActivity : AppCompatActivity() {
 
     fun goToForumCategories(view: View) {
         goToActivity(ForumCategoriesActivity::class.java)
+    }
+
+    fun goToBasicPortal(view: View) {
+        goToActivity(MainPageActivity::class.java)
     }
 
 }

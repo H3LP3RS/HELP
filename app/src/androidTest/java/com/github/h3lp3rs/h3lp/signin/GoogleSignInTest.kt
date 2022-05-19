@@ -18,7 +18,9 @@ import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.database.MockDatabase
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
+import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
+import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import org.junit.After
@@ -31,6 +33,8 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.anyOrNull
 import org.mockito.Mockito.`when` as When
+import com.github.h3lp3rs.h3lp.storage.Storages.SIGN_IN
+
 
 @RunWith(AndroidJUnit4::class)
 class GoogleSignInTest : H3lpAppTest() {
@@ -55,6 +59,9 @@ class GoogleSignInTest : H3lpAppTest() {
 
         val signInMock = mock(SignInInterface::class.java)
         When(signInMock.isSignedIn()).thenReturn(false)
+
+        val userSignIn = storageOf(SIGN_IN)
+        userSignIn.setBoolean(globalContext.getString(R.string.KEY_USER_SIGNED_IN), false)
 
         testRule.scenario.onActivity { activity ->
             intent = GoogleSignInAdapter.signIn(activity)

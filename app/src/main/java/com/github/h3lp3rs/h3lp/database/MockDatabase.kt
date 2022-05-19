@@ -94,13 +94,15 @@ class MockDatabase : Database {
 
     override fun <T> getObjectsList(key: String, type: Class<T>): CompletableFuture<List<T>> {
         val future = CompletableFuture<List<T>>()
-        concurrentLists.get(key)?.let { list ->
+        val list = concurrentLists[key]
+        if(list != null) {
             val gson = Gson()
             val convertedList = list.map { gson.fromJson(it, type)}
             future.complete(convertedList)
-        }?.run {
-            future.completeExceptionally(NoSuchFieldException("Key: $key not in the database"))
+        } else {
+            future.complete(emptyList())
         }
+
         return future
     }
 
