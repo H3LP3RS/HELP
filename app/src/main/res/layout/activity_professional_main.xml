@@ -74,27 +74,6 @@
             android:textColor="@color/black"
             android:textSize="20sp" />
 
-        <ListView
-            android:id="@+id/listView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/searchBar"
-            android:divider="#ad5"
-            android:background="@color/light_gray"
-            android:dividerHeight="2dp" />
-
-        <SearchView
-            android:id="@+id/searchBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/staySafe"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="50dp"
-            android:background="@color/light_gray"
-            android:iconifiedByDefault="false"
-            android:queryHint="Search..."
-            android:searchIcon="@drawable/search" />
-
         <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -102,7 +81,7 @@
             android:columnOrderPreserved="false"
             android:rowCount="3"
             android:columnCount="2"
-            android:layout_below="@+id/searchBar"
+            android:layout_below="@+id/staySafe"
             >
 
             <androidx.cardview.widget.CardView
