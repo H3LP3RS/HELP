@@ -314,7 +314,7 @@ class MedicalCardActivity : AppCompatActivity() {
         } else if (checkNull()) {
             createSnackbar(view, getString(R.string.invalid_empty_msg))
         } else if (!checkPolicy()) {
-            createSnackbar(view, getString(R.string.privacy_policy_not_acceptes))
+            createSnackbar(view, getString(R.string.privacy_policy_not_accepted))
         } else {
             saveChanges()
             createSnackbar(view, getString(R.string.changes_saved))

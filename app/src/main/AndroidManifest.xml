@@ -24,13 +24,16 @@
             android:name=".professional.ProfessionalTypeSelection"
             android:exported="false" />
         <activity
+            android:name=".professional.ProProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".SettingsActivity"
             android:exported="false" />
         <activity
-            android:name=".HelpPageActivity"
+            android:name=".HelperPageActivity"
             android:exported="true" />
         <activity
-            android:name=".messaging.LatestMessagesActivity"
+            android:name=".messaging.RecentMessagesActivity"
             android:exported="true" />
         <activity
             android:name=".MainPageActivity"
@@ -84,7 +87,7 @@
             android:name=".AwaitHelpActivity"
             android:exported="false" />
         <activity
-            android:name=".HelpParametersActivity"
+            android:name=".HelpeeSelectionActivity"
             android:exported="true" />
         <activity
             android:name=".CprRateActivity"

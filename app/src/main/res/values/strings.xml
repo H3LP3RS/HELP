@@ -109,6 +109,7 @@
     <string name="invalid_field_msg">ERROR : Some fields are not fill correctly</string>
     <string name="invalid_empty_msg">ERROR : Some mandatory fields (*) are left empty</string>
     <string name="privacy_policy_not_acceptes">ERROR : You must accept our privacy policy first</string>
+    <string name="privacy_policy_not_accepted">ERROR : You must accept our privacy policy first</string>
     <string name="info_saved">Your information has been saved</string>
 
     <!--Preference Key for now should find better way to store this-->
@@ -121,6 +122,9 @@
     <string name="privacy_policy">Privacy policy</string>
     <string name="medical_info_privacy_policy">
         We know how your medical information are important to you and we take care of your privacy. Indeed your medical data is only stored on your phone.\n In case of an emergency only your helper will receive the necessary information so he/she can help you in the best condition. After the intervention, your info will then be deleted from your helper\'s phone and you will again be the only owner of your information</string>
+
+    <string name="pro_profile_privacy_policy">
+        We know how your professional information are important to you and we take care of your privacy. Indeed your professional data is only stored on the H3lp database.\n In case of an emergency or if you respond to a post in the forum, your data will be displayed to the other users.</string>
 
     <string name="condition_help_msg">This Field is dedicated to any illness or diseases that a caregiver should know in case of emergency</string>
     <string name="treatment_help_msg">This Field is dedicated to any medication your are taking that a caregiver should know in case of emergency</string>
@@ -348,6 +352,8 @@
     <string name="professional_user">Professional user</string>
     <string name="normal_user">Normal user</string>
     <string name="permission_popup_title">Access to localization</string>
+    <string name="deleted_conversation_message">The user has deleted the conversation.</string>
+    <string name="helper_cancelled">The helper has unfortunately cancelled.</string>
     <string name="forum_themes">Forum Themes</string>
     <string name="general_medicine">General medicine</string>
     <string name="cardiology">Cardiology</string>
@@ -362,4 +368,11 @@
     <string name="pass">Pass</string>
     <string name="call_now">Call now</string>
 
+    <string name="domain">Domain</string>
+    <string name="professional_status">Professional status</string>
+    <string name="experience">Experience</string>
+    <string name="my_professional_profile">My professional profile</string>
+    <string name="update_profile">Update profile</string>
+    <string name="upload_failed">"Upload failed. Try again!"</string>
+    <string name="helper">Helper</string>
 </resources>
