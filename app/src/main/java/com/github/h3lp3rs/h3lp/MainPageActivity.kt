@@ -306,7 +306,6 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     private fun setUpDrawerLayout() {
         val drawerLayout : DrawerLayout = findViewById(R.id.drawer_layout)
         val navView : NavigationView = findViewById(R.id.nav_view)
-
         toggle =
             ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_open, R.string.drawer_closed)
         drawerLayout.addDrawerListener(toggle)

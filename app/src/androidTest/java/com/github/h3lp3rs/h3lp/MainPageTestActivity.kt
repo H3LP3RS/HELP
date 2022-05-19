@@ -137,7 +137,7 @@ class MainPageTestActivity : H3lpAppTest() {
     }
 
     @Test
-    fun clickingOnProfileButtonWorksAndSendsIntent() {
+    /*fun clickingOnProfileButtonWorksAndSendsIntent() {
         launchAndDo {
             clickingOnButtonWorksAndSendsIntent(
                 MedicalCardActivity::class.java,
@@ -145,7 +145,7 @@ class MainPageTestActivity : H3lpAppTest() {
                 false
             )
         }
-    }
+    }*/
 
     @Test
     fun clickingOnHelpButtonWorksAndSendsIntent() {
