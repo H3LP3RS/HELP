@@ -84,8 +84,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/searchBar"
-            android:divider="#ad5"
             android:background="@color/light_gray"
+            android:divider="@color/dark_persimmon"
             android:dividerHeight="2dp" />
 
         <SearchView

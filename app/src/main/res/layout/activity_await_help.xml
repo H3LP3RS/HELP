@@ -266,66 +266,70 @@
         </LinearLayout>
     </LinearLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraint_layout_contact_helpers"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-        tools:layout_editor_absoluteX="-16dp">
+        tools:layout_editor_absoluteX="0dp">
 
-        <TextView
-            android:id="@+id/call_button_description_text"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/visbycf_medium"
-            android:text="@string/call_emergency_button"
-            android:textAlignment="center"
-            android:textColor="@color/call_text_green"
-            app:layout_constraintTop_toBottomOf="@+id/await_help_call_button"
-            tools:layout_editor_absoluteX="58dp" />
+        <LinearLayout
+            android:layout_width="213dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
 
-        <ImageView
-            android:id="@+id/await_help_call_button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="80dp"
-            android:layout_marginTop="50dp"
-            android:contentDescription="@string/phone_icon_description"
-            android:onClick="emergencyCall"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/emergency_call"
-            tools:ignore="MissingConstraints,RedundantDescriptionCheck" />
+            <ImageView
+                android:id="@+id/await_help_call_button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="50dp"
+                android:contentDescription="@string/phone_icon_description"
+                android:foregroundGravity="center"
+                android:onClick="emergencyCall"
+                app:srcCompat="@drawable/emergency_call"
+                tools:ignore="MissingConstraints,RedundantDescriptionCheck" />
 
-        <ImageView
-            android:id="@+id/image_open_latest_messages"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="50dp"
-            android:layout_marginEnd="80dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/chat" />
+            <TextView
+                android:id="@+id/call_button_description_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/visbycf_medium"
+                android:text="@string/call_emergency_button"
+                android:textAlignment="center"
+                android:textColor="@color/call_text_green" />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/textview_open_chat"
-            android:layout_width="142dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/visbycf_medium"
-            android:text="Contact the helpers"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            app:layout_constraintTop_toBottomOf="@+id/image_open_latest_messages"
-            tools:layout_editor_absoluteX="232dp" />
+        <LinearLayout
+            android:id="@+id/constraint_layout_contact_helpers"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageView
+                android:id="@+id/image_open_latest_messages"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="50dp"
+                app:srcCompat="@drawable/chat" />
+
+            <TextView
+                android:id="@+id/textview_open_chat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/visbycf_medium"
+                android:text="Contact the helpers"
+                android:textAlignment="center"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+    </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
