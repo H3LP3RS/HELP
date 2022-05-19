@@ -22,7 +22,7 @@ import com.github.h3lp3rs.h3lp.messaging.ChatActivity
 import com.github.h3lp3rs.h3lp.messaging.Conversation
 import com.github.h3lp3rs.h3lp.messaging.EXTRA_CONVERSATION_ID
 import com.github.h3lp3rs.h3lp.messaging.Messenger
-import com.github.h3lp3rs.h3lp.mockdatabase.MockDatabase
+import com.github.h3lp3rs.h3lp.database.MockDatabase
 import com.xwray.groupie.ViewHolder
 import org.junit.After
 import org.junit.Before

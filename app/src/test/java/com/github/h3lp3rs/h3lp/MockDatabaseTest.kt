@@ -1,7 +1,7 @@
 package com.github.h3lp3rs.h3lp
 
 import com.github.h3lp3rs.h3lp.database.Database
-import com.github.h3lp3rs.h3lp.mockdatabase.MockDatabase
+import com.github.h3lp3rs.h3lp.database.MockDatabase
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.containsInAnyOrder
 import org.junit.Assert.assertEquals

@@ -15,7 +15,7 @@ import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
-import com.github.h3lp3rs.h3lp.mockdatabase.MockDatabase
+import com.github.h3lp3rs.h3lp.database.MockDatabase
 import junit.framework.Assert.assertEquals
 import org.junit.After
 import org.junit.Before

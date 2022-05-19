@@ -4,7 +4,7 @@
 //import com.github.h3lp3rs.h3lp.database.Database
 //import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
 //import com.github.h3lp3rs.h3lp.database.Databases.MESSAGES
-//import com.github.h3lp3rs.h3lp.mockdatabase.MockDatabase
+//import com.github.h3lp3rs.h3lp.database.MockDatabase
 //import com.github.h3lp3rs.h3lp.messaging.Conversation
 //import com.github.h3lp3rs.h3lp.messaging.Message
 //import com.github.h3lp3rs.h3lp.messaging.Messenger.HELPER

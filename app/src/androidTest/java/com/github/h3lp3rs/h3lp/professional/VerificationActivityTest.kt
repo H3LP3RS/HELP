@@ -15,7 +15,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.H3lpAppTest
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.database.Databases
-import com.github.h3lp3rs.h3lp.mockdatabase.MockDatabase
+import com.github.h3lp3rs.h3lp.database.MockDatabase
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
