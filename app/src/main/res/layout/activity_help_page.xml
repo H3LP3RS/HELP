@@ -13,18 +13,19 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-                android:text="@string/person_in_need"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:textColor="@color/blue"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textSize="30sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                tools:layout_editor_absoluteY="65dp" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/visbycf_bold"
+            android:text="@string/person_in_need"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@color/dark_persimmon"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="65dp" />
 
         <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -50,15 +51,16 @@
         </androidx.cardview.widget.CardView>
 
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/time_to_person_in_need"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_marginHorizontal="40dp"
-                android:layout_gravity="start"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginHorizontal="40dp"
+            android:fontFamily="@font/visbycf_regular"
+            android:text="@string/time_to_person_in_need"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
 
         <TextView
@@ -73,16 +75,17 @@
 
 
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/help_required"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_marginHorizontal="40dp"
-                android:layout_gravity="start"
-                android:layout_marginTop="10dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/visbycf_regular"
+            android:text="@string/help_required"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
 
         <TextView
@@ -98,30 +101,73 @@
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp">
+                android:layout_marginTop="20dp">
 
-            <ImageView
-                    android:id="@+id/button_reject"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_gravity="start"
-                    android:layout_marginHorizontal="70dp"
-                    android:src="@drawable/cancel_button"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                <LinearLayout
+                    android:id="@+id/linearLayout3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                    android:id="@+id/button_accept"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_gravity="end"
-                    android:layout_marginHorizontal="70dp"
-                    android:src="@drawable/green_tick"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                        <ImageView
+                            android:id="@+id/button_reject"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_gravity="start"
+                            android:layout_marginHorizontal="70dp"
+                            android:src="@drawable/cancel_button" />
+
+                        <TextView
+                            android:id="@+id/textView4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="16dp"
+                            android:fontFamily="@font/visbycf_regular"
+                            android:text="@string/refuse"
+                            android:textAlignment="center"
+                            android:textColor="@android:color/holo_red_dark"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            map:layout_constraintEnd_toEndOf="parent"
+                            map:layout_constraintStart_toStartOf="parent" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0" />
+                    app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:id="@+id/button_accept"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_gravity="end"
+                            android:layout_marginHorizontal="70dp"
+                            android:src="@drawable/green_tick" />
+
+                        <TextView
+                            android:id="@+id/textView5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="16dp"
+                            android:fontFamily="@font/visbycf_regular"
+                            android:text="@string/accept"
+                            android:textAlignment="center"
+                            android:textColor="@color/call_text_green"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            map:layout_constraintEnd_toEndOf="parent"
+                            map:layout_constraintStart_toStartOf="parent" />
+                </LinearLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

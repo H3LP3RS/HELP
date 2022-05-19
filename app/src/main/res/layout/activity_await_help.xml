@@ -11,9 +11,14 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="411dp"
+        android:layout_height="45dp"
         android:layout_gravity="center"
+        android:layout_marginBottom="30dp"
+        android:background="@color/persimmon"
+        android:fontFamily="@font/visbycf_bold"
+        android:gravity="center"
+        android:lineSpacingExtra="8sp"
         android:shadowColor="@color/black"
         android:shadowDx="1"
         android:shadowDy="1"
@@ -21,10 +26,12 @@
         android:text="@string/await_help_welcome_message"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textColor="@color/white"
+        android:textColor="@color/ic_launcher_background"
         android:textSize="28sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/cardView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -40,7 +47,7 @@
         tools:layout_editor_absoluteX="30dp">
 
         <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/mapAwaitHelp"
+            android:id="@+id/map"
             android:name="com.github.h3lp3rs.h3lp.MapsFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -52,10 +59,10 @@
 
     <ProgressBar
         android:id="@+id/searchProgressBar"
-        style="?android:attr/progressBarStyle"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
+        android:indeterminateDrawable="@drawable/progress_bar"
         app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
     <TextView
@@ -63,7 +70,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:fontFamily="@font/visbycf_medium"
         android:text="@string/progress_bar_waiting_help"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -87,233 +96,250 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="17dp"
+        android:fontFamily="@font/visbycf_bold"
         android:text="@string/tutorials"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textColor="@color/dark_blue"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/horizontalScrollView"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progressBarText" />
 
-    <HorizontalScrollView
-        android:id="@+id/horizontalScrollView"
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="50dp"
-        android:background="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/constraint_layout_contact_helpers">
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/persimmon_background"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2">
+
+        <!-- First tutorial -->
+
+
+        <!-- Second tutorial -->
+
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
+            android:layout_width="@dimen/scroll_view_tuto_layout"
+            android:layout_height="@dimen/scroll_view_tuto_layout"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="16dp"
+            android:background="@drawable/round_style"
+            android:backgroundTint="@color/white"
+            android:orientation="vertical">
 
-            <!-- First tutorial -->
+            <ImageButton
+                android:id="@+id/heart_attack_tuto_button"
+                android:layout_width="@dimen/image_button_tuto_page"
+                android:layout_height="@dimen/image_button_tuto_page"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin_image_inside_layout"
+                android:background="@drawable/heart_attack"
+                android:contentDescription="@string/heart_attack_tuto_button"
+                android:onClick="goToTutorial"
+                tools:ignore="TooDeepLayout,ImageContrastCheck" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/scroll_view_margin_text"
+                android:fontFamily="@font/visbycf_medium"
+                android:text="@string/heart_attack_emergency"
+                android:textColor="@color/dark_blue"
+                android:textSize="13sp"
+                android:textStyle="bold" />
 
-            <!-- Second tutorial -->
-
-
-            <LinearLayout
-                android:layout_width="@dimen/scroll_view_tuto_layout"
-                android:layout_height="@dimen/scroll_view_tuto_layout"
-                android:background="@drawable/round_style"
-                android:backgroundTint="@color/white"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/heart_attack_tuto_button"
-                    android:layout_width="@dimen/image_button_tuto_page"
-                    android:layout_height="@dimen/image_button_tuto_page"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/margin_image_inside_layout"
-                    android:background="@drawable/heart_attack"
-                    android:contentDescription="@string/heart_attack_tuto_button"
-                    android:onClick="goToTutorial"
-                    tools:ignore="TooDeepLayout,ImageContrastCheck" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/scroll_view_margin_text"
-                    android:text="@string/heart_attack_emergency"
-                    android:textColor="@color/dark_blue"
-                    android:textSize="@dimen/icon_font"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="@dimen/scroll_view_tuto_layout"
-                android:layout_height="@dimen/scroll_view_tuto_layout"
-                android:background="@drawable/round_style"
-                android:backgroundTint="@color/white"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/epipen_tuto_button"
-                    android:layout_width="@dimen/image_button_tuto_page"
-                    android:layout_height="@dimen/image_button_tuto_page"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/margin_image_inside_layout"
-                    android:background="@drawable/epipen"
-                    android:contentDescription="@string/allergies_tuto_button"
-                    android:onClick="goToTutorial"
-                    tools:ignore="TooDeepLayout,ImageContrastCheck" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/scroll_view_margin_text"
-                    android:text="@string/allergy_emergency"
-                    android:textColor="@color/dark_blue"
-                    android:textSize="@dimen/icon_font"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-
-            <!-- Third Tutorial -->
-
-
-            <LinearLayout
-                android:layout_width="@dimen/scroll_view_tuto_layout"
-                android:layout_height="@dimen/scroll_view_tuto_layout"
-                android:background="@drawable/round_style"
-                android:backgroundTint="@color/white"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/aed_tuto_button"
-                    android:layout_width="@dimen/image_button_tuto_page"
-                    android:layout_height="@dimen/image_button_tuto_page"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/margin_image_inside_layout"
-                    android:background="@drawable/defibrillator"
-                    android:contentDescription="@string/defibrillator_tuto_button"
-                    android:onClick="goToTutorial"
-                    tools:ignore="TooDeepLayout,ImageContrastCheck" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/scroll_view_margin_text"
-                    android:text="@string/defibrillator_button"
-                    android:textColor="@color/dark_blue"
-                    android:textSize="@dimen/icon_font"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-            <!-- Fourth Tutorial -->
-
-            <LinearLayout
-                android:layout_width="@dimen/scroll_view_tuto_layout"
-                android:layout_height="@dimen/scroll_view_tuto_layout"
-                android:background="@drawable/round_style"
-                android:backgroundTint="@color/white"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/asthma_tuto_button"
-                    android:layout_width="@dimen/image_button_tuto_page"
-                    android:layout_height="@dimen/image_button_tuto_page"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/margin_image_inside_layout"
-                    android:background="@drawable/asthma"
-                    android:contentDescription="@string/asthma_attack_tuto_button"
-                    android:onClick="goToTutorial"
-                    tools:ignore="TooDeepLayout,ImageContrastCheck" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/scroll_view_margin_text"
-                    android:text="@string/asthma_attack"
-                    android:textColor="@color/dark_blue"
-                    android:textSize="@dimen/icon_font"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
         </LinearLayout>
-    </HorizontalScrollView>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraint_layout_contact_helpers"
+        <LinearLayout
+            android:layout_width="@dimen/scroll_view_tuto_layout"
+            android:layout_height="@dimen/scroll_view_tuto_layout"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="14dp"
+            android:background="@drawable/round_style"
+            android:backgroundTint="@color/white"
+            android:orientation="vertical">
+
+
+            <ImageButton
+                android:id="@+id/epipen_tuto_button"
+                android:layout_width="@dimen/image_button_tuto_page"
+                android:layout_height="@dimen/image_button_tuto_page"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin_image_inside_layout"
+                android:background="@drawable/epipen"
+                android:contentDescription="@string/allergies_tuto_button"
+                android:onClick="goToTutorial"
+                tools:ignore="TooDeepLayout,ImageContrastCheck" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/scroll_view_margin_text"
+                android:fontFamily="@font/visbycf_medium"
+                android:text="@string/epipen"
+                android:textColor="@color/dark_blue"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+
+        <!-- Third Tutorial -->
+
+
+        <LinearLayout
+            android:layout_width="@dimen/scroll_view_tuto_layout"
+            android:layout_height="@dimen/scroll_view_tuto_layout"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="14dp"
+            android:background="@drawable/round_style"
+            android:backgroundTint="@color/white"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/aed_tuto_button"
+                android:layout_width="@dimen/image_button_tuto_page"
+                android:layout_height="@dimen/image_button_tuto_page"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin_image_inside_layout"
+                android:background="@drawable/defibrillator"
+                android:contentDescription="@string/defibrillator_tuto_button"
+                android:onClick="goToTutorial"
+                tools:ignore="TooDeepLayout,ImageContrastCheck" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/scroll_view_margin_text"
+                android:fontFamily="@font/visbycf_medium"
+                android:text="@string/defibrillator_button"
+                android:textColor="@color/dark_blue"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <!-- Fourth Tutorial -->
+
+        <LinearLayout
+            android:layout_width="@dimen/scroll_view_tuto_layout"
+            android:layout_height="@dimen/scroll_view_tuto_layout"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="14dp"
+            android:background="@drawable/round_style"
+            android:backgroundTint="@color/white"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/asthma_tuto_button"
+                android:layout_width="@dimen/image_button_tuto_page"
+                android:layout_height="@dimen/image_button_tuto_page"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin_image_inside_layout"
+                android:background="@drawable/asthma"
+                android:contentDescription="@string/asthma_attack_tuto_button"
+                android:onClick="goToTutorial"
+                tools:ignore="TooDeepLayout,ImageContrastCheck" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/scroll_view_margin_text"
+                android:fontFamily="@font/visbycf_medium"
+                android:text="@string/asthma_attack"
+                android:textAlignment="center"
+                android:textColor="@color/dark_blue"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
-        tools:layout_editor_absoluteX="-16dp">
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        tools:layout_editor_absoluteX="0dp">
 
-        <ImageView
-            android:id="@+id/image_open_latest_messages"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.253"
-            app:srcCompat="@drawable/chat" />
+        <LinearLayout
+            android:layout_width="213dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
 
-        <TextView
-            android:id="@+id/textview_open_chat"
-            android:layout_width="142dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center_horizontal"
-            android:text="Contact the helpers"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/image_open_latest_messages"
-            app:layout_constraintVertical_bias="0.567" />
+            <ImageView
+                android:id="@+id/await_help_call_button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="50dp"
+                android:contentDescription="@string/phone_icon_description"
+                android:foregroundGravity="center"
+                app:srcCompat="@drawable/emergency_call"
+                tools:ignore="MissingConstraints,RedundantDescriptionCheck" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/call_button_description_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/visbycf_medium"
+                android:text="@string/call_emergency_button"
+                android:textAlignment="center"
+                android:textColor="@color/call_text_green" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/constraint_layout_contact_helpers"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/image_open_latest_messages"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="50dp"
+                app:srcCompat="@drawable/chat" />
+
+            <TextView
+                android:id="@+id/textview_open_chat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/visbycf_medium"
+                android:text="Contact the helpers"
+                android:textAlignment="center"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+    </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="30dp"
+        android:layout_width="428dp"
+        android:layout_height="71dp"
+        android:layout_marginBottom="16dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <ImageView
-            android:id="@+id/await_help_call_button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="72dp"
-            android:layout_marginBottom="24dp"
-            android:contentDescription="@string/phone_icon_description"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/emergency_call"
-            tools:ignore="MissingConstraints,RedundantDescriptionCheck" />
-
-        <TextView
-            android:id="@+id/call_button_description_text"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="52dp"
-            android:text="@string/call_emergency_button"
-            android:textAlignment="center"
-            android:textColor="@color/call_text_green"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/await_help_call_button"
-            app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
             android:id="@+id/cancel_search_button"
@@ -322,10 +348,12 @@
             android:layout_gravity="center"
             android:contentDescription="@string/cancel_button_description"
             android:onClick="cancelHelpSearch"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.677"
-            app:layout_constraintStart_toEndOf="@+id/await_help_call_button"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
             app:srcCompat="@drawable/cancel_button"
             tools:ignore="MissingConstraints,RedundantDescriptionCheck" />
 
@@ -333,14 +361,15 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginStart="100dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/visbycf_medium"
             android:text="@string/cancel_search_text"
             android:textAlignment="center"
             android:textColor="@color/cancel_search_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.222"
-            app:layout_constraintStart_toEndOf="@+id/call_button_description_text"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cancel_search_button"
             app:layout_constraintVertical_bias="0.0" />
 

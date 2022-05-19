@@ -10,11 +10,12 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"
+        android:fontFamily="@font/visbycf_bold"
         android:text="@string/did_you_call_emergency_services_popup"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textColor="@color/dark_blue"
         android:textSize="20sp"
-        android:textStyle="bold"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/call_button_description_text"
@@ -23,6 +24,7 @@
         android:layout_below="@+id/popup_title"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="15dp"
+        android:fontFamily="@font/visbycf_medium"
         android:text="@string/pop_up_call_emergencies_text"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
@@ -41,16 +43,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="15dp"
-            android:backgroundTint="@color/ocean_blue"
-            android:text="Pass" />
+            android:backgroundTint="@color/mid_light_grey"
+            android:text="@string/pass"
+            style="?android:attr/buttonBarButtonStyle" />
 
         <Button
             android:id="@+id/open_call_popup_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
-            android:backgroundTint="@color/ocean_blue"
-            android:text="Call now" />
+            android:backgroundTint="@color/dark_persimmon"
+            android:text="@string/call_now"
+            style="?android:attr/buttonBarButtonStyle" />
 
     </LinearLayout>
 

@@ -223,7 +223,7 @@ class MedicalCardActivity : AppCompatActivity() {
     private fun createSnackbar(it: View, str: String) {
         val snack = Snackbar.make(it, str, Snackbar.LENGTH_LONG)
         snack.animationMode = BaseTransientBottomBar.ANIMATION_MODE_SLIDE
-        snack.setBackgroundTint(ContextCompat.getColor(this, R.color.teal_200))
+        snack.setBackgroundTint(ContextCompat.getColor(this, R.color.persimmon))
         snack.show()
     }
 

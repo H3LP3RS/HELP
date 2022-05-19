@@ -51,8 +51,8 @@ class NearbyUtilitiesActivity : AppCompatActivity(), CoroutineScope by MainScope
         defibrillatorsBackgroundLayout = findViewById(R.id.show_defibrillators_button_layout)
         pharmacyBackgroundLayout = findViewById(R.id.show_pharmacy_button_layout)
 
-        checkedButtonColor = getColorStateList(this, R.color.select_meds_checked)
-        uncheckedButtonColor = getColorStateList(this, R.color.select_meds_unchecked)
+        checkedButtonColor = getColorStateList(this, R.color.yellow_orange)
+        uncheckedButtonColor = getColorStateList(this, R.color.persimmon)
 
         apiHelper = GoogleAPIHelper(resources.getString(R.string.google_maps_key))
 

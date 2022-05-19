@@ -47,49 +47,51 @@
 
     <TextView
         android:id="@+id/pres1_textView2"
-        android:layout_width="336dp"
-        android:layout_height="85dp"
+        android:layout_width="377dp"
+        android:layout_height="93dp"
+        android:fontFamily="@font/visbycf_medium"
         android:gravity="center"
         android:text="@string/the_app_that_will_safe_your_life"
         android:textAlignment="center"
+        android:textColor="@color/light_gray"
         android:textSize="24sp"
         android:textStyle="italic"
-        android:textColor="@color/light_gray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pres1_imageView1"
-        app:layout_constraintVertical_bias="0.157" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/pres1_textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/visbycf_regular"
         android:gravity="center"
         android:text="@string/safelives_all_rights_reserved"
         android:textAlignment="center"
+        android:textColor="@color/light_gray"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:textColor="@color/light_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pres1_textView2"
-        app:layout_constraintVertical_bias="0.814" />
+        app:layout_constraintVertical_bias="0.666" />
 
     <TextView
         android:id="@+id/pres1_textView4"
         android:layout_width="415dp"
         android:layout_height="120dp"
+        android:layout_marginBottom="64dp"
         android:fontFamily="casual"
         android:gravity="center"
-        android:textColor="@color/light_gray"
         android:text="@string/scroll1on3"
+        android:textColor="@color/light_gray"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/pres1_textView3"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pres1_textView2" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
