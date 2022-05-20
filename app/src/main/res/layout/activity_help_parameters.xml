@@ -25,7 +25,7 @@
         android:checked="false"
         android:filterTouchesWhenObscured="false"
         android:fontFamily="@font/visbycf_bold"
-        android:textFontWeight="900"
+        android:textStyle="bold"
         android:textOff="@string/first_aid_kit"
         android:textOn="@string/first_aid_kit"
         app:layout_constraintEnd_toStartOf="@+id/selectMedsButton5"

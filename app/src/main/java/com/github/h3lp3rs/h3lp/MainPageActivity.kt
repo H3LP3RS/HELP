@@ -136,6 +136,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     /**
      * Opens a popup asking the user to sign in to continue.
      */
+    @SuppressLint("InflateParams")
     private fun showSignInPopUp() {
         val dialog = Dialog(this)
         val signInPopup =
@@ -166,6 +167,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
      * Opens a popup explaining why the app needs permission with a nice image.
      * Once the user closes the popup, the formal system permission is asked.
      */
+    @SuppressLint("InflateParams")
     private fun showExplanationAndRequestPermissions() {
         val dialog = Dialog(this)
         val emergencyCallPopup =

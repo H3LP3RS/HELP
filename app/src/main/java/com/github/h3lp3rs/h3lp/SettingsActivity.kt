@@ -1,5 +1,6 @@
 package com.github.h3lp3rs.h3lp
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
@@ -120,6 +121,7 @@ class SettingsActivity : AppCompatActivity() {
     /**
      * Opens a popup asking the user to sign in to continue.
      */
+    @SuppressLint("InflateParams")
     private fun showSignInPopUp() {
         val dialog = Dialog(this)
         val signInPopup =
