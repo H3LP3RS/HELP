@@ -4,6 +4,7 @@ import com.github.h3lp3rs.h3lp.database.MockDatabase
 import com.github.h3lp3rs.h3lp.database.repositories.EmergencyInfoRepository
 import com.github.h3lp3rs.h3lp.database.repositories.Repository
 import com.github.h3lp3rs.h3lp.dataclasses.*
+import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation.Companion.ADULT_AGE
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
 import org.junit.Test
@@ -21,7 +22,7 @@ class EmergencyInfoRepositoryTest {
             MedicalInformation.MAX_HEIGHT-1,
             MedicalInformation.MAX_WEIGHT-1,
             Gender.Male,
-            Calendar.getInstance().get(Calendar.YEAR)-1,"condition","treatment","allergy",
+            Calendar.getInstance().get(Calendar.YEAR)-ADULT_AGE,"condition","treatment","allergy",
             BloodType.ABn, "", validNumber), ArrayList())
 
     @Test

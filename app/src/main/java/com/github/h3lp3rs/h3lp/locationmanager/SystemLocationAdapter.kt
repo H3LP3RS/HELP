@@ -16,11 +16,6 @@ import java.util.concurrent.CompletableFuture
  */
 object SystemLocationAdapter : LocationManagerInterface {
 
-    /**
-     * Gets the user's current location from the system location manager
-     * @param context The activity from which the location manager is called to check the user's
-     * permissions
-     */
     override fun getCurrentLocation(context: Context): CompletableFuture<Location> {
         // Checking if the location permissions have been granted
         val futureLocation: CompletableFuture<Location> = CompletableFuture()

@@ -21,7 +21,8 @@ import com.github.h3lp3rs.h3lp.storage.Storages.Companion.disableOnlineSync
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.FirebaseAuth.getInstance
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuth.*
 
 class SignInActivity : AppCompatActivity() {
     lateinit var signInClient : SignInInterface<AuthResult>
@@ -32,6 +33,10 @@ class SignInActivity : AppCompatActivity() {
     private lateinit var USER_NAME: String
 
 
+    /**
+     * Checks the Terms of Service to see if they were already accepted, if they were, launches the
+     * app by going to the main page, if not, goes back to the activity to accept the ToS
+     */
     private fun checkToSAndLaunchIfNotAcceptedElseMain() {
         // Check ToS agreement
         userCookie = storageOf(USER_COOKIE) // Fetch from storage

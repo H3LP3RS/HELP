@@ -1,7 +1,5 @@
 package com.github.h3lp3rs.h3lp
 
-import android.app.Activity
-import android.app.Instrumentation.*
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ActivityScenario.*

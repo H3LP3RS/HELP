@@ -63,8 +63,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:background="#00000000"
+                    android:onClick="goToButtonActivity"
                     android:fontFamily="@font/visbycf_regular"
-                    android:onClick="goToAllergyActivity"
                     android:padding="20dp"
                     android:text="@string/expand" />
 
@@ -105,8 +105,8 @@
                     android:layout_alignParentBottom="true"
                     android:layout_marginBottom="0dp"
                     android:background="#00000000"
+                    android:onClick="goToButtonActivity"
                     android:fontFamily="@font/visbycf_regular"
-                    android:onClick="goToHeartAttackActivity"
                     android:padding="20dp"
                     android:text="@string/expand" />
 
@@ -146,8 +146,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:background="#00000000"
+                    android:onClick="goToButtonActivity"
                     android:fontFamily="@font/visbycf_regular"
-                    android:onClick="goToAedActivity"
                     android:padding="20dp"
                     android:text="@string/expand" />
 
@@ -187,8 +187,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:background="#00000000"
+                    android:onClick="goToButtonActivity"
                     android:fontFamily="@font/visbycf_regular"
-                    android:onClick="goToAsthmaActivity"
                     android:padding="20dp"
                     android:text="@string/expand" />
 

@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
+import com.github.h3lp3rs.h3lp.R
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
@@ -19,20 +21,15 @@ import java.util.*
  * This object adapts the Google sign in and Firebase authentication to our general SignInInterface.
  * It is used as the central sign in interface in the app
  */
-object GoogleSignInAdapter: SignInInterface<AuthResult> {
+object GoogleSignInAdapter : SignInInterface<AuthResult> {
     var auth: FirebaseAuth = Firebase.auth
     lateinit var gso: GoogleSignInOptions
 
-    private const val SERVER_CLIENT_ID =
-    "899579782202-t3orsbp6aov3i91c99r72kc854og8jad.apps.googleusercontent.com"
+    private val SERVER_CLIENT_ID =
+        globalContext.resources.getString(R.string.firebase_auth_server_id)
 
-    /**
-     * Configures the Google sign in and builds the Google sign in client with the options specified
-     * @param currentActivity The activity from which the sign in is called to display the sign
-     *      in client
-     * @return An intent to launch the sign in client
-     */
     override fun signIn(currentActivity: Activity): Intent {
+        // Configuring the Google sign in
         gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(SERVER_CLIENT_ID)
             .requestEmail()
@@ -40,14 +37,10 @@ object GoogleSignInAdapter: SignInInterface<AuthResult> {
         return GoogleSignIn.getClient(currentActivity, gso).signInIntent
     }
 
-    /**
-     * Authenticates the user with the sign in client
-     * @param result The result
-     * @param currentActivity The current activity to show possible error messages to the user
-     * @return A task which finishes the authentication and returns
-     *      information about the authentication succeeding or failing
-     */
-    override fun authenticate(result: ActivityResult, currentActivity: Activity): Task<AuthResult>? {
+    override fun authenticate(
+        result: ActivityResult,
+        currentActivity: Activity
+    ): Task<AuthResult>? {
         if (result.resultCode == Activity.RESULT_OK) {
             try {
                 // The task contains the google account (on success)
@@ -61,7 +54,8 @@ object GoogleSignInAdapter: SignInInterface<AuthResult> {
             }
         } else {
             // Google Sign In failed, display a message to the user
-            Toast.makeText(currentActivity, "Sorry authentication failed.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(currentActivity, "Sorry authentication failed.", Toast.LENGTH_SHORT)
+                .show()
         }
         return null
     }
@@ -69,7 +63,6 @@ object GoogleSignInAdapter: SignInInterface<AuthResult> {
 
     /**
      * Authenticate account with Firebase
-     *
      * @param idToken The account's token Id
      */
     private fun firebaseAuthWithGoogle(idToken: String): Task<AuthResult> {
@@ -77,16 +70,10 @@ object GoogleSignInAdapter: SignInInterface<AuthResult> {
         return auth.signInWithCredential(credential)
     }
 
-    /**
-     * Signs the current user out
-     */
     override fun signOut() {
         auth.signOut()
     }
 
-    /**
-     * Returns a boolean saying if a user is currently signed in or not
-     */
     override fun isSignedIn(): Boolean {
         return auth.currentUser != null
     }
@@ -95,12 +82,8 @@ object GoogleSignInAdapter: SignInInterface<AuthResult> {
         return auth.currentUser?.uid
     }
 
-    /**
-     *
-     */
-    fun getCreationDate(): String{
+    override fun getCreationDate(): String? {
         val timeStamp = auth.currentUser?.metadata?.creationTimestamp
-        return timeStamp?.let { Date(it).toString() } ?: run { "" }
-
+        return timeStamp?.let { Date(it).toString() }
     }
 }

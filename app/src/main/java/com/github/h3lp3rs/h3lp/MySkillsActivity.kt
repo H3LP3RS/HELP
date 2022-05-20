@@ -68,6 +68,11 @@ class MySkillsActivity : AppCompatActivity() {
         toggleSwitch(skills.isMedicalPro, R.id.doctorSwitch)
     }
 
+    /**
+     * Checks or unchecks a switch button depending on the given value
+     * @param toggle True to check the switch, false to uncheck it
+     * @param id The switch's id
+     */
     private fun toggleSwitch(toggle: Boolean, id: Int){
         findViewById<SwitchMaterial>(id).isChecked = toggle
     }
@@ -75,7 +80,6 @@ class MySkillsActivity : AppCompatActivity() {
     /**
      * Save skills data
      */
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun saveData() {
         val skills = HelperSkills(
             getBooleanFromSwitch(R.id.epipenSwitch),
@@ -92,7 +96,9 @@ class MySkillsActivity : AppCompatActivity() {
     }
 
     /**
-     * return the boolean from a switch button
+     * Return the boolean from a switch button
+     * @param id The switch button's id
+     * @return True if the switch was checked, false otherwise
      */
     private fun getBooleanFromSwitch(id: Int):Boolean{
         return findViewById<SwitchMaterial>(id).isChecked

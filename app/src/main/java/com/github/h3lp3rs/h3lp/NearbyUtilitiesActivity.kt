@@ -8,6 +8,7 @@ import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.getColorStateList
 import com.github.h3lp3rs.h3lp.databinding.ActivityNearbyUtilitiesBinding
+import kotlinx.android.synthetic.main.activity_nearby_utilities.*
 import kotlinx.coroutines.*
 
 
@@ -131,23 +132,18 @@ class NearbyUtilitiesActivity : AppCompatActivity(), CoroutineScope by MainScope
 
 
     /**
-     * Selects the button to show the nearby utility that was asked before before
-     * this activity started.
+     * Selects the button to show the nearby utility that was asked before this activity started
      */
     private fun setRequestedButton() {
         when (requestedUtility) {
             resources.getString(R.string.nearby_phamacies) -> {
-                val pharmacyButton = findViewById<ImageButton>(R.id.show_pharmacy_button)
-                pharmacyButton.callOnClick()
+                show_pharmacy_button.callOnClick()
             }
             resources.getString(R.string.nearby_hospitals) -> {
-                val hospitalButton = findViewById<ImageButton>(R.id.show_hospital_button)
-                hospitalButton.callOnClick()
+                show_hospital_button.callOnClick()
             }
             resources.getString(R.string.nearby_defibrillators) -> {
-                val defibrillatorsButton =
-                    findViewById<ImageButton>(R.id.show_defibrillators_button)
-                defibrillatorsButton.callOnClick()
+                show_defibrillators_button.callOnClick()
             }
         }
     }
