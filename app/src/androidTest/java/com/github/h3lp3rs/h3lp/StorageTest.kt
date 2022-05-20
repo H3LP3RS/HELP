@@ -32,7 +32,9 @@ class StorageTest : H3lpAppTest() {
         setDatabase(PREFERENCES, MockDatabase())
         resetStorage()
         // Will start empty
+        USER_COOKIE.setOnlineSync(true)
         storage = storageOf(USER_COOKIE)
+
     }
 
     @Test

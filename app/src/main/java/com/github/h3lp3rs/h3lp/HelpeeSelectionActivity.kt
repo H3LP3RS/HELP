@@ -163,7 +163,7 @@ class HelpeeSelectionActivity : AppCompatActivity() {
      */
     @RequiresApi(Build.VERSION_CODES.O)
     private fun searchHelp(latitude: Double, longitude: Double, view: View) {
-        val selectionPair = retrieveSelectedMedication(view)
+        val selectionPair = retrieveSelectedMedication(findViewById(R.id.help_params_layout) )
         val meds = selectionPair.first
         val skills = selectionPair.second
 

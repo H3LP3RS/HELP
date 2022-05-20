@@ -30,6 +30,7 @@ import com.github.h3lp3rs.h3lp.professional.ProUser
 import com.github.h3lp3rs.h3lp.professional.VerificationActivity
 import com.github.h3lp3rs.h3lp.signin.SignIn
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.getUid
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
@@ -128,9 +129,39 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         ForumCategory.root().sendIntentNotificationOnNewPosts(
             globalContext, ForumPostsActivity::class.java
         )
+
         EmergencyListener.activateListeners()
 
         startAppGuide()
+    }
+
+    /**
+     * Opens a popup asking the user to sign in to continue.
+     */
+    private fun showSignInPopUp() {
+        val dialog = Dialog(this)
+        val signInPopup =
+            layoutInflater.inflate(R.layout.sign_in_required_pop_up, null)
+
+        dialog.setCancelable(false)
+        dialog.setContentView(signInPopup)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        dialog.create()
+
+        // Cancel button
+        signInPopup.findViewById<Button>(R.id.close_popup_button)
+            .setOnClickListener {
+                dialog.dismiss()
+            }
+        // Sign in button
+        signInPopup.findViewById<Button>(R.id.sign_in_popup_button)
+            .setOnClickListener {
+                dialog.dismiss()
+                goToActivity(SignInActivity::class.java)
+            }
+
+        dialog.show()
     }
 
     /**
@@ -418,6 +449,16 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         startActivity(intent)
     }
 
+
+    /** Called when the user taps the help page button */
+    fun goToHelpParametersActivity(view: View) {
+        if (getUid() == null) {
+            showSignInPopUp()
+        } else {
+            goToActivity(HelpeeSelectionActivity::class.java)
+        }
+    }
+
     /**
      * Called when the user taps on the info button
      * Starts the presentation of the app
@@ -465,15 +506,19 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
 
     /** Called when the user taps the professional portal  button */
     fun goToProfessionalPortal(view: View) {
-        val db = databaseOf(PRO_USERS)
-        db.getObject(SignInActivity.userUid.toString(), ProUser::class.java).handle { _, err ->
-            if (err != null) {
-                // If there is no proof of the status of the current user in the database, launch the verification process
-                goToActivity(VerificationActivity::class.java)
-                return@handle
+        if (getUid() == null) {
+            showSignInPopUp()
+        } else {
+            val db = databaseOf(PRO_USERS)
+            db.getObject(SignInActivity.userUid.toString(), ProUser::class.java).handle { _, err ->
+                if (err != null) {
+                    // If there is no proof of the status of the current user in the database, launch the verification process
+                    goToActivity(VerificationActivity::class.java)
+                    return@handle
+                }
+                // Otherwise, redirect to the professional main page
+                goToActivity(ProMainActivity::class.java)
             }
-            // Otherwise, redirect to the professional main page
-            goToActivity(ProMainActivity::class.java)
         }
     }
 

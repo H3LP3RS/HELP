@@ -1,8 +1,12 @@
 package com.github.h3lp3rs.h3lp
 
 import LocationHelper
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.database.Databases.*
@@ -17,6 +21,7 @@ import com.github.h3lp3rs.h3lp.messaging.Conversation.Companion.UNIQUE_CONVERSAT
 import com.github.h3lp3rs.h3lp.messaging.Conversation.Companion.createAndSendKeyPair
 import com.github.h3lp3rs.h3lp.messaging.EXTRA_CONVERSATION_ID
 import com.github.h3lp3rs.h3lp.messaging.Messenger.HELPER
+import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.util.GDurationJSONParser
 import com.google.android.gms.maps.MapsInitializer.*
@@ -45,7 +50,7 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     // Helper connection with helpee data
     private lateinit var conversation: Conversation
 
-    override fun onCreate(savedInstanceState : Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initialize(applicationContext)
 
@@ -63,6 +68,11 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
         val destinationLat = bundle.getDouble(EXTRA_DESTINATION_LAT)
         val destinationLong = bundle.getDouble(EXTRA_DESTINATION_LONG)
+
+        // Require user to sign in
+        if(userUid == null) {
+            showSignInPopUp()
+        }
 
         // Initialize the current user's location
         locationHelper.requireAndHandleCoordinates(this) {
@@ -89,6 +99,37 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         button_reject.setOnClickListener { goToMainPage() }
 
         setUpEmergencyCancellation(emergencyId)
+    }
+
+    /**
+     * Opens a popup asking the user to sign in to continue.
+     */
+    private fun showSignInPopUp() {
+        val dialog = Dialog(this)
+        val signInPopup =
+            layoutInflater.inflate(R.layout.sign_in_required_pop_up, null)
+
+        dialog.setCancelable(false)
+        dialog.setContentView(signInPopup)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        dialog.create()
+
+        // Cancel button
+        signInPopup.findViewById<Button>(R.id.close_popup_button)
+            .setOnClickListener {
+                dialog.dismiss()
+                goToMainPage()
+            }
+
+        // Sign in button
+        signInPopup.findViewById<Button>(R.id.sign_in_popup_button)
+            .setOnClickListener {
+                dialog.dismiss()
+                goToActivity(SignInActivity::class.java)
+            }
+
+        dialog.show()
     }
 
     /**
@@ -199,7 +240,7 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     }
 
     private fun setUpEmergencyCancellation(emergencyId: String) {
-        fun onChildRemoved(id : String) {
+        fun onChildRemoved(id: String) {
             if (id == emergencyId) {
                 // If the person the user is trying to help has cancelled his emergency, the
                 // conversation is deleted from the database and the helper is redirected to the

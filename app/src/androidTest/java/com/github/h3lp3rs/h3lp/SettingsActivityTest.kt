@@ -73,7 +73,23 @@ class SettingsActivityTest : H3lpAppTest() {
             assert(db.getString("MEDICAL_INFO/$USER_TEST_ID").isCompletedExceptionally)
 
         }
+    }
 
+    @Test
+    fun checkBoxWithoutSignInShowsPopUp() {
+        // Not signed in
+        userUid = null
+
+        launch().use {
+            initIntentAndCheckResponse()
+
+            onView(withId(R.id.user_cookie_checkbox)).perform(click())
+
+            // We can close the popup => It's displayed :)
+            onView(withId(R.id.close_popup_button)).perform(click())
+
+            release()
+        }
 
     }
 

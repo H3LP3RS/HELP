@@ -31,10 +31,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/visbycf_bold"
+            android:padding="10dp"
             android:text="@string/first_aid_categories"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:textSize="36sp"
-            android:padding="10dp"/>
+            android:textSize="36sp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -47,12 +47,12 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="20dp"
-                android:background="@drawable/red_background">
+                android:background="@drawable/persimmon_background">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-condensed-medium"
+                    android:fontFamily="@font/visbycf_medium"
                     android:padding="25dp"
                     android:text="@string/allergy_emergency"
                     android:textSize="25sp" />
@@ -64,6 +64,7 @@
                     android:layout_alignParentBottom="true"
                     android:background="#00000000"
                     android:onClick="goToButtonActivity"
+                    android:fontFamily="@font/visbycf_regular"
                     android:padding="20dp"
                     android:text="@string/expand" />
 
@@ -85,13 +86,13 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:background="@drawable/red_background"
+                android:background="@drawable/persimmon_background"
                 android:layout_margin="20dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-condensed-medium"
+                    android:fontFamily="@font/visbycf_medium"
                     android:padding="25dp"
                     android:text="@string/heart_attack_emergency"
                     android:textSize="25sp" />
@@ -104,6 +105,7 @@
                     android:layout_marginBottom="0dp"
                     android:background="#00000000"
                     android:onClick="goToButtonActivity"
+                    android:fontFamily="@font/visbycf_regular"
                     android:padding="20dp"
                     android:text="@string/expand" />
 
@@ -125,13 +127,13 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:background="@drawable/red_background"
+                android:background="@drawable/persimmon_background"
                 android:layout_margin="20dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-condensed-medium"
+                    android:fontFamily="@font/visbycf_medium"
                     android:padding="25dp"
                     android:text="@string/defibrillator_tutorial"
                     android:textSize="25sp" />
@@ -143,6 +145,7 @@
                     android:layout_alignParentBottom="true"
                     android:background="#00000000"
                     android:onClick="goToButtonActivity"
+                    android:fontFamily="@font/visbycf_regular"
                     android:padding="20dp"
                     android:text="@string/expand" />
 
@@ -164,13 +167,13 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:background="@drawable/red_background"
+                android:background="@drawable/persimmon_background"
                 android:layout_margin="20dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-condensed-medium"
+                    android:fontFamily="@font/visbycf_medium"
                     android:padding="25dp"
                     android:text="@string/asthma_attack"
                     android:textSize="25sp" />
@@ -182,6 +185,7 @@
                     android:layout_alignParentBottom="true"
                     android:background="#00000000"
                     android:onClick="goToButtonActivity"
+                    android:fontFamily="@font/visbycf_regular"
                     android:padding="20dp"
                     android:text="@string/expand" />
 

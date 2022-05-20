@@ -6,14 +6,18 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageButton
+import android.widget.TextView
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.storage.LocalStorage
+import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
+import com.github.h3lp3rs.h3lp.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.storage.Storages
+import com.github.h3lp3rs.h3lp.storage.Storages.*
+import com.github.h3lp3rs.h3lp.storage.Storages.Companion.disableOnlineSync
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.google.firebase.auth.AuthResult
@@ -35,7 +39,7 @@ class SignInActivity : AppCompatActivity() {
      */
     private fun checkToSAndLaunchIfNotAcceptedElseMain() {
         // Check ToS agreement
-        userCookie = storageOf(Storages.USER_COOKIE) // Fetch from storage
+        userCookie = storageOf(USER_COOKIE) // Fetch from storage
         if(!userCookie.getBoolOrDefault(getString(R.string.KEY_USER_AGREE), false)) {
             val intent = Intent(this, PresArrivalActivity::class.java)
             startActivity(intent)
@@ -69,15 +73,24 @@ class SignInActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         // Store the context for local storage use
         globalContext = this
+
         setContentView(R.layout.activity_sign_in)
         // Initialize Firebase Auth
         findViewById<ImageButton>(R.id.signInButton).setOnClickListener{
             launchSignIn()
         }
+
+        // Continue without sign in
+        findViewById<TextView>(R.id.noSignInText).setOnClickListener {
+            username = GUEST_USER
+            disableOnlineSync()
+            checkToSAndLaunchIfNotAcceptedElseMain()
+        }
+
         // Sign in local storage doesn't need online sync
-        Storages.SIGN_IN.setOnlineSync(false)
         USER_SIGNED_IN = getString(R.string.KEY_USER_SIGNED_IN)
         USER_UID = getString(R.string.KEY_USER_UID)
         USER_NAME = getString(R.string.KEY_USER_NAME)
@@ -111,8 +124,14 @@ class SignInActivity : AppCompatActivity() {
                     userUid = signInClient.getUid()
                     // Only get the first name for privacy reasons
                     username = getInstance().currentUser?.displayName?.substringBefore(" ")
-                    
+
                     saveAuthentication()
+
+                    // Enable online sync for meaningful storages:
+                    SKILLS.setOnlineSync(true)
+                    MEDICAL_INFO.setOnlineSync(true)
+                    USER_COOKIE.setOnlineSync(true)
+
                     checkToSAndLaunchIfNotAcceptedElseMain()
                 }
             }
@@ -127,6 +146,8 @@ class SignInActivity : AppCompatActivity() {
         lateinit var globalContext: Context
         var userUid: String? = null
         private var username : String? = null
+
+        const val GUEST_USER = "Guest"
 
         /**
          * Getter on the global context

@@ -79,16 +79,16 @@
     <string name="presentation_placeholder_good_1">Find medical assistance nearby</string>
     <string name="presentation_placeholder_good_2">Have access to your medical card</string>
     <string name="presentation_placeholder_good_3">Call emergency services</string>
-    <string name="hospital">Nearby Hospitals</string>
+    <string name="hospital">Hospitals</string>
     <string name="map_hospital">Hospitals</string>
-    <string name="pharmacy">Nearby Pharmacies</string>
+    <string name="pharmacy">Pharmacies</string>
     <string name="map_pharmacy">Pharmacies</string>
-    <string name="defibrillator">Nearby Defibrillators</string>
+    <string name="defibrillator">Defibrillators</string>
     <string name="map_defibrillator">Defibrillators</string>
     <string name="first_aid">First Aid Tips</string>
-    <string name="hello">Hello!</string>
-    <string name="welcome_text">Welcome to the H3LP app!</string>
-    <string name="stay_safe">Stay safe!</string>
+    <string name="hello">Hello</string>
+    <string name="welcome_text">Welcome to the H3LP app</string>
+    <string name="stay_safe">Stay safe</string>
     <string name="cpr_rate">CPR rate</string>
     <string name="my_profile">My Profile</string>
     <string name="profile_button">Profile</string>
@@ -233,6 +233,7 @@
     <string name="drawer_closed">Close navigation drawer</string>
     <string name="h3lp3rs">H3LP3RS</string>
     <string name="about_us">About us</string>
+    <string name="rate_us">Rate us</string>
     <string name="logout">Logout</string>
     <string name="profile">Profile</string>
     <string name="login">Login</string>
@@ -261,7 +262,7 @@
     <string name="aed_step2">Prepare to let the AED analyze the heart’s rhythm</string>
     <string name="aed_step3">Deliver a shock. If no shock is advised, immediately start CPR, beginning with compressions</string>
     <string name="defibrillator_tutorial">Defibrillator tutorial</string>
-    <string name="asthma_attack">Asthma attack</string>
+    <string name="asthma_attack">Asthma</string>
     <string name="asthma_step1">Reassure the casualty and ask them to take their usual dose of their reliever inhaler. Ask them to breathe slowly.</string>
     <string name="asthma_step2">If they don’t improve within a few minutes, ask them to take a puff every 30 to 60 seconds, until they have had 10 puffs.</string>
     <string name="asthma_step3">Monitor their breathing and level of response. If the ambulance hasn\'t arrived within 15 minutes, repeat step 2.</string>
@@ -328,7 +329,7 @@
     <string name="emergency_contact">Emergency Contact</string>
     <string name="ambulance_call">Ambulance call</string>
     <string name="call_emergency_contact">call emergency contact</string>
-    <string name="type_your_message">Type your message...</string>
+    <string name="type_your_message">Type your message…</string>
     <string name="sender_s_text">Sender\'s text</string>
     <string name="receiver_s_text">Receiver\'s text</string>
     <string name="latest_messages">"   Latest messages"</string>
@@ -365,6 +366,12 @@
     <string name="neurology">Neurology</string>
     <string name="gynecology">Gynecology</string>
     <string name="forum_theme_key">forumThemeKey</string>
+    <string name="accept">Accept</string>
+    <string name="refuse">Refuse</string>
+    <string name="call_option">Who do you want to call?</string>
+    <string name="pass">Pass</string>
+    <string name="call_now">Call now</string>
+
     <string name="domain">Domain</string>
     <string name="professional_status">Professional status</string>
     <string name="experience">Experience</string>
@@ -385,9 +392,9 @@
     <string name="update_profile">Update profile</string>
     <string name="upload_failed">"Upload failed. Try again!"</string>
     <string name="helper">Helper</string>
+    <string name="without_sign_in_text"><u>Continue without sign in</u></string>
     <string name="basic_portal">Basic portal</string>
     <string name="we_hope_you_had_a_great_experience_using_our_app">We hope you had a great experience using our app</string>
-    <string name="rate_us">Rate us</string>
     <string name="value">Value</string>
     <string name="leave_a_comment">Leave a comment</string>
     <string name="send_feedback">Send feedback</string>
@@ -395,4 +402,8 @@
     <string name="forum_guide_prompt">Here you can ask any medical questions you have</string>
     <string name="toggle_switch_enable_notifications">Enable notifications for this post</string>
     <string name="date">Date</string>
+    <string name="sign_in_required">Sign in Required</string>
+    <string name="sign_in_popup_text">This feature is only accessible for signed in users. \n\n Sign in now to get help or help people in need.</string>
+    <string name="cancel">Cancel</string>
+    <string name="sign_in">Sign in</string>
 </resources>
