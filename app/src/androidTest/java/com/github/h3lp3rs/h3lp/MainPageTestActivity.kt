@@ -4,13 +4,14 @@ import android.Manifest
 import android.content.Intent
 import android.view.View
 import androidx.test.core.app.ActivityScenario
-import androidx.test.core.app.ActivityScenario.*
-import androidx.test.core.app.ApplicationProvider.*
+import androidx.test.core.app.ActivityScenario.launch
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.intent.Intents.*
-import androidx.test.espresso.intent.matcher.IntentMatchers.*
+import androidx.test.espresso.intent.Intents.intended
+import androidx.test.espresso.intent.Intents.release
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
@@ -32,13 +33,12 @@ import com.github.h3lp3rs.h3lp.professional.ProUser
 import com.github.h3lp3rs.h3lp.professional.VerificationActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
-import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
+import com.github.h3lp3rs.h3lp.storage.Storages.SKILLS
+import com.github.h3lp3rs.h3lp.storage.Storages.USER_COOKIE
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -250,7 +250,11 @@ class MainPageTestActivity : H3lpAppTest() {
         before()
         // Mock an emergency
         val emergenciesDb = MockDatabase()
-        emergenciesDb.setObject(TEST_EMERGENCY_ID, EmergencyInformation::class.java, EPIPEN_EMERGENCY_INFO)
+        emergenciesDb.setObject(
+            TEST_EMERGENCY_ID,
+            EmergencyInformation::class.java,
+            EPIPEN_EMERGENCY_INFO
+        )
         setDatabase(EMERGENCIES, emergenciesDb)
 
         val newEmergenciesDb = MockDatabase()
@@ -258,8 +262,10 @@ class MainPageTestActivity : H3lpAppTest() {
 
         setDatabase(NEW_EMERGENCIES, newEmergenciesDb)
         // Add to storage the skills
-        storageOf(SKILLS).setObject(globalContext.getString(R.string.my_skills_key),
-            HelperSkills::class.java, EPIPEN_SKILL)
+        storageOf(SKILLS).setObject(
+            globalContext.getString(R.string.my_skills_key),
+            HelperSkills::class.java, EPIPEN_SKILL
+        )
 
         // To track notifications
         launchAndDo {
@@ -269,8 +275,8 @@ class MainPageTestActivity : H3lpAppTest() {
 
     @Test
     fun clickingOnProPortalButtonGoesToProPortalIfVerifiedUser() {
-        val proUser = ProUser(USER_TEST_ID, "","","", "", "", "")
-        proUsersDb.setObject(USER_TEST_ID,ProUser::class.java, proUser)
+        val proUser = ProUser(USER_TEST_ID, "", "", "", "", "", "")
+        proUsersDb.setObject(USER_TEST_ID, ProUser::class.java, proUser)
         launchAndDo {
             clickingOnButtonWorksAndSendsIntent(
                 ProMainActivity::class.java,

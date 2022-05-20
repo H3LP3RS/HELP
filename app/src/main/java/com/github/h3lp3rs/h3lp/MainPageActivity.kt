@@ -341,8 +341,8 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
      */
     private fun findActivity(listItem: String, view: View) {
         when (listItem) {
-            PROFILE -> goToButtonActivity(view)
-            CPR_RATE -> goToButtonActivity(view)
+            PROFILE -> goToButtonActivity(button_profile)
+            CPR_RATE -> goToButtonActivity(button_cpr)
             TUTORIAL -> viewPresentation(view)
             HOSPITALS -> goToNearbyHospitals(view)
             PHARMACIES -> goToNearbyPharmacies(view)

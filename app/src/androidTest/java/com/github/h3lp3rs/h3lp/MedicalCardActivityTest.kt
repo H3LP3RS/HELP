@@ -16,9 +16,10 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
+import com.github.h3lp3rs.h3lp.database.MockDatabase
 import com.github.h3lp3rs.h3lp.dataclasses.BloodType
 import com.github.h3lp3rs.h3lp.dataclasses.Gender
-import com.github.h3lp3rs.h3lp.database.MockDatabase
+import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation.Companion.ADULT_AGE
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.storage.Storages
@@ -100,10 +101,16 @@ class MedicalCardActivityTest : H3lpAppTest() {
     }
 
     @Test
-    fun validYearNumberDoesNotLeadsToError() {
+    fun validYearNumberDoesNotLeadToError() {
+        // Testing with the current year minus the age to be an adult to make the user eligible to
+        // use the app
         launchAndDo {
             onView(withId(R.id.medicalInfoBirthEditTxt))
-                .perform(replaceText(Calendar.getInstance().get(Calendar.YEAR).toString()))
+                .perform(
+                    replaceText(
+                        (Calendar.getInstance().get(Calendar.YEAR) - ADULT_AGE).toString()
+                    )
+                )
             onView(withId(R.id.medicalInfoBirthTxtLayout)).check(
                 matches(
                     not(hasInputLayoutError())
@@ -113,7 +120,7 @@ class MedicalCardActivityTest : H3lpAppTest() {
     }
 
     @Test
-    fun validPhoneNumberDoesNotLeadToError(){
+    fun validPhoneNumberDoesNotLeadToError() {
         launchAndDo {
             for (validNumber in VALID_FORMAT_NUMBERS) {
                 onView(withId(R.id.medicalInfoContactNumberEditTxt))
@@ -128,7 +135,7 @@ class MedicalCardActivityTest : H3lpAppTest() {
     }
 
     @Test
-    fun emergencyNumberAsContactNumberLeadToError(){
+    fun emergencyNumberAsContactNumberLeadToError() {
         val emergencyNumber = "144"
         launchAndDo {
             onView(withId(R.id.medicalInfoContactNumberEditTxt))
@@ -142,7 +149,7 @@ class MedicalCardActivityTest : H3lpAppTest() {
     }
 
     @Test
-    fun incorrectContactNumberLeadToError(){
+    fun incorrectContactNumberLeadToError() {
         val wrongNumbers = arrayOf("118 912", "pizza number", "my mum", "02145566991")
         launchAndDo {
             for (wrongNumber in wrongNumbers) {
@@ -255,7 +262,7 @@ class MedicalCardActivityTest : H3lpAppTest() {
         }
     }
 
-    private fun fillCorrectInfo(){
+    private fun fillCorrectInfo() {
         onView(withId(R.id.medicalInfoHeightEditTxt))
             .perform(replaceText((ctx.resources.getInteger(R.integer.maxHeight) - 1).toString()))
         onView(withId(R.id.medicalInfoWeightEditTxt))
@@ -275,13 +282,17 @@ class MedicalCardActivityTest : H3lpAppTest() {
         launchAndDo {
             fillCorrectInfo()
             onView(withId(R.id.medicalInfoHeightEditTxt))
-                .perform(scrollTo(), replaceText((ctx.resources.getInteger(R.integer.maxHeight) + 1).toString()))
+                .perform(
+                    scrollTo(),
+                    replaceText((ctx.resources.getInteger(R.integer.maxHeight) + 1).toString())
+                )
             onView(withId(R.id.medicalInfoSaveButton))
                 .perform(scrollTo(), click())
             onView(withText(R.string.invalid_field_msg))
                 .check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
         }
     }
+
     @Test
     fun savingChangeWithoutAcceptingPrivacyShowsSnack() {
         launchAndDo {
@@ -323,7 +334,6 @@ class MedicalCardActivityTest : H3lpAppTest() {
     }
 
 
-
     @Test
     fun backButtonWorks() {
         launchAndDo {
@@ -341,7 +351,7 @@ class MedicalCardActivityTest : H3lpAppTest() {
      * See : https://stackoverflow.com/questions/38842034/how-to-test-textinputlayout-values-hint-error-etc-using-android-espresso
      */
     private fun hasInputLayoutError(): Matcher<View> = object : TypeSafeMatcher<View>() {
-        override fun describeTo(description: Description?) { }
+        override fun describeTo(description: Description?) {}
         override fun matchesSafely(item: View?): Boolean {
             if (item !is TextInputLayout) return false
             item.error ?: return false
@@ -353,12 +363,13 @@ class MedicalCardActivityTest : H3lpAppTest() {
      * Custom matcher to test error message on TextInputLayout.
      * See : https://stackoverflow.com/questions/38842034/how-to-test-textinputlayout-values-hint-error-etc-using-android-espresso
      */
-    private fun hasTextInputLayoutError(msg : String): Matcher<View> = object : TypeSafeMatcher<View>() {
-        override fun describeTo(description: Description?) { }
-        override fun matchesSafely(item: View?): Boolean {
-            if (item !is TextInputLayout) return false
-            val error = item.error ?: return false
-            return error.toString()==msg
+    private fun hasTextInputLayoutError(msg: String): Matcher<View> =
+        object : TypeSafeMatcher<View>() {
+            override fun describeTo(description: Description?) {}
+            override fun matchesSafely(item: View?): Boolean {
+                if (item !is TextInputLayout) return false
+                val error = item.error ?: return false
+                return error.toString() == msg
+            }
         }
-    }
 }
