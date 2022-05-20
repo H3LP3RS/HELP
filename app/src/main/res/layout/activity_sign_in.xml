@@ -60,15 +60,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:adjustViewBounds="false"
+            android:background="@color/white"
             android:src="@drawable/signinbutton"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:background="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.821"
             tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
+
+
+        <TextView
+            android:id="@+id/noSignInText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="3dp"
+            android:text="@string/without_sign_in_text"
+            android:textColor="@color/cancel_search_text"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/signInButton"
+            app:layout_constraintVertical_bias="0.0" />
 
         <ImageView
             android:id="@+id/imageView3"
@@ -83,6 +99,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/heart_link" />
+
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
