@@ -408,4 +408,5 @@
     <string name="sign_in_popup_text">This feature is only accessible for signed in users. \n\n Sign in now to get help or help people in need.</string>
     <string name="cancel">Cancel</string>
     <string name="sign_in">Sign in</string>
+    <string name="contact_the_helpers">Contact the helpers</string>
 </resources>
