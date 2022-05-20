@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="firebase_url">https://h3lp-signin-default-rtdb.europe-west1.firebasedatabase.app/</string>
+    <string name="firebase_auth_server_id">899579782202-t3orsbp6aov3i91c99r72kc854og8jad.apps.googleusercontent.com</string>
 </resources>

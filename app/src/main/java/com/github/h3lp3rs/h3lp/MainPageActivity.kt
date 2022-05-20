@@ -547,7 +547,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
  * @param isInScrollView If the button appears in the scroll view (the scrolling window in the middle
  * of the main page activity)
  * @param promptTextId The text that should be shown when the guide does an explanation for that
- *  button
+ * button
  */
 private data class MainPageButton(
     val buttonId: Int,

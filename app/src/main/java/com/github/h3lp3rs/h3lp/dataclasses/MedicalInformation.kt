@@ -8,6 +8,10 @@ import java.lang.IllegalArgumentException
 import java.time.Year
 
 /**
+ * Class representing some medical information about the user, this information can then be used by
+ * the helper or emergency services when they come to help, for example to not give the person in
+ * need of help some medication they're allergic to
+ *
  * @param size The user's size in cm
  * @param weight The user's weight in kg
  * @param gender The user's gender

@@ -40,7 +40,9 @@ class FirstAidActivity : AppCompatActivity() {
      */
     fun goToButtonActivity(view: View) {
         // If the view isn't one of the buttons, don't do anything
-        buttonToActivity[view]?.let { goToActivity(it) }
+        if (buttonToActivity.containsKey(view)) {
+            goToActivity(buttonToActivity[view])
+        }
     }
 
     /** Called when the user taps the back button */

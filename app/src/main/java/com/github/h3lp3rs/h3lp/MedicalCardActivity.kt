@@ -131,7 +131,7 @@ class MedicalCardActivity : AppCompatActivity() {
 
 
     /**
-     * Create an Field that test input and write error 7
+     * Creates a Field that tests the input and writes error 7
      * @param idEditText The id of the editText to test value
      * @param idTextInputLayout The Layout where to display erro
      * @param min The min margin

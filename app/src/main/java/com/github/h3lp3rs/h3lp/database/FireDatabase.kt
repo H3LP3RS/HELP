@@ -1,7 +1,9 @@
 package com.github.h3lp3rs.h3lp.database
 
 import android.util.Log
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.google.firebase.database.*
+import com.github.h3lp3rs.h3lp.R
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
@@ -14,10 +16,9 @@ import java.util.concurrent.CompletableFuture
  * in actuality, they are all on the same Firebase database but are different children on it to
  * allow us to separate the database into its different uses
  */
-class FireDatabase(path : String) : Database {
-
+class FireDatabase(path: String) : Database {
     private val db: DatabaseReference = Firebase
-        .database("https://h3lp-signin-default-rtdb.europe-west1.firebasedatabase.app/")
+        .database(globalContext.resources.getString(R.string.firebase_url))
         .reference.child(path)
     private val openValueListeners = HashMap<String, List<ValueEventListener>>()
     private val openEventListeners = HashMap<String, List<ChildEventListener>>()
@@ -27,7 +28,7 @@ class FireDatabase(path : String) : Database {
      * Only works on the following types (due to Firebase's policy):
      * - Boolean
      * - String
-     * - Long
+     * - Int
      * - Double
      * @param key The key in the database
      * @return A future containing the requested value (or a future completing exceptionally if
