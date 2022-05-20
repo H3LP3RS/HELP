@@ -4,7 +4,7 @@ package com.github.h3lp3rs.h3lp.database
  * Enumeration of all useful databases in H3LP
  */
 enum class Databases {
-    PREFERENCES, EMERGENCIES, NEW_EMERGENCIES, MESSAGES, CONVERSATION_IDS, PRO_USERS, FORUM;
+    PREFERENCES, EMERGENCIES, NEW_EMERGENCIES, MESSAGES, CONVERSATION_IDS, PRO_USERS, RATINGS;
 
     private var db: Database? = null // Var to enable test-time mocking
 

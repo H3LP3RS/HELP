@@ -374,7 +374,7 @@
                         android:layout_marginTop="@dimen/margin_image_inside_layout"
                         android:background = "@drawable/question"
                         android:contentDescription="@string/professional_portal"
-                        android:onClick="goToForumActivity" />
+                        android:onClick="goToButtonActivity" />
 
                     <TextView
                         android:layout_width="wrap_content"

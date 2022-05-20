@@ -19,10 +19,9 @@ import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
+import com.github.h3lp3rs.h3lp.database.Databases.PRO_USERS
 import com.github.h3lp3rs.h3lp.forum.ForumCategoriesActivity
 import com.github.h3lp3rs.h3lp.forum.ForumCategory
-import com.github.h3lp3rs.h3lp.database.Databases.PRO_USERS
-import com.github.h3lp3rs.h3lp.forum.FireForum
 import com.github.h3lp3rs.h3lp.forum.ForumPostsActivity
 import com.github.h3lp3rs.h3lp.notification.EmergencyListener
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
@@ -33,7 +32,6 @@ import com.github.h3lp3rs.h3lp.signin.SignIn
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.storage.LocalStorage
-import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.github.h3lp3rs.h3lp.storage.Storages.USER_COOKIE
 import com.google.android.material.navigation.NavigationView
@@ -62,7 +60,8 @@ private val mainPageButton = listOf(
     MainPageButton(R.id.button_defibrillator, true, R.string.defibrillators_guide_prompt),
     MainPageButton(R.id.button_pharmacy, true, R.string.pharmacies_guide_prompt),
     MainPageButton(R.id.button_first_aid, true, R.string.first_aid_guide_prompt),
-    MainPageButton(R.id.button_cpr, true, R.string.cpr_guide_prompt)
+    MainPageButton(R.id.button_cpr, true, R.string.cpr_guide_prompt),
+    MainPageButton(R.id.button_forum, true, R.string.forum_guide_prompt)
 )
 
 /**
@@ -97,6 +96,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
             button_first_aid to FirstAidActivity::class.java,
             button_cpr to CprRateActivity::class.java,
             HELP_button to HelpeeSelectionActivity::class.java,
+            button_forum to ForumCategoriesActivity::class.java
         )
 
         // Load the storage
@@ -211,7 +211,8 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         MaterialTapTargetPrompt.Builder(this)
             // Sets which button to highlight
             .setTarget(buttonId).setPrimaryText(R.string.guide_primary_prompt)
-            .setSecondaryText(button.promptTextId).setBackButtonDismissEnabled(false).setBackgroundColour(
+            .setSecondaryText(button.promptTextId).setBackButtonDismissEnabled(false)
+            .setBackgroundColour(
                 R.color.black
             ).setPromptStateChangeListener { _, state ->
                 // If the user clicks anywhere on the screen, we move to the next button
@@ -436,7 +437,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     }
 
     /** Called when the user taps the nearby defibrillators button */
-    fun goToNearbyDefibrillators(view : View) {
+    fun goToNearbyDefibrillators(view: View) {
         goToNearbyUtilities(resources.getString(R.string.nearby_defibrillators))
     }
 
