@@ -11,6 +11,7 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
+import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
@@ -184,7 +185,7 @@ class HelpPageActivityTest : H3lpAppTest() {
         launchAndDo {
 
             // We can close the popup => It's displayed :)
-            onView(withId(R.id.close_popup_button)).perform(click())
+            onView(withId(R.id.close_popup_button)).inRoot(RootMatchers.isFocusable()).perform(click())
 
             intended(
                 allOf(
