@@ -268,7 +268,7 @@ class HelpeeSelectionActivity : AppCompatActivity() {
      * @return The medication and skills that the user requires
      */
     private fun retrieveSelectedMedication(view: View): Pair<ArrayList<String>, HelperSkills> {
-        val viewGroup = view.parent as ViewGroup
+        val viewGroup = view as ViewGroup
 
         val meds = arrayListOf<String>()
         var skills = HelperSkills(
