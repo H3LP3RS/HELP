@@ -488,7 +488,7 @@
                 android:layout_marginBottom="8dp"
                 android:background="@drawable/help_button_background"
                 android:contentDescription="@string/help_button"
-                android:onClick="goToButtonActivity"
+                android:onClick="goToHelpParametersActivity"
                 android:elevation="4dp" />
 
 

@@ -2,12 +2,9 @@ package com.github.h3lp3rs.h3lp.storage
 
 import android.content.Context
 import android.security.keystore.UserNotAuthenticatedException
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
-import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.database.Databases.PREFERENCES
-import com.github.h3lp3rs.h3lp.signin.SignIn
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.getUid
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.SyncPref
 import com.google.gson.Gson
@@ -44,7 +41,7 @@ class LocalStorage(private val path: String, val context: Context) {
      * Update online parameters if needed
      * @throws UserNotAuthenticatedException if the user is not authenticated AND online sync is enabled.
      */
-    fun pull(){
+    fun pull() {
         if (isOnlineSyncEnabled()) {
             // Need to be authenticated if online sync is enabled
             val uid = getUid()
@@ -93,19 +90,20 @@ class LocalStorage(private val path: String, val context: Context) {
         if (isOnlineSyncEnabled()) {
             val uid = getUid()!!
             val db = databaseOf(PREFERENCES)
-        runBlocking {
-            // Run the push asynchronously since it requires slow I/O operations to read the
-            // preferences
-            launch {
-                if (isOnlineSyncEnabled()) {
-                    val uid = getUid()!!
-                    val db = databaseOf(PREFERENCES)
+            runBlocking {
+                // Run the push asynchronously since it requires slow I/O operations to read the
+                // preferences
+                launch {
+                    if (isOnlineSyncEnabled()) {
+                        val uid = getUid()!!
+                        val db = databaseOf(PREFERENCES)
 
-                    val json = JSONObject()
-                    for (entry in pref.all.entries) {
-                        json.put(entry.key.toString(), entry.value.toString())
+                        val json = JSONObject()
+                        for (entry in pref.all.entries) {
+                            json.put(entry.key.toString(), entry.value.toString())
+                        }
+                        db.setString("$path/$uid", json.toString())
                     }
-                    db.setString("$path/$uid", json.toString())
                 }
             }
         }
