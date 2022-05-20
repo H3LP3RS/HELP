@@ -111,7 +111,9 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     /**
-     * return the boolean from a switch button
+     * Return the boolean from a switch button
+     * @param id The switch button's id
+     * @return True if the switch was checked, false otherwise
      */
     private fun getBooleanFromSwitch(id: Int): Boolean {
         return findViewById<CheckBox>(id).isChecked

@@ -26,7 +26,7 @@ object GeneralLocationManager {
     /**
      * Sets the location manager to the default one
      */
-    fun setSystemManager() {
+    fun setDefaultSystemManager() {
         locationManager = SystemLocationAdapter
     }
 }

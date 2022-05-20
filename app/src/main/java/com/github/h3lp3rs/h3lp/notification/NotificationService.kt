@@ -1,6 +1,5 @@
 package com.github.h3lp3rs.h3lp.notification
 
-import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -9,7 +8,6 @@ import android.app.PendingIntent.FLAG_ONE_SHOT
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
-import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.github.h3lp3rs.h3lp.R
@@ -24,27 +22,26 @@ class NotificationService {
 
     companion object {
         private const val CHANNEL_ID = "Help_channel_id"
-        private var notificationId= 0
+        private var notificationId = 0
 
         /**
          * Create the notification channel for HELP application
          * Should be called before sending any notification
-         * @param ctx the context of the app
-         * @note If the Notification Channel is already created this function doesn't recreate it and just do nothing
+         * @param ctx The context of the app
+         * @note If the Notification Channel is already created this function doesn't recreate it
+         * and just does nothing
          */
         fun createNotificationChannel(ctx: Context) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val title = ctx.resources.getString(R.string.notification_manager_title)
-                val descriptiontxt =
-                    ctx.resources.getString(R.string.notification_manager_description)
-                val importance = NotificationManager.IMPORTANCE_HIGH
-                val channel = NotificationChannel(CHANNEL_ID, title, importance).apply {
-                    description = descriptiontxt
-                }
-                val notificationManager: NotificationManager =
-                    ctx.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-                notificationManager.createNotificationChannel(channel)
+            val title = ctx.resources.getString(R.string.notification_manager_title)
+            val descriptionTxt =
+                ctx.resources.getString(R.string.notification_manager_description)
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val channel = NotificationChannel(CHANNEL_ID, title, importance).apply {
+                description = descriptionTxt
             }
+            val notificationManager: NotificationManager =
+                ctx.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
         }
 
         /**
@@ -53,9 +50,9 @@ class NotificationService {
          * @param title Title on the notification
          * @param description Description on the notification
          */
-        fun sendSimpleNotification(ctx:Context,title : String, description : String){
-            val builder = buildBasicNotification(ctx,title,description)
-            sendNotification(builder.build(),ctx)
+        fun sendSimpleNotification(ctx: Context, title: String, description: String) {
+            val builder = buildBasicNotification(ctx, title, description)
+            sendNotification(builder.build(), ctx)
         }
 
         /**
@@ -65,12 +62,19 @@ class NotificationService {
          * @param description Description on the notification
          * @param intent the intent to trigger when the notification is clicked
          */
-        fun sendIntentNotification(ctx:Context, title : String, description : String, intent : Intent){
-            val pendingIntent : PendingIntent = PendingIntent.getActivity(ctx,
-                FLAG_ONE_SHOT,intent , FLAG_ONE_SHOT)
-            val builder = buildBasicNotification(ctx,title,description)
+        fun sendIntentNotification(
+            ctx: Context,
+            title: String,
+            description: String,
+            intent: Intent
+        ) {
+            val pendingIntent: PendingIntent = PendingIntent.getActivity(
+                ctx,
+                FLAG_ONE_SHOT, intent, FLAG_ONE_SHOT
+            )
+            val builder = buildBasicNotification(ctx, title, description)
                 .setContentIntent(pendingIntent)
-            sendNotification(builder.build(),ctx)
+            sendNotification(builder.build(), ctx)
         }
 
         /**
@@ -80,11 +84,16 @@ class NotificationService {
          * @param description Description on the notification
          * @param activity activity to open when the notification is clicked
          */
-        fun <T> sendOpenActivityNotification(ctx:Context, title: String, description: String, activity: Class<T>){
-            val intent= Intent(ctx, activity).apply {
+        fun <T> sendOpenActivityNotification(
+            ctx: Context,
+            title: String,
+            description: String,
+            activity: Class<T>
+        ) {
+            val intent = Intent(ctx, activity).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
-            sendIntentNotification(ctx,title,description,intent)
+            sendIntentNotification(ctx, title, description, intent)
         }
 
         /**
@@ -93,23 +102,27 @@ class NotificationService {
          * @param notification the notification to send
          * @param ctx the app context from whem to throw notification
          */
-        private fun sendNotification(notification : Notification, ctx: Context){
+        private fun sendNotification(notification: Notification, ctx: Context) {
             with(NotificationManagerCompat.from(ctx)) {
                 notify(notificationId, notification)
             }
-            synchronized(this){
+            synchronized(this) {
                 notificationId++
             }
         }
 
         /**
-         * Build a stylized notification for the H3LP application
-         * @param ctx the app context
-         * @param title the title to add to the notification
-         * @param description the description to add to the notification
-         * @return a^uncompleted notificationCompat builder with the sryle of the H3LP app
+         * Builds a stylized notification for the H3LP application
+         * @param ctx The app context
+         * @param title The title to add to the notification
+         * @param description The description to add to the notification
+         * @return An uncompleted notificationCompat builder with the style of the H3LP app
          */
-        private fun buildBasicNotification(ctx:Context,title : String, description : String) : NotificationCompat.Builder{
+        private fun buildBasicNotification(
+            ctx: Context,
+            title: String,
+            description: String
+        ): NotificationCompat.Builder {
             val bigImageBitmap = BitmapFactory.decodeResource(
                 ctx.resources,
                 R.drawable.notification_icon

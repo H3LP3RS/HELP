@@ -32,7 +32,6 @@ class GoogleAPIHelper(private val apiKey: String): CoroutineScope by MainScope()
      * @param mapsFragment The map fragment to display the path on
      * @param usePathData Method that acts as a future on the String returned by the Google
      *  directions API in case the caller needs to reuse it, the default is doing nothing
-     * @param
      */
     fun displayWalkingPath(
         currentLat: Double,
@@ -50,13 +49,12 @@ class GoogleAPIHelper(private val apiKey: String): CoroutineScope by MainScope()
         // Launches async routines to retrieve the path to the destination and display it on the map
         CoroutineScope(Dispatchers.Main).launch {
             val data: String = withContext(Dispatchers.IO) { downloadUrl(url) }
-            Log.i("GPath", data)
 
             // Retrieve the path from the JSON received
             val path = parseTask(data, GPathJSONParser)
-            path.let {
+            path?.let {
                 // Displays the path and adds a marker for the end point
-                mapsFragment.showPolyline(path)
+                mapsFragment.showPolyline(it)
                 mapsFragment.addMarker(
                     destinationLat, destinationLong,
                     END_POINT_NAME
@@ -70,6 +68,9 @@ class GoogleAPIHelper(private val apiKey: String): CoroutineScope by MainScope()
     /**
      * Finds the nearby utilities and displays them
      * @param utility The utility searched for (pharmacies, hospitals or defibrillators)
+     * @param longitude The longitude of the user (to define what "nearby" means)
+     * @param latitude The latitude of the user (to define what "nearby" means)
+     * @param mapsFragment The map fragment to display the utilities on
      */
     fun findNearbyUtilities(utility: String, longitude: Double, latitude: Double, map: MapsFragment) {
         if (!requestedPlaces.containsKey(utility)) {
@@ -87,8 +88,10 @@ class GoogleAPIHelper(private val apiKey: String): CoroutineScope by MainScope()
                 CoroutineScope(Dispatchers.Main).launch {
                     val pathData = withContext(Dispatchers.IO) { downloadUrl(url) }
 
-                    requestedPlaces[utility] = parseTask(pathData, GPlaceJSONParser)
-                    requestedPlaces[utility]?.let { map.showPlaces(it, utility) }
+                    parseTask(pathData, GPlaceJSONParser)?.let {
+                        requestedPlaces[utility] = it
+                        map.showPlaces(it, utility)
+                    }
                 }
             }
         } else {
@@ -98,16 +101,20 @@ class GoogleAPIHelper(private val apiKey: String): CoroutineScope by MainScope()
 
     /**
      * General method to parse a string with any JSON parser
+     * @param data The string to parse
+     * @param parser The JSON parser to parse this string
+     * @return The parsed object (or null if there was a parsing error)
      */
-    fun <T> parseTask(data: String, parser: JSONParserInterface<T>): T {
+    fun <T> parseTask(data: String, parser: JSONParserInterface<T>): T? {
         return parser.parseResult(JSONObject(data))
     }
 
     /**
      * General method to download the information returned by accessing an url
      * @param url The url to download from
+     * @return The information (as a String) that was contained on that url
      */
-    fun downloadUrl(url: String): String {
+    private fun downloadUrl(url: String): String {
         val connection = URL(url).openConnection() as HttpURLConnection
         connection.connect()
 

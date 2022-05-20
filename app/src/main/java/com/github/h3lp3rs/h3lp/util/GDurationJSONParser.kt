@@ -23,12 +23,12 @@ object GDurationJSONParser : JSONParserInterface<String> {
      * @param obj the original JSON object
      * @return a string representing the time required for the path (e.g. "2 hours 1 min")
      */
-    override fun parseResult(obj: JSONObject): String {
+    override fun parseResult(obj: JSONObject): String? {
         return try {
             val legs = parseLegs(obj)
             getDurationFromLegs(legs)
         } catch (e: JSONException) {
-            ""
+            null
         }
     }
 

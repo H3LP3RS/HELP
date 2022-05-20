@@ -60,10 +60,16 @@ class SwipeListener(
             RIGHT(R.anim.slide_in_left, R.anim.slide_out_right);
         }
 
+        /**
+         * Method to swipe from an activity to a new one
+         * @param curr The current activity
+         * @param dir The swipe direction with which to go to the new activity
+         * @param activityName The activity to launch after having swiped
+         */
         fun swipeToNextActivity(curr: AppCompatActivity, dir: SlideDirection,
-                                ActivityName: Class<*>?): () -> Unit {
+                                activityName: Class<*>?): () -> Unit {
             return {
-                val i = Intent(curr, ActivityName)
+                val i = Intent(curr, activityName)
                 curr.startActivity(i)
                 curr.overridePendingTransition(dir.slideIn, dir.slideOut)
             }

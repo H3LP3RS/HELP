@@ -2,9 +2,8 @@ package com.github.h3lp3rs.h3lp.locationmanager
 
 import android.content.Context
 import android.location.Location
-import kotlin.math.*
-
 import java.util.concurrent.CompletableFuture
+import kotlin.math.*
 
 /**
  * General interface displaying the methods required from a location manager in the context of the
@@ -44,7 +43,7 @@ interface LocationManagerInterface {
         // Names of the runtime exceptions to throw when getCurrentLocation fails
         const val GET_LOCATION_EXCEPTION = "Location could not be retrieved"
         const val GET_PERMISSIONS_EXCEPTION = "Location permissions were not granted"
-        const val EARTH_RADIUS = 6371 // Radius of the earth in km
+        private const val EARTH_RADIUS = 6371 // Radius of the earth in km
 
         /**
          * Calculates the distance in meters between two lat/lon points on Earth

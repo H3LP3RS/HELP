@@ -1,10 +1,8 @@
 package com.github.h3lp3rs.h3lp
 
 import android.content.Intent
-
 import android.icu.util.Calendar
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
@@ -12,27 +10,29 @@ import android.text.TextPaint
 import android.text.TextUtils
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
-
 import android.view.View
-import android.widget.*
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import android.widget.CheckBox
+import android.widget.EditText
 import androidx.annotation.RequiresApi
-import androidx.core.widget.doOnTextChanged
-import com.google.android.material.textfield.TextInputLayout
-
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation.Companion.DEFAULT_COUNTRY
+import androidx.core.widget.doOnTextChanged
 import com.github.h3lp3rs.h3lp.dataclasses.BloodType
 import com.github.h3lp3rs.h3lp.dataclasses.Gender
 import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation
+import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation.Companion.ADULT_AGE
+import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation.Companion.DEFAULT_COUNTRY
+import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation.Companion.EMPTY_NB
 import com.github.h3lp3rs.h3lp.storage.LocalStorage
-import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
+import com.github.h3lp3rs.h3lp.storage.Storages.MEDICAL_INFO
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputLayout
 import com.google.i18n.phonenumbers.PhoneNumberUtil
-import android.widget.EditText
-import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation.Companion.EMPTY_NB
 
 
 class MedicalCardActivity : AppCompatActivity() {
@@ -47,11 +47,36 @@ class MedicalCardActivity : AppCompatActivity() {
         storage = storageOf(MEDICAL_INFO)
         loadData()
 
-        createBirthField()
-        createHeightField()
-        createWeightField()
-        createBloodField()
-        createGenderField()
+        // Create the field for the birth year with input check
+        createTestField(
+            R.id.medicalInfoBirthEditTxt,
+            R.id.medicalInfoBirthTxtLayout,
+            resources.getInteger(R.integer.minYear),
+            Calendar.getInstance().get(Calendar.YEAR) - ADULT_AGE,
+            getString(R.string.yearTooOld),
+            getString(R.string.yearTooRecent)
+        )
+
+        // Create the field for the height with input check
+        createTestField(
+            R.id.medicalInfoHeightEditTxt, R.id.medicalInfoHeightTxtLayout,
+            resources.getInteger(R.integer.minHeight), resources.getInteger(R.integer.maxHeight),
+            getString(R.string.heightTooShort), getString(R.string.heightTooBig)
+        )
+
+        // Create the field for the weight with input check
+        createTestField(
+            R.id.medicalInfoWeightEditTxt, R.id.medicalInfoWeightTxtLayout,
+            resources.getInteger(R.integer.minWeight), resources.getInteger(R.integer.maxWeight),
+            getString(R.string.weightTooLight), getString(R.string.weightTooHeavy)
+        )
+
+        // Create Blood type dropDown menu in an InputTextLayout
+        createDropdownField(BloodType.values().map { it.type }, R.id.medicalInfoBloodDropdown)
+
+        // Create Gender dropDown menu in an InputTextLayout
+        createDropdownField(Gender.values().map { it.name }, R.id.medicalInfoGenderDropdown)
+
         createPrivacyCheckBox()
         createPhoneNumberField()
 
@@ -71,7 +96,7 @@ class MedicalCardActivity : AppCompatActivity() {
 
 
     /**
-     * initialises the field for emergency contact phone number so that we make
+     * Initialises the field for emergency contact phone number so that we make
      * sure to allow only valid phone numbers, or display an error.
      */
     @RequiresApi(Build.VERSION_CODES.O)
@@ -88,7 +113,7 @@ class MedicalCardActivity : AppCompatActivity() {
                         val number =
                             PhoneNumberUtil.getInstance().parse(
                                 text.toString().trimStart('0'),
-                                MedicalInformation.DEFAULT_COUNTRY
+                                DEFAULT_COUNTRY
                             )
                         if (PhoneNumberUtil.getInstance().isPossibleNumber(number)) {
                             phoneInputLayout.error = null
@@ -106,13 +131,13 @@ class MedicalCardActivity : AppCompatActivity() {
 
 
     /**
-     * create an Field that test input and write error 7
-     * @param idEditText the id of the editText to test value
-     * @param idTextInputLayout the Layout where to display erro
-     * @param min the min margin
-     * @param max the max margin
-     * @param minErrorMsg the message to display if smallest than min
-     * @param maxErrorMsg the message to display if biggest than min
+     * Creates a Field that tests the input and writes error 7
+     * @param idEditText The id of the editText to test value
+     * @param idTextInputLayout The Layout where to display erro
+     * @param min The min margin
+     * @param max The max margin
+     * @param minErrorMsg The message to display if smallest than min
+     * @param maxErrorMsg The message to display if biggest than min
      */
     private fun createTestField(
         idEditText: Int, idTextInputLayout: Int, min: Int, max: Int,
@@ -140,85 +165,9 @@ class MedicalCardActivity : AppCompatActivity() {
 
 
     /**
-     * create the field for the birth year with input check
-     */
-    private fun createBirthField() {
-        createTestField(
-            R.id.medicalInfoBirthEditTxt, R.id.medicalInfoBirthTxtLayout,
-            resources.getInteger(R.integer.minYear), Calendar.getInstance().get(Calendar.YEAR),
-            getString(R.string.yearTooOld), getString(R.string.yearTooRecent)
-        )
-    }
-
-    /**
-     * create the field for the height with input check
-     */
-    private fun createHeightField() {
-        createTestField(
-            R.id.medicalInfoHeightEditTxt, R.id.medicalInfoHeightTxtLayout,
-            resources.getInteger(R.integer.minHeight), resources.getInteger(R.integer.maxHeight),
-            getString(R.string.heightTooShort), getString(R.string.heightTooBig)
-        )
-    }
-
-    /**
-     * create the field for the weight with input check
-     */
-    private fun createWeightField() {
-        createTestField(
-            R.id.medicalInfoWeightEditTxt, R.id.medicalInfoWeightTxtLayout,
-            resources.getInteger(R.integer.minWeight), resources.getInteger(R.integer.maxWeight),
-            getString(R.string.weightTooLight), getString(R.string.weightTooHeavy)
-        )
-    }
-
-    /**
-     * create Blood type dropDown menu in an InputTextLayout
-     */
-    private fun createBloodField() {
-        createDropdownField(BloodType.values().map { it.type }, R.id.medicalInfoBloodDropdown)
-    }
-
-    /**
-     * create Gender dropDown menu in an InputTextLayout
-     */
-    private fun createGenderField() {
-        createDropdownField(Gender.values().map { it.name }, R.id.medicalInfoGenderDropdown)
-    }
-
-    /**
-     * create Dropdown menu compatible with a TextInputLayout using autocomplete
-     * @param list list of element of the dropdown
-     * @param dropdownId of the dropdown layout
-     */
-    private fun createDropdownField(list: List<String>, dropdownId: Int) {
-        val adapter = ArrayAdapter(
-            this,
-            R.layout.dropdown_menu_popup,
-            list
-        )
-
-        val editTextFilledExposedDropdown =
-            findViewById<AutoCompleteTextView>(dropdownId)
-
-        editTextFilledExposedDropdown.setAdapter(adapter)
-    }
-
-
-    /**
-     * Create an help button at the end of the text layout with
-     * @param textLayout TeytInputLayout
-     * @param str the help message
-     */
-    private fun createHelpField(textLayout: TextInputLayout, str: String) {
-        textLayout.setEndIconOnClickListener { createSnackbar(it, str) }
-    }
-
-
-    /**
      * Create a stylized Snackbar
-     * @param it the view in which the snack should appeared
-     * @param str the message to display
+     * @param it The view in which the snack should appeared
+     * @param str The message to display
      */
     private fun createSnackbar(it: View, str: String) {
         val snack = Snackbar.make(it, str, Snackbar.LENGTH_LONG)
@@ -291,14 +240,18 @@ class MedicalCardActivity : AppCompatActivity() {
     }
 
     /**
-     * load string in an editTxt
+     * Writes the given text into a view
+     * @param data The text to write to the view
+     * @param editTxtId The id of the view to write to
      */
     private fun loadTo(data: String, editTxtId: Int) {
         findViewById<EditText>(editTxtId).setText(data)
     }
 
     /**
-     * load int in an editTxt
+     * Overrides loadTo by writing the given int into a view
+     * @param data The int to write to the view
+     * @param editTxtId The id of the view to write to
      */
     private fun loadTo(data: Int, editTxtId: Int) {
         loadTo(data.toString(), editTxtId)
@@ -323,6 +276,7 @@ class MedicalCardActivity : AppCompatActivity() {
 
     /**
      * Check that no deterministic field is left empty
+     * @return True if any of the fields is empty, false otherwise
      */
     private fun checkNull(): Boolean {
         return textIsEmpty(R.id.medicalInfoHeightEditTxt) ||
@@ -332,15 +286,27 @@ class MedicalCardActivity : AppCompatActivity() {
                 noChoiceSelected(R.id.medicalInfoBloodDropdown)
     }
 
+    /**
+     * Checks if a view's text is empty
+     * @param id The view's id
+     * @return True if the view's text is empty, false otherwise
+     */
     private fun textIsEmpty(id: Int): Boolean {
         return findViewById<EditText>(id).text.toString().isEmpty()
     }
-    private fun noChoiceSelected(id : Int): Boolean{
-        return  findViewById<AutoCompleteTextView>(id).text.toString().isEmpty()
+
+    /**
+     * Checks if an autocompleted view's text is empty
+     * @param id The view's id
+     * @return True if the view's text is empty, false otherwise
+     */
+    private fun noChoiceSelected(id: Int): Boolean {
+        return findViewById<AutoCompleteTextView>(id).text.toString().isEmpty()
     }
 
     /**
      * Check validity of the field
+     * @return True if all the answers to the fields are valid, false otherwise
      */
     private fun checkField(): Boolean {
         val size = findViewById<TextInputLayout>(R.id.medicalInfoHeightTxtLayout)
@@ -355,6 +321,8 @@ class MedicalCardActivity : AppCompatActivity() {
 
     /**
      * Check that the policy was accepted
+     * @return True if the medical privacy policy's checkbox was indeed accepted / checked by the
+     * user, false otherwise
      */
     private fun checkPolicy(): Boolean {
         return findViewById<CheckBox>(R.id.medicalInfoPrivacyCheck).isChecked
@@ -404,10 +372,49 @@ class MedicalCardActivity : AppCompatActivity() {
         storage.push()
     }
 
+
+    /**
+     * Create an help button at the end of the text layout with
+     * @param textLayout TeytInputLayout
+     * @param str the help message
+     */
+    private fun createHelpField(textLayout: TextInputLayout, str: String) {
+        textLayout.setEndIconOnClickListener { createSnackbar(it, str) }
+    }
+
+    /**
+     * Create Dropdown menu compatible with a TextInputLayout using autocomplete
+     * @param list list of element of the dropdown
+     * @param dropdownId of the dropdown layout
+     */
+    private fun createDropdownField(list: List<String>, dropdownId: Int) {
+        val adapter = ArrayAdapter(
+            this,
+            R.layout.dropdown_menu_popup,
+            list
+        )
+
+        val editTextFilledExposedDropdown =
+            findViewById<AutoCompleteTextView>(dropdownId)
+
+        editTextFilledExposedDropdown.setAdapter(adapter)
+    }
+
+    /**
+     * Returns the text from a text view
+     * @param editTxtId The text view's id
+     * @return The text contained in this text view
+     */
     private fun getStringFromId(editTxtId: Int): String {
         return findViewById<EditText>(editTxtId).text.toString()
     }
 
+    /**
+     * Returns the int contained in a text view (in case that view was used to store numbers
+     * exclusively)
+     * @param editTxtId The text view's id
+     * @return The int contained in this text view
+     */
     private fun getIntFromId(editTxtId: Int): Int {
         return getStringFromId(editTxtId).toInt()
     }

@@ -42,7 +42,7 @@ class ProProfileActivityTest {
         Intents.init()
         VerificationActivity.currentUserId = USER_TEST_ID
         VerificationActivity.currentUserName = ""
-        setDatabase(Databases.PRO_USERS,MockDatabase())
+        setDatabase(Databases.PRO_USERS, MockDatabase())
         proUsersDb.setObject(USER_TEST_ID,ProUser::class.java, proUser)
     }
 

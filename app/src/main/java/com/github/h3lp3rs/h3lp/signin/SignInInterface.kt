@@ -19,7 +19,7 @@ interface SignInInterface<T> {
     fun signIn(currentActivity: Activity): Intent
 
     /**
-     * Returns a boolean saying if a user is currently signed in or not
+     * @return A boolean: True if the user is currently signed in, false otherwise
      */
     fun isSignedIn(): Boolean
 
@@ -42,4 +42,9 @@ interface SignInInterface<T> {
      * @return uid (null if not signed in)
      */
     fun getUid(): String?
+
+    /**
+     * @return The date at which the account was created or null if an error occurred
+     */
+    fun getCreationDate(): String?
 }
