@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/back_login"
+        android:src="@drawable/back_login2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent=".27"
@@ -23,26 +23,26 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/round_corners"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent=".78"
+        app:layout_constraintHeight_percent=".90"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView2"
         app:layout_constraintVertical_bias="1">
 
 
         <TextView
             android:id="@+id/textView2"
+            android:layout_marginTop="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:fontFamily="sans-serif-condensed-medium"
+            android:fontFamily="@font/visbycf_medium"
             android:text="@string/pro_welcome"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="33sp"
-            android:textStyle="italic"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -50,12 +50,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="120dp"
             android:layout_marginStart="10dp"
-            android:fontFamily="sans-serif-condensed-medium"
+            android:layout_marginTop="120dp"
+            android:fontFamily="@font/visbycf_regular"
             android:text="@string/upload_message"
             android:textAlignment="center"
-            android:textSize="20sp"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -86,16 +86,17 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="250dp"
             android:text="@string/upload"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:backgroundTint="@color/persimmon"/>
 
         <ProgressBar
             android:id="@+id/progress_bar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_marginStart="10dp"
             android:layout_marginTop="310dp"
-            />
+            android:progressTint="@color/persimmon"/>
 
         <ImageView
             android:id="@+id/file"

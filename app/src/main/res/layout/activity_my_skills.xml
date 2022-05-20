@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/back_login"
+        android:src="@drawable/back_login2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent=".27"
@@ -74,13 +74,12 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="32dp"
                         android:layout_marginBottom="8dp"
-                        android:background="@drawable/teal_background"
+                        android:background="@drawable/persimmon_background"
                         tools:ignore="UselessParent">
 
 
                         <ImageView
                             android:id="@+id/epipenImageSkills"
-                            android:contentDescription="@string/epipen"
                             android:layout_width="64dp"
                             android:layout_height="64dp"
                             android:layout_alignParentStart="true"
@@ -89,6 +88,7 @@
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="16dp"
                             android:layout_marginBottom="16dp"
+                            android:contentDescription="@string/epipen"
                             app:layout_constraintStart_toStartOf="parent"
                             app:srcCompat="@drawable/epipen_line" />
 
@@ -108,6 +108,7 @@
                             android:scaleY="1.4"
                             android:switchPadding="32dp"
                             android:text="@string/epipen"
+                            android:fontFamily="@font/visbycf_medium"
                             android:textAlignment="viewStart"
                             android:textSize="18sp" />
 
@@ -126,7 +127,7 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="32dp"
                         android:layout_marginBottom="8dp"
-                        android:background="@drawable/teal_background"
+                        android:background="@drawable/persimmon_background"
                         tools:ignore="UselessParent">
 
 
@@ -160,6 +161,7 @@
                             android:scaleY="1.4"
                             android:switchPadding="32dp"
                             android:text="@string/inhaler"
+                            android:fontFamily="@font/visbycf_medium"
                             android:textAlignment="viewStart"
                             android:textSize="18sp" />
 
@@ -177,7 +179,7 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="32dp"
                         android:layout_marginBottom="8dp"
-                        android:background="@drawable/teal_background"
+                        android:background="@drawable/persimmon_background"
                         tools:ignore="UselessParent">
 
 
@@ -210,6 +212,7 @@
                             android:scaleX="1.4"
                             android:scaleY="1.4"
                             android:switchPadding="32dp"
+                            android:fontFamily="@font/visbycf_medium"
                             android:text="@string/Insulin"
                             android:textAlignment="viewStart"
                             android:textSize="18sp" />
@@ -229,7 +232,7 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="32dp"
                         android:layout_marginBottom="8dp"
-                        android:background="@drawable/teal_background"
+                        android:background="@drawable/persimmon_background"
                         tools:ignore="UselessParent">
 
 
@@ -262,6 +265,7 @@
                             android:scaleX="1.4"
                             android:scaleY="1.4"
                             android:switchPadding="32dp"
+                            android:fontFamily="@font/visbycf_medium"
                             android:text="@string/cpr"
                             android:textAlignment="viewStart"
                             android:textSize="18sp" />
@@ -281,7 +285,7 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="32dp"
                         android:layout_marginBottom="8dp"
-                        android:background="@drawable/teal_background"
+                        android:background="@drawable/persimmon_background"
                         tools:ignore="UselessParent">
 
 
@@ -311,6 +315,7 @@
                             android:layout_marginEnd="52dp"
                             android:layout_marginBottom="16dp"
                             android:layout_toEndOf="@+id/firstAidImageSkills"
+                            android:fontFamily="@font/visbycf_medium"
                             android:scaleX="1.4"
                             android:scaleY="1.4"
                             android:switchPadding="32dp"
@@ -333,7 +338,7 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="32dp"
                         android:layout_marginBottom="32dp"
-                        android:background="@drawable/teal_background"
+                        android:background="@drawable/persimmon_background"
                         tools:ignore="UselessParent">
 
 
@@ -365,6 +370,7 @@
                             android:layout_toEndOf="@+id/doctorImageSkills"
                             android:scaleX="1.4"
                             android:scaleY="1.4"
+                            android:fontFamily="@font/visbycf_medium"
                             android:switchPadding="32dp"
                             android:text="@string/med_pro"
                             android:textAlignment="viewStart"
@@ -395,6 +401,7 @@
         android:id="@+id/MySkillsTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/visbycf_bold"
         android:lineSpacingExtra="8sp"
         android:shadowColor="@color/black"
         android:shadowDx="1"

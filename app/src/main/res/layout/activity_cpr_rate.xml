@@ -19,12 +19,13 @@
             android:id="@+id/heartIcon" />
 
     <Button
-            android:text="@string/cpr_rate_button_start"
-            android:textSize="@dimen/button_textSize"
-            android:textStyle="bold"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="180dp"
-            android:backgroundTint="@color/design_default_color_secondary_variant"
-            android:id="@+id/startRateButton" />
+        android:id="@+id/startRateButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="180dp"
+        android:backgroundTint="@color/dark_persimmon"
+        android:fontFamily="@font/visbycf_medium"
+        android:text="@string/cpr_rate_button_start"
+        android:textSize="@dimen/button_textSize"
+        android:textStyle="bold" />
 </LinearLayout>

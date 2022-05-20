@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle" >
+            <corners
+                android:radius="600dp"
+                />
+            <gradient
+                android:angle="45"
+                android:centerX="70%"
+                android:centerColor="@color/persimmon"
+                android:startColor="@color/persimmon"
+                android:endColor="@color/yellow_orange"
+                android:type="linear"
+                />
+            <padding
+                android:left="0dp"
+                android:top="0dp"
+                android:right="0dp"
+                android:bottom="0dp"
+                />
+            <size
+                android:width="270dp"
+                android:height="270dp"
+                />
+            <stroke
+                android:width="5dp"
+                android:color="@color/dark_persimmon"
+                />
+
+
+        </shape>
+    </item>
+    <item
+        android:drawable="@drawable/white_logo_transparent"
+        android:bottom="16dp"
+        android:left="16dp"
+        android:right="24dp"
+        android:top="16dp"
+        />
+</layer-list>
+
+
