@@ -6,9 +6,7 @@
     <gradient
         android:angle="90"
         android:endColor="@android:color/transparent"
-        android:startColor="@color/semiDarkTransparent"
-
-        />
+        android:startColor="@color/semiDarkTransparent" />
 
 
 

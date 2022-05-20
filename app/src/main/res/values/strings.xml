@@ -59,21 +59,15 @@
     <string name="keep_calm_meds_selection_msg">Keep Calm and select what you need</string>
     <string name="search_help_button">Search Help Nearby</string>
     <string name="call_emergency_button">Emergency Call</string>
-    <string name="help_might_arrive">Help might arrive</string>
     <string name="ok">OK</string>
     <string name="h3lp_doesn_t_allow_you_to">H3LP doesn\'t </string>
-    <string name="ascii_left_arrow">⟨</string>
     <string name="presentation_placeholder_bad_3">Let you have access to other\'s data</string>
     <string name="presentation_placeholder_bad_2">Store your medical information without your consent</string>
     <string name="presentation_placeholder_bad_1">Sell your medical data to 3rd parties</string>
     <string name="red_cross">Red cross</string>
-    <string name="info_box">Info box</string>
-    <string name="help_page">Help page</string>
     <string name="h3lp_logo">H3lp logo</string>
     <string name="the_app_that_will_safe_your_life">The app that will save your life!</string>
     <string name="safelives_all_rights_reserved">© SafeLives: All rights reserved</string>
-    <string name="ascii_right_arrow">⟩</string>
-    <string name="ascii_both_arrows">⟨ ⟩</string>
     <string name="green_tick">Green tick</string>
     <string name="h3lp_allows_you_to">H3LP allows you to</string>Look for help nearby
     <string name="presentation_placeholder_good_1">Find medical assistance nearby</string>
@@ -100,7 +94,6 @@
     <string name="tips_button">First Aid</string>
     <string name="cpr_rate_button">CPR Rate</string>
     <string name="help_button">CPR Help</string>
-    <string name="menu_button">Menu</string>
     <string name="skills_button">Skills</string>
     <string name="cpr_rate_button_start">START</string>
     <string name="cpr_rate_button_stop">STOP</string>
@@ -108,15 +101,11 @@
     <string name="changes_saved">Changes saved</string>
     <string name="invalid_field_msg">ERROR : Some fields are not fill correctly</string>
     <string name="invalid_empty_msg">ERROR : Some mandatory fields (*) are left empty</string>
-    <string name="privacy_policy_not_acceptes">ERROR : You must accept our privacy policy first</string>
     <string name="privacy_policy_not_accepted">ERROR : You must accept our privacy policy first</string>
-    <string name="info_saved">Your information has been saved</string>
 
     <!--Preference Key for now should find better way to store this-->
 
-    <string name="medical_info_prefs"> medicalInfoPrefs</string>
     <string name="my_skills_key">MY_SKILLS_KEY</string>
-    <string name="my_skills_prefs"> mySkillsPrefs</string>
     <string name="medical_info_key">MEDICAL_INFO_KEY</string>
 
     <string name="privacy_policy">Privacy policy</string>
@@ -129,9 +118,7 @@
     <string name="condition_help_msg">This Field is dedicated to any illness or diseases that a caregiver should know in case of emergency</string>
     <string name="treatment_help_msg">This Field is dedicated to any medication your are taking that a caregiver should know in case of emergency</string>
     <string name="allergy_help_msg">This Field is dedicated to any allergy you suffer from that a caregiver should know in case of emergency</string>
-    <string name="ventolin_db_key"> VENTOLIN</string>
     <string name="help">H3LP!</string>
-    <string name="nothing">nothing</string>
     <string name="emergency">Emergency</string>
     <string name="need_help"> HELP I NEED YOU ! </string>
     <string name="button_selected">Selected</string>
@@ -389,7 +376,6 @@
     <string name="type_your_question">Type your question</string>
     <string name="notifications">Notifications</string>
     <string name="answers">Answers</string>
-    <string name="send">Send</string>
     <string name="posts">Posts</string>
     <string name="update_profile">Update profile</string>
     <string name="upload_failed">"Upload failed. Try again!"</string>
@@ -409,4 +395,7 @@
     <string name="cancel">Cancel</string>
     <string name="sign_in">Sign in</string>
     <string name="contact_the_helpers">Contact the helpers</string>
+    <string name="aed_steps">step</string>
+    <string name="send">Send</string>
+    <string name="encrypted_conversation">This conversation is encrypted from end-to-end</string>
 </resources>
