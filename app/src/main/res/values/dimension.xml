@@ -3,6 +3,7 @@
     <dimen name="image_button_home_page">70dp</dimen>
     <dimen name="image_button_tuto_page">50dp</dimen>
     <dimen name="app_margin">5dp</dimen>
+    <dimen name="text_username">14sp</dimen>
     <dimen name="scroll_view_outside_layout">117dp</dimen>
     <dimen name="scroll_view_inside_layout">105dp</dimen>
     <dimen name="scroll_view_tuto_layout">80dp</dimen>
