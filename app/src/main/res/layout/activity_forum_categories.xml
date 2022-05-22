@@ -20,7 +20,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:padding="15dp"
-                android:src="@drawable/back_icon" />
+                android:src="@drawable/back_icon"
+                android:contentDescription="@string/back_button_description" />
 
 
         </RelativeLayout>
@@ -72,7 +73,8 @@
                 android:layout_height="160dp"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="-30dp"
-                android:src="@drawable/ic_generalist" />
+                android:src="@drawable/ic_generalist"
+                android:contentDescription="@string/general_medicine" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -112,7 +114,8 @@
                 android:layout_height="150dp"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="-26dp"
-                android:src="@drawable/cardio" />
+                android:src="@drawable/cardio"
+                android:contentDescription="@string/cardiology" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -154,7 +157,8 @@
                 android:layout_height="150dp"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="-30dp"
-                android:src="@drawable/ic_traumatology" />
+                android:src="@drawable/ic_traumatology"
+                android:contentDescription="@string/traumatology" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -196,7 +200,8 @@
                 android:layout_height="150dp"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="-30dp"
-                android:src="@drawable/ic_pediatric" />
+                android:src="@drawable/ic_pediatric"
+                android:contentDescription="@string/pediatry" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -238,7 +243,8 @@
                 android:layout_height="150dp"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="-25dp"
-                android:src="@drawable/ic_neurology" />
+                android:src="@drawable/ic_neurology"
+                android:contentDescription="@string/neurology" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -280,7 +286,8 @@
                 android:layout_height="150dp"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="-25dp"
-                android:src="@drawable/ic_gynecology" />
+                android:src="@drawable/ic_gynecology"
+                android:contentDescription="@string/gynecology" />
         </RelativeLayout>
 
 

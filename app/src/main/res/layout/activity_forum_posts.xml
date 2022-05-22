@@ -82,7 +82,8 @@
             android:background="@drawable/plus"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recycler_view_forum_posts" />
+            app:layout_constraintTop_toBottomOf="@+id/recycler_view_forum_posts"
+            android:contentDescription="@string/send" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
