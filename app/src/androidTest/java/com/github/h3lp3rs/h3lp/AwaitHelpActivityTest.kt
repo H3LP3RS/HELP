@@ -99,6 +99,24 @@ class AwaitHelpActivityTest : H3lpAppTest() {
 //        }
 //    }
 
+    @Test
+    fun showsPopUpAndCallsEmergenciesIfNotDoneBefore() {
+        launchAndDo(true) {
+
+            val phonePopupButton = onView(withId(R.id.open_call_popup_button))
+
+            // phoneButton.check(matches(isDisplayed()))
+            phonePopupButton.inRoot(RootMatchers.isFocusable()).perform(click())
+
+            intended(
+                allOf(
+                    hasAction(ACTION_DIAL)
+                )
+            )
+        }
+    }
+
+
 //    @Test
 //    fun clickPhoneButtonAndContactButtonDialsEmergencyContactNumber() {
 //        launchAndDo(false) {
