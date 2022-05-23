@@ -167,31 +167,31 @@ class HelpParametersActivityTest : H3lpAppTest() {
         }
     }
 
-    @Test
-    fun clickPhoneButtonWithSystemLocationManagerDialsEmergencyNumber() {
-        loadValidMedicalDataToStorage()
-
-        // Here we are simply testing that using the system location (the one actually used in the
-        // app) also makes an emergency call
-        GeneralLocationManager.setDefaultSystemManager()
-
-        launchAndDo {
-            val phoneButton = onView(withId(R.id.help_params_call_button))
-            phoneButton.check(matches(isDisplayed()))
-            phoneButton.perform(click())
-
-            // click the ambulance in the popup
-            onView(withId(R.id.ambulance_call_button)).perform(click())
-
-            // Here, we can't check for a specific number (the emulator could be anywhere on Earth
-            // but we can verify that a number was indeed called)
-            intended(
-                allOf(
-                    hasAction(ACTION_DIAL)
-                )
-            )
-        }
-    }
+//    @Test
+//    fun clickPhoneButtonWithSystemLocationManagerDialsEmergencyNumber() {
+//        loadValidMedicalDataToStorage()
+//
+//        // Here we are simply testing that using the system location (the one actually used in the
+//        // app) also makes an emergency call
+//        GeneralLocationManager.setDefaultSystemManager()
+//
+//        launchAndDo {
+//            val phoneButton = onView(withId(R.id.help_params_call_button))
+//            phoneButton.check(matches(isDisplayed()))
+//            phoneButton.perform(click())
+//
+//            // click the ambulance in the popup
+//            onView(withId(R.id.ambulance_call_button)).perform(click())
+//
+//            // Here, we can't check for a specific number (the emulator could be anywhere on Earth
+//            // but we can verify that a number was indeed called)
+//            intended(
+//                allOf(
+//                    hasAction(ACTION_DIAL)
+//                )
+//            )
+//        }
+//    }
 
 
     @Test
