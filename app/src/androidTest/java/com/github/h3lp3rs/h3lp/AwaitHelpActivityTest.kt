@@ -10,6 +10,7 @@ import androidx.test.core.app.ActivityScenario.launch
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
@@ -25,6 +26,8 @@ import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
 import com.github.h3lp3rs.h3lp.dataclasses.Helper
 import com.github.h3lp3rs.h3lp.firstaid.AedActivity
 import com.github.h3lp3rs.h3lp.firstaid.AllergyActivity
+import com.github.h3lp3rs.h3lp.firstaid.AsthmaActivity
+import com.github.h3lp3rs.h3lp.firstaid.HeartAttackActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
@@ -104,8 +107,6 @@ class AwaitHelpActivityTest : H3lpAppTest() {
         launchAndDo(true) {
 
             val phonePopupButton = onView(withId(R.id.open_call_popup_button))
-
-            // phoneButton.check(matches(isDisplayed()))
             phonePopupButton.inRoot(RootMatchers.isFocusable()).perform(click())
 
             intended(
@@ -115,7 +116,6 @@ class AwaitHelpActivityTest : H3lpAppTest() {
             )
         }
     }
-
 
 //    @Test
 //    fun clickPhoneButtonAndContactButtonDialsEmergencyContactNumber() {
@@ -144,23 +144,6 @@ class AwaitHelpActivityTest : H3lpAppTest() {
 //        }
 //    }
 
-//    @Test
-//    fun callEmergenciesFromPopUpWorksAndSendsIntent() {
-//        launchAndDo(true) {
-//
-//            val phoneButton = onView(withId(R.id.open_call_popup_button))
-//
-//            phoneButton.inRoot(RootMatchers.isFocusable()).check(matches(isDisplayed()))
-//            phoneButton.inRoot(RootMatchers.isFocusable()).perform(click())
-//
-//            intended(
-//                allOf(
-//                    hasAction(ACTION_DIAL)
-//                )
-//            )
-//        }
-//    }
-
     private fun clickingOnButtonWorksAndSendsIntent(
         ActivityName: Class<*>?,
         id: Matcher<View>,
@@ -169,7 +152,7 @@ class AwaitHelpActivityTest : H3lpAppTest() {
         launchAndDo(false) {
 
             if (isInScrollView) {
-                onView(id).inRoot(RootMatchers.isFocusable()).perform(/*scrollTo(), */click())
+                onView(id).inRoot(RootMatchers.isFocusable()).perform(scrollTo(), click())
             } else {
                 onView(id).inRoot(RootMatchers.isFocusable()).perform(click())
             }
@@ -181,12 +164,12 @@ class AwaitHelpActivityTest : H3lpAppTest() {
         }
     }
 
-//    @Test
-//    fun clickingOnHeartAttackButtonWorksAndSendsIntent() {
-//        clickingOnButtonWorksAndSendsIntent(
-//            HeartAttackActivity::class.java,
-//            withId(R.id.heart_attack_tuto_button), true)
-//    }
+    @Test
+    fun clickingOnHeartAttackButtonWorksAndSendsIntent() {
+        clickingOnButtonWorksAndSendsIntent(
+            HeartAttackActivity::class.java,
+            withId(R.id.heart_attack_tuto_button), true)
+    }
 
     @Test
     fun clickingOnEpipenButtonWorksAndSendsIntent() {
@@ -204,12 +187,12 @@ class AwaitHelpActivityTest : H3lpAppTest() {
         )
     }
 
-//    @Test
-//    fun clickingOnAsthmaButtonWorksAndSendsIntent() {
-//        clickingOnButtonWorksAndSendsIntent(
-//            AsthmaActivity::class.java,
-//            withId(R.id.asthma_tuto_button), true)
-//    }
+    @Test
+    fun clickingOnAsthmaButtonWorksAndSendsIntent() {
+        clickingOnButtonWorksAndSendsIntent(
+            AsthmaActivity::class.java,
+            withId(R.id.asthma_tuto_button), true)
+    }
 
     @Test
     fun cancelButtonWorksAndSendsIntent() {
