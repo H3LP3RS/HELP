@@ -45,13 +45,8 @@ object GoogleSignInAdapter : SignInInterface<AuthResult> {
     ): Task<AuthResult>? {
         if (result.resultCode == Activity.RESULT_OK) {
             try {
-                // The task contains the google account (on success)
-                val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-                // Google Sign In was successful, authenticate with Firebase
-                val account = task.getResult(ApiException::class.java)!!
-                // TODO
-                //return firebaseAuthWithGoogle(account.idToken!!)
-                return authenticateAnonymously(currentActivity)
+
+                return authenticateAnonymously()
 
             } catch (e: ApiException) {
                 // Firebase authentication failed, display the specific error message to the user
@@ -64,19 +59,14 @@ object GoogleSignInAdapter : SignInInterface<AuthResult> {
         }
         return null
     }
-
-    fun authenticateAnonymously(currentActivity : Activity) : Task<AuthResult> {
+    /**
+     * Authenticate account with Firebase anonymously
+     * @return A task which finishes the authentication and returns
+     *      information about the authentication succeeding or failing
+     */
+    private fun authenticateAnonymously() : Task<AuthResult> {
         return auth.signInAnonymously()
 
-    }
-
-    /**
-     * Authenticate account with Firebase
-     * @param idToken The account's token Id
-     */
-    private fun firebaseAuthWithGoogle(idToken: String): Task<AuthResult> {
-        val credential = GoogleAuthProvider.getCredential(idToken, null)
-        return auth.signInWithCredential(credential)
     }
 
     override fun signOut() {
