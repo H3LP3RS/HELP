@@ -9,9 +9,11 @@ import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -47,7 +49,10 @@ object GoogleSignInAdapter : SignInInterface<AuthResult> {
                 val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
                 // Google Sign In was successful, authenticate with Firebase
                 val account = task.getResult(ApiException::class.java)!!
-                return firebaseAuthWithGoogle(account.idToken!!)
+                // TODO
+                //return firebaseAuthWithGoogle(account.idToken!!)
+                return authenticateAnonymously(currentActivity)
+
             } catch (e: ApiException) {
                 // Firebase authentication failed, display the specific error message to the user
                 Toast.makeText(currentActivity, e.message, Toast.LENGTH_SHORT).show()
@@ -60,6 +65,10 @@ object GoogleSignInAdapter : SignInInterface<AuthResult> {
         return null
     }
 
+    fun authenticateAnonymously(currentActivity : Activity) : Task<AuthResult> {
+        return auth.signInAnonymously()
+
+    }
 
     /**
      * Authenticate account with Firebase

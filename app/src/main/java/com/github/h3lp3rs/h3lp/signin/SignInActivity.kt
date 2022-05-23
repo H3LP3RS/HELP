@@ -54,7 +54,7 @@ class SignInActivity : AppCompatActivity() {
      * Check if the current user is already signed in and update activity accordingly
      */
     private fun offlineCheckIfSignedIn(){
-        userSignIn = storageOf(Storages.SIGN_IN) // Fetch from storage
+        userSignIn = storageOf(SIGN_IN) // Fetch from storage
         if(userSignIn.getBoolOrDefault(USER_SIGNED_IN, false)){
             userUid = userSignIn.getStringOrDefault(USER_UID,"")
             username = userSignIn.getStringOrDefault(USER_NAME,"")
@@ -122,9 +122,11 @@ class SignInActivity : AppCompatActivity() {
             ?.addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
                     userUid = signInClient.getUid()
+                    userUid = GoogleSignInAdapter.auth.currentUser?.uid
                     // Only get the first name for privacy reasons
-                    username = getInstance().currentUser?.displayName?.substringBefore(" ")
-
+                    //TODO
+                    //username = getInstance().currentUser?.displayName?.substringBefore(" ")
+                    username = "haha"
                     saveAuthentication()
 
                     // Enable online sync for meaningful storages:
