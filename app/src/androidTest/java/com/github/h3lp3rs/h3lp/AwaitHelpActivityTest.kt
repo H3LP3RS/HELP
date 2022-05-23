@@ -78,70 +78,70 @@ class AwaitHelpActivityTest : H3lpAppTest() {
         }
     }
 
-    @Test
-    fun callEmergenciesButtonWorksAndSendIntent() {
-        launchAndDo(false) {
+//    @Test
+//    fun callEmergenciesButtonWorksAndSendIntent() {
+//        launchAndDo(false) {
+//
+//            val phoneButton = onView(withId(R.id.await_help_call_button))
+//
+//            // phoneButton.check(matches(isDisplayed()))
+//            phoneButton.inRoot(RootMatchers.isFocusable()).perform(click())
+//
+//            // click the ambulance in the popup
+//            onView(withId(R.id.ambulance_call_button)).inRoot(RootMatchers.isFocusable())
+//                .perform(click())
+//
+//            intended(
+//                allOf(
+//                    hasAction(ACTION_DIAL)
+//                )
+//            )
+//        }
+//    }
 
-            val phoneButton = onView(withId(R.id.await_help_call_button))
+//    @Test
+//    fun clickPhoneButtonAndContactButtonDialsEmergencyContactNumber() {
+//        launchAndDo(false) {
+//
+//            // Clicking on the call for emergency button
+//            val phoneButton = onView(withId(R.id.await_help_call_button))
+//
+//            //phoneButton.inRoot(RootMatchers.isFocusable()).check(matches(isDisplayed()))
+//            phoneButton.inRoot(RootMatchers.isFocusable()).perform(click())
+//
+//            // click the contact button in the popup
+//            onView(withId(R.id.contact_call_button)).inRoot(RootMatchers.isFocusable())
+//                .perform(click())
+//
+//            // The expected ambulance phone number given the location (specified by the coordinates)
+//            val number = "tel:$VALID_CONTACT_NUMBER"
+//
+//            // Checking that this emergency number is dialed
+//            intended(
+//                allOf(
+//                    hasAction(ACTION_DIAL) //,
+//                    // hasData(Uri.parse(number)) This poses a problem for Cirrus
+//                )
+//            )
+//        }
+//    }
 
-            // phoneButton.check(matches(isDisplayed()))
-            phoneButton.inRoot(RootMatchers.isFocusable()).perform(click())
-
-            // click the ambulance in the popup
-            onView(withId(R.id.ambulance_call_button)).inRoot(RootMatchers.isFocusable())
-                .perform(click())
-
-            intended(
-                allOf(
-                    hasAction(ACTION_DIAL)
-                )
-            )
-        }
-    }
-
-    @Test
-    fun clickPhoneButtonAndContactButtonDialsEmergencyContactNumber() {
-        launchAndDo(false) {
-
-            // Clicking on the call for emergency button
-            val phoneButton = onView(withId(R.id.await_help_call_button))
-
-            //phoneButton.inRoot(RootMatchers.isFocusable()).check(matches(isDisplayed()))
-            phoneButton.inRoot(RootMatchers.isFocusable()).perform(click())
-
-            // click the contact button in the popup
-            onView(withId(R.id.contact_call_button)).inRoot(RootMatchers.isFocusable())
-                .perform(click())
-
-            // The expected ambulance phone number given the location (specified by the coordinates)
-            val number = "tel:$VALID_CONTACT_NUMBER"
-
-            // Checking that this emergency number is dialed
-            intended(
-                allOf(
-                    hasAction(ACTION_DIAL) //,
-                    // hasData(Uri.parse(number)) This poses a problem for Cirrus
-                )
-            )
-        }
-    }
-
-    @Test
-    fun callEmergenciesFromPopUpWorksAndSendsIntent() {
-        launchAndDo(true) {
-
-            val phoneButton = onView(withId(R.id.open_call_popup_button))
-
-            phoneButton.inRoot(RootMatchers.isFocusable()).check(matches(isDisplayed()))
-            phoneButton.inRoot(RootMatchers.isFocusable()).perform(click())
-
-            intended(
-                allOf(
-                    hasAction(ACTION_DIAL)
-                )
-            )
-        }
-    }
+//    @Test
+//    fun callEmergenciesFromPopUpWorksAndSendsIntent() {
+//        launchAndDo(true) {
+//
+//            val phoneButton = onView(withId(R.id.open_call_popup_button))
+//
+//            phoneButton.inRoot(RootMatchers.isFocusable()).check(matches(isDisplayed()))
+//            phoneButton.inRoot(RootMatchers.isFocusable()).perform(click())
+//
+//            intended(
+//                allOf(
+//                    hasAction(ACTION_DIAL)
+//                )
+//            )
+//        }
+//    }
 
     private fun clickingOnButtonWorksAndSendsIntent(
         ActivityName: Class<*>?,
