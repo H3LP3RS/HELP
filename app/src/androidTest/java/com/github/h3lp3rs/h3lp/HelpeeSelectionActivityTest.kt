@@ -1,8 +1,10 @@
 package com.github.h3lp3rs.h3lp
 
 import android.Manifest
+import android.content.Intent
 import android.content.Intent.*
 import android.net.Uri
+import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -46,7 +48,7 @@ class HelpParametersActivityTest : H3lpAppTest() {
 
     @Before
     fun setUp() {
-        initIntentAndCheckResponse()
+       // initIntentAndCheckResponse()
 
         globalContext = getApplicationContext()
         userUid = USER_TEST_ID
@@ -65,50 +67,54 @@ class HelpParametersActivityTest : H3lpAppTest() {
         )
     }
 
-//    @Test
-//    fun clickSearchHelpWithMedsWorksAndSendsIntent() {
-//        // select one med
-//        val medButton0 = onView(withId(R.id.selectMedsButton0))
-//        medButton0.check(matches(isNotChecked()))
-//
-//        // select the medication
-//        medButton0.perform(click())
-//
-//        // click the search help button
-//        val searchHelpButton = onView(withId(R.id.help_params_search_button))
-//        searchHelpButton.check(matches(isDisplayed()))
-//        searchHelpButton.perform(click())
-//
-//        intended(
-//            allOf(
-//                hasComponent(AwaitHelpActivity::class.java.name),
-//            )
-//        )
-//    }
+    @Test
+    fun clickSearchHelpWithMedsWorksAndSendsIntent() {
+        launchAndDo {
+            // select one med
+            val medButton0 = onView(withId(R.id.selectMedsButton0))
+            medButton0.check(matches(isNotChecked()))
+
+            // select the medication
+            medButton0.perform(click())
+
+            // click the search help button
+            val searchHelpButton = onView(withId(R.id.help_params_search_button))
+            searchHelpButton.check(matches(isDisplayed()))
+            searchHelpButton.perform(click())
+
+            intended(
+                allOf(
+                    hasComponent(AwaitHelpActivity::class.java.name),
+                )
+            )
+        }
+    }
 
     @Test
     fun clickPhoneButtonAndContactButtonDialsEmergencyContactNumber() {
         mockEmptyLocation()
         loadValidMedicalDataToStorage()
 
-        // Clicking on the call for emergency button
-        val phoneButton = onView(withId(R.id.help_params_call_button))
-        phoneButton.check(matches(isDisplayed()))
-        phoneButton.perform(click())
+        launchAndDo {
+            // Clicking on the call for emergency button
+            val phoneButton = onView(withId(R.id.help_params_call_button))
+            phoneButton.check(matches(isDisplayed()))
+            phoneButton.perform(click())
 
-        // click the contact button in the popup
-        onView(withId(R.id.contact_call_button)).inRoot(RootMatchers.isFocusable()).perform(click())
+            // click the contact button in the popup
+            onView(withId(R.id.contact_call_button)).inRoot(RootMatchers.isFocusable()).perform(click())
 
-        // The expected ambulance phone number given the location (specified by the coordinates)
-        val number = "tel:$VALID_CONTACT_NUMBER"
+            // The expected ambulance phone number given the location (specified by the coordinates)
+            val number = "tel:$VALID_CONTACT_NUMBER"
 
-        // Checking that this emergency number is dialed
-        intended(
-            allOf(
-                hasAction(ACTION_DIAL),
-                hasData(Uri.parse(number))
+            // Checking that this emergency number is dialed
+            intended(
+                allOf(
+                    hasAction(ACTION_DIAL),
+                    hasData(Uri.parse(number))
+                )
             )
-        )
+        }
     }
 
     @Test
@@ -116,25 +122,27 @@ class HelpParametersActivityTest : H3lpAppTest() {
         mockLocationToCoordinates(SWISS_LONG, SWISS_LAT)
         loadValidMedicalDataToStorage()
 
-        // Clicking on the call for emergency button
-        val phoneButton = onView(withId(R.id.help_params_call_button))
-        phoneButton.check(matches(isDisplayed()))
-        phoneButton.perform(click())
+        launchAndDo {
+            // Clicking on the call for emergency button
+            val phoneButton = onView(withId(R.id.help_params_call_button))
+            phoneButton.check(matches(isDisplayed()))
+            phoneButton.perform(click())
 
-        // click the ambulance in the popup
-        onView(withId(R.id.ambulance_call_button)).inRoot(RootMatchers.isFocusable())
-            .perform(click())
+            // click the ambulance in the popup
+            onView(withId(R.id.ambulance_call_button)).inRoot(RootMatchers.isFocusable())
+                .perform(click())
 
-        // The expected ambulance phone number given the location (specified by the coordinates)
-        val number = "tel:${SWISS_EMERGENCY_NUMBER}"
+            // The expected ambulance phone number given the location (specified by the coordinates)
+            // val number = "tel:${SWISS_EMERGENCY_NUMBER}"
 
-        // Checking that this emergency number is dialed
-        intended(
-            allOf(
-                hasAction(ACTION_DIAL) //,
-                // hasData(Uri.parse(number)) Cirrus doesn't like this
+            // Checking that this emergency number is dialed
+            intended(
+                allOf(
+                    hasAction(ACTION_DIAL) //,
+                    // hasData(Uri.parse(number)) Cirrus doesn't like this
+                )
             )
-        )
+        }
     }
 
     @Test
@@ -142,19 +150,21 @@ class HelpParametersActivityTest : H3lpAppTest() {
         loadValidMedicalDataToStorage()
         mockFailingLocation()
 
-        val phoneButton = onView(withId(R.id.help_params_call_button))
-        phoneButton.check(matches(isDisplayed()))
-        phoneButton.perform(click())
+        launchAndDo {
+            val phoneButton = onView(withId(R.id.help_params_call_button))
+            phoneButton.check(matches(isDisplayed()))
+            phoneButton.perform(click())
 
-        // click the ambulance in the popup
-        onView(withId(R.id.ambulance_call_button)).perform(click())
+            // click the ambulance in the popup
+            onView(withId(R.id.ambulance_call_button)).perform(click())
 
-        intended(
-            allOf(
-                hasAction(ACTION_DIAL)
-                // Not cheking actual number because of Cirrus
+            intended(
+                allOf(
+                    hasAction(ACTION_DIAL)
+                    // Not cheking actual number because of Cirrus
+                )
             )
-        )
+        }
     }
 
     @Test
@@ -165,20 +175,22 @@ class HelpParametersActivityTest : H3lpAppTest() {
         // app) also makes an emergency call
         GeneralLocationManager.setDefaultSystemManager()
 
-        val phoneButton = onView(withId(R.id.help_params_call_button))
-        phoneButton.check(matches(isDisplayed()))
-        phoneButton.perform(click())
+        launchAndDo {
+            val phoneButton = onView(withId(R.id.help_params_call_button))
+            phoneButton.check(matches(isDisplayed()))
+            phoneButton.perform(click())
 
-        // click the ambulance in the popup
-        onView(withId(R.id.ambulance_call_button)).perform(click())
+            // click the ambulance in the popup
+            onView(withId(R.id.ambulance_call_button)).perform(click())
 
-        // Here, we can't check for a specific number (the emulator could be anywhere on Earth
-        // but we can verify that a number was indeed called)
-        intended(
-            allOf(
-                hasAction(ACTION_DIAL)
+            // Here, we can't check for a specific number (the emulator could be anywhere on Earth
+            // but we can verify that a number was indeed called)
+            intended(
+                allOf(
+                    hasAction(ACTION_DIAL)
+                )
             )
-        )
+        }
     }
 
 
@@ -188,26 +200,30 @@ class HelpParametersActivityTest : H3lpAppTest() {
         // app) also makes an emergency call
         GeneralLocationManager.setDefaultSystemManager()
 
-        val phoneButton = onView(withId(R.id.help_params_call_button))
-        phoneButton.check(matches(isDisplayed()))
-        phoneButton.perform(click())
+        launchAndDo {
+            val phoneButton = onView(withId(R.id.help_params_call_button))
+            phoneButton.check(matches(isDisplayed()))
+            phoneButton.perform(click())
 
-        // Here, we can't check for a specific number (the emulator could be anywhere on Earth
-        // but we can verify that a number was indeed called)
-        intended(
-            allOf(
-                hasAction(ACTION_DIAL)
+            // Here, we can't check for a specific number (the emulator could be anywhere on Earth
+            // but we can verify that a number was indeed called)
+            intended(
+                allOf(
+                    hasAction(ACTION_DIAL)
+                )
             )
-        )
+        }
     }
 
     @Test
     fun clickSearchHelpWithNoMedsDoesNotChangeActivity() {
-        val searchHelpButton = onView(withId(R.id.help_params_search_button))
-        searchHelpButton.check(matches(isDisplayed()))
-        searchHelpButton.perform(click())
-        // No new intent:
-        assertThat(getIntents().size, `is`(0))
+        launchAndDo {
+            val searchHelpButton = onView(withId(R.id.help_params_search_button))
+            searchHelpButton.check(matches(isDisplayed()))
+            searchHelpButton.perform(click())
+            // No new intent:
+            assertThat(getIntents().size, `is`(0))
+        }
     }
 
 
@@ -215,17 +231,30 @@ class HelpParametersActivityTest : H3lpAppTest() {
     fun screenDisplaysCorrectLocation() {
         mockLocationToCoordinates(SWISS_LONG, SWISS_LAT)
 
-        // Checking that the user's actual location is displayed before they call an ambulance
-        val locationInformation = onView(withId(R.id.location_information))
-        locationInformation
-            .check(matches(withText(containsString(SWISS_LONG.toString()))))
-        locationInformation
-            .check(matches(withText(containsString(SWISS_LAT.toString()))))
+        launchAndDo {
+            // Checking that the user's actual location is displayed before they call an ambulance
+            val locationInformation = onView(withId(R.id.location_information))
+            locationInformation
+                .check(matches(withText(containsString(SWISS_LONG.toString()))))
+            locationInformation
+                .check(matches(withText(containsString(SWISS_LAT.toString()))))
+        }
     }
 
+    private fun launch(): ActivityScenario<MainPageActivity> {
+        return ActivityScenario.launch(
+            Intent(
+                getApplicationContext(),
+                HelpeeSelectionActivity::class.java
+            )
+        )
+    }
 
-    @After
-    fun cleanUp() {
-        release()
+    private fun launchAndDo(action: () -> Unit) {
+        launch().use {
+            initIntentAndCheckResponse()
+            action()
+            release()
+        }
     }
 }
