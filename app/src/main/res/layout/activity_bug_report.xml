@@ -94,24 +94,24 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/proProfileDomainTxtLayout"
+                    android:id="@+id/reportTxtLayout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
                     android:layout_marginEnd="32dp"
-                    android:hint="@string/domain"
+                    android:hint="@string/what_must_be_changed"
                     app:boxStrokeColor="@color/teal_200"
                     app:errorIconDrawable="@drawable/ic_error"
                     app:hintTextColor="@color/teal_700"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/reportTypeLayout"
-                    app:startIconDrawable="@drawable/ic_health">
+                    app:startIconDrawable="@drawable/ic_idea">
 
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/proProfileDomainEditTxt"
+                        android:id="@+id/reportEditTxt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
@@ -119,60 +119,19 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/proProfileExperienceTxtLayout"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginEnd="32dp"
-                    android:hint="@string/experience"
-                    app:boxStrokeColor="@color/teal_200"
-                    app:errorIconDrawable="@drawable/ic_error"
-                    app:hintTextColor="@color/teal_700"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/proProfileDomainTxtLayout"
-                    app:startIconDrawable="@drawable/ic_rate_us_icon">
-
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/proProfileExperienceEditTxt"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="numberSigned"
-                        android:maxLength="3"
-                        />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <CheckBox
-                    android:id="@+id/proProfilePrivacyCheck"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginEnd="32dp"
-                    android:layout_marginBottom="24dp"
-                    android:text=""
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/proProfileExperienceTxtLayout" />
-
-
                 <Button
-                    android:id="@+id/proProfileUpdateButton"
+                    android:id="@+id/reportSaveButton"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
                     android:layout_marginEnd="32dp"
+                    android:layout_marginTop="10dp"
                     android:backgroundTint="@color/red"
-                    android:text="@string/update_profile"
+                    android:text="@string/send_report"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/proProfilePrivacyCheck" />
+                    app:layout_constraintTop_toBottomOf="@+id/reportTxtLayout" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

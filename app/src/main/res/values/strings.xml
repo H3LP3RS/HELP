@@ -408,4 +408,6 @@
     <string name="sign_in">Sign in</string>
     <string name="what_is_h3lp">What is H3LP</string>
     <string name="report">Report</string>
+    <string name="what_must_be_changed">What must be changed ?</string>
+    <string name="send_report">Send report</string>
 </resources>
