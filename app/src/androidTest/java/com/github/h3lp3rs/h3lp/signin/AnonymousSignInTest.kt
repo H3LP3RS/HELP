@@ -1,4 +1,3 @@
-
 package com.github.h3lp3rs.h3lp.signin
 
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
@@ -24,7 +23,7 @@ import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.github.h3lp3rs.h3lp.storage.Storages.SIGN_IN
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
-import org.hamcrest.core.AllOf.allOf
+import org.hamcrest.Matchers
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -55,7 +54,10 @@ class AnonymousSignInTest : H3lpAppTest() {
 
         setDatabase(PREFERENCES, MockDatabase())
         resetStorage()
-        storageOf(Storages.USER_COOKIE).setBoolean(globalContext.getString(R.string.KEY_USER_AGREE),false)
+        storageOf(Storages.USER_COOKIE).setBoolean(
+            globalContext.getString(R.string.KEY_USER_AGREE),
+            false
+        )
         val signInMock = mock(SignInInterface::class.java)
         When(signInMock.isSignedIn()).thenReturn(false)
 
@@ -79,24 +81,18 @@ class AnonymousSignInTest : H3lpAppTest() {
 
     @Test
     fun signInAnonymouslyLaunchesTOS() {
-        inputCorrectUsername()
-        clickSignInButton()
         /*
+        onView(withId(R.id.text_field_username)).perform(ViewActions.replaceText((correctUsername)))
+        Thread.sleep(1000)
+        onView(withId(R.id.textview_anonymous_sign_in)).perform(click())
+
         intended(
-            allOf(
+            Matchers.allOf(
                 IntentMatchers.hasComponent(PresArrivalActivity::class.java.name)
             )
         )
          */
-    }
 
-    private fun clickSignInButton() {
-        inputCorrectUsername()
-        onView(withId(R.id.textview_anonymous_sign_in)).perform(click())
-    }
-
-    private fun inputCorrectUsername() {
-        onView(withId(R.id.text_field_username)).perform(ViewActions.replaceText((correctUsername)))
     }
 
     @After
