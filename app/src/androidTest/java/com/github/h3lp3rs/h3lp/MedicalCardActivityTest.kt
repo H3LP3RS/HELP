@@ -333,7 +333,6 @@ class MedicalCardActivityTest : H3lpAppTest() {
         }
     }
 
-
     @Test
     fun backButtonWorks() {
         launchAndDo {
@@ -345,31 +344,4 @@ class MedicalCardActivityTest : H3lpAppTest() {
             )
         }
     }
-
-    /**
-     * Custom matcher to test error on TextInputLayout.
-     * See : https://stackoverflow.com/questions/38842034/how-to-test-textinputlayout-values-hint-error-etc-using-android-espresso
-     */
-    private fun hasInputLayoutError(): Matcher<View> = object : TypeSafeMatcher<View>() {
-        override fun describeTo(description: Description?) {}
-        override fun matchesSafely(item: View?): Boolean {
-            if (item !is TextInputLayout) return false
-            item.error ?: return false
-            return true
-        }
-    }
-
-    /**
-     * Custom matcher to test error message on TextInputLayout.
-     * See : https://stackoverflow.com/questions/38842034/how-to-test-textinputlayout-values-hint-error-etc-using-android-espresso
-     */
-    private fun hasTextInputLayoutError(msg: String): Matcher<View> =
-        object : TypeSafeMatcher<View>() {
-            override fun describeTo(description: Description?) {}
-            override fun matchesSafely(item: View?): Boolean {
-                if (item !is TextInputLayout) return false
-                val error = item.error ?: return false
-                return error.toString() == msg
-            }
-        }
 }

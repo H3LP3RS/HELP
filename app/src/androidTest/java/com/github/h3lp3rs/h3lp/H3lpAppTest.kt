@@ -5,6 +5,7 @@ import android.app.Instrumentation.ActivityResult
 import android.content.Intent
 import android.location.Location
 import android.net.Uri
+import android.view.View
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import com.github.h3lp3rs.h3lp.dataclasses.*
@@ -19,7 +20,11 @@ import com.github.h3lp3rs.h3lp.locationmanager.LocationManagerInterface
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.github.h3lp3rs.h3lp.storage.Storages.MEDICAL_INFO
+import com.google.android.material.textfield.TextInputLayout
 import org.apache.commons.lang3.RandomUtils.nextBoolean
+import org.hamcrest.Description
+import org.hamcrest.Matcher
+import org.hamcrest.TypeSafeMatcher
 import org.mockito.Mockito.`when` as When
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.anyOrNull
@@ -98,6 +103,33 @@ open class H3lpAppTest {
 
         GeneralLocationManager.set(locationManagerMock)
     }
+
+    /**
+     * Custom matcher to test error on TextInputLayout.
+     * See : https://stackoverflow.com/questions/38842034/how-to-test-textinputlayout-values-hint-error-etc-using-android-espresso
+     */
+     fun hasInputLayoutError(): Matcher<View> = object : TypeSafeMatcher<View>() {
+        override fun describeTo(description: Description?) {}
+        override fun matchesSafely(item: View?): Boolean {
+            if (item !is TextInputLayout) return false
+            item.error ?: return false
+            return true
+        }
+    }
+
+    /**
+     * Custom matcher to test error message on TextInputLayout.
+     * See : https://stackoverflow.com/questions/38842034/how-to-test-textinputlayout-values-hint-error-etc-using-android-espresso
+     */
+     fun hasTextInputLayoutError(msg: String): Matcher<View> =
+        object : TypeSafeMatcher<View>() {
+            override fun describeTo(description: Description?) {}
+            override fun matchesSafely(item: View?): Boolean {
+                if (item !is TextInputLayout) return false
+                val error = item.error ?: return false
+                return error.toString() == msg
+            }
+        }
 
     companion object {
         val TEST_URI: Uri = Uri.EMPTY

@@ -23,12 +23,13 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.AuthResult
 import kotlinx.android.synthetic.main.activity_sign_in.*
 
-const val MAX_LENGTH_USERNAME = 13
+const val MAX_LENGTH_USERNAME = 15
 const val ERROR_MESSAGE_ON_LONG_USERNAME = "Invalid username: your username is too long."
-const val MIN_LENGTH_USERNAME = 3
+const val MIN_LENGTH_USERNAME = 2
 const val ERROR_MESSAGE_ON_SHORT_USERNAME = "Invalid username: your username is too short."
 
 class SignInActivity : AppCompatActivity() {
+
     lateinit var signInClient : SignInInterface<AuthResult>
     private lateinit var userCookie : LocalStorage
     private lateinit var userSignIn : LocalStorage
@@ -189,8 +190,8 @@ class SignInActivity : AppCompatActivity() {
         text_field_username.doOnTextChanged { text, _, _, _ ->
             when {
                 text!!.isEmpty() -> text_layout_username.error = getString(R.string.empty_error_msg)
-                text.length > MAX_LENGTH_USERNAME -> text_layout_username.error = ERROR_MESSAGE_ON_LONG_USERNAME
-                text.length < MIN_LENGTH_USERNAME -> text_layout_username.error = ERROR_MESSAGE_ON_SHORT_USERNAME
+                text.length >= MAX_LENGTH_USERNAME -> text_layout_username.error = ERROR_MESSAGE_ON_LONG_USERNAME
+                text.length <= MIN_LENGTH_USERNAME -> text_layout_username.error = ERROR_MESSAGE_ON_SHORT_USERNAME
                 else -> text_layout_username.error = null
             }
         }
