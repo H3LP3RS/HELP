@@ -23,6 +23,7 @@ import java.util.stream.Collectors.toList
 class CachedForum(private val forum: Forum) : Forum {
     override val path = forum.path
     private val cache = storageOf(FORUM_CACHE)
+    private val cacheHeader = storageOf(FORUM_CACHE_HEADER)
 
     // JSON-able data classes that will be stored
     data class CachePost(
@@ -144,8 +145,9 @@ class CachedForum(private val forum: Forum) : Forum {
         }
 
         // Add path to category posts
-        cache.setObject(
-            "$CACHE_HEADER//$cachePath", CacheHeader::class.java,
+        val stringedPath = path.joinToString(separator = "/")
+        cacheHeader.setObject(
+            stringedPath, CacheHeader::class.java,
             CacheHeader(newPaths)
         )
         // Recursive call to update parent
@@ -158,8 +160,8 @@ class CachedForum(private val forum: Forum) : Forum {
         val cachePath = path.joinToString(separator = "/")
 
         // Never null due to non-null default parameter
-        return cache.getObjectOrDefault(
-            "$CACHE_HEADER//$cachePath",
+        return cacheHeader.getObjectOrDefault(
+            cachePath,
             CacheHeader::class.java,
             CacheHeader(ArrayList())
         )!!
@@ -179,9 +181,5 @@ class CachedForum(private val forum: Forum) : Forum {
 
     override fun parent(): Forum {
         return CachedForum(forum.parent())
-    }
-
-    companion object {
-        private const val CACHE_HEADER = "HEADER"
     }
 }
