@@ -9,11 +9,9 @@ import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -39,16 +37,20 @@ object GoogleSignInAdapter : SignInInterface<AuthResult> {
         return GoogleSignIn.getClient(currentActivity, gso).signInIntent
     }
 
-    override fun authenticate( result: ActivityResult, currentActivity: Activity): Task<AuthResult>? {
+    override fun authenticate(
+        result: ActivityResult,
+        currentActivity: Activity
+    ): Task<AuthResult>? {
         if (result.resultCode == Activity.RESULT_OK) {
             try {
-
-                return authenticateAnonymously()
-
+                // The task contains the google account (on success)
+                val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+                // Google Sign In was successful, authenticate with Firebase
+                val account = task.getResult(ApiException::class.java)!!
+                return firebaseAuthWithGoogle(account.idToken!!)
             } catch (e: ApiException) {
                 // Firebase authentication failed, display the specific error message to the user
                 Toast.makeText(currentActivity, e.message, Toast.LENGTH_SHORT).show()
-
             }
         } else {
             // Google Sign In failed, display a message to the user
@@ -57,14 +59,15 @@ object GoogleSignInAdapter : SignInInterface<AuthResult> {
         }
         return null
     }
-    /**
-     * Authenticate account with Firebase anonymously
-     * @return A task which finishes the authentication and returns
-     *      information about the authentication succeeding or failing
-     */
-    private fun authenticateAnonymously() : Task<AuthResult> {
-        return auth.signInAnonymously()
 
+
+    /**
+     * Authenticate account with Firebase
+     * @param idToken The account's token Id
+     */
+    private fun firebaseAuthWithGoogle(idToken: String): Task<AuthResult> {
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+        return auth.signInWithCredential(credential)
     }
 
     override fun signOut() {
