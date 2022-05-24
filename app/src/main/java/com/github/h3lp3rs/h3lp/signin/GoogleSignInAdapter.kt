@@ -38,10 +38,10 @@ object GoogleSignInAdapter : SignInInterface<AuthResult> {
     }
 
     override fun authenticate(
-        result: ActivityResult,
+        result: ActivityResult ?,
         currentActivity: Activity
     ): Task<AuthResult>? {
-        if (result.resultCode == Activity.RESULT_OK) {
+        if (result?.resultCode == Activity.RESULT_OK) {
             try {
                 // The task contains the google account (on success)
                 val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)

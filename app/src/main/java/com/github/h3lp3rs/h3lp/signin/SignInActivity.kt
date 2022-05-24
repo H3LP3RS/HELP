@@ -6,8 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageButton
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -34,9 +32,9 @@ class SignInActivity : AppCompatActivity() {
     lateinit var signInClient : SignInInterface<AuthResult>
     private lateinit var userCookie : LocalStorage
     private lateinit var userSignIn : LocalStorage
-    private lateinit var USER_SIGNED_IN : String
-    private lateinit var USER_UID : String
-    private lateinit var USER_NAME : String
+    private lateinit var keyUserSignedIn : String
+    private lateinit var keyUID : String
+    private lateinit var keyUsername : String
 
 
     override fun onCreate(savedInstanceState : Bundle?) {
@@ -47,16 +45,17 @@ class SignInActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_sign_in)
         // Initialize Firebase Auth
-        findViewById<ImageButton>(R.id.signInButton).setOnClickListener {
+        signInButton.setOnClickListener {
             launchSignIn()
         }
 
         // Continue without sign in
-        findViewById<TextView>(R.id.noSignInText).setOnClickListener {
+        noSignInText.setOnClickListener {
             if (checkUsernameField()) {
                 username = text_field_username.text.toString()
                 disableOnlineSync()
                 checkToSAndLaunchIfNotAcceptedElseMain()
+
             } else {
                 displayMessage(
                     findViewById<View>(android.R.id.content).rootView,
@@ -64,11 +63,25 @@ class SignInActivity : AppCompatActivity() {
                 )
             }
         }
+        // Sign up anonymously
+        textview_anonymous_sign_in.setOnClickListener {
+            if (checkUsernameField()) {
 
+                SignIn.set(AnonymousSignInAdapter)
+                signInClient = SignIn.get()
+                authenticateUser(null, this )
+
+            } else {
+                displayMessage(
+                    findViewById<View>(android.R.id.content).rootView,
+                    getString(R.string.username_error_field_msg)
+                )
+            }
+        }
         // Sign in local storage doesn't need online sync
-        USER_SIGNED_IN = getString(R.string.KEY_USER_SIGNED_IN)
-        USER_UID = getString(R.string.KEY_USER_UID)
-        USER_NAME = getString(R.string.KEY_USER_NAME)
+        keyUserSignedIn = getString(R.string.KEY_USER_SIGNED_IN)
+        keyUID = getString(R.string.KEY_USER_UID)
+        keyUsername = getString(R.string.KEY_USER_NAME)
         // Check if the user is already signed in
         offlineCheckIfSignedIn()
 
@@ -97,9 +110,9 @@ class SignInActivity : AppCompatActivity() {
      */
     private fun offlineCheckIfSignedIn() {
         userSignIn = storageOf(SIGN_IN) // Fetch from storage
-        if (userSignIn.getBoolOrDefault(USER_SIGNED_IN, false)) {
-            userUid = userSignIn.getStringOrDefault(USER_UID, "")
-            username = userSignIn.getStringOrDefault(USER_NAME, "")
+        if (userSignIn.getBoolOrDefault(keyUserSignedIn, false)) {
+            userUid = userSignIn.getStringOrDefault(keyUID, "")
+            username = userSignIn.getStringOrDefault(keyUsername, "")
             checkToSAndLaunchIfNotAcceptedElseMain()
         }
     }
@@ -108,9 +121,9 @@ class SignInActivity : AppCompatActivity() {
      * Save the user authentication information to the local storage
      */
     private fun saveAuthentication() {
-        userSignIn.setBoolean(USER_SIGNED_IN, true)
-        userUid?.let { userSignIn.setString(USER_UID, it) }
-        username?.let { userSignIn.setString(USER_NAME, it) }
+        userSignIn.setBoolean(keyUserSignedIn, true)
+        userUid?.let { userSignIn.setString(keyUID, it) }
+        username?.let { userSignIn.setString(keyUsername, it) }
     }
 
 
@@ -144,7 +157,7 @@ class SignInActivity : AppCompatActivity() {
      * @param result sign in intent result containing the user account
      * @param activity current activity
      */
-    fun authenticateUser(result : ActivityResult, activity : Activity) {
+    fun authenticateUser(result : ActivityResult ?, activity : Activity) {
         signInClient.authenticate(result, activity)?.addOnCompleteListener(activity) { task ->
             if (task.isSuccessful) {
 
@@ -184,7 +197,7 @@ class SignInActivity : AppCompatActivity() {
     }
 
     /**
-     * Display a message using a snackbar
+     * Displays a message using a snackbar
      * @param it The view in which the snack should appear
      * @param str The message to display
      */
@@ -195,7 +208,7 @@ class SignInActivity : AppCompatActivity() {
     }
 
     /**
-     * Check the validity of the username field
+     * Checks the validity of the username field
      * @return True if the username is valid and non-empty, otherwise false
      */
     private fun checkUsernameField() : Boolean {
@@ -212,7 +225,6 @@ class SignInActivity : AppCompatActivity() {
         var userUid : String? = null
         private var username : String? = null
 
-        const val GUEST_USER = "Guest"
 
         /**
          * Getter on the global context
