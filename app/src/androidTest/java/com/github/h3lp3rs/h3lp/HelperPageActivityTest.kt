@@ -177,7 +177,7 @@ class HelpPageActivityTest : H3lpAppTest() {
         }
     }
 
-    @Test
+    /*@Test
     fun showsPopUpWhenNotSignedIn(){
         // Not signed in
         userUid = null
@@ -193,7 +193,7 @@ class HelpPageActivityTest : H3lpAppTest() {
                 )
             )
         }
-    }
+    }*/
 
     /* Forge an emergency situation */
     private fun setupEmergencyAndDo(action: () -> Unit) {

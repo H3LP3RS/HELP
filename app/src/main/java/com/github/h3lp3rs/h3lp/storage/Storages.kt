@@ -20,8 +20,6 @@ enum class Storages{
         /**
          * Instantiates the storage of the corresponding type
          * If the storage has enabled online sync, it will fetch the data online at the first call
-         * The following storages have the online sync enabled:
-         * - USER_COOKIE
          * The storage is only pushed to the database after a push() call
          * @param choice The chosen database
          * @return The instantiated storage of the required type
