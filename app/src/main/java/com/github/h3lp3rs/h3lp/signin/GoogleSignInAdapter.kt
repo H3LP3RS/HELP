@@ -39,10 +39,7 @@ object GoogleSignInAdapter : SignInInterface<AuthResult> {
         return GoogleSignIn.getClient(currentActivity, gso).signInIntent
     }
 
-    override fun authenticate(
-        result: ActivityResult,
-        currentActivity: Activity
-    ): Task<AuthResult>? {
+    override fun authenticate( result: ActivityResult, currentActivity: Activity): Task<AuthResult>? {
         if (result.resultCode == Activity.RESULT_OK) {
             try {
 
@@ -51,6 +48,7 @@ object GoogleSignInAdapter : SignInInterface<AuthResult> {
             } catch (e: ApiException) {
                 // Firebase authentication failed, display the specific error message to the user
                 Toast.makeText(currentActivity, e.message, Toast.LENGTH_SHORT).show()
+
             }
         } else {
             // Google Sign In failed, display a message to the user

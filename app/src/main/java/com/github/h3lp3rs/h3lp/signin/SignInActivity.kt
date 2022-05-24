@@ -21,7 +21,6 @@ import com.github.h3lp3rs.h3lp.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.disableOnlineSync
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
-import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.AuthResult
 import kotlinx.android.synthetic.main.activity_sign_in.*
@@ -29,7 +28,7 @@ import kotlinx.android.synthetic.main.activity_sign_in.*
 const val MAX_LENGTH_USERNAME = 13
 const val ERROR_MESSAGE_ON_LONG_USERNAME = "Invalid username: your username is too long."
 const val MIN_LENGTH_USERNAME = 3
-const val ERROR_MESSAGE_ON_SHORT_USRERNAME = "Invalid username: your username is too short."
+const val ERROR_MESSAGE_ON_SHORT_USERNAME = "Invalid username: your username is too short."
 
 class SignInActivity : AppCompatActivity() {
     lateinit var signInClient : SignInInterface<AuthResult>
@@ -59,7 +58,7 @@ class SignInActivity : AppCompatActivity() {
                 disableOnlineSync()
                 checkToSAndLaunchIfNotAcceptedElseMain()
             } else {
-                createSnackbar(
+                displayMessage(
                     findViewById<View>(android.R.id.content).rootView,
                     getString(R.string.username_error_field_msg)
                 )
@@ -124,7 +123,7 @@ class SignInActivity : AppCompatActivity() {
             val signInIntent = signInClient.signIn(this)
             resultLauncher.launch(signInIntent)
         } else {
-            createSnackbar(
+            displayMessage(
                 findViewById<View>(android.R.id.content).rootView,
                 getString(R.string.username_error_field_msg)
             )
@@ -171,43 +170,33 @@ class SignInActivity : AppCompatActivity() {
     }
 
     /**
-     * Creates a Field that tests the input and writes error 7
+     * Creates a field that tests the username input and writes an error back to it
      */
     private fun createUsernameField() {
         text_field_username.doOnTextChanged { text, _, _, _ ->
             when {
-                text!!.isEmpty() -> {
-                    text_layout_username.error = getString(R.string.empty_error_msg)
-                }
-                text.length > MAX_LENGTH_USERNAME -> {
-                    text_layout_username.error = ERROR_MESSAGE_ON_LONG_USERNAME
-                }
-                text.length < MIN_LENGTH_USERNAME -> {
-                    text_layout_username.error = ERROR_MESSAGE_ON_SHORT_USRERNAME
-                }
-                else -> {
-                    text_layout_username.error = null
-                }
+                text!!.isEmpty() -> text_layout_username.error = getString(R.string.empty_error_msg)
+                text.length > MAX_LENGTH_USERNAME -> text_layout_username.error = ERROR_MESSAGE_ON_LONG_USERNAME
+                text.length < MIN_LENGTH_USERNAME -> text_layout_username.error = ERROR_MESSAGE_ON_SHORT_USERNAME
+                else -> text_layout_username.error = null
             }
         }
     }
 
-
     /**
-     * Create a stylized Snackbar
+     * Display a message using a snackbar
      * @param it The view in which the snack should appear
      * @param str The message to display
      */
-    private fun createSnackbar(it : View, str : String) {
+    private fun displayMessage(it : View, str : String) {
         val snack = Snackbar.make(it, str, Snackbar.LENGTH_LONG)
-        snack.animationMode = BaseTransientBottomBar.ANIMATION_MODE_SLIDE
         snack.setBackgroundTint(ContextCompat.getColor(this, R.color.persimmon))
         snack.show()
     }
 
     /**
-     * Check validity of the username field
-     * @return True if valid and non-empty, otherwise false
+     * Check the validity of the username field
+     * @return True if the username is valid and non-empty, otherwise false
      */
     private fun checkUsernameField() : Boolean {
         return text_layout_username.error == null && !text_field_username.text.isNullOrBlank()
