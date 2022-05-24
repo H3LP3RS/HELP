@@ -85,6 +85,12 @@ class NewUserSignInTest : H3lpAppTest() {
     }
 
     @Test
+    fun newUserNoSignInLaunchesCorrectIntent() {
+        clickWithoutSignInButton()
+        intended(hasComponent(SignInActivity::class.java.name))
+    }
+
+    @Test
     fun newUserSignInLaunchesAuthenticationProcess() {
         clickSignInButton()
 
@@ -101,6 +107,10 @@ class NewUserSignInTest : H3lpAppTest() {
     }
 
     private fun clickSignInButton() {
+        onView(withId(R.id.signInButton)).perform(click())
+    }
+
+    private fun clickWithoutSignInButton() {
         onView(withId(R.id.signInButton)).perform(click())
     }
 
