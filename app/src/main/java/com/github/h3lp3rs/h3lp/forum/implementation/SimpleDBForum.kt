@@ -84,12 +84,14 @@ open class SimpleDBForum(override val path: Path, private val rootForum: Databas
                 pathToKey(listOf(POST_REPLIES) + fullPath.dropLast(1) + postData.repliesKey),
                 ForumPostData::class.java
             ).handle { replies, error ->
+                val parentForum =
+                    if (relativePath.isEmpty()) parent() else child(relativePath.dropLast(1))
                 if (error != null) {
                     // If the post has no replies yet
-                    ForumPost(parent(), postData, emptyList())
+                    ForumPost(parentForum, postData, emptyList())
                 } else {
                     // If the post had replies, add them to the object
-                    ForumPost(parent(), postData, replies)
+                    ForumPost(parentForum, postData, replies)
                 }
             }
         }

@@ -81,7 +81,7 @@ class MockForumTest {
     }
 
     @Test
-    fun listenToRepliesWorks() {
+    fun listenToReplyWorks() {
         var counter = 0
         val p = forum.newPost(AUTHOR, CONTENT, isPost = true).orTimeout(TIMEOUT, MILLISECONDS)
             .exceptionally { fail(TIMEOUT_FAIL_MSG) }.join()
