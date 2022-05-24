@@ -208,7 +208,9 @@ open class SimpleDBForum(override val path: Path, private val rootForum: Databas
                     // Adding a listener on the replies key since this is where all replies to that
                     // post are stored
                     rootForum.addEventListener(
-                        pathToKey(repliesPath), ForumPostData::class.java, action
+                        pathToKey(listOf(POST_REPLIES) + repliesPath),
+                        ForumPostData::class.java,
+                        action
                     ) {}
                 }
             }
