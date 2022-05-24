@@ -46,11 +46,11 @@ open class SimpleDBForum(override val path: Path, private val rootForum: Databas
             // we thus add it to the posts in the database (as explained in the forum protocol)
             if (isCategory()) {
                 rootForum.addToObjectsListConcurrently(
-                    pathToKey(path + POSTS_LIST), String::class.java, key
+                    pathToKey(listOf(POSTS_LIST) + path), String::class.java, key
                 )
-            } else { // For mocking purposes this needs to be added
+            } else {
                 rootForum.addToObjectsListConcurrently(
-                    pathToKey(path), ForumPostData::class.java, forumPostData
+                    pathToKey(listOf(POST_REPLIES) + path), ForumPostData::class.java, forumPostData
                 )
             }
             // We can't use getPost here since we aren't sure that the setObject succeeded yet
@@ -81,7 +81,8 @@ open class SimpleDBForum(override val path: Path, private val rootForum: Databas
         return postFuture.thenCompose { postData ->
             // Get all the replies from that post
             rootForum.getObjectsList(
-                pathToKey(fullPath.dropLast(1) + postData.repliesKey), ForumPostData::class.java
+                pathToKey(listOf(POST_REPLIES) + fullPath.dropLast(1) + postData.repliesKey),
+                ForumPostData::class.java
             ).handle { replies, error ->
                 if (error != null) {
                     // If the post has no replies yet
@@ -128,7 +129,7 @@ open class SimpleDBForum(override val path: Path, private val rootForum: Databas
      */
     private fun getAllFromCategory(): CompletableFuture<CategoryPosts> {
         val forumPostsFuture =
-            rootForum.getObjectsList(pathToKey(path + POSTS_LIST), String::class.java)
+            rootForum.getObjectsList(pathToKey(listOf(POSTS_LIST) + path), String::class.java)
                 .thenApply { keyList ->
                     // For all posts in this category, get their forum post data
                     keyList.map {
@@ -197,7 +198,7 @@ open class SimpleDBForum(override val path: Path, private val rootForum: Databas
                 // We add the listener on the POSTS_LIST key since as explained in the protocol,
                 // it is updated with new post keys on every new post
                 rootForum.addEventListener(
-                    pathToKey(path + POSTS_LIST), String::class.java, onNewPost
+                    pathToKey(listOf(POSTS_LIST) + path), String::class.java, onNewPost
                 ) {}
             }
             else -> {
@@ -274,5 +275,6 @@ open class SimpleDBForum(override val path: Path, private val rootForum: Databas
     companion object {
         const val UNIQUE_POST_ID = "unique post id"
         const val POSTS_LIST = "posts"
+        const val POST_REPLIES = "post replies"
     }
 }
