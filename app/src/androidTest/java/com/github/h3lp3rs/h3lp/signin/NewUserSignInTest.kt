@@ -146,13 +146,13 @@ class NewUserSignInTest : H3lpAppTest() {
 
     @Test
     fun emptyUsernameLeadsToError() {
-        onView(withId(R.id.signInButton)).perform(click())
+        onView(withId(R.id.textview_no_sign_in)).perform(click())
 
         onView(ViewMatchers.withText(R.string.username_error_field_msg)).check(
-                ViewAssertions.matches(
-                    withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)
-                )
+            ViewAssertions.matches(
+                withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)
             )
+        )
     }
 
     @After

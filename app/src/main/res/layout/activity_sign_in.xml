@@ -99,7 +99,7 @@
 
 
         <TextView
-            android:id="@+id/noSignInText"
+            android:id="@+id/textview_no_sign_in"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="45dp"

@@ -51,7 +51,7 @@ class SignInActivity : AppCompatActivity() {
         }
 
         // Continue without sign in
-        noSignInText.setOnClickListener {
+        textview_no_sign_in.setOnClickListener {
             if (checkUsernameField()) {
                 username = text_field_username.text.toString()
                 disableOnlineSync()

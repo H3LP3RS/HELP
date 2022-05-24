@@ -7,8 +7,10 @@ import androidx.test.core.app.ApplicationProvider.*
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasPackage
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -108,6 +110,17 @@ class GoogleSignInTest : H3lpAppTest() {
     private fun inputCorrectUsername(){
         onView(withId(R.id.text_field_username))
             .perform(ViewActions.replaceText((correctUsername)))
+    }
+
+    @Test
+    fun emptyUsernameLeadsToError() {
+        onView(withId(R.id.signInButton)).perform(click())
+
+        onView(ViewMatchers.withText(R.string.username_error_field_msg)).check(
+            ViewAssertions.matches(
+                ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)
+            )
+        )
     }
 
     @After
