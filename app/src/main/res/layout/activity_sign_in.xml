@@ -54,6 +54,33 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1">
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_layout_username"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="310dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:hint="@string/pick_your_username"
+            app:boxStrokeColor="@color/cancel_search_text"
+            app:errorIconDrawable="@drawable/ic_error"
+            app:hintTextColor="@color/cancel_search_text"
+            app:layout_constraintBottom_toTopOf="@+id/signInButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:startIconDrawable="@drawable/ic_profile_icon">
+
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/text_field_username"
+                android:layout_width="match_parent"
+                android:textColor="@color/cancel_search_text"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:maxLength="15" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <ImageButton
             android:id="@+id/signInButton"
@@ -88,19 +115,18 @@
 
         <ImageView
             android:id="@+id/imageView3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="357dp"
+            android:layout_height="709dp"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="15dp"
             android:layout_marginEnd="32dp"
-            android:layout_marginBottom="32dp"
+            android:layout_marginBottom="80dp"
             app:layout_constraintBottom_toTopOf="@+id/signInButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.606"
             app:srcCompat="@drawable/heart_link" />
-
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

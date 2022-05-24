@@ -5,21 +5,31 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.widget.doOnTextChanged
 import com.github.h3lp3rs.h3lp.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
-import com.github.h3lp3rs.h3lp.signin.GoogleSignInAdapter.auth
 import com.github.h3lp3rs.h3lp.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.disableOnlineSync
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.AuthResult
+import kotlinx.android.synthetic.main.activity_sign_in.*
+
+const val MAX_LENGTH_USERNAME = 13
+const val ERROR_MESSAGE_ON_LONG_USERNAME = "Invalid username: your username is too long."
+const val MIN_LENGTH_USERNAME = 3
+const val ERROR_MESSAGE_ON_SHORT_USRERNAME = "Invalid username: your username is too short."
 
 class SignInActivity : AppCompatActivity() {
     lateinit var signInClient : SignInInterface<AuthResult>
@@ -29,6 +39,42 @@ class SignInActivity : AppCompatActivity() {
     private lateinit var USER_UID : String
     private lateinit var USER_NAME : String
 
+
+    override fun onCreate(savedInstanceState : Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // Store the context for local storage use
+        globalContext = this
+
+        setContentView(R.layout.activity_sign_in)
+        // Initialize Firebase Auth
+        findViewById<ImageButton>(R.id.signInButton).setOnClickListener {
+            launchSignIn()
+        }
+
+        // Continue without sign in
+        findViewById<TextView>(R.id.noSignInText).setOnClickListener {
+            if (checkUsernameField()) {
+                username = text_field_username.text.toString()
+                disableOnlineSync()
+                checkToSAndLaunchIfNotAcceptedElseMain()
+            } else {
+                createSnackbar(
+                    findViewById<View>(android.R.id.content).rootView,
+                    getString(R.string.username_error_field_msg)
+                )
+            }
+        }
+
+        // Sign in local storage doesn't need online sync
+        USER_SIGNED_IN = getString(R.string.KEY_USER_SIGNED_IN)
+        USER_UID = getString(R.string.KEY_USER_UID)
+        USER_NAME = getString(R.string.KEY_USER_NAME)
+        // Check if the user is already signed in
+        offlineCheckIfSignedIn()
+
+        createUsernameField()
+    }
 
     /**
      * Checks the Terms of Service to see if they were already accepted, if they were, launches the
@@ -68,48 +114,28 @@ class SignInActivity : AppCompatActivity() {
         username?.let { userSignIn.setString(USER_NAME, it) }
     }
 
-    override fun onCreate(savedInstanceState : Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        // Store the context for local storage use
-        globalContext = this
-
-        setContentView(R.layout.activity_sign_in)
-        // Initialize Firebase Auth
-        findViewById<ImageButton>(R.id.signInButton).setOnClickListener {
-            launchSignIn()
-        }
-
-        // Continue without sign in
-        findViewById<TextView>(R.id.noSignInText).setOnClickListener {
-            username = GUEST_USER
-            disableOnlineSync()
-            checkToSAndLaunchIfNotAcceptedElseMain()
-        }
-
-        // Sign in local storage doesn't need online sync
-        USER_SIGNED_IN = getString(R.string.KEY_USER_SIGNED_IN)
-        USER_UID = getString(R.string.KEY_USER_UID)
-        USER_NAME = getString(R.string.KEY_USER_NAME)
-        // Check if the user is already signed in
-        offlineCheckIfSignedIn()
-    }
 
     /**
      * Initialize client and launch the sign in request
      */
     private fun launchSignIn() {
-        signInClient = SignIn.get()
-        val signInIntent = signInClient.signIn(this)
-        resultLauncher.launch(signInIntent)
+        if (checkUsernameField()) {
+            signInClient = SignIn.get()
+            val signInIntent = signInClient.signIn(this)
+            resultLauncher.launch(signInIntent)
+        } else {
+            createSnackbar(
+                findViewById<View>(android.R.id.content).rootView,
+                getString(R.string.username_error_field_msg)
+            )
+        }
     }
 
     // Handle sign in request result
     private val resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             authenticateUser(
-                result,
-                this
+                result, this
             )
         }
 
@@ -121,24 +147,70 @@ class SignInActivity : AppCompatActivity() {
      */
     fun authenticateUser(result : ActivityResult, activity : Activity) {
         signInClient.authenticate(result, activity)?.addOnCompleteListener(activity) { task ->
-                if (task.isSuccessful) {
-                    userUid = signInClient.getUid()
-                    //TODO allow user to pick his username
-                    username = "haha"
-                    saveAuthentication()
+            if (task.isSuccessful) {
 
-                    // Enable online sync for meaningful storages:
-                    SKILLS.setOnlineSync(true)
-                    MEDICAL_INFO.setOnlineSync(true)
-                    USER_COOKIE.setOnlineSync(true)
+                userUid = signInClient.getUid()
+                username = text_field_username.text.toString()
 
-                    checkToSAndLaunchIfNotAcceptedElseMain()
-                } else {
-                    Toast.makeText(baseContext, "Anonymous authentication failed: " + task.exception,
-                        Toast.LENGTH_SHORT
-                    ).show()
+                saveAuthentication()
+
+                // Enable online sync for meaningful storages:
+                SKILLS.setOnlineSync(true)
+                MEDICAL_INFO.setOnlineSync(true)
+                USER_COOKIE.setOnlineSync(true)
+
+                checkToSAndLaunchIfNotAcceptedElseMain()
+            } else {
+                Toast.makeText(
+                    baseContext,
+                    "Anonymous authentication failed: " + task.exception,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+
+    /**
+     * Creates a Field that tests the input and writes error 7
+     */
+    private fun createUsernameField() {
+        text_field_username.doOnTextChanged { text, _, _, _ ->
+            when {
+                text!!.isEmpty() -> {
+                    text_layout_username.error = getString(R.string.empty_error_msg)
+                }
+                text.length > MAX_LENGTH_USERNAME -> {
+                    text_layout_username.error = ERROR_MESSAGE_ON_LONG_USERNAME
+                }
+                text.length < MIN_LENGTH_USERNAME -> {
+                    text_layout_username.error = ERROR_MESSAGE_ON_SHORT_USRERNAME
+                }
+                else -> {
+                    text_layout_username.error = null
                 }
             }
+        }
+    }
+
+
+    /**
+     * Create a stylized Snackbar
+     * @param it The view in which the snack should appear
+     * @param str The message to display
+     */
+    private fun createSnackbar(it : View, str : String) {
+        val snack = Snackbar.make(it, str, Snackbar.LENGTH_LONG)
+        snack.animationMode = BaseTransientBottomBar.ANIMATION_MODE_SLIDE
+        snack.setBackgroundTint(ContextCompat.getColor(this, R.color.persimmon))
+        snack.show()
+    }
+
+    /**
+     * Check validity of the username field
+     * @return True if valid and non-empty, otherwise false
+     */
+    private fun checkUsernameField() : Boolean {
+        return text_layout_username.error == null && !text_field_username.text.isNullOrBlank()
     }
 
     /**
