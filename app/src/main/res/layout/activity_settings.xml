@@ -312,7 +312,7 @@
               android:drawableEnd="@drawable/ic_question_mark"
               android:fontFamily="sans-serif"
               android:stateListAnimator="@null"
-              android:text="@string/need_help_app"
+              android:text="@string/what_is_h3lp"
               android:textAlignment="viewStart"
               android:textAllCaps="false"
               android:textColor="@color/grey"

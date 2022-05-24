@@ -18,6 +18,7 @@ import com.github.h3lp3rs.h3lp.signin.GoogleSignInAdapter.getCreationDate
 import com.github.h3lp3rs.h3lp.signin.GoogleSignInAdapter.signOut
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.getUid
+import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 
@@ -72,6 +73,8 @@ class SettingsActivity : AppCompatActivity() {
      * Function for the logout button to disconnect from account
      */
     fun logout(view: View) {
+        val userSignIn = storageOf(SIGN_IN)
+        userSignIn.setBoolean(getString(R.string.KEY_USER_SIGNED_IN), false)
         signOut()
         val intent = Intent(this, SignInActivity::class.java)
         startActivity(intent)
