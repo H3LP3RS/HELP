@@ -136,15 +136,9 @@ class NearbyUtilitiesActivity : AppCompatActivity(), CoroutineScope by MainScope
      */
     private fun setRequestedButton() {
         when (requestedUtility) {
-            resources.getString(R.string.nearby_phamacies) -> {
-                show_pharmacy_button.callOnClick()
-            }
-            resources.getString(R.string.nearby_hospitals) -> {
-                show_hospital_button.callOnClick()
-            }
-            resources.getString(R.string.nearby_defibrillators) -> {
-                show_defibrillators_button.callOnClick()
-            }
+            resources.getString(R.string.nearby_phamacies) -> { show_pharmacy_button.callOnClick() }
+            resources.getString(R.string.nearby_hospitals) -> { show_hospital_button.callOnClick() }
+            resources.getString(R.string.nearby_defibrillators) -> { show_defibrillators_button.callOnClick() }
         }
     }
 }
