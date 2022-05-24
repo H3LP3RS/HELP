@@ -140,6 +140,7 @@ open class H3lpAppTest {
         val VALID_FORMAT_NUMBERS = arrayOf("0216933000", "216933000", "+41216933000")
         const val VALID_CONTACT_NUMBER = "+41216933000"
         const val USER_TEST_ID = "SECRET_AGENT_007"
+        const val USER_TEST_NAME = "SECRET_AGENT"
         const val TEST_EMERGENCY_ID = "1"
 
         // Walking time from the user to the destination according to the Google directions API

@@ -7,12 +7,12 @@ import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.action.ViewActions.replaceText
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
-import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.H3lpAppTest
@@ -42,7 +42,6 @@ class NewUserSignInTest : H3lpAppTest() {
 
     private lateinit var intent : Intent
     private var authenticationStarted = false
-    private val correctUsername = "username"
     private val longUsername = List(MAX_LENGTH_USERNAME) { 'x' }.toCharArray().concatToString()
     private val shortUsername = List(MIN_LENGTH_USERNAME) { 'x' }.toCharArray().concatToString()
 
@@ -114,15 +113,15 @@ class NewUserSignInTest : H3lpAppTest() {
 
     @Test
     fun tooLongUsernameLeadsToError() {
-        onView(withId(R.id.text_field_username)).perform(ViewActions.replaceText((longUsername)))
+        onView(withId(R.id.text_field_username)).perform(replaceText((longUsername)))
 
         onView(withId(R.id.text_layout_username)).check(
-            ViewAssertions.matches(
+            matches(
                 hasInputLayoutError()
             )
         )
         onView(withId(R.id.text_layout_username)).check(
-            ViewAssertions.matches(
+            matches(
                 hasTextInputLayoutError(ERROR_MESSAGE_ON_LONG_USERNAME)
             )
         )
@@ -130,15 +129,15 @@ class NewUserSignInTest : H3lpAppTest() {
 
     @Test
     fun tooShortUsernameLeadsToError() {
-        onView(withId(R.id.text_field_username)).perform(ViewActions.replaceText((shortUsername)))
+        onView(withId(R.id.text_field_username)).perform(replaceText((shortUsername)))
 
         onView(withId(R.id.text_layout_username)).check(
-            ViewAssertions.matches(
+            matches(
                 hasInputLayoutError()
             )
         )
         onView(withId(R.id.text_layout_username)).check(
-            ViewAssertions.matches(
+            matches(
                 hasTextInputLayoutError(ERROR_MESSAGE_ON_SHORT_USERNAME)
             )
         )
@@ -148,9 +147,9 @@ class NewUserSignInTest : H3lpAppTest() {
     fun emptyUsernameLeadsToError() {
         onView(withId(R.id.textview_no_sign_in)).perform(click())
 
-        onView(ViewMatchers.withText(R.string.username_error_field_msg)).check(
-            ViewAssertions.matches(
-                withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)
+        onView(withText(R.string.username_error_field_msg)).check(
+            matches(
+                withEffectiveVisibility(Visibility.VISIBLE)
             )
         )
     }
@@ -161,6 +160,6 @@ class NewUserSignInTest : H3lpAppTest() {
     }
 
     private fun inputCorrectUsername() {
-        onView(withId(R.id.text_field_username)).perform(ViewActions.replaceText((correctUsername)))
+        onView(withId(R.id.text_field_username)).perform(replaceText((USER_TEST_NAME)))
     }
 }

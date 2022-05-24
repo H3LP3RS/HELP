@@ -6,15 +6,13 @@ import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.replaceText
-import androidx.test.espresso.assertion.ViewAssertions
-import androidx.test.espresso.intent.Intents
-import androidx.test.espresso.intent.Intents.*
-import androidx.test.espresso.intent.matcher.IntentMatchers
-import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.intent.Intents.intended
+import androidx.test.espresso.intent.Intents.release
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.H3lpAppTest
-import com.github.h3lp3rs.h3lp.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.database.Databases.PREFERENCES
@@ -28,8 +26,7 @@ import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.github.h3lp3rs.h3lp.storage.Storages.SIGN_IN
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
-import org.hamcrest.Matchers
-import org.junit.After
+import org.hamcrest.core.AllOf.allOf
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -41,8 +38,6 @@ import org.mockito.Mockito.`when` as When
 @RunWith(AndroidJUnit4::class)
 
 class AnonymousSignInTest : H3lpAppTest() {
-
-    private val correctUsername = "username"
 
     @Before
     fun setUp() {
@@ -62,7 +57,6 @@ class AnonymousSignInTest : H3lpAppTest() {
         userSignIn.setBoolean(globalContext.getString(R.string.KEY_USER_SIGNED_IN), false)
         SignIn.set(signInMock as SignInInterface<AuthResult>)
 
-
         val taskMock = mock(Task::class.java)
         When(taskMock.isSuccessful).thenReturn(true)
         When(taskMock.isComplete).thenReturn(true)
@@ -72,7 +66,7 @@ class AnonymousSignInTest : H3lpAppTest() {
         }
     }
 
-    private fun launchAndDo(action: () -> Unit) {
+    private fun launchAndDo(action : () -> Unit) {
         launch().use {
             initIntentAndCheckResponse()
             action()
@@ -95,12 +89,10 @@ class AnonymousSignInTest : H3lpAppTest() {
     @Test
     fun emptyUsernameLeadsToError() {
         launchAndDo {
-            onView(withId(R.id.text_field_username)).perform(replaceText(""))
             onView(withId(R.id.textview_anonymous_sign_in)).perform(click())
-
-            onView(ViewMatchers.withText(R.string.username_error_field_msg)).check(
-                ViewAssertions.matches(
-                    ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)
+            onView(withText(R.string.username_error_field_msg)).check(
+                matches(
+                    withEffectiveVisibility(Visibility.VISIBLE)
                 )
             )
         }
@@ -109,12 +101,12 @@ class AnonymousSignInTest : H3lpAppTest() {
     @Test
     fun signInAnonymouslyLaunchesTOS() {
         launchAndDo {
-            onView(withId(R.id.text_field_username)).perform(replaceText((correctUsername)))
+            onView(withId(R.id.text_field_username)).perform(replaceText((USER_TEST_NAME)))
             onView(withId(R.id.textview_anonymous_sign_in)).perform(click())
 
             intended(
-                Matchers.allOf(
-                    IntentMatchers.hasComponent(PresArrivalActivity::class.java.name)
+                allOf(
+                    hasComponent(PresArrivalActivity::class.java.name)
                 )
             )
         }

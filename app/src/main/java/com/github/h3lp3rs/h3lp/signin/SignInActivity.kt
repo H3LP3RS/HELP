@@ -176,7 +176,7 @@ class SignInActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(
                     baseContext,
-                    "Anonymous authentication failed: " + task.exception,
+                    "Authentication failed: " + task.exception,
                     Toast.LENGTH_SHORT
                 ).show()
             }
