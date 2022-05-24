@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.activity.result.ActivityResult
 import androidx.test.core.app.ApplicationProvider.*
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasPackage
@@ -18,7 +19,6 @@ import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.database.MockDatabase
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
-import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.google.android.gms.tasks.Task
@@ -41,6 +41,7 @@ class GoogleSignInTest : H3lpAppTest() {
     private lateinit var intent: Intent
     private val googleSignInPackageName = "com.google.android.gms"
     private var authenticationStarted = false
+    private val correctUsername = "username"
 
     @get:Rule
     val testRule = ActivityScenarioRule(
@@ -81,12 +82,14 @@ class GoogleSignInTest : H3lpAppTest() {
 
     @Test
     fun signInWithGoogleLaunchesCorrectIntent() {
+        inputCorrectUsername()
         clickSignInButton()
         intended(hasPackage(googleSignInPackageName))
     }
 
     @Test
     fun signInWithGoogleLaunchesAuthenticationProcess() {
+        inputCorrectUsername()
         clickSignInButton()
         assertNotNull(GoogleSignInAdapter.gso)
         testRule.scenario.onActivity { activity ->
@@ -98,7 +101,13 @@ class GoogleSignInTest : H3lpAppTest() {
     }
 
     private fun clickSignInButton() {
+        inputCorrectUsername()
         onView(withId(R.id.signInButton)).perform(click())
+    }
+
+    private fun inputCorrectUsername(){
+        onView(withId(R.id.text_field_username))
+            .perform(ViewActions.replaceText((correctUsername)))
     }
 
     @After

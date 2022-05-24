@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.activity.result.ActivityResult
 import androidx.test.core.app.ApplicationProvider.*
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
@@ -39,6 +40,7 @@ class NewUserSignInTest : H3lpAppTest() {
 
     private lateinit var intent: Intent
     private var authenticationStarted = false
+    private val correctUsername = "username"
 
     @get:Rule
     val testRule = ActivityScenarioRule(
@@ -80,12 +82,14 @@ class NewUserSignInTest : H3lpAppTest() {
 
     @Test
     fun newUserSignInLaunchesCorrectIntent() {
+        inputCorrectUsername()
         clickSignInButton()
         intended(hasComponent(SignInActivity::class.java.name))
     }
 
     @Test
     fun newUserSignInLaunchesAuthenticationProcess() {
+        inputCorrectUsername()
         clickSignInButton()
 
         testRule.scenario.onActivity { activity ->
@@ -101,11 +105,17 @@ class NewUserSignInTest : H3lpAppTest() {
     }
 
     private fun clickSignInButton() {
+        inputCorrectUsername()
         onView(withId(R.id.signInButton)).perform(click())
     }
 
     @After
     fun cleanUp() {
         release()
+    }
+
+    private fun inputCorrectUsername(){
+        onView(withId(R.id.text_field_username))
+            .perform(ViewActions.replaceText((correctUsername)))
     }
 }
