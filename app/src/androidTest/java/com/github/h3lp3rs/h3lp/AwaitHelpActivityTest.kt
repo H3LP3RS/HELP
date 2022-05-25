@@ -87,7 +87,6 @@ class AwaitHelpActivityTest : H3lpAppTest() {
 //
 //            val phoneButton = onView(withId(R.id.await_help_call_button))
 //
-//            // phoneButton.check(matches(isDisplayed()))
 //            phoneButton.inRoot(RootMatchers.isFocusable()).perform(click())
 //
 //            // click the ambulance in the popup
@@ -103,7 +102,7 @@ class AwaitHelpActivityTest : H3lpAppTest() {
 //    }
 
     @Test
-    fun showsPopUpAndCallsEmergenciesIfNotDoneBefore() {
+    fun showsPopUpIfNotCalledBeforeAndCanCallEmergencies() {
         launchAndDo(true) {
 
             val phonePopupButton = onView(withId(R.id.open_call_popup_button))
@@ -152,7 +151,7 @@ class AwaitHelpActivityTest : H3lpAppTest() {
         launchAndDo(false) {
 
             if (isInScrollView) {
-                onView(id).inRoot(RootMatchers.isFocusable()).perform(scrollTo(), click())
+                onView(id).inRoot(RootMatchers.isFocusable()).perform(click())
             } else {
                 onView(id).inRoot(RootMatchers.isFocusable()).perform(click())
             }
