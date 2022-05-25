@@ -120,9 +120,11 @@ open class SimpleDBForum(override val path: Path, private val rootForum: Databas
             }
             return future
         } else {
-            // In case we are in a category, we only have a single CategoryPost to return (thus
-            // we return a singleton list)
-            return getAllFromCategory().thenApply { listOf(it) }
+            // In case we are in a category, we only have a single CategoryPost to return
+            return getAllFromCategory().thenApply {
+                if (it.second.isEmpty()) emptyList()
+                else listOf(it)
+            }
         }
     }
 
