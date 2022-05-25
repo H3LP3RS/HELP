@@ -26,7 +26,6 @@ class NewPostActivity : AppCompatActivity() {
         val bundle = intent.extras!!
         val category = bundle.getString(EXTRA_FORUM_CATEGORY)
         newPostCategoryDropdown.setText(category)
-
         createDropDownMenu()
     }
 
