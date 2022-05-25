@@ -41,7 +41,7 @@ class AwaitHelpActivity : AppCompatActivity() {
         initialize(applicationContext)
 
         mapsFragment = supportFragmentManager.findFragmentById(R.id.map) as MapsFragment
-        apiHelper = GoogleAPIHelper(resources.getString(R.string.google_maps_key))
+        apiHelper = GoogleAPIHelper(resources.getString(R.string.google_maps_key), applicationContext)
 
         locationHelper.updateCoordinates(this)
 

@@ -1,7 +1,7 @@
 package com.github.h3lp3rs.h3lp
 
+import android.content.Context
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
-import com.github.h3lp3rs.h3lp.util.AED_LOCATIONS_LAUSANNE
 import com.github.h3lp3rs.h3lp.util.GPathJSONParser
 import com.github.h3lp3rs.h3lp.util.GPlaceJSONParser
 import com.github.h3lp3rs.h3lp.util.JSONParserInterface
@@ -15,8 +15,12 @@ import java.net.URL
 /**
  * Helper class which, given a Google api key, displays several methods used by many activities to
  * use Google APIs, parse the results and display them on any map fragment
+ * @param apiKey The Google API key to retrieve maps and path information
+ * @param context The context of the activity calling the GoogleAPIHelper to have access to the
+ * app resources
  */
-class GoogleAPIHelper(private val apiKey: String) : CoroutineScope by MainScope() {
+class GoogleAPIHelper(private val apiKey: String, private val context: Context) :
+    CoroutineScope by MainScope() {
 
     private val requestedPlaces = HashMap<String, List<GooglePlace>>()
 
@@ -78,7 +82,8 @@ class GoogleAPIHelper(private val apiKey: String) : CoroutineScope by MainScope(
     ) {
         if (!requestedPlaces.containsKey(utility)) {
             if (utility == globalContext.resources.getString(R.string.nearby_defibrillators)) {
-                requestedPlaces[utility] = AED_LOCATIONS_LAUSANNE
+                requestedPlaces[utility] =
+                    AedLocationsRetriever.retrieveFromFile(R.raw.aed_locations_lausanne, context)
                 requestedPlaces[utility]?.let { map.showPlaces(it, utility) }
             } else {
                 val url = PLACES_URL + "?location=" + latitude + "," + longitude +

@@ -59,7 +59,7 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         setContentView(binding.root)
 
         mapsFragment = supportFragmentManager.findFragmentById(R.id.mapHelpPage) as MapsFragment
-        apiHelper = GoogleAPIHelper(resources.getString(R.string.google_maps_key))
+        apiHelper = GoogleAPIHelper(resources.getString(R.string.google_maps_key), applicationContext)
 
         // Bundle cannot be empty
         val bundle = this.intent.extras!!

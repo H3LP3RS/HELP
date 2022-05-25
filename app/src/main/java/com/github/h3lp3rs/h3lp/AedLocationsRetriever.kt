@@ -1,7 +1,6 @@
-package com.github.h3lp3rs.h3lp.util
+package com.github.h3lp3rs.h3lp
 
 import android.content.Context
-import com.github.h3lp3rs.h3lp.R
 import com.opencsv.CSVReader
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -15,7 +14,7 @@ import java.io.InputStreamReader
  * -- latitude,longitude
  * -- ...
  */
-object DefibrillatorLocationsRetriever {
+object AedLocationsRetriever {
     fun retrieveFromFile(fileId: Int, context: Context): List<HashMap<String, String>> {
         // Instantiating the defibrillator locations database
         val inputStream = context.resources.openRawResource(fileId)
@@ -31,7 +30,7 @@ object DefibrillatorLocationsRetriever {
             val lat = row[0]
             val long = row[1]
             // Also adding a name to each aed (this makes it easier to display them on the map)
-            aedLocations = aedLocations + hashMapOf("name" to "aed", "lat" to lat, "long" to long)
+            aedLocations = aedLocations + hashMapOf("name" to "aed", "lat" to lat, "lng" to long)
             row = csvReader.readNext()
         }
         csvReader.close()
