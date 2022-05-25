@@ -31,7 +31,7 @@ class ProfessionalTypeSelection : AppCompatActivity() {
     /**
      * Save data when the user leaves the activity
      */
-    @RequiresApi(Build.VERSION_CODES.O)
+
     override fun onStop() {
         super.onStop()
         saveData()
@@ -82,7 +82,7 @@ class ProfessionalTypeSelection : AppCompatActivity() {
     /**
      * Save theme data
      */
-    @RequiresApi(Build.VERSION_CODES.O)
+
     private fun saveData() {
         val categoriesList = emptyList<ForumCategory?>() +
                 getCategoriesFromSwitch(R.id.generalSwitch, GENERAL) +

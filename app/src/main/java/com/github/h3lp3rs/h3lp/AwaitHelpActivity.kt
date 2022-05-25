@@ -39,7 +39,6 @@ class AwaitHelpActivity : AppCompatActivity() {
     private lateinit var mapsFragment: MapsFragment
     private lateinit var apiHelper: GoogleAPIHelper
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_await_help)
@@ -173,7 +172,6 @@ class AwaitHelpActivity : AppCompatActivity() {
      * @param latitude The helper's current latitude
      * @param longitude The helper's current longitude
      */
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun emergencyCall(latitude: Double, longitude: Double) {
         val medicalInfo = Storages.storageOf(Storages.MEDICAL_INFO)
             .getObjectOrDefault(

@@ -31,7 +31,6 @@ class MySkillsActivity : AppCompatActivity() {
     /**
      * When the user leaves the activity
      */
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onStop() {
         super.onStop()
         saveData()

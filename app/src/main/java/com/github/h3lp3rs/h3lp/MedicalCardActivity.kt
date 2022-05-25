@@ -39,7 +39,6 @@ class MedicalCardActivity : AppCompatActivity() {
 
     private lateinit var storage: LocalStorage
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_card)
@@ -99,7 +98,7 @@ class MedicalCardActivity : AppCompatActivity() {
      * Initialises the field for emergency contact phone number so that we make
      * sure to allow only valid phone numbers, or display an error.
      */
-    @RequiresApi(Build.VERSION_CODES.O)
+
     private fun createPhoneNumberField() {
         val phoneInputText = findViewById<EditText>(R.id.medicalInfoContactNumberEditTxt)
         val phoneInputLayout = findViewById<TextInputLayout>(R.id.medicalInfoContactNumberTxtLayout)
@@ -219,7 +218,7 @@ class MedicalCardActivity : AppCompatActivity() {
     /**
      * Load medical card data
      */
-    @RequiresApi(Build.VERSION_CODES.O)
+
     private fun loadData() {
         val medicalInformation = storage.getObjectOrDefault(
             getString(R.string.medical_info_key),
@@ -260,7 +259,7 @@ class MedicalCardActivity : AppCompatActivity() {
     /**
      * Check the validity of the field and that the policy is checked and then save the data
      */
-    @RequiresApi(Build.VERSION_CODES.O)
+
     fun checkAndSaveChanges(view: View) {
         if (!checkField()) {
             createSnackbar(view, getString(R.string.invalid_field_msg))
@@ -331,7 +330,7 @@ class MedicalCardActivity : AppCompatActivity() {
     /**
      * Save the medical card information
      */
-    @RequiresApi(Build.VERSION_CODES.O)
+
     private fun saveChanges() {
         val size: Int = getIntFromId(R.id.medicalInfoHeightEditTxt)
         val year: Int = getIntFromId(R.id.medicalInfoBirthEditTxt)

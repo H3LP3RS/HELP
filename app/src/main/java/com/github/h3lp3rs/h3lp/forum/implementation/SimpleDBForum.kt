@@ -17,7 +17,7 @@ const val DATE_TIME_FORMAT = "MM/dd/yyyy - HH:mm:ss"
  */
 abstract class SimpleDBForum(private val rootForum : Database) : Forum {
 
-    @RequiresApi(Build.VERSION_CODES.O)
+
     override fun newPost(
         author : String, content : String, isPost : Boolean
     ) : CompletableFuture<ForumPost> {
@@ -61,7 +61,7 @@ abstract class SimpleDBForum(private val rootForum : Database) : Forum {
      * @param currentTime The current date-time
      * @return Formatted current date-time
      */
-    @RequiresApi(Build.VERSION_CODES.O)
+
     private fun getFormattedPostTime(currentTime : ZonedDateTime) : String {
         val formatter = DateTimeFormatter.ofPattern(DATE_TIME_FORMAT)
         return currentTime.format(formatter)
