@@ -21,7 +21,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.H3LP">
         <activity
-            android:name=".BugReportActivity"
+            android:name=".ReportActivity"
             android:exported="false" />
         <activity
             android:name=".RatingActivity"

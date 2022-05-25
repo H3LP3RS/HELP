@@ -14,6 +14,9 @@ import android.widget.CompoundButton
 import android.widget.CompoundButton.OnCheckedChangeListener
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import com.github.h3lp3rs.h3lp.ReportActivity.Companion.bug
+import com.github.h3lp3rs.h3lp.ReportActivity.Companion.suggestion
+import com.github.h3lp3rs.h3lp.forum.ForumCategory
 import com.github.h3lp3rs.h3lp.signin.GoogleSignInAdapter.getCreationDate
 import com.github.h3lp3rs.h3lp.signin.GoogleSignInAdapter.signOut
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
@@ -21,6 +24,8 @@ import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.getUid
 import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
+
+const val EXTRA_REPORT_CATEGORY = "bug_category"
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -84,6 +89,17 @@ class SettingsActivity : AppCompatActivity() {
         storageOf(MEDICAL_INFO).clearOnlineSync()
         storageOf(USER_COOKIE).clearOnlineSync()
         storageOf(SKILLS).clearOnlineSync()
+    }
+
+    fun reportBugOrSuggestion(view: View){
+        val intent = Intent(this, ReportActivity::class.java)
+        val category = when (view.id) {
+            R.id.buttonBugReport -> bug
+            R.id.buttonSuggestion -> suggestion
+            else -> ""
+        }
+        intent.putExtra(EXTRA_REPORT_CATEGORY, category)
+        startActivity(intent)
     }
 
     /**

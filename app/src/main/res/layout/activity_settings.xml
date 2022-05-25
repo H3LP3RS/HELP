@@ -337,6 +337,7 @@
               android:textAllCaps="false"
               android:textColor="@color/grey"
               android:textSize="16sp"
+              android:onClick="reportBugOrSuggestion"
               app:rippleColor="@android:color/transparent" />
 
           <View
@@ -357,6 +358,7 @@
               android:textAllCaps="false"
               android:textColor="@color/grey"
               android:textSize="16sp"
+              android:onClick="reportBugOrSuggestion"
               app:rippleColor="@android:color/transparent" />
         </LinearLayout>
 
