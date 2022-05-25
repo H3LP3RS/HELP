@@ -221,7 +221,7 @@ class HelpPageActivityTest : H3lpAppTest() {
         setDatabase(EMERGENCIES, emergencyDb)
 
         // Setup skills storage accordingly
-        storageOf(Storages.SKILLS).setObject(globalContext.getString(R.string.my_skills_key),
+        storageOf(Storages.SKILLS, getApplicationContext()).setObject(globalContext.getString(R.string.my_skills_key),
             HelperSkills::class.java, skills)
         launch<HelperPageActivity>(intent).use {
             action()

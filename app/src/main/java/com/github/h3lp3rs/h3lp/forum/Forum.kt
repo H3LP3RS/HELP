@@ -100,7 +100,7 @@ interface Forum {
         ctx : Context, activityName : Class<*>?
     ) {
         NotificationService.createNotificationChannel(SignInActivity.globalContext)
-        val enabledCategoriesNotifications = Storages.storageOf(Storages.FORUM_THEMES_NOTIFICATIONS)
+        val enabledCategoriesNotifications = Storages.storageOf(Storages.FORUM_THEMES_NOTIFICATIONS, ctx)
 
         listenToAll { postData ->
             val medicalType = enabledCategoriesNotifications.getObjectOrDefault(

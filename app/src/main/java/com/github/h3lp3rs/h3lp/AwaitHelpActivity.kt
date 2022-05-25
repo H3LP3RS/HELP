@@ -3,14 +3,12 @@ package com.github.h3lp3rs.h3lp
 import LocationHelper
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.database.Databases.CONVERSATION_IDS
@@ -18,10 +16,8 @@ import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.database.Databases.EMERGENCIES
 import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
 import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation
-import com.github.h3lp3rs.h3lp.firstaid.AedActivity
-import com.github.h3lp3rs.h3lp.firstaid.AllergyActivity
-import com.github.h3lp3rs.h3lp.firstaid.AsthmaActivity
-import com.github.h3lp3rs.h3lp.firstaid.HeartAttackActivity
+import com.github.h3lp3rs.h3lp.firstaid.*
+import com.github.h3lp3rs.h3lp.firstaid.FirstAidHowTo.*
 import com.github.h3lp3rs.h3lp.messaging.RecentMessagesActivity
 import com.github.h3lp3rs.h3lp.notification.EmergencyListener.activateListeners
 import com.github.h3lp3rs.h3lp.storage.Storages
@@ -173,7 +169,7 @@ class AwaitHelpActivity : AppCompatActivity() {
      * @param longitude The helper's current longitude
      */
     private fun emergencyCall(latitude: Double, longitude: Double) {
-        val medicalInfo = Storages.storageOf(Storages.MEDICAL_INFO)
+        val medicalInfo = Storages.storageOf(Storages.MEDICAL_INFO, applicationContext)
             .getObjectOrDefault(
                 getString(R.string.medical_info_key),
                 MedicalInformation::class.java,
@@ -235,12 +231,14 @@ class AwaitHelpActivity : AppCompatActivity() {
      * Called when a tutorial button is pressed to redirect to the correct activity
      */
     fun goToTutorial(view: View) {
-        val intent = when (view.id) {
-            R.id.heart_attack_tuto_button -> Intent(this, HeartAttackActivity::class.java)
-            R.id.epipen_tuto_button -> Intent(this, AllergyActivity::class.java)
-            R.id.aed_tuto_button -> Intent(this, AedActivity::class.java)
-            R.id.asthma_tuto_button -> Intent(this, AsthmaActivity::class.java)
-            else -> Intent(this, MainPageActivity::class.java)
+
+        val intent = Intent(this, GeneralFirstAidActivity::class.java).apply {
+            when (view.id) {
+                R.id.heart_attack_tuto_button -> putExtra(EXTRA_FIRST_AID, HEART_ATTACK)
+                R.id.epipen_tuto_button -> putExtra(EXTRA_FIRST_AID, HEART_ATTACK)
+                R.id.aed_tuto_button -> putExtra(EXTRA_FIRST_AID, HEART_ATTACK)
+                R.id.asthma_tuto_button -> putExtra(EXTRA_FIRST_AID, HEART_ATTACK)
+            }
         }
         startActivity(intent)
     }
@@ -270,7 +268,7 @@ class AwaitHelpActivity : AppCompatActivity() {
         val emergencyId = bundle.getInt(EXTRA_EMERGENCY_KEY)
         databaseOf(EMERGENCIES).delete(emergencyId.toString())
         // Re-listen to other emergencies
-        activateListeners()
+        activateListeners(applicationContext)
         // Delete the helpee's id
         databaseOf(CONVERSATION_IDS).delete(emergencyId.toString())
         // Redirect user to the main page after he cancels his emergency

@@ -101,7 +101,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         )
 
         // Load the storage
-        storage = storageOf(USER_COOKIE)
+        storage = storageOf(USER_COOKIE, applicationContext)
 
         // Set the toolbar
         setSupportActionBar(findViewById(R.id.toolbar))
@@ -130,7 +130,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
             globalContext, ForumPostsActivity::class.java
         )
 
-        EmergencyListener.activateListeners()
+        EmergencyListener.activateListeners(applicationContext)
 
         startAppGuide()
     }

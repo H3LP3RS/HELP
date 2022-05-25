@@ -1,6 +1,7 @@
 package com.github.h3lp3rs.h3lp
 
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.database.MockDatabase
@@ -33,7 +34,7 @@ class StorageTest : H3lpAppTest() {
         resetStorage()
         // Will start empty
         USER_COOKIE.setOnlineSync(true)
-        storage = storageOf(USER_COOKIE)
+        storage = storageOf(USER_COOKIE, getApplicationContext())
 
     }
 

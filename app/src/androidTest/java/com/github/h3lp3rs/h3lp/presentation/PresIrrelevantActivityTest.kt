@@ -35,7 +35,7 @@ import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 class PresIrrelevantActivityTest : H3lpAppTest() {
 
     private fun alreadyAccepted() {
-        storageOf(USER_COOKIE).setBoolean(globalContext.getString(R.string.KEY_USER_AGREE), true)
+        storageOf(USER_COOKIE, getApplicationContext()).setBoolean(globalContext.getString(R.string.KEY_USER_AGREE), true)
     }
 
     // https://stackoverflow.com/questions/42390788/espresso-click-on-specific-words-of-text

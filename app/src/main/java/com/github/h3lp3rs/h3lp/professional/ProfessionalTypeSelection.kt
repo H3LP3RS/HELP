@@ -24,7 +24,7 @@ class ProfessionalTypeSelection : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_professional_type_selection)
-        storage = storageOf(FORUM_THEMES_NOTIFICATIONS)
+        storage = storageOf(FORUM_THEMES_NOTIFICATIONS, applicationContext)
         loadData()
     }
 

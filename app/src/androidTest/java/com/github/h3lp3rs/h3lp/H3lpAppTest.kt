@@ -5,6 +5,7 @@ import android.app.Instrumentation.ActivityResult
 import android.content.Intent
 import android.location.Location
 import android.net.Uri
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import com.github.h3lp3rs.h3lp.dataclasses.*
@@ -53,7 +54,7 @@ open class H3lpAppTest {
      * storage
      */
     fun loadValidMedicalDataToStorage() {
-        storageOf(MEDICAL_INFO)
+        storageOf(MEDICAL_INFO, getApplicationContext())
             .setObject(
                 SignInActivity.globalContext.getString(R.string.medical_info_key),
                 MedicalInformation::class.java, VALID_MEDICAL_INFO)

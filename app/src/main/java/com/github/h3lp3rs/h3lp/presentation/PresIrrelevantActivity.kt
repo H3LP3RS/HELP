@@ -40,7 +40,7 @@ class PresIrrelevantActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_presentation_irrelevant)
-        userCookie = storageOf(Storages.USER_COOKIE)
+        userCookie = storageOf(Storages.USER_COOKIE, applicationContext)
 
         // 1. Set right box tick
         val checkBox = findViewById<View>(R.id.pres3_checkBox) as CheckBox

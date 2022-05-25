@@ -80,8 +80,8 @@ class ChatUiTest {
         createAndSendKeyPair(CONVERSATION_ID, HELPEE)
         createAndSendKeyPair(CONVERSATION_ID, HELPER)
 
-        conversationFrom = Conversation(CONVERSATION_ID, currentMessenger)
-        conversationTo = Conversation(CONVERSATION_ID,toMessenger)
+        conversationFrom = Conversation(CONVERSATION_ID, currentMessenger, getApplicationContext())
+        conversationTo = Conversation(CONVERSATION_ID,toMessenger, getApplicationContext())
 
         ActivityScenario.launch<ChatActivity>(intent)
 

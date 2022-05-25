@@ -39,7 +39,7 @@ class SignInActivity : AppCompatActivity() {
      */
     private fun checkToSAndLaunchIfNotAcceptedElseMain() {
         // Check ToS agreement
-        userCookie = storageOf(USER_COOKIE) // Fetch from storage
+        userCookie = storageOf(USER_COOKIE, applicationContext) // Fetch from storage
         if(!userCookie.getBoolOrDefault(getString(R.string.KEY_USER_AGREE), false)) {
             val intent = Intent(this, PresArrivalActivity::class.java)
             startActivity(intent)
@@ -54,7 +54,7 @@ class SignInActivity : AppCompatActivity() {
      * Check if the current user is already signed in and update activity accordingly
      */
     private fun offlineCheckIfSignedIn(){
-        userSignIn = storageOf(Storages.SIGN_IN) // Fetch from storage
+        userSignIn = storageOf(SIGN_IN, applicationContext) // Fetch from storage
         if(userSignIn.getBoolOrDefault(USER_SIGNED_IN, false)){
             userUid = userSignIn.getStringOrDefault(USER_UID,"")
             username = userSignIn.getStringOrDefault(USER_NAME,"")

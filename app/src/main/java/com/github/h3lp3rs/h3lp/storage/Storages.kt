@@ -1,5 +1,6 @@
 package com.github.h3lp3rs.h3lp.storage
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.getGlobalCtx
 import java.lang.Boolean.parseBoolean
@@ -10,7 +11,7 @@ import java.lang.Boolean.parseBoolean
 enum class Storages{
     USER_COOKIE, MEDICAL_INFO, SKILLS, EMERGENCIES_RECEIVED, FORUM_THEMES_NOTIFICATIONS, FORUM_CACHE, SIGN_IN, MSG_CACHE;
 
-    private val ls = LocalStorage(name, getGlobalCtx())
+    private var ls: LocalStorage? = null
     private var isFresh = false
 
     companion object {
@@ -24,14 +25,17 @@ enum class Storages{
          * - USER_COOKIE
          * The storage is only pushed to the database after a push() call
          * @param choice The chosen database
+         * @param context The context with which the storage is initialized
          * @return The instantiated storage of the required type
          */
-        fun storageOf(choice: Storages): LocalStorage {
+        fun storageOf(choice: Storages, context: Context): LocalStorage {
+            choice.ls = choice.ls ?: LocalStorage(choice.name, context)
+
             if (!choice.isFresh) {
-                choice.ls.pull()
+                choice.ls?.pull()
                 choice.isFresh = true
             }
-            return choice.ls
+            return choice.ls!!
         }
 
         /**
@@ -39,7 +43,7 @@ enum class Storages{
          */
         fun resetStorage() {
             for (storage in values()) {
-                storage.ls.clearAll()
+                storage.ls?.clearAll()
             }
         }
 

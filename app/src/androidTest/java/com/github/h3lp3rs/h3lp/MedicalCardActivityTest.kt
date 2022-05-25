@@ -63,7 +63,7 @@ class MedicalCardActivityTest : H3lpAppTest() {
 
         setDatabase(PREFERENCES, MockDatabase())
         resetStorage()
-        storageOf(Storages.USER_COOKIE).setBoolean(GUIDE_KEY, true)
+        storageOf(Storages.USER_COOKIE, getApplicationContext()).setBoolean(GUIDE_KEY, true)
     }
 
     @Test

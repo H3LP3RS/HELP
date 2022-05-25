@@ -1,6 +1,7 @@
 package com.github.h3lp3rs.h3lp.notification
 
 import LocationHelper
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import com.github.h3lp3rs.h3lp.*
@@ -25,9 +26,11 @@ object EmergencyListener {
 
     /**
      * Activates all listeners for helpees the helper may help
+     * @param context The context of the activity which activated the listeners (to instantiate
+     * the skills and emergencies local storages)
      */
-    fun activateListeners() {
-        val skillStorage = storageOf(SKILLS)
+    fun activateListeners(context: Context) {
+        val skillStorage = storageOf(SKILLS, context)
         val skills = skillStorage.getObjectOrDefault(
             SignInActivity.globalContext.getString(R.string.my_skills_key),
             HelperSkills::class.java,
@@ -42,7 +45,7 @@ object EmergencyListener {
                 if (isPresent) {
                     db.addListenerIfNotPresent(key, Int::class.java) { id ->
                         // Look if we already encountered this id
-                        val emergencyStorage = storageOf(EMERGENCIES_RECEIVED)
+                        val emergencyStorage = storageOf(EMERGENCIES_RECEIVED, context)
                         if (emergencyStorage.getBoolOrDefault(id.toString(), false)) {
                             return@addListenerIfNotPresent
                         }

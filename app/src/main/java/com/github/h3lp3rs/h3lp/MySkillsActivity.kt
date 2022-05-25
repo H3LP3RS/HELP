@@ -24,7 +24,7 @@ class MySkillsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_skills)
-        storage = storageOf(SKILLS)
+        storage = storageOf(SKILLS, applicationContext)
         loadData()
     }
 
@@ -91,7 +91,7 @@ class MySkillsActivity : AppCompatActivity() {
         storage.setObject(getString(R.string.my_skills_key), HelperSkills::class.java, skills)
         storage.push()
         // Refresh help listeners
-        EmergencyListener.activateListeners()
+        EmergencyListener.activateListeners(applicationContext)
     }
 
     /**

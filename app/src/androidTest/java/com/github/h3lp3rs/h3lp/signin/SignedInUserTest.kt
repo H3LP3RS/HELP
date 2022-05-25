@@ -44,12 +44,12 @@ class SignedInUserTest : H3lpAppTest() {
 
         val signInMock = Mockito.mock(SignInInterface::class.java)
         When(signInMock.isSignedIn()).thenReturn(true)
-        val userSignIn = storageOf(SIGN_IN)
+        val userSignIn = storageOf(SIGN_IN, getApplicationContext())
         userSignIn.setBoolean(globalContext.getString(R.string.KEY_USER_SIGNED_IN), true)
         userSignIn.setString(globalContext.getString(R.string.KEY_USER_UID), "")
         userSignIn.setString(globalContext.getString(R.string.KEY_USER_NAME), "")
 
-        storageOf(USER_COOKIE).setBoolean(globalContext.getString(R.string.KEY_USER_AGREE), tosAccepted)
+        storageOf(USER_COOKIE, getApplicationContext()).setBoolean(globalContext.getString(R.string.KEY_USER_AGREE), tosAccepted)
 
         SignIn.set(signInMock as SignInInterface<AuthResult>)
         init()

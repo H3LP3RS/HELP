@@ -52,7 +52,7 @@ class SearchBarTest : H3lpAppTest() {
         userUid = USER_TEST_ID
         setDatabase(PREFERENCES, MockDatabase())
         resetStorage()
-        storageOf(USER_COOKIE).setBoolean(GUIDE_KEY, true)
+        storageOf(USER_COOKIE, getApplicationContext()).setBoolean(GUIDE_KEY, true)
     }
 
     private fun end() {

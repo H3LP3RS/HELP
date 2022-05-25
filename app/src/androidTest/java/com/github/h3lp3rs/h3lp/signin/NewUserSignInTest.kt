@@ -58,7 +58,7 @@ class NewUserSignInTest : H3lpAppTest() {
         val signInMock = mock(SignInInterface::class.java)
         When(signInMock.isSignedIn()).thenReturn(false)
 
-        val userSignIn = Storages.storageOf(SIGN_IN)
+        val userSignIn = Storages.storageOf(SIGN_IN, getApplicationContext())
         userSignIn.setBoolean(globalContext.getString(R.string.KEY_USER_SIGNED_IN), false)
 
         testRule.scenario.onActivity { activity ->

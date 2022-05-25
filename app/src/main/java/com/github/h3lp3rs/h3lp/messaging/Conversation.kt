@@ -1,5 +1,6 @@
 package com.github.h3lp3rs.h3lp.messaging
 
+import android.content.Context
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import android.security.keystore.KeyProperties.KEY_ALGORITHM_RSA
@@ -8,8 +9,6 @@ import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.database.Databases.MESSAGES
 import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
-import com.google.gson.reflect.TypeToken
-import java.lang.reflect.Type
 import java.security.*
 import java.security.spec.X509EncodedKeySpec
 import javax.crypto.Cipher
@@ -21,10 +20,13 @@ import javax.crypto.Cipher
  * @param currentMessenger The user that launched the conversation, used to differentiate between
  *  the user that launched the chat and the other user, for example to display the messages with
  *  matching Messenger as sent by the current user
+ * @param context The context of the activity that launched the Conversation (to access the local
+ * storages)
  */
 class Conversation(
     val conversationId: String,
-    private val currentMessenger: Messenger
+    private val currentMessenger: Messenger,
+    private val context: Context
 ) {
     private val database = databaseOf(MESSAGES)
     private var publicKey: PublicKey? = null
@@ -144,7 +146,8 @@ class Conversation(
         val keyStore = KeyStore.getInstance(ANDROID_KEY_STORE)
         keyStore.load(null)
 
-        val privateKey = keyStore.getKey(keyAlias(conversationId, currentMessenger.name), null) as PrivateKey?
+        val privateKey =
+            keyStore.getKey(keyAlias(conversationId, currentMessenger.name), null) as PrivateKey?
 
         val cipher = Cipher.getInstance(TRANSFORMATION)
         cipher.init(Cipher.DECRYPT_MODE, privateKey)
@@ -166,7 +169,7 @@ class Conversation(
      * @warning should be called in onCreate method of the activity
      */
     fun loadChatCache() {
-        val storage = storageOf(Storages.MSG_CACHE)
+        val storage = storageOf(Storages.MSG_CACHE, context)
 
         val cache: HashMap<String, String> = storage.getObjectOrDefault(
             conversationId,
@@ -184,7 +187,7 @@ class Conversation(
      */
     fun saveChatCache() {
         Storages.MSG_CACHE.setOnlineSync(false)
-        val storage = storageOf(Storages.MSG_CACHE)
+        val storage = storageOf(Storages.MSG_CACHE, context)
 
         storage.setObject(conversationId, HashMap::class.java, allMessages)
     }
@@ -194,7 +197,7 @@ class Conversation(
         // for concurrent accesses to always get a new id
         const val UNIQUE_CONVERSATION_ID = "unique conversation id"
         const val ANDROID_KEY_STORE = "AndroidKeyStore"
-        const val KEYS_SUB_PATH = "KEYS"
+        private const val KEYS_SUB_PATH = "KEYS"
         private const val TRANSFORMATION = "RSA/ECB/OAEPwithSHA-1andMGF1Padding"
 
         /**
@@ -221,7 +224,7 @@ class Conversation(
          * Creates a key pair for a given conversation. The public key is sent to
          * the database and the private key remains in Android's keystore.
          * @param conversationId Id of the conversation
-         * @param messengerName name of the messenger creating the key pair
+         * @param messenger name of the messenger creating the key pair
          */
         fun createAndSendKeyPair(conversationId: String, messenger: Messenger) {
             val keyStore = KeyStore.getInstance(ANDROID_KEY_STORE).apply { load(null) }

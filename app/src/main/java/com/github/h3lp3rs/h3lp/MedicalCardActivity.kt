@@ -43,7 +43,7 @@ class MedicalCardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_card)
 
-        storage = storageOf(MEDICAL_INFO)
+        storage = storageOf(MEDICAL_INFO, applicationContext)
         loadData()
 
         // Create the field for the birth year with input check
@@ -132,7 +132,7 @@ class MedicalCardActivity : AppCompatActivity() {
     /**
      * Creates a Field that tests the input and writes error 7
      * @param idEditText The id of the editText to test value
-     * @param idTextInputLayout The Layout where to display erro
+     * @param idTextInputLayout The Layout where to display the error
      * @param min The min margin
      * @param max The max margin
      * @param minErrorMsg The message to display if smallest than min

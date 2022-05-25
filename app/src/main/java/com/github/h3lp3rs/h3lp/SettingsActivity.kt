@@ -78,9 +78,9 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     fun clearSync(view: View) {
-        storageOf(MEDICAL_INFO).clearOnlineSync()
-        storageOf(USER_COOKIE).clearOnlineSync()
-        storageOf(SKILLS).clearOnlineSync()
+        storageOf(MEDICAL_INFO, applicationContext).clearOnlineSync()
+        storageOf(USER_COOKIE, applicationContext).clearOnlineSync()
+        storageOf(SKILLS, applicationContext).clearOnlineSync()
     }
 
     /**

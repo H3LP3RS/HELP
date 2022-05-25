@@ -210,7 +210,7 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             createAndSendKeyPair(it.toString(), HELPER)
 
             // Creating a conversation on that new unique conversation id
-            conversation = Conversation(it.toString(), HELPER)
+            conversation = Conversation(it.toString(), HELPER, applicationContext)
         }
         // Once the user accepts to help, the accept button disappears and he is able to
         // start conversations with the person who requested help.

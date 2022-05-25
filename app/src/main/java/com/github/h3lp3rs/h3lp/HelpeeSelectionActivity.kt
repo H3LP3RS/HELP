@@ -94,7 +94,7 @@ class HelpeeSelectionActivity : AppCompatActivity() {
      */
 
     private fun emergencyCall(latitude: Double?, longitude: Double?) {
-        val medicalInfo = storageOf(MEDICAL_INFO)
+        val medicalInfo = storageOf(MEDICAL_INFO, applicationContext)
             .getObjectOrDefault(
                 getString(R.string.medical_info_key),
                 MedicalInformation::class.java,
@@ -203,7 +203,7 @@ class HelpeeSelectionActivity : AppCompatActivity() {
         val emergenciesDb = databaseOf(EMERGENCIES)
         val newEmergenciesDb = databaseOf(NEW_EMERGENCIES)
         // Get own medical storage and extract the information if available
-        val storage = storageOf(MEDICAL_INFO)
+        val storage = storageOf(MEDICAL_INFO, applicationContext)
         val medicalInfo = storage.getObjectOrDefault(
             getString(R.string.medical_info_key),
             MedicalInformation::class.java, null
@@ -214,7 +214,7 @@ class HelpeeSelectionActivity : AppCompatActivity() {
             newEmergenciesDb.clearAllListeners()
 
             // Don't get notified by own emergency after recovery
-            val emergencyStorage = storageOf(EMERGENCIES_RECEIVED)
+            val emergencyStorage = storageOf(EMERGENCIES_RECEIVED, applicationContext)
             emergencyStorage.setBoolean(it.toString(), true)
 
             // Create and send the emergency object
@@ -261,7 +261,7 @@ class HelpeeSelectionActivity : AppCompatActivity() {
      * @return The medication and skills that the user requires
      */
     private fun retrieveSelectedMedication(view: View): Pair<ArrayList<String>, HelperSkills> {
-        val viewGroup = view.parent as ViewGroup
+        val viewGroup = view as ViewGroup
 
         val meds = arrayListOf<String>()
         var skills = HelperSkills(

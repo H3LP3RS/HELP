@@ -68,7 +68,7 @@ class MainPageTestActivity : H3lpAppTest() {
         proUsersDb = databaseOf(PRO_USERS)
 
         resetStorage()
-        storageOf(USER_COOKIE).setBoolean(GUIDE_KEY, true)
+        storageOf(USER_COOKIE, getApplicationContext()).setBoolean(GUIDE_KEY, true)
 
         mockLocationToCoordinates(SWISS_LONG, SWISS_LAT)
     }
@@ -275,7 +275,7 @@ class MainPageTestActivity : H3lpAppTest() {
 
         setDatabase(NEW_EMERGENCIES, newEmergenciesDb)
         // Add to storage the skills
-        storageOf(SKILLS).setObject(globalContext.getString(R.string.my_skills_key),
+        storageOf(SKILLS, getApplicationContext()).setObject(globalContext.getString(R.string.my_skills_key),
             HelperSkills::class.java, EPIPEN_SKILL)
 
         // To track notifications
