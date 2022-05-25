@@ -5,12 +5,14 @@ import android.app.Instrumentation.ActivityResult
 import android.content.Intent
 import android.location.Location
 import android.net.Uri
-import androidx.test.espresso.intent.Intents.*
+import androidx.test.espresso.intent.Intents.init
+import androidx.test.espresso.intent.Intents.intending
 import androidx.test.espresso.intent.matcher.IntentMatchers
-import com.github.h3lp3rs.h3lp.dataclasses.*
 import com.github.h3lp3rs.h3lp.dataclasses.BloodType.ABn
-import com.github.h3lp3rs.h3lp.dataclasses.Gender.Female
-import com.github.h3lp3rs.h3lp.dataclasses.Gender.Male
+import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
+import com.github.h3lp3rs.h3lp.dataclasses.Gender
+import com.github.h3lp3rs.h3lp.dataclasses.HelperSkills
+import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation
 import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation.Companion.ADULT_AGE
 import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation.Companion.MAX_HEIGHT
 import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation.Companion.MAX_WEIGHT
@@ -19,13 +21,12 @@ import com.github.h3lp3rs.h3lp.locationmanager.LocationManagerInterface
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.github.h3lp3rs.h3lp.storage.Storages.MEDICAL_INFO
-import org.apache.commons.lang3.RandomUtils.nextBoolean
-import org.mockito.Mockito.`when` as When
+import org.apache.commons.lang3.RandomUtils.nextInt
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.anyOrNull
-import java.lang.RuntimeException
 import java.util.*
 import java.util.concurrent.CompletableFuture
+import org.mockito.Mockito.`when` as When
 
 /**
  * Super class for tests in this app containing useful constants and functions
@@ -33,7 +34,8 @@ import java.util.concurrent.CompletableFuture
  */
 open class H3lpAppTest {
 
-    protected val locationManagerMock: LocationManagerInterface = mock(LocationManagerInterface::class.java)
+    protected val locationManagerMock: LocationManagerInterface =
+        mock(LocationManagerInterface::class.java)
     private val locationMock: Location = mock(Location::class.java)
 
 
@@ -56,13 +58,14 @@ open class H3lpAppTest {
         storageOf(MEDICAL_INFO)
             .setObject(
                 SignInActivity.globalContext.getString(R.string.medical_info_key),
-                MedicalInformation::class.java, VALID_MEDICAL_INFO)
+                MedicalInformation::class.java, VALID_MEDICAL_INFO
+            )
     }
 
     /**
      * Mocking the user's location to a null values
      */
-    fun mockEmptyLocation(){
+    fun mockEmptyLocation() {
         When(locationManagerMock.getCurrentLocation(anyOrNull())).thenReturn(
             CompletableFuture.completedFuture(
                 locationMock
@@ -123,17 +126,18 @@ open class H3lpAppTest {
         const val EPIPEN = "Epipen"
 
         val EPIPEN_SKILL = HelperSkills(
-            true, false,false, false,false, false
+            true, false, false, false, false, false
         )
 
         val EPIPEN_EMERGENCY_INFO = EmergencyInformation(
-            TEST_EMERGENCY_ID, 1.0,1.0, EPIPEN_SKILL,
-            ArrayList(listOf(EPIPEN)), Date(), null, ArrayList())
+            TEST_EMERGENCY_ID, 1.0, 1.0, EPIPEN_SKILL,
+            ArrayList(listOf(EPIPEN)), Date(), null, ArrayList()
+        )
 
         val VALID_MEDICAL_INFO = MedicalInformation(
-            MAX_HEIGHT -1,
-            MAX_WEIGHT -1,
-            if(nextBoolean()) Male else Female, // No gender is more valid than the other
+            MAX_HEIGHT - 1,
+            MAX_WEIGHT - 1,
+            Gender.values()[nextInt() % Gender.values().size], // No gender is more valid than the other
             // Make it so that the user is an adult
             Calendar.getInstance().get(Calendar.YEAR) - ADULT_AGE,
             "",
@@ -141,6 +145,7 @@ open class H3lpAppTest {
             "",
             ABn,
             "",
-            VALID_CONTACT_NUMBER)
+            VALID_CONTACT_NUMBER
+        )
     }
 }

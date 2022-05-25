@@ -2,21 +2,20 @@ package com.github.h3lp3rs.h3lp
 
 import android.view.View
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso.*
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.intent.Intents
-import androidx.test.espresso.intent.Intents.*
-import androidx.test.espresso.intent.matcher.IntentMatchers.*
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.intent.Intents.intended
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.github.h3lp3rs.h3lp.firstaid.AedActivity
-import com.github.h3lp3rs.h3lp.firstaid.AllergyActivity
-import com.github.h3lp3rs.h3lp.firstaid.AsthmaActivity
-import com.github.h3lp3rs.h3lp.firstaid.HeartAttackActivity
+import com.github.h3lp3rs.h3lp.firstaid.*
+import com.github.h3lp3rs.h3lp.firstaid.FirstAidHowTo.*
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import org.hamcrest.Matcher
-import org.hamcrest.Matchers.*
+import org.hamcrest.Matchers.allOf
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -34,7 +33,6 @@ class FirstAidActivityTest : H3lpAppTest() {
     @Before
     fun setup() {
         SignInActivity.userUid = USER_TEST_ID
-        SignInActivity.globalContext = ApplicationProvider.getApplicationContext()
         initIntentAndCheckResponse()
     }
 
@@ -52,28 +50,66 @@ class FirstAidActivityTest : H3lpAppTest() {
         )
     }
 
+    private fun clickingOnButtonWorksAndSendsIntentWithExtra(
+        ActivityName: Class<*>?,
+        id: Matcher<View>,
+        extraName: String,
+        firstAidExtra: FirstAidHowTo
+    ) {
+        onView(id).perform(ViewActions.scrollTo(), ViewActions.click())
+        intended(
+            allOf(
+                hasComponent(ActivityName!!.name),
+                hasExtra(extraName, firstAidExtra)
+            )
+        )
+    }
+
     @Test
     fun clickAllergyExpandButtonWorksAndSendsIntent() {
-        clickingOnButtonWorksAndSendsIntent(AllergyActivity::class.java, withId(R.id.allergy_expand_button))
+        clickingOnButtonWorksAndSendsIntentWithExtra(
+            GeneralFirstAidActivity::class.java,
+            withId(R.id.allergy_expand_button),
+            EXTRA_FIRST_AID,
+            ALLERGY
+        )
     }
 
     @Test
     fun clickHeartAttackExpandButtonWorksAndSendsIntent() {
-        clickingOnButtonWorksAndSendsIntent(HeartAttackActivity::class.java, withId(R.id.heart_attack_expand_button))
+        clickingOnButtonWorksAndSendsIntentWithExtra(
+            GeneralFirstAidActivity::class.java,
+            withId(R.id.heart_attack_expand_button),
+            EXTRA_FIRST_AID,
+            HEART_ATTACK
+        )
     }
 
     @Test
     fun clickAedExpandButtonWorksAndSendsIntent() {
-        clickingOnButtonWorksAndSendsIntent(AedActivity::class.java, withId(R.id.aed_expand_button))
+        clickingOnButtonWorksAndSendsIntentWithExtra(
+            GeneralFirstAidActivity::class.java,
+            withId(R.id.aed_expand_button),
+            EXTRA_FIRST_AID,
+            AED
+        )
     }
 
     @Test
     fun clickAsthmaExpandButtonWorksAndSendsIntent() {
-        clickingOnButtonWorksAndSendsIntent(AsthmaActivity::class.java, withId(R.id.asthma_expand_button))
+        clickingOnButtonWorksAndSendsIntentWithExtra(
+            GeneralFirstAidActivity::class.java,
+            withId(R.id.asthma_expand_button),
+            EXTRA_FIRST_AID,
+            ASTHMA
+        )
     }
 
     @Test
     fun clickBackButtonWorksAndSendsIntent() {
-        clickingOnButtonWorksAndSendsIntent(MainPageActivity::class.java, withId(R.id.first_aid_back_button))
+        clickingOnButtonWorksAndSendsIntent(
+            MainPageActivity::class.java,
+            withId(R.id.first_aid_back_button)
+        )
     }
 }

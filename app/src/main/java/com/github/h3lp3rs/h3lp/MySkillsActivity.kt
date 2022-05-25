@@ -1,20 +1,15 @@
 package com.github.h3lp3rs.h3lp
 
 import android.content.Intent
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import com.github.h3lp3rs.h3lp.database.Databases
-import com.github.h3lp3rs.h3lp.database.Databases.Companion
-import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
+import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.dataclasses.HelperSkills
 import com.github.h3lp3rs.h3lp.notification.EmergencyListener
 import com.github.h3lp3rs.h3lp.storage.LocalStorage
-import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
+import com.github.h3lp3rs.h3lp.storage.Storages.SKILLS
 import com.google.android.material.switchmaterial.SwitchMaterial
 
 class MySkillsActivity : AppCompatActivity() {
@@ -39,7 +34,7 @@ class MySkillsActivity : AppCompatActivity() {
     /**
      * Function for the back button to go back to MainActivity
      */
-    fun backHome(view: View){
+    fun backHome(view: View) {
         val intent = Intent(this, MainPageActivity::class.java)
         startActivity(intent)
     }
@@ -47,7 +42,7 @@ class MySkillsActivity : AppCompatActivity() {
     /**
      * Show a dialogue with explication on what is the form for
      */
-    fun helpDialogue(view: View){
+    fun helpDialogue(view: View) {
         AlertDialog.Builder(this).setTitle(getString(R.string.my_helper_skills))
             .setMessage(getString(R.string.help_my_skills)).show()
     }
@@ -56,8 +51,10 @@ class MySkillsActivity : AppCompatActivity() {
      * Load skills data
      */
     private fun loadData() {
-        val skills = storage.getObjectOrDefault(getString(R.string.my_skills_key),
-            HelperSkills::class.java, null) ?: return
+        val skills = storage.getObjectOrDefault(
+            getString(R.string.my_skills_key),
+            HelperSkills::class.java, null
+        ) ?: return
 
         toggleSwitch(skills.hasEpipen, R.id.epipenSwitch)
         toggleSwitch(skills.hasVentolin, R.id.ventolinSwitch)
@@ -72,7 +69,7 @@ class MySkillsActivity : AppCompatActivity() {
      * @param toggle True to check the switch, false to uncheck it
      * @param id The switch's id
      */
-    private fun toggleSwitch(toggle: Boolean, id: Int){
+    private fun toggleSwitch(toggle: Boolean, id: Int) {
         findViewById<SwitchMaterial>(id).isChecked = toggle
     }
 
@@ -99,7 +96,7 @@ class MySkillsActivity : AppCompatActivity() {
      * @param id The switch button's id
      * @return True if the switch was checked, false otherwise
      */
-    private fun getBooleanFromSwitch(id: Int):Boolean{
+    private fun getBooleanFromSwitch(id: Int): Boolean {
         return findViewById<SwitchMaterial>(id).isChecked
     }
 }

@@ -2,7 +2,6 @@ package com.github.h3lp3rs.h3lp
 
 import android.content.Intent
 import android.icu.util.Calendar
-import android.os.Build
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
@@ -15,7 +14,6 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.CheckBox
 import android.widget.EditText
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -74,7 +72,7 @@ class MedicalCardActivity : AppCompatActivity() {
         createDropdownField(BloodType.values().map { it.type }, R.id.medicalInfoBloodDropdown)
 
         // Create Gender dropDown menu in an InputTextLayout
-        createDropdownField(Gender.values().map { it.name }, R.id.medicalInfoGenderDropdown)
+        createDropdownField(Gender.values().map { it.genderText }, R.id.medicalInfoGenderDropdown)
 
         createPrivacyCheckBox()
         createPhoneNumberField()
