@@ -1,17 +1,40 @@
 package com.github.h3lp3rs.h3lp.util
 
+import android.content.Context
+import com.github.h3lp3rs.h3lp.R
+import com.opencsv.CSVReader
+import java.io.BufferedReader
+import java.io.InputStreamReader
+
 /**
- * Coordinates of defibrillators in Lausanne
+ * Object that serves to retrieve the coordinates of defibrillators from any csv with defibrillator
+ * locations (to streamline the addition of defibrillator locations for other countries)
+ * The csv should be of the format:
+ * -- Header
+ * -- latitude,longitude
+ * -- latitude,longitude
+ * -- ...
  */
-val AED_LOCATIONS_LAUSANNE = listOf(
-    hashMapOf("name" to "aed","lat" to "46.53662", "lng" to "6.58833"),
-    hashMapOf("name" to "aed","lat" to "46.53257", "lng" to "6.58685"),
-    hashMapOf("name" to "aed","lat" to "46.52786", "lng" to "6.61601"),
-    hashMapOf("name" to "aed","lat" to "46.52934", "lng" to "6.62275"),
-    hashMapOf("name" to "aed","lat" to "46.52292", "lng" to "6.62627"),
-    hashMapOf("name" to "aed","lat" to "46.52301", "lng" to "6.63239"),
-    hashMapOf("name" to "aed","lat" to "46.52362", "lng" to "6.63364"),
-    hashMapOf("name" to "aed","lat" to "46.51760", "lng" to "6.63102"),
-    hashMapOf("name" to "aed","lat" to "46.52018", "lng" to "6.63399"),
-    hashMapOf("name" to "aed","lat" to "46.52353", "lng" to "6.63880"),
-)
+object DefibrillatorLocationsRetriever {
+    fun retrieveFromFile(fileId: Int, context: Context): List<HashMap<String, String>> {
+        // Instantiating the defibrillator locations database
+        val inputStream = context.resources.openRawResource(fileId)
+        val bufferedReader = BufferedReader(InputStreamReader(inputStream, "UTF-8"))
+        val csvReader = CSVReader(bufferedReader)
+
+        // Skips the first line (the header) of the CSV file
+        csvReader.skip(1)
+        var aedLocations: List<HashMap<String, String>> = emptyList()
+        var row: Array<String>? = csvReader.readNext()
+        while (row != null) {
+            // Latitude is stored in the first column, longitude in the second
+            val lat = row[0]
+            val long = row[1]
+            // Also adding a name to each aed (this makes it easier to display them on the map)
+            aedLocations = aedLocations + hashMapOf("name" to "aed", "lat" to lat, "long" to long)
+            row = csvReader.readNext()
+        }
+        csvReader.close()
+        return aedLocations
+    }
+}

@@ -10,7 +10,6 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.database.Databases.CONVERSATION_IDS
@@ -18,10 +17,6 @@ import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.database.Databases.EMERGENCIES
 import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
 import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation
-import com.github.h3lp3rs.h3lp.firstaid.AedActivity
-import com.github.h3lp3rs.h3lp.firstaid.AllergyActivity
-import com.github.h3lp3rs.h3lp.firstaid.AsthmaActivity
-import com.github.h3lp3rs.h3lp.firstaid.HeartAttackActivity
 import com.github.h3lp3rs.h3lp.messaging.RecentMessagesActivity
 import com.github.h3lp3rs.h3lp.notification.EmergencyListener.activateListeners
 import com.github.h3lp3rs.h3lp.storage.Storages
