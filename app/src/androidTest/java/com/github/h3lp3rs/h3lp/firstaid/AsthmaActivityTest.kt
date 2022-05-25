@@ -5,6 +5,8 @@ import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
+import androidx.test.espresso.matcher.RootMatchers
+import androidx.test.espresso.matcher.RootMatchers.isFocusable
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -28,9 +30,10 @@ class AsthmaActivityTest {
      * @param id Id of the component
      */
     private fun checkIfDisplayed(id: Int){
-        Espresso.onView(ViewMatchers.withId(id))
+        Espresso.onView(ViewMatchers.withId(id)).inRoot(isFocusable())
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
+
     @Test
     fun tutorialVideoIsDisplayed(){
         checkIfDisplayed(R.id.asthmaVideo)
