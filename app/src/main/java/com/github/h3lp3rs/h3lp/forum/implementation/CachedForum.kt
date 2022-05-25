@@ -152,6 +152,8 @@ class CachedForum(private val forum: Forum) : Forum {
             // We should change the listener design to make it cleaner, but for now it works fine
             val path = listOf(it.category.name) + if(it.isPost) emptyList() else listOf(it.key)
             CachedForum(forum.root()).updateCacheWithPost(path, it)
+            // Execute previous action
+            action(it)
         }
         forum.listenToAll(newWrappedAction)
     }
