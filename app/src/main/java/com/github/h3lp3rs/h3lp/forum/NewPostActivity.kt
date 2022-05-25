@@ -5,12 +5,14 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.appcompat.app.AppCompatActivity
+import com.github.h3lp3rs.h3lp.EXTRA_REPORT_CATEGORY
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.forumOf
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.getName
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.activity_new_post.*
+import kotlinx.android.synthetic.main.activity_report.*
 
 /**
  * Activity where a user sends a Posts in the forum
@@ -20,6 +22,10 @@ class NewPostActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState : Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_post)
+
+        val bundle = intent.extras!!
+        val category = bundle.getString(EXTRA_FORUM_CATEGORY)
+        newPostCategoryDropdown.setText(category)
 
         createDropDownMenu()
     }
