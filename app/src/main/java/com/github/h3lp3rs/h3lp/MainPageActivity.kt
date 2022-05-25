@@ -31,7 +31,6 @@ import com.github.h3lp3rs.h3lp.professional.VerificationActivity
 import com.github.h3lp3rs.h3lp.signin.SignIn
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.getUid
-import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.github.h3lp3rs.h3lp.storage.Storages.USER_COOKIE
@@ -126,8 +125,8 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         }
 
         // Start listening to forum posts
-        ForumCategory.root().sendIntentNotificationOnNewPosts(
-            globalContext, ForumPostsActivity::class.java
+        ForumCategory.root(applicationContext).sendIntentNotificationOnNewPosts(
+            applicationContext, ForumPostsActivity::class.java
         )
 
         EmergencyListener.activateListeners(applicationContext)
@@ -509,7 +508,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         if (getUid() == null) {
             showSignInPopUp()
         } else {
-            val db = databaseOf(PRO_USERS)
+            val db = databaseOf(PRO_USERS, applicationContext)
             db.getObject(SignInActivity.userUid.toString(), ProUser::class.java).handle { _, err ->
                 if (err != null) {
                     // If there is no proof of the status of the current user in the database, launch the verification process

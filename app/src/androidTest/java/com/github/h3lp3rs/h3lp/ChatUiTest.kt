@@ -29,7 +29,6 @@ import com.github.h3lp3rs.h3lp.messaging.Messenger
 import com.github.h3lp3rs.h3lp.messaging.Messenger.HELPEE
 import com.github.h3lp3rs.h3lp.messaging.Messenger.HELPER
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
-import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
 import com.xwray.groupie.ViewHolder
@@ -66,7 +65,6 @@ class ChatUiTest {
             putExtra(EXTRA_USER_ROLE, HELPEE)
         }
 
-        globalContext = getApplicationContext()
         userUid = USER_TEST_ID
 
         setDatabase(MESSAGES, MockDatabase())
@@ -77,8 +75,8 @@ class ChatUiTest {
         keyStore.deleteEntry(Conversation.keyAlias(CONVERSATION_ID, HELPEE.name))
         keyStore.deleteEntry(Conversation.keyAlias(CONVERSATION_ID, HELPER.name))
 
-        createAndSendKeyPair(CONVERSATION_ID, HELPEE)
-        createAndSendKeyPair(CONVERSATION_ID, HELPER)
+        createAndSendKeyPair(CONVERSATION_ID, HELPEE, getApplicationContext())
+        createAndSendKeyPair(CONVERSATION_ID, HELPER, getApplicationContext())
 
         conversationFrom = Conversation(CONVERSATION_ID, currentMessenger, getApplicationContext())
         conversationTo = Conversation(CONVERSATION_ID,toMessenger, getApplicationContext())

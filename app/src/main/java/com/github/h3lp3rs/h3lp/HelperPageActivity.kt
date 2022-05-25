@@ -59,7 +59,7 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         setContentView(binding.root)
 
         mapsFragment = supportFragmentManager.findFragmentById(R.id.mapHelpPage) as MapsFragment
-        apiHelper = GoogleAPIHelper(resources.getString(R.string.google_maps_key))
+        apiHelper = GoogleAPIHelper(resources.getString(R.string.google_maps_key), applicationContext)
 
         // Bundle cannot be empty
         val bundle = this.intent.extras!!
@@ -170,18 +170,18 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
      * @param currentLong The user's current longitude
      */
     private fun acceptHelpRequest(emergencyId: String, currentLat: Double, currentLong: Double) {
-        val emergencyDb = databaseOf(EMERGENCIES)
+        val emergencyDb = databaseOf(EMERGENCIES, applicationContext)
         emergencyDb.getObject(emergencyId, EmergencyInformation::class.java).thenApply {
             // Add the helper to the list of helpers
             val me = Helper(userUid!!, currentLat, currentLong)
             val helpers = ArrayList<Helper>(it.helpers)
             helpers.add(me)
             // Stop listening to other emergencies
-            databaseOf(NEW_EMERGENCIES).clearAllListeners()
+            databaseOf(NEW_EMERGENCIES, applicationContext).clearAllListeners()
 
             // TODO: Here we can potentially periodically update the GPS coordinates
             // Update the value to notify that we are coming
-            databaseOf(EMERGENCIES).setObject(
+            databaseOf(EMERGENCIES, applicationContext).setObject(
                 emergencyId,
                 EmergencyInformation::class.java,
                 it.copy(helpers = helpers)
@@ -200,14 +200,14 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
      * conversation id between each helper / helpee pair)
      */
     private fun initChat(emergencyId: String) {
-        val conversationIdsDb = databaseOf(CONVERSATION_IDS)
+        val conversationIdsDb = databaseOf(CONVERSATION_IDS, applicationContext)
         conversationIdsDb.incrementAndGet(UNIQUE_CONVERSATION_ID, 1).thenApply {
             // Sending the conversation id to the person in need of help (share the
             // conversation id)
             conversationIdsDb.addToObjectsListConcurrently(emergencyId, Int::class.java, it)
 
             // Create the key pair used to encrypt the conversation from end-to-end
-            createAndSendKeyPair(it.toString(), HELPER)
+            createAndSendKeyPair(it.toString(), HELPER, applicationContext)
 
             // Creating a conversation on that new unique conversation id
             conversation = Conversation(it.toString(), HELPER, applicationContext)
@@ -250,7 +250,7 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             }
         }
         // The event is added to the entire conversation IDS database and so no child key is needed
-        databaseOf(CONVERSATION_IDS).addEventListener(
+        databaseOf(CONVERSATION_IDS, applicationContext).addEventListener(
             null,
             String::class.java, null,
         ) { id -> run { onChildRemoved(id) } }

@@ -3,15 +3,16 @@ package com.github.h3lp3rs.h3lp.professional
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.webkit.MimeTypeMap
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.database.Databases
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
+import com.github.h3lp3rs.h3lp.database.Databases.PRO_USERS
 import com.github.h3lp3rs.h3lp.signin.GoogleSignInAdapter
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.google.firebase.storage.StorageReference
@@ -25,10 +26,7 @@ class VerificationActivity : AppCompatActivity() {
     // Some attributes are vars only for testing purposes
     companion object {
         // Uri of the image file = proof of status
-        var imgUri : Uri? = null
-
-        // Database representing the professional users authenticated
-        private val db = Databases.databaseOf(Databases.PRO_USERS)
+        var imgUri: Uri? = null
 
         // Reference to the Firebase cloud storage
         private lateinit var storageRef: StorageReference
@@ -43,7 +41,7 @@ class VerificationActivity : AppCompatActivity() {
         var currentUserStatus = ""
         var currentUserDomain = ""
         var currentUserExperience = ""
-        private const val DELAY : Long = 5000
+        private const val DELAY: Long = 5000
 
     }
 
@@ -118,7 +116,7 @@ class VerificationActivity : AppCompatActivity() {
             storageRef = CloudStorage.get()
             val fileReference: StorageReference = storageRef.child(
                 System.currentTimeMillis().toString() + "." + getFileExtension(
-                   uri
+                    uri
                 )
             )
             // Stores the file the cloud storage
@@ -140,7 +138,11 @@ class VerificationActivity : AppCompatActivity() {
                     proDomain = currentUserDomain,
                     proExperience = currentUserExperience
                 )
-                db.setObject(proUser.id, ProUser::class.java, proUser)
+                databaseOf(PRO_USERS, applicationContext).setObject(
+                    proUser.id,
+                    ProUser::class.java,
+                    proUser
+                )
 
                 val intent = Intent(this, ProMainActivity::class.java)
                 startActivity(intent)

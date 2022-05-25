@@ -14,7 +14,6 @@ import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.database.MockDatabase
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
-import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
 import org.hamcrest.Matchers.*
@@ -31,7 +30,6 @@ class SettingsActivityTest : H3lpAppTest() {
 
     @Before
     fun dataInit() {
-        globalContext = getApplicationContext()
         userUid = USER_TEST_ID
         setDatabase(PREFERENCES, MockDatabase())
         resetStorage()

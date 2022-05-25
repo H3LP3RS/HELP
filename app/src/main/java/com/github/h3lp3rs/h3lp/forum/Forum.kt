@@ -93,13 +93,13 @@ interface Forum {
     /**
      * Sends a notification when there's a new post at this level. Upon clicking this
      * notification, the intent will be triggered
-     * @param ctx The context of the app
+     * @param ctx The context of the calling activity
      * @param activityName The activity to launch
      */
     fun sendIntentNotificationOnNewPosts(
         ctx : Context, activityName : Class<*>?
     ) {
-        NotificationService.createNotificationChannel(SignInActivity.globalContext)
+        NotificationService.createNotificationChannel(ctx)
         val enabledCategoriesNotifications = Storages.storageOf(Storages.FORUM_THEMES_NOTIFICATIONS, ctx)
 
         listenToAll { postData ->

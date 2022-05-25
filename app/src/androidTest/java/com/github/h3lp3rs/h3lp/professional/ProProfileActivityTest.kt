@@ -1,5 +1,6 @@
 package com.github.h3lp3rs.h3lp.professional
 
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
@@ -12,9 +13,9 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.H3lpAppTest.Companion.USER_TEST_ID
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
+import com.github.h3lp3rs.h3lp.database.Databases.PRO_USERS
 import com.github.h3lp3rs.h3lp.database.MockDatabase
 import junit.framework.Assert.assertEquals
 import org.junit.After
@@ -27,8 +28,7 @@ private const val STATUS_TEST = "doctor"
 private const val DOMAIN_TEST = "humans"
 private const val EXPERIENCE_TEST = "3"
 
-private val proUsersDb = databaseOf(Databases.PRO_USERS)
-private val proUser = ProUser(USER_TEST_ID, "","","", "", "", "")
+private val proUser = ProUser(USER_TEST_ID, "", "", "", "", "", "")
 
 @RunWith(AndroidJUnit4::class)
 class ProProfileActivityTest {
@@ -42,8 +42,12 @@ class ProProfileActivityTest {
         Intents.init()
         VerificationActivity.currentUserId = USER_TEST_ID
         VerificationActivity.currentUserName = ""
-        setDatabase(Databases.PRO_USERS, MockDatabase())
-        proUsersDb.setObject(USER_TEST_ID,ProUser::class.java, proUser)
+        setDatabase(PRO_USERS, MockDatabase())
+        databaseOf(PRO_USERS, getApplicationContext()).setObject(
+            USER_TEST_ID,
+            ProUser::class.java,
+            proUser
+        )
     }
 
     @After
@@ -61,7 +65,7 @@ class ProProfileActivityTest {
     }
 
     @Test
-    fun updateProfileWithCheckedPolicyWorks(){
+    fun updateProfileWithCheckedPolicyWorks() {
         onView(withId(R.id.proProfileStatusEditTxt))
             .perform(ViewActions.replaceText(STATUS_TEST))
         onView(withId(R.id.proProfileDomainEditTxt))
@@ -71,7 +75,7 @@ class ProProfileActivityTest {
 
         onView(withId(R.id.proProfilePrivacyCheck))
             .perform(click())
-        
+
         onView(withText(R.string.pro_profile_privacy_policy))
             .inRoot(RootMatchers.isDialog())
             .perform(ViewActions.pressBack())
@@ -79,7 +83,10 @@ class ProProfileActivityTest {
         onView(withId(R.id.proProfileUpdateButton))
             .perform(click())
 
-        val currentProUser = databaseOf(Databases.PRO_USERS).getObject(USER_TEST_ID,ProUser::class.java).get()
+        val currentProUser = databaseOf(PRO_USERS, getApplicationContext()).getObject(
+            USER_TEST_ID,
+            ProUser::class.java
+        ).get()
 
         assertEquals(currentProUser.id, USER_TEST_ID)
         assertEquals(currentProUser.name, "")
@@ -92,7 +99,7 @@ class ProProfileActivityTest {
     }
 
     @Test
-    fun updateProfileWithoutCheckedPolicyDisplaysError(){
+    fun updateProfileWithoutCheckedPolicyDisplaysError() {
         onView(withId(R.id.proProfileUpdateButton))
             .perform(click())
 

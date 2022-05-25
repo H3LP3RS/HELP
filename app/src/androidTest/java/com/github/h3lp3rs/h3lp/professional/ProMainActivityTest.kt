@@ -17,7 +17,6 @@ import com.github.h3lp3rs.h3lp.H3lpAppTest
 import com.github.h3lp3rs.h3lp.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.forum.ForumCategoriesActivity
-import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
@@ -43,7 +42,6 @@ class ProMainActivityTest : H3lpAppTest() {
     @Before
     fun setup() {
         userUid = USER_TEST_ID
-        globalContext = getApplicationContext()
         init()
     }
 

@@ -7,7 +7,6 @@ import com.github.h3lp3rs.h3lp.forum.ForumCategory.*
 import com.github.h3lp3rs.h3lp.forum.data.ForumPostData
 import com.github.h3lp3rs.h3lp.notification.NotificationService
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.getName
-import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.post_forum_row.view.*
@@ -94,7 +93,7 @@ class ForumPost(
     fun sendIntentNotificationOnNewReplies(
         ctx : Context, activityName : Class<*>?
     ) {
-        NotificationService.createNotificationChannel(globalContext)
+        NotificationService.createNotificationChannel(ctx)
 
         listen { postData ->
 

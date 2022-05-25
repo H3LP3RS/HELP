@@ -1,6 +1,7 @@
 package com.github.h3lp3rs.h3lp
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.view.View
 import androidx.test.core.app.ActivityScenario
@@ -33,7 +34,6 @@ import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
 import com.github.h3lp3rs.h3lp.professional.ProMainActivity
 import com.github.h3lp3rs.h3lp.professional.ProUser
 import com.github.h3lp3rs.h3lp.professional.VerificationActivity
-import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
@@ -59,13 +59,12 @@ class MainPageTestActivity : H3lpAppTest() {
 
     @Before
     fun setup() {
-        globalContext = getApplicationContext()
         userUid = USER_TEST_ID
 
         setDatabase(PREFERENCES, MockDatabase())
         setDatabase(PRO_USERS, MockDatabase())
 
-        proUsersDb = databaseOf(PRO_USERS)
+        proUsersDb = databaseOf(PRO_USERS, getApplicationContext())
 
         resetStorage()
         storageOf(USER_COOKIE, getApplicationContext()).setBoolean(GUIDE_KEY, true)
@@ -110,7 +109,7 @@ class MainPageTestActivity : H3lpAppTest() {
     fun pushingHelpButtonWithoutSignInShowsPopUp() {
         // Not signed in:
         userUid = null
-        USER_COOKIE.setOnlineSync(false)
+        USER_COOKIE.setOnlineSync(false, getApplicationContext())
 
         launchAndDo {
             onView(withId(R.id.HELP_button)).perform(click())
@@ -233,7 +232,7 @@ class MainPageTestActivity : H3lpAppTest() {
             // Should immediately receive a notification
             uiDevice.wait(Until.hasObject(By.textStartsWith("H3LP")), 3000)
             val notification =
-                uiDevice.findObject(By.text(globalContext.getString(R.string.emergency)))
+                uiDevice.findObject(By.text(getApplicationContext<Context>().getString(R.string.emergency)))
             // assertNotNull(notification)
             // Get the notification box - CIRRUS DOESN'T LIKE THIS
             // val notification = uiDevice.findObject(By.text(globalContext.getString(R.string.emergency)))
@@ -271,11 +270,12 @@ class MainPageTestActivity : H3lpAppTest() {
         setDatabase(EMERGENCIES, emergenciesDb)
 
         val newEmergenciesDb = MockDatabase()
-        newEmergenciesDb.setInt(globalContext.getString(R.string.epipen), TEST_EMERGENCY_ID.toInt())
+        newEmergenciesDb.setInt(getApplicationContext<Context>().getString(R.string.epipen), TEST_EMERGENCY_ID.toInt())
 
         setDatabase(NEW_EMERGENCIES, newEmergenciesDb)
         // Add to storage the skills
-        storageOf(SKILLS, getApplicationContext()).setObject(globalContext.getString(R.string.my_skills_key),
+        storageOf(SKILLS, getApplicationContext()).setObject(
+            getApplicationContext<Context>().getString(R.string.my_skills_key),
             HelperSkills::class.java, EPIPEN_SKILL)
 
         // To track notifications

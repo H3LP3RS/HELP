@@ -2,7 +2,6 @@ package com.github.h3lp3rs.h3lp.storage
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
-import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.getGlobalCtx
 import java.lang.Boolean.parseBoolean
 
 /**
@@ -49,29 +48,32 @@ enum class Storages{
 
         /**
          * Disables online sync for all storages. Typically used for guests.
+         * @param context The context to have access to the shared preferences
          */
-        fun disableOnlineSync() {
+        fun disableOnlineSync(context: Context) {
             for (s in values()) {
-                s.setOnlineSync(false)
+                s.setOnlineSync(false, context)
             }
         }
     }
 
     /**
      * Set the online synchronization for a given storage
-     * @param isSyncEnabled if the synchronization must be enabled
+     * @param isSyncEnabled If the synchronization must be enabled
+     * @param context The context to have access to the shared preferences
      */
-    fun setOnlineSync(isSyncEnabled: Boolean) {
-        getGlobalCtx().getSharedPreferences("SyncPref", AppCompatActivity.MODE_PRIVATE)
+    fun setOnlineSync(isSyncEnabled: Boolean, context: Context) {
+        context.getSharedPreferences("SyncPref", AppCompatActivity.MODE_PRIVATE)
             .edit().putString(name, isSyncEnabled.toString()).apply()
     }
 
     /**
      * Get the online synchronization for a given storage
+     * @param context The context to have access to the shared preferences
      */
-    fun getOnlineSync(): Boolean {
+    fun getOnlineSync(context: Context): Boolean {
         return parseBoolean(
-            getGlobalCtx().getSharedPreferences("SyncPref", AppCompatActivity.MODE_PRIVATE)
+            context.getSharedPreferences("SyncPref", AppCompatActivity.MODE_PRIVATE)
                 .getString(name, "true")
         )
     }

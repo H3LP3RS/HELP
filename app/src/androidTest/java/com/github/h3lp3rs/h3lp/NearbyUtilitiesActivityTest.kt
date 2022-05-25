@@ -13,7 +13,6 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.GrantPermissionRule
-import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -34,11 +33,6 @@ class NearbyUtilitiesActivityTest {
     @get:Rule
     var mRuntimePermissionRule: GrantPermissionRule =
         GrantPermissionRule.grant(Manifest.permission.ACCESS_FINE_LOCATION)
-
-    @Before
-    fun setup() {
-        globalContext = getApplicationContext()
-    }
 
     @Test
     fun canLaunchMapWithPharmacyRequest() {

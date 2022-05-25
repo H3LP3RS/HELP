@@ -41,7 +41,7 @@ class AwaitHelpActivity : AppCompatActivity() {
         initialize(applicationContext)
 
         mapsFragment = supportFragmentManager.findFragmentById(R.id.map) as MapsFragment
-        apiHelper = GoogleAPIHelper(resources.getString(R.string.google_maps_key))
+        apiHelper = GoogleAPIHelper(resources.getString(R.string.google_maps_key), applicationContext)
 
         locationHelper.updateCoordinates(this)
 
@@ -58,7 +58,7 @@ class AwaitHelpActivity : AppCompatActivity() {
             }
             // Start listening to potential responses
             val emergencyId = bundle.getInt(EXTRA_EMERGENCY_KEY)
-            val emergencyDb = databaseOf(EMERGENCIES)
+            val emergencyDb = databaseOf(EMERGENCIES, applicationContext)
             emergencyDb.addListener(emergencyId.toString(), EmergencyInformation::class.java) {
                 val helpers = it.helpers
                 for (h in helpers) {
@@ -266,11 +266,11 @@ class AwaitHelpActivity : AppCompatActivity() {
         }
 
         val emergencyId = bundle.getInt(EXTRA_EMERGENCY_KEY)
-        databaseOf(EMERGENCIES).delete(emergencyId.toString())
+        databaseOf(EMERGENCIES, applicationContext).delete(emergencyId.toString())
         // Re-listen to other emergencies
         activateListeners(applicationContext)
         // Delete the helpee's id
-        databaseOf(CONVERSATION_IDS).delete(emergencyId.toString())
+        databaseOf(CONVERSATION_IDS, applicationContext).delete(emergencyId.toString())
         // Redirect user to the main page after he cancels his emergency
         startActivity(Intent(this, MainPageActivity::class.java))
     }

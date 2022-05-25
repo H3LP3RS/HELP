@@ -200,8 +200,8 @@ class HelpeeSelectionActivity : AppCompatActivity() {
         meds: ArrayList<String>
     ): CompletableFuture<Int> {
         // Get emergency related databases
-        val emergenciesDb = databaseOf(EMERGENCIES)
-        val newEmergenciesDb = databaseOf(NEW_EMERGENCIES)
+        val emergenciesDb = databaseOf(EMERGENCIES, applicationContext)
+        val newEmergenciesDb = databaseOf(NEW_EMERGENCIES, applicationContext)
         // Get own medical storage and extract the information if available
         val storage = storageOf(MEDICAL_INFO, applicationContext)
         val medicalInfo = storage.getObjectOrDefault(

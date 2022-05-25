@@ -33,7 +33,6 @@ class FirstAidActivityTest : H3lpAppTest() {
     @Before
     fun setup() {
         SignInActivity.userUid = USER_TEST_ID
-        SignInActivity.globalContext = ApplicationProvider.getApplicationContext()
         initIntentAndCheckResponse()
     }
 

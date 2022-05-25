@@ -22,7 +22,6 @@ import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.mockForum
 import com.github.h3lp3rs.h3lp.forum.ForumCategory.TRAUMATOLOGY
 import com.github.h3lp3rs.h3lp.forum.ForumPostsActivity.Companion.selectedPost
 import com.github.h3lp3rs.h3lp.professional.ProUser
-import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.setName
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import junit.framework.Assert.assertEquals
@@ -49,12 +48,11 @@ class ForumAnswersActivityTest {
     @Before
     fun setup() {
         setName(USER_TEST_ID)
-        mockForum()
-        forum = forumOf(TRAUMATOLOGY)
-        globalContext = getApplicationContext()
+        mockForum(getApplicationContext())
+        forum = forumOf(TRAUMATOLOGY, getApplicationContext())
         userUid = USER_TEST_ID
         setDatabase(PRO_USERS, MockDatabase())
-        proUsersDb = databaseOf(PRO_USERS)
+        proUsersDb = databaseOf(PRO_USERS, getApplicationContext())
     }
 
     @Test

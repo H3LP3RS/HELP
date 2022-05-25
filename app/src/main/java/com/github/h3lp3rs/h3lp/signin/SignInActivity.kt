@@ -74,9 +74,6 @@ class SignInActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Store the context for local storage use
-        globalContext = this
-
         setContentView(R.layout.activity_sign_in)
         // Initialize Firebase Auth
         findViewById<ImageButton>(R.id.signInButton).setOnClickListener{
@@ -86,7 +83,7 @@ class SignInActivity : AppCompatActivity() {
         // Continue without sign in
         findViewById<TextView>(R.id.noSignInText).setOnClickListener {
             username = GUEST_USER
-            disableOnlineSync()
+            disableOnlineSync(applicationContext)
             checkToSAndLaunchIfNotAcceptedElseMain()
         }
 
@@ -128,9 +125,9 @@ class SignInActivity : AppCompatActivity() {
                     saveAuthentication()
 
                     // Enable online sync for meaningful storages:
-                    SKILLS.setOnlineSync(true)
-                    MEDICAL_INFO.setOnlineSync(true)
-                    USER_COOKIE.setOnlineSync(true)
+                    SKILLS.setOnlineSync(true, applicationContext)
+                    MEDICAL_INFO.setOnlineSync(true, applicationContext)
+                    USER_COOKIE.setOnlineSync(true, applicationContext)
 
                     checkToSAndLaunchIfNotAcceptedElseMain()
                 }
@@ -142,19 +139,10 @@ class SignInActivity : AppCompatActivity() {
      * storages
      */
     companion object{
-        @SuppressLint("StaticFieldLeak")
-        lateinit var globalContext: Context
         var userUid: String? = null
         private var username : String? = null
 
         const val GUEST_USER = "Guest"
-
-        /**
-         * Getter on the global context
-         */
-        fun getGlobalCtx(): Context {
-            return globalContext
-        }
 
         /**
          * Getter on the userUid

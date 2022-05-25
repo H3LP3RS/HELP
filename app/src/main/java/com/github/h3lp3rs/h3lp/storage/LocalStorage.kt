@@ -46,7 +46,7 @@ class LocalStorage(private val path: String, val context: Context) {
             // Need to be authenticated if online sync is enabled
             val uid = getUid()
             if (uid != null) {
-                val db = databaseOf(PREFERENCES)
+                val db = databaseOf(PREFERENCES, context)
                 db.getString("$path/$uid").exceptionally { JSONObject().toString() }
                     .thenAccept {
                         parseOnlinePrefs(it)
@@ -62,7 +62,7 @@ class LocalStorage(private val path: String, val context: Context) {
      */
     fun clearOnlineSync() {
         val uid = getUid()!!
-        val db = databaseOf(PREFERENCES)
+        val db = databaseOf(PREFERENCES, context)
         db.delete("$path/$uid")
     }
 
@@ -94,7 +94,7 @@ class LocalStorage(private val path: String, val context: Context) {
                 launch {
                     if (isOnlineSyncEnabled()) {
                         val uid = getUid()!!
-                        val db = databaseOf(PREFERENCES)
+                        val db = databaseOf(PREFERENCES, context)
 
                         val json = JSONObject()
                         for (entry in pref.all.entries) {

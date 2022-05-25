@@ -45,7 +45,7 @@ class RatingActivity : AppCompatActivity() {
         val rating = Rating(ratingBar.rating, feedbackComment)
         userUid
             ?.let {
-                Databases.databaseOf(Databases.RATINGS).setObject(it, Rating::class.java, rating)
+                Databases.databaseOf(Databases.RATINGS, applicationContext).setObject(it, Rating::class.java, rating)
             }
        comment.text.clear()
     }

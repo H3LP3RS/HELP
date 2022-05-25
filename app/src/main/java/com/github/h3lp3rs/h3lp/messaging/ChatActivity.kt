@@ -25,7 +25,6 @@ class ChatActivity : AppCompatActivity() {
     var userRole : Messenger? = null
     private var conversationId : String? = null
     private lateinit var conversation : Conversation
-    private val messagesDatabase = databaseOf(Databases.MESSAGES)
 
     private val receiverLayout = R.layout.chat_receiver
     private val senderLayout = R.layout.chat_sender

@@ -55,7 +55,7 @@ class NearbyUtilitiesActivity : AppCompatActivity(), CoroutineScope by MainScope
         checkedButtonColor = getColorStateList(this, R.color.yellow_orange)
         uncheckedButtonColor = getColorStateList(this, R.color.persimmon)
 
-        apiHelper = GoogleAPIHelper(resources.getString(R.string.google_maps_key))
+        apiHelper = GoogleAPIHelper(resources.getString(R.string.google_maps_key), applicationContext)
 
         // Obtain the map fragment
         mapsFragment = supportFragmentManager

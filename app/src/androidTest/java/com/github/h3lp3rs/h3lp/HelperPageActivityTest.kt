@@ -1,6 +1,7 @@
 package com.github.h3lp3rs.h3lp
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.test.core.app.ActivityScenario
@@ -25,7 +26,6 @@ import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
 import com.github.h3lp3rs.h3lp.dataclasses.HelperSkills
 import com.github.h3lp3rs.h3lp.messaging.Conversation.Companion.publicKeyPath
 import com.github.h3lp3rs.h3lp.messaging.Messenger.HELPER
-import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
@@ -55,7 +55,6 @@ class HelpPageActivityTest : H3lpAppTest() {
     fun setup() {
         mockLocationToCoordinates(SWISS_LAT, SWISS_LONG)
 
-        globalContext = getApplicationContext()
         userUid = USER_TEST_ID
 
         setDatabase(PREFERENCES, MockDatabase())
@@ -137,7 +136,7 @@ class HelpPageActivityTest : H3lpAppTest() {
         setupEmergencyAndDo {
             // Accept
             onView(withId(R.id.button_accept)).perform(click())
-            val updatedEmergency = databaseOf(EMERGENCIES).getObject(
+            val updatedEmergency = databaseOf(EMERGENCIES, getApplicationContext()).getObject(
                 helpId.toString(),
                 EmergencyInformation::class.java
             )
@@ -153,13 +152,13 @@ class HelpPageActivityTest : H3lpAppTest() {
             // Accept
             onView(withId(R.id.button_accept)).perform(click())
 
-            val conversationIds = databaseOf(CONVERSATION_IDS).getObjectsList(
+            val conversationIds = databaseOf(CONVERSATION_IDS, getApplicationContext()).getObjectsList(
                 TEST_EMERGENCY_ID,
                 Int::class.java
             ).get()
 
             // retrieve the public key sent on the database
-            databaseOf(MESSAGES)
+            databaseOf(MESSAGES, getApplicationContext())
                 .getString(publicKeyPath(conversationIds[conversationIds.size - 1].toString(), HELPER.name))
                 .thenAccept(TestCase::assertNotNull)
 
@@ -221,7 +220,8 @@ class HelpPageActivityTest : H3lpAppTest() {
         setDatabase(EMERGENCIES, emergencyDb)
 
         // Setup skills storage accordingly
-        storageOf(Storages.SKILLS, getApplicationContext()).setObject(globalContext.getString(R.string.my_skills_key),
+        storageOf(Storages.SKILLS, getApplicationContext()).setObject(
+            getApplicationContext<Context>().getString(R.string.my_skills_key),
             HelperSkills::class.java, skills)
         launch<HelperPageActivity>(intent).use {
             action()

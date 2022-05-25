@@ -1,12 +1,10 @@
 package com.github.h3lp3rs.h3lp
 
-import android.util.Log
-import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
+import android.content.Context
 import com.github.h3lp3rs.h3lp.util.AED_LOCATIONS_LAUSANNE
 import com.github.h3lp3rs.h3lp.util.GPathJSONParser
 import com.github.h3lp3rs.h3lp.util.GPlaceJSONParser
 import com.github.h3lp3rs.h3lp.util.JSONParserInterface
-import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.*
 import org.json.JSONObject
 import java.io.BufferedReader
@@ -17,8 +15,12 @@ import java.net.URL
 /**
  * Helper class which, given a Google api key, displays several methods used by many activities to
  * use Google APIs, parse the results and display them on any map fragment
+ * @param apiKey The Google API key to retrieve maps and path information
+ * @param context The context of the activity calling the GoogleAPIHelper to have access to the
+ * app resources
  */
-class GoogleAPIHelper(private val apiKey: String): CoroutineScope by MainScope() {
+class GoogleAPIHelper(private val apiKey: String, private val context: Context) :
+    CoroutineScope by MainScope() {
 
     private val requestedPlaces = HashMap<String, List<GooglePlace>>()
 
@@ -72,9 +74,14 @@ class GoogleAPIHelper(private val apiKey: String): CoroutineScope by MainScope()
      * @param latitude The latitude of the user (to define what "nearby" means)
      * @param mapsFragment The map fragment to display the utilities on
      */
-    fun findNearbyUtilities(utility: String, longitude: Double, latitude: Double, map: MapsFragment) {
+    fun findNearbyUtilities(
+        utility: String,
+        longitude: Double,
+        latitude: Double,
+        map: MapsFragment
+    ) {
         if (!requestedPlaces.containsKey(utility)) {
-            if (utility == globalContext.resources.getString(R.string.nearby_defibrillators)) {
+            if (utility == context.resources.getString(R.string.nearby_defibrillators)) {
                 requestedPlaces[utility] = AED_LOCATIONS_LAUSANNE
                 requestedPlaces[utility]?.let { map.showPlaces(it, utility) }
             } else {
@@ -134,7 +141,7 @@ class GoogleAPIHelper(private val apiKey: String): CoroutineScope by MainScope()
         return builder.toString()
     }
 
-    companion object{
+    companion object {
         // Constants to access the Google places API
         const val PLACES_URL =
             "https://maps.googleapis.com/maps/api/place/nearbysearch/json"

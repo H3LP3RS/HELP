@@ -12,7 +12,6 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.H3lpAppTest.Companion.USER_TEST_ID
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
@@ -32,7 +31,6 @@ class ForumCategoriesActivityTest {
 
     @Before
     fun setup() {
-        globalContext = ApplicationProvider.getApplicationContext()
         userUid = USER_TEST_ID
         init()
     }

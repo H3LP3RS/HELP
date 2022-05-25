@@ -1,6 +1,7 @@
 package com.github.h3lp3rs.h3lp.signin
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import androidx.activity.result.ActivityResult
 import androidx.test.core.app.ApplicationProvider.*
@@ -16,7 +17,6 @@ import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.database.MockDatabase
-import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
@@ -51,7 +51,6 @@ class GoogleSignInTest : H3lpAppTest() {
     fun setUp() {
         init()
 
-        globalContext = getApplicationContext()
         userUid = USER_TEST_ID
 
         setDatabase(PREFERENCES, MockDatabase())
@@ -61,7 +60,7 @@ class GoogleSignInTest : H3lpAppTest() {
         When(signInMock.isSignedIn()).thenReturn(false)
 
         val userSignIn = storageOf(SIGN_IN, getApplicationContext())
-        userSignIn.setBoolean(globalContext.getString(R.string.KEY_USER_SIGNED_IN), false)
+        userSignIn.setBoolean(getApplicationContext<Context>().getString(R.string.KEY_USER_SIGNED_IN), false)
 
         testRule.scenario.onActivity { activity ->
             intent = GoogleSignInAdapter.signIn(activity)

@@ -87,9 +87,9 @@ class SettingsActivity : AppCompatActivity() {
      * Load synch data
      */
     private fun loadSyncPref() {
-        check(MEDICAL_INFO.getOnlineSync(), R.id.medical_info_checkbox)
-        check(USER_COOKIE.getOnlineSync(), R.id.user_cookie_checkbox)
-        check(SKILLS.getOnlineSync(), R.id.my_skills_checkbox)
+        check(MEDICAL_INFO.getOnlineSync(applicationContext), R.id.medical_info_checkbox)
+        check(USER_COOKIE.getOnlineSync(applicationContext), R.id.user_cookie_checkbox)
+        check(SKILLS.getOnlineSync(applicationContext), R.id.my_skills_checkbox)
     }
 
     /**
@@ -105,9 +105,9 @@ class SettingsActivity : AppCompatActivity() {
      * Save synchronized data
      */
     private fun saveData() {
-        MEDICAL_INFO.setOnlineSync(getBooleanFromSwitch(R.id.medical_info_checkbox))
-        USER_COOKIE.setOnlineSync(getBooleanFromSwitch(R.id.user_cookie_checkbox))
-        SKILLS.setOnlineSync(getBooleanFromSwitch(R.id.my_skills_checkbox))
+        MEDICAL_INFO.setOnlineSync(getBooleanFromSwitch(R.id.medical_info_checkbox), applicationContext)
+        USER_COOKIE.setOnlineSync(getBooleanFromSwitch(R.id.user_cookie_checkbox), applicationContext)
+        SKILLS.setOnlineSync(getBooleanFromSwitch(R.id.my_skills_checkbox), applicationContext)
     }
 
     /**

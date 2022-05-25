@@ -33,9 +33,9 @@ class ForumAnswersActivity : AppCompatActivity() {
         recycler_view_forum_answers.adapter = adapter
         category = selectedPost.post.category.name
 
-        forum = categoriesMap[category]?.let { ForumCategory.forumOf(it) }!!
+        forum = categoriesMap[category]?.let { ForumCategory.forumOf(it, applicationContext) }!!
 
-        val db = databaseOf(PRO_USERS)
+        val db = databaseOf(PRO_USERS, applicationContext)
 
         db.getObject(userUid.toString(), ProUser::class.java).handle { _, err ->
             err?.let {

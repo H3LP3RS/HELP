@@ -1,5 +1,6 @@
 package com.github.h3lp3rs.h3lp
 
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.replaceText
@@ -33,7 +34,7 @@ class RatingActivityTest: H3lpAppTest() {
     fun sendFeedbackButtonWorks(){
         userUid = USER_TEST_ID
         setDatabase(Databases.RATINGS,MockDatabase())
-        val ratingDb = databaseOf(Databases.RATINGS)
+        val ratingDb = databaseOf(Databases.RATINGS, getApplicationContext())
 
         onView(withId(R.id.comment))
             .perform(replaceText(TEST_COMMENT))

@@ -1,5 +1,6 @@
 package com.github.h3lp3rs.h3lp.forum.implementation
 
+import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.github.h3lp3rs.h3lp.database.Database
@@ -14,8 +15,9 @@ const val DATE_TIME_FORMAT = "MM/dd/yyyy - HH:mm:ss"
  * interface) and uses our key-value database as an underlying data structure.
  *
  * @param rootForum An implementation of the underlying database acting as root of our forum.
+ * @param context The calling context to be able to instantiate a forum
  */
-abstract class SimpleDBForum(private val rootForum : Database) : Forum {
+abstract class SimpleDBForum(private val rootForum : Database, private val context: Context) : Forum {
 
 
     override fun newPost(
@@ -99,7 +101,7 @@ abstract class SimpleDBForum(private val rootForum : Database) : Forum {
                 CompletableFuture.completedFuture(emptyList())
             for (category in ForumCategory.values()) {
                 // For all categories, we add them to the list of category posts
-                val categoryForum = ForumCategory.forumOf(category)
+                val categoryForum = ForumCategory.forumOf(category, context)
                 future = future.thenCompose { list ->
                     // Recursively call getAll
                     categoryForum.getAll().handle { it, error ->
@@ -180,7 +182,7 @@ abstract class SimpleDBForum(private val rootForum : Database) : Forum {
             isRoot() -> {
                 // Listen to all categories and to all posts in that category
                 for (category in ForumCategory.values()) {
-                    ForumCategory.forumOf(category).listenToAll(action)
+                    ForumCategory.forumOf(category, context).listenToAll(action)
                 }
             }
             isCategory() -> {

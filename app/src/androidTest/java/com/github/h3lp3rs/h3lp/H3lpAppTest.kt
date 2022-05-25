@@ -2,6 +2,7 @@ package com.github.h3lp3rs.h3lp
 
 import android.app.Activity
 import android.app.Instrumentation.ActivityResult
+import android.content.Context
 import android.content.Intent
 import android.location.Location
 import android.net.Uri
@@ -56,7 +57,7 @@ open class H3lpAppTest {
     fun loadValidMedicalDataToStorage() {
         storageOf(MEDICAL_INFO, getApplicationContext())
             .setObject(
-                SignInActivity.globalContext.getString(R.string.medical_info_key),
+                getApplicationContext<Context>().getString(R.string.medical_info_key),
                 MedicalInformation::class.java, VALID_MEDICAL_INFO)
     }
 

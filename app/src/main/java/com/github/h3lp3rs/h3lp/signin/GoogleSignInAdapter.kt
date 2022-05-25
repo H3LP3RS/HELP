@@ -5,7 +5,6 @@ import android.content.Intent
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
@@ -25,13 +24,12 @@ object GoogleSignInAdapter : SignInInterface<AuthResult> {
     var auth: FirebaseAuth = Firebase.auth
     lateinit var gso: GoogleSignInOptions
 
-    private val SERVER_CLIENT_ID =
-        globalContext.resources.getString(R.string.firebase_auth_server_id)
-
     override fun signIn(currentActivity: Activity): Intent {
+        val serverClientId =
+            currentActivity.applicationContext.getString(R.string.firebase_auth_server_id)
         // Configuring the Google sign in
         gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(SERVER_CLIENT_ID)
+            .requestIdToken(serverClientId)
             .requestEmail()
             .build()
         return GoogleSignIn.getClient(currentActivity, gso).signInIntent

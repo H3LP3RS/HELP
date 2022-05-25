@@ -14,7 +14,6 @@ import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 import com.github.h3lp3rs.h3lp.notification.NotificationService.Companion.createNotificationChannel
 import com.github.h3lp3rs.h3lp.notification.NotificationService.Companion.sendIntentNotification
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
-import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
@@ -32,13 +31,13 @@ object EmergencyListener {
     fun activateListeners(context: Context) {
         val skillStorage = storageOf(SKILLS, context)
         val skills = skillStorage.getObjectOrDefault(
-            SignInActivity.globalContext.getString(R.string.my_skills_key),
+            context.getString(R.string.my_skills_key),
             HelperSkills::class.java,
             null
         )
         if (skills == null) return
         else {
-            val db = databaseOf(NEW_EMERGENCIES)
+            val db = databaseOf(NEW_EMERGENCIES, context)
 
             // Utility function to add a specific listener to a specific key if present
             fun activateListener(isPresent: Boolean, key: String) {
@@ -53,12 +52,12 @@ object EmergencyListener {
                         emergencyStorage.setBoolean(id.toString(), true)
 
                         // Send notification only if the associated object still exists
-                        databaseOf(EMERGENCIES)
+                        databaseOf(EMERGENCIES, context)
                             .getObject(id.toString(), EmergencyInformation::class.java)
                             .thenAccept {
-                                createNotificationChannel(globalContext)
+                                createNotificationChannel(context)
                                 val intent = Intent(
-                                    globalContext,
+                                    context,
                                     HelperPageActivity::class.java
                                 )
 
@@ -71,9 +70,9 @@ object EmergencyListener {
                                 intent.putExtras(bundle)
 
                                 sendIntentNotification(
-                                    globalContext,
-                                    globalContext.getString(R.string.emergency),
-                                    globalContext.getString(R.string.need_help),
+                                    context,
+                                    context.getString(R.string.emergency),
+                                    context.getString(R.string.need_help),
                                     intent
                                 )
                             }
@@ -83,25 +82,25 @@ object EmergencyListener {
             // Chain of listener instantiations
             activateListener(
                 skills.hasVentolin,
-                SignInActivity.globalContext.getString(R.string.asthma_med)
+                context.getString(R.string.asthma_med)
             )
             activateListener(
                 skills.isMedicalPro,
-                SignInActivity.globalContext.getString(R.string.med_pro)
+                context.getString(R.string.med_pro)
             )
             activateListener(
                 skills.hasEpipen,
-                SignInActivity.globalContext.getString(R.string.epipen)
+                context.getString(R.string.epipen)
             )
             activateListener(
                 skills.hasInsulin,
-                SignInActivity.globalContext.getString(R.string.Insulin)
+                context.getString(R.string.Insulin)
             )
             activateListener(
                 skills.hasFirstAidKit,
-                SignInActivity.globalContext.getString(R.string.first_aid_kit)
+                context.getString(R.string.first_aid_kit)
             )
-            activateListener(skills.knowsCPR, SignInActivity.globalContext.getString(R.string.cpr))
+            activateListener(skills.knowsCPR, context.getString(R.string.cpr))
         }
     }
 }

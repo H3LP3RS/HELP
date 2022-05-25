@@ -1,5 +1,6 @@
 package com.github.h3lp3rs.h3lp.forum
 
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -31,8 +32,8 @@ class ForumNewPostActivityTest {
     @Before
     fun setup() {
         setName(USER_TEST_ID)
-        mockForum()
-        forum = forumOf(TRAUMATOLOGY)
+        mockForum(getApplicationContext())
+        forum = forumOf(TRAUMATOLOGY, getApplicationContext())
     }
 
     @Test

@@ -1,5 +1,6 @@
 package com.github.h3lp3rs.h3lp.presentation
 
+import android.content.Context
 import android.content.Intent
 import android.view.InputDevice.*
 import android.view.MotionEvent.*
@@ -7,6 +8,10 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ActivityScenario.*
 import androidx.test.core.app.ApplicationProvider.*
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.ViewAction
+import androidx.test.espresso.action.GeneralClickAction
+import androidx.test.espresso.action.Press.*
+import androidx.test.espresso.action.Tap
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents.*
@@ -14,28 +19,26 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.*
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.*
-import org.hamcrest.Matchers.*
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
-import androidx.test.espresso.action.Tap
-import androidx.test.espresso.action.GeneralClickAction
-import androidx.test.espresso.ViewAction
-import androidx.test.espresso.action.Press.*
 import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.database.MockDatabase
-import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
+import org.hamcrest.Matchers.*
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class PresIrrelevantActivityTest : H3lpAppTest() {
 
     private fun alreadyAccepted() {
-        storageOf(USER_COOKIE, getApplicationContext()).setBoolean(globalContext.getString(R.string.KEY_USER_AGREE), true)
+        storageOf(
+            USER_COOKIE,
+            getApplicationContext()
+        ).setBoolean(getApplicationContext<Context>().getString(R.string.KEY_USER_AGREE), true)
     }
 
     // https://stackoverflow.com/questions/42390788/espresso-click-on-specific-words-of-text
@@ -55,7 +58,8 @@ class PresIrrelevantActivityTest : H3lpAppTest() {
                 val screenY = screenPos[1] + y
                 floatArrayOf(screenX, screenY)
             },
-            FINGER, SOURCE_MOUSE, BUTTON_PRIMARY)
+            FINGER, SOURCE_MOUSE, BUTTON_PRIMARY
+        )
     }
 
     private fun checkIsDisplayed(id: Int) {
@@ -75,7 +79,6 @@ class PresIrrelevantActivityTest : H3lpAppTest() {
 
     @Before
     fun dataInit() {
-        globalContext = getApplicationContext()
         userUid = USER_TEST_ID
         setDatabase(PREFERENCES, MockDatabase())
         resetStorage()
