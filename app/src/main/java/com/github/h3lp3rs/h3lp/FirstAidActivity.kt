@@ -5,25 +5,23 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import com.github.h3lp3rs.h3lp.firstaid.AedActivity
-import com.github.h3lp3rs.h3lp.firstaid.AllergyActivity
-import com.github.h3lp3rs.h3lp.firstaid.AsthmaActivity
-import com.github.h3lp3rs.h3lp.firstaid.HeartAttackActivity
+import com.github.h3lp3rs.h3lp.firstaid.*
+import com.github.h3lp3rs.h3lp.firstaid.FirstAidHowTo.*
 import kotlinx.android.synthetic.main.activity_first_aid.*
 
 class FirstAidActivity : AppCompatActivity() {
-    // Maps the clicked button to the activity it should launch to avoid code duplication
-    private lateinit var buttonToActivity: Map<Button, Class<*>>
+    // Maps the clicked button to the extra of the activity it should launch to avoid code duplication
+    private lateinit var buttonToFirstAidExtra: Map<Button, FirstAidHowTo>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_first_aid)
-        buttonToActivity =
+        buttonToFirstAidExtra =
             hashMapOf(
-                allergy_expand_button to AllergyActivity::class.java,
-                heart_attack_expand_button to HeartAttackActivity::class.java,
-                aed_expand_button to AedActivity::class.java,
-                asthma_expand_button to AsthmaActivity::class.java
+                allergy_expand_button to ALLERGY,
+                heart_attack_expand_button to HEART_ATTACK,
+                aed_expand_button to AED,
+                asthma_expand_button to ASTHMA
             )
     }
 
@@ -40,8 +38,10 @@ class FirstAidActivity : AppCompatActivity() {
      */
     fun goToButtonActivity(view: View) {
         // If the view isn't one of the buttons, don't do anything
-        if (buttonToActivity.containsKey(view)) {
-            goToActivity(buttonToActivity[view])
+        if (buttonToFirstAidExtra.containsKey(view)) {
+            val intent = Intent(this, GeneralFirstAidActivity::class.java)
+            intent.putExtra(EXTRA_FIRST_AID, buttonToFirstAidExtra[view])
+            startActivity(intent)
         }
     }
 

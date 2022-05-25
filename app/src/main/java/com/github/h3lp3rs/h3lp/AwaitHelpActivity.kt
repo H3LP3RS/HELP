@@ -3,7 +3,6 @@ package com.github.h3lp3rs.h3lp
 import LocationHelper
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -17,6 +16,8 @@ import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.database.Databases.EMERGENCIES
 import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
 import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation
+import com.github.h3lp3rs.h3lp.firstaid.*
+import com.github.h3lp3rs.h3lp.firstaid.FirstAidHowTo.*
 import com.github.h3lp3rs.h3lp.messaging.RecentMessagesActivity
 import com.github.h3lp3rs.h3lp.notification.EmergencyListener.activateListeners
 import com.github.h3lp3rs.h3lp.storage.Storages
@@ -230,12 +231,14 @@ class AwaitHelpActivity : AppCompatActivity() {
      * Called when a tutorial button is pressed to redirect to the correct activity
      */
     fun goToTutorial(view: View) {
-        val intent = when (view.id) {
-            R.id.heart_attack_tuto_button -> Intent(this, HeartAttackActivity::class.java)
-            R.id.epipen_tuto_button -> Intent(this, AllergyActivity::class.java)
-            R.id.aed_tuto_button -> Intent(this, AedActivity::class.java)
-            R.id.asthma_tuto_button -> Intent(this, AsthmaActivity::class.java)
-            else -> Intent(this, MainPageActivity::class.java)
+
+        val intent = Intent(this, GeneralFirstAidActivity::class.java).apply {
+            when (view.id) {
+                R.id.heart_attack_tuto_button -> putExtra(EXTRA_FIRST_AID, HEART_ATTACK)
+                R.id.epipen_tuto_button -> putExtra(EXTRA_FIRST_AID, HEART_ATTACK)
+                R.id.aed_tuto_button -> putExtra(EXTRA_FIRST_AID, HEART_ATTACK)
+                R.id.asthma_tuto_button -> putExtra(EXTRA_FIRST_AID, HEART_ATTACK)
+            }
         }
         startActivity(intent)
     }
