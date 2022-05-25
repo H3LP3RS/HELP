@@ -33,7 +33,7 @@ class CachedForum(private val forum: Forum) : Forum {
         // Cache the post if successfully returned
         return forum.newPost(author, content, isPost).thenApply {
             val post = ForumPost(CachedForum(it.forum), it.post, it.replies)
-            updateCacheWithPost(emptyList(), post)
+            updateCacheWithPost(emptyList(), post.post)
             post
         }
     }
@@ -42,7 +42,7 @@ class CachedForum(private val forum: Forum) : Forum {
         // Cache the post if successfully found
         return forum.getPost(relativePath).thenApply {
             val post = ForumPost(CachedForum(it.forum), it.post, it.replies)
-            updateCacheWithPost((path + relativePath).dropLast(1).drop(path.size), post)
+            updateCacheWithPost((path + relativePath).dropLast(1).drop(path.size), post.post)
             post
         }.exceptionally { exc -> // Fetch cache for post if not found
             // Get the pointer of the category just above the required post
@@ -80,7 +80,7 @@ class CachedForum(private val forum: Forum) : Forum {
             for (categoryPosts in cachedList) {
                 val subForum = CachedForum(forum.root().child(categoryPosts.first))
                 for (post in categoryPosts.second) {
-                    subForum.updateCacheWithPost(emptyList(), post)
+                    subForum.updateCacheWithPost(emptyList(), post.post)
                 }
             }
             // Fetch cache for posts if not found -> If fail we only get an empty list
@@ -112,22 +112,22 @@ class CachedForum(private val forum: Forum) : Forum {
         }
     }
 
-    private fun updateCacheWithPost(relativePath: Path, post: ForumPost) {
+    private fun updateCacheWithPost(relativePath: Path, postData: ForumPostData) {
         // Copy for mutability issues
         val posts = ArrayList(getCacheEntry(relativePath).posts)
 
         // Look for post with same key
         for (i in 0 until posts.size) {
             val p = posts[i]
-            if (p.key == post.post.key) {
-                posts[i] = post.post
+            if (p.key == postData.key) {
+                posts[i] = postData
                 setCacheEntry(relativePath, CacheEntry(posts))
                 return
             }
         }
 
         // First occurrence of key
-        posts.add(post.post)
+        posts.add(postData)
         setCacheEntry(relativePath, CacheEntry(posts))
     }
 
@@ -146,9 +146,14 @@ class CachedForum(private val forum: Forum) : Forum {
         cache.setObject(cachePath, CacheEntry::class.java, entry)
     }
 
-    // TODO: Wrap the action
     override fun listenToAll(action: (ForumPostData) -> Unit) {
-        forum.listenToAll(action)
+        val newWrappedAction: (ForumPostData) -> Unit = {
+            // This is a very hacky but easy way to know from the data, the path to its forum pointer
+            // We should change the listener design to make it cleaner, but for now it works fine
+            val path = listOf(it.category.name) + if(it.isPost) emptyList() else listOf(it.key)
+            CachedForum(forum.root()).updateCacheWithPost(path, it)
+        }
+        forum.listenToAll(newWrappedAction)
     }
 
     override fun root(): Forum {

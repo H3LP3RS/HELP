@@ -142,6 +142,23 @@ class CacheForumTest {
         }
     }
 
+    @Test
+    fun listenerAddsToCache() {
+        // Do nothing in basic listener
+        cachedForum.root().listenToAll {  }
+
+        // Add an external post
+        val post = rawForum.newPost(AUTHOR, CONTENT, isPost = true).join()
+
+        // Reset the forum, acts as a clear of the data
+        resetOnlineForum()
+
+        val cachedPost = cachedForum.getPost(post.post.key).join()
+
+        assertEquals(AUTHOR, cachedPost.post.author)
+        assertEquals(CONTENT, cachedPost.post.content)
+    }
+
     companion object {
         private const val AUTHOR = "AUTHOR"
         private const val CONTENT = "CONTENT"
