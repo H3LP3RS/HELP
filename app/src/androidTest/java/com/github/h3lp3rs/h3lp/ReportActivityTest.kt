@@ -4,8 +4,10 @@ import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.release
 import androidx.test.espresso.matcher.ViewMatchers
@@ -41,13 +43,13 @@ class ReportActivityTest {
 
     @Test
     fun sendReportButtonWorks(){
-        Espresso.onView(ViewMatchers.withId(R.id.reportCategoryDropdown))
-            .perform(ViewActions.replaceText(bug))
+        onView(ViewMatchers.withId(R.id.reportCategoryDropdown))
+            .perform(replaceText(bug))
 
-        Espresso.onView(ViewMatchers.withId(R.id.reportEditTxt))
-            .perform(ViewActions.replaceText(""))
+        onView(ViewMatchers.withId(R.id.reportEditTxt))
+            .perform(replaceText(""))
 
-        Espresso.onView(ViewMatchers.withId(R.id.reportSaveButton))
+        onView(ViewMatchers.withId(R.id.reportSaveButton))
             .perform(click())
 
         val report  = reportsDb.getObject(H3lpAppTest.USER_TEST_ID, Report::class.java).get()

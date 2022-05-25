@@ -7,12 +7,7 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.dataclasses.Report
-import com.github.h3lp3rs.h3lp.forum.EXTRA_FORUM_CATEGORY
-import com.github.h3lp3rs.h3lp.forum.ForumCategory
-import com.github.h3lp3rs.h3lp.forum.ForumPostsActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
-import com.google.android.material.textfield.TextInputEditText
-import kotlinx.android.synthetic.main.activity_new_post.*
 import kotlinx.android.synthetic.main.activity_report.*
 
 class ReportActivity : AppCompatActivity() {
