@@ -27,7 +27,9 @@ open class SimpleDBForum(override val path: Path, private val rootForum: Databas
         // is also an optimization to avoid us requiring 2 calls to incrementAndGet)
         return rootForum.incrementAndGet(UNIQUE_POST_ID, 2).thenApply { postKey ->
             val key = postKey.toString()
-            val repliesKey = (postKey + 1).toString()
+            // This hack is to make the cache listener work, since we don't use the repliesKey
+            // Anywhere else in the SimpleDBForum (replies of replies not allowed)
+            val repliesKey = if(isPost) (postKey + 1).toString() else path.last()
 
             val forumPostData = ForumPostData(
                 author,

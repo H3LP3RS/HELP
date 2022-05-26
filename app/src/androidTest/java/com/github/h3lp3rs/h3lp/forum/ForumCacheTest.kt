@@ -109,10 +109,13 @@ class CacheForumTest {
         postOnline.reply(AUTHOR, CONTENT).join()
 
         // Fetch through cache the post
-        val all = cachedForum.getAll().join()
+        cachedForum.getAll().join()
 
         // Reset the forum, acts as a clear of the data
         resetOnlineForum()
+
+        // Fetch through cache the post
+        val all = cachedForum.getAll().join()
 
         assertEquals(1, all.size)
         assertEquals(1, all[0].second.size)
@@ -129,11 +132,13 @@ class CacheForumTest {
             post.reply(AUTHOR, CONTENT).join()
         }
 
-        // Fetch through cache the post
-        val all = cachedForum.root().getAll().join()
+        cachedForum.root().getAll().join()
 
         // Reset the forum, acts as a clear of the data
         resetOnlineForum()
+
+        // Fetch through cache the post
+        val all = cachedForum.root().getAll().join()
 
         assertEquals(ForumCategory.values().size, all.size)
         for(c in all) {
@@ -144,8 +149,8 @@ class CacheForumTest {
 
     @Test
     fun listenerAddsToCache() {
-        // Do nothing in basic listener
-        cachedForum.root().listenToAll {  }
+        var counter = 0
+        cachedForum.root().listenToAll { counter++ }
 
         // Add an external post
         val post = rawForum.newPost(AUTHOR, CONTENT, isPost = true).join()
@@ -157,6 +162,27 @@ class CacheForumTest {
 
         assertEquals(AUTHOR, cachedPost.post.author)
         assertEquals(CONTENT, cachedPost.post.content)
+        assertEquals(1, counter)
+    }
+
+    @Test
+    fun replyListenerAddsToCache() {
+        var counter = 0
+        cachedForum.root().listenToAll { counter++ }
+
+        // Add an external post
+        val post = rawForum.newPost(AUTHOR, CONTENT, isPost = true).join()
+        post.reply(AUTHOR, CONTENT).join()
+
+        // Reset the forum, acts as a clear of the data
+        resetOnlineForum()
+
+        val all = cachedForum.getAll().join()
+
+        assertEquals(1, all.size)
+        assertEquals(1, all[0].second.size)
+        assertEquals(1, all[0].second[0].replies.size)
+        assertEquals(2, counter)
     }
 
     companion object {

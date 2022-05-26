@@ -81,6 +81,10 @@ class CachedForum(private val forum: Forum) : Forum {
                 val subForum = CachedForum(forum.root().child(categoryPosts.first))
                 for (post in categoryPosts.second) {
                     subForum.updateCacheWithPost(emptyList(), post.post)
+                    // Add replies
+                    for (reply in post.replies) {
+                        subForum.updateCacheWithPost(listOf(post.post.repliesKey), reply)
+                    }
                 }
             }
             // Fetch cache for posts if not found -> If fail we only get an empty list
@@ -150,7 +154,9 @@ class CachedForum(private val forum: Forum) : Forum {
         val newWrappedAction: (ForumPostData) -> Unit = {
             // This is a very hacky but easy way to know from the data, the path to its forum pointer
             // We should change the listener design to make it cleaner, but for now it works fine
-            val path = listOf(it.category.name) + if(it.isPost) emptyList() else listOf(it.key)
+            // Impossible to listen for replies, would need to heavy design changes
+            val path =
+                listOf(it.category.name) + if (it.isPost) emptyList() else listOf(it.repliesKey)
             CachedForum(forum.root()).updateCacheWithPost(path, it)
             // Execute previous action
             action(it)
