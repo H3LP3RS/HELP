@@ -2,8 +2,11 @@ package com.github.h3lp3rs.h3lp.forum
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.github.h3lp3rs.h3lp.DELAY
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.forum.ForumCategory.*
 
@@ -13,6 +16,7 @@ const val EXTRA_FORUM_CATEGORY = "forum_category"
  * Activity where the user selects the forum category he/she wants to go to
  */
 class ForumCategoriesActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState : Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forum_categories)
@@ -36,6 +40,13 @@ class ForumCategoriesActivity : AppCompatActivity() {
         val intent = Intent(this, ForumPostsActivity::class.java)
         intent.putExtra(EXTRA_FORUM_CATEGORY, category.name)
         startActivity(intent)
+    }
+
+    /** Called when the user taps the back button */
+    fun goBack(view: View) {
+        Handler(Looper.getMainLooper()).postDelayed({
+            finish()
+        }, DELAY)
     }
 
 }
