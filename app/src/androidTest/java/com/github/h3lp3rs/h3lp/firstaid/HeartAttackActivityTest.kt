@@ -4,6 +4,8 @@ import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.intent.Intents
+import androidx.test.espresso.intent.Intents.init
+import androidx.test.espresso.intent.Intents.release
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.rules.ActivityScenarioRule
@@ -45,7 +47,7 @@ class HeartAttackActivityTest {
 
     @Test
     fun backButtonWorks(){
-        Intents.init()
+        init()
         Espresso.onView(ViewMatchers.withId(R.id.heart_attack_back_button))
             .perform(ViewActions.scrollTo(), ViewActions.click())
         Intents.intended(
@@ -53,6 +55,6 @@ class HeartAttackActivityTest {
                 IntentMatchers.hasComponent(FirstAidActivity::class.java.name)
             )
         )
-        Intents.release()
+        release()
     }
 }
