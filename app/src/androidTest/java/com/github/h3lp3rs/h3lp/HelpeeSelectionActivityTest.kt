@@ -204,7 +204,6 @@ class HelpParametersActivityTest : H3lpAppTest() {
         launchAndDo {
             val phoneButton = onView(withId(R.id.help_params_call_button))
             phoneButton.perform(click())
-            onView(withId(R.id.ambulance_call_button)).perform(click())
 
             // Here, we can't check for a specific number (the emulator could be anywhere on Earth
             // but we can verify that a number was indeed called)
