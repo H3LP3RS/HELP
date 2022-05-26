@@ -57,4 +57,5 @@ class HeartAttackActivityTest {
         )
         release()
     }
+    
 }
