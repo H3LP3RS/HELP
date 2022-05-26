@@ -1,5 +1,8 @@
 package com.github.h3lp3rs.h3lp.forum
 
+import android.content.Intent
+import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -21,10 +24,6 @@ private const val QUESTION = "question"
 
 @RunWith(AndroidJUnit4::class)
 class ForumNewPostActivityTest {
-    @get:Rule
-    val testRule = ActivityScenarioRule(
-        NewPostActivity::class.java
-    )
 
     private lateinit var forum: Forum
 
@@ -33,6 +32,14 @@ class ForumNewPostActivityTest {
         setName(USER_TEST_ID)
         mockForum()
         forum = forumOf(TRAUMATOLOGY)
+        val intent = Intent(
+            ApplicationProvider.getApplicationContext(),
+            NewPostActivity::class.java
+        ).apply {
+            putExtra(EXTRA_FORUM_CATEGORY, TRAUMATOLOGY)
+        }
+
+        ActivityScenario.launch<NewPostActivity>(intent)
     }
 
     @Test
