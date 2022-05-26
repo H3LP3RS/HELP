@@ -26,6 +26,7 @@ import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
+import com.github.h3lp3rs.h3lp.storage.Storages.MEDICAL_INFO
 import org.hamcrest.Matchers.*
 import org.junit.After
 import org.junit.Before
@@ -90,82 +91,80 @@ class HelpParametersActivityTest : H3lpAppTest() {
         }
     }
 
-//    @Test
-//    fun clickPhoneButtonAndContactButtonDialsEmergencyContactNumber() {
-//        mockEmptyLocation()
-//        loadValidMedicalDataToStorage()
-//
-//        launchAndDo {
-//            // Clicking on the call for emergency button
-//            val phoneButton = onView(withId(R.id.help_params_call_button))
-//            phoneButton.check(matches(isDisplayed()))
-//            phoneButton.perform(click())
-//
-//            // click the contact button in the popup
-//            onView(withId(R.id.contact_call_button)).inRoot(RootMatchers.isFocusable()).perform(click())
-//
-//            // The expected ambulance phone number given the location (specified by the coordinates)
-//            val number = "tel:$VALID_CONTACT_NUMBER"
-//
-//            // Checking that this emergency number is dialed
-//            intended(
-//                allOf(
-//                    hasAction(ACTION_DIAL),
-//                    hasData(Uri.parse(number))
-//                )
-//            )
-//        }
-//    }
+    @Test
+    fun clickPhoneButtonAndContactButtonDialsEmergencyContactNumber() {
+        mockEmptyLocation()
+        loadValidMedicalDataToStorage()
 
-//    @Test
-//    fun clickPhoneButtonDialsCorrectEmergencyNumber() {
-//        mockLocationToCoordinates(SWISS_LONG, SWISS_LAT)
-//        loadValidMedicalDataToStorage()
-//
-//        launchAndDo {
-//            // Clicking on the call for emergency button
-//            val phoneButton = onView(withId(R.id.help_params_call_button))
-//            phoneButton.check(matches(isDisplayed()))
-//            phoneButton.perform(click())
-//
-//            // click the ambulance in the popup
-//            onView(withId(R.id.ambulance_call_button)).inRoot(RootMatchers.isFocusable())
-//                .perform(click())
-//
-//            // The expected ambulance phone number given the location (specified by the coordinates)
-//            // val number = "tel:${SWISS_EMERGENCY_NUMBER}"
-//
-//            // Checking that this emergency number is dialed
-//            intended(
-//                allOf(
-//                    hasAction(ACTION_DIAL) //,
-//                    // hasData(Uri.parse(number)) Cirrus doesn't like this
-//                )
-//            )
-//        }
-//    }
+        launchAndDo {
+            // Clicking on the call for emergency button
+            val phoneButton = onView(withId(R.id.help_params_call_button))
+            phoneButton.check(matches(isDisplayed()))
+            phoneButton.perform(click())
 
-//    @Test
-//    fun clickPhoneButtonWithNoLocationDialsDefaultEmergencyNumber() {
-//        loadValidMedicalDataToStorage()
-//        mockFailingLocation()
-//
-//        launchAndDo {
-//            val phoneButton = onView(withId(R.id.help_params_call_button))
-//            phoneButton.check(matches(isDisplayed()))
-//            phoneButton.perform(click())
-//
-//            // click the ambulance in the popup
-//            onView(withId(R.id.ambulance_call_button)).perform(click())
-//
-//            intended(
-//                allOf(
-//                    hasAction(ACTION_DIAL)
-//                    // Not cheking actual number because of Cirrus
-//                )
-//            )
-//        }
-//    }
+            // click the contact button in the popup
+            onView(withId(R.id.contact_call_button)).inRoot(RootMatchers.isFocusable()).perform(click())
+
+            // The expected ambulance phone number given the location (specified by the coordinates)
+            val number = "tel:$VALID_CONTACT_NUMBER"
+
+            // Checking that this emergency number is dialed
+            intended(
+                allOf(
+                    hasAction(ACTION_DIAL),
+                    hasData(Uri.parse(number))
+                )
+            )
+        }
+    }
+
+    @Test
+    fun clickPhoneButtonDialsCorrectEmergencyNumber() {
+        mockLocationToCoordinates(SWISS_LONG, SWISS_LAT)
+        loadValidMedicalDataToStorage()
+
+        launchAndDo {
+            // Clicking on the call for emergency button
+            val phoneButton = onView(withId(R.id.help_params_call_button))
+            phoneButton.perform(click())
+
+            // click the ambulance in the popup
+            onView(withId(R.id.ambulance_call_button)).inRoot(RootMatchers.isFocusable())
+                .perform(click())
+
+            // The expected ambulance phone number given the location (specified by the coordinates)
+            // val number = "tel:${SWISS_EMERGENCY_NUMBER}"
+
+            // Checking that this emergency number is dialed
+            intended(
+                allOf(
+                    hasAction(ACTION_DIAL) //,
+                    // hasData(Uri.parse(number)) Cirrus doesn't like this
+                )
+            )
+        }
+    }
+
+    @Test
+    fun clickPhoneButtonWithNoLocationDialsDefaultEmergencyNumber() {
+        loadValidMedicalDataToStorage()
+        mockFailingLocation()
+
+        launchAndDo {
+            val phoneButton = onView(withId(R.id.help_params_call_button))
+            phoneButton.perform(click())
+
+            // click the ambulance in the popup
+            onView(withId(R.id.ambulance_call_button)).perform(click())
+
+            intended(
+                allOf(
+                    hasAction(ACTION_DIAL)
+                    // Not cheking actual number because of Cirrus
+                )
+            )
+        }
+    }
 
 //    @Test
 //    fun clickPhoneButtonWithSystemLocationManagerDialsEmergencyNumber() {
@@ -194,26 +193,26 @@ class HelpParametersActivityTest : H3lpAppTest() {
 //    }
 
 
-//    @Test
-//    fun clickPhoneButtonWithoutContactNumberDialsEmergenciesDirectly() {
-//        // Here we are simply testing that using the system location (the one actually used in the
-//        // app) also makes an emergency call
-//        GeneralLocationManager.setDefaultSystemManager()
-//
-//        launchAndDo {
-//            val phoneButton = onView(withId(R.id.help_params_call_button))
-//            phoneButton.check(matches(isDisplayed()))
-//            phoneButton.perform(click())
-//
-//            // Here, we can't check for a specific number (the emulator could be anywhere on Earth
-//            // but we can verify that a number was indeed called)
-//            intended(
-//                allOf(
-//                    hasAction(ACTION_DIAL)
-//                )
-//            )
-//        }
-//    }
+    @Test
+    fun clickPhoneButtonWithoutContactNumberDialsEmergenciesDirectly() {
+        // Here we are simply testing that using the system location (the one actually used in the
+        // app) also makes an emergency call
+        GeneralLocationManager.setDefaultSystemManager()
+        storageOf(MEDICAL_INFO).clearAll()
+
+        launchAndDo {
+            val phoneButton = onView(withId(R.id.help_params_call_button))
+            phoneButton.perform(click())
+
+            // Here, we can't check for a specific number (the emulator could be anywhere on Earth
+            // but we can verify that a number was indeed called)
+            intended(
+                allOf(
+                    hasAction(ACTION_DIAL)
+                )
+            )
+        }
+    }
 
     @Test
     fun clickSearchHelpWithNoMedsDoesNotChangeActivity() {

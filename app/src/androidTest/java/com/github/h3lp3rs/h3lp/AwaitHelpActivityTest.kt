@@ -186,13 +186,6 @@ class AwaitHelpActivityTest : H3lpAppTest() {
         )
     }
 
-//    @Test
-//    fun clickingOnAsthmaButtonWorksAndSendsIntent() {
-//        clickingOnButtonWorksAndSendsIntent(
-//            AsthmaActivity::class.java,
-//            withId(R.id.asthma_tuto_button), true)
-//    }
-
     @Test
     fun cancelButtonWorksAndSendsIntent() {
         clickingOnButtonWorksAndSendsIntent(
