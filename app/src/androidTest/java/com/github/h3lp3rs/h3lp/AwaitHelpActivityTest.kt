@@ -81,25 +81,25 @@ class AwaitHelpActivityTest : H3lpAppTest() {
         }
     }
 
-//    @Test
-//    fun callEmergenciesButtonWorksAndSendIntent() {
-//        launchAndDo(false) {
-//
-//            val phoneButton = onView(withId(R.id.await_help_call_button))
-//
-//            phoneButton.inRoot(RootMatchers.isFocusable()).perform(click())
-//
-//            // click the ambulance in the popup
-//            onView(withId(R.id.ambulance_call_button)).inRoot(RootMatchers.isFocusable())
-//                .perform(click())
-//
-//            intended(
-//                allOf(
-//                    hasAction(ACTION_DIAL)
-//                )
-//            )
-//        }
-//    }
+    @Test
+    fun callEmergenciesButtonWorksAndSendIntent() {
+        launchAndDo(false) {
+
+            val phoneButton = onView(withId(R.id.await_help_call_button))
+
+            phoneButton.inRoot(RootMatchers.isFocusable()).perform(click())
+
+            // click the ambulance in the popup
+            onView(withId(R.id.ambulance_call_button)).inRoot(RootMatchers.isFocusable())
+                .perform(click())
+
+            intended(
+                allOf(
+                    hasAction(ACTION_DIAL)
+                )
+            )
+        }
+    }
 
     @Test
     fun showsPopUpIfNotCalledBeforeAndCanCallEmergencies() {
