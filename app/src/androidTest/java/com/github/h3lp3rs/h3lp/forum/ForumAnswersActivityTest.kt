@@ -84,7 +84,7 @@ class ForumAnswersActivityTest {
     @Test
     fun simpleUserCantAnswerPost() {
         proUsersDb.delete(USER_TEST_ID)
-        forum.newPost("", QUESTION_TEST, isPost = false).thenAccept { post ->
+        forum.newPost(USER_TEST_ID, QUESTION_TEST, isPost = false).thenAccept { post ->
             selectedPost = post
 
             launch<ForumAnswersActivity>(launchIntent).use {

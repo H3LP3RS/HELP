@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.github.h3lp3rs.h3lp.forum.*
 import com.github.h3lp3rs.h3lp.forum.data.ForumPostData
+import com.github.h3lp3rs.h3lp.forum.implementation.SimpleDBForum.Companion.pathToKey
 import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import java.util.concurrent.CompletableFuture
@@ -22,7 +23,7 @@ class CachedForum(private val forum: Forum) : Forum {
     private val cache = storageOf(FORUM_CACHE)
 
     // Entry for all the posts at one path
-    data class CacheEntry(val posts: ArrayList<ForumPostData>)
+    private data class CacheEntry(val posts: ArrayList<ForumPostData>)
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun newPost(
@@ -33,7 +34,7 @@ class CachedForum(private val forum: Forum) : Forum {
         // Cache the post if successfully returned
         return forum.newPost(author, content, isPost).thenApply {
             val post = ForumPost(CachedForum(it.forum), it.post, it.replies)
-            updateCacheWithPost(emptyList(), post.post)
+            updateCacheWithPost(post.post)
             post
         }
     }
@@ -42,15 +43,15 @@ class CachedForum(private val forum: Forum) : Forum {
         // Cache the post if successfully found
         return forum.getPost(relativePath).thenApply {
             val post = ForumPost(CachedForum(it.forum), it.post, it.replies)
-            updateCacheWithPost((path + relativePath).dropLast(1).drop(path.size), post.post)
+            updateCacheWithPost(relativePath.dropLast(1), post.post)
             post
         }.exceptionally { exc -> // Fetch cache for post if not found
             // Get the pointer of the category just above the required post
-            val cacheLoc = CachedForum(forum.child(relativePath.dropLast(1)))
+            val cacheLoc = CachedForum(forum.child(relativePath).parent())
             // Get the post unique key
             val key = relativePath.last()
 
-            val posts = cacheLoc.getCacheEntry(emptyList()).posts
+            val posts = cacheLoc.getCacheEntry().posts
             var post: ForumPostData? = null
             // Search for corresponding post in the category
             for (p in posts) {
@@ -80,7 +81,7 @@ class CachedForum(private val forum: Forum) : Forum {
             for (categoryPosts in cachedList) {
                 val subForum = CachedForum(forum.root().child(categoryPosts.first))
                 for (post in categoryPosts.second) {
-                    subForum.updateCacheWithPost(emptyList(), post.post)
+                    subForum.updateCacheWithPost(post.post)
                     // Add replies
                     for (reply in post.replies) {
                         subForum.updateCacheWithPost(listOf(post.post.repliesKey), reply)
@@ -106,7 +107,7 @@ class CachedForum(private val forum: Forum) : Forum {
             // In case we are in a category, we only have a single CategoryPost to return (thus
             // we return a singleton list)
             val allPosts = mutableListOf<ForumPost>()
-            val entry = getCacheEntry(emptyList()).posts
+            val entry = getCacheEntry().posts
             for (post in entry) {
                 val replies = getCacheEntry(listOf(post.repliesKey)).posts
                 allPosts.add(ForumPost(this, post, replies))
@@ -135,8 +136,12 @@ class CachedForum(private val forum: Forum) : Forum {
         setCacheEntry(relativePath, CacheEntry(posts))
     }
 
+    private fun updateCacheWithPost(postData: ForumPostData) {
+        updateCacheWithPost(emptyList(), postData)
+    }
+
     private fun getCacheEntry(relativePath: Path): CacheEntry {
-        val cachePath = (path + relativePath).joinToString(separator = "/")
+        val cachePath = pathToKey(path + relativePath)
 
         // Never null due to non-null default parameter
         return cache.getObjectOrDefault(
@@ -145,8 +150,12 @@ class CachedForum(private val forum: Forum) : Forum {
         )!!
     }
 
+    private fun getCacheEntry(): CacheEntry {
+        return getCacheEntry(emptyList())
+    }
+
     private fun setCacheEntry(relativePath: Path, entry: CacheEntry) {
-        val cachePath = (path + relativePath).joinToString(separator = "/")
+        val cachePath = pathToKey(path + relativePath)
         cache.setObject(cachePath, CacheEntry::class.java, entry)
     }
 
@@ -156,7 +165,7 @@ class CachedForum(private val forum: Forum) : Forum {
             // We should change the listener design to make it cleaner, but for now it works fine
             // Impossible to listen for replies, would need to heavy design changes
             val path =
-                listOf(it.category.name) + if (it.isPost) emptyList() else listOf(it.repliesKey)
+                listOf(it.category.name) + (if (it.isPost) emptyList() else listOf(it.repliesKey))
             CachedForum(forum.root()).updateCacheWithPost(path, it)
             // Execute previous action
             action(it)

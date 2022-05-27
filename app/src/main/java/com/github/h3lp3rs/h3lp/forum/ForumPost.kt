@@ -101,8 +101,11 @@ class ForumPost(
             // Display the notification if the reply hadn't been posted by this user
             if (postData.author != getName()) {
                 val description = postData.content
-                val title =
-                    "New reply to your post in ${postData.category} from: ${postData.author}"
+                val title = String.format(
+                    ctx.getString(R.string.post_reply_notification_msg),
+                    postData.category,
+                    postData.author
+                )
                 val intent = Intent(
                     ctx, activityName
                 ).apply {

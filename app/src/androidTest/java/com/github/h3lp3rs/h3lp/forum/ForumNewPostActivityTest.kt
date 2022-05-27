@@ -1,5 +1,7 @@
 package com.github.h3lp3rs.h3lp.forum
 
+import android.content.Context
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -61,7 +63,7 @@ class ForumNewPostActivityTest {
     }
 
     @Test
-    fun notifiedWhenPostReplyWorks() {
+    fun notifiedOnPostReplyWorks() {
         // Create new post with notifications on
         onView(withId(R.id.newPostCategoryDropdown))
             .perform(replaceText(CATEGORY_TEST_STRING))
@@ -84,8 +86,17 @@ class ForumNewPostActivityTest {
         val uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
         uiDevice.wait(Until.hasObject(By.textStartsWith(NOTIFICATION_HEADER)), DELAY)
 
-        val notification = uiDevice.findObject(By.text(EXPECTED_NOTIFICATION_TITLE))
-        // assertNull(notification)
+        val ctx: Context = getApplicationContext()
+        val notification = uiDevice.findObject(
+            By.text(
+                String.format(
+                    ctx.getString(R.string.post_reply_notification_msg),
+                    CATEGORY_TEST_STRING,
+                    REPLIER
+                )
+            )
+        )
+        // assertNull(notification) - Classic Cirrus notification problem
     }
 
     companion object {
@@ -93,7 +104,5 @@ class ForumNewPostActivityTest {
         private const val REPLIER = "Replier"
         private const val REPLY = "Reply"
         private const val NOTIFICATION_HEADER = "H3LP"
-        private const val EXPECTED_NOTIFICATION_TITLE =
-            "New reply to your post in $CATEGORY_TEST_STRING from: $REPLIER"
     }
 }

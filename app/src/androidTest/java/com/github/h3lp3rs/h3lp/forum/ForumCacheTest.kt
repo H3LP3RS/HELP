@@ -11,6 +11,13 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
+/**
+ * This class tests the implementation of the CachedForum
+ * @see CachedForum
+ * @warning The following test functions use join() on futures.
+ * Although not recommended usually, here our futures are based
+ * on mock implementations that immediately return.
+ */
 class CacheForumTest {
 
     // Useful variables
@@ -23,13 +30,13 @@ class CacheForumTest {
         resetStorage()
         setDatabase(PREFERENCES, MockDatabase())
         ForumCategory.mockForum()
-        rawForum = ForumCategory.root().child(ForumCategory.GENERAL.name)
+        rawForum = ForumCategory.root().child(CATEGORY.name)
         cachedForum = CachedForum(rawForum)
     }
 
     private fun resetOnlineForum() {
         ForumCategory.mockForum()
-        rawForum = ForumCategory.root().child(ForumCategory.GENERAL.name)
+        rawForum = ForumCategory.root().child(CATEGORY.name)
         cachedForum = CachedForum(rawForum)
     }
 
@@ -41,7 +48,7 @@ class CacheForumTest {
         // Reset the forum, acts as a clear of the data
         resetOnlineForum()
 
-        // Fetch through cache the post
+        // Fetch the post through the cache
         val postCached = cachedForum.getPost(postOnline.post.key).join()
 
         assertEquals(CONTENT, postCached.post.content)
@@ -60,7 +67,7 @@ class CacheForumTest {
         // Reset the forum, acts as a clear of the data
         resetOnlineForum()
 
-        // Fetch through cache the post
+        // Fetch the post through the cache
         val postCached = cachedForum.getPost(postOnline.post.key).join()
 
         assertEquals(2, postCached.replies.size)
@@ -77,7 +84,7 @@ class CacheForumTest {
         // Reset the forum, acts as a clear of the data
         resetOnlineForum()
 
-        // Fetch through cache the post
+        // Fetch the post through the cache
         val all = cachedForum.getAll().join()
 
         assertEquals(1, all.size)
@@ -95,7 +102,7 @@ class CacheForumTest {
         // Reset the forum, acts as a clear of the data
         resetOnlineForum()
 
-        // Fetch through cache the post
+        // Fetch the post through the cache
         val cachedPost = cachedForum.getPost(postOnline.post.key).join()
 
         assertEquals(CONTENT, cachedPost.post.content)
@@ -114,7 +121,7 @@ class CacheForumTest {
         // Reset the forum, acts as a clear of the data
         resetOnlineForum()
 
-        // Fetch through cache the post
+        // Fetch the post through the cache
         val all = cachedForum.getAll().join()
 
         assertEquals(1, all.size)
@@ -137,11 +144,11 @@ class CacheForumTest {
         // Reset the forum, acts as a clear of the data
         resetOnlineForum()
 
-        // Fetch through cache the post
+        // Fetch the post through the cache
         val all = cachedForum.root().getAll().join()
 
         assertEquals(ForumCategory.values().size, all.size)
-        for(c in all) {
+        for (c in all) {
             assertEquals(1, c.second.size)
             assertEquals(2, c.second[0].replies.size)
         }
@@ -188,5 +195,6 @@ class CacheForumTest {
     companion object {
         private const val AUTHOR = "AUTHOR"
         private const val CONTENT = "CONTENT"
+        private val CATEGORY = ForumCategory.GENERAL
     }
 }

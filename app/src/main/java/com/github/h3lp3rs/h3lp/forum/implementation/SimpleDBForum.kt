@@ -224,17 +224,6 @@ open class SimpleDBForum(override val path: Path, private val rootForum: Databas
     }
 
     /**
-     * Translates a Path into its corresponding key as understood by Firebase (in Firebase, strings
-     * separated by a "/" represent a path, as in a filesystem with "files" or children in the case
-     * of a database)
-     * @param path The path to transform into a string according to Firebase
-     * @return The corresponding string
-     */
-    private fun pathToKey(path: Path): String {
-        return path.joinToString(separator = "/")
-    }
-
-    /**
      * Abstracts away the implementation of the path into the Forum structure, here, the root is
      * represented by an empty path
      * @return A boolean corresponding to the fact that this forum is (or isn't) the root forum
@@ -284,5 +273,16 @@ open class SimpleDBForum(override val path: Path, private val rootForum: Databas
         const val UNIQUE_POST_ID = "unique post id"
         const val POSTS_LIST = "posts"
         const val POST_REPLIES = "post replies"
+
+        /**
+         * Translates a Path into its corresponding key as understood by Firebase (in Firebase, strings
+         * separated by a "/" represent a path, as in a filesystem with "files" or children in the case
+         * of a database)
+         * @param path The path to transform into a string according to Firebase
+         * @return The corresponding string
+         */
+        fun pathToKey(path: Path): String {
+            return path.joinToString(separator = "/")
+        }
     }
 }
