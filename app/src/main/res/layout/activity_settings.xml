@@ -305,7 +305,7 @@
 
 
           <Button
-              android:id="@+id/buttonNeedHelp"
+              android:id="@+id/buttonAboutHelp"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:backgroundTint="@android:color/transparent"
