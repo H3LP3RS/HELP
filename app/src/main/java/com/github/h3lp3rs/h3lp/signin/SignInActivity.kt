@@ -98,14 +98,14 @@ class SignInActivity : AppCompatActivity() {
         offlineCheckIfSignedIn()
     }
 
-    override fun onResume() {
+    /*override fun onResume() {
         super.onResume()
         // If the user is already signed in he can't go back to the sign in activity
         if(userSignIn.getBoolOrDefault(USER_SIGNED_IN, false)){
             val intent = Intent(this, MainPageActivity::class.java)
             startActivity(intent)
         }
-    }
+    }*/
 
     /**
      * Initialize client and launch the sign in request

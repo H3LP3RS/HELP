@@ -80,12 +80,6 @@ class GoogleSignInTest : H3lpAppTest() {
     }
 
     @Test
-    fun signInWithGoogleLaunchesCorrectIntent() {
-        clickSignInButton()
-        intended(hasPackage(googleSignInPackageName))
-    }
-
-    @Test
     fun signInWithGoogleLaunchesAuthenticationProcess() {
         clickSignInButton()
         assertNotNull(GoogleSignInAdapter.gso)
@@ -95,6 +89,12 @@ class GoogleSignInTest : H3lpAppTest() {
             )
         }
         assertEquals(authenticationStarted, true)
+    }
+
+    @Test
+    fun signInWithGoogleLaunchesCorrectIntent() {
+        clickSignInButton()
+        intended(hasPackage(googleSignInPackageName))
     }
 
     private fun clickSignInButton() {
