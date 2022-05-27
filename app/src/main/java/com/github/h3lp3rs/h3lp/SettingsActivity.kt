@@ -17,6 +17,7 @@ import androidx.annotation.RequiresApi
 import com.github.h3lp3rs.h3lp.ReportActivity.Companion.bug
 import com.github.h3lp3rs.h3lp.ReportActivity.Companion.suggestion
 import com.github.h3lp3rs.h3lp.forum.ForumCategory
+import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
 import com.github.h3lp3rs.h3lp.signin.GoogleSignInAdapter.getCreationDate
 import com.github.h3lp3rs.h3lp.signin.GoogleSignInAdapter.signOut
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
@@ -82,6 +83,11 @@ class SettingsActivity : AppCompatActivity() {
         userSignIn.setBoolean(getString(R.string.KEY_USER_SIGNED_IN), false)
         signOut()
         val intent = Intent(this, SignInActivity::class.java)
+        startActivity(intent)
+    }
+
+    fun goToPresentation(view: View) {
+        val intent = Intent(this, PresArrivalActivity::class.java)
         startActivity(intent)
     }
 

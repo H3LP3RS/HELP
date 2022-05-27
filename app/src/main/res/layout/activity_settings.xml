@@ -313,6 +313,7 @@
               android:fontFamily="sans-serif"
               android:stateListAnimator="@null"
               android:text="@string/what_is_h3lp"
+              android:onClick="goToPresentation"
               android:textAlignment="viewStart"
               android:textAllCaps="false"
               android:textColor="@color/grey"
