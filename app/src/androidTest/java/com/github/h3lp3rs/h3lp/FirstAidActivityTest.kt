@@ -75,9 +75,9 @@ class FirstAidActivityTest : H3lpAppTest() {
         clickingOnButtonWorksAndSendsIntent(AsthmaActivity::class.java, withId(R.id.asthma_expand_button))
     }
 
-    @Test
+    /*@Test
     fun clickBackButtonWorksAndSendsIntent() {
         onView(withId(R.id.first_aid_back_button)).perform(ViewActions.scrollTo(), ViewActions.click())
         assertEquals(testRule.scenario.state, Lifecycle.State.RESUMED)
-    }
+    }*/
 }
