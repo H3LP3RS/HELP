@@ -28,6 +28,7 @@ import com.github.h3lp3rs.h3lp.messaging.Messenger.HELPER
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.storage.Storages
+import com.github.h3lp3rs.h3lp.storage.Storages.Companion.disableOnlineSync
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import junit.framework.TestCase
@@ -181,7 +182,7 @@ class HelpPageActivityTest : H3lpAppTest() {
     fun showsPopUpWhenNotSignedIn(){
         // Not signed in
         userUid = null
-
+        disableOnlineSync()
         launchAndDo {
 
             // We can close the popup => It's displayed :)
