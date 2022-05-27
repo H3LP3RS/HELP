@@ -72,7 +72,7 @@ class MockForumTest {
     }
 
     @Test
-    fun listenerWorksWhenPostAfter() {
+    fun listenerWorksWhenPostsAfter() {
         var counter = 0
         forum.listenToAll { counter++ }
         forum.newPost(AUTHOR, CONTENT, isPost = true).orTimeout(TIMEOUT, MILLISECONDS)

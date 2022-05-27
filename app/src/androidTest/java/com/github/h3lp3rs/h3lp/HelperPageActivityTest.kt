@@ -17,6 +17,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.GrantPermissionRule
 import androidx.test.uiautomator.UiDevice
+import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
@@ -59,8 +60,10 @@ class HelpPageActivityTest : H3lpAppTest() {
         globalContext = getApplicationContext()
         userUid = USER_TEST_ID
 
-        setDatabase(PREFERENCES, MockDatabase())
-        setDatabase(EMERGENCIES, MockDatabase())
+        for(db in Databases.values()) {
+            setDatabase(db, MockDatabase())
+        }
+
         resetStorage()
     }
 
@@ -162,7 +165,7 @@ class HelpPageActivityTest : H3lpAppTest() {
             // retrieve the public key sent on the database
             databaseOf(MESSAGES)
                 .getString(publicKeyPath(conversationIds[conversationIds.size - 1].toString(), HELPER.name))
-                .thenAccept(TestCase::assertNotNull)
+                .thenAccept(TestCase::assertNotNull).join()
 
         }
     }

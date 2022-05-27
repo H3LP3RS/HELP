@@ -10,4 +10,4 @@ import com.github.h3lp3rs.h3lp.forum.Path
  * @param path The path of the current forum pointer.
  * @database The FireDatabase that serves as root.
  */
-open class FireDBForum(path: Path, database: FireDatabase) : SimpleDBForum(path, database)
+class FireDBForum(path: Path, database: FireDatabase) : SimpleDBForum(path, database)
