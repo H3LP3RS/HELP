@@ -37,8 +37,8 @@ const val ANSWER_TEST = "answer"
 
 @RunWith(AndroidJUnit4::class)
 class ForumAnswersActivityTest {
-    private lateinit var forum : Forum
-    private lateinit var proUsersDb : Database
+    private lateinit var forum: Forum
+    private lateinit var proUsersDb: Database
 
     private val launchIntent = Intent(
         getApplicationContext(), ForumAnswersActivity::class.java
@@ -61,8 +61,8 @@ class ForumAnswersActivityTest {
     fun addNewAnswerWorks() {
         val proUser = ProUser(USER_TEST_ID, USER_TEST_ID, "", "", "", "", "")
         proUsersDb.setObject(USER_TEST_ID, ProUser::class.java, proUser)
-        
-        forum.newPost("", QUESTION_TEST,isPost = false).thenAccept { post ->
+
+        forum.newPost("", QUESTION_TEST, isPost = false).thenAccept { post ->
             selectedPost = post
 
             launch<ForumAnswersActivity>(launchIntent).use {
@@ -84,7 +84,7 @@ class ForumAnswersActivityTest {
     @Test
     fun simpleUserCantAnswerPost() {
         proUsersDb.delete(USER_TEST_ID)
-        forum.newPost("", QUESTION_TEST,isPost = false).thenAccept { post ->
+        forum.newPost(USER_TEST_ID, QUESTION_TEST, isPost = false).thenAccept { post ->
             selectedPost = post
 
             launch<ForumAnswersActivity>(launchIntent).use {

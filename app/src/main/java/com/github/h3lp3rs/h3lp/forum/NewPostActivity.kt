@@ -6,7 +6,7 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.forumOf
+import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.cachedForumOf
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.getName
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.google.android.material.textfield.TextInputEditText
@@ -46,7 +46,7 @@ class NewPostActivity : AppCompatActivity() {
         val category = newPostCategoryDropdown.text.toString()
         val textViewAnswerQuestion = findViewById<TextInputEditText>(R.id.newPostTitleEditTxt)
         val question = textViewAnswerQuestion.text.toString()
-        val forum = ForumCategory.categoriesMap[category]?.let { forumOf(it) }!!
+        val forum = ForumCategory.categoriesMap[category]?.let { cachedForumOf(it) }!!
         // Add post to the database
         val post = getName()?.let { forum.newPost(it, question, true) }
         // Enable notifications on replies to this post if user has activated it

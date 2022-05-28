@@ -411,4 +411,5 @@
     <string name="sign_in">Sign in</string>
     <string name="pick_your_username">Pick your username</string>
     <string name="sign_up_anonymously"><u>Sign up anonymously</u></string>
+    <string name="post_reply_notification_msg">New reply to your post in %s from: %s</string>
 </resources>
