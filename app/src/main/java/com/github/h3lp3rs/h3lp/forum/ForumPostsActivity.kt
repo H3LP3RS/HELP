@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.R
+import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.cachedForumOf
+import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.categoriesMap
 import com.github.h3lp3rs.h3lp.forum.data.ForumPostData
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
@@ -31,7 +33,7 @@ class ForumPostsActivity : AppCompatActivity() {
 
         val bundle = intent.extras!!
         category = bundle.getString(EXTRA_FORUM_CATEGORY) ?: category
-        forum = ForumCategory.categoriesMap[category]?.let { ForumCategory.forumOf(it) }!!
+        forum = categoriesMap[category]?.let { cachedForumOf(it) }!!
 
         adapter.setOnItemClickListener { item, view ->
             selectedPost = item as ForumPost

@@ -410,4 +410,5 @@
     <string name="report">Report</string>
     <string name="what_must_be_changed">What must be changed ?</string>
     <string name="send_report">Send report</string>
+    <string name="post_reply_notification_msg">New reply to your post in %s from: %s</string>
 </resources>
