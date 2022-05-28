@@ -99,8 +99,9 @@
     <string name="cpr_rate_button_stop">STOP</string>
     <string name="save_changes">Save changes</string>
     <string name="changes_saved">Changes saved</string>
-    <string name="invalid_field_msg">ERROR : Some fields are not fill correctly</string>
+    <string name="invalid_field_msg">ERROR : Some fields are not filled correctly</string>
     <string name="invalid_empty_msg">ERROR : Some mandatory fields (*) are left empty</string>
+    <string name="username_error_field_msg">ERROR : Please choose a correct username</string>
     <string name="privacy_policy_not_accepted">ERROR : You must accept our privacy policy first</string>
 
     <!--Preference Key for now should find better way to store this-->
@@ -295,4 +296,7 @@
     <string name="aed_steps">step</string>
     <string name="send">Send</string>
     <string name="encrypted_conversation">This conversation is encrypted from end-to-end</string>
+    <string name="pick_your_username">Pick your username</string>
+    <string name="sign_up_anonymously"><u>Sign up anonymously</u></string>
+    <string name="post_reply_notification_msg">New reply to your post in %s from: %s</string>
 </resources>

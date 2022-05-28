@@ -54,6 +54,33 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1">
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_layout_username"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="310dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:hint="@string/pick_your_username"
+            app:boxStrokeColor="@color/cancel_search_text"
+            app:errorIconDrawable="@drawable/ic_error"
+            app:hintTextColor="@color/cancel_search_text"
+            app:layout_constraintBottom_toTopOf="@+id/signInButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:startIconDrawable="@drawable/ic_profile_icon">
+
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/text_field_username"
+                android:layout_width="match_parent"
+                android:textColor="@color/cancel_search_text"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:maxLength="15" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <ImageButton
             android:id="@+id/signInButton"
@@ -73,10 +100,10 @@
 
 
         <TextView
-            android:id="@+id/noSignInText"
+            android:id="@+id/textview_no_sign_in"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="45dp"
             android:layout_marginBottom="3dp"
             android:text="@string/without_sign_in_text"
             android:textColor="@color/cancel_search_text"
@@ -87,21 +114,37 @@
             app:layout_constraintTop_toBottomOf="@+id/signInButton"
             app:layout_constraintVertical_bias="0.0" />
 
+        <TextView
+            android:id="@+id/textview_anonymous_sign_in"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="3dp"
+            android:text="@string/sign_up_anonymously"
+            android:textColor="@color/cancel_search_text"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/signInButton"
+            app:layout_constraintVertical_bias="0.0" />
+
         <ImageView
             android:id="@+id/imageView3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="358dp"
+            android:layout_height="877dp"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="15dp"
             android:layout_marginEnd="32dp"
-            android:layout_marginBottom="32dp"
+            android:layout_marginBottom="80dp"
             app:layout_constraintBottom_toTopOf="@+id/signInButton"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.545"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/heart_link"
             tools:ignore="ContentDescription" />
-
+            app:layout_constraintVertical_bias="0.544"
+            app:srcCompat="@drawable/heart_link" />
 
 
 

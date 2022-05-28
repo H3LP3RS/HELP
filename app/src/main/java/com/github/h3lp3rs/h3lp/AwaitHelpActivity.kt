@@ -134,6 +134,7 @@ class AwaitHelpActivity : AppCompatActivity() {
                 resources.getQuantityString(R.plurals.number_of_helpers, helpersId.size, helpersId.size)
 
             if(helpersId.size <= 1){
+              
                 findViewById<ProgressBar>(R.id.searchProgressBar).visibility = View.GONE
                 findViewById<TextView>(R.id.progressBarText).visibility = View.GONE
                 incomingHelpersNumber.visibility = View.VISIBLE

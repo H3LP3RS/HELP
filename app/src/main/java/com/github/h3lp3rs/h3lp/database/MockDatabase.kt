@@ -15,13 +15,12 @@ class MockDatabase : Database {
     // it doesn't have the same behaviour when two writes happen at the same time
     private val concurrentLists = HashMap<String, List<String>>()
     private val listeners = HashMap<String, List<() -> Unit>>()
-    private val eventListeners = HashMap<String, List<() -> Unit>>()
 
     /**
      * Utility function to extract values into futures from generic types
      * @param key The key in the database
      */
-    private inline fun <reified T : Any> get(key : String) : CompletableFuture<T> {
+    private inline fun <reified T : Any> get(key: String): CompletableFuture<T> {
         val future = CompletableFuture<T>()
         if (db.containsKey(key)) future.complete(db[key] as T)
         else future.completeExceptionally(NullPointerException("Key: $key not in the database"))
@@ -34,7 +33,7 @@ class MockDatabase : Database {
      * @param key The key in the database
      * @param value The value to set
      */
-    private fun setAndTriggerListeners(key : String, value : Any) {
+    private fun setAndTriggerListeners(key: String, value: Any) {
         val old = db.getOrDefault(key, value)
         db[key] = value
         if (old != value) {
@@ -42,48 +41,47 @@ class MockDatabase : Database {
         }
     }
 
-
     /**
      * Utility function to trigger all the listeners related to a specific key
      * @param key The key in the database
      */
-    private fun triggerListeners(key : String) {
+    private fun triggerListeners(key: String) {
         for (l in listeners.getOrDefault(key, emptyList())) l()
     }
 
-    override fun getBoolean(key : String) : CompletableFuture<Boolean> {
+    override fun getBoolean(key: String): CompletableFuture<Boolean> {
         return get(key)
     }
 
-    override fun setBoolean(key : String, value : Boolean) {
+    override fun setBoolean(key: String, value: Boolean) {
         setAndTriggerListeners(key, value)
     }
 
-    override fun getString(key : String) : CompletableFuture<String> {
+    override fun getString(key: String): CompletableFuture<String> {
         return get(key)
     }
 
-    override fun setString(key : String, value : String) {
+    override fun setString(key: String, value: String) {
         setAndTriggerListeners(key, value)
     }
 
-    override fun getDouble(key : String) : CompletableFuture<Double> {
+    override fun getDouble(key: String): CompletableFuture<Double> {
         return get(key)
     }
 
-    override fun setDouble(key : String, value : Double) {
+    override fun setDouble(key: String, value: Double) {
         setAndTriggerListeners(key, value)
     }
 
-    override fun getInt(key : String) : CompletableFuture<Int> {
+    override fun getInt(key: String): CompletableFuture<Int> {
         return get(key)
     }
 
-    override fun setInt(key : String, value : Int) {
+    override fun setInt(key: String, value: Int) {
         setAndTriggerListeners(key, value)
     }
 
-    override fun addStringConcurrently(key : String, value : String): String {
+    override fun addStringConcurrently(key: String, value: String): String {
         synchronized(this) {
             val old = concurrentLists.getOrDefault(key, emptyList())
             concurrentLists[key] = old.plus(value)
@@ -93,24 +91,28 @@ class MockDatabase : Database {
     }
 
     override fun <T> getObjectsList(key: String, type: Class<T>): CompletableFuture<List<T>> {
-        val future = CompletableFuture<List<T>>()
-        val list = concurrentLists[key]
-        if(list != null) {
-            val gson = Gson()
-            val convertedList = list.map { gson.fromJson(it, type)}
-            future.complete(convertedList)
-        } else {
-            future.complete(emptyList())
-        }
+        synchronized(this) {
+            val future = CompletableFuture<List<T>>()
+            val list = concurrentLists[key]
+            if (list != null) {
+                val gson = Gson()
+                val convertedList = list.map { gson.fromJson(it, type) }
+                future.complete(convertedList)
+            } else {
+                future.complete(emptyList())
+            }
 
-        return future
+            return future
+        }
     }
 
     @SuppressLint("RestrictedApi")
-    override fun <T> addListener(key : String, type : Class<T>, action : (T) -> Unit) {
-        val wrappedAction : () -> Unit = {
-            val v : T =
-                if (type == String::class.java || type == Int::class.java || type == Double::class.java || type == Boolean::class.java) {
+    override fun <T> addListener(key: String, type: Class<T>, action: (T) -> Unit) {
+        val wrappedAction: () -> Unit = {
+            val v: T =
+                if (type == String::class.java || type == Int::class.java ||
+                    type == Double::class.java || type == Boolean::class.java
+                ) {
                     convertToCustomClass(db[key], type)
                 } else {
                     getObject(key, type).get()
@@ -121,34 +123,35 @@ class MockDatabase : Database {
         val ls = listeners.getOrDefault(key, emptyList()) + listOf(wrappedAction)
         listeners[key] = ls
         // First time trigger if present
-        if(db.containsKey(key)) wrappedAction()
+        if (db.containsKey(key)) wrappedAction()
     }
 
-    override fun <T> addListenerIfNotPresent(key : String, type : Class<T>, action : (T) -> Unit) {
+    override fun <T> addListenerIfNotPresent(key: String, type: Class<T>, action: (T) -> Unit) {
         if (!listeners.containsKey(key)) {
             addListener(key, type, action)
         }
     }
 
     @SuppressLint("RestrictedApi")
-    override fun <T> addListListener(key : String, type : Class<T>, action : (List<T>) -> Unit) {
-        val wrappedAction : () -> Unit = {
-            // Reconstructing the entire list to be able to call action on it
-            val gson = Gson()
-            val objectsList =
-                concurrentLists.getOrDefault(key, emptyList()).map { gson.fromJson(it, type) }
-            action(objectsList)
+    override fun <T> addListListener(key: String, type: Class<T>, action: (List<T>) -> Unit) {
+        synchronized(this) {
+            val wrappedAction: () -> Unit = {
+                // Reconstructing the entire list to be able to call action on it
+                val gson = Gson()
+                val objectsList =
+                    concurrentLists.getOrDefault(key, emptyList()).map { gson.fromJson(it, type) }
+                action(objectsList)
+            }
+            // Enrich the list & add to map
+            val ls = listeners.getOrDefault(key, emptyList()) + listOf(wrappedAction)
+            listeners[key] = ls
+            // First time trigger if present
+            if (concurrentLists.containsKey(key)) wrappedAction()
         }
-        // Enrich the list & add to map
-        val ls = listeners.getOrDefault(key, emptyList()) + listOf(wrappedAction)
-        listeners[key] = ls
-        // First time trigger
-        wrappedAction()
     }
 
-    override fun clearListeners(key : String) {
+    override fun clearListeners(key: String) {
         listeners.remove(key)
-        eventListeners.remove(key)
     }
 
     override fun clearAllListeners() {
@@ -156,20 +159,14 @@ class MockDatabase : Database {
         for (key in copy.keys) {
             clearListeners(key)
         }
-        val clone = HashMap(eventListeners)
-        for (key in clone.keys) {
-            clearListeners(key)
-        }
     }
 
-    override fun delete(key : String) {
+    override fun delete(key: String) {
         db.remove(key)
         listeners.remove(key)
-        eventListeners.remove(key)
     }
 
-
-    override fun incrementAndGet(key : String, increment : Int): CompletableFuture<Int> {
+    override fun incrementAndGet(key: String, increment: Int): CompletableFuture<Int> {
         synchronized(this) {
             val future: CompletableFuture<Int> = CompletableFuture()
             val old = db.getOrDefault(key, 0) as Int
@@ -182,28 +179,29 @@ class MockDatabase : Database {
 
     @SuppressLint("RestrictedApi")
     override fun <T> addEventListener(
-        key : String?,
-        type : Class<T>,
-        onChildAdded : ((T) -> Unit)?,
-        onChildRemoved : (String) -> Unit
+        key: String?,
+        type: Class<T>,
+        onChildAdded: ((T) -> Unit)?,
+        onChildRemoved: (String) -> Unit
     ) {
-        val wrappedAction : () -> Unit = {
-            onChildAdded?.let {
-                val v : T =
-                    if (type == String::class.java || type == Int::class.java || type == Double::class.java || type == Boolean::class.java) {
-                        convertToCustomClass(db[key], type)
-                    } else {
-                        getObject(key!!, type).get()
+        synchronized(this) {
+            key?.let { k ->
+                val action: (List<T>) -> Unit = { list ->
+                    onChildAdded?.let { it(list.last()) }
+                }
+                addListListener(k, type, action)
+                if (concurrentLists.containsKey(k)) {
+                    // Reconstructing the entire list to be able to trigger it once for all n-1 entries
+                    val gson = Gson()
+                    val objectsList =
+                        concurrentLists.getOrDefault(key, emptyList())
+                            .map { gson.fromJson(it, type) }
+                            .dropLast(1)
+                    for (obj in objectsList) {
+                        onChildAdded?.let { it(obj) }
                     }
-                it(v)
+                }
             }
         }
-
-        // Enrich the list & add to map
-        val els = eventListeners.getOrDefault(key, emptyList()) + listOf(wrappedAction)
-        key?.let {
-            eventListeners[it] = els
-        }
     }
-
 }
