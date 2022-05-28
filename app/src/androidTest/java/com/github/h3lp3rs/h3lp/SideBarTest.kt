@@ -19,6 +19,8 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import org.hamcrest.Matchers.*
 import org.junit.After
 import org.junit.Before
@@ -31,13 +33,14 @@ class SideBarTest : H3lpAppTest() {
 
     @Before
     fun setup() {
-        SignInActivity.globalContext = ApplicationProvider.getApplicationContext()
-        SignInActivity.userUid = USER_TEST_ID
+        globalContext = ApplicationProvider.getApplicationContext()
+        userUid = USER_TEST_ID
         val intent = Intent(
             ApplicationProvider.getApplicationContext(), MainPageActivity::class.java
         )
-        init()
         ActivityScenario.launch<MainPageActivity>(intent)
+        init()
+
     }
 
     @After

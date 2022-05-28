@@ -12,17 +12,14 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
 import com.github.h3lp3rs.h3lp.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.disableOnlineSync
-import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuth.*
+import com.google.firebase.auth.FirebaseAuth.getInstance
 
 class SignInActivity : AppCompatActivity() {
     lateinit var signInClient : SignInInterface<AuthResult>
@@ -97,15 +94,6 @@ class SignInActivity : AppCompatActivity() {
         // Check if the user is already signed in
         offlineCheckIfSignedIn()
     }
-
-    /*override fun onResume() {
-        super.onResume()
-        // If the user is already signed in he can't go back to the sign in activity
-        if(userSignIn.getBoolOrDefault(USER_SIGNED_IN, false)){
-            val intent = Intent(this, MainPageActivity::class.java)
-            startActivity(intent)
-        }
-    }*/
 
     /**
      * Initialize client and launch the sign in request

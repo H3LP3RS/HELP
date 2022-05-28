@@ -1,9 +1,11 @@
 package com.github.h3lp3rs.h3lp.firstaid
 
 import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.intent.Intents
+import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.rules.ActivityScenarioRule
@@ -45,14 +47,14 @@ class AsthmaActivityTest {
 
     @Test
     fun backButtonWorks(){
-        Intents.init()
-        Espresso.onView(ViewMatchers.withId(R.id.asthma_back_button))
+        init()
+        onView(ViewMatchers.withId(R.id.asthma_back_button))
             .perform(ViewActions.scrollTo(), ViewActions.click())
-        Intents.intended(
+        intended(
             Matchers.allOf(
                 IntentMatchers.hasComponent(FirstAidActivity::class.java.name)
             )
         )
-        Intents.release()
+        release()
     }
 }

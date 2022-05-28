@@ -4,15 +4,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
 import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.dataclasses.Report
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import kotlinx.android.synthetic.main.activity_report.*
 
+/**
+ * Activity where a user can report a bug or a suggestion
+ */
 class ReportActivity : AppCompatActivity() {
 
-    companion object{
+    companion object {
         const val bug = "bug"
         const val suggestion = "suggestion"
     }
@@ -26,7 +28,6 @@ class ReportActivity : AppCompatActivity() {
         reportCategoryDropdown.setText(category)
 
         createReportCategoriesDownMenu()
-
     }
 
     /**
@@ -37,21 +38,23 @@ class ReportActivity : AppCompatActivity() {
             this, R.layout.dropdown_menu_popup, listOf(bug, suggestion)
         )
 
-        val editTextFilledExposedDropdown =
-            findViewById<AutoCompleteTextView>(R.id.reportCategoryDropdown)
-
-        editTextFilledExposedDropdown.setAdapter(adapter)
+        reportCategoryDropdown.setAdapter(adapter)
     }
 
     /**
      * Sends the report to the database
      * @param view Current view
      */
-    fun sendReport(view : View) {
+    fun sendReport(view: View) {
         val category = reportCategoryDropdown.text.toString()
         val content = reportEditTxt.text.toString()
-        val report = Report(category,content)
-        SignInActivity.userUid?.let { Databases.databaseOf(Databases.REPORTS).setObject(it, Report::class.java, report) }
+        val report = Report(category, content)
+        // The UID might not be the best solution since a user can't give multiple reports. It's because we need
+        // to have a link to the user that has a bug and also to keep consistency with other
+        // implementations and keep the testing part simple since it's not the most important feature of the app.
+        SignInActivity.userUid?.let {
+            Databases.databaseOf(Databases.REPORTS).setObject(it, Report::class.java, report)
+        }
         // Clears the text field when the user hits send
         reportEditTxt.text?.clear()
     }

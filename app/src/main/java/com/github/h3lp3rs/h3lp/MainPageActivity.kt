@@ -137,6 +137,11 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     }
 
     /**
+     * Disables the back button on the main page. This is the simplest solution to avoid breaking the sign in tests.
+     */
+    override fun onBackPressed() { }
+
+    /**
      * Opens a popup asking the user to sign in to continue.
      */
     private fun showSignInPopUp() {
