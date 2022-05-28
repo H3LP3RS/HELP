@@ -17,6 +17,8 @@ import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.forum.ForumCategory.*
 import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.forumOf
 import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.mockForum
+import com.github.h3lp3rs.h3lp.signin.SignInActivity
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.setName
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -32,6 +34,7 @@ class ForumNewPostActivityTest {
 
     @Before
     fun setup() {
+        globalContext = getApplicationContext()
         setName(USER_TEST_ID)
         mockForum()
         forum = forumOf(TRAUMATOLOGY)
