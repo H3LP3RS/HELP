@@ -61,7 +61,6 @@ class SignInActivity : AppCompatActivity() {
         // Sign up anonymously
         textview_anonymous_sign_in.setOnClickListener {
             if (checkUsernameField()) {
-
                 SignIn.set(AnonymousSignInAdapter)
                 signInClient = SignIn.get()
                 authenticateUser(null, this )
