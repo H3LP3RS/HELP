@@ -7,9 +7,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.Intents.release
-import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.H3lpAppTest
@@ -17,7 +15,6 @@ import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.database.Databases.PREFERENCES
 import com.github.h3lp3rs.h3lp.database.MockDatabase
-import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.storage.Storages
@@ -26,7 +23,6 @@ import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.github.h3lp3rs.h3lp.storage.Storages.SIGN_IN
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
-import org.hamcrest.core.AllOf.allOf
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -66,7 +62,7 @@ class AnonymousSignInTest : H3lpAppTest() {
         }
     }
 
-    private fun launchAndDo(action : () -> Unit) {
+    private fun launchAndDo(action: () -> Unit) {
         launch().use {
             initIntentAndCheckResponse()
             action()
@@ -78,7 +74,7 @@ class AnonymousSignInTest : H3lpAppTest() {
         release()
     }
 
-    private fun launch() : ActivityScenario<SignInActivity> {
+    private fun launch(): ActivityScenario<SignInActivity> {
         return ActivityScenario.launch(
             Intent(
                 getApplicationContext(), SignInActivity::class.java
@@ -103,7 +99,7 @@ class AnonymousSignInTest : H3lpAppTest() {
         launchAndDo {
             onView(withId(R.id.text_field_username)).perform(replaceText((USER_TEST_NAME)))
             onView(withId(R.id.textview_anonymous_sign_in)).perform(click())
-            /*
+            /* Cirrus :`(
             intended(
                 allOf(
                     hasComponent(PresArrivalActivity::class.java.name)

@@ -76,7 +76,7 @@ class MedicalCardActivityTest : H3lpAppTest() {
                     ) - 1).toString()
                 )
             )
-            onView(withId(R.id.medicalInfoBirthTxtLayout)).check(matches(hasInputLayoutError()))
+            onView(withId(R.id.medicalInfoBirthTxtLayout)).check(matches(hasInputLayoutError))
             onView(withId(R.id.medicalInfoBirthTxtLayout))
                 .check(matches(hasTextInputLayoutError(ctx.resources.getString(R.string.yearTooOld))))
         }
@@ -89,7 +89,7 @@ class MedicalCardActivityTest : H3lpAppTest() {
                 .perform(replaceText((Calendar.getInstance().get(Calendar.YEAR) + 1).toString()))
             onView(withId(R.id.medicalInfoBirthTxtLayout)).check(
                 matches(
-                    hasInputLayoutError()
+                    hasInputLayoutError
                 )
             )
             onView(withId(R.id.medicalInfoBirthTxtLayout)).check(
@@ -113,7 +113,7 @@ class MedicalCardActivityTest : H3lpAppTest() {
                 )
             onView(withId(R.id.medicalInfoBirthTxtLayout)).check(
                 matches(
-                    not(hasInputLayoutError())
+                    not(hasInputLayoutError)
                 )
             )
         }
@@ -127,7 +127,7 @@ class MedicalCardActivityTest : H3lpAppTest() {
                     .perform(scrollTo(), replaceText(validNumber))
                 onView(withId(R.id.medicalInfoContactNumberTxtLayout)).check(
                     matches(
-                        not(hasInputLayoutError())
+                        not(hasInputLayoutError)
                     )
                 )
             }
@@ -142,7 +142,7 @@ class MedicalCardActivityTest : H3lpAppTest() {
                 .perform(scrollTo(), replaceText(emergencyNumber))
             onView(withId(R.id.medicalInfoContactNumberTxtLayout)).check(
                 matches(
-                    hasInputLayoutError()
+                    hasInputLayoutError
                 )
             )
         }
@@ -157,7 +157,7 @@ class MedicalCardActivityTest : H3lpAppTest() {
                     .perform(scrollTo(), replaceText(wrongNumber))
                 onView(withId(R.id.medicalInfoContactNumberTxtLayout)).check(
                     matches(
-                        hasInputLayoutError()
+                        hasInputLayoutError
                     )
                 )
             }
@@ -171,7 +171,7 @@ class MedicalCardActivityTest : H3lpAppTest() {
                 .perform(replaceText((ctx.resources.getInteger(R.integer.maxWeight) + 1).toString()))
             onView(withId(R.id.medicalInfoWeightTxtLayout)).check(
                 matches(
-                    hasInputLayoutError()
+                    hasInputLayoutError
                 )
             )
             onView(withId(R.id.medicalInfoWeightTxtLayout)).check(
@@ -189,7 +189,7 @@ class MedicalCardActivityTest : H3lpAppTest() {
                 .perform(replaceText((ctx.resources.getInteger(R.integer.minWeight) - 1).toString()))
             onView(withId(R.id.medicalInfoWeightTxtLayout)).check(
                 matches(
-                    hasInputLayoutError()
+                    hasInputLayoutError
                 )
             )
             onView(withId(R.id.medicalInfoWeightTxtLayout)).check(
@@ -207,7 +207,7 @@ class MedicalCardActivityTest : H3lpAppTest() {
                 .perform(replaceText((ctx.resources.getInteger(R.integer.maxWeight) - 1).toString()))
             onView(withId(R.id.medicalInfoWeightTxtLayout)).check(
                 matches(
-                    not(hasInputLayoutError())
+                    not(hasInputLayoutError)
                 )
             )
         }
@@ -220,7 +220,7 @@ class MedicalCardActivityTest : H3lpAppTest() {
                 .perform(replaceText((ctx.resources.getInteger(R.integer.maxHeight) + 1).toString()))
             onView(withId(R.id.medicalInfoHeightTxtLayout)).check(
                 matches(
-                    hasInputLayoutError()
+                    hasInputLayoutError
                 )
             )
             onView(withId(R.id.medicalInfoHeightTxtLayout)).check(
@@ -238,7 +238,7 @@ class MedicalCardActivityTest : H3lpAppTest() {
                 .perform(replaceText((ctx.resources.getInteger(R.integer.minWeight) - 1).toString()))
             onView(withId(R.id.medicalInfoHeightTxtLayout)).check(
                 matches(
-                    hasInputLayoutError()
+                    hasInputLayoutError
                 )
             )
             onView(withId(R.id.medicalInfoHeightTxtLayout)).check(
@@ -256,7 +256,7 @@ class MedicalCardActivityTest : H3lpAppTest() {
                 .perform(replaceText((ctx.resources.getInteger(R.integer.maxHeight) - 1).toString()))
             onView(withId(R.id.medicalInfoHeightTxtLayout)).check(
                 matches(
-                    not(hasInputLayoutError())
+                    not(hasInputLayoutError)
                 )
             )
         }

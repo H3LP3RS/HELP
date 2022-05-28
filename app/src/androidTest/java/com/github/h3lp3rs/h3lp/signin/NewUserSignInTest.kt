@@ -11,7 +11,7 @@ import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.Visibility.VISIBLE
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -20,6 +20,10 @@ import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.database.Databases.PREFERENCES
 import com.github.h3lp3rs.h3lp.database.MockDatabase
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.ERROR_MESSAGE_ON_LONG_USERNAME
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.ERROR_MESSAGE_ON_SHORT_USERNAME
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.MAX_LENGTH_USERNAME
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.MIN_LENGTH_USERNAME
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.storage.Storages
@@ -40,7 +44,7 @@ import org.mockito.Mockito.`when` as When
 @RunWith(AndroidJUnit4::class)
 class NewUserSignInTest : H3lpAppTest() {
 
-    private lateinit var intent : Intent
+    private lateinit var intent: Intent
     private var authenticationStarted = false
     private val longUsername = List(MAX_LENGTH_USERNAME) { 'x' }.toCharArray().concatToString()
     private val shortUsername = List(MIN_LENGTH_USERNAME) { 'x' }.toCharArray().concatToString()
@@ -117,7 +121,7 @@ class NewUserSignInTest : H3lpAppTest() {
 
         onView(withId(R.id.text_layout_username)).check(
             matches(
-                hasInputLayoutError()
+                hasInputLayoutError
             )
         )
         onView(withId(R.id.text_layout_username)).check(
@@ -133,7 +137,7 @@ class NewUserSignInTest : H3lpAppTest() {
 
         onView(withId(R.id.text_layout_username)).check(
             matches(
-                hasInputLayoutError()
+                hasInputLayoutError
             )
         )
         onView(withId(R.id.text_layout_username)).check(
@@ -149,7 +153,7 @@ class NewUserSignInTest : H3lpAppTest() {
 
         onView(withText(R.string.username_error_field_msg)).check(
             matches(
-                withEffectiveVisibility(Visibility.VISIBLE)
+                withEffectiveVisibility(VISIBLE)
             )
         )
     }

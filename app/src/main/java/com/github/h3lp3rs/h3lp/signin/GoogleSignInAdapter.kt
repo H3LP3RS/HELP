@@ -38,7 +38,7 @@ object GoogleSignInAdapter : SignInInterface<AuthResult> {
     }
 
     override fun authenticate(
-        result: ActivityResult ?,
+        result: ActivityResult?,
         currentActivity: Activity
     ): Task<AuthResult>? {
         if (result?.resultCode == Activity.RESULT_OK) {

@@ -16,12 +16,12 @@ interface SignInInterface<T> {
      *      in client
      * @return An intent to launch the sign in client if needed, null otherwise
      */
-    fun signIn(currentActivity : Activity) : Intent?
+    fun signIn(currentActivity: Activity): Intent?
 
     /**
      * @return A boolean: True if the user is currently signed in, false otherwise
      */
-    fun isSignedIn() : Boolean
+    fun isSignedIn(): Boolean
 
     /**
      * Authenticates the user with the sign in client
@@ -30,7 +30,7 @@ interface SignInInterface<T> {
      * @return A task which finishes the authentication and returns
      *      information about the authentication succeeding or failing
      */
-    fun authenticate(result : ActivityResult ?, currentActivity : Activity) : Task<T>?
+    fun authenticate(result: ActivityResult ?, currentActivity: Activity): Task<T>?
 
     /**
      * Signs the current user out
@@ -41,10 +41,10 @@ interface SignInInterface<T> {
      * Get the unique id of the user
      * @return uid (null if not signed in)
      */
-    fun getUid() : String?
+    fun getUid(): String?
 
     /**
      * @return The date at which the account was created or null if an error occurred
      */
-    fun getCreationDate() : String?
+    fun getCreationDate(): String?
 }

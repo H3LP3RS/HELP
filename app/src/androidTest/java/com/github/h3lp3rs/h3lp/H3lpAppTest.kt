@@ -6,12 +6,15 @@ import android.content.Intent
 import android.location.Location
 import android.net.Uri
 import android.view.View
-import androidx.test.espresso.intent.Intents.*
+import androidx.test.espresso.intent.Intents.init
+import androidx.test.espresso.intent.Intents.intending
 import androidx.test.espresso.intent.matcher.IntentMatchers
-import com.github.h3lp3rs.h3lp.dataclasses.*
 import com.github.h3lp3rs.h3lp.dataclasses.BloodType.ABn
+import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
 import com.github.h3lp3rs.h3lp.dataclasses.Gender.Female
 import com.github.h3lp3rs.h3lp.dataclasses.Gender.Male
+import com.github.h3lp3rs.h3lp.dataclasses.HelperSkills
+import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation
 import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation.Companion.ADULT_AGE
 import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation.Companion.MAX_HEIGHT
 import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation.Companion.MAX_WEIGHT
@@ -25,12 +28,11 @@ import org.apache.commons.lang3.RandomUtils.nextBoolean
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.TypeSafeMatcher
-import org.mockito.Mockito.`when` as When
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.anyOrNull
-import java.lang.RuntimeException
 import java.util.*
 import java.util.concurrent.CompletableFuture
+import org.mockito.Mockito.`when` as When
 
 /**
  * Super class for tests in this app containing useful constants and functions
@@ -108,7 +110,7 @@ open class H3lpAppTest {
      * Custom matcher to test error on TextInputLayout.
      * See : https://stackoverflow.com/questions/38842034/how-to-test-textinputlayout-values-hint-error-etc-using-android-espresso
      */
-     fun hasInputLayoutError(): Matcher<View> = object : TypeSafeMatcher<View>() {
+     val hasInputLayoutError: Matcher<View> = object : TypeSafeMatcher<View>() {
         override fun describeTo(description: Description?) {}
         override fun matchesSafely(item: View?): Boolean {
             if (item !is TextInputLayout) return false
@@ -121,15 +123,16 @@ open class H3lpAppTest {
      * Custom matcher to test error message on TextInputLayout.
      * See : https://stackoverflow.com/questions/38842034/how-to-test-textinputlayout-values-hint-error-etc-using-android-espresso
      */
-     fun hasTextInputLayoutError(msg: String): Matcher<View> =
+    val hasTextInputLayoutError: (String) -> Matcher<View> = { msg: String ->
         object : TypeSafeMatcher<View>() {
             override fun describeTo(description: Description?) {}
-            override fun matchesSafely(item: View?): Boolean {
+            override fun matchesSafely(item: View?) : Boolean {
                 if (item !is TextInputLayout) return false
                 val error = item.error ?: return false
                 return error.toString() == msg
             }
         }
+    }
 
     companion object {
         val TEST_URI: Uri = Uri.EMPTY

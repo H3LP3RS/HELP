@@ -23,22 +23,16 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.AuthResult
 import kotlinx.android.synthetic.main.activity_sign_in.*
 
-const val MAX_LENGTH_USERNAME = 15
-const val ERROR_MESSAGE_ON_LONG_USERNAME = "Invalid username: your username is too long."
-const val MIN_LENGTH_USERNAME = 2
-const val ERROR_MESSAGE_ON_SHORT_USERNAME = "Invalid username: your username is too short."
-
 class SignInActivity : AppCompatActivity() {
 
-    lateinit var signInClient : SignInInterface<AuthResult>
-    private lateinit var userCookie : LocalStorage
-    private lateinit var userSignIn : LocalStorage
-    private lateinit var keyUserSignedIn : String
-    private lateinit var keyUID : String
-    private lateinit var keyUsername : String
+    lateinit var signInClient: SignInInterface<AuthResult>
+    private lateinit var userCookie: LocalStorage
+    private lateinit var userSignIn: LocalStorage
+    private lateinit var keyUserSignedIn: String
+    private lateinit var keyUID: String
+    private lateinit var keyUsername: String
 
-
-    override fun onCreate(savedInstanceState : Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         // Store the context for local storage use
@@ -79,10 +73,12 @@ class SignInActivity : AppCompatActivity() {
                 )
             }
         }
+
         // Sign in local storage doesn't need online sync
         keyUserSignedIn = getString(R.string.KEY_USER_SIGNED_IN)
         keyUID = getString(R.string.KEY_USER_UID)
         keyUsername = getString(R.string.KEY_USER_NAME)
+
         // Check if the user is already signed in
         offlineCheckIfSignedIn()
 
@@ -127,7 +123,6 @@ class SignInActivity : AppCompatActivity() {
         username?.let { userSignIn.setString(keyUsername, it) }
     }
 
-
     /**
      * Initialize client and launch the sign in request
      */
@@ -158,7 +153,7 @@ class SignInActivity : AppCompatActivity() {
      * @param result sign in intent result containing the user account
      * @param activity current activity
      */
-    fun authenticateUser(result : ActivityResult ?, activity : Activity) {
+    fun authenticateUser(result: ActivityResult ?, activity: Activity) {
         signInClient.authenticate(result, activity)?.addOnCompleteListener(activity) { task ->
             if (task.isSuccessful) {
 
@@ -202,7 +197,7 @@ class SignInActivity : AppCompatActivity() {
      * @param it The view in which the snack should appear
      * @param str The message to display
      */
-    private fun displayMessage(it : View, str : String) {
+    private fun displayMessage(it: View, str: String) {
         val snack = Snackbar.make(it, str, Snackbar.LENGTH_LONG)
         snack.setBackgroundTint(ContextCompat.getColor(this, R.color.persimmon))
         snack.show()
@@ -212,7 +207,7 @@ class SignInActivity : AppCompatActivity() {
      * Checks the validity of the username field
      * @return True if the username is valid and non-empty, otherwise false
      */
-    private fun checkUsernameField() : Boolean {
+    private fun checkUsernameField(): Boolean {
         return text_layout_username.error == null && !text_field_username.text.isNullOrBlank()
     }
 
@@ -222,36 +217,39 @@ class SignInActivity : AppCompatActivity() {
      */
     companion object {
         @SuppressLint("StaticFieldLeak")
-        lateinit var globalContext : Context
-        var userUid : String? = null
-        private var username : String? = null
-
+        lateinit var globalContext: Context
+        var userUid: String? = null
+        private var username: String? = null
+        const val MAX_LENGTH_USERNAME = 15
+        const val ERROR_MESSAGE_ON_LONG_USERNAME = "Invalid username: your username is too long."
+        const val MIN_LENGTH_USERNAME = 2
+        const val ERROR_MESSAGE_ON_SHORT_USERNAME = "Invalid username: your username is too short."
 
         /**
          * Getter on the global context
          */
-        fun getGlobalCtx() : Context {
+        fun getGlobalCtx(): Context {
             return globalContext
         }
 
         /**
          * Getter on the userUid
          */
-        fun getUid() : String? {
+        fun getUid(): String? {
             return userUid
         }
 
         /**
          * Getter on the user's name
          */
-        fun getName() : String? {
+        fun getName(): String? {
             return username
         }
 
         /**
          * Setter on the user's name
          */
-        fun setName(newUsername : String) {
+        fun setName(newUsername: String) {
             username = newUsername
         }
     }

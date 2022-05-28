@@ -29,7 +29,7 @@ import org.mockito.Mockito.`when` as When
 @RunWith(AndroidJUnit4::class)
 class SignedInUserTest : H3lpAppTest() {
 
-    private fun setUp(tosAccepted : Boolean) {
+    private fun setUp(tosAccepted: Boolean) {
         val intent = Intent(
             getApplicationContext(), SignInActivity::class.java
         )
@@ -44,8 +44,8 @@ class SignedInUserTest : H3lpAppTest() {
         When(signInMock.isSignedIn()).thenReturn(true)
         val userSignIn = storageOf(SIGN_IN)
         userSignIn.setBoolean(globalContext.getString(R.string.KEY_USER_SIGNED_IN), true)
-        userSignIn.setString(globalContext.getString(R.string.KEY_USER_UID), "")
-        userSignIn.setString(globalContext.getString(R.string.KEY_USER_NAME), "")
+        userSignIn.setString(globalContext.getString(R.string.KEY_USER_UID), USER_TEST_ID)
+        userSignIn.setString(globalContext.getString(R.string.KEY_USER_NAME), USER_TEST_NAME)
 
         storageOf(USER_COOKIE).setBoolean(
             globalContext.getString(R.string.KEY_USER_AGREE),
