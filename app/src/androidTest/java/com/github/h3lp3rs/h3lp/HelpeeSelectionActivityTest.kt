@@ -35,7 +35,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-// Case example of a possible query when a user clicks on the call for emergency button
 @RunWith(AndroidJUnit4::class)
 class HelpParametersActivityTest : H3lpAppTest() {
 
@@ -49,7 +48,7 @@ class HelpParametersActivityTest : H3lpAppTest() {
         GrantPermissionRule.grant(Manifest.permission.ACCESS_FINE_LOCATION)
 
     @Before
-    fun setUp() {
+    fun setup() {
        // initIntentAndCheckResponse()
 
         globalContext = getApplicationContext()
@@ -69,17 +68,34 @@ class HelpParametersActivityTest : H3lpAppTest() {
         )
     }
 
+    private fun launch(): ActivityScenario<MainPageActivity> {
+        return ActivityScenario.launch(
+            Intent(
+                getApplicationContext(),
+                HelpeeSelectionActivity::class.java
+            )
+        )
+    }
+
+    private fun launchAndDo(action: () -> Unit) {
+        launch().use {
+            initIntentAndCheckResponse()
+            action()
+            release()
+        }
+    }
+
     @Test
     fun clickSearchHelpWithMedsWorksAndSendsIntent() {
         launchAndDo {
-            // select one med
+            // Select one med
             val medButton0 = onView(withId(R.id.selectMedsButton0))
             medButton0.check(matches(isNotChecked()))
 
-            // select the medication
+            // Select the medication
             medButton0.perform(click())
 
-            // click the search help button
+            // Click the search help button
             val searchHelpButton = onView(withId(R.id.help_params_search_button))
             searchHelpButton.check(matches(isDisplayed()))
             searchHelpButton.perform(click())
@@ -103,7 +119,7 @@ class HelpParametersActivityTest : H3lpAppTest() {
             phoneButton.check(matches(isDisplayed()))
             phoneButton.perform(click())
 
-            // click the contact button in the popup
+            // Click the contact button in the popup
             onView(withId(R.id.contact_call_button)).inRoot(RootMatchers.isFocusable()).perform(click())
 
             // The expected ambulance phone number given the location (specified by the coordinates)
@@ -129,7 +145,7 @@ class HelpParametersActivityTest : H3lpAppTest() {
             val phoneButton = onView(withId(R.id.help_params_call_button))
             phoneButton.perform(click())
 
-            // click the ambulance in the popup
+            // Click the ambulance in the popup
             onView(withId(R.id.ambulance_call_button)).inRoot(RootMatchers.isFocusable())
                 .perform(click())
 
@@ -155,7 +171,7 @@ class HelpParametersActivityTest : H3lpAppTest() {
             val phoneButton = onView(withId(R.id.help_params_call_button))
             phoneButton.perform(click())
 
-            // click the ambulance in the popup
+            // Click the ambulance in the popup
             onView(withId(R.id.ambulance_call_button)).perform(click())
 
             intended(
@@ -193,20 +209,4 @@ class HelpParametersActivityTest : H3lpAppTest() {
         }
     }
 
-    private fun launch(): ActivityScenario<MainPageActivity> {
-        return ActivityScenario.launch(
-            Intent(
-                getApplicationContext(),
-                HelpeeSelectionActivity::class.java
-            )
-        )
-    }
-
-    private fun launchAndDo(action: () -> Unit) {
-        launch().use {
-            initIntentAndCheckResponse()
-            action()
-            release()
-        }
-    }
 }

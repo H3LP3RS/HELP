@@ -28,8 +28,6 @@ class LocationHelper {
         val futureLocation = GeneralLocationManager.get().getCurrentLocation(context)
         futureLocation.thenAccept {
             userLocation = it
-            userLocation?.longitude = it.longitude
-            userLocation?.latitude = it.latitude
         }
     }
 

@@ -16,8 +16,11 @@ import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.RootMatchers
+import androidx.test.espresso.matcher.RootMatchers.isFocusable
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.GrantPermissionRule
+import com.github.h3lp3rs.h3lp.database.Databases
+import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.database.Databases.EMERGENCIES
 import com.github.h3lp3rs.h3lp.database.Databases.PREFERENCES
@@ -60,10 +63,12 @@ class AwaitHelpActivityTest : H3lpAppTest() {
     }
 
     private fun launch(popup: Boolean): ActivityScenario<AwaitHelpActivity> {
+        // Initialising the activity with default values
         val bundle = Bundle()
         bundle.putInt(EXTRA_EMERGENCY_KEY, helpId)
         bundle.putBoolean(EXTRA_CALLED_EMERGENCIES, !popup)
         bundle.putStringArrayList(EXTRA_NEEDED_MEDICATION, arrayListOf(EPIPEN))
+
         val intent = Intent(
             getApplicationContext(),
             AwaitHelpActivity::class.java
@@ -82,15 +87,15 @@ class AwaitHelpActivityTest : H3lpAppTest() {
     }
 
     @Test
-    fun callEmergenciesButtonWorksAndSendIntent() {
+    fun callEmergenciesButtonWorksAndSendsIntent() {
         launchAndDo(false) {
 
             val phoneButton = onView(withId(R.id.await_help_call_button))
 
-            phoneButton.inRoot(RootMatchers.isFocusable()).perform(click())
+            phoneButton.inRoot(isFocusable()).perform(click())
 
-            // click the ambulance in the popup
-            onView(withId(R.id.ambulance_call_button)).inRoot(RootMatchers.isFocusable())
+            // Click the ambulance in the popup
+            onView(withId(R.id.ambulance_call_button)).inRoot(isFocusable())
                 .perform(click())
 
             intended(
@@ -106,58 +111,11 @@ class AwaitHelpActivityTest : H3lpAppTest() {
         launchAndDo(true) {
 
             val phonePopupButton = onView(withId(R.id.open_call_popup_button))
-            phonePopupButton.inRoot(RootMatchers.isFocusable()).perform(click())
+            phonePopupButton.inRoot(isFocusable()).perform(click())
 
             intended(
                 allOf(
                     hasAction(ACTION_DIAL)
-                )
-            )
-        }
-    }
-
-//    @Test
-//    fun clickPhoneButtonAndContactButtonDialsEmergencyContactNumber() {
-//        launchAndDo(false) {
-//
-//            // Clicking on the call for emergency button
-//            val phoneButton = onView(withId(R.id.await_help_call_button))
-//
-//            //phoneButton.inRoot(RootMatchers.isFocusable()).check(matches(isDisplayed()))
-//            phoneButton.inRoot(RootMatchers.isFocusable()).perform(click())
-//
-//            // click the contact button in the popup
-//            onView(withId(R.id.contact_call_button)).inRoot(RootMatchers.isFocusable())
-//                .perform(click())
-//
-//            // The expected ambulance phone number given the location (specified by the coordinates)
-//            val number = "tel:$VALID_CONTACT_NUMBER"
-//
-//            // Checking that this emergency number is dialed
-//            intended(
-//                allOf(
-//                    hasAction(ACTION_DIAL) //,
-//                    // hasData(Uri.parse(number)) This poses a problem for Cirrus
-//                )
-//            )
-//        }
-//    }
-
-    private fun clickingOnButtonWorksAndSendsIntent(
-        ActivityName: Class<*>?,
-        id: Matcher<View>,
-        isInScrollView: Boolean
-    ) {
-        launchAndDo(false) {
-
-            if (isInScrollView) {
-                onView(id).inRoot(RootMatchers.isFocusable()).perform(click())
-            } else {
-                onView(id).inRoot(RootMatchers.isFocusable()).perform(click())
-            }
-            intended(
-                allOf(
-                    hasComponent(ActivityName!!.name)
                 )
             )
         }
@@ -195,21 +153,42 @@ class AwaitHelpActivityTest : H3lpAppTest() {
     }
 
     @Test
-    fun getsNotifiedWhenHelpIsComing() {
-        // Forge the right intent
-        val bundle = Bundle()
-
-        bundle.putInt(EXTRA_EMERGENCY_KEY, helpId)
-        bundle.putBoolean(EXTRA_CALLED_EMERGENCIES, true)
-        bundle.putStringArrayList(EXTRA_NEEDED_MEDICATION, arrayListOf(EPIPEN))
+    fun samePersonComingToHelpTwiceNotifiesOnceOnly() {
+        val emergency = EPIPEN_EMERGENCY_INFO
+        val emergencyDb = databaseOf(EMERGENCIES)
 
         // Setup the database accordingly
-        val emergencyDb = MockDatabase()
-
-        val emergency = EPIPEN_EMERGENCY_INFO
-
         emergencyDb.setObject(helpId.toString(), EmergencyInformation::class.java, emergency)
-        setDatabase(EMERGENCIES, emergencyDb)
+
+        // Simulate arrival on await page after calling for help
+        launchAndDo(false) {
+            // One person is coming
+            val helper1 = Helper(USER_TEST_ID + 1, 2.0, 2.0)
+            val withHelpers = emergency.copy(helpers = ArrayList(listOf(helper1)))
+
+            emergencyDb.setObject(helpId.toString(), EmergencyInformation::class.java, withHelpers)
+
+            // The same person is coming again, should NOT add a helper to the list
+            emergencyDb.setObject(helpId.toString(), EmergencyInformation::class.java, withHelpers)
+            onView(withId(R.id.incomingHelpersNumber)).check(
+                matches(
+                    withText(
+                        globalContext.getString(
+                            R.string.one_person_help
+                        )
+                    )
+                )
+            )
+        }
+    }
+
+    @Test
+    fun getsNotifiedWhenHelpIsComing() {
+        val emergency = EPIPEN_EMERGENCY_INFO
+        val emergencyDb = databaseOf(EMERGENCIES)
+
+        // Setup the database accordingly
+        emergencyDb.setObject(helpId.toString(), EmergencyInformation::class.java, emergency)
 
         // Simulate arrival on await page after calling for help
         launchAndDo(false) {
@@ -222,18 +201,6 @@ class AwaitHelpActivityTest : H3lpAppTest() {
 
             emergencyDb.setObject(helpId.toString(), EmergencyInformation::class.java, withHelpers)
 
-            onView(withId(R.id.incomingHelpersNumber)).check(
-                matches(
-                    withText(
-                        globalContext.getString(
-                            R.string.one_person_help
-                        )
-                    )
-                )
-            )
-
-            // The same person is coming again, should NOT add a helper to the list
-            emergencyDb.setObject(helpId.toString(), EmergencyInformation::class.java, withHelpers)
             onView(withId(R.id.incomingHelpersNumber)).check(
                 matches(
                     withText(
@@ -260,6 +227,30 @@ class AwaitHelpActivityTest : H3lpAppTest() {
                             globalContext.getString(R.string.many_people_help), 2
                         )
                     )
+                )
+            )
+        }
+    }
+
+    /**
+     * Auxiliary function that clicks on a button and checks that a specific
+     * activity is launched as a result.
+     */
+    private fun clickingOnButtonWorksAndSendsIntent(
+        ActivityName: Class<*>?,
+        id: Matcher<View>,
+        isInScrollView: Boolean
+    ) {
+        launchAndDo(false) {
+
+            if (isInScrollView) {
+                onView(id).inRoot(isFocusable()).perform(click())
+            } else {
+                onView(id).inRoot(isFocusable()).perform(click())
+            }
+            intended(
+                allOf(
+                    hasComponent(ActivityName!!.name)
                 )
             )
         }

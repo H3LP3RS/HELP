@@ -1,6 +1,7 @@
 package com.github.h3lp3rs.h3lp.firstaid
 
 import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.intent.Intents
@@ -30,7 +31,7 @@ class AsthmaActivityTest {
      * @param id Id of the component
      */
     private fun checkIfDisplayed(id: Int){
-        Espresso.onView(ViewMatchers.withId(id)).inRoot(isFocusable())
+        onView(ViewMatchers.withId(id)).inRoot(isFocusable())
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
 
@@ -49,7 +50,7 @@ class AsthmaActivityTest {
     @Test
     fun backButtonWorks(){
         Intents.init()
-        Espresso.onView(ViewMatchers.withId(R.id.asthma_back_button))
+        onView(ViewMatchers.withId(R.id.asthma_back_button))
             .perform(ViewActions.scrollTo(), ViewActions.click())
         Intents.intended(
             Matchers.allOf(
