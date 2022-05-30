@@ -27,9 +27,7 @@ class LocationHelper {
     fun updateCoordinates(context: Context) {
         val futureLocation = GeneralLocationManager.get().getCurrentLocation(context)
         futureLocation.thenAccept {
-            userLocation = Location(LocationManager.GPS_PROVIDER)
-            userLocation?.longitude = it.longitude
-            userLocation?.latitude = it.latitude
+            userLocation = it
         }
     }
 

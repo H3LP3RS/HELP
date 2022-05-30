@@ -203,6 +203,7 @@ class HelpeeSelectionActivity : AppCompatActivity() {
         // Get emergency related databases
         val emergenciesDb = databaseOf(EMERGENCIES)
         val newEmergenciesDb = databaseOf(NEW_EMERGENCIES)
+
         // Get own medical storage and extract the information if available
         val storage = storageOf(MEDICAL_INFO)
         val medicalInfo = storage.getObjectOrDefault(
