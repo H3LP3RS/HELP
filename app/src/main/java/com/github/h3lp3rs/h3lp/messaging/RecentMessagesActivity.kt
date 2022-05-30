@@ -72,8 +72,6 @@ class RecentMessagesActivity : AppCompatActivity() {
 
             idToItem[conversationId] = helper
         }
-        // Reference to the database of the conversation ids send by the helpers who agreed to
-        // provide help
 
         conversationIdsDb.addEventListener(helpeeId,
             String::class.java,
