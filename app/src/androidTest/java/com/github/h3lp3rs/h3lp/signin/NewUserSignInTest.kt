@@ -94,11 +94,6 @@ class NewUserSignInTest : H3lpAppTest() {
         intended(hasComponent(SignInActivity::class.java.name))
     }
 
-    @Test
-    fun newUserNoSignInLaunchesCorrectIntent() {
-        clickWithoutSignInButton()
-        intended(hasComponent(SignInActivity::class.java.name))
-    }
 
     @Test
     fun newUserSignInLaunchesAuthenticationProcess() {
@@ -124,6 +119,7 @@ class NewUserSignInTest : H3lpAppTest() {
 
     private fun clickWithoutSignInButton() {
         onView(withId(R.id.signInButton)).perform(click())
+    }
 
     @Test
     fun tooLongUsernameLeadsToError() {
@@ -159,7 +155,7 @@ class NewUserSignInTest : H3lpAppTest() {
 
     @Test
     fun emptyUsernameLeadsToError() {
-        onView(withId(R.id.textview_no_sign_in)).perform(with())
+        onView(withId(R.id.textview_no_sign_in)).perform(click())
 
         onView(withText(R.string.username_error_field_msg)).check(
             matches(
