@@ -66,7 +66,7 @@ class MySkillsActivityTest : H3lpAppTest() {
 
 
     @Test
-    fun loadDataWork(){
+    fun loadDataWorks(){
         val skills = HelperSkills(true,true,false,false,false,false)
         val storage = Storages.storageOf(Storages.SKILLS)
 
