@@ -21,9 +21,9 @@ import java.util.concurrent.CompletableFuture
  * @param replies Replies to this post
  */
 class ForumPost(
-    val forum : Forum,
-    val post : ForumPostData,
-    val replies : List<ForumPostData>,
+    val forum: Forum,
+    val post: ForumPostData,
+    val replies: List<ForumPostData>,
 ) : Item<ViewHolder>() {
 
     /**
@@ -34,7 +34,7 @@ class ForumPost(
      * WARNING: the returned post doesn't necessarily contain the reply since we have no way of
      * knowing when the database actually got the reply
      */
-    fun reply(author : String, content : String) : CompletableFuture<ForumPost> {
+    fun reply(author: String, content: String): CompletableFuture<ForumPost> {
         forum.child(post.repliesKey).newPost(author, content, false)
         return refresh()
     }
@@ -44,7 +44,7 @@ class ForumPost(
      * @return this This post updated with potential replies from others
      * in the form of a future
      */
-    fun refresh() : CompletableFuture<ForumPost> {
+    fun refresh(): CompletableFuture<ForumPost> {
         return forum.child(post.key).getPost(emptyList())
     }
 
@@ -53,25 +53,25 @@ class ForumPost(
      * as parameter when a change occurs (ie: reply added)
      * @param action The action taken when a change occurs
      */
-    fun listen(action : (ForumPostData) -> Unit) {
+    fun listen(action: (ForumPostData) -> Unit) {
         forum.child(post.key).listenToAll(action)
     }
 
-    override fun bind(viewHolder : ViewHolder, position : Int) {
+    override fun bind(viewHolder: ViewHolder, position: Int) {
         viewHolder.itemView.question_post.text = post.content
         viewHolder.itemView.timestamp.text = post.postTime
         viewHolder.itemView.image_post.setImageResource(getImage())
         viewHolder.itemView.authpost_author.text = post.author
     }
 
-    override fun getLayout() : Int {
+    override fun getLayout(): Int {
         return R.layout.post_forum_row
     }
 
     /**
      * Gets the image corresponding to the current forum category
      */
-    private fun getImage() : Int {
+    private fun getImage(): Int {
         return when (forum.path[0]) {
             GENERAL.name -> R.drawable.ic_generalist
             CARDIOLOGY.name -> R.drawable.ic_cardiology
@@ -92,7 +92,7 @@ class ForumPost(
      * @param activityName The activity to launch
      */
     fun sendIntentNotificationOnNewReplies(
-        ctx : Context, activityName : Class<*>?
+        ctx: Context, activityName: Class<*>?
     ) {
         NotificationService.createNotificationChannel(globalContext)
 
@@ -101,8 +101,11 @@ class ForumPost(
             // Display the notification if the reply hadn't been posted by this user
             if (postData.author != getName()) {
                 val description = postData.content
-                val title =
-                    "New reply to your post in ${postData.category} from: ${postData.author}"
+                val title = String.format(
+                    ctx.getString(R.string.post_reply_notification_msg),
+                    postData.category,
+                    postData.author
+                )
                 val intent = Intent(
                     ctx, activityName
                 ).apply {
