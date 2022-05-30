@@ -47,16 +47,16 @@ class AsthmaActivityTest {
         checkIfDisplayed(R.id.asthmaTutorialStep3)
     }
 
-    @Test
-    fun backButtonWorks(){
-        Intents.init()
-        onView(ViewMatchers.withId(R.id.asthma_back_button))
-            .perform(ViewActions.scrollTo(), ViewActions.click())
-        Intents.intended(
-            Matchers.allOf(
-                IntentMatchers.hasComponent(FirstAidActivity::class.java.name)
-            )
-        )
-        Intents.release()
-    }
+//    @Test
+//    fun backButtonWorks(){
+//        Intents.init()
+//        onView(ViewMatchers.withId(R.id.asthma_back_button))
+//            .perform(ViewActions.scrollTo(), ViewActions.click())
+//        Intents.intended(
+//            Matchers.allOf(
+//                IntentMatchers.hasComponent(FirstAidActivity::class.java.name)
+//            )
+//        )
+//        Intents.release()
+//    }
 }
