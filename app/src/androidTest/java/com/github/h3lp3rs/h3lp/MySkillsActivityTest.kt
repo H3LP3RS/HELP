@@ -30,7 +30,7 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class MySkillsActivityTest : H3lpAppTest() {
 
-    val ctx:Context = getApplicationContext()
+    val ctx: Context = getApplicationContext()
 
     private fun launch(): ActivityScenario<MySkillsActivity> {
         return launch(Intent(getApplicationContext(), MySkillsActivity::class.java))
