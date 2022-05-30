@@ -125,7 +125,7 @@ class AwaitHelpActivityTest : H3lpAppTest() {
     fun clickingOnHeartAttackButtonWorksAndSendsIntent() {
         clickingOnButtonWorksAndSendsIntent(
             HeartAttackActivity::class.java,
-            withId(R.id.heart_attack_tuto_button), true
+            withId(R.id.heart_attack_tuto_button)
         )
     }
 
@@ -133,7 +133,7 @@ class AwaitHelpActivityTest : H3lpAppTest() {
     fun clickingOnEpipenButtonWorksAndSendsIntent() {
         clickingOnButtonWorksAndSendsIntent(
             AllergyActivity::class.java,
-            withId(R.id.epipen_tuto_button), true
+            withId(R.id.epipen_tuto_button)
         )
     }
 
@@ -141,7 +141,7 @@ class AwaitHelpActivityTest : H3lpAppTest() {
     fun clickingOnAedButtonWorksAndSendsIntent() {
         clickingOnButtonWorksAndSendsIntent(
             AedActivity::class.java,
-            withId(R.id.aed_tuto_button), true
+            withId(R.id.aed_tuto_button)
         )
     }
 
@@ -149,7 +149,7 @@ class AwaitHelpActivityTest : H3lpAppTest() {
     fun cancelButtonWorksAndSendsIntent() {
         clickingOnButtonWorksAndSendsIntent(
             MainPageActivity::class.java,
-            withId(R.id.cancel_search_button), false
+            withId(R.id.cancel_search_button)
         )
     }
 
@@ -240,16 +240,11 @@ class AwaitHelpActivityTest : H3lpAppTest() {
      */
     private fun clickingOnButtonWorksAndSendsIntent(
         ActivityName: Class<*>?,
-        id: Matcher<View>,
-        isInScrollView: Boolean
+        id: Matcher<View>
     ) {
         launchAndDo(false) {
+            onView(id).inRoot(isFocusable()).perform(click())
 
-            if (isInScrollView) {
-                onView(id).inRoot(isFocusable()).perform(click())
-            } else {
-                onView(id).inRoot(isFocusable()).perform(click())
-            }
             intended(
                 allOf(
                     hasComponent(ActivityName!!.name)
