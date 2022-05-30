@@ -87,6 +87,7 @@ open class H3lpAppTest {
         )
         When(locationMock.longitude).thenReturn(longitude)
         When(locationMock.latitude).thenReturn(latitude)
+
         GeneralLocationManager.set(locationManagerMock)
     }
 
