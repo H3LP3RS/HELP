@@ -36,7 +36,6 @@ class MySkillsActivityTest : H3lpAppTest() {
         return launch(Intent(getApplicationContext(), MySkillsActivity::class.java))
     }
 
-
     @Before
     fun dataInit() {
         globalContext = getApplicationContext()
