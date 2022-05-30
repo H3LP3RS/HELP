@@ -125,7 +125,8 @@ class AwaitHelpActivityTest : H3lpAppTest() {
     fun clickingOnHeartAttackButtonWorksAndSendsIntent() {
         clickingOnButtonWorksAndSendsIntent(
             HeartAttackActivity::class.java,
-            withId(R.id.heart_attack_tuto_button), true)
+            withId(R.id.heart_attack_tuto_button), true
+        )
     }
 
     @Test
@@ -173,12 +174,11 @@ class AwaitHelpActivityTest : H3lpAppTest() {
             onView(withId(R.id.incomingHelpersNumber)).check(
                 matches(
                     withText(
-                        globalContext.getString(
-                            R.string.one_person_help
-                        )
+                        globalContext.resources.getQuantityString(R.plurals.number_of_helpers, 1, 1)
                     )
                 )
             )
+
         }
     }
 
@@ -204,9 +204,7 @@ class AwaitHelpActivityTest : H3lpAppTest() {
             onView(withId(R.id.incomingHelpersNumber)).check(
                 matches(
                     withText(
-                        globalContext.getString(
-                            R.string.one_person_help
-                        )
+                        globalContext.resources.getQuantityString(R.plurals.number_of_helpers, 1, 1)
                     )
                 )
             )
@@ -224,7 +222,11 @@ class AwaitHelpActivityTest : H3lpAppTest() {
                 matches(
                     withText(
                         String.format(
-                            globalContext.getString(R.string.many_people_help), 2
+                            globalContext.resources.getQuantityString(
+                                R.plurals.number_of_helpers,
+                                2,
+                                2
+                            )
                         )
                     )
                 )
