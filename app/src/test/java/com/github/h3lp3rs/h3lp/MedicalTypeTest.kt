@@ -12,10 +12,7 @@ class MedicalTypTest {
         val medicalType = MedicalType(listOf( ForumCategory.CARDIOLOGY))
         assert(medicalType.hasCategory(ForumCategory.CARDIOLOGY))
         assert(!medicalType.hasCategory(ForumCategory.DEFAULT_CATEGORY))
-
     }
-
-
 
 }
 
