@@ -11,7 +11,7 @@ class MedicalTypTest {
     fun hasCategoryWorks() {
         val medicalType = MedicalType(listOf( ForumCategory.CARDIOLOGY))
         assert(medicalType.hasCategory(ForumCategory.CARDIOLOGY))
-        assert( !medicalType.hasCategory(ForumCategory.DEFAULT_CATEGORY))
+        assert(!medicalType.hasCategory(ForumCategory.DEFAULT_CATEGORY))
 
     }
 

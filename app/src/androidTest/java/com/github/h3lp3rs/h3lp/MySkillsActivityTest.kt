@@ -30,7 +30,7 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class MySkillsActivityTest : H3lpAppTest() {
 
-    val ctx:Context = getApplicationContext()
+    val ctx: Context = getApplicationContext()
 
     private fun launch(): ActivityScenario<MySkillsActivity> {
         return launch(Intent(getApplicationContext(), MySkillsActivity::class.java))
@@ -66,7 +66,7 @@ class MySkillsActivityTest : H3lpAppTest() {
 
 
     @Test
-    fun loadDataWork(){
+    fun loadDataWorks(){
         val skills = HelperSkills(true,true,false,false,false,false)
         val storage = Storages.storageOf(Storages.SKILLS)
 

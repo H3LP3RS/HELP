@@ -56,7 +56,7 @@ class ProfessionalTypeSelectionTest : H3lpAppTest() {
     }
 
     @Test
-    fun loadDataWork(){
+    fun loadDataWorks(){
         launch().use{
             onView(withId(R.id.generalSwitch)).check(matches(isChecked()))
             onView(withId(R.id.gynecologySwitch)).check(matches(isChecked()))
