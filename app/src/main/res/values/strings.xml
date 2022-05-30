@@ -106,8 +106,9 @@
     <string name="cpr_rate_button_stop">STOP</string>
     <string name="save_changes">Save changes</string>
     <string name="changes_saved">Changes saved</string>
-    <string name="invalid_field_msg">ERROR : Some fields are not fill correctly</string>
+    <string name="invalid_field_msg">ERROR : Some fields are not filled correctly</string>
     <string name="invalid_empty_msg">ERROR : Some mandatory fields (*) are left empty</string>
+    <string name="username_error_field_msg">ERROR : Please choose a correct username</string>
     <string name="privacy_policy_not_acceptes">ERROR : You must accept our privacy policy first</string>
     <string name="privacy_policy_not_accepted">ERROR : You must accept our privacy policy first</string>
     <string name="info_saved">Your information has been saved</string>
@@ -322,8 +323,10 @@
     <string name="i_got_a_suggestion">I got a suggestion</string>
     <string name="EMERGENCY_UID_KEY">CurrentEmergencyUid</string>
     <string name="AT_LEAST_ONE_ITEM">Please select at least one item</string>
-    <string name="one_person_help">1 person is coming to help you</string>
-    <string name="many_people_help">%d people are coming to help you</string>
+    <plurals name="number_of_helpers">
+        <item quantity="one">%d person is coming to help you</item>
+        <item quantity="other">%d people are coming to help you</item>
+    </plurals>
     <string name="emergency_contact_title">Your Emergency Contact</string>
     <string name="emergency_call_ambulance">Emergency call ambulance</string>
     <string name="emergency_contact">Emergency Contact</string>
@@ -406,4 +409,7 @@
     <string name="sign_in_popup_text">This feature is only accessible for signed in users. \n\n Sign in now to get help or help people in need.</string>
     <string name="cancel">Cancel</string>
     <string name="sign_in">Sign in</string>
+    <string name="pick_your_username">Pick your username</string>
+    <string name="sign_up_anonymously"><u>Sign up anonymously</u></string>
+    <string name="post_reply_notification_msg">New reply to your post in %s from: %s</string>
 </resources>
