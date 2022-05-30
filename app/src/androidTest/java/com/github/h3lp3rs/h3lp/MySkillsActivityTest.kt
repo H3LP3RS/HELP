@@ -47,7 +47,6 @@ class MySkillsActivityTest : H3lpAppTest() {
 
     }
 
-
     @Test
     fun backButtonWorks() {
         launch().use {
