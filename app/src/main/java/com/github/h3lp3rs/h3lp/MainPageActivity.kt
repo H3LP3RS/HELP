@@ -53,7 +53,7 @@ const val TUTORIAL = "Tutorial"
 const val HOSPITALS = "Hospitals"
 const val PHARMACIES = "Pharmacies"
 
-private val mainPageButton = listOf(
+private val mainPageButtons = listOf(
     MainPageButton(R.id.button_profile, false, R.string.profile_guide_prompt),
     MainPageButton(R.id.button_tutorial, false, R.string.tuto_guide_prompt),
     MainPageButton(R.id.button_my_skills, false, R.string.skills_guide_prompt),
@@ -208,11 +208,19 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
      * Starts the application guide.
      */
     private fun startAppGuide() {
-        if (!storage.getBoolOrDefault(GUIDE_KEY, false)) {
+        if (true){//!storage.getBoolOrDefault(GUIDE_KEY, false)) {
             storage.setBoolean(GUIDE_KEY, true)
+
+            // Disable buttons so that the guide can be seen to completion
+            val oldMap = buttonToActivity
+            buttonToActivity = mapOf()
+
             // Starts the guide of main page buttons. Once it finishes, it shows the
             // prompt for the search bar by executing the showSearchBarPrompt.
-            showButtonPrompt(mainPageButton) { showSearchBarPrompt() }
+            showButtonPrompt(mainPageButtons) { showSearchBarPrompt() }
+
+            // Re-enable the buttons
+            buttonToActivity = oldMap
         }
     }
 
