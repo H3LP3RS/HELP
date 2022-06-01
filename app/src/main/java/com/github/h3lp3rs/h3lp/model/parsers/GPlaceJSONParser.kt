@@ -1,6 +1,6 @@
 package com.github.h3lp3rs.h3lp.model.parsers
 
-import com.github.h3lp3rs.h3lp.GooglePlace
+import com.github.h3lp3rs.h3lp.view.map.GooglePlace
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
