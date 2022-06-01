@@ -7,6 +7,9 @@ import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.mockForum
 import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.root
 import org.junit.Before
 import org.junit.Test
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.fail
 import java.util.concurrent.TimeUnit.*
 import kotlin.test.*
 
