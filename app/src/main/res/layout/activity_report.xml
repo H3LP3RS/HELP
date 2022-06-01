@@ -101,7 +101,7 @@
                     android:layout_marginStart="32dp"
                     android:layout_marginEnd="32dp"
                     android:hint="@string/what_must_be_changed"
-                    app:boxStrokeColor="@color/teal_200"
+                    app:boxStrokeColor="@color/persimmon"
                     app:errorIconDrawable="@drawable/ic_error"
                     app:hintTextColor="@color/teal_700"
                     app:layout_constraintEnd_toEndOf="parent"
