@@ -7,7 +7,7 @@ import java.util.concurrent.CompletableFuture
  * object of T in the database
  */
 interface Repository<T> {
-    
+
     /**
      * Retrieves the value with the given ID
      * @param id Key of the object in the database

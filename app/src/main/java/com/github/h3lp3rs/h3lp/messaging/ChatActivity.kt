@@ -22,15 +22,15 @@ class ChatActivity : AppCompatActivity() {
 
     private val adapter = GroupAdapter<ViewHolder>()
 
-    var userRole : Messenger? = null
-    private var conversationId : String? = null
-    private lateinit var conversation : Conversation
+    var userRole: Messenger? = null
+    private var conversationId: String? = null
+    private lateinit var conversation: Conversation
     private val messagesDatabase = databaseOf(Databases.MESSAGES)
 
     private val receiverLayout = R.layout.chat_receiver
     private val senderLayout = R.layout.chat_sender
 
-    override fun onCreate(savedInstanceState : Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
 
@@ -63,7 +63,7 @@ class ChatActivity : AppCompatActivity() {
          * Adds the the recently received text message to the view according to the sender
          * @param chatMessage The text message
          */
-        fun onChildAdded(chatMessage : Message) {
+        fun onChildAdded(chatMessage: Message) {
             chatMessage.let {
                 // Compare the messenger to the current user to correctly display the message
                 if (it.messenger == userRole) {
@@ -77,17 +77,18 @@ class ChatActivity : AppCompatActivity() {
         }
 
         // Add the event listener to the current conversation
-        conversation.newMessageListener (::onChildAdded)
+        conversation.newMessageListener(::onChildAdded)
     }
 
     private fun onConversationDeletion() {
+
         /**
          * Event listener that handles deleting the text messages from the view upon deletion
          * from the database
-         * @param key The key of the element that has been deleted
+         * @param key The key of the element that has been deleted (not used here but required to
+         * respect the format in deleteConversationListener
          */
-
-        fun onChildRemoved(key : String) {
+        fun onChildRemoved(key: String) {
             adapter.clear()
             displayMessage(getString(R.string.deleted_conversation_message))
             // If the user had previously accepted to provide help, upon cancellation either
@@ -106,7 +107,7 @@ class ChatActivity : AppCompatActivity() {
      * Displays a message using snackbar
      * @param message message to display
      */
-    private fun displayMessage(message : String) {
+    private fun displayMessage(message: String) {
         Toast.makeText(
             applicationContext, message, Toast.LENGTH_LONG
         ).show()
@@ -131,10 +132,10 @@ class ChatActivity : AppCompatActivity() {
  * Class representing the layout of the user's text messages.
  */
 private class MessageLayout(
-    private val message : String, private val layout : Int, private val messenger : Messenger
+    private val message: String, private val layout: Int, private val messenger: Messenger
 ) : Item<ViewHolder>() {
 
-    override fun bind(viewHolder : ViewHolder, position : Int) {
+    override fun bind(viewHolder: ViewHolder, position: Int) {
         if (layout == R.layout.chat_sender) {
             viewHolder.itemView.text_view_sender.text = message
             viewHolder.itemView.sender_profile_picture.setImageResource(getProfilePicture())
@@ -144,7 +145,7 @@ private class MessageLayout(
         }
     }
 
-    override fun getLayout() : Int {
+    override fun getLayout(): Int {
         return layout
     }
 
@@ -152,7 +153,7 @@ private class MessageLayout(
      * Gets the profile picture of a user according to whether he is a helper or a helpee
      * @return the id of the picture
      */
-    private fun getProfilePicture() : Int {
+    private fun getProfilePicture(): Int {
         return if (messenger == Messenger.HELPEE) R.drawable.helpee_profile_picture
         else R.drawable.helper_profile_picture
     }

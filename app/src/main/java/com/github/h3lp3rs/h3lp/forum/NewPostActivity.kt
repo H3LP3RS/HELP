@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.activity_new_post.*
  */
 class NewPostActivity : AppCompatActivity() {
 
-    override fun onCreate(savedInstanceState : Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_post)
 
@@ -42,7 +42,7 @@ class NewPostActivity : AppCompatActivity() {
      * Sends the post to the forum
      * @param view Current view
      */
-    fun sendPost(view : View) {
+    fun sendPost(view: View) {
         val category = newPostCategoryDropdown.text.toString()
         val textViewAnswerQuestion = findViewById<TextInputEditText>(R.id.newPostTitleEditTxt)
         val question = textViewAnswerQuestion.text.toString()

@@ -1,22 +1,20 @@
 package com.github.h3lp3rs.h3lp.notification
 
-import LocationHelper
 import android.content.Intent
 import android.os.Bundle
 import com.github.h3lp3rs.h3lp.*
-import com.github.h3lp3rs.h3lp.database.Databases
-import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
+import com.github.h3lp3rs.h3lp.database.Databases.EMERGENCIES
+import com.github.h3lp3rs.h3lp.database.Databases.NEW_EMERGENCIES
 import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
 import com.github.h3lp3rs.h3lp.dataclasses.HelperSkills
-import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
 import com.github.h3lp3rs.h3lp.notification.NotificationService.Companion.createNotificationChannel
 import com.github.h3lp3rs.h3lp.notification.NotificationService.Companion.sendIntentNotification
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
-import com.github.h3lp3rs.h3lp.storage.Storages
-import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
+import com.github.h3lp3rs.h3lp.storage.Storages.EMERGENCIES_RECEIVED
+import com.github.h3lp3rs.h3lp.storage.Storages.SKILLS
 
 object EmergencyListener {
 

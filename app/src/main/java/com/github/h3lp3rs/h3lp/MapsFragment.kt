@@ -8,14 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.google.android.gms.maps.*
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import java.lang.Double.parseDouble
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 
 typealias GooglePlace = HashMap<String, String>
@@ -72,7 +73,7 @@ class MapsFragment : Fragment(), CoroutineScope by MainScope(), GoogleMap.OnPoly
             )
 
             // Execute pending functions
-            for (f in onMapReadyQueue){
+            for (f in onMapReadyQueue) {
                 f()
             }
 
@@ -235,7 +236,7 @@ class MapsFragment : Fragment(), CoroutineScope by MainScope(), GoogleMap.OnPoly
      */
     fun removeMarkers(utility: String) {
         placedMarkers[utility]?.let { markersList ->
-            markersList.map {it.remove()}
+            markersList.map { it.remove() }
         }
 
         placedMarkers[utility] = arrayListOf()

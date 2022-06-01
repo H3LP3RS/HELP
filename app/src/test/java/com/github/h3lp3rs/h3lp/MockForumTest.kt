@@ -60,9 +60,6 @@ class MockForumTest {
             .join()
     }
 
-    // TODO: Check listeners (way out of time), so their mocking stays risky and bug prone.
-    // TODO: Will do in the next sprint, the other functions have same the behaviour than fire forum
-
     companion object {
         private const val AUTHOR = "AUTHOR"
         private const val CONTENT = "CONTENT"

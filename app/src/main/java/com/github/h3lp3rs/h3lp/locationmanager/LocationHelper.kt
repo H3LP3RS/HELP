@@ -41,7 +41,10 @@ class LocationHelper {
      * the user's permissions
      * @return distance (in meters)
      */
-    fun distanceFrom(coordinates: Pair<Double, Double>, context: Context): CompletableFuture<Double> {
+    fun distanceFrom(
+        coordinates: Pair<Double, Double>,
+        context: Context
+    ): CompletableFuture<Double> {
         return GeneralLocationManager.get().distanceFrom(coordinates, context)
     }
 

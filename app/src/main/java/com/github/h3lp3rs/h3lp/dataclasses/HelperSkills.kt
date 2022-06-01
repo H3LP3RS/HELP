@@ -12,5 +12,7 @@ package com.github.h3lp3rs.h3lp.dataclasses
  * @param hasFirstAidKit True if the user usually has a first aid kit with them, false otherwise
  * @param isMedicalPro True if the user is a medical professional, false otherwise
  */
-data class HelperSkills(val hasEpipen: Boolean, val hasVentolin: Boolean, val hasInsulin: Boolean,
-                        val knowsCPR: Boolean, val hasFirstAidKit: Boolean, val isMedicalPro: Boolean)
+data class HelperSkills(
+    val hasEpipen: Boolean, val hasVentolin: Boolean, val hasInsulin: Boolean,
+    val knowsCPR: Boolean, val hasFirstAidKit: Boolean, val isMedicalPro: Boolean
+)

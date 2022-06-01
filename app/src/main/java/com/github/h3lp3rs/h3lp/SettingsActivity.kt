@@ -4,16 +4,13 @@ import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.CompoundButton
-import android.widget.CompoundButton.OnCheckedChangeListener
 import android.widget.TextView
-import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.signin.GoogleSignInAdapter.getCreationDate
 import com.github.h3lp3rs.h3lp.signin.GoogleSignInAdapter.signOut
 import com.github.h3lp3rs.h3lp.signin.SignInActivity

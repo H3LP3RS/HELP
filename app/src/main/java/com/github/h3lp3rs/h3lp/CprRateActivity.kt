@@ -1,12 +1,12 @@
 package com.github.h3lp3rs.h3lp
 
-import androidx.appcompat.app.AppCompatActivity
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.ImageView
-import android.media.MediaPlayer
+import androidx.appcompat.app.AppCompatActivity
 
 class CprRateActivity : AppCompatActivity() {
 
@@ -68,6 +68,7 @@ class CprRateActivity : AppCompatActivity() {
 
     // Stops the CPR rate
     private fun stop() {
+        // Commented since animations cause problems on Cirrus' emulator
         //heartIcon.clearAnimation()
         startButton.text = getString(R.string.cpr_rate_button_start)
         beepSound.pause()

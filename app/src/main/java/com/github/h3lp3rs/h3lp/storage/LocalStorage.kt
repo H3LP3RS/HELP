@@ -88,8 +88,6 @@ class LocalStorage(private val path: String, val context: Context) {
      */
     fun push() {
         if (isOnlineSyncEnabled()) {
-            val uid = getUid()!!
-            val db = databaseOf(PREFERENCES)
             runBlocking {
                 // Run the push asynchronously since it requires slow I/O operations to read the
                 // preferences

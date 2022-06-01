@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import com.github.h3lp3rs.h3lp.firstaid.*
+import com.github.h3lp3rs.h3lp.firstaid.EXTRA_FIRST_AID
+import com.github.h3lp3rs.h3lp.firstaid.FirstAidHowTo
 import com.github.h3lp3rs.h3lp.firstaid.FirstAidHowTo.*
+import com.github.h3lp3rs.h3lp.firstaid.GeneralFirstAidActivity
 import kotlinx.android.synthetic.main.activity_first_aid.*
 
 class FirstAidActivity : AppCompatActivity() {

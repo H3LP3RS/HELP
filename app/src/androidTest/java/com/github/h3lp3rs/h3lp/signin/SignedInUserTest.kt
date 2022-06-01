@@ -71,7 +71,7 @@ class SignedInUserTest : H3lpAppTest() {
     @Test
     fun guestUserMovesToPresentation() {
         setUp(false)
-        userUid = null //TODO: does not actually test guest user...
+        userUid = null
 
         intended(hasComponent(PresArrivalActivity::class.java.name))
     }

@@ -13,7 +13,7 @@ const val EXTRA_FORUM_CATEGORY = "forum_category"
  * Activity where the user selects the forum category he/she wants to go to
  */
 class ForumCategoriesActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState : Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forum_categories)
 
@@ -22,7 +22,7 @@ class ForumCategoriesActivity : AppCompatActivity() {
     /**
      * Goes to the activity containing forum posts of the selected category
      */
-    fun goToForum(view : View) {
+    fun goToForum(view: View) {
         val category = when (view.id) {
             R.id.generalist_expand_button -> GENERAL
             R.id.cardio_expand_button -> CARDIOLOGY

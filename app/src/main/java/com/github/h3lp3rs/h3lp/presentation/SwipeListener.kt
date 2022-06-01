@@ -12,14 +12,16 @@ import kotlin.math.abs
  */
 class SwipeListener(
     private val onSwipeRight: () -> Unit, private val onSwipeLeft: () -> Unit,
-    private val onSwipeTop: () -> Unit, private val onSwipeBottom: () -> Unit)
-                    : GestureDetector.SimpleOnGestureListener() {
+    private val onSwipeTop: () -> Unit, private val onSwipeBottom: () -> Unit
+) : GestureDetector.SimpleOnGestureListener() {
 
     private val swipeThreshold = 100
     private val swipeVelocityThreshold = 100
 
-    private fun detectSwipeDirectionAndDo(diff: Float, velocity: Float, posAction: () -> Unit,
-                                          negAction: () -> Unit): Boolean {
+    private fun detectSwipeDirectionAndDo(
+        diff: Float, velocity: Float, posAction: () -> Unit,
+        negAction: () -> Unit
+    ): Boolean {
         if (abs(diff) > swipeThreshold && abs(velocity) > swipeVelocityThreshold) {
             if (diff > 0) {
                 posAction()
@@ -41,7 +43,12 @@ class SwipeListener(
     /**
      * What ought to be done when a random fling movement is detected
      */
-    override fun onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
+    override fun onFling(
+        e1: MotionEvent,
+        e2: MotionEvent,
+        velocityX: Float,
+        velocityY: Float
+    ): Boolean {
         val diffY = e2.y - e1.y
         val diffX = e2.x - e1.x
         return if (abs(diffX) > abs(diffY)) {
@@ -66,8 +73,10 @@ class SwipeListener(
          * @param dir The swipe direction with which to go to the new activity
          * @param activityName The activity to launch after having swiped
          */
-        fun swipeToNextActivity(curr: AppCompatActivity, dir: SlideDirection,
-                                activityName: Class<*>?): () -> Unit {
+        fun swipeToNextActivity(
+            curr: AppCompatActivity, dir: SlideDirection,
+            activityName: Class<*>?
+        ): () -> Unit {
             return {
                 val i = Intent(curr, activityName)
                 curr.startActivity(i)

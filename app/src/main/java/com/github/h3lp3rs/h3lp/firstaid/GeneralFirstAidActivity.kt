@@ -10,14 +10,13 @@ import com.github.h3lp3rs.h3lp.FirstAidActivity
 import com.github.h3lp3rs.h3lp.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.firstaid.FirstAidHowTo.*
-import kotlinx.android.synthetic.main.activity_aed.*
-import kotlinx.android.synthetic.main.activity_allergy.*
-import kotlinx.android.synthetic.main.activity_asthma.*
-import kotlinx.android.synthetic.main.activity_heart_attack.*
 
 
 const val EXTRA_FIRST_AID = "first_aid"
 
+/**
+ * Generic activity used for all tutorial pages
+ */
 class GeneralFirstAidActivity : AppCompatActivity() {
     private val pathPrefix = "android.resource://"
 
@@ -28,6 +27,8 @@ class GeneralFirstAidActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Initialising firstAidToParameters with all the required parameters to generate the
+        // specific activity
         firstAidToParameters = mapOf(
             AED to FirstAidHowToParameters(
                 R.layout.activity_aed,
@@ -57,32 +58,35 @@ class GeneralFirstAidActivity : AppCompatActivity() {
 
         val firstAidText = intent.getSerializableExtra(EXTRA_FIRST_AID)
         val firstAid = firstAidText?.let { it as FirstAidHowTo }
-        if (firstAidToParameters.containsKey(firstAid)) {
-            val t = "t"
-        }
+
         firstAidToParameters[firstAid]?.let {
             setContentView(it.layoutId)
 
+            // Setting up the video
             val video = findViewById<VideoView>(it.videoViewId)
             video.setVideoPath(pathPrefix + packageName + "/" + it.videoId)
             val mediaController = MediaController(this)
             mediaController.setAnchorView(video)
             video.setMediaController(mediaController)
 
+            // Setting up the back button
             val backButton = findViewById<ImageButton>(it.backButtonId)
             backButton.setOnClickListener {
                 val intent = Intent(this, FirstAidActivity::class.java)
                 startActivity(intent)
             }
         } ?: run {
-            // If the passed intent was invalid, go back to the main page
+            // If the given intent was invalid, go back to the main page
             val intent = Intent(applicationContext, MainPageActivity::class.java)
             startActivity(intent)
         }
     }
 
     /**
-     * @param backButtonId: Id of the button to go back to the activity with all the first aid tips
+     * @param layoutId If of the tutorial's layout
+     * @param videoViewId Id of the view in which to display the video
+     * @param videoId Id of the video
+     * @param backButtonId Id of the button to go back to the previous activity
      */
     private data class FirstAidHowToParameters(
         val layoutId: Int,

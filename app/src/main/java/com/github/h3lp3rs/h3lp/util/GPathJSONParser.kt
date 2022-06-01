@@ -10,7 +10,7 @@ import org.json.JSONObject
  *  This object is used to parse json objects returned by the Google Directions API
  *  into polylines (a list of coordinates)
  */
-object GPathJSONParser: JSONParserInterface<List<LatLng>> {
+object GPathJSONParser : JSONParserInterface<List<LatLng>> {
 
     /**
      * Parses the JSON of a google direction search into a list of coordinates corresponding to

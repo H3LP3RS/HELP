@@ -128,13 +128,14 @@ class MedicalCardActivity : AppCompatActivity() {
 
 
     /**
-     * Creates a Field that tests the input and writes error 7
-     * @param idEditText The id of the editText to test value
-     * @param idTextInputLayout The Layout where to display erro
+     * Creates a field that tests the input and writes an error in case the input doesn't match
+     * the given bounds (the bounds are contained, thus if the value = max, it's still valid)
+     * @param idEditText The id of the editText of which we need to test value
+     * @param idTextInputLayout The layout where to display error
      * @param min The min margin
      * @param max The max margin
-     * @param minErrorMsg The message to display if smallest than min
-     * @param maxErrorMsg The message to display if biggest than min
+     * @param minErrorMsg The message to display if smaller than min
+     * @param maxErrorMsg The message to display if larger than max
      */
     private fun createTestField(
         idEditText: Int, idTextInputLayout: Int, min: Int, max: Int,

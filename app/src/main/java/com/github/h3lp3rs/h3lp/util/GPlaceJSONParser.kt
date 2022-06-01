@@ -9,7 +9,7 @@ import org.json.JSONObject
  *  This object is used to parse json objects returned by the Google Places API
  *  into Places. Places are represented by Maps with the keys {lat, lng, name}
  */
-object GPlaceJSONParser: JSONParserInterface<List<GooglePlace>> {
+object GPlaceJSONParser : JSONParserInterface<List<GooglePlace>> {
 
     /**
      * Parses the json of a google place search into a list of places
@@ -20,7 +20,7 @@ object GPlaceJSONParser: JSONParserInterface<List<GooglePlace>> {
         return try {
             val jsonArray = obj.getJSONArray("results")
             parseJSONArray(jsonArray)
-        } catch(e: JSONException) {
+        } catch (e: JSONException) {
             null
         }
 
@@ -32,7 +32,7 @@ object GPlaceJSONParser: JSONParserInterface<List<GooglePlace>> {
      * @return The corresponding list of GooglePlace
      * @throws JSONException in case of a parsing error (the exception is handled in parseResult)
      */
-    private fun parseJSONArray(jsonArray: JSONArray): List<GooglePlace>{
+    private fun parseJSONArray(jsonArray: JSONArray): List<GooglePlace> {
         val dataList = ArrayList<GooglePlace>()
 
         for (i in 0 until jsonArray.length()) {

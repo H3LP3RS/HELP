@@ -16,8 +16,9 @@ import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.database.Databases.EMERGENCIES
 import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
 import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation
-import com.github.h3lp3rs.h3lp.firstaid.*
-import com.github.h3lp3rs.h3lp.firstaid.FirstAidHowTo.*
+import com.github.h3lp3rs.h3lp.firstaid.EXTRA_FIRST_AID
+import com.github.h3lp3rs.h3lp.firstaid.FirstAidHowTo.HEART_ATTACK
+import com.github.h3lp3rs.h3lp.firstaid.GeneralFirstAidActivity
 import com.github.h3lp3rs.h3lp.messaging.RecentMessagesActivity
 import com.github.h3lp3rs.h3lp.notification.EmergencyListener.activateListeners
 import com.github.h3lp3rs.h3lp.storage.Storages
@@ -41,7 +42,8 @@ class AwaitHelpActivity : AppCompatActivity() {
         initialize(applicationContext)
 
         mapsFragment = supportFragmentManager.findFragmentById(R.id.map) as MapsFragment
-        apiHelper = GoogleAPIHelper(resources.getString(R.string.google_maps_key), applicationContext)
+        apiHelper =
+            GoogleAPIHelper(resources.getString(R.string.google_maps_key), applicationContext)
 
         locationHelper.updateCoordinates(this)
 

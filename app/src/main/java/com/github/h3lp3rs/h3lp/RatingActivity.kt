@@ -1,21 +1,19 @@
 package com.github.h3lp3rs.h3lp
 
 import android.annotation.SuppressLint
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
-import android.widget.EditText
 import android.widget.RatingBar
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.dataclasses.Rating
-import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
-import kotlinx.android.synthetic.main.activity_forum_answers.*
 import kotlinx.android.synthetic.main.activity_rating.*
 
 class RatingActivity : AppCompatActivity() {
     private lateinit var ratingBar: RatingBar
+
     // the number of full stars in the rating bar
     private lateinit var ratingValue: TextView
     private val prefix = "Value: "
@@ -47,7 +45,7 @@ class RatingActivity : AppCompatActivity() {
             ?.let {
                 Databases.databaseOf(Databases.RATINGS).setObject(it, Rating::class.java, rating)
             }
-       comment.text.clear()
+        comment.text.clear()
     }
 }
 

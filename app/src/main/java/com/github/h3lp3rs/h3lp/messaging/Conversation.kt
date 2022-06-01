@@ -8,8 +8,6 @@ import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.database.Databases.MESSAGES
 import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
-import com.google.gson.reflect.TypeToken
-import java.lang.reflect.Type
 import java.security.*
 import java.security.spec.X509EncodedKeySpec
 import javax.crypto.Cipher
@@ -144,7 +142,8 @@ class Conversation(
         val keyStore = KeyStore.getInstance(ANDROID_KEY_STORE)
         keyStore.load(null)
 
-        val privateKey = keyStore.getKey(keyAlias(conversationId, currentMessenger.name), null) as PrivateKey?
+        val privateKey =
+            keyStore.getKey(keyAlias(conversationId, currentMessenger.name), null) as PrivateKey?
 
         val cipher = Cipher.getInstance(TRANSFORMATION)
         cipher.init(Cipher.DECRYPT_MODE, privateKey)

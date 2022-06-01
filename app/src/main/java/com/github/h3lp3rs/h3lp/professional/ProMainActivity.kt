@@ -1,10 +1,9 @@
 package com.github.h3lp3rs.h3lp.professional
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import com.github.h3lp3rs.h3lp.FirstAidActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.forum.ForumCategoriesActivity
@@ -20,12 +19,12 @@ class ProMainActivity : AppCompatActivity() {
     }
 
     /** Starts the activity by sending intent */
-    private fun goToActivity(ActivityName : Class<*>?) {
+    private fun goToActivity(ActivityName: Class<*>?) {
         val intent = Intent(this, ActivityName)
         startActivity(intent)
     }
 
-    fun goToProProfileActivity(view : View){
+    fun goToProProfileActivity(view: View) {
         goToActivity(ProProfileActivity::class.java)
     }
 

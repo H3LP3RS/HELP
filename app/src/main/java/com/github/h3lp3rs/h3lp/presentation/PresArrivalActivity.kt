@@ -1,11 +1,11 @@
 package com.github.h3lp3rs.h3lp.presentation
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.GestureDetector
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.presentation.SwipeListener.Companion.SlideDirection.*
+import com.github.h3lp3rs.h3lp.presentation.SwipeListener.Companion.SlideDirection.LEFT
 import com.github.h3lp3rs.h3lp.presentation.SwipeListener.Companion.swipeToNextActivity
 
 /**

@@ -9,7 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.getColorStateList
 import com.github.h3lp3rs.h3lp.databinding.ActivityNearbyUtilitiesBinding
 import kotlinx.android.synthetic.main.activity_nearby_utilities.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
 
 
 /**
@@ -55,7 +56,8 @@ class NearbyUtilitiesActivity : AppCompatActivity(), CoroutineScope by MainScope
         checkedButtonColor = getColorStateList(this, R.color.yellow_orange)
         uncheckedButtonColor = getColorStateList(this, R.color.persimmon)
 
-        apiHelper = GoogleAPIHelper(resources.getString(R.string.google_maps_key), applicationContext)
+        apiHelper =
+            GoogleAPIHelper(resources.getString(R.string.google_maps_key), applicationContext)
 
         // Obtain the map fragment
         mapsFragment = supportFragmentManager

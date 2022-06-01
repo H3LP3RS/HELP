@@ -1,9 +1,7 @@
 package com.github.h3lp3rs.h3lp.professional
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.SpannableString
-import android.text.Spanned
 import android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
 import android.text.TextPaint
 import android.text.TextUtils
@@ -13,6 +11,7 @@ import android.view.View
 import android.widget.CheckBox
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.database.Databases
@@ -87,7 +86,11 @@ class ProProfileActivity : AppCompatActivity() {
             proDomain = proDomain,
             proExperience = proExperience
         )
-        databaseOf(Databases.PRO_USERS).setObject(VerificationActivity.currentUserId, ProUser::class.java, updatedProfile)
+        databaseOf(Databases.PRO_USERS).setObject(
+            VerificationActivity.currentUserId,
+            ProUser::class.java,
+            updatedProfile
+        )
     }
 
     /**
@@ -116,7 +119,7 @@ class ProProfileActivity : AppCompatActivity() {
      *
      * @param view The view from where to load data
      */
-    fun checkAndLoadData(view: View){
+    fun checkAndLoadData(view: View) {
         if (!checkPolicy()) {
             createSnackBar(view, getString(R.string.privacy_policy_not_accepted))
         } else {

@@ -23,10 +23,10 @@ import kotlinx.android.synthetic.main.answer_forum_row.view.*
  */
 class ForumAnswersActivity : AppCompatActivity() {
     private val adapter = GroupAdapter<ViewHolder>()
-    private lateinit var category : String
-    private lateinit var forum : Forum
+    private lateinit var category: String
+    private lateinit var forum: Forum
 
-    override fun onCreate(savedInstanceState : Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forum_answers)
 
@@ -56,7 +56,7 @@ class ForumAnswersActivity : AppCompatActivity() {
      * Sets the visibility of the answer field and the send button.
      * @param visibility The visibility id
      */
-    private fun setAnswersFieldsVisibility(visibility : Int) {
+    private fun setAnswersFieldsVisibility(visibility: Int) {
         text_view_enter_answer.visibility = visibility
         add_answer_button.visibility = visibility
     }
@@ -76,7 +76,7 @@ class ForumAnswersActivity : AppCompatActivity() {
      */
     private fun listenForAnswers() {
 
-        fun onAnswerAdded(data : ForumPostData) {
+        fun onAnswerAdded(data: ForumPostData) {
             Answer(data.content, data.author).let { adapter.add(it) }
             recycler_view_forum_answers.smoothScrollToPosition(adapter.itemCount - 1)
         }
@@ -91,19 +91,19 @@ class ForumAnswersActivity : AppCompatActivity() {
  * @param author Answer's authors
  */
 private class Answer(
-    private val answer : String,
-    private val author : String,
+    private val answer: String,
+    private val author: String,
 ) : Item<ViewHolder>() {
     /**
      * Class representing the layout of a forum answer
      */
 
-    override fun bind(viewHolder : ViewHolder, position : Int) {
+    override fun bind(viewHolder: ViewHolder, position: Int) {
         viewHolder.itemView.answer_post.text = answer
         viewHolder.itemView.answer_author.text = author
     }
 
-    override fun getLayout() : Int {
+    override fun getLayout(): Int {
         return R.layout.answer_forum_row
     }
 

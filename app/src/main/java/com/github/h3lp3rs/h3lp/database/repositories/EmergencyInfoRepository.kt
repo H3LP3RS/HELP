@@ -1,14 +1,14 @@
 package com.github.h3lp3rs.h3lp.database.repositories
 
-import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
 import com.github.h3lp3rs.h3lp.database.Database
+import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
 import java.util.concurrent.CompletableFuture
 
 /**
  * Repository for emergency information communication with the database
  * @param database The database from which to create the repository
  */
-class EmergencyInfoRepository(private val database: Database) : Repository<EmergencyInformation>{
+class EmergencyInfoRepository(private val database: Database) : Repository<EmergencyInformation> {
 
     override fun get(id: String): CompletableFuture<EmergencyInformation> {
         return database.getObject(id, EmergencyInformation::class.java)
@@ -18,7 +18,7 @@ class EmergencyInfoRepository(private val database: Database) : Repository<Emerg
         database.setObject(value.id, EmergencyInformation::class.java, value)
     }
 
-    override fun delete(id: String){
+    override fun delete(id: String) {
         database.delete(id)
     }
 }

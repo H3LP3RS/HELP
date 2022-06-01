@@ -4,7 +4,7 @@ import com.google.firebase.auth.AuthResult
 
 object SignIn {
     // signIn contains the currently used sign in method
-    private var signIn: SignInInterface<AuthResult> ? = null
+    private var signIn: SignInInterface<AuthResult>? = null
 
     /**
      * Returns the current sign in method (the default sign in method is with Google, unless set

@@ -30,7 +30,13 @@ object SystemLocationAdapter : LocationManagerInterface {
                 LocationServices.getFusedLocationProviderClient(context)
             fusedLocationProviderClient.lastLocation
                 .addOnSuccessListener { futureLocation.complete(it) }
-                .addOnFailureListener { futureLocation.completeExceptionally(RuntimeException(GET_LOCATION_EXCEPTION)) }
+                .addOnFailureListener {
+                    futureLocation.completeExceptionally(
+                        RuntimeException(
+                            GET_LOCATION_EXCEPTION
+                        )
+                    )
+                }
         } else {
             // In case the user didn't give location permissions / removed them
             futureLocation.completeExceptionally(RuntimeException(GET_PERMISSIONS_EXCEPTION))

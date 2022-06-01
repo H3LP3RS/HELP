@@ -36,7 +36,7 @@ typealias Path = List<String>
 interface Forum {
 
     // The current path to the forum instance (pointer)
-    val path : Path
+    val path: Path
 
     //----------------------//
     //-- Action functions --//
@@ -49,7 +49,7 @@ interface Forum {
      * @param isPost Whether this is a post or a reply to a post
      * @return The newly created forum post
      */
-    fun newPost(author : String, content : String, isPost : Boolean) : CompletableFuture<ForumPost>
+    fun newPost(author: String, content: String, isPost: Boolean): CompletableFuture<ForumPost>
 
     /**
      * Gets the entire post at the given relative path from here
@@ -57,7 +57,7 @@ interface Forum {
      * @param relativePath The relative path to the post
      * @return The forum post in the form of a future
      */
-    fun getPost(relativePath : Path) : CompletableFuture<ForumPost>
+    fun getPost(relativePath: Path): CompletableFuture<ForumPost>
 
 
     /**
@@ -66,7 +66,7 @@ interface Forum {
      * @param child The child where the post is located
      * @return The forum post in the form of a future
      */
-    fun getPost(child : String) : CompletableFuture<ForumPost> {
+    fun getPost(child: String): CompletableFuture<ForumPost> {
         return getPost(listOf(child))
     }
 
@@ -77,7 +77,7 @@ interface Forum {
      * Note: Kotlin not supporting pattern matching, using a recursive definition
      * is in reality more cumbersome
      */
-    fun getAll() : CompletableFuture<List<CategoryPosts>>
+    fun getAll(): CompletableFuture<List<CategoryPosts>>
 
     /**
      * Listens to all posts at this level and executes a common lambda on
@@ -87,7 +87,7 @@ interface Forum {
      * below it in the hierarchy)
      * @param action The action taken when a post change/add occurs
      */
-    fun listenToAll(action : (ForumPostData) -> Unit)
+    fun listenToAll(action: (ForumPostData) -> Unit)
 
 
     /**
@@ -97,7 +97,7 @@ interface Forum {
      * @param activityName The activity to launch
      */
     fun sendIntentNotificationOnNewPosts(
-        ctx : Context, activityName : Class<*>?
+        ctx: Context, activityName: Class<*>?
     ) {
         NotificationService.createNotificationChannel(SignInActivity.globalContext)
         val enabledCategoriesNotifications = Storages.storageOf(Storages.FORUM_THEMES_NOTIFICATIONS)
@@ -135,7 +135,7 @@ interface Forum {
      * Returns the root of the forum
      * @return The forum root
      */
-    fun root() : Forum
+    fun root(): Forum
 
     /**
      * Returns the child forum at the relative path from here
@@ -144,7 +144,7 @@ interface Forum {
      * @param relativePath The relative path to the child forum
      * @return The child forum
      */
-    fun child(relativePath : Path) : Forum
+    fun child(relativePath: Path): Forum
 
     /**
      * Overrides child with a single child instead of an entire relative path
@@ -152,7 +152,7 @@ interface Forum {
      * @param child The name of the child forum
      * @return The child forum
      */
-    fun child(child : String) : Forum {
+    fun child(child: String): Forum {
         return child(listOf(child))
     }
 
@@ -163,7 +163,7 @@ interface Forum {
      * Post -> corresponding category
      * @return The parent forum
      */
-    fun parent() : Forum
+    fun parent(): Forum
 
     companion object {
         private const val MAX_NOTIFICATION_LENGTH = 60

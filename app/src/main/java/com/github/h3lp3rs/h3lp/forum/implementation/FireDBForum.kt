@@ -11,7 +11,7 @@ import com.github.h3lp3rs.h3lp.forum.Path
  * @param path The path of the current forum pointer.
  * @database The FireDatabase that serves as root.
  */
-class FireDBForum (
+class FireDBForum(
     override val path: Path,
     private val database: FireDatabase
 ) :

@@ -12,20 +12,17 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
 import com.github.h3lp3rs.h3lp.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.disableOnlineSync
-import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuth.*
+import com.google.firebase.auth.FirebaseAuth.getInstance
 
 class SignInActivity : AppCompatActivity() {
-    lateinit var signInClient : SignInInterface<AuthResult>
+    lateinit var signInClient: SignInInterface<AuthResult>
     private lateinit var userCookie: LocalStorage
     private lateinit var userSignIn: LocalStorage
     private lateinit var USER_SIGNED_IN: String
@@ -40,7 +37,7 @@ class SignInActivity : AppCompatActivity() {
     private fun checkToSAndLaunchIfNotAcceptedElseMain() {
         // Check ToS agreement
         userCookie = storageOf(USER_COOKIE) // Fetch from storage
-        if(!userCookie.getBoolOrDefault(getString(R.string.KEY_USER_AGREE), false)) {
+        if (!userCookie.getBoolOrDefault(getString(R.string.KEY_USER_AGREE), false)) {
             val intent = Intent(this, PresArrivalActivity::class.java)
             startActivity(intent)
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
@@ -53,11 +50,11 @@ class SignInActivity : AppCompatActivity() {
     /**
      * Check if the current user is already signed in and update activity accordingly
      */
-    private fun offlineCheckIfSignedIn(){
+    private fun offlineCheckIfSignedIn() {
         userSignIn = storageOf(Storages.SIGN_IN) // Fetch from storage
-        if(userSignIn.getBoolOrDefault(USER_SIGNED_IN, false)){
-            userUid = userSignIn.getStringOrDefault(USER_UID,"")
-            username = userSignIn.getStringOrDefault(USER_NAME,"")
+        if (userSignIn.getBoolOrDefault(USER_SIGNED_IN, false)) {
+            userUid = userSignIn.getStringOrDefault(USER_UID, "")
+            username = userSignIn.getStringOrDefault(USER_NAME, "")
             checkToSAndLaunchIfNotAcceptedElseMain()
         }
     }
@@ -65,7 +62,7 @@ class SignInActivity : AppCompatActivity() {
     /**
      * Save the user authentication information to the local storage
      */
-    private fun saveAuthentication(){
+    private fun saveAuthentication() {
         userSignIn.setBoolean(USER_SIGNED_IN, true)
         userUid?.let { userSignIn.setString(USER_UID, it) }
         username?.let { userSignIn.setString(USER_NAME, it) }
@@ -79,7 +76,7 @@ class SignInActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_sign_in)
         // Initialize Firebase Auth
-        findViewById<ImageButton>(R.id.signInButton).setOnClickListener{
+        findViewById<ImageButton>(R.id.signInButton).setOnClickListener {
             launchSignIn()
         }
 
@@ -101,15 +98,16 @@ class SignInActivity : AppCompatActivity() {
     /**
      * Initialize client and launch the sign in request
      */
-    private fun launchSignIn(){
+    private fun launchSignIn() {
         signInClient = SignIn.get()
         val signInIntent = signInClient.signIn(this)
         resultLauncher.launch(signInIntent)
     }
 
     // Handle sign in request result
-    private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-        { result -> authenticateUser(result,this) }
+    private val resultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+        { result -> authenticateUser(result, this) }
 
     /**
      * Authenticate user
@@ -117,7 +115,7 @@ class SignInActivity : AppCompatActivity() {
      * @param result sign in intent result containing the user account
      * @param activity current activity
      */
-    fun authenticateUser(result: ActivityResult, activity: Activity){
+    fun authenticateUser(result: ActivityResult, activity: Activity) {
         signInClient.authenticate(result, activity)
             ?.addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
@@ -141,11 +139,11 @@ class SignInActivity : AppCompatActivity() {
      * Companion used to pass on a global context used to open the local
      * storages
      */
-    companion object{
+    companion object {
         @SuppressLint("StaticFieldLeak")
         lateinit var globalContext: Context
         var userUid: String? = null
-        private var username : String? = null
+        private var username: String? = null
 
         const val GUEST_USER = "Guest"
 
@@ -162,6 +160,7 @@ class SignInActivity : AppCompatActivity() {
         fun getUid(): String? {
             return userUid
         }
+
         /**
          * Getter on the user's name
          */

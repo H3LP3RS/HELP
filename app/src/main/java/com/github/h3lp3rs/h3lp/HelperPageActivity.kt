@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.databinding.ActivityHelpPageBinding
-import com.github.h3lp3rs.h3lp.databinding.ActivityHelpPageBinding.*
+import com.github.h3lp3rs.h3lp.databinding.ActivityHelpPageBinding.inflate
 import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
 import com.github.h3lp3rs.h3lp.dataclasses.Helper
 import com.github.h3lp3rs.h3lp.messaging.ChatActivity
@@ -24,7 +24,7 @@ import com.github.h3lp3rs.h3lp.messaging.Messenger.HELPER
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.util.GDurationJSONParser
-import com.google.android.gms.maps.MapsInitializer.*
+import com.google.android.gms.maps.MapsInitializer.initialize
 import kotlinx.android.synthetic.main.activity_help_page.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
@@ -59,7 +59,8 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         setContentView(binding.root)
 
         mapsFragment = supportFragmentManager.findFragmentById(R.id.mapHelpPage) as MapsFragment
-        apiHelper = GoogleAPIHelper(resources.getString(R.string.google_maps_key), applicationContext)
+        apiHelper =
+            GoogleAPIHelper(resources.getString(R.string.google_maps_key), applicationContext)
 
         // Bundle cannot be empty
         val bundle = this.intent.extras!!
@@ -70,7 +71,7 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         val destinationLong = bundle.getDouble(EXTRA_DESTINATION_LONG)
 
         // Require user to sign in
-        if(userUid == null) {
+        if (userUid == null) {
             showSignInPopUp()
         }
 
@@ -179,7 +180,6 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             // Stop listening to other emergencies
             databaseOf(NEW_EMERGENCIES).clearAllListeners()
 
-            // TODO: Here we can potentially periodically update the GPS coordinates
             // Update the value to notify that we are coming
             databaseOf(EMERGENCIES).setObject(
                 emergencyId,

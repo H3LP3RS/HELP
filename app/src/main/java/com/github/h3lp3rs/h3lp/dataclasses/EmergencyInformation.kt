@@ -1,7 +1,6 @@
 package com.github.h3lp3rs.h3lp.dataclasses
 
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * A model describing an emergency information object

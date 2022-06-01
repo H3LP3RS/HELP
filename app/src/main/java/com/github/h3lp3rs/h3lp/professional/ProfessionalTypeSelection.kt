@@ -1,11 +1,9 @@
 package com.github.h3lp3rs.h3lp.professional
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.CheckBox
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.R
@@ -13,7 +11,6 @@ import com.github.h3lp3rs.h3lp.dataclasses.MedicalType
 import com.github.h3lp3rs.h3lp.forum.ForumCategory
 import com.github.h3lp3rs.h3lp.forum.ForumCategory.*
 import com.github.h3lp3rs.h3lp.storage.LocalStorage
-import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.github.h3lp3rs.h3lp.storage.Storages.FORUM_THEMES_NOTIFICATIONS
 

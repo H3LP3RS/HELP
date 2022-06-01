@@ -1,26 +1,21 @@
 package com.github.h3lp3rs.h3lp.presentation
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.TextPaint
+import android.text.TextUtils
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.view.GestureDetector
 import android.view.View
 import android.widget.CheckBox
+import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.presentation.SwipeListener.Companion.SlideDirection.*
+import com.github.h3lp3rs.h3lp.presentation.SwipeListener.Companion.SlideDirection.RIGHT
 import com.github.h3lp3rs.h3lp.presentation.SwipeListener.Companion.swipeToNextActivity
-import android.text.method.LinkMovementMethod
-
-import android.text.TextUtils
-
-import android.text.Spanned
-
-import android.text.SpannableString
-
-import android.text.TextPaint
-
-import android.text.style.ClickableSpan
 import com.github.h3lp3rs.h3lp.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
@@ -44,7 +39,7 @@ class PresIrrelevantActivity : AppCompatActivity() {
 
         // 1. Set right box tick
         val checkBox = findViewById<View>(R.id.pres3_checkBox) as CheckBox
-        if(userCookie.getBoolOrDefault(getString(R.string.KEY_USER_AGREE), false)) {
+        if (userCookie.getBoolOrDefault(getString(R.string.KEY_USER_AGREE), false)) {
             checkBox.isChecked = true
         }
         // 2. Add clickable text using the code of:
@@ -65,7 +60,7 @@ class PresIrrelevantActivity : AppCompatActivity() {
      */
     fun sendApproval(view: View) {
         val checkBox = findViewById<View>(R.id.pres3_checkBox) as CheckBox
-        if(checkBox.isChecked) {
+        if (checkBox.isChecked) {
             userCookie.setBoolean(getString(R.string.KEY_USER_AGREE), true)
             val i = Intent(this, MainPageActivity::class.java)
             startActivity(i)

@@ -1,7 +1,6 @@
 package com.github.h3lp3rs.h3lp.forum.data
 
 import com.github.h3lp3rs.h3lp.forum.ForumCategory
-import java.time.ZonedDateTime
 
 /**
  * Conceptualizes all the data of a simple forum post
@@ -19,5 +18,5 @@ data class ForumPostData(
     val key: String,
     val repliesKey: String,
     val category: ForumCategory,
-    val isPost : Boolean
+    val isPost: Boolean
 )

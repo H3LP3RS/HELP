@@ -7,7 +7,7 @@ import java.lang.Boolean.parseBoolean
 /**
  * Enumeration of all useful (local) storages in H3LP
  */
-enum class Storages{
+enum class Storages {
     USER_COOKIE, MEDICAL_INFO, SKILLS, EMERGENCIES_RECEIVED, FORUM_THEMES_NOTIFICATIONS, FORUM_CACHE, SIGN_IN, MSG_CACHE;
 
     private val ls = LocalStorage(name, getGlobalCtx())
