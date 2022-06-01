@@ -12,6 +12,8 @@ import com.github.h3lp3rs.h3lp.model.notifications.EmergencyListener
 import com.github.h3lp3rs.h3lp.model.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
 import com.github.h3lp3rs.h3lp.model.storage.Storages.SKILLS
+import com.github.h3lp3rs.h3lp.model.utils.ActivityUtils.goToActivity
+import com.github.h3lp3rs.h3lp.model.utils.ActivityUtils.goToMainPage
 import com.google.android.material.switchmaterial.SwitchMaterial
 
 class MySkillsActivity : AppCompatActivity() {
@@ -37,9 +39,7 @@ class MySkillsActivity : AppCompatActivity() {
      * Function for the back button to go back to MainActivity
      */
     fun backHome(view: View) {
-        val intent = Intent(this, MainPageActivity::class.java)
-        startActivity(intent)
-    }
+        goToMainPage()    }
 
     /**
      * Show a dialogue with explication on what is the form for

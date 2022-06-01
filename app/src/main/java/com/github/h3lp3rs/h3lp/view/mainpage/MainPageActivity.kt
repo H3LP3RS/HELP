@@ -21,15 +21,20 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.model.database.Databases.PRO_USERS
+import com.github.h3lp3rs.h3lp.model.forum.ForumCategory
+import com.github.h3lp3rs.h3lp.model.notifications.EmergencyListener
+import com.github.h3lp3rs.h3lp.model.professional.ProUser
+import com.github.h3lp3rs.h3lp.model.storage.LocalStorage
+import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
+import com.github.h3lp3rs.h3lp.model.storage.Storages.USER_COOKIE
+import com.github.h3lp3rs.h3lp.model.utils.ActivityUtils.goToActivity
+import com.github.h3lp3rs.h3lp.model.utils.ActivityUtils.goToMainPage
 import com.github.h3lp3rs.h3lp.view.firstaid.FirstAidActivity
 import com.github.h3lp3rs.h3lp.view.forum.ForumCategoriesActivity
-import com.github.h3lp3rs.h3lp.model.forum.ForumCategory
 import com.github.h3lp3rs.h3lp.view.forum.ForumPostsActivity
+import com.github.h3lp3rs.h3lp.view.helprequest.helpee.HelpeeSelectionActivity
 import com.github.h3lp3rs.h3lp.view.map.NearbyUtilitiesActivity
-import com.github.h3lp3rs.h3lp.model.notifications.EmergencyListener
-import com.github.h3lp3rs.h3lp.view.signin.presentation.PresArrivalActivity
 import com.github.h3lp3rs.h3lp.view.professional.ProMainActivity
-import com.github.h3lp3rs.h3lp.model.professional.ProUser
 import com.github.h3lp3rs.h3lp.view.professional.VerificationActivity
 import com.github.h3lp3rs.h3lp.view.profile.MedicalCardActivity
 import com.github.h3lp3rs.h3lp.view.profile.MySkillsActivity
@@ -38,10 +43,7 @@ import com.github.h3lp3rs.h3lp.view.signin.SignIn
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.getUid
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
-import com.github.h3lp3rs.h3lp.model.storage.LocalStorage
-import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
-import com.github.h3lp3rs.h3lp.model.storage.Storages.USER_COOKIE
-import com.github.h3lp3rs.h3lp.view.helprequest.helpee.HelpeeSelectionActivity
+import com.github.h3lp3rs.h3lp.view.signin.presentation.PresArrivalActivity
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main_page.*
@@ -172,7 +174,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
 
         dialog.create()
 
-        // pass button
+        // Pass button
         emergencyCallPopup.findViewById<Button>(R.id.accept_permission_popup_button)
             .setOnClickListener {
                 dialog.dismiss()
@@ -346,7 +348,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
                         GravityCompat.START
                     )
                     // Only to deselect the home button
-                    goToActivity(MainPageActivity::class.java)
+                    goToMainPage()
                 }
                 R.id.nav_settings -> goToActivity(SettingsActivity::class.java)
                 R.id.nav_about_us -> goToActivity(PresArrivalActivity::class.java)
@@ -433,13 +435,6 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         menuInflater.inflate(R.menu.menu_toolbar, menu)
         return true
     }
-
-    /** Starts the activity by sending intent */
-    private fun goToActivity(ActivityName: Class<*>?) {
-        val intent = Intent(this, ActivityName)
-        startActivity(intent)
-    }
-
 
     /** Called when the user taps the help page button */
     fun goToHelpParametersActivity(view: View) {

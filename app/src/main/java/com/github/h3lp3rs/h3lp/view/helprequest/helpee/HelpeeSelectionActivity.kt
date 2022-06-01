@@ -293,10 +293,4 @@ class HelpeeSelectionActivity : AppCompatActivity() {
         }
         return Pair(meds, skills)
     }
-
-    /** Starts the activity by sending intent */
-    private fun goToActivity(ActivityName: Class<*>?) {
-        val intent = Intent(this, ActivityName)
-        startActivity(intent)
-    }
 }

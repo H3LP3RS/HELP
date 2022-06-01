@@ -28,6 +28,7 @@ import com.github.h3lp3rs.h3lp.model.messaging.Messenger.HELPER
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.model.parsers.GDurationJSONParser
+import com.github.h3lp3rs.h3lp.model.utils.ActivityUtils.goToActivity
 import com.github.h3lp3rs.h3lp.view.map.MapsFragment
 import com.google.android.gms.maps.MapsInitializer.initialize
 import kotlinx.android.synthetic.main.activity_help_page.*
@@ -234,15 +235,8 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         startActivity(intent)
     }
 
-    /** Starts the activity by sending intent */
-    private fun goToActivity(ActivityName: Class<*>?) {
-        val intent = Intent(this, ActivityName)
-        startActivity(intent)
-    }
-
     private fun goToMainPage() {
-        goToActivity(MainPageActivity::class.java)
-    }
+        goToMainPage()    }
 
     private fun setUpEmergencyCancellation(emergencyId: String) {
         fun onChildRemoved(id: String) {
@@ -251,8 +245,7 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                 // conversation is deleted from the database and the helper is redirected to the
                 // main page
                 conversation.deleteConversation()
-                goToActivity(MainPageActivity::class.java)
-            }
+                goToMainPage()            }
         }
         // The event is added to the entire conversation IDS database and so no child key is needed
         databaseOf(CONVERSATION_IDS).addEventListener(

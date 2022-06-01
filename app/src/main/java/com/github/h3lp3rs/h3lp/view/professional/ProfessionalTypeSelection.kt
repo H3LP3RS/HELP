@@ -13,6 +13,7 @@ import com.github.h3lp3rs.h3lp.model.forum.ForumCategory.*
 import com.github.h3lp3rs.h3lp.model.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
 import com.github.h3lp3rs.h3lp.model.storage.Storages.FORUM_THEMES_NOTIFICATIONS
+import com.github.h3lp3rs.h3lp.model.utils.ActivityUtils.goToActivity
 
 class ProfessionalTypeSelection : AppCompatActivity() {
 
@@ -38,8 +39,7 @@ class ProfessionalTypeSelection : AppCompatActivity() {
      * Function for the back button to go back to ProMainActivity
      */
     fun backHome(view: View) {
-        val intent = Intent(this, ProMainActivity::class.java)
-        startActivity(intent)
+        goToActivity(ProMainActivity::class.java)
     }
 
     /**

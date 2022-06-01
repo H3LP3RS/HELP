@@ -19,6 +19,8 @@ import com.github.h3lp3rs.h3lp.view.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.getUid
 import com.github.h3lp3rs.h3lp.model.storage.Storages.*
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
+import com.github.h3lp3rs.h3lp.model.utils.ActivityUtils.goToActivity
+import com.github.h3lp3rs.h3lp.model.utils.ActivityUtils.goToMainPage
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -63,17 +65,14 @@ class SettingsActivity : AppCompatActivity() {
      * Function for the back button to go back to MainActivity
      */
     fun backHome(view: View) {
-        val intent = Intent(this, MainPageActivity::class.java)
-        startActivity(intent)
-    }
+        goToMainPage()    }
 
     /**
      * Function for the logout button to disconnect from account
      */
     fun logout(view: View) {
         signOut()
-        val intent = Intent(this, SignInActivity::class.java)
-        startActivity(intent)
+        goToActivity(SignInActivity::class.java)
     }
 
     fun clearSync(view: View) {
@@ -142,7 +141,7 @@ class SettingsActivity : AppCompatActivity() {
         signInPopup.findViewById<Button>(R.id.sign_in_popup_button)
             .setOnClickListener {
                 dialog.dismiss()
-                startActivity(Intent(this, SignInActivity::class.java))
+                goToActivity(SignInActivity::class.java)
             }
 
         dialog.show()

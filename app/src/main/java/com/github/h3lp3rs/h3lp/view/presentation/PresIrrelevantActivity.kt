@@ -19,6 +19,8 @@ import com.github.h3lp3rs.h3lp.view.signin.presentation.SwipeListener.Companion.
 import com.github.h3lp3rs.h3lp.model.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.model.storage.Storages
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
+import com.github.h3lp3rs.h3lp.model.utils.ActivityUtils.goToActivity
+import com.github.h3lp3rs.h3lp.model.utils.ActivityUtils.goToMainPage
 
 /**
  * Class representing the third page of the app presentation
@@ -62,8 +64,7 @@ class PresIrrelevantActivity : AppCompatActivity() {
         val checkBox = findViewById<View>(R.id.pres3_checkBox) as CheckBox
         if (checkBox.isChecked) {
             userCookie.setBoolean(getString(R.string.KEY_USER_AGREE), true)
-            val i = Intent(this, MainPageActivity::class.java)
-            startActivity(i)
+            goToMainPage()
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
     }

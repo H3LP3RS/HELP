@@ -1,15 +1,15 @@
 package com.github.h3lp3rs.h3lp.view.firstaid
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.MediaController
 import android.widget.VideoView
 import androidx.appcompat.app.AppCompatActivity
-import com.github.h3lp3rs.h3lp.view.mainpage.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.model.dataclasses.FirstAidHowTo
 import com.github.h3lp3rs.h3lp.model.dataclasses.FirstAidHowTo.*
+import com.github.h3lp3rs.h3lp.model.utils.ActivityUtils.goToActivity
+import com.github.h3lp3rs.h3lp.model.utils.ActivityUtils.goToMainPage
 
 
 const val EXTRA_FIRST_AID = "first_aid"
@@ -72,13 +72,11 @@ class GeneralFirstAidActivity : AppCompatActivity() {
             // Setting up the back button
             val backButton = findViewById<ImageButton>(it.backButtonId)
             backButton.setOnClickListener {
-                val intent = Intent(this, FirstAidActivity::class.java)
-                startActivity(intent)
+                goToActivity(FirstAidActivity::class.java)
             }
         } ?: run {
             // If the given intent was invalid, go back to the main page
-            val intent = Intent(applicationContext, MainPageActivity::class.java)
-            startActivity(intent)
+            goToMainPage()
         }
     }
 

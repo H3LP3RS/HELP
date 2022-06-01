@@ -1,6 +1,5 @@
 package com.github.h3lp3rs.h3lp.view.helprequest.helpee
 
-import com.github.h3lp3rs.h3lp.model.locationmanager.LocationHelper
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -11,22 +10,23 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.github.h3lp3rs.h3lp.*
+import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.model.database.Databases.CONVERSATION_IDS
 import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.model.database.Databases.EMERGENCIES
 import com.github.h3lp3rs.h3lp.model.dataclasses.EmergencyInformation
-import com.github.h3lp3rs.h3lp.model.dataclasses.MedicalInformation
-import com.github.h3lp3rs.h3lp.view.firstaid.EXTRA_FIRST_AID
 import com.github.h3lp3rs.h3lp.model.dataclasses.FirstAidHowTo.HEART_ATTACK
-import com.github.h3lp3rs.h3lp.view.firstaid.GeneralFirstAidActivity
+import com.github.h3lp3rs.h3lp.model.dataclasses.MedicalInformation
 import com.github.h3lp3rs.h3lp.model.helprequestutils.LocalEmergencyCaller
+import com.github.h3lp3rs.h3lp.model.locationmanager.LocationHelper
 import com.github.h3lp3rs.h3lp.model.map.GoogleAPIHelper
-import com.github.h3lp3rs.h3lp.view.messaging.RecentMessagesActivity
 import com.github.h3lp3rs.h3lp.model.notifications.EmergencyListener.activateListeners
 import com.github.h3lp3rs.h3lp.model.storage.Storages
-import com.github.h3lp3rs.h3lp.view.mainpage.MainPageActivity
+import com.github.h3lp3rs.h3lp.model.utils.ActivityUtils.goToMainPage
+import com.github.h3lp3rs.h3lp.view.firstaid.EXTRA_FIRST_AID
+import com.github.h3lp3rs.h3lp.view.firstaid.GeneralFirstAidActivity
 import com.github.h3lp3rs.h3lp.view.map.MapsFragment
+import com.github.h3lp3rs.h3lp.view.messaging.RecentMessagesActivity
 import com.google.android.gms.maps.MapsInitializer.initialize
 import kotlinx.android.synthetic.main.activity_await_help.*
 
@@ -268,7 +268,7 @@ class AwaitHelpActivity : AppCompatActivity() {
     fun cancelHelpSearch(view: View) {
         val bundle = this.intent.extras
         if (bundle == null) {
-            startActivity(Intent(this, MainPageActivity::class.java))
+            goToMainPage()
             return
         }
 
@@ -279,6 +279,6 @@ class AwaitHelpActivity : AppCompatActivity() {
         // Delete the helpee's id
         databaseOf(CONVERSATION_IDS).delete(emergencyId.toString())
         // Redirect user to the main page after he cancels his emergency
-        startActivity(Intent(this, MainPageActivity::class.java))
+        goToMainPage()
     }
 }

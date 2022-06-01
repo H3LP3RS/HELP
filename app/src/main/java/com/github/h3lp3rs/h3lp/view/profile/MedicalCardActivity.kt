@@ -1,6 +1,5 @@
 package com.github.h3lp3rs.h3lp.view.profile
 
-import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.text.SpannableString
@@ -18,7 +17,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
-import com.github.h3lp3rs.h3lp.view.mainpage.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.model.dataclasses.BloodType
 import com.github.h3lp3rs.h3lp.model.dataclasses.Gender
@@ -29,6 +27,7 @@ import com.github.h3lp3rs.h3lp.model.dataclasses.MedicalInformation.Companion.EM
 import com.github.h3lp3rs.h3lp.model.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
 import com.github.h3lp3rs.h3lp.model.storage.Storages.MEDICAL_INFO
+import com.github.h3lp3rs.h3lp.model.utils.ActivityUtils.goToMainPage
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
@@ -212,8 +211,7 @@ class MedicalCardActivity : AppCompatActivity() {
      */
 
     fun backHome(view: View) {
-        val intent = Intent(this, MainPageActivity::class.java)
-        startActivity(intent)
+        goToMainPage()
     }
 
     /**

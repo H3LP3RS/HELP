@@ -3,21 +3,20 @@ package com.github.h3lp3rs.h3lp.view.signin
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.github.h3lp3rs.h3lp.view.mainpage.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.view.signin.presentation.PresArrivalActivity
 import com.github.h3lp3rs.h3lp.model.storage.LocalStorage
-import com.github.h3lp3rs.h3lp.model.storage.Storages
 import com.github.h3lp3rs.h3lp.model.storage.Storages.*
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.disableOnlineSync
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
+import com.github.h3lp3rs.h3lp.model.utils.ActivityUtils.goToActivity
+import com.github.h3lp3rs.h3lp.model.utils.ActivityUtils.goToMainPage
+import com.github.h3lp3rs.h3lp.view.signin.presentation.PresArrivalActivity
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth.getInstance
 
@@ -38,12 +37,10 @@ class SignInActivity : AppCompatActivity() {
         // Check ToS agreement
         userCookie = storageOf(USER_COOKIE) // Fetch from storage
         if (!userCookie.getBoolOrDefault(getString(R.string.KEY_USER_AGREE), false)) {
-            val intent = Intent(this, PresArrivalActivity::class.java)
-            startActivity(intent)
+            goToActivity(PresArrivalActivity::class.java)
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         } else {
-            val intent = Intent(this, MainPageActivity::class.java)
-            startActivity(intent)
+            goToMainPage()
         }
     }
 
