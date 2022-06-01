@@ -1,7 +1,9 @@
 package com.github.h3lp3rs.h3lp.storage
 
 import android.content.Context
+import android.os.Build
 import android.security.keystore.UserNotAuthenticatedException
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.database.Databases.PREFERENCES
@@ -12,6 +14,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.json.JSONObject
 import java.lang.Boolean.parseBoolean
+import java.util.concurrent.TimeUnit
 
 /**
  * Implementation of a local storage to store data locally. Not meant for
@@ -41,16 +44,22 @@ class LocalStorage(private val path: String, val context: Context) {
      * Update online parameters if needed
      * @throws UserNotAuthenticatedException if the user is not authenticated AND online sync is enabled.
      */
-    fun pull() {
+    @RequiresApi(Build.VERSION_CODES.S)
+    fun pull(blocking: Boolean) {
         if (isOnlineSyncEnabled()) {
             // Need to be authenticated if online sync is enabled
             val uid = getUid()
             if (uid != null) {
                 val db = databaseOf(PREFERENCES)
-                db.getString("$path/$uid").exceptionally { JSONObject().toString() }
+
+                val future = db.getString("$path/$uid").exceptionally { JSONObject().toString() }
                     .thenAccept {
                         parseOnlinePrefs(it)
-                    }
+                    }.orTimeout(3, TimeUnit.SECONDS)
+
+                if(blocking) {
+                    future.join()
+                }
             } else {
                 throw UserNotAuthenticatedException()
             }

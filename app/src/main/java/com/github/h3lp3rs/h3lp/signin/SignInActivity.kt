@@ -91,7 +91,6 @@ class SignInActivity : AppCompatActivity() {
     private fun checkToSAndLaunchIfNotAcceptedElseMain() {
         // Check ToS agreement
         userCookie = storageOf(USER_COOKIE) // Fetch from storage
-        userCookie.pull()
         if (!userCookie.getBoolOrDefault(getString(R.string.KEY_USER_AGREE), false)) {
             val intent = Intent(this, PresArrivalActivity::class.java)
             startActivity(intent)

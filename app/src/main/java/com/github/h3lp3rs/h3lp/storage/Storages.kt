@@ -27,7 +27,7 @@ enum class Storages {
          */
         fun storageOf(choice: Storages): LocalStorage {
             if (!choice.isFresh) {
-                choice.ls.pull()
+                choice.ls.pull(false)
                 choice.isFresh = true
             }
             return choice.ls

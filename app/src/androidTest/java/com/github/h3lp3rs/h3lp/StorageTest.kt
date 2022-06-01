@@ -83,7 +83,7 @@ class StorageTest : H3lpAppTest() {
         resetStorage()
         assertEquals(-1, storage.getIntOrDefault(TEST_KEY, -1))
 
-        storage.pull()
+        storage.pull(false)
         assertEquals(0, storage.getIntOrDefault(TEST_KEY, -1))
     }
 }

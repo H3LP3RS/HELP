@@ -34,6 +34,7 @@ import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.getUid
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
+import com.github.h3lp3rs.h3lp.storage.Storages.SIGN_IN
 import com.github.h3lp3rs.h3lp.storage.Storages.USER_COOKIE
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
@@ -208,8 +209,9 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
      * Starts the application guide.
      */
     private fun startAppGuide() {
-        if (true){//!storage.getBoolOrDefault(GUIDE_KEY, false)) {
-            storage.setBoolean(GUIDE_KEY, true)
+        val signInStorage = storageOf(SIGN_IN)
+        if (!signInStorage.getBoolOrDefault(GUIDE_KEY, false)) {
+            signInStorage.setBoolean(GUIDE_KEY, true)
 
             // Disable buttons so that the guide can be seen to completion
             val oldMap = buttonToActivity
