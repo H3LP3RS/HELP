@@ -1,9 +1,9 @@
 package com.github.h3lp3rs.h3lp
 
 import com.github.h3lp3rs.h3lp.util.GDurationJSONParser
-import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertNull
 import org.json.JSONObject
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Test
 
 // Example of a time value returned by the directions api, it corresponds to 1 day, 3 hours and 2 mins

@@ -15,7 +15,7 @@ import com.github.h3lp3rs.h3lp.dataclasses.Rating
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.setName
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
-import junit.framework.Assert.assertEquals
+import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith

@@ -25,8 +25,8 @@ import com.github.h3lp3rs.h3lp.professional.ProUser
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.setName
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
-import junit.framework.Assert.assertEquals
 import org.hamcrest.Matchers.not
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

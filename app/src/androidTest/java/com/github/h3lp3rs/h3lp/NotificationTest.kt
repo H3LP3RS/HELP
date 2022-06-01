@@ -12,7 +12,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.*
 import com.github.h3lp3rs.h3lp.notification.NotificationService
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
-import junit.framework.Assert.assertEquals
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -49,8 +49,8 @@ class NotificationTest : H3lpAppTest(){
         val description : UiObject2=uiDevice.findObject(By.text(DESCRIPTION))
         assertEquals(title.text,TITLE)
         assertEquals(description.text,DESCRIPTION)
-        //Cirus AVD seems to  not have a clear all button :(
-        //clearAllNotifications()
+        // Cirrus AVD seems not to have a clear all button :(
+        // clearAllNotifications()
     }
 
     @Test

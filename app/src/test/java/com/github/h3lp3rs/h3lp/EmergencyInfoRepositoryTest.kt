@@ -5,8 +5,8 @@ import com.github.h3lp3rs.h3lp.database.repositories.EmergencyInfoRepository
 import com.github.h3lp3rs.h3lp.database.repositories.Repository
 import com.github.h3lp3rs.h3lp.dataclasses.*
 import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation.Companion.ADULT_AGE
-import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertTrue
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.util.*
 
@@ -16,6 +16,7 @@ class EmergencyInfoRepositoryTest {
         EmergencyInfoRepository(MockDatabase())
     private val testKey = "KEY"
     private val testDoubleValue = 0.0
+    private val doubleDelta = 1e-15
     private val skills = HelperSkills(false, false, false, false, false, true)
     private val testObject =
         EmergencyInformation(testKey, testDoubleValue, testDoubleValue, skills, ArrayList(), Date(), MedicalInformation(
@@ -29,8 +30,8 @@ class EmergencyInfoRepositoryTest {
     fun createdObjectIsCorrect() {
         repository.insert(testObject)
         val res = repository.get(testKey).get()
-        assertEquals(res.latitude, testDoubleValue)
-        assertEquals(res.longitude, testDoubleValue)
+        assertEquals(res.latitude, testDoubleValue, doubleDelta)
+        assertEquals(res.longitude, testDoubleValue, doubleDelta)
         assertEquals(res.skills, skills)
     }
 
