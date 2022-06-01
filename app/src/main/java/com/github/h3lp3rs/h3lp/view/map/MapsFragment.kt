@@ -1,6 +1,6 @@
-package com.github.h3lp3rs.h3lp.map
+package com.github.h3lp3rs.h3lp.view.map
 
-import LocationHelper
+import com.github.h3lp3rs.h3lp.model.locationmanager.LocationHelper
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater

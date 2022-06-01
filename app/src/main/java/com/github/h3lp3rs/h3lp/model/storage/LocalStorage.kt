@@ -1,12 +1,12 @@
-package com.github.h3lp3rs.h3lp.storage
+package com.github.h3lp3rs.h3lp.model.storage
 
 import android.content.Context
 import android.security.keystore.UserNotAuthenticatedException
 import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
-import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
-import com.github.h3lp3rs.h3lp.database.Databases.PREFERENCES
+import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.databaseOf
+import com.github.h3lp3rs.h3lp.model.database.Databases.PREFERENCES
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.getUid
-import com.github.h3lp3rs.h3lp.storage.Storages.Companion.SyncPref
+import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.SyncPref
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking

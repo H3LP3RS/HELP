@@ -1,4 +1,4 @@
-package com.github.h3lp3rs.h3lp.database
+package com.github.h3lp3rs.h3lp.model.database
 
 import android.util.Log
 import com.github.h3lp3rs.h3lp.R

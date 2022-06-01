@@ -1,17 +1,17 @@
-package com.github.h3lp3rs.h3lp.profile
+package com.github.h3lp3rs.h3lp.view.profile
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.github.h3lp3rs.h3lp.MainPageActivity
+import com.github.h3lp3rs.h3lp.view.mainpage.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.dataclasses.HelperSkills
-import com.github.h3lp3rs.h3lp.notifications.EmergencyListener
-import com.github.h3lp3rs.h3lp.storage.LocalStorage
-import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
-import com.github.h3lp3rs.h3lp.storage.Storages.SKILLS
+import com.github.h3lp3rs.h3lp.model.dataclasses.HelperSkills
+import com.github.h3lp3rs.h3lp.model.notifications.EmergencyListener
+import com.github.h3lp3rs.h3lp.model.storage.LocalStorage
+import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
+import com.github.h3lp3rs.h3lp.model.storage.Storages.SKILLS
 import com.google.android.material.switchmaterial.SwitchMaterial
 
 class MySkillsActivity : AppCompatActivity() {

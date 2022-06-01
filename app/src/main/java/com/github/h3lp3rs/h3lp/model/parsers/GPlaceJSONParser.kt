@@ -1,4 +1,4 @@
-package com.github.h3lp3rs.h3lp.parsers
+package com.github.h3lp3rs.h3lp.model.parsers
 
 import com.github.h3lp3rs.h3lp.GooglePlace
 import org.json.JSONArray

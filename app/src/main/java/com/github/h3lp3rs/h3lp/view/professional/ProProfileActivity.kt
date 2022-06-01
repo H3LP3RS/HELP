@@ -1,4 +1,4 @@
-package com.github.h3lp3rs.h3lp.professional
+package com.github.h3lp3rs.h3lp.view.professional
 
 import android.os.Bundle
 import android.text.SpannableString
@@ -17,10 +17,10 @@ import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.model.database.Databases
 import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.model.professional.ProUser
-import com.github.h3lp3rs.h3lp.professional.VerificationActivity.Companion.currentUserId
-import com.github.h3lp3rs.h3lp.professional.VerificationActivity.Companion.currentUserName
-import com.github.h3lp3rs.h3lp.professional.VerificationActivity.Companion.currentUserProofName
-import com.github.h3lp3rs.h3lp.professional.VerificationActivity.Companion.currentUserProofUri
+import com.github.h3lp3rs.h3lp.view.professional.VerificationActivity.Companion.currentUserId
+import com.github.h3lp3rs.h3lp.view.professional.VerificationActivity.Companion.currentUserName
+import com.github.h3lp3rs.h3lp.view.professional.VerificationActivity.Companion.currentUserProofName
+import com.github.h3lp3rs.h3lp.view.professional.VerificationActivity.Companion.currentUserProofUri
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 

@@ -1,11 +1,11 @@
-package com.github.h3lp3rs.h3lp.forum
+package com.github.h3lp3rs.h3lp.view.forum
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.model.forum.data.ForumCategory.*
+import com.github.h3lp3rs.h3lp.model.forum.ForumCategory.*
 
 const val EXTRA_FORUM_CATEGORY = "forum_category"
 

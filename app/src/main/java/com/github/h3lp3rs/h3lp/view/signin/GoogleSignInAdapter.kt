@@ -1,11 +1,11 @@
-package com.github.h3lp3rs.h3lp.signin
+package com.github.h3lp3rs.h3lp.view.signin
 
 import android.app.Activity
 import android.content.Intent
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
+import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException

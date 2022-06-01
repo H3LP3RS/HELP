@@ -1,17 +1,17 @@
-package com.github.h3lp3rs.h3lp.forum
+package com.github.h3lp3rs.h3lp.view.forum
 
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
-import com.github.h3lp3rs.h3lp.database.Databases.PRO_USERS
-import com.github.h3lp3rs.h3lp.model.forum.data.ForumCategory.Companion.categoriesMap
-import com.github.h3lp3rs.h3lp.forum.ForumPostsActivity.Companion.selectedPost
+import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.databaseOf
+import com.github.h3lp3rs.h3lp.model.database.Databases.PRO_USERS
+import com.github.h3lp3rs.h3lp.model.forum.ForumCategory.Companion.categoriesMap
+import com.github.h3lp3rs.h3lp.view.forum.ForumPostsActivity.Companion.selectedPost
 import com.github.h3lp3rs.h3lp.model.forum.data.Forum
-import com.github.h3lp3rs.h3lp.model.forum.data.ForumCategory
+import com.github.h3lp3rs.h3lp.model.forum.ForumCategory
 import com.github.h3lp3rs.h3lp.model.forum.ForumPostData
-import com.github.h3lp3rs.h3lp.professional.ProUser
+import com.github.h3lp3rs.h3lp.model.professional.ProUser
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.getName
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.userUid
 import com.xwray.groupie.GroupAdapter

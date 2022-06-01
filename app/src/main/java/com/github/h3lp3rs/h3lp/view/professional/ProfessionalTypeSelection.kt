@@ -1,4 +1,4 @@
-package com.github.h3lp3rs.h3lp.professional
+package com.github.h3lp3rs.h3lp.view.professional
 
 import android.content.Intent
 import android.os.Bundle

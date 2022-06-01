@@ -1,4 +1,4 @@
-package com.github.h3lp3rs.h3lp.signin
+package com.github.h3lp3rs.h3lp.view.signin
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -10,14 +10,14 @@ import android.widget.TextView
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.github.h3lp3rs.h3lp.MainPageActivity
+import com.github.h3lp3rs.h3lp.view.mainpage.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
-import com.github.h3lp3rs.h3lp.storage.LocalStorage
-import com.github.h3lp3rs.h3lp.storage.Storages
-import com.github.h3lp3rs.h3lp.storage.Storages.*
-import com.github.h3lp3rs.h3lp.storage.Storages.Companion.disableOnlineSync
-import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
+import com.github.h3lp3rs.h3lp.view.signin.presentation.PresArrivalActivity
+import com.github.h3lp3rs.h3lp.model.storage.LocalStorage
+import com.github.h3lp3rs.h3lp.model.storage.Storages
+import com.github.h3lp3rs.h3lp.model.storage.Storages.*
+import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.disableOnlineSync
+import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth.getInstance
 
@@ -51,7 +51,7 @@ class SignInActivity : AppCompatActivity() {
      * Check if the current user is already signed in and update activity accordingly
      */
     private fun offlineCheckIfSignedIn() {
-        userSignIn = storageOf(Storages.SIGN_IN) // Fetch from storage
+        userSignIn = storageOf(SIGN_IN) // Fetch from storage
         if (userSignIn.getBoolOrDefault(USER_SIGNED_IN, false)) {
             userUid = userSignIn.getStringOrDefault(USER_UID, "")
             username = userSignIn.getStringOrDefault(USER_NAME, "")

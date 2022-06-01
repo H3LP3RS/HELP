@@ -1,10 +1,10 @@
-package com.github.h3lp3rs.h3lp.professional
+package com.github.h3lp3rs.h3lp.view.professional
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.github.h3lp3rs.h3lp.MainPageActivity
+import com.github.h3lp3rs.h3lp.view.mainpage.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.view.forum.ForumCategoriesActivity
 

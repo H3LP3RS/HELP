@@ -1,4 +1,4 @@
-package com.github.h3lp3rs.h3lp.database.repositories
+package com.github.h3lp3rs.h3lp.model.database.repositories
 
 import java.util.concurrent.CompletableFuture
 

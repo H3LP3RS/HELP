@@ -41,6 +41,7 @@ import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContex
 import com.github.h3lp3rs.h3lp.model.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
 import com.github.h3lp3rs.h3lp.model.storage.Storages.USER_COOKIE
+import com.github.h3lp3rs.h3lp.view.helprequest.helpee.HelpeeSelectionActivity
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main_page.*
@@ -182,7 +183,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     }
 
     /**
-     * When the user does no longer see the activity
+     * When the user no longer sees the activity
      */
     override fun onStop() {
         super.onStop()
@@ -366,7 +367,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         when (listItem) {
             PROFILE -> goToButtonActivity(button_profile)
             CPR_RATE -> goToButtonActivity(button_cpr)
-            TUTORIAL -> goToButtonActivity(view)
+            TUTORIAL -> goToButtonActivity(findViewById(R.id.button_tutorial))
             HOSPITALS -> goToNearbyHospitals(view)
             PHARMACIES -> goToNearbyPharmacies(view)
         }

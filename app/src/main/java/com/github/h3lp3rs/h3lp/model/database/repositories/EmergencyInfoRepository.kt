@@ -1,7 +1,7 @@
-package com.github.h3lp3rs.h3lp.database.repositories
+package com.github.h3lp3rs.h3lp.model.database.repositories
 
-import com.github.h3lp3rs.h3lp.database.Database
-import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
+import com.github.h3lp3rs.h3lp.model.database.Database
+import com.github.h3lp3rs.h3lp.model.dataclasses.EmergencyInformation
 import java.util.concurrent.CompletableFuture
 
 /**

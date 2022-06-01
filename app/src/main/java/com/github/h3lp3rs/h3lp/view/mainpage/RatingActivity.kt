@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.activity_rating.*
 class RatingActivity : AppCompatActivity() {
     private lateinit var ratingBar: RatingBar
 
-    // the number of full stars in the rating bar
+    // The number of full stars in the rating bar
     private lateinit var ratingValue: TextView
     private val prefix = "Value: "
 

@@ -10,10 +10,12 @@ import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.github.h3lp3rs.h3lp.H3lpAppTest.Companion.USER_TEST_ID
+import com.github.h3lp3rs.h3lp.utils.H3lpAppTest.Companion.USER_TEST_ID
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
-import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
+import com.github.h3lp3rs.h3lp.view.forum.ForumCategoriesActivity
+import com.github.h3lp3rs.h3lp.view.forum.ForumPostsActivity
+import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
+import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.userUid
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
 import org.junit.After

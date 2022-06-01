@@ -22,14 +22,18 @@ import androidx.test.espresso.action.Tap
 import androidx.test.espresso.action.GeneralClickAction
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.Press.*
-import com.github.h3lp3rs.h3lp.database.Databases.*
-import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
-import com.github.h3lp3rs.h3lp.database.MockDatabase
-import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
-import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
-import com.github.h3lp3rs.h3lp.storage.Storages.*
-import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
-import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
+import com.github.h3lp3rs.h3lp.model.database.Databases.*
+import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.setDatabase
+import com.github.h3lp3rs.h3lp.model.database.MockDatabase
+import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
+import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.userUid
+import com.github.h3lp3rs.h3lp.model.storage.Storages.*
+import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.resetStorage
+import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
+import com.github.h3lp3rs.h3lp.utils.H3lpAppTest
+import com.github.h3lp3rs.h3lp.view.mainpage.MainPageActivity
+import com.github.h3lp3rs.h3lp.view.signin.presentation.PresIrrelevantActivity
+import com.github.h3lp3rs.h3lp.view.signin.presentation.ToSActivity
 
 @RunWith(AndroidJUnit4::class)
 class PresIrrelevantActivityTest : H3lpAppTest() {

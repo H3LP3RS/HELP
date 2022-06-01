@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:background="@drawable/full_background"
     android:layout_height="match_parent"
-    tools:context=".messaging.ChatActivity">
+    tools:context=".view.messaging.ChatActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

@@ -4,10 +4,10 @@ import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import android.security.keystore.KeyProperties.KEY_ALGORITHM_RSA
 import android.util.Base64
-import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
-import com.github.h3lp3rs.h3lp.database.Databases.MESSAGES
-import com.github.h3lp3rs.h3lp.storage.Storages
-import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
+import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.databaseOf
+import com.github.h3lp3rs.h3lp.model.database.Databases.MESSAGES
+import com.github.h3lp3rs.h3lp.model.storage.Storages
+import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
 import java.security.*
 import java.security.spec.X509EncodedKeySpec
 import javax.crypto.Cipher

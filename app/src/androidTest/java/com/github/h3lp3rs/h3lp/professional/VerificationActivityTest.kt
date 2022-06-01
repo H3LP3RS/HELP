@@ -12,10 +12,13 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.github.h3lp3rs.h3lp.H3lpAppTest
+import com.github.h3lp3rs.h3lp.utils.H3lpAppTest
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.database.Databases
-import com.github.h3lp3rs.h3lp.database.MockDatabase
+import com.github.h3lp3rs.h3lp.model.database.Databases
+import com.github.h3lp3rs.h3lp.model.database.MockDatabase
+import com.github.h3lp3rs.h3lp.model.professional.CloudStorage
+import com.github.h3lp3rs.h3lp.view.professional.ProMainActivity
+import com.github.h3lp3rs.h3lp.view.professional.VerificationActivity
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask

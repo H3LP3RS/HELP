@@ -10,9 +10,11 @@ import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.github.h3lp3rs.h3lp.FirstAidActivity
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.firstaid.FirstAidHowTo.ALLERGY
+import com.github.h3lp3rs.h3lp.model.dataclasses.FirstAidHowTo.ALLERGY
+import com.github.h3lp3rs.h3lp.view.firstaid.EXTRA_FIRST_AID
+import com.github.h3lp3rs.h3lp.view.firstaid.FirstAidActivity
+import com.github.h3lp3rs.h3lp.view.firstaid.GeneralFirstAidActivity
 import org.hamcrest.Matchers
 import org.junit.Test
 import org.junit.runner.RunWith

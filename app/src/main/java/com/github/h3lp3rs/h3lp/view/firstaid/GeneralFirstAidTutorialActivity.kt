@@ -1,4 +1,4 @@
-package com.github.h3lp3rs.h3lp.firstaid
+package com.github.h3lp3rs.h3lp.view.firstaid
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,10 +6,10 @@ import android.widget.ImageButton
 import android.widget.MediaController
 import android.widget.VideoView
 import androidx.appcompat.app.AppCompatActivity
-import com.github.h3lp3rs.h3lp.MainPageActivity
+import com.github.h3lp3rs.h3lp.view.mainpage.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.model.firstaid.FirstAidHowTo
-import com.github.h3lp3rs.h3lp.model.firstaid.FirstAidHowTo.*
+import com.github.h3lp3rs.h3lp.model.dataclasses.FirstAidHowTo
+import com.github.h3lp3rs.h3lp.model.dataclasses.FirstAidHowTo.*
 
 
 const val EXTRA_FIRST_AID = "first_aid"

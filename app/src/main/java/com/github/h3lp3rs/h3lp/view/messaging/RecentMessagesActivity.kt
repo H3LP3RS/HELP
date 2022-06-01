@@ -1,17 +1,17 @@
-package com.github.h3lp3rs.h3lp.messaging
+package com.github.h3lp3rs.h3lp.view.messaging
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.github.h3lp3rs.h3lp.EXTRA_EMERGENCY_KEY
-import com.github.h3lp3rs.h3lp.EXTRA_USER_ROLE
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.database.Databases
-import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
+import com.github.h3lp3rs.h3lp.model.database.Databases
+import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.model.messaging.Conversation.Companion.createAndSendKeyPair
 import com.github.h3lp3rs.h3lp.model.messaging.Messenger
 import com.github.h3lp3rs.h3lp.model.messaging.Messenger.HELPEE
+import com.github.h3lp3rs.h3lp.view.helprequest.helpee.EXTRA_EMERGENCY_KEY
+import com.github.h3lp3rs.h3lp.view.helprequest.helper.EXTRA_USER_ROLE
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder

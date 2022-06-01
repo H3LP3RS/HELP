@@ -1,4 +1,4 @@
-package com.github.h3lp3rs.h3lp.dataclasses
+package com.github.h3lp3rs.h3lp.model.dataclasses
 
 /**
  * Data class representing the information on a specific helper's skills and the medication they

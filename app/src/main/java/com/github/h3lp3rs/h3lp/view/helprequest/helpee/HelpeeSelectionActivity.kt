@@ -1,6 +1,6 @@
-package com.github.h3lp3rs.h3lp.helprequest.helpee
+package com.github.h3lp3rs.h3lp.view.helprequest.helpee
 
-import LocationHelper
+import com.github.h3lp3rs.h3lp.model.locationmanager.LocationHelper
 import android.content.Intent
 import android.content.Intent.ACTION_DIAL
 import android.net.Uri
@@ -13,16 +13,16 @@ import android.widget.Toast
 import android.widget.ToggleButton
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.github.h3lp3rs.h3lp.helprequest.LocalEmergencyCaller
+import com.github.h3lp3rs.h3lp.model.helprequestutils.LocalEmergencyCaller
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.database.Database
-import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
-import com.github.h3lp3rs.h3lp.database.Databases.EMERGENCIES
-import com.github.h3lp3rs.h3lp.database.Databases.NEW_EMERGENCIES
-import com.github.h3lp3rs.h3lp.database.repositories.EmergencyInfoRepository
-import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
-import com.github.h3lp3rs.h3lp.dataclasses.HelperSkills
-import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation
+import com.github.h3lp3rs.h3lp.model.database.Database
+import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.databaseOf
+import com.github.h3lp3rs.h3lp.model.database.Databases.EMERGENCIES
+import com.github.h3lp3rs.h3lp.model.database.Databases.NEW_EMERGENCIES
+import com.github.h3lp3rs.h3lp.model.database.repositories.EmergencyInfoRepository
+import com.github.h3lp3rs.h3lp.model.dataclasses.EmergencyInformation
+import com.github.h3lp3rs.h3lp.model.dataclasses.HelperSkills
+import com.github.h3lp3rs.h3lp.model.dataclasses.MedicalInformation
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
 import com.github.h3lp3rs.h3lp.model.storage.Storages.EMERGENCIES_RECEIVED
 import com.github.h3lp3rs.h3lp.model.storage.Storages.MEDICAL_INFO

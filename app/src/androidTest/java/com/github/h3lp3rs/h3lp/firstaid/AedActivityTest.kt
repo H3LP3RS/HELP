@@ -1,10 +1,8 @@
 package com.github.h3lp3rs.h3lp.firstaid
 
 import android.content.Intent
-import android.os.Bundle
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.scrollTo
@@ -14,13 +12,13 @@ import androidx.test.espresso.intent.Intents.init
 import androidx.test.espresso.intent.Intents.release
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
-import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.*
-import com.github.h3lp3rs.h3lp.firstaid.FirstAidHowTo.*
+import com.github.h3lp3rs.h3lp.model.dataclasses.FirstAidHowTo.*
+import com.github.h3lp3rs.h3lp.view.firstaid.EXTRA_FIRST_AID
+import com.github.h3lp3rs.h3lp.view.firstaid.FirstAidActivity
+import com.github.h3lp3rs.h3lp.view.firstaid.GeneralFirstAidActivity
 import org.hamcrest.Matchers
-import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 

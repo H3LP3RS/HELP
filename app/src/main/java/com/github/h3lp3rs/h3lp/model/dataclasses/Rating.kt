@@ -1,4 +1,4 @@
-package com.github.h3lp3rs.h3lp.dataclasses
+package com.github.h3lp3rs.h3lp.model.dataclasses
 
 /**
  * A model describing a rating

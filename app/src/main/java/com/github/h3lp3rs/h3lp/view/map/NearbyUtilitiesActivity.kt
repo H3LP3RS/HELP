@@ -1,15 +1,16 @@
-package com.github.h3lp3rs.h3lp.map
+package com.github.h3lp3rs.h3lp.view.map
 
-import LocationHelper
+import com.github.h3lp3rs.h3lp.model.locationmanager.LocationHelper
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.getColorStateList
-import com.github.h3lp3rs.h3lp.EXTRA_NEARBY_UTILITIES
+import com.github.h3lp3rs.h3lp.view.mainpage.EXTRA_NEARBY_UTILITIES
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.databinding.ActivityNearbyUtilitiesBinding
+import com.github.h3lp3rs.h3lp.model.map.GoogleAPIHelper
 import kotlinx.android.synthetic.main.activity_nearby_utilities.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope

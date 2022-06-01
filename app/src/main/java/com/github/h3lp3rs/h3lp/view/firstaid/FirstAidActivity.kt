@@ -1,14 +1,14 @@
-package com.github.h3lp3rs.h3lp.firstaid
+package com.github.h3lp3rs.h3lp.view.firstaid
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import com.github.h3lp3rs.h3lp.MainPageActivity
+import com.github.h3lp3rs.h3lp.view.mainpage.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.model.firstaid.FirstAidHowTo
-import com.github.h3lp3rs.h3lp.model.firstaid.FirstAidHowTo.*
+import com.github.h3lp3rs.h3lp.model.dataclasses.FirstAidHowTo
+import com.github.h3lp3rs.h3lp.model.dataclasses.FirstAidHowTo.*
 import kotlinx.android.synthetic.main.activity_first_aid.*
 
 class FirstAidActivity : AppCompatActivity() {

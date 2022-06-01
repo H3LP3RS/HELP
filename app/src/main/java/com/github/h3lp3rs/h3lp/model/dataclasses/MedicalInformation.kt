@@ -1,4 +1,4 @@
-package com.github.h3lp3rs.h3lp.dataclasses
+package com.github.h3lp3rs.h3lp.model.dataclasses
 
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import java.time.Year

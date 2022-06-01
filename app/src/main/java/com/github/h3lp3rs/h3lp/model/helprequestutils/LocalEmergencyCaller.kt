@@ -1,4 +1,4 @@
-package com.github.h3lp3rs.h3lp.helprequest
+package com.github.h3lp3rs.h3lp.model.helprequestutils
 
 import android.content.Context
 import android.location.Geocoder

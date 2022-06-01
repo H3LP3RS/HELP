@@ -1,6 +1,6 @@
-package com.github.h3lp3rs.h3lp.helprequest.helper
+package com.github.h3lp3rs.h3lp.view.helprequest.helper
 
-import LocationHelper
+import com.github.h3lp3rs.h3lp.model.locationmanager.LocationHelper
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
@@ -9,17 +9,16 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.github.h3lp3rs.h3lp.MainPageActivity
+import com.github.h3lp3rs.h3lp.view.mainpage.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.database.Databases.*
-import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
+import com.github.h3lp3rs.h3lp.model.database.Databases.*
+import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.databinding.ActivityHelpPageBinding
 import com.github.h3lp3rs.h3lp.databinding.ActivityHelpPageBinding.inflate
-import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
-import com.github.h3lp3rs.h3lp.dataclasses.Helper
-import com.github.h3lp3rs.h3lp.helprequest.helpee.EXTRA_EMERGENCY_KEY
+import com.github.h3lp3rs.h3lp.model.dataclasses.EmergencyInformation
+import com.github.h3lp3rs.h3lp.model.dataclasses.Helper
+import com.github.h3lp3rs.h3lp.view.helprequest.helpee.EXTRA_EMERGENCY_KEY
 import com.github.h3lp3rs.h3lp.model.map.GoogleAPIHelper
-import com.github.h3lp3rs.h3lp.view.map.MapsFragment
 import com.github.h3lp3rs.h3lp.view.messaging.ChatActivity
 import com.github.h3lp3rs.h3lp.model.messaging.Conversation
 import com.github.h3lp3rs.h3lp.model.messaging.Conversation.Companion.UNIQUE_CONVERSATION_ID
@@ -28,7 +27,8 @@ import com.github.h3lp3rs.h3lp.view.messaging.EXTRA_CONVERSATION_ID
 import com.github.h3lp3rs.h3lp.model.messaging.Messenger.HELPER
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.userUid
-import com.github.h3lp3rs.h3lp.parsers.GDurationJSONParser
+import com.github.h3lp3rs.h3lp.model.parsers.GDurationJSONParser
+import com.github.h3lp3rs.h3lp.view.map.MapsFragment
 import com.google.android.gms.maps.MapsInitializer.initialize
 import kotlinx.android.synthetic.main.activity_help_page.*
 import kotlinx.coroutines.CoroutineScope
@@ -108,7 +108,7 @@ class HelperPageActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     }
 
     /**
-     * Opens a popup asking the user to sign in to continue.
+     * Opens a popup asking the user to sign in to continue
      */
     private fun showSignInPopUp() {
         val dialog = Dialog(this)

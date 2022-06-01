@@ -1,4 +1,4 @@
-package com.github.h3lp3rs.h3lp.profile
+package com.github.h3lp3rs.h3lp.view.profile
 
 import android.content.Intent
 import android.icu.util.Calendar
@@ -18,17 +18,17 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
-import com.github.h3lp3rs.h3lp.MainPageActivity
+import com.github.h3lp3rs.h3lp.view.mainpage.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.dataclasses.BloodType
-import com.github.h3lp3rs.h3lp.dataclasses.Gender
-import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation
-import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation.Companion.ADULT_AGE
-import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation.Companion.DEFAULT_COUNTRY
-import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation.Companion.EMPTY_NB
-import com.github.h3lp3rs.h3lp.storage.LocalStorage
-import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
-import com.github.h3lp3rs.h3lp.storage.Storages.MEDICAL_INFO
+import com.github.h3lp3rs.h3lp.model.dataclasses.BloodType
+import com.github.h3lp3rs.h3lp.model.dataclasses.Gender
+import com.github.h3lp3rs.h3lp.model.dataclasses.MedicalInformation
+import com.github.h3lp3rs.h3lp.model.dataclasses.MedicalInformation.Companion.ADULT_AGE
+import com.github.h3lp3rs.h3lp.model.dataclasses.MedicalInformation.Companion.DEFAULT_COUNTRY
+import com.github.h3lp3rs.h3lp.model.dataclasses.MedicalInformation.Companion.EMPTY_NB
+import com.github.h3lp3rs.h3lp.model.storage.LocalStorage
+import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
+import com.github.h3lp3rs.h3lp.model.storage.Storages.MEDICAL_INFO
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout

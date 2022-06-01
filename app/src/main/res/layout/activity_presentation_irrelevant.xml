@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.PresIrrelevantActivity"
+    tools:context=".view.signin.presentation.PresIrrelevantActivity"
     android:background="@drawable/background_gradient">
 
     <TextView

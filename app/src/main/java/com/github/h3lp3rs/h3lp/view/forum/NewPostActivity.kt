@@ -1,4 +1,4 @@
-package com.github.h3lp3rs.h3lp.forum
+package com.github.h3lp3rs.h3lp.view.forum
 
 import android.os.Bundle
 import android.view.View
@@ -6,8 +6,8 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.model.forum.data.ForumCategory
-import com.github.h3lp3rs.h3lp.model.forum.data.ForumCategory.Companion.forumOf
+import com.github.h3lp3rs.h3lp.model.forum.ForumCategory
+import com.github.h3lp3rs.h3lp.model.forum.ForumCategory.Companion.forumOf
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.getName
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
 import com.google.android.material.textfield.TextInputEditText

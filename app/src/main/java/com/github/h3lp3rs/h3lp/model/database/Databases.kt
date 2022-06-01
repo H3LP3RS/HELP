@@ -1,4 +1,4 @@
-package com.github.h3lp3rs.h3lp.database
+package com.github.h3lp3rs.h3lp.model.database
 
 /**
  * Enumeration of all useful databases in H3LP
