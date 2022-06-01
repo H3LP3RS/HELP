@@ -1,5 +1,6 @@
 package com.github.h3lp3rs.h3lp
 
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.github.h3lp3rs.h3lp.forum.Forum
 import com.github.h3lp3rs.h3lp.forum.ForumCategory.*
 import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.mockForum
@@ -9,15 +10,16 @@ import org.junit.Test
 import java.util.concurrent.TimeUnit.*
 import kotlin.test.*
 
-class MockForumTest {
+// MockForumTest is an android test since it requires an application context to use the storages
+class MockForumTest : H3lpAppTest(){
 
     // Useful variables
     private lateinit var forum: Forum
 
     @Before
     fun setup() {
-        mockForum()
-        forum = root().child(GENERAL.name)
+        mockForum(getApplicationContext())
+        forum = root(getApplicationContext()).child(GENERAL.name)
     }
 
     @Test
