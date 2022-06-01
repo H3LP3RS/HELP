@@ -214,15 +214,14 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
             signInStorage.setBoolean(GUIDE_KEY, true)
 
             // Disable buttons so that the guide can be seen to completion
-            val oldMap = buttonToActivity
-            buttonToActivity = mapOf()
+            // TODO change buttonToActivity mapping to disable buttons
 
             // Starts the guide of main page buttons. Once it finishes, it shows the
             // prompt for the search bar by executing the showSearchBarPrompt.
             showButtonPrompt(mainPageButtons) { showSearchBarPrompt() }
 
             // Re-enable the buttons
-            buttonToActivity = oldMap
+            // TODO
         }
     }
 
