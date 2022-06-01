@@ -72,10 +72,6 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     private lateinit var toggle: ActionBarDrawerToggle
     private var locPermissionDenied = false
 
-    // Maps the clicked button to the activity it should launch to avoid code duplication
-    // only has keys for the buttons whose behaviour is a simple goToActivity
-    private lateinit var buttonToActivity: Map<View, Class<*>>
-
     private lateinit var searchView: SearchView
     private lateinit var listView: ListView
     private lateinit var storage: LocalStorage
@@ -89,16 +85,6 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_page)
-
-        // Set up the basic buttons functionality
-        buttonToActivity = mapOf(
-            button_profile to MedicalCardActivity::class.java,
-            button_my_skills to MySkillsActivity::class.java,
-            button_first_aid to FirstAidActivity::class.java,
-            button_cpr to CprRateActivity::class.java,
-            HELP_button to HelpeeSelectionActivity::class.java,
-            button_forum to ForumCategoriesActivity::class.java
-        )
 
         // Load the storage
         storage = storageOf(USER_COOKIE)
@@ -374,7 +360,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         when (listItem) {
             PROFILE -> goToButtonActivity(button_profile)
             CPR_RATE -> goToButtonActivity(button_cpr)
-            TUTORIAL -> viewPresentation(view)
+            TUTORIAL -> goToButtonActivity(view)
             HOSPITALS -> goToNearbyHospitals(view)
             PHARMACIES -> goToNearbyPharmacies(view)
         }
@@ -401,10 +387,8 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.button_tutorial) {
-            viewPresentation(findViewById<View>(android.R.id.content).rootView)
-        } else if (item.itemId == R.id.toolbar_settings) {
-            goToSettings(findViewById(android.R.id.content))
+        if (item.itemId == R.id.button_tutorial || item.itemId == R.id.toolbar_settings) {
+            goToButtonActivity(findViewById(item.itemId))
         }
 
         return if (toggle.onOptionsItemSelected(item)) true else super.onOptionsItemSelected(item)
@@ -459,19 +443,6 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         }
     }
 
-    /**
-     * Called when the user taps on the info button
-     * Starts the presentation of the app
-     */
-    private fun viewPresentation(view: View) {
-        goToActivity(PresArrivalActivity::class.java)
-    }
-
-    /** Called when the user taps the my skills button */
-    fun goToMySkillsActivity(view: View) {
-        goToActivity(MySkillsActivity::class.java)
-    }
-
     /** Called when the user taps the nearby hospitals button */
     fun goToNearbyHospitals(view: View) {
         goToNearbyUtilities(resources.getString(R.string.nearby_hospitals))
@@ -487,21 +458,29 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         goToNearbyUtilities(resources.getString(R.string.nearby_phamacies))
     }
 
-    /** Called when the user taps the first aid tips button */
-    private fun goToSettings(view: View) {
-        goToActivity(SettingsActivity::class.java)
-    }
-
 
     /**
      * Called whenever a user clicks a button in the activity, launches the button's corresponding
-     * activity (as defined in buttonToActivity), only used for buttons that directly launch an
-     * activity
+     * activity, only used for buttons that directly launch an activity
      * @param view The button that was clicked
      */
     fun goToButtonActivity(view: View) {
-        // If the view isn't one of the buttons, don't do anything
-        buttonToActivity[view]?.let { goToActivity(it) }
+        // If the view isn't one of the buttons, stays on the main page
+        goToActivity(
+            when (view.id) {
+                R.id.button_profile -> MedicalCardActivity::class.java
+                R.id.button_my_skills -> MySkillsActivity::class.java
+                R.id.button_first_aid -> FirstAidActivity::class.java
+                R.id.button_cpr -> CprRateActivity::class.java
+                R.id.HELP_button -> HelpeeSelectionActivity::class.java
+                R.id.button_forum -> ForumCategoriesActivity::class.java
+                R.id.button_tutorial -> PresArrivalActivity::class.java
+                R.id.toolbar_settings -> SettingsActivity::class.java
+                else -> {
+                    MainPageActivity::class.java
+                }
+            }
+        )
     }
 
     /** Called when the user taps the professional portal  button */

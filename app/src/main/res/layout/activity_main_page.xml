@@ -461,7 +461,7 @@
                         android:layout_marginTop="@dimen/margin_image_inside_layout"
                         android:background="@drawable/medication"
                         android:contentDescription="@string/skills_button"
-                        android:onClick="goToMySkillsActivity"
+                        android:onClick="goToButtonActivity"
                         tools:ignore="ImageContrastCheck" />
 
                 <TextView
