@@ -45,7 +45,7 @@ class ReportActivityTest {
     @Test
     fun sendReportButtonWorks() {
         onView(withId(R.id.reportCategoryDropdown))
-            .perform(replaceText(bug))
+            .perform(replaceText("bug"))
 
         onView(withId(R.id.reportEditTxt))
             .perform(replaceText(""))
