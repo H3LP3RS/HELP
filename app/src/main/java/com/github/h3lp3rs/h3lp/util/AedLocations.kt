@@ -14,4 +14,5 @@ val AED_LOCATIONS_LAUSANNE = listOf(
     hashMapOf("name" to "aed","lat" to "46.51760", "lng" to "6.63102"),
     hashMapOf("name" to "aed","lat" to "46.52018", "lng" to "6.63399"),
     hashMapOf("name" to "aed","lat" to "46.52353", "lng" to "6.63880"),
+    hashMapOf("name" to "aed", "lat" to "46.5229", "lng" to "6.5657")
 )

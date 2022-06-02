@@ -68,7 +68,7 @@ class CprRateActivity : AppCompatActivity() {
 
     // Stops the CPR rate
     private fun stop() {
-        //heartIcon.clearAnimation()
+        heartIcon.clearAnimation()
         startButton.text = getString(R.string.cpr_rate_button_start)
         beepSound.pause()
         beepSound.seekTo(0)
@@ -77,7 +77,7 @@ class CprRateActivity : AppCompatActivity() {
 
     // Starts the CPR rate
     private fun start() {
-        //heartIcon.startAnimation(heartBeatAnimation)
+        heartIcon.startAnimation(heartBeatAnimation)
         startButton.text = getString(R.string.cpr_rate_button_stop)
         beepSound.start()
         animationIsPlaying = true
