@@ -4,11 +4,13 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
@@ -88,9 +90,11 @@ class SignInActivity : AppCompatActivity() {
      * Checks the Terms of Service to see if they were already accepted, if they were, launches the
      * app by going to the main page, if not, goes back to the activity to accept the ToS
      */
+    @RequiresApi(Build.VERSION_CODES.S)
     private fun checkToSAndLaunchIfNotAcceptedElseMain() {
         // Check ToS agreement
         userCookie = storageOf(USER_COOKIE) // Fetch from storage
+        userCookie.pull(true) // Block until it's updated
         if (!userCookie.getBoolOrDefault(getString(R.string.KEY_USER_AGREE), false)) {
             val intent = Intent(this, PresArrivalActivity::class.java)
             startActivity(intent)
