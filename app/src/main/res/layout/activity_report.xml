@@ -76,7 +76,7 @@
                     app:boxStrokeColor="@color/persimmon"
                     app:errorEnabled="true"
                     app:errorIconDrawable="@drawable/ic_error"
-                    app:hintTextColor="@color/teal_700"
+                    app:hintTextColor="@color/dark_persimmon"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:startIconDrawable="@drawable/ic_category"
