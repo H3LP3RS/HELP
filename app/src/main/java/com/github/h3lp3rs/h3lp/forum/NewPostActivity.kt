@@ -53,7 +53,11 @@ class NewPostActivity : AppCompatActivity() {
         val question = textViewAnswerQuestion.text.toString()
         val forum = ForumCategory.categoriesMap[category]?.let { cachedForumOf(it) }!!
         // Add post to the database
-        val post = getName()?.let { forum.newPost(it, question, true) }
+        val post = getName()?.let { forum.newPost(it, question, true)}
+        post?.thenAccept {
+            it.reply("Dr. Heart", "Have you tried rebooting?")
+        }
+
         // Enable notifications on replies to this post if user has activated it
         if (switch_enable_notifications.isChecked) {
             post?.thenAccept {
