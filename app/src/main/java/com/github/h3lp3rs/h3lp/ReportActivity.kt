@@ -15,8 +15,8 @@ import kotlinx.android.synthetic.main.activity_report.*
 class ReportActivity : AppCompatActivity() {
 
     companion object {
-        const val bug = "bug"
-        const val suggestion = "suggestion"
+        const val bug = R.string.bug
+        const val suggestion = R.string.suggestion
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

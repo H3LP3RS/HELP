@@ -121,14 +121,5 @@ class SideBarTest : H3lpAppTest() {
             .perform(NavigationViewActions.navigateTo(R.id.nav_rate_us))
         intended(allOf(hasComponent(RatingActivity::class.java.name)))
     }
-
-    /**
-     * dummy function for coverage, will be deleted later
-     */
-    @Test
-    fun clickingOnIconDoesNothing() {
-        openDrawerLayout()
-        onView(withId(R.id.nav_view))
-            .perform(NavigationViewActions.navigateTo(R.id.nav_rate_us))
-    }
+    
 }
