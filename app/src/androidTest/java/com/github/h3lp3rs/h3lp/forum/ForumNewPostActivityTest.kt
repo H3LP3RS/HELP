@@ -34,7 +34,7 @@ class ForumNewPostActivityTest {
     @Before
     fun setup() {
         globalContext = getApplicationContext()
-        setName(USER_TEST_ID)g
+        setName(USER_TEST_ID)
         mockForum()
         forum = forumOf(TRAUMATOLOGY)
         val intent = Intent(
