@@ -34,6 +34,7 @@ class SignInActivity : AppCompatActivity() {
     private lateinit var keyUID: String
     private lateinit var keyUsername: String
 
+    @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
