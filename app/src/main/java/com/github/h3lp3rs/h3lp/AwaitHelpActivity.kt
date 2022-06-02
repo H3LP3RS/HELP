@@ -130,16 +130,13 @@ class AwaitHelpActivity : AppCompatActivity() {
         // on the corresponding thread to enable testing
         runOnUiThread {
 
-            val helpersText = findViewById<TextView>(R.id.incomingHelpersNumber)
-            if (helpersId.size > 1) {
-                helpersText.text =
-                    String.format(getString(R.string.many_people_help), helpersId.size)
-            } else {
+            incomingHelpersNumber.text =
+                resources.getQuantityString(R.plurals.number_of_helpers, helpersId.size, helpersId.size)
+
+            if(helpersId.size <= 1){
                 findViewById<ProgressBar>(R.id.searchProgressBar).visibility = View.GONE
                 findViewById<TextView>(R.id.progressBarText).visibility = View.GONE
-                helpersText.visibility = View.VISIBLE
-
-                helpersText.text = getString(R.string.one_person_help)
+                incomingHelpersNumber.visibility = View.VISIBLE
                 // When the first user agrees to provide help, the user can contact
                 // him via the chat feature.
                 constraint_layout_contact_helpers.visibility = View.VISIBLE

@@ -5,12 +5,16 @@ import android.app.Instrumentation.ActivityResult
 import android.content.Intent
 import android.location.Location
 import android.net.Uri
-import androidx.test.espresso.intent.Intents.*
+import android.view.View
+import androidx.test.espresso.intent.Intents.init
+import androidx.test.espresso.intent.Intents.intending
 import androidx.test.espresso.intent.matcher.IntentMatchers
-import com.github.h3lp3rs.h3lp.dataclasses.*
 import com.github.h3lp3rs.h3lp.dataclasses.BloodType.ABn
+import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
 import com.github.h3lp3rs.h3lp.dataclasses.Gender.Female
 import com.github.h3lp3rs.h3lp.dataclasses.Gender.Male
+import com.github.h3lp3rs.h3lp.dataclasses.HelperSkills
+import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation
 import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation.Companion.ADULT_AGE
 import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation.Companion.MAX_HEIGHT
 import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation.Companion.MAX_WEIGHT
@@ -19,13 +23,16 @@ import com.github.h3lp3rs.h3lp.locationmanager.LocationManagerInterface
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
 import com.github.h3lp3rs.h3lp.storage.Storages.MEDICAL_INFO
+import com.google.android.material.textfield.TextInputLayout
 import org.apache.commons.lang3.RandomUtils.nextBoolean
-import org.mockito.Mockito.`when` as When
+import org.hamcrest.Description
+import org.hamcrest.Matcher
+import org.hamcrest.TypeSafeMatcher
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.anyOrNull
-import java.lang.RuntimeException
 import java.util.*
 import java.util.concurrent.CompletableFuture
+import org.mockito.Mockito.`when` as When
 
 /**
  * Super class for tests in this app containing useful constants and functions
@@ -80,6 +87,7 @@ open class H3lpAppTest {
         )
         When(locationMock.longitude).thenReturn(longitude)
         When(locationMock.latitude).thenReturn(latitude)
+
         GeneralLocationManager.set(locationManagerMock)
     }
 
@@ -99,6 +107,34 @@ open class H3lpAppTest {
         GeneralLocationManager.set(locationManagerMock)
     }
 
+    /**
+     * Custom matcher to test error on TextInputLayout.
+     * See : https://stackoverflow.com/questions/38842034/how-to-test-textinputlayout-values-hint-error-etc-using-android-espresso
+     */
+     val hasInputLayoutError: Matcher<View> = object : TypeSafeMatcher<View>() {
+        override fun describeTo(description: Description?) {}
+        override fun matchesSafely(item: View?): Boolean {
+            if (item !is TextInputLayout) return false
+            item.error ?: return false
+            return true
+        }
+    }
+
+    /**
+     * Custom matcher to test error message on TextInputLayout.
+     * See : https://stackoverflow.com/questions/38842034/how-to-test-textinputlayout-values-hint-error-etc-using-android-espresso
+     */
+    val hasTextInputLayoutError: (String) -> Matcher<View> = { msg: String ->
+        object : TypeSafeMatcher<View>() {
+            override fun describeTo(description: Description?) {}
+            override fun matchesSafely(item: View?) : Boolean {
+                if (item !is TextInputLayout) return false
+                val error = item.error ?: return false
+                return error.toString() == msg
+            }
+        }
+    }
+
     companion object {
         val TEST_URI: Uri = Uri.EMPTY
 
@@ -108,6 +144,7 @@ open class H3lpAppTest {
         val VALID_FORMAT_NUMBERS = arrayOf("0216933000", "216933000", "+41216933000")
         const val VALID_CONTACT_NUMBER = "+41216933000"
         const val USER_TEST_ID = "SECRET_AGENT_007"
+        const val USER_TEST_NAME = "SECRET_AGENT"
         const val TEST_EMERGENCY_ID = "1"
 
         // Walking time from the user to the destination according to the Google directions API
