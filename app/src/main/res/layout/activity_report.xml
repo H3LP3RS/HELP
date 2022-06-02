@@ -103,7 +103,7 @@
                     android:hint="@string/what_must_be_changed"
                     app:boxStrokeColor="@color/persimmon"
                     app:errorIconDrawable="@drawable/ic_error"
-                    app:hintTextColor="@color/teal_700"
+                    app:hintTextColor="@color/dark_persimmon"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/reportCategoryLayout"
