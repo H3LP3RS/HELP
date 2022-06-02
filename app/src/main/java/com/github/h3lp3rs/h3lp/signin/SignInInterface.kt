@@ -14,9 +14,9 @@ interface SignInInterface<T> {
      * Configures the sign in and builds the sign in client
      * @param currentActivity The activity from which the sign in is called to display the sign
      *      in client
-     * @return An intent to launch the sign in client
+     * @return An intent to launch the sign in client if needed, null otherwise
      */
-    fun signIn(currentActivity: Activity): Intent
+    fun signIn(currentActivity: Activity): Intent?
 
     /**
      * @return A boolean: True if the user is currently signed in, false otherwise
@@ -30,7 +30,7 @@ interface SignInInterface<T> {
      * @return A task which finishes the authentication and returns
      *      information about the authentication succeeding or failing
      */
-    fun authenticate(result: ActivityResult, currentActivity: Activity): Task<T>?
+    fun authenticate(result: ActivityResult ?, currentActivity: Activity): Task<T>?
 
     /**
      * Signs the current user out

@@ -3,24 +3,26 @@ package com.github.h3lp3rs.h3lp.signin
 import android.app.Activity
 import android.content.Intent
 import androidx.activity.result.ActivityResult
-import androidx.test.core.app.ApplicationProvider.*
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasPackage
-import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.H3lpAppTest
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
+import com.github.h3lp3rs.h3lp.database.Databases.PREFERENCES
 import com.github.h3lp3rs.h3lp.database.MockDatabase
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
-import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
+import com.github.h3lp3rs.h3lp.storage.Storages.SIGN_IN
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import org.junit.After
@@ -33,12 +35,11 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.anyOrNull
 import org.mockito.Mockito.`when` as When
-import com.github.h3lp3rs.h3lp.storage.Storages.SIGN_IN
 
 
 @RunWith(AndroidJUnit4::class)
 class GoogleSignInTest : H3lpAppTest() {
-    private lateinit var intent: Intent
+    private lateinit var intent : Intent
     private val googleSignInPackageName = "com.google.android.gms"
     private var authenticationStarted = false
 
@@ -80,7 +81,15 @@ class GoogleSignInTest : H3lpAppTest() {
     }
 
     @Test
+    fun signInWithGoogleLaunchesCorrectIntent() {
+        inputCorrectUsername()
+        clickSignInButton()
+        intended(hasPackage(googleSignInPackageName))
+    }
+
+    @Test
     fun signInWithGoogleLaunchesAuthenticationProcess() {
+        inputCorrectUsername()
         clickSignInButton()
         assertNotNull(GoogleSignInAdapter.gso)
         testRule.scenario.onActivity { activity ->
@@ -91,14 +100,24 @@ class GoogleSignInTest : H3lpAppTest() {
         assertEquals(authenticationStarted, true)
     }
 
-    @Test
-    fun signInWithGoogleLaunchesCorrectIntent() {
-        clickSignInButton()
-        intended(hasPackage(googleSignInPackageName))
+    private fun clickSignInButton() {
+        inputCorrectUsername()
+        onView(withId(R.id.signInButton)).perform(click())
     }
 
-    private fun clickSignInButton() {
+    private fun inputCorrectUsername() {
+        onView(withId(R.id.text_field_username)).perform(ViewActions.replaceText((USER_TEST_NAME)))
+    }
+
+    @Test
+    fun emptyUsernameLeadsToError() {
         onView(withId(R.id.signInButton)).perform(click())
+
+        onView(withText(R.string.username_error_field_msg)).check(
+            matches(
+                withEffectiveVisibility(Visibility.VISIBLE)
+            )
+        )
     }
 
     @After
