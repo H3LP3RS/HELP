@@ -25,6 +25,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.AuthResult
 import kotlinx.android.synthetic.main.activity_sign_in.*
 
+@RequiresApi(Build.VERSION_CODES.S)
 class SignInActivity : AppCompatActivity() {
 
     lateinit var signInClient: SignInInterface<AuthResult>
@@ -34,7 +35,6 @@ class SignInActivity : AppCompatActivity() {
     private lateinit var keyUID: String
     private lateinit var keyUsername: String
 
-    @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -91,7 +91,6 @@ class SignInActivity : AppCompatActivity() {
      * Checks the Terms of Service to see if they were already accepted, if they were, launches the
      * app by going to the main page, if not, goes back to the activity to accept the ToS
      */
-    @RequiresApi(Build.VERSION_CODES.S)
     private fun checkToSAndLaunchIfNotAcceptedElseMain() {
         // Check ToS agreement
         userCookie = storageOf(USER_COOKIE) // Fetch from storage
