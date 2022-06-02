@@ -1,9 +1,9 @@
 package com.github.h3lp3rs.h3lp.forum
 
 import android.content.Context
-import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -17,7 +17,6 @@ import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.forum.ForumCategory.*
 import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.forumOf
 import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.mockForum
-import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.setName
 import org.junit.Assert.assertEquals
@@ -35,7 +34,7 @@ class ForumNewPostActivityTest {
     @Before
     fun setup() {
         globalContext = getApplicationContext()
-        setName(USER_TEST_ID)
+        setName(USER_TEST_ID)g
         mockForum()
         forum = forumOf(TRAUMATOLOGY)
         val intent = Intent(
