@@ -13,6 +13,7 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.github.h3lp3rs.h3lp.database.Databases.CONVERSATION_IDS
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.database.Databases.EMERGENCIES
@@ -74,7 +75,8 @@ class AwaitHelpActivity : AppCompatActivity() {
 
             // Initially the contact helpers is hidden, only after a user responds to the request it
             // becomes visible.
-            constraint_layout_contact_helpers.visibility = View.INVISIBLE
+            image_open_latest_messages.setColorFilter(ContextCompat.getColor(this, R.color.light_gray), android.graphics.PorterDuff.Mode.SRC_IN)
+            image_open_latest_messages.isClickable=false
         }
     }
 
@@ -139,7 +141,8 @@ class AwaitHelpActivity : AppCompatActivity() {
                 incomingHelpersNumber.visibility = View.VISIBLE
                 // When the first user agrees to provide help, the user can contact
                 // him via the chat feature.
-                constraint_layout_contact_helpers.visibility = View.VISIBLE
+                image_open_latest_messages.setColorFilter(ContextCompat.getColor(this, R.color.gray), android.graphics.PorterDuff.Mode.SRC_IN)
+                image_open_latest_messages.isClickable=true
                 image_open_latest_messages.setOnClickListener {
                     goToRecentMessagesActivity(
                         emergencyId
