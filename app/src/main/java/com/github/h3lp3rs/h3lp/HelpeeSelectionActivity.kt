@@ -166,7 +166,7 @@ class HelpeeSelectionActivity : AppCompatActivity() {
         val selectionPair = retrieveSelectedMedication(findViewById(R.id.help_params_layout) )
         val meds = selectionPair.first
         val skills = selectionPair.second
-
+7
         if (meds.isEmpty()) {
             Toast.makeText(
                 applicationContext,
