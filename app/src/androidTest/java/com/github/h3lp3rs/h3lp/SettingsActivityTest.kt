@@ -10,9 +10,12 @@ import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.*
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.github.h3lp3rs.h3lp.ReportActivity.Companion.bug
+import com.github.h3lp3rs.h3lp.ReportActivity.Companion.suggestion
 import com.github.h3lp3rs.h3lp.database.Databases.*
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.database.MockDatabase
+import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
@@ -53,6 +56,48 @@ class SettingsActivityTest : H3lpAppTest() {
             initIntentAndCheckResponse()
             onView(withId(R.id.logoutSettingsButton)).perform(click())
             intended(allOf(hasComponent(SignInActivity::class.java.name)))
+            release()
+        }
+    }
+
+    @Test
+    fun aboutUsButtonWorks() {
+        launch().use {
+            initIntentAndCheckResponse()
+            onView(withId(R.id.buttonAboutHelp)).perform(scrollTo(), click())
+            intended(allOf(hasComponent(PresArrivalActivity::class.java.name)))
+            release()
+        }
+    }
+
+    @Test
+    fun bugButtonWorks() {
+        launch().use {
+            initIntentAndCheckResponse()
+            onView(withId(R.id.buttonBugReport)).perform(scrollTo(), click())
+            intended(
+                allOf(
+                    hasComponent(ReportActivity::class.java.name), hasExtra(
+                        EXTRA_REPORT_CATEGORY, bug
+                    )
+                )
+            )
+            release()
+        }
+    }
+
+    @Test
+    fun suggestionButtonWorks() {
+        launch().use {
+            initIntentAndCheckResponse()
+            onView(withId(R.id.buttonSuggestion)).perform(scrollTo(), click())
+            intended(
+                allOf(
+                    hasComponent(ReportActivity::class.java.name), hasExtra(
+                        EXTRA_REPORT_CATEGORY, suggestion
+                    )
+                )
+            )
             release()
         }
     }

@@ -1,6 +1,7 @@
 package com.github.h3lp3rs.h3lp
 
 import android.view.View
+import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.*
 import androidx.test.espresso.action.ViewActions
@@ -15,6 +16,8 @@ import com.github.h3lp3rs.h3lp.firstaid.AllergyActivity
 import com.github.h3lp3rs.h3lp.firstaid.AsthmaActivity
 import com.github.h3lp3rs.h3lp.firstaid.HeartAttackActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
+import junit.framework.Assert.assertEquals
+import junit.framework.Assert.assertTrue
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.*
 import org.junit.After
@@ -74,6 +77,7 @@ class FirstAidActivityTest : H3lpAppTest() {
 
     @Test
     fun clickBackButtonWorksAndSendsIntent() {
-        clickingOnButtonWorksAndSendsIntent(MainPageActivity::class.java, withId(R.id.first_aid_back_button))
+        onView(withId(R.id.first_aid_back_button)).perform(ViewActions.scrollTo(), ViewActions.click())
+        assertEquals(testRule.scenario.state, Lifecycle.State.RESUMED)
     }
 }
