@@ -410,5 +410,11 @@ appropriate authorization, or a name that is otherwise offensive, vulgar or obsc
     <string name="sign_in">Sign in</string>
     <string name="pick_your_username">Pick your username</string>
     <string name="sign_up_anonymously"><u>Sign up anonymously</u></string>
+    <string name="what_is_h3lp">What is H3LP</string>
+    <string name="report">Report</string>
+    <string name="what_must_be_changed">What must be changed ?</string>
+    <string name="send_report">Send report</string>
     <string name="post_reply_notification_msg">New reply to your post in %s from: %s</string>
+    <string name="bug">bug</string>
+    <string name="suggestion">suggestion</string>
 </resources>

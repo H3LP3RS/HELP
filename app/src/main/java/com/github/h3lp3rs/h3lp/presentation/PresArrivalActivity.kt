@@ -28,4 +28,9 @@ class PresArrivalActivity : AppCompatActivity() {
             gestureDetector.onTouchEvent(event)
         }
     }
+
+    /**
+     * Disables the back button on the presentation page.
+     */
+    override fun onBackPressed() { }
 }
