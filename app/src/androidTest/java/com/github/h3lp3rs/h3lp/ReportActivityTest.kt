@@ -1,6 +1,7 @@
 package com.github.h3lp3rs.h3lp
 
 import android.content.Intent
+import android.provider.Settings.Global.getString
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
@@ -55,7 +56,7 @@ class ReportActivityTest {
 
         val report = reportsDb.getObject(H3lpAppTest.USER_TEST_ID, Report::class.java).get()
 
-        assertEquals(report.category, bug)
+        assertEquals(report.category, "bug")
         assertEquals(report.content, "")
 
         release()

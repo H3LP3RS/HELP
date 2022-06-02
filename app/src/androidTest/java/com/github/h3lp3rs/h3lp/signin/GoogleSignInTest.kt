@@ -39,7 +39,7 @@ import org.mockito.Mockito.`when` as When
 
 @RunWith(AndroidJUnit4::class)
 class GoogleSignInTest : H3lpAppTest() {
-    
+
     private lateinit var intent : Intent
     private val googleSignInPackageName = "com.google.android.gms"
     private var authenticationStarted = false
