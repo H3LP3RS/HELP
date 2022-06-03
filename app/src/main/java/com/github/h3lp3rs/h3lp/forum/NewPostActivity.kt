@@ -55,7 +55,7 @@ class NewPostActivity : AppCompatActivity() {
         // Add post to the database
         val post = getName()?.let { forum.newPost(it, question, true)}
         post?.thenAccept {
-            it.reply("Dr. Heart", "Have you tried rebooting?")
+            it.reply("Dr. Heart", "You should consider dropping SDP.")
         }
 
         // Enable notifications on replies to this post if user has activated it
