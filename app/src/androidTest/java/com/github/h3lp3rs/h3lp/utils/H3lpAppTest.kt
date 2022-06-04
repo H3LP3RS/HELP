@@ -5,16 +5,21 @@ import android.app.Instrumentation.ActivityResult
 import android.content.Intent
 import android.location.Location
 import android.net.Uri
-import androidx.test.espresso.intent.Intents.init
-import androidx.test.espresso.intent.Intents.intending
+import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.intent.Intents
+import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers
+import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.*
 import com.github.h3lp3rs.h3lp.R
+import com.github.h3lp3rs.h3lp.model.dataclasses.*
 import com.github.h3lp3rs.h3lp.model.locationmanager.GeneralLocationManager
 import com.github.h3lp3rs.h3lp.model.dataclasses.BloodType.ABn
-import com.github.h3lp3rs.h3lp.model.dataclasses.EmergencyInformation
-import com.github.h3lp3rs.h3lp.model.dataclasses.Gender
-import com.github.h3lp3rs.h3lp.model.dataclasses.HelperSkills
-import com.github.h3lp3rs.h3lp.model.dataclasses.MedicalInformation
 import com.github.h3lp3rs.h3lp.model.dataclasses.MedicalInformation.Companion.ADULT_AGE
 import com.github.h3lp3rs.h3lp.model.dataclasses.MedicalInformation.Companion.MAX_HEIGHT
 import com.github.h3lp3rs.h3lp.model.dataclasses.MedicalInformation.Companion.MAX_WEIGHT
@@ -22,6 +27,8 @@ import com.github.h3lp3rs.h3lp.model.locationmanager.LocationManagerInterface
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
 import com.github.h3lp3rs.h3lp.model.storage.Storages.MEDICAL_INFO
+import com.github.h3lp3rs.h3lp.view.firstaid.EXTRA_FIRST_AID
+import com.github.h3lp3rs.h3lp.view.firstaid.GeneralFirstAidActivity
 import org.apache.commons.lang3.RandomUtils.nextInt
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.anyOrNull
@@ -34,7 +41,6 @@ import org.mockito.Mockito.`when` as When
  * that are common to many tests
  */
 open class H3lpAppTest {
-
     protected val locationManagerMock: LocationManagerInterface =
         mock(LocationManagerInterface::class.java)
     private val locationMock: Location = mock(Location::class.java)
@@ -101,6 +107,17 @@ open class H3lpAppTest {
         )
 
         GeneralLocationManager.set(locationManagerMock)
+    }
+
+
+    /**
+     * Checks if a component is correctly displayed on the view
+     *
+     * @param id Id of the component
+     */
+    fun checkIfDisplayed(id: Int) {
+        onView(withId(id))
+            .check(matches(isDisplayed()))
     }
 
     companion object {

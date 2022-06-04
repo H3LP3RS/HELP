@@ -3,8 +3,10 @@ package com.github.h3lp3rs.h3lp.firstaid
 import android.view.View
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
+import androidx.test.espresso.intent.Intents.release
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -47,7 +49,7 @@ class FirstAidActivityTest : H3lpAppTest() {
     }
 
     private fun clickingOnButtonWorksAndSendsIntent(ActivityName: Class<*>?, id: Matcher<View>) {
-        onView(id).perform(ViewActions.scrollTo(), ViewActions.click())
+        onView(id).perform(scrollTo(), click())
         intended(
             allOf(
                 hasComponent(ActivityName!!.name)
@@ -61,7 +63,7 @@ class FirstAidActivityTest : H3lpAppTest() {
         extraName: String,
         firstAidExtra: FirstAidHowTo
     ) {
-        onView(id).perform(ViewActions.scrollTo(), ViewActions.click())
+        onView(id).perform(scrollTo(), click())
         intended(
             allOf(
                 hasComponent(ActivityName!!.name),

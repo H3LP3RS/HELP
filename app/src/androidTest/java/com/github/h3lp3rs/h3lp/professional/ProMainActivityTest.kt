@@ -38,11 +38,6 @@ class ProMainActivityTest : H3lpAppTest() {
         ProMainActivity::class.java
     )
 
-    private fun checkIfDisplayed(id: Int){
-        onView(withId(id))
-            .check(matches(isDisplayed()))
-    }
-
     @Before
     fun setup() {
         userUid = USER_TEST_ID

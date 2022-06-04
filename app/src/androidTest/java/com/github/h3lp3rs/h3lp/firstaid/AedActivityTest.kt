@@ -15,6 +15,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.*
 import com.github.h3lp3rs.h3lp.model.dataclasses.FirstAidHowTo.*
+import com.github.h3lp3rs.h3lp.utils.H3lpAppTest
 import com.github.h3lp3rs.h3lp.view.firstaid.EXTRA_FIRST_AID
 import com.github.h3lp3rs.h3lp.view.firstaid.FirstAidActivity
 import com.github.h3lp3rs.h3lp.view.firstaid.GeneralFirstAidActivity
@@ -23,7 +24,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class AedActivityTest {
+class AedActivityTest: H3lpAppTest() {
 
     fun launch(): ActivityScenario<GeneralFirstAidActivity> {
         // Forge the right intent
@@ -37,15 +38,6 @@ class AedActivityTest {
         return ActivityScenario.launch(intent)
     }
 
-    /**
-     * Check if a component is correctly displayed on the view
-     *
-     * @param id Id of the component
-     */
-    private fun checkIfDisplayed(id: Int){
-        onView(withId(id))
-            .check(matches(isDisplayed()))
-    }
     @Test
     fun tutorialVideoIsDisplayed(){
         launchAndDo {

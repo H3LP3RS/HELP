@@ -19,7 +19,6 @@ import com.github.h3lp3rs.h3lp.model.database.Database
 import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.model.database.Databases.EMERGENCIES
 import com.github.h3lp3rs.h3lp.model.database.Databases.NEW_EMERGENCIES
-import com.github.h3lp3rs.h3lp.model.database.repositories.EmergencyInfoRepository
 import com.github.h3lp3rs.h3lp.model.dataclasses.EmergencyInformation
 import com.github.h3lp3rs.h3lp.model.dataclasses.HelperSkills
 import com.github.h3lp3rs.h3lp.model.dataclasses.MedicalInformation
@@ -220,7 +219,7 @@ class HelpeeSelectionActivity : AppCompatActivity() {
                 medicalInfo,
                 ArrayList()
             )
-            EmergencyInfoRepository(emergenciesDb).insert(emergencyInfo)
+            emergenciesDb.setObject(it.toString(), EmergencyInformation::class.java, emergencyInfo)
 
             // Raise the appropriate flags to notify potential helpers
             raiseFlagInDb(skills.hasVentolin, newEmergenciesDb, R.string.asthma_med, it)
