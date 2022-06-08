@@ -1,4 +1,4 @@
-package com.github.h3lp3rs.h3lp.model.utils
+package com.github.h3lp3rs.h3lp.view.utils
 
 import android.app.Activity
 import android.content.Context
