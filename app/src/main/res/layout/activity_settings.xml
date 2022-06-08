@@ -305,14 +305,15 @@
 
 
           <Button
-              android:id="@+id/buttonNeedHelp"
+              android:id="@+id/buttonAboutHelp"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:backgroundTint="@android:color/transparent"
               android:drawableEnd="@drawable/ic_question_mark"
               android:fontFamily="sans-serif"
               android:stateListAnimator="@null"
-              android:text="@string/need_help_app"
+              android:text="@string/what_is_h3lp"
+              android:onClick="goToPresentation"
               android:textAlignment="viewStart"
               android:textAllCaps="false"
               android:textColor="@color/grey"
@@ -337,6 +338,7 @@
               android:textAllCaps="false"
               android:textColor="@color/grey"
               android:textSize="16sp"
+              android:onClick="reportBugOrSuggestion"
               app:rippleColor="@android:color/transparent" />
 
           <View
@@ -357,6 +359,7 @@
               android:textAllCaps="false"
               android:textColor="@color/grey"
               android:textSize="16sp"
+              android:onClick="reportBugOrSuggestion"
               app:rippleColor="@android:color/transparent" />
         </LinearLayout>
 

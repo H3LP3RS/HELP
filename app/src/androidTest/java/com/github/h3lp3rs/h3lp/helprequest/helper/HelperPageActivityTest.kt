@@ -64,8 +64,10 @@ class HelpPageActivityTest : H3lpAppTest<HelperPageActivity>() {
         globalContext = getApplicationContext()
         userUid = USER_TEST_ID
 
-        setDatabase(PREFERENCES, MockDatabase())
-        setDatabase(EMERGENCIES, MockDatabase())
+        for(db in Databases.values()) {
+            setDatabase(db, MockDatabase())
+        }
+
         resetStorage()
     }
 
@@ -159,7 +161,7 @@ class HelpPageActivityTest : H3lpAppTest<HelperPageActivity>() {
             // retrieve the public key sent on the database
             databaseOf(MESSAGES)
                 .getString(publicKeyPath(conversationIds[conversationIds.size - 1].toString(), HELPER.name))
-                .thenAccept(TestCase::assertNotNull)
+                .thenAccept(TestCase::assertNotNull).join()
 
         }
     }
@@ -179,7 +181,7 @@ class HelpPageActivityTest : H3lpAppTest<HelperPageActivity>() {
     fun showsPopUpWhenNotSignedIn(){
         // Not signed in
         userUid = null
-
+        disableOnlineSync()
         launchAndDo {
 
             // We can close the popup => It's displayed :)

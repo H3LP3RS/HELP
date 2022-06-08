@@ -131,8 +131,14 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
     }
 
     /**
+     * Disables the back button on the main page. This is the simplest solution to avoid breaking the sign in tests.
+     */
+    override fun onBackPressed() { }
+
+    /**
      * Opens a popup asking the user to sign in to continue.
      */
+    @SuppressLint("InflateParams")
     private fun showSignInPopUp() {
         val dialog = Dialog(this)
         val signInPopup =
@@ -163,6 +169,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
      * Opens a popup explaining why the app needs permission with a nice image.
      * Once the user closes the popup, the formal system permission is asked.
      */
+    @SuppressLint("InflateParams")
     private fun showExplanationAndRequestPermissions() {
         val dialog = Dialog(this)
         val emergencyCallPopup =
@@ -353,6 +360,8 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
                 R.id.nav_settings -> goToActivity(SettingsActivity::class.java)
                 R.id.nav_about_us -> goToActivity(PresArrivalActivity::class.java)
                 R.id.nav_logout -> {
+                    val userSignIn = storageOf(Storages.SIGN_IN) // Fetch from storage
+                    userSignIn.setBoolean(getString(R.string.KEY_USER_SIGNED_IN), false)
                     SignIn.get().signOut()
                     goToActivity(SignInActivity::class.java)
                 }

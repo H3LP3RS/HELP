@@ -90,6 +90,7 @@ open class H3lpAppTest<T : Activity?> {
         )
         When(locationMock.longitude).thenReturn(longitude)
         When(locationMock.latitude).thenReturn(latitude)
+
         GeneralLocationManager.set(locationManagerMock)
     }
 
@@ -133,6 +134,34 @@ open class H3lpAppTest<T : Activity?> {
         }
     }
 
+    /**
+     * Custom matcher to test error on TextInputLayout.
+     * See : https://stackoverflow.com/questions/38842034/how-to-test-textinputlayout-values-hint-error-etc-using-android-espresso
+     */
+     val hasInputLayoutError: Matcher<View> = object : TypeSafeMatcher<View>() {
+        override fun describeTo(description: Description?) {}
+        override fun matchesSafely(item: View?): Boolean {
+            if (item !is TextInputLayout) return false
+            item.error ?: return false
+            return true
+        }
+    }
+
+    /**
+     * Custom matcher to test error message on TextInputLayout.
+     * See : https://stackoverflow.com/questions/38842034/how-to-test-textinputlayout-values-hint-error-etc-using-android-espresso
+     */
+    val hasTextInputLayoutError: (String) -> Matcher<View> = { msg: String ->
+        object : TypeSafeMatcher<View>() {
+            override fun describeTo(description: Description?) {}
+            override fun matchesSafely(item: View?) : Boolean {
+                if (item !is TextInputLayout) return false
+                val error = item.error ?: return false
+                return error.toString() == msg
+            }
+        }
+    }
+
     companion object {
         val TEST_URI: Uri = Uri.EMPTY
 
@@ -142,6 +171,7 @@ open class H3lpAppTest<T : Activity?> {
         val VALID_FORMAT_NUMBERS = arrayOf("0216933000", "216933000", "+41216933000")
         const val VALID_CONTACT_NUMBER = "+41216933000"
         const val USER_TEST_ID = "SECRET_AGENT_007"
+        const val USER_TEST_NAME = "SECRET_AGENT"
         const val TEST_EMERGENCY_ID = "1"
 
         // Walking time from the user to the destination according to the Google directions API

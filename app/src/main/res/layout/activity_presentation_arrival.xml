@@ -6,7 +6,11 @@
     android:layout_height="match_parent"
     android:animationCache="false"
     tools:context=".view.signin.presentation.PresArrivalActivity"
-    android:background="@drawable/background_gradient">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_gradient" />
 
     <TextView
         android:id="@+id/pres1_textView1"

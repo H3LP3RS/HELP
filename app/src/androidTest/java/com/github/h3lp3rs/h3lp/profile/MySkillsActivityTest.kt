@@ -1,5 +1,6 @@
 package com.github.h3lp3rs.h3lp.profile
 
+import android.content.Context
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ActivityScenario.*
@@ -41,12 +42,17 @@ class MySkillsActivityTest : H3lpAppTest<MySkillsActivity>() {
 
         setDatabase(PREFERENCES, MockDatabase())
         resetStorage()
+
     }
 
     @Test
     fun backButtonWorks() {
         launch().use {
             initIntentAndCheckResponse()
+
+            //notification hide the button so just make sure that the notification is gone to click on it
+            Thread.sleep(2000)
+
             onView(withId(R.id.mySkillsBackButton)).perform(click())
 
             intended(allOf(hasComponent(MainPageActivity::class.java.name)))
@@ -54,6 +60,24 @@ class MySkillsActivityTest : H3lpAppTest<MySkillsActivity>() {
             release()
         }
     }
+
+
+    @Test
+    fun loadDataWorks(){
+        val skills = HelperSkills(true,true,false,false,false,false)
+        val storage = Storages.storageOf(Storages.SKILLS)
+
+        storage.setObject(ctx.getString(R.string.my_skills_key), HelperSkills::class.java, skills)
+        storage.push()
+        launch().use{
+            onView(withId(R.id.epipenSwitch)).check(ViewAssertions.matches(isChecked()))
+            onView(withId(R.id.ventolinSwitch)).check(ViewAssertions.matches(isChecked()))
+            onView(withId(R.id.insulinSwitch)).check(ViewAssertions.matches(isNotChecked()))
+        }
+
+    }
+
+
 
     @Test
     fun clickingOnHelpDisplayDialogue() {

@@ -69,7 +69,7 @@ class MedicalCardActivityTest : H3lpAppTest<MedicalCardActivity>() {
                     ) - 1).toString()
                 )
             )
-            onView(withId(R.id.medicalInfoBirthTxtLayout)).check(matches(hasInputLayoutError()))
+            onView(withId(R.id.medicalInfoBirthTxtLayout)).check(matches(hasInputLayoutError))
             onView(withId(R.id.medicalInfoBirthTxtLayout))
                 .check(matches(hasTextInputLayoutError(ctx.resources.getString(R.string.yearTooOld))))
         }
@@ -82,7 +82,7 @@ class MedicalCardActivityTest : H3lpAppTest<MedicalCardActivity>() {
                 .perform(replaceText((Calendar.getInstance().get(Calendar.YEAR) + 1).toString()))
             onView(withId(R.id.medicalInfoBirthTxtLayout)).check(
                 matches(
-                    hasInputLayoutError()
+                    hasInputLayoutError
                 )
             )
             onView(withId(R.id.medicalInfoBirthTxtLayout)).check(
@@ -106,7 +106,7 @@ class MedicalCardActivityTest : H3lpAppTest<MedicalCardActivity>() {
                 )
             onView(withId(R.id.medicalInfoBirthTxtLayout)).check(
                 matches(
-                    not(hasInputLayoutError())
+                    not(hasInputLayoutError)
                 )
             )
         }
@@ -120,7 +120,7 @@ class MedicalCardActivityTest : H3lpAppTest<MedicalCardActivity>() {
                     .perform(scrollTo(), replaceText(validNumber))
                 onView(withId(R.id.medicalInfoContactNumberTxtLayout)).check(
                     matches(
-                        not(hasInputLayoutError())
+                        not(hasInputLayoutError)
                     )
                 )
             }
@@ -135,7 +135,7 @@ class MedicalCardActivityTest : H3lpAppTest<MedicalCardActivity>() {
                 .perform(scrollTo(), replaceText(emergencyNumber))
             onView(withId(R.id.medicalInfoContactNumberTxtLayout)).check(
                 matches(
-                    hasInputLayoutError()
+                    hasInputLayoutError
                 )
             )
         }
@@ -150,7 +150,7 @@ class MedicalCardActivityTest : H3lpAppTest<MedicalCardActivity>() {
                     .perform(scrollTo(), replaceText(wrongNumber))
                 onView(withId(R.id.medicalInfoContactNumberTxtLayout)).check(
                     matches(
-                        hasInputLayoutError()
+                        hasInputLayoutError
                     )
                 )
             }
@@ -164,7 +164,7 @@ class MedicalCardActivityTest : H3lpAppTest<MedicalCardActivity>() {
                 .perform(replaceText((ctx.resources.getInteger(R.integer.maxWeight) + 1).toString()))
             onView(withId(R.id.medicalInfoWeightTxtLayout)).check(
                 matches(
-                    hasInputLayoutError()
+                    hasInputLayoutError
                 )
             )
             onView(withId(R.id.medicalInfoWeightTxtLayout)).check(
@@ -182,7 +182,7 @@ class MedicalCardActivityTest : H3lpAppTest<MedicalCardActivity>() {
                 .perform(replaceText((ctx.resources.getInteger(R.integer.minWeight) - 1).toString()))
             onView(withId(R.id.medicalInfoWeightTxtLayout)).check(
                 matches(
-                    hasInputLayoutError()
+                    hasInputLayoutError
                 )
             )
             onView(withId(R.id.medicalInfoWeightTxtLayout)).check(
@@ -200,7 +200,7 @@ class MedicalCardActivityTest : H3lpAppTest<MedicalCardActivity>() {
                 .perform(replaceText((ctx.resources.getInteger(R.integer.maxWeight) - 1).toString()))
             onView(withId(R.id.medicalInfoWeightTxtLayout)).check(
                 matches(
-                    not(hasInputLayoutError())
+                    not(hasInputLayoutError)
                 )
             )
         }
@@ -213,7 +213,7 @@ class MedicalCardActivityTest : H3lpAppTest<MedicalCardActivity>() {
                 .perform(replaceText((ctx.resources.getInteger(R.integer.maxHeight) + 1).toString()))
             onView(withId(R.id.medicalInfoHeightTxtLayout)).check(
                 matches(
-                    hasInputLayoutError()
+                    hasInputLayoutError
                 )
             )
             onView(withId(R.id.medicalInfoHeightTxtLayout)).check(
@@ -231,7 +231,7 @@ class MedicalCardActivityTest : H3lpAppTest<MedicalCardActivity>() {
                 .perform(replaceText((ctx.resources.getInteger(R.integer.minWeight) - 1).toString()))
             onView(withId(R.id.medicalInfoHeightTxtLayout)).check(
                 matches(
-                    hasInputLayoutError()
+                    hasInputLayoutError
                 )
             )
             onView(withId(R.id.medicalInfoHeightTxtLayout)).check(
@@ -249,7 +249,7 @@ class MedicalCardActivityTest : H3lpAppTest<MedicalCardActivity>() {
                 .perform(replaceText((ctx.resources.getInteger(R.integer.maxHeight) - 1).toString()))
             onView(withId(R.id.medicalInfoHeightTxtLayout)).check(
                 matches(
-                    not(hasInputLayoutError())
+                    not(hasInputLayoutError)
                 )
             )
         }
@@ -326,7 +326,6 @@ class MedicalCardActivityTest : H3lpAppTest<MedicalCardActivity>() {
         }
     }
 
-
     @Test
     fun backButtonWorks() {
         launchAndDo {
@@ -338,31 +337,4 @@ class MedicalCardActivityTest : H3lpAppTest<MedicalCardActivity>() {
             )
         }
     }
-
-    /**
-     * Custom matcher to test error on TextInputLayout.
-     * See : https://stackoverflow.com/questions/38842034/how-to-test-textinputlayout-values-hint-error-etc-using-android-espresso
-     */
-    private fun hasInputLayoutError(): Matcher<View> = object : TypeSafeMatcher<View>() {
-        override fun describeTo(description: Description?) {}
-        override fun matchesSafely(item: View?): Boolean {
-            if (item !is TextInputLayout) return false
-            item.error ?: return false
-            return true
-        }
-    }
-
-    /**
-     * Custom matcher to test error message on TextInputLayout.
-     * See : https://stackoverflow.com/questions/38842034/how-to-test-textinputlayout-values-hint-error-etc-using-android-espresso
-     */
-    private fun hasTextInputLayoutError(msg: String): Matcher<View> =
-        object : TypeSafeMatcher<View>() {
-            override fun describeTo(description: Description?) {}
-            override fun matchesSafely(item: View?): Boolean {
-                if (item !is TextInputLayout) return false
-                val error = item.error ?: return false
-                return error.toString() == msg
-            }
-        }
 }

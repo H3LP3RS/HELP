@@ -94,11 +94,4 @@ class ChatUiTest {
             //.check(matches(hasDescendant(withText(SENT_MESSAGE))))
     }
 
-    @Test
-    fun receiveMessageDisplaysTheCorrectMessage() {
-        conversationTo.sendMessage(RECEIVED_MESSAGE)
-        onView(withId(R.id.recycler_view_chat))
-            .perform(RecyclerViewActions.scrollToPosition<ViewHolder>(0))
-            //.check(matches(hasDescendant(withText(RECEIVED_MESSAGE))))
-    }
 }

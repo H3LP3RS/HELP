@@ -1,5 +1,6 @@
 package com.github.h3lp3rs.h3lp.professional
 
+import android.content.Context
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ActivityScenario.*
@@ -7,6 +8,7 @@ import androidx.test.core.app.ApplicationProvider.*
 import androidx.test.espresso.Espresso.*
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.*
 import androidx.test.espresso.matcher.RootMatchers
@@ -30,6 +32,7 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class ProfessionalTypeSelectionTest : H3lpAppTest<MySkillsActivity>() {
+    val ctx: Context = getApplicationContext()
 
     override fun launch(): ActivityScenario<MySkillsActivity> {
         return launch(Intent(getApplicationContext(), ProfessionalTypeSelection::class.java))
@@ -41,6 +44,23 @@ class ProfessionalTypeSelectionTest : H3lpAppTest<MySkillsActivity>() {
         userUid = USER_TEST_ID
         setDatabase(PREFERENCES, MockDatabase())
         resetStorage()
+        val storage = Storages.storageOf(Storages.FORUM_THEMES_NOTIFICATIONS)
+        val categoriesList = emptyList<ForumCategory?>() +
+                ForumCategory.GENERAL + ForumCategory.GYNECOLOGY
+        val theme = MedicalType(categoriesList.filterNotNull())
+
+        storage.setObject(ctx.getString(R.string.forum_theme_key), MedicalType::class.java, theme)
+        storage.push()
+    }
+
+    @Test
+    fun loadDataWorks(){
+        launch().use{
+            onView(withId(R.id.generalSwitch)).check(matches(isChecked()))
+            onView(withId(R.id.gynecologySwitch)).check(matches(isChecked()))
+            onView(withId(R.id.pediatrySwitch)).check(matches(isNotChecked()))
+        }
+
     }
 
     @Test

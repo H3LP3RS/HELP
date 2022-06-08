@@ -17,7 +17,7 @@ const val DATE_TIME_FORMAT = "MM/dd/yyyy - HH:mm:ss"
  *
  * @param rootForum An implementation of the underlying database acting as root of our forum.
  */
-abstract class SimpleDBForum(private val rootForum: Database) : Forum {
+open class SimpleDBForum(override val path: Path, private val rootForum: Database) : Forum {
 
 
     override fun newPost(
@@ -27,7 +27,9 @@ abstract class SimpleDBForum(private val rootForum: Database) : Forum {
         // is also an optimization to avoid us requiring 2 calls to incrementAndGet)
         return rootForum.incrementAndGet(UNIQUE_POST_ID, 2).thenApply { postKey ->
             val key = postKey.toString()
-            val repliesKey = (postKey + 1).toString()
+            // This hack is to make the cache listener work, since we don't use the repliesKey
+            // anywhere else in the SimpleDBForum (replies of replies not allowed)
+            val repliesKey = if(isPost) (postKey + 1).toString() else path.last()
 
             val forumPostData = ForumPostData(
                 author,
@@ -46,11 +48,11 @@ abstract class SimpleDBForum(private val rootForum: Database) : Forum {
             // we thus add it to the posts in the database (as explained in the forum protocol)
             if (isCategory()) {
                 rootForum.addToObjectsListConcurrently(
-                    pathToKey(path + POSTS_LIST), String::class.java, key
+                    pathToKey(listOf(POSTS_LIST) + path), String::class.java, key
                 )
-            } else { // For mocking purposes this needs to be added
+            } else {
                 rootForum.addToObjectsListConcurrently(
-                    pathToKey(path), ForumPostData::class.java, forumPostData
+                    pathToKey(listOf(POST_REPLIES) + path), ForumPostData::class.java, forumPostData
                 )
             }
             // We can't use getPost here since we aren't sure that the setObject succeeded yet
@@ -81,14 +83,17 @@ abstract class SimpleDBForum(private val rootForum: Database) : Forum {
         return postFuture.thenCompose { postData ->
             // Get all the replies from that post
             rootForum.getObjectsList(
-                pathToKey(fullPath.dropLast(1) + postData.repliesKey), ForumPostData::class.java
+                pathToKey(listOf(POST_REPLIES) + fullPath.dropLast(1) + postData.repliesKey),
+                ForumPostData::class.java
             ).handle { replies, error ->
+                val parentForum =
+                    if (relativePath.isEmpty()) parent() else child(relativePath.dropLast(1))
                 if (error != null) {
                     // If the post has no replies yet
-                    ForumPost(parent(), postData, emptyList())
+                    ForumPost(parentForum, postData, emptyList())
                 } else {
                     // If the post had replies, add them to the object
-                    ForumPost(parent(), postData, replies)
+                    ForumPost(parentForum, postData, replies)
                 }
             }
         }
@@ -117,9 +122,11 @@ abstract class SimpleDBForum(private val rootForum: Database) : Forum {
             }
             return future
         } else {
-            // In case we are in a category, we only have a single CategoryPost to return (thus
-            // we return a singleton list)
-            return getAllFromCategory().thenApply { listOf(it) }
+            // In case we are in a category, we only have a single CategoryPost to return
+            return getAllFromCategory().thenApply {
+                if (it.second.isEmpty()) emptyList()
+                else listOf(it)
+            }
         }
     }
 
@@ -128,7 +135,7 @@ abstract class SimpleDBForum(private val rootForum: Database) : Forum {
      */
     private fun getAllFromCategory(): CompletableFuture<CategoryPosts> {
         val forumPostsFuture =
-            rootForum.getObjectsList(pathToKey(path + POSTS_LIST), String::class.java)
+            rootForum.getObjectsList(pathToKey(listOf(POSTS_LIST) + path), String::class.java)
                 .thenApply { keyList ->
                     // For all posts in this category, get their forum post data
                     keyList.map {
@@ -197,7 +204,7 @@ abstract class SimpleDBForum(private val rootForum: Database) : Forum {
                 // We add the listener on the POSTS_LIST key since as explained in the protocol,
                 // it is updated with new post keys on every new post
                 rootForum.addEventListener(
-                    pathToKey(path + POSTS_LIST), String::class.java, onNewPost
+                    pathToKey(listOf(POSTS_LIST) + path), String::class.java, onNewPost
                 ) {}
             }
             else -> {
@@ -207,7 +214,9 @@ abstract class SimpleDBForum(private val rootForum: Database) : Forum {
                     // Adding a listener on the replies key since this is where all replies to that
                     // post are stored
                     rootForum.addEventListener(
-                        pathToKey(repliesPath), ForumPostData::class.java, action
+                        pathToKey(listOf(POST_REPLIES) + repliesPath),
+                        ForumPostData::class.java,
+                        action
                     ) {}
                 }
             }
@@ -215,25 +224,13 @@ abstract class SimpleDBForum(private val rootForum: Database) : Forum {
     }
 
     /**
-     * Translates a Path into its corresponding key as understood by Firebase (in Firebase, strings
-     * separated by a "/" represent a path, as in a filesystem with "files" or children in the case
-     * of a database)
-     * @param path The path to transform into a string according to Firebase
-     * @return The corresponding string
-     */
-    private fun pathToKey(path: Path): String {
-        return path.joinToString(separator = "/")
-    }
-
-    /**
      * Abstracts away the implementation of the path into the Forum structure, here, the root is
      * represented by an empty path
      * @return A boolean corresponding to the fact that this forum is (or isn't) the root forum
      */
-    protected fun isRoot(): Boolean {
+    private fun isRoot(): Boolean {
         return path.isEmpty()
     }
-
 
     /**
      * Abstracts away the implementation of the path into the Forum structure, here, a category is
@@ -256,8 +253,36 @@ abstract class SimpleDBForum(private val rootForum: Database) : Forum {
         }
     }
 
+    override fun root(): Forum {
+        return SimpleDBForum(emptyList(), rootForum)
+    }
+
+    override fun child(relativePath: Path): Forum {
+        return SimpleDBForum(path + relativePath, rootForum)
+    }
+
+    override fun parent(): Forum {
+        return if (isRoot()) {
+            this
+        } else {
+            SimpleDBForum(path.dropLast(1), rootForum)
+        }
+    }
+
     companion object {
         const val UNIQUE_POST_ID = "unique post id"
         const val POSTS_LIST = "posts"
+        const val POST_REPLIES = "post replies"
+
+        /**
+         * Translates a Path into its corresponding key as understood by Firebase (in Firebase, strings
+         * separated by a "/" represent a path, as in a filesystem with "files" or children in the case
+         * of a database)
+         * @param path The path to transform into a string according to Firebase
+         * @return The corresponding string
+         */
+        fun pathToKey(path: Path): String {
+            return path.joinToString(separator = "/")
+        }
     }
 }

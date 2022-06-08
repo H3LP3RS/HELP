@@ -1,8 +1,10 @@
 package com.github.h3lp3rs.h3lp.forum
 
 import android.view.View
+import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.intent.Intents.*
@@ -12,6 +14,10 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.utils.H3lpAppTest.Companion.USER_TEST_ID
 import com.github.h3lp3rs.h3lp.R
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
+import junit.framework.Assert
+import junit.framework.Assert.assertEquals
 import com.github.h3lp3rs.h3lp.view.forum.ForumCategoriesActivity
 import com.github.h3lp3rs.h3lp.view.forum.ForumPostsActivity
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
@@ -99,6 +105,12 @@ class ForumCategoriesActivityTest {
             ForumPostsActivity::class.java,
             ViewMatchers.withId(R.id.gyne_expand_button)
         )
+    }
+
+    @Test
+    fun backButtonWorks() {
+        onView(ViewMatchers.withId(R.id.forum_categories_back_button)).perform(scrollTo(), click())
+        assertEquals(testRule.scenario.state, Lifecycle.State.RESUMED)
     }
 
 }

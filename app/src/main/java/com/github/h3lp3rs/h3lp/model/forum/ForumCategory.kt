@@ -2,9 +2,9 @@ package com.github.h3lp3rs.h3lp.model.forum
 
 import com.github.h3lp3rs.h3lp.model.database.FireDatabase
 import com.github.h3lp3rs.h3lp.model.database.MockDatabase
+import com.github.h3lp3rs.h3lp.model.forum.implementation.CachedForum
 import com.github.h3lp3rs.h3lp.model.forum.implementation.FireDBForum
 import com.github.h3lp3rs.h3lp.model.forum.implementation.MockDBForum
-import com.github.h3lp3rs.h3lp.model.forum.data.Forum
 
 /**
  * Enumeration of the standard, pre-defined forum main categories (root level)
@@ -35,6 +35,14 @@ enum class ForumCategory {
             }
             root = FireDBForum(emptyList(), FireDatabase(ROOT_FORUM_DB_PATH))
             return root!!.child(choice.name)
+        }
+
+        /**
+         * Returns the cached version of forumOf
+         * @see forumOf
+         */
+        fun cachedForumOf(choice: ForumCategory): Forum {
+            return CachedForum(forumOf(choice))
         }
 
         /**

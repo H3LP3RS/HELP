@@ -4,10 +4,12 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
-import android.app.PendingIntent.FLAG_ONE_SHOT
+import android.app.PendingIntent.*
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.github.h3lp3rs.h3lp.R
@@ -31,6 +33,7 @@ class NotificationService {
          * @note If the Notification Channel is already created this function doesn't recreate it
          * and just does nothing
          */
+        @RequiresApi(Build.VERSION_CODES.O)
         fun createNotificationChannel(ctx: Context) {
             val title = ctx.resources.getString(R.string.notification_manager_title)
             val descriptionTxt =
@@ -68,9 +71,9 @@ class NotificationService {
             description: String,
             intent: Intent
         ) {
-            val pendingIntent: PendingIntent = PendingIntent.getActivity(
+            val pendingIntent: PendingIntent = getActivity(
                 ctx,
-                FLAG_ONE_SHOT, intent, FLAG_ONE_SHOT
+                FLAG_ONE_SHOT, intent, FLAG_UPDATE_CURRENT
             )
             val builder = buildBasicNotification(ctx, title, description)
                 .setContentIntent(pendingIntent)

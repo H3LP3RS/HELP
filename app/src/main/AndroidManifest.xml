@@ -21,7 +21,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.H3LP">
         <activity
-            android:name=".view.mainpage.RatingActivity"
+            android:name=".ReportActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RatingActivity"
             android:exported="false" />
         <activity
             android:name=".view.professional.ProfessionalTypeSelection"

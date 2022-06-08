@@ -4,9 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.signin.presentation.PresRelevantActivity"
-    android:background="@drawable/background_gradient_mirror"
-    >
+    tools:context=".view.signin.presentation.PresRelevantActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_gradient" />
 
     <TextView
         android:id="@+id/pres2_textView6"

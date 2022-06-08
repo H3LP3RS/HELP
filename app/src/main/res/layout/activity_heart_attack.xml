@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".firstaid.HeartAttackActivity"
-    android:background="@color/white">
+    tools:context=".firstaid.HeartAttackActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,7 +21,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:padding="15dp"
-                android:src="@drawable/back_icon" />
+                android:src="@drawable/back_icon"
+                android:contentDescription="@string/back_button_description" />
 
 
         </RelativeLayout>
@@ -69,7 +69,8 @@
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="-30dp"
-                android:src="@drawable/step_one" />
+                android:src="@drawable/step_one"
+                android:contentDescription="@string/aed_steps" />
 
         </RelativeLayout>
 
@@ -104,7 +105,8 @@
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="-30dp"
-                android:src="@drawable/step_two" />
+                android:src="@drawable/step_two"
+                android:contentDescription="@string/aed_steps" />
 
         </RelativeLayout>
 
@@ -139,7 +141,8 @@
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="-30dp"
-                android:src="@drawable/step_three" />
+                android:src="@drawable/step_three"
+                android:contentDescription="@string/aed_steps" />
 
         </RelativeLayout>
 

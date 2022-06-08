@@ -9,6 +9,9 @@ import com.github.h3lp3rs.h3lp.model.forum.ForumCategory
 import com.github.h3lp3rs.h3lp.model.forum.ForumPost
 import com.github.h3lp3rs.h3lp.model.forum.ForumPostData
 import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToActivity
+import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.cachedForumOf
+import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.categoriesMap
+import com.github.h3lp3rs.h3lp.forum.data.ForumPostData
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_forum_answers.*
@@ -35,7 +38,7 @@ class ForumPostsActivity : AppCompatActivity() {
 
         val bundle = intent.extras!!
         category = bundle.getString(EXTRA_FORUM_CATEGORY) ?: category
-        forum = ForumCategory.categoriesMap[category]?.let { ForumCategory.forumOf(it) }!!
+        forum = categoriesMap[category]?.let { cachedForumOf(it) }!!
 
         adapter.setOnItemClickListener { item, view ->
             selectedPost = item as ForumPost
@@ -45,7 +48,9 @@ class ForumPostsActivity : AppCompatActivity() {
         add_post_button.setOnClickListener { view ->
             // When the user clicks on add, he is redirected to the new post activity to be able to
             // add a post
-            goToActivity(NewPostActivity::class.java)
+            val intent = Intent(view.context, NewPostActivity::class.java)
+            intent.putExtra(EXTRA_FORUM_CATEGORY, category)
+            startActivity(intent)
         }
 
         listenToNewPosts()

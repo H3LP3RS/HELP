@@ -1,5 +1,6 @@
 package com.github.h3lp3rs.h3lp.view.profile
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
@@ -21,6 +22,8 @@ import com.github.h3lp3rs.h3lp.model.storage.Storages.*
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
 import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToActivity
 import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToMainPage
+
+const val EXTRA_REPORT_CATEGORY = "bug_category"
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -71,14 +74,32 @@ class SettingsActivity : AppCompatActivity() {
      * Function for the logout button to disconnect from account
      */
     fun logout(view: View) {
+        val userSignIn = storageOf(SIGN_IN)
+        userSignIn.setBoolean(getString(R.string.KEY_USER_SIGNED_IN), false)
         signOut()
         goToActivity(SignInActivity::class.java)
+    }
+
+    fun goToPresentation(view: View) {
+        val intent = Intent(this, PresArrivalActivity::class.java)
+        startActivity(intent)
     }
 
     fun clearSync(view: View) {
         storageOf(MEDICAL_INFO).clearOnlineSync()
         storageOf(USER_COOKIE).clearOnlineSync()
         storageOf(SKILLS).clearOnlineSync()
+    }
+
+    fun reportBugOrSuggestion(view: View){
+        val intent = Intent(this, ReportActivity::class.java)
+        val category = when (view.id) {
+            R.id.buttonBugReport -> bug
+            R.id.buttonSuggestion -> suggestion
+            else -> ""
+        }
+        intent.putExtra(EXTRA_REPORT_CATEGORY, category)
+        startActivity(intent)
     }
 
     /**
@@ -120,6 +141,7 @@ class SettingsActivity : AppCompatActivity() {
     /**
      * Opens a popup asking the user to sign in to continue.
      */
+    @SuppressLint("InflateParams")
     private fun showSignInPopUp() {
         val dialog = Dialog(this)
         val signInPopup =

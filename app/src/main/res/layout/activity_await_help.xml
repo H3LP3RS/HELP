@@ -79,17 +79,18 @@
             app:layout_constraintTop_toBottomOf="@+id/searchProgressBar" />
 
     <TextView
-            android:id="@+id/incomingHelpersNumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:textColor="@color/teal_700"
-            android:textStyle="bold"
-            android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/textView2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView" />
+        android:id="@+id/incomingHelpersNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="@color/teal_700"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/searchProgressBar"
+        app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
     <TextView
             android:id="@+id/textView2"
@@ -126,13 +127,13 @@
 
 
         <LinearLayout
-                android:layout_width="@dimen/scroll_view_tuto_layout"
-                android:layout_height="@dimen/scroll_view_tuto_layout"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="16dp"
-                android:background="@drawable/round_style"
-                android:backgroundTint="@color/white"
-                android:orientation="vertical">
+            android:layout_width="@dimen/scroll_view_tuto_layout"
+            android:layout_height="@dimen/scroll_view_tuto_layout"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/round_style"
+            android:backgroundTint="@color/white"
+            android:orientation="vertical">
 
             <ImageButton
                     android:id="@+id/heart_attack_tuto_button"
@@ -197,13 +198,13 @@
 
 
         <LinearLayout
-                android:layout_width="@dimen/scroll_view_tuto_layout"
-                android:layout_height="@dimen/scroll_view_tuto_layout"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="14dp"
-                android:background="@drawable/round_style"
-                android:backgroundTint="@color/white"
-                android:orientation="vertical">
+            android:layout_width="@dimen/scroll_view_tuto_layout"
+            android:layout_height="@dimen/scroll_view_tuto_layout"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="14dp"
+            android:background="@drawable/round_style"
+            android:backgroundTint="@color/white"
+            android:orientation="vertical">
 
             <ImageButton
                     android:id="@+id/aed_tuto_button"
@@ -274,20 +275,21 @@
             tools:layout_editor_absoluteX="0dp">
 
         <LinearLayout
-                android:layout_width="213dp"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+            android:layout_width="213dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:ignore="UseCompoundDrawables">
 
             <ImageView
-                    android:id="@+id/await_help_call_button"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="50dp"
-                    android:contentDescription="@string/phone_icon_description"
-                    android:foregroundGravity="center"
-                    app:srcCompat="@drawable/emergency_call"
-                    tools:ignore="MissingConstraints,RedundantDescriptionCheck" />
+                android:id="@+id/await_help_call_button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="36dp"
+                android:contentDescription="@string/phone_icon_description"
+                android:foregroundGravity="center"
+                app:srcCompat="@drawable/emergency_call"
+                tools:ignore="MissingConstraints,RedundantDescriptionCheck" />
 
             <TextView
                     android:id="@+id/call_button_description_text"
@@ -302,43 +304,45 @@
         </LinearLayout>
 
         <LinearLayout
-                android:id="@+id/constraint_layout_contact_helpers"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+            android:id="@+id/constraint_layout_contact_helpers"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:ignore="UseCompoundDrawables">
 
             <ImageView
-                    android:id="@+id/image_open_latest_messages"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="50dp"
-                    app:srcCompat="@drawable/chat" />
+                android:id="@+id/image_open_latest_messages"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="50dp"
+                app:srcCompat="@drawable/chat"
+                tools:ignore="ContentDescription" />
 
             <TextView
-                    android:id="@+id/textview_open_chat"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="8dp"
-                    android:fontFamily="@font/visbycf_medium"
-                    android:text="Contact the helpers"
-                    android:textAlignment="center"
-                    android:textColor="@color/black" />
+                android:id="@+id/textview_open_chat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/visbycf_medium"
+                android:text="@string/contact_the_helpers"
+                android:textAlignment="center"
+                android:textColor="@color/black" />
         </LinearLayout>
 
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout"
-            android:layout_width="428dp"
-            android:layout_height="71dp"
-            android:layout_marginBottom="16dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent">
+        android:id="@+id/constraintLayout"
+        android:layout_width="428dp"
+        android:layout_height="71dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
                 android:id="@+id/cancel_search_button"

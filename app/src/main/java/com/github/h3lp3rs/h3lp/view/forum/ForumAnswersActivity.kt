@@ -35,7 +35,7 @@ class ForumAnswersActivity : AppCompatActivity() {
         recycler_view_forum_answers.adapter = adapter
         category = selectedPost.post.category.name
 
-        forum = categoriesMap[category]?.let { ForumCategory.forumOf(it) }!!
+        forum = categoriesMap[category]?.let { ForumCategory.cachedForumOf(it) }!!
 
         val db = databaseOf(PRO_USERS)
 

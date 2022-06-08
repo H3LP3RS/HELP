@@ -107,7 +107,7 @@
                         android:layout_width="80dp"
                         android:layout_height="80dp"
                         android:onClick="goToForumCategories"
-                        />
+                        android:contentDescription="@string/forum" />
 
                     <TextView
                         android:text="@string/faq"
@@ -141,7 +141,8 @@
                         android:background="@drawable/doctor"
                         android:layout_width="80dp"
                         android:layout_height="80dp"
-                        android:onClick="goToProProfileActivity" />
+                        android:onClick="goToProProfileActivity"
+                        android:contentDescription="@string/profile_button" />
 
                     <TextView
                         android:text="@string/profile"
@@ -175,7 +176,8 @@
                         android:background="@drawable/notification"
                         android:layout_width="80dp"
                         android:layout_height="80dp"
-                        android:onClick="goToForumTheme"/>
+                        android:onClick="goToForumTheme"
+                        android:contentDescription="@string/forum" />
 
                     <TextView
                         android:text="@string/notifications"
@@ -209,7 +211,8 @@
                         android:background="@drawable/user"
                         android:layout_width="80dp"
                         android:layout_height="80dp"
-                        android:onClick="goToBasicPortal"/>
+                        android:onClick="goToBasicPortal"
+                        android:contentDescription="@string/profile_button" />
 
                     <TextView
                         android:text="@string/basic_portal"

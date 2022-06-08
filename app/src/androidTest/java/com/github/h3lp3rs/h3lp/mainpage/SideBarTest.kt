@@ -1,6 +1,9 @@
 package com.github.h3lp3rs.h3lp.mainpage
 
+import android.content.Intent
 import android.view.Gravity
+import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -34,7 +37,14 @@ class SideBarTest : H3lpAppTest<MainPageActivity>() {
 
     @Before
     fun setup() {
-        initIntentAndCheckResponse()
+        globalContext = ApplicationProvider.getApplicationContext()
+        userUid = USER_TEST_ID
+        val intent = Intent(
+            ApplicationProvider.getApplicationContext(), MainPageActivity::class.java
+        )
+        ActivityScenario.launch<MainPageActivity>(intent)
+        init()
+
     }
 
     @After
@@ -84,13 +94,36 @@ class SideBarTest : H3lpAppTest<MainPageActivity>() {
         intended(allOf(hasComponent(MedicalCardActivity::class.java.name)))
     }
 
-    /**
-     * dummy function for coverage, will be deleted later
-     */
     @Test
-    fun clickingOnIconDoesNothing() {
+    fun clickingOnSettingsIconSendsToSettingsPage() {
+        openDrawerLayout()
+        onView(withId(R.id.nav_view))
+            .perform(NavigationViewActions.navigateTo(R.id.nav_settings))
+        intended(allOf(hasComponent(SettingsActivity::class.java.name)))
+    }
+
+    @Test
+    fun clickingOnAboutUsIconSendsToPresentationPage() {
+        openDrawerLayout()
+        onView(withId(R.id.nav_view))
+            .perform(NavigationViewActions.navigateTo(R.id.nav_about_us))
+        intended(allOf(hasComponent(PresArrivalActivity::class.java.name)))
+    }
+
+    @Test
+    fun clickingOnLogOutIconSendsToSignInPage() {
+        openDrawerLayout()
+        onView(withId(R.id.nav_view))
+            .perform(NavigationViewActions.navigateTo(R.id.nav_logout))
+        intended(allOf(hasComponent(SignInActivity::class.java.name)))
+    }
+
+    @Test
+    fun clickingOnRateUsIconSendsToRatingPage() {
         openDrawerLayout()
         onView(withId(R.id.nav_view))
             .perform(NavigationViewActions.navigateTo(R.id.nav_rate_us))
+        intended(allOf(hasComponent(RatingActivity::class.java.name)))
     }
+
 }

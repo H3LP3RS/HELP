@@ -1,40 +1,39 @@
 <resources>
     <string name="app_name">H3LP</string>
-    <string name="tos_text"><![CDATA[
-    <br/>All work and no play makes Jack a dull boy<br/>
-    <br/>All work and no play makes Jack a dull boy<br/>
-    <br/>All work and no play makes Jack a dull boy<br/>
-    <br/>All work and no play makes Jack a dull boy<br/>
-    <br/>All work and no play makes Jack a dull boy<br/>
-    <br/>All work and no play makes Jack a dull boy<br/>
-    <br/>All work and no play makes Jack a dull boy<br/>
-    <br/>All work and no play makes Jack a dull boy<br/>
-    <br/>All work and no play makes Jack a dull boy<br/>
-    <br/>All work and no play makes Jack a dull boy<br/>
-    <br/>All work and no play makes Jack a dull boy<br/>
-    <br/>All work and no play makes Jack a dull boy<br/>
-    <br/>All work and no play makes Jack a dull boy<br/>
-    <br/>All work and no play makes Jack a dull boy<br/>
-    <br/>All work and no play makes Jack a dull boy<br/>
-    <br/>All work and no play makes Jack a dull boy<br/>
-    <br/>All work and no play makes Jack a dull boy<br/>
-    <br/>All work and no play makes Jack a dull boy<br/>
-    <br/>All work and no play makes Jack a dull boy<br/>
-    <br/>All work and no play makes Jack a dull boy<br/>
-    <br/>All work and no play makes Jack a dull boy<br/>
-    <br/>All work and no play makes Jack a dull boy<br/>
-    <br/>All work and no play makes Jack a dull boy<br/>
-    <br/>All work and no play makes Jack a dull boy<br/>
-    <br/>All work and no play makes Jack a dull boy<br/>
-    <br/>All work and no play makes Jack a dull boy<br/>
-    <br/>All work and no play makes Jack a dull boy<br/>
-    <br/>All work and no play makes Jack a dull boy<br/>
-    <br/>All work and no play makes Jack a dull boy<br/>
-    <br/>All work and no play makes Jack a dull boy<br/>
-    <br/>All work and no play makes Jack a dull boy<br/>
-    <br/>All work and no play makes Jack a dull boy<br/>
-    <br/>All work and no play makes Jack a dull boy<br/>
-    ]]></string>
+    <string name="tos_text">
+        Acknowledgement
+
+        These are the Terms of Service governing the use of this service and the agreement that operates between
+you and the company. These terms of service set out the rights and obligations of all users regarding the
+use of the Service.
+Your access to and use of the Service is conditioned on your acceptance of and compliance with these
+Terms of Service. These Terms of Service apply to all visitors, users and others who access or use the
+Service.
+By accessing or using the Service you agree to be bound by these Terms of Service. If You disagree with
+any part of these Terms of Service then You may not access the Service.
+You represent that you are over the age of 18. The Company does not permit those under 18 to use the
+Service.
+Your access to and use of the Service is also conditioned on Your acceptance of and compliance with the
+privacy policy of the company. Our privacy policy describes our policies and procedures on the collection,
+use and disclosure of Your personal information when You use the Application or the Website and tells You
+about Your privacy rights and how the law protects You. Please read Our Privacy Policy carefully before
+using Our Service.
+
+User Accounts
+
+When You create an account with Us, You must provide Us information that is accurate, complete, and
+current at all times. Failure to do so constitutes a breach of the Terms, which may result in immediate
+termination of Your account on Our Service.
+You are responsible for safeguarding the password that You use to access the Service and for any activities
+or actions under Your password, whether Your password is with Our Service or a Third-Party Social Media
+Service.
+You agree not to disclose Your password to any third party. You must notify Us immediately upon becoming
+aware of any breach of security or unauthorized use of Your account.
+You may not use as a username the name of another person or entity or that is not lawfully available for
+use, a name or trademark that is subject to any rights of another person or entity other than You without
+appropriate authorization, or a name that is otherwise offensive, vulgar or obscene.
+
+    </string>
     <string name="medicalCard">My Medical Card</string>
     <string name="YearOfBirth">Year of birth*</string>
     <string name="gender">Gender*</string>
@@ -59,21 +58,15 @@
     <string name="keep_calm_meds_selection_msg">Keep Calm and select what you need</string>
     <string name="search_help_button">Search Help Nearby</string>
     <string name="call_emergency_button">Emergency Call</string>
-    <string name="help_might_arrive">Help might arrive</string>
     <string name="ok">OK</string>
     <string name="h3lp_doesn_t_allow_you_to">H3LP doesn\'t </string>
-    <string name="ascii_left_arrow">⟨</string>
     <string name="presentation_placeholder_bad_3">Let you have access to other\'s data</string>
     <string name="presentation_placeholder_bad_2">Store your medical information without your consent</string>
     <string name="presentation_placeholder_bad_1">Sell your medical data to 3rd parties</string>
     <string name="red_cross">Red cross</string>
-    <string name="info_box">Info box</string>
-    <string name="help_page">Help page</string>
     <string name="h3lp_logo">H3lp logo</string>
     <string name="the_app_that_will_safe_your_life">The app that will save your life!</string>
     <string name="safelives_all_rights_reserved">© SafeLives: All rights reserved</string>
-    <string name="ascii_right_arrow">⟩</string>
-    <string name="ascii_both_arrows">⟨ ⟩</string>
     <string name="green_tick">Green tick</string>
     <string name="h3lp_allows_you_to">H3LP allows you to</string>Look for help nearby
     <string name="presentation_placeholder_good_1">Find medical assistance nearby</string>
@@ -100,23 +93,19 @@
     <string name="tips_button">First Aid</string>
     <string name="cpr_rate_button">CPR Rate</string>
     <string name="help_button">CPR Help</string>
-    <string name="menu_button">Menu</string>
     <string name="skills_button">Skills</string>
     <string name="cpr_rate_button_start">START</string>
     <string name="cpr_rate_button_stop">STOP</string>
     <string name="save_changes">Save changes</string>
     <string name="changes_saved">Changes saved</string>
-    <string name="invalid_field_msg">ERROR : Some fields are not fill correctly</string>
+    <string name="invalid_field_msg">ERROR : Some fields are not filled correctly</string>
     <string name="invalid_empty_msg">ERROR : Some mandatory fields (*) are left empty</string>
-    <string name="privacy_policy_not_acceptes">ERROR : You must accept our privacy policy first</string>
+    <string name="username_error_field_msg">ERROR : Please choose a correct username</string>
     <string name="privacy_policy_not_accepted">ERROR : You must accept our privacy policy first</string>
-    <string name="info_saved">Your information has been saved</string>
 
     <!--Preference Key for now should find better way to store this-->
 
-    <string name="medical_info_prefs"> medicalInfoPrefs</string>
     <string name="my_skills_key">MY_SKILLS_KEY</string>
-    <string name="my_skills_prefs"> mySkillsPrefs</string>
     <string name="medical_info_key">MEDICAL_INFO_KEY</string>
 
     <string name="privacy_policy">Privacy policy</string>
@@ -129,102 +118,9 @@
     <string name="condition_help_msg">This Field is dedicated to any illness or diseases that a caregiver should know in case of emergency</string>
     <string name="treatment_help_msg">This Field is dedicated to any medication your are taking that a caregiver should know in case of emergency</string>
     <string name="allergy_help_msg">This Field is dedicated to any allergy you suffer from that a caregiver should know in case of emergency</string>
-    <string name="ventolin_db_key"> VENTOLIN</string>
     <string name="help">H3LP!</string>
-    <string name="nothing">nothing</string>
     <string name="emergency">Emergency</string>
     <string name="need_help"> HELP I NEED YOU ! </string>
-    <string name="button_selected">Selected</string>
-    <string name="large_text">
-        "Material is the metaphor.\n\n"
-
-        "A material metaphor is the unifying theory of a rationalized space and a system of motion."
-        "The material is grounded in tactile reality, inspired by the study of paper and ink, yet "
-        "technologically advanced and open to imagination and magic.\n"
-        "Surfaces and edges of the material provide visual cues that are grounded in reality. The "
-        "use of familiar tactile attributes helps users quickly understand affordances. Yet the "
-        "flexibility of the material creates new affordances that supercede those in the physical "
-        "world, without breaking the rules of physics.\n"
-        "The fundamentals of light, surface, and movement are key to conveying how objects move, "
-        "interact, and exist in space and in relation to each other. Realistic lighting shows "
-        "seams, divides space, and indicates moving parts.\n\n"
-
-        "Bold, graphic, intentional.\n\n"
-
-        "The foundational elements of print based design typography, grids, space, scale, color, "
-        "and use of imagery guide visual treatments. These elements do far more than please the "
-        "eye. They create hierarchy, meaning, and focus. Deliberate color choices, edge to edge "
-        "imagery, large scale typography, and intentional white space create a bold and graphic "
-        "interface that immerse the user in the experience.\n"
-        "An emphasis on user actions makes core functionality immediately apparent and provides "
-        "waypoints for the user.\n\n"
-
-        "Motion provides meaning.\n\n"
-
-        "Motion respects and reinforces the user as the prime mover. Primary user actions are "
-        "inflection points that initiate motion, transforming the whole design.\n"
-        "All action takes place in a single environment. Objects are presented to the user without "
-        "breaking the continuity of experience even as they transform and reorganize.\n"
-        "Motion is meaningful and appropriate, serving to focus attention and maintain continuity. "
-        "Feedback is subtle yet clear. Transitions are efﬁcient yet coherent.\n\n"
-
-        "3D world.\n\n"
-
-        "The material environment is a 3D space, which means all objects have x, y, and z "
-        "dimensions. The z-axis is perpendicularly aligned to the plane of the display, with the "
-        "positive z-axis extending towards the viewer. Every sheet of material occupies a single "
-        "position along the z-axis and has a standard 1dp thickness.\n"
-        "On the web, the z-axis is used for layering and not for perspective. The 3D world is "
-        "emulated by manipulating the y-axis.\n\n"
-
-        "Light and shadow.\n\n"
-
-        "Within the material environment, virtual lights illuminate the scene. Key lights create "
-        "directional shadows, while ambient light creates soft shadows from all angles.\n"
-        "Shadows in the material environment are cast by these two light sources. In Android "
-        "development, shadows occur when light sources are blocked by sheets of material at "
-        "various positions along the z-axis. On the web, shadows are depicted by manipulating the "
-        "y-axis only. The following example shows the card with a height of 6dp.\n\n"
-
-        "Resting elevation.\n\n"
-
-        "All material objects, regardless of size, have a resting elevation, or default elevation "
-        "that does not change. If an object changes elevation, it should return to its resting "
-        "elevation as soon as possible.\n\n"
-
-        "Component elevations.\n\n"
-
-        "The resting elevation for a component type is consistent across apps (e.g., FAB elevation "
-        "does not vary from 6dp in one app to 16dp in another app).\n"
-        "Components may have different resting elevations across platforms, depending on the depth "
-        "of the environment (e.g., TV has a greater depth than mobile or desktop).\n\n"
-
-        "Responsive elevation and dynamic elevation offsets.\n\n"
-
-        "Some component types have responsive elevation, meaning they change elevation in response "
-        "to user input (e.g., normal, focused, and pressed) or system events. These elevation "
-        "changes are consistently implemented using dynamic elevation offsets.\n"
-        "Dynamic elevation offsets are the goal elevation that a component moves towards, relative "
-        "to the component’s resting state. They ensure that elevation changes are consistent "
-        "across actions and component types. For example, all components that lift on press have "
-        "the same elevation change relative to their resting elevation.\n"
-        "Once the input event is completed or cancelled, the component will return to its resting "
-        "elevation.\n\n"
-
-        "Avoiding elevation interference.\n\n"
-
-        "Components with responsive elevations may encounter other components as they move between "
-        "their resting elevations and dynamic elevation offsets. Because material cannot pass "
-        "through other material, components avoid interfering with one another any number of ways, "
-        "whether on a per component basis or using the entire app layout.\n"
-        "On a component level, components can move or be removed before they cause interference. "
-        "For example, a floating action button (FAB) can disappear or move off screen before a "
-        "user picks up a card, or it can move if a snackbar appears.\n"
-        "On the layout level, design your app layout to minimize opportunities for interference. "
-        "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
-        "when a user tries to pick up one of cards.\n\n"
-    </string>
-    <string name="action_settings">Settings</string>
     <string name="clickable_ToS_text">ToS</string>
     <string name="accept_ToS">Accept our ^1</string>
     <string name="tosbox">ToSBox</string>
@@ -236,15 +132,11 @@
     <string name="rate_us">Rate us</string>
     <string name="logout">Logout</string>
     <string name="profile">Profile</string>
-    <string name="login">Login</string>
     <string name="settings">Settings</string>
     <string name="home">Home</string>
     <string name="empty_error_msg">This field can not be empty</string>
     <string name="no_permission">Permission Denied</string>
     <string name="current_location">Your current location -</string>
-    <string name="error_retrieving_location">There was an error while retrieving your location</string>
-
-    <string name="title_activity_nearby_utilities">NearbyUtilitiesActivity</string>
     <string name="first_aid_categories">Categories</string>
     <string name="allergy_emergency">Allergic reaction</string>
     <string name="expand">expand</string>
@@ -322,10 +214,11 @@
     <string name="i_got_a_suggestion">I got a suggestion</string>
     <string name="EMERGENCY_UID_KEY">CurrentEmergencyUid</string>
     <string name="AT_LEAST_ONE_ITEM">Please select at least one item</string>
-    <string name="one_person_help">1 person is coming to help you</string>
-    <string name="many_people_help">%d people are coming to help you</string>
+    <plurals name="number_of_helpers">
+        <item quantity="one">%d person is coming to help you</item>
+        <item quantity="other">%d people are coming to help you</item>
+    </plurals>
     <string name="emergency_contact_title">Your Emergency Contact</string>
-    <string name="emergency_call_ambulance">Emergency call ambulance</string>
     <string name="emergency_contact">Emergency Contact</string>
     <string name="ambulance_call">Ambulance call</string>
     <string name="call_emergency_contact">call emergency contact</string>
@@ -350,12 +243,7 @@
     <string name="welcome_pro">Welcome to the H3LP professional portal!</string>
     <string name="pro_quote">Not all heroes wear capes</string>
     <string name="faq">FAQ</string>
-    <string name="blood_request">Blood request</string>
     <string name="emergencies">Emergencies</string>
-    <string name="select_status">Select your status</string>
-    <string name="professional_user">Professional user</string>
-    <string name="normal_user">Normal user</string>
-    <string name="permission_popup_title">Access to localization</string>
     <string name="deleted_conversation_message">The user has deleted the conversation.</string>
     <string name="helper_cancelled">The helper has unfortunately cancelled.</string>
     <string name="forum_themes">Forum Themes</string>
@@ -378,20 +266,17 @@
     <string name="my_professional_profile">My professional profile</string>
     <string name="question">Question</string>
     <string name="add_a_new_post">Add a new post</string>
-    <string name="title">Title</string>
     <string name="category">Category</string>
     <string name="post_question">Post question</string>
     <string name="expand_forum">Expand forum</string>
     <string name="answer">Answer</string>
     <string name="type_your_answer">Type your answer</string>
-    <string name="type_your_question">Type your question</string>
     <string name="notifications">Notifications</string>
     <string name="answers">Answers</string>
-    <string name="send">Send</string>
     <string name="posts">Posts</string>
     <string name="update_profile">Update profile</string>
+    <string name="permission_popup_title">Access to localization</string>
     <string name="upload_failed">"Upload failed. Try again!"</string>
-    <string name="helper">Helper</string>
     <string name="without_sign_in_text"><u>Continue without sign in</u></string>
     <string name="basic_portal">Basic portal</string>
     <string name="we_hope_you_had_a_great_experience_using_our_app">We hope you had a great experience using our app</string>
@@ -406,4 +291,17 @@
     <string name="sign_in_popup_text">This feature is only accessible for signed in users. \n\n Sign in now to get help or help people in need.</string>
     <string name="cancel">Cancel</string>
     <string name="sign_in">Sign in</string>
+    <string name="contact_the_helpers">Contact the helpers</string>
+    <string name="aed_steps">step</string>
+    <string name="send">Send</string>
+    <string name="encrypted_conversation">This conversation is encrypted from end-to-end</string>
+    <string name="pick_your_username">Pick your username</string>
+    <string name="sign_up_anonymously"><u>Sign up anonymously</u></string>
+    <string name="what_is_h3lp">What is H3LP</string>
+    <string name="report">Report</string>
+    <string name="what_must_be_changed">What must be changed ?</string>
+    <string name="send_report">Send report</string>
+    <string name="post_reply_notification_msg">New reply to your post in %s from: %s</string>
+    <string name="bug">bug</string>
+    <string name="suggestion">suggestion</string>
 </resources>

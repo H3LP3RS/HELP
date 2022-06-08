@@ -62,6 +62,48 @@ class SettingsActivityTest : H3lpAppTest<SettingsActivity>() {
     }
 
     @Test
+    fun aboutUsButtonWorks() {
+        launch().use {
+            initIntentAndCheckResponse()
+            onView(withId(R.id.buttonAboutHelp)).perform(scrollTo(), click())
+            intended(allOf(hasComponent(PresArrivalActivity::class.java.name)))
+            release()
+        }
+    }
+
+    @Test
+    fun bugButtonWorks() {
+        launch().use {
+            initIntentAndCheckResponse()
+            onView(withId(R.id.buttonBugReport)).perform(scrollTo(), click())
+            intended(
+                allOf(
+                    hasComponent(ReportActivity::class.java.name), hasExtra(
+                        EXTRA_REPORT_CATEGORY, bug
+                    )
+                )
+            )
+            release()
+        }
+    }
+
+    @Test
+    fun suggestionButtonWorks() {
+        launch().use {
+            initIntentAndCheckResponse()
+            onView(withId(R.id.buttonSuggestion)).perform(scrollTo(), click())
+            intended(
+                allOf(
+                    hasComponent(ReportActivity::class.java.name), hasExtra(
+                        EXTRA_REPORT_CATEGORY, suggestion
+                    )
+                )
+            )
+            release()
+        }
+    }
+
+    @Test
     fun removeSyncButtonWorks() {
         launch().use {
             val db = MockDatabase()

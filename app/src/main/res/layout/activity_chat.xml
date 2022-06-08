@@ -3,10 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@drawable/full_background"
     android:layout_height="match_parent"
-    tools:context=".view.messaging.ChatActivity">
-
+        tools:context=".view.messaging.ChatActivity">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@drawable/full_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -29,7 +31,7 @@
             android:layout_height="50dp"
             android:layout_marginEnd="4dp"
             android:layout_marginBottom="16dp"
-            android:text="Send"
+            android:text="@string/send"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -49,7 +51,7 @@
             android:id="@+id/text_view_enter_message"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginBottom="16dp"
             android:hint="@string/type_your_message"
             android:minHeight="48dp"
@@ -59,12 +61,12 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/text_help"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/round_style"
             android:backgroundTint="@color/light_grey"
-            android:text="  This conversation is encrypted from end-to-end  "
+            android:text="@string/encrypted_conversation"
             android:textColor="@color/gray"
             app:layout_constraintBottom_toBottomOf="@+id/recycler_view_chat"
             app:layout_constraintEnd_toEndOf="@+id/recycler_view_chat"

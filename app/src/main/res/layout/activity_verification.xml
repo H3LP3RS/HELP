@@ -17,7 +17,8 @@
         app:layout_constraintHeight_percent=".27"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0" />
+        app:layout_constraintVertical_bias="0"
+        tools:ignore="ContentDescription" />
 
 
     <RelativeLayout
@@ -74,9 +75,11 @@
             android:id="@+id/edit_file_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="text"
             android:layout_marginStart="150dp"
             android:layout_marginTop="200dp"
-            android:hint="@string/enter_file_name" />
+            android:hint="@string/enter_file_name"
+            tools:ignore="Autofill" />
 
         <Button
             android:id="@+id/button_upload"
@@ -105,7 +108,8 @@
             android:layout_below="@id/progress_bar"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp" />
+            android:layout_marginBottom="10dp"
+            tools:ignore="ContentDescription" />
 
 
     </RelativeLayout>
