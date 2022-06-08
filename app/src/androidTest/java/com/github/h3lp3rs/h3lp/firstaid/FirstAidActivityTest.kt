@@ -50,15 +50,6 @@ class FirstAidActivityTest : H3lpAppTest<FirstAidActivity>() {
         Intents.release()
     }
 
-    private fun clickingOnButtonWorksAndSendsIntent(ActivityName: Class<*>?, id: Matcher<View>) {
-        onView(id).perform(scrollTo(), click())
-        intended(
-            allOf(
-                hasComponent(ActivityName!!.name)
-            )
-        )
-    }
-
     private fun clickingOnButtonWorksAndSendsIntentWithExtra(
         ActivityName: Class<*>?,
         id: Matcher<View>,

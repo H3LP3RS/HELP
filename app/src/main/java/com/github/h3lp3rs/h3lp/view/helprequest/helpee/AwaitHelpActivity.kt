@@ -16,7 +16,8 @@ import com.github.h3lp3rs.h3lp.model.database.Databases.CONVERSATION_IDS
 import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.model.database.Databases.EMERGENCIES
 import com.github.h3lp3rs.h3lp.model.dataclasses.EmergencyInformation
-import com.github.h3lp3rs.h3lp.model.dataclasses.FirstAidHowTo.HEART_ATTACK
+import com.github.h3lp3rs.h3lp.model.dataclasses.FirstAidHowTo
+import com.github.h3lp3rs.h3lp.model.dataclasses.FirstAidHowTo.*
 import com.github.h3lp3rs.h3lp.model.dataclasses.MedicalInformation
 import com.github.h3lp3rs.h3lp.model.helprequestutils.LocalEmergencyCaller
 import com.github.h3lp3rs.h3lp.model.locationmanager.LocationHelper
@@ -244,9 +245,9 @@ class AwaitHelpActivity : AppCompatActivity() {
         val intent = Intent(this, GeneralFirstAidActivity::class.java).apply {
             when (view.id) {
                 R.id.heart_attack_tuto_button -> putExtra(EXTRA_FIRST_AID, HEART_ATTACK)
-                R.id.epipen_tuto_button -> putExtra(EXTRA_FIRST_AID, HEART_ATTACK)
-                R.id.aed_tuto_button -> putExtra(EXTRA_FIRST_AID, HEART_ATTACK)
-                R.id.asthma_tuto_button -> putExtra(EXTRA_FIRST_AID, HEART_ATTACK)
+                R.id.epipen_tuto_button -> putExtra(EXTRA_FIRST_AID, ALLERGY)
+                R.id.aed_tuto_button -> putExtra(EXTRA_FIRST_AID, AED)
+                R.id.asthma_tuto_button -> putExtra(EXTRA_FIRST_AID, ASTHMA)
             }
         }
         startActivity(intent)
