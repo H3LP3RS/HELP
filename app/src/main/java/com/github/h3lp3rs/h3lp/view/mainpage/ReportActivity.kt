@@ -1,12 +1,14 @@
-package com.github.h3lp3rs.h3lp
+package com.github.h3lp3rs.h3lp.view.mainpage
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
-import com.github.h3lp3rs.h3lp.database.Databases
-import com.github.h3lp3rs.h3lp.dataclasses.Report
-import com.github.h3lp3rs.h3lp.signin.SignInActivity
+import com.github.h3lp3rs.h3lp.R
+import com.github.h3lp3rs.h3lp.model.database.Databases
+import com.github.h3lp3rs.h3lp.model.dataclasses.Report
+import com.github.h3lp3rs.h3lp.view.profile.EXTRA_REPORT_CATEGORY
+import com.github.h3lp3rs.h3lp.view.signin.SignInActivity
 import kotlinx.android.synthetic.main.activity_report.*
 
 /**

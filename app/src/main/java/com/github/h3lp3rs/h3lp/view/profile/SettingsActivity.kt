@@ -12,10 +12,9 @@ import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.github.h3lp3rs.h3lp.view.mainpage.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.view.signin.GoogleSignInAdapter.getCreationDate
-import com.github.h3lp3rs.h3lp.view.signin.GoogleSignInAdapter.signOut
+import com.github.h3lp3rs.h3lp.model.signin.GoogleSignInAdapter.getCreationDate
+import com.github.h3lp3rs.h3lp.model.signin.GoogleSignInAdapter.signOut
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.getUid
 import com.github.h3lp3rs.h3lp.model.storage.Storages.*

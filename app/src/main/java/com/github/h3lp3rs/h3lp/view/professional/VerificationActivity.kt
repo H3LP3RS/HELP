@@ -15,7 +15,7 @@ import com.github.h3lp3rs.h3lp.model.database.Databases
 import com.github.h3lp3rs.h3lp.model.professional.CloudStorage
 import com.github.h3lp3rs.h3lp.model.professional.ProUser
 import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToActivity
-import com.github.h3lp3rs.h3lp.view.signin.GoogleSignInAdapter
+import com.github.h3lp3rs.h3lp.model.signin.GoogleSignInAdapter
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity
 import com.google.firebase.storage.StorageReference
 import com.squareup.picasso.Picasso

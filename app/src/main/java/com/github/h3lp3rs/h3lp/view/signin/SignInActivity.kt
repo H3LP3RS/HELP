@@ -10,6 +10,8 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.R
+import com.github.h3lp3rs.h3lp.model.signin.SignIn
+import com.github.h3lp3rs.h3lp.model.signin.SignInInterface
 import com.github.h3lp3rs.h3lp.model.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.model.storage.Storages.*
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.disableOnlineSync
@@ -18,7 +20,6 @@ import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToActivity
 import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToMainPage
 import com.github.h3lp3rs.h3lp.view.signin.presentation.PresArrivalActivity
 import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.FirebaseAuth.getInstance
 
 class SignInActivity : AppCompatActivity() {
     lateinit var signInClient: SignInInterface<AuthResult>

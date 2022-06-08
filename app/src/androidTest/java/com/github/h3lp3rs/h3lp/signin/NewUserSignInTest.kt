@@ -5,7 +5,6 @@ import android.content.Intent
 import androidx.activity.result.ActivityResult
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -36,9 +35,9 @@ import org.mockito.Mockito.mock
 import org.mockito.kotlin.anyOrNull
 import org.mockito.Mockito.`when` as When
 import com.github.h3lp3rs.h3lp.model.storage.Storages.SIGN_IN
-import com.github.h3lp3rs.h3lp.view.signin.SignIn
+import com.github.h3lp3rs.h3lp.model.signin.SignIn
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity
-import com.github.h3lp3rs.h3lp.view.signin.SignInInterface
+import com.github.h3lp3rs.h3lp.model.signin.SignInInterface
 
 
 @RunWith(AndroidJUnit4::class)

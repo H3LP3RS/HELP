@@ -39,7 +39,7 @@ import com.github.h3lp3rs.h3lp.view.professional.VerificationActivity
 import com.github.h3lp3rs.h3lp.view.profile.MedicalCardActivity
 import com.github.h3lp3rs.h3lp.view.profile.MySkillsActivity
 import com.github.h3lp3rs.h3lp.view.profile.SettingsActivity
-import com.github.h3lp3rs.h3lp.view.signin.SignIn
+import com.github.h3lp3rs.h3lp.model.signin.SignIn
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.getUid
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext

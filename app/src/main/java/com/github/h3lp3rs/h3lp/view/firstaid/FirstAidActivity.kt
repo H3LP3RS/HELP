@@ -2,14 +2,17 @@ package com.github.h3lp3rs.h3lp.view.firstaid
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.model.dataclasses.FirstAidHowTo
 import com.github.h3lp3rs.h3lp.model.dataclasses.FirstAidHowTo.*
-import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToMainPage
 import kotlinx.android.synthetic.main.activity_first_aid.*
+
+const val DELAY: Long = 1000
 
 class FirstAidActivity : AppCompatActivity() {
     // Maps the clicked button to the extra of the activity it should launch to avoid code duplication
@@ -43,6 +46,8 @@ class FirstAidActivity : AppCompatActivity() {
 
     /** Called when the user taps the back button */
     fun goToMainActivity(view: View) {
-        goToMainPage()
+        Handler(Looper.getMainLooper()).postDelayed({
+            finish()
+        }, DELAY)
     }
 }

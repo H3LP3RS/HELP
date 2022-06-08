@@ -1,7 +1,6 @@
 package com.github.h3lp3rs.h3lp
 
 import android.content.Intent
-import android.provider.Settings.Global.getString
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
@@ -11,14 +10,15 @@ import androidx.test.espresso.intent.Intents.init
 import androidx.test.espresso.intent.Intents.release
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.github.h3lp3rs.h3lp.ReportActivity.Companion.bug
+import com.github.h3lp3rs.h3lp.view.mainpage.ReportActivity.Companion.bug
 import com.github.h3lp3rs.h3lp.database.Database
 import com.github.h3lp3rs.h3lp.database.Databases
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.database.MockDatabase
-import com.github.h3lp3rs.h3lp.dataclasses.Report
+import com.github.h3lp3rs.h3lp.model.dataclasses.Report
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
+import com.github.h3lp3rs.h3lp.view.mainpage.ReportActivity
 import junit.framework.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
