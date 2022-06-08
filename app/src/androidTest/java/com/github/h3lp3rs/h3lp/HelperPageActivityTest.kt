@@ -26,6 +26,7 @@ import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
 import com.github.h3lp3rs.h3lp.dataclasses.HelperSkills
 import com.github.h3lp3rs.h3lp.messaging.Conversation.Companion.publicKeyPath
 import com.github.h3lp3rs.h3lp.messaging.Messenger.HELPER
+import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
@@ -180,6 +181,7 @@ class HelpPageActivityTest : H3lpAppTest() {
     fun showsPopUpWhenNotSignedIn(){
         // Not signed in
         userUid = null
+        Storages.disableOnlineSync(getApplicationContext())
 
         launchAndDo {
 

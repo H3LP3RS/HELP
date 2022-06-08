@@ -87,21 +87,19 @@ class LocalStorage(private val path: String, val context: Context) {
      * Asynchronously pushes the cached updates to the online storage in a JSON format.
      */
     fun push() {
-        if (isOnlineSyncEnabled()) {
-            runBlocking {
-                // Run the push asynchronously since it requires slow I/O operations to read the
-                // preferences
-                launch {
-                    if (isOnlineSyncEnabled()) {
-                        val uid = getUid()!!
-                        val db = databaseOf(PREFERENCES, context)
+        runBlocking {
+            // Run the push asynchronously since it requires slow I/O operations to read the
+            // preferences
+            launch {
+                if (isOnlineSyncEnabled()) {
+                    val uid = getUid()!!
+                    val db = databaseOf(PREFERENCES, context)
 
-                        val json = JSONObject()
-                        for (entry in pref.all.entries) {
-                            json.put(entry.key.toString(), entry.value.toString())
-                        }
-                        db.setString("$path/$uid", json.toString())
+                    val json = JSONObject()
+                    for (entry in pref.all.entries) {
+                        json.put(entry.key.toString(), entry.value.toString())
                     }
+                    db.setString("$path/$uid", json.toString())
                 }
             }
         }
