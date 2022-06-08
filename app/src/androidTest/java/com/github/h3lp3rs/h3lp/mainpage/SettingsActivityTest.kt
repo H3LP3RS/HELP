@@ -27,9 +27,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class SettingsActivityTest : H3lpAppTest() {
+class SettingsActivityTest : H3lpAppTest<SettingsActivity>() {
 
-    private fun launch(): ActivityScenario<SettingsActivity> {
+    override fun launch(): ActivityScenario<SettingsActivity> {
         return launch(Intent(getApplicationContext(), SettingsActivity::class.java))
     }
 

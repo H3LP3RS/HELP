@@ -22,9 +22,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class GuideTest : H3lpAppTest() {
+class GuideTest : H3lpAppTest<MainPageActivity>() {
 
-    private fun launch(): ActivityScenario<MainPageActivity> {
+    override fun launch(): ActivityScenario<MainPageActivity> {
         return launch(Intent(getApplicationContext(), MainPageActivity::class.java))
     }
 

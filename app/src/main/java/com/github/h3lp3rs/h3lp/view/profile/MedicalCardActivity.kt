@@ -27,7 +27,7 @@ import com.github.h3lp3rs.h3lp.model.dataclasses.MedicalInformation.Companion.EM
 import com.github.h3lp3rs.h3lp.model.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
 import com.github.h3lp3rs.h3lp.model.storage.Storages.MEDICAL_INFO
-import com.github.h3lp3rs.h3lp.model.utils.ActivityUtils.goToMainPage
+import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToMainPage
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout

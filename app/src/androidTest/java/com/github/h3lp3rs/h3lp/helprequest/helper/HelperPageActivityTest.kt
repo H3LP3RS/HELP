@@ -48,7 +48,7 @@ import org.junit.runner.RunWith
 import kotlin.collections.ArrayList
 
 @RunWith(AndroidJUnit4::class)
-class HelpPageActivityTest : H3lpAppTest() {
+class HelpPageActivityTest : H3lpAppTest<HelperPageActivity>() {
 
     private val uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
     private val helpId = 1
@@ -69,7 +69,7 @@ class HelpPageActivityTest : H3lpAppTest() {
         resetStorage()
     }
 
-    private fun launch(): ActivityScenario<HelperPageActivity> {
+    override fun launch(): ActivityScenario<HelperPageActivity> {
         // Forge the right intent
         val bundle = Bundle()
         bundle.putString(EXTRA_EMERGENCY_KEY, helpId.toString())
@@ -84,14 +84,6 @@ class HelpPageActivityTest : H3lpAppTest() {
         }
 
         return launch(intent)
-    }
-
-    private fun launchAndDo(action: () -> Unit) {
-        launch().use {
-            init()
-            action()
-            release()
-        }
     }
 
     @Test

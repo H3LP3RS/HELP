@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.model.dataclasses.FirstAidHowTo
 import com.github.h3lp3rs.h3lp.model.dataclasses.FirstAidHowTo.*
-import com.github.h3lp3rs.h3lp.model.utils.ActivityUtils.goToMainPage
+import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToMainPage
 import kotlinx.android.synthetic.main.activity_first_aid.*
 
 class FirstAidActivity : AppCompatActivity() {

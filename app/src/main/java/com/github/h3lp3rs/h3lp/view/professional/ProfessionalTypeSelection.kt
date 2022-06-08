@@ -13,7 +13,7 @@ import com.github.h3lp3rs.h3lp.model.forum.ForumCategory.*
 import com.github.h3lp3rs.h3lp.model.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
 import com.github.h3lp3rs.h3lp.model.storage.Storages.FORUM_THEMES_NOTIFICATIONS
-import com.github.h3lp3rs.h3lp.model.utils.ActivityUtils.goToActivity
+import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToActivity
 
 class ProfessionalTypeSelection : AppCompatActivity() {
 

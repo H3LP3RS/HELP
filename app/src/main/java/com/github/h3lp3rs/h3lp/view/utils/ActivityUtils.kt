@@ -23,8 +23,7 @@ object ActivityUtils {
      * Goes back to the main page
      */
     fun Activity.goToMainPage() {
-        val intent = Intent(this.applicationContext, MainPageActivity::class.java)
-        startActivity(intent)
+        goToActivity(MainPageActivity::class.java)
     }
 
 }

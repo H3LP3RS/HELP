@@ -29,7 +29,7 @@ import org.mockito.Mockito
 import org.mockito.Mockito.`when` as When
 
 @RunWith(AndroidJUnit4::class)
-class SignedInUserTest : H3lpAppTest() {
+class SignedInUserTest : H3lpAppTest<SignInActivity>() {
 
     private fun setUp(tosAccepted: Boolean){
         val intent = Intent(

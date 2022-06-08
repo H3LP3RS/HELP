@@ -31,7 +31,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class ProMainActivityTest : H3lpAppTest() {
+class ProMainActivityTest : H3lpAppTest<ProMainActivity>() {
 
     @get:Rule
     val testRule = ActivityScenarioRule(

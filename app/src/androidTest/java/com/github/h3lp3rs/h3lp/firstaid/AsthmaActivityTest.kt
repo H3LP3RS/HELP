@@ -21,9 +21,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class AsthmaActivityTest: H3lpAppTest() {
+class AsthmaActivityTest: H3lpAppTest<GeneralFirstAidActivity>() {
 
-    fun launch(): ActivityScenario<GeneralFirstAidActivity> {
+    override fun launch(): ActivityScenario<GeneralFirstAidActivity> {
         // Forge the right intent
         val intent = Intent(
             ApplicationProvider.getApplicationContext(),
@@ -61,14 +61,6 @@ class AsthmaActivityTest: H3lpAppTest() {
                     IntentMatchers.hasComponent(FirstAidActivity::class.java.name)
                 )
             )
-        }
-    }
-
-    private fun launchAndDo(action: () -> Unit) {
-        launch().use {
-            Intents.init()
-            action()
-            Intents.release()
         }
     }
 }

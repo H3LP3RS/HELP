@@ -27,8 +27,8 @@ import com.github.h3lp3rs.h3lp.model.professional.ProUser
 import com.github.h3lp3rs.h3lp.model.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
 import com.github.h3lp3rs.h3lp.model.storage.Storages.USER_COOKIE
-import com.github.h3lp3rs.h3lp.model.utils.ActivityUtils.goToActivity
-import com.github.h3lp3rs.h3lp.model.utils.ActivityUtils.goToMainPage
+import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToActivity
+import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToMainPage
 import com.github.h3lp3rs.h3lp.view.firstaid.FirstAidActivity
 import com.github.h3lp3rs.h3lp.view.forum.ForumCategoriesActivity
 import com.github.h3lp3rs.h3lp.view.forum.ForumPostsActivity

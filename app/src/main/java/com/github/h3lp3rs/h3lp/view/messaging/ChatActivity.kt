@@ -11,8 +11,8 @@ import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.model.messaging.Conversation
 import com.github.h3lp3rs.h3lp.model.messaging.Message
 import com.github.h3lp3rs.h3lp.model.messaging.Messenger
-import com.github.h3lp3rs.h3lp.model.utils.ActivityUtils.goToActivity
-import com.github.h3lp3rs.h3lp.model.utils.ActivityUtils.goToMainPage
+import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToActivity
+import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToMainPage
 import com.github.h3lp3rs.h3lp.view.helprequest.helper.EXTRA_USER_ROLE
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item

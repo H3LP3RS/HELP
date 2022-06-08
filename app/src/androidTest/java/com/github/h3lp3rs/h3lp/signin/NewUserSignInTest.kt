@@ -38,7 +38,7 @@ import com.github.h3lp3rs.h3lp.view.signin.SignInInterface
 
 
 @RunWith(AndroidJUnit4::class)
-class NewUserSignInTest : H3lpAppTest() {
+class NewUserSignInTest : H3lpAppTest<SignInActivity>() {
 
     private lateinit var intent: Intent
     private var authenticationStarted = false

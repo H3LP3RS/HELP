@@ -11,6 +11,7 @@ import com.github.h3lp3rs.h3lp.model.storage.Storages.*
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.resetStorage
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
 import com.github.h3lp3rs.h3lp.utils.H3lpAppTest
+import com.github.h3lp3rs.h3lp.view.mainpage.MainPageActivity
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -18,7 +19,7 @@ import kotlin.random.Random
 
 // StorageTest is an android test since we need access to the app resources to create a storage (and
 // thus need access to an activity)
-class StorageTest : H3lpAppTest() {
+class StorageTest : H3lpAppTest<MainPageActivity>() {
 
     // Dummy class for complex types
     private data class Foo(val a1: Int, val a2: String)

@@ -19,8 +19,8 @@ import com.github.h3lp3rs.h3lp.view.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.getUid
 import com.github.h3lp3rs.h3lp.model.storage.Storages.*
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
-import com.github.h3lp3rs.h3lp.model.utils.ActivityUtils.goToActivity
-import com.github.h3lp3rs.h3lp.model.utils.ActivityUtils.goToMainPage
+import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToActivity
+import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToMainPage
 
 class SettingsActivity : AppCompatActivity() {
 

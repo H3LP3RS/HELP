@@ -23,7 +23,7 @@ import org.junit.runner.RunWith
 private const val TEST_COMMENT = "comment"
 
 @RunWith(AndroidJUnit4::class)
-class RatingActivityTest: H3lpAppTest() {
+class RatingActivityTest: H3lpAppTest<RatingActivity>() {
     @get:Rule
     val testRule = ActivityScenarioRule(
         RatingActivity::class.java

@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.model.utils.ActivityUtils.goToActivity
-import com.github.h3lp3rs.h3lp.model.utils.ActivityUtils.goToMainPage
+import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToActivity
+import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToMainPage
 import com.github.h3lp3rs.h3lp.view.forum.ForumCategoriesActivity
 
 /**

@@ -26,7 +26,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class SideBarTest : H3lpAppTest() {
+class SideBarTest : H3lpAppTest<MainPageActivity>() {
     @get:Rule
     val testRule = ActivityScenarioRule(
         MainPageActivity::class.java

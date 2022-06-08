@@ -37,18 +37,10 @@ import org.junit.runner.RunWith
 private const val NONEXISTENT_ITEM = "Nonexistent item"
 
 @RunWith(AndroidJUnit4::class)
-class SearchBarTest : H3lpAppTest() {
+class SearchBarTest : H3lpAppTest<MainPageActivity>() {
 
-    private fun launch(): ActivityScenario<MainPageActivity> {
+    override fun launch(): ActivityScenario<MainPageActivity> {
         return launch(Intent(getApplicationContext(), MainPageActivity::class.java))
-    }
-
-    private fun launchAndDo(action: () -> Unit) {
-        launch().use {
-            initIntentAndCheckResponse()
-            action()
-            end()
-        }
     }
 
     @Before
@@ -58,10 +50,6 @@ class SearchBarTest : H3lpAppTest() {
         setDatabase(PREFERENCES, MockDatabase())
         resetStorage()
         storageOf(USER_COOKIE).setBoolean(GUIDE_KEY, true)
-    }
-
-    private fun end() {
-        release()
     }
 
     @Test

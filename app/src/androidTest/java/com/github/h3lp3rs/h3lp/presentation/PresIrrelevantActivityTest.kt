@@ -36,7 +36,7 @@ import com.github.h3lp3rs.h3lp.view.signin.presentation.PresIrrelevantActivity
 import com.github.h3lp3rs.h3lp.view.signin.presentation.ToSActivity
 
 @RunWith(AndroidJUnit4::class)
-class PresIrrelevantActivityTest : H3lpAppTest() {
+class PresIrrelevantActivityTest : H3lpAppTest<PresIrrelevantActivity>() {
 
     private fun alreadyAccepted() {
         storageOf(USER_COOKIE).setBoolean(globalContext.getString(R.string.KEY_USER_AGREE), true)
@@ -66,7 +66,7 @@ class PresIrrelevantActivityTest : H3lpAppTest() {
         onView(withId(id)).check(matches(isDisplayed()))
     }
 
-    private fun launch(): ActivityScenario<PresIrrelevantActivity> {
+    override fun launch(): ActivityScenario<PresIrrelevantActivity> {
         return launch(Intent(getApplicationContext(), PresIrrelevantActivity::class.java))
     }
 

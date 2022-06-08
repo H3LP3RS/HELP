@@ -22,7 +22,7 @@ import com.github.h3lp3rs.h3lp.model.locationmanager.LocationHelper
 import com.github.h3lp3rs.h3lp.model.map.GoogleAPIHelper
 import com.github.h3lp3rs.h3lp.model.notifications.EmergencyListener.activateListeners
 import com.github.h3lp3rs.h3lp.model.storage.Storages
-import com.github.h3lp3rs.h3lp.model.utils.ActivityUtils.goToMainPage
+import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToMainPage
 import com.github.h3lp3rs.h3lp.view.firstaid.EXTRA_FIRST_AID
 import com.github.h3lp3rs.h3lp.view.firstaid.GeneralFirstAidActivity
 import com.github.h3lp3rs.h3lp.view.map.MapsFragment

@@ -32,7 +32,7 @@ import org.mockito.kotlin.any
 import org.mockito.kotlin.doAnswer
 
 @RunWith(AndroidJUnit4::class)
-class VerificationActivityTest : H3lpAppTest() {
+class VerificationActivityTest : H3lpAppTest<VerificationActivity>() {
 
     @get:Rule
     val testRule = ActivityScenarioRule(

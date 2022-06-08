@@ -1,19 +1,16 @@
 package com.github.h3lp3rs.h3lp.view.profile
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.github.h3lp3rs.h3lp.view.mainpage.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.model.dataclasses.HelperSkills
 import com.github.h3lp3rs.h3lp.model.notifications.EmergencyListener
 import com.github.h3lp3rs.h3lp.model.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
 import com.github.h3lp3rs.h3lp.model.storage.Storages.SKILLS
-import com.github.h3lp3rs.h3lp.model.utils.ActivityUtils.goToActivity
-import com.github.h3lp3rs.h3lp.model.utils.ActivityUtils.goToMainPage
+import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToMainPage
 import com.google.android.material.switchmaterial.SwitchMaterial
 
 class MySkillsActivity : AppCompatActivity() {
@@ -39,7 +36,8 @@ class MySkillsActivity : AppCompatActivity() {
      * Function for the back button to go back to MainActivity
      */
     fun backHome(view: View) {
-        goToMainPage()    }
+        goToMainPage()
+    }
 
     /**
      * Show a dialogue with explication on what is the form for

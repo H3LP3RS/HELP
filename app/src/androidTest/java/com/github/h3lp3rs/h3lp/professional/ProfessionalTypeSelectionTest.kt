@@ -29,9 +29,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class ProfessionalTypeSelectionTest : H3lpAppTest() {
+class ProfessionalTypeSelectionTest : H3lpAppTest<MySkillsActivity>() {
 
-    private fun launch(): ActivityScenario<MySkillsActivity> {
+    override fun launch(): ActivityScenario<MySkillsActivity> {
         return launch(Intent(getApplicationContext(), ProfessionalTypeSelection::class.java))
     }
 

@@ -19,7 +19,7 @@ import org.junit.Test
  * Should use uiDevice instead of espresso to be able to test element outside the scope of application
  */
 
-class NotificationTest : H3lpAppTest(){
+class NotificationTest : H3lpAppTest<SignInActivity>(){
 
     private val ctx: Context = ApplicationProvider.getApplicationContext()
     private val uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())

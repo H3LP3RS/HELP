@@ -40,7 +40,7 @@ import com.github.h3lp3rs.h3lp.view.signin.SignInInterface
 
 
 @RunWith(AndroidJUnit4::class)
-class GoogleSignInTest : H3lpAppTest() {
+class GoogleSignInTest : H3lpAppTest<SignInActivity>() {
     private lateinit var intent: Intent
     private val googleSignInPackageName = "com.google.android.gms"
     private var authenticationStarted = false

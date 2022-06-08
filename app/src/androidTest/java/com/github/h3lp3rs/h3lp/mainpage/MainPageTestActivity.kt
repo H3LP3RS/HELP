@@ -48,7 +48,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class MainPageTestActivity : H3lpAppTest() {
+class MainPageTestActivity : H3lpAppTest<MainPageActivity>() {
     @get:Rule
     var mRuntimePermissionRule: GrantPermissionRule =
         GrantPermissionRule.grant(Manifest.permission.ACCESS_FINE_LOCATION)
@@ -70,20 +70,8 @@ class MainPageTestActivity : H3lpAppTest() {
         mockLocationToCoordinates(SWISS_LONG, SWISS_LAT)
     }
 
-    private fun launch(): ActivityScenario<MainPageActivity> {
+    override fun launch(): ActivityScenario<MainPageActivity> {
         return launch(Intent(getApplicationContext(), MainPageActivity::class.java))
-    }
-
-    private fun launchAndDo(action: () -> Unit) {
-        launch().use {
-            initIntentAndCheckResponse()
-            action()
-            end()
-        }
-    }
-
-    private fun end() {
-        release()
     }
 
     private fun clickingOnButtonWorksAndSendsIntent(
@@ -149,17 +137,6 @@ class MainPageTestActivity : H3lpAppTest() {
             )
         }
     }
-
-//    @Test
-//    fun clickingOnProfileButtonWorksAndSendsIntent() {
-//        launchAndDo {
-//            clickingOnButtonWorksAndSendsIntent(
-//                MedicalCardActivity::class.java,
-//                withId(R.id.button_profile),
-//                false
-//            )
-//        }
-//    }
 
     @Test
     fun clickingOnHelpButtonWorksAndSendsIntent() {

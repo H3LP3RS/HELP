@@ -42,23 +42,11 @@ import org.junit.runner.RunWith
 import java.util.*
 
 @RunWith(AndroidJUnit4::class)
-class MedicalCardActivityTest : H3lpAppTest() {
+class MedicalCardActivityTest : H3lpAppTest<MedicalCardActivity>() {
     private val ctx: Context = getApplicationContext()
 
-    private fun launch(): ActivityScenario<MedicalCardActivity> {
+    override fun launch(): ActivityScenario<MedicalCardActivity> {
         return launch(Intent(getApplicationContext(), MedicalCardActivity::class.java))
-    }
-
-    private fun launchAndDo(action: () -> Unit) {
-        launch().use {
-            initIntentAndCheckResponse()
-            action()
-            end()
-        }
-    }
-
-    private fun end() {
-        release()
     }
 
     @Before

@@ -40,7 +40,7 @@ import org.mockito.Mockito.`when` as When
  * Super class for tests in this app containing useful constants and functions
  * that are common to many tests
  */
-open class H3lpAppTest {
+open class H3lpAppTest<T : Activity?> {
     protected val locationManagerMock: LocationManagerInterface =
         mock(LocationManagerInterface::class.java)
     private val locationMock: Location = mock(Location::class.java)
@@ -118,6 +118,19 @@ open class H3lpAppTest {
     fun checkIfDisplayed(id: Int) {
         onView(withId(id))
             .check(matches(isDisplayed()))
+    }
+
+    open fun launch(): ActivityScenario<T> {
+        throw NotImplementedError("This launch method is not implemented")
+    }
+
+
+    fun launchAndDo(action: () -> Unit) {
+        launch().use {
+            initIntentAndCheckResponse()
+            action()
+            release()
+        }
     }
 
     companion object {
