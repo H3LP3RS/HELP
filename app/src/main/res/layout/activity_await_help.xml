@@ -278,7 +278,7 @@
             android:layout_width="213dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            >
+            tools:ignore="UseCompoundDrawables">
 
             <ImageView
                 android:id="@+id/await_help_call_button"
@@ -308,16 +308,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            >
+            tools:ignore="UseCompoundDrawables">
 
             <ImageView
                 android:id="@+id/image_open_latest_messages"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="36dp"
+                android:layout_marginTop="50dp"
                 app:srcCompat="@drawable/chat"
-                 />
+                tools:ignore="ContentDescription" />
 
             <TextView
                 android:id="@+id/textview_open_chat"
@@ -326,7 +326,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/visbycf_medium"
-                android:text="Contact the helpers"
+                android:text="@string/contact_the_helpers"
                 android:textAlignment="center"
                 android:textColor="@color/black" />
         </LinearLayout>

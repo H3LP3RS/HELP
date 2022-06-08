@@ -136,9 +136,11 @@ class AwaitHelpActivity : AppCompatActivity() {
                 resources.getQuantityString(R.plurals.number_of_helpers, helpersId.size, helpersId.size)
 
             if(helpersId.size <= 1){
+              
                 findViewById<ProgressBar>(R.id.searchProgressBar).visibility = View.GONE
                 findViewById<TextView>(R.id.progressBarText).visibility = View.GONE
                 incomingHelpersNumber.visibility = View.VISIBLE
+
                 // When the first user agrees to provide help, the user can contact
                 // him via the chat feature.
                 image_open_latest_messages.setColorFilter(ContextCompat.getColor(this, R.color.gray), android.graphics.PorterDuff.Mode.SRC_IN)

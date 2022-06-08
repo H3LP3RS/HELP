@@ -95,7 +95,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.821"
-            tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
+            tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck"
+            android:contentDescription="@string/sign_in" />
 
 
         <TextView
@@ -141,8 +142,10 @@
             app:layout_constraintHorizontal_bias="0.545"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
             app:layout_constraintVertical_bias="0.544"
             app:srcCompat="@drawable/heart_link" />
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
