@@ -1,11 +1,12 @@
 package com.github.h3lp3rs.h3lp.forum
 
 import android.content.Context
+import android.content.Intent
+import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.By
@@ -16,11 +17,10 @@ import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.forum.ForumCategory.*
 import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.forumOf
 import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.mockForum
+import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.setName
-import junit.framework.Assert.assertNull
 import org.junit.Assert.assertEquals
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -28,18 +28,23 @@ private const val QUESTION = "question"
 
 @RunWith(AndroidJUnit4::class)
 class ForumNewPostActivityTest {
-    @get:Rule
-    val testRule = ActivityScenarioRule(
-        NewPostActivity::class.java
-    )
 
     private lateinit var forum: Forum
 
     @Before
     fun setup() {
+        globalContext = getApplicationContext()
         setName(USER_TEST_ID)
         mockForum()
         forum = forumOf(TRAUMATOLOGY)
+        val intent = Intent(
+            getApplicationContext(),
+            NewPostActivity::class.java
+        ).apply {
+            putExtra(EXTRA_FORUM_CATEGORY, TRAUMATOLOGY)
+        }
+
+        ActivityScenario.launch<NewPostActivity>(intent)
     }
 
     @Test

@@ -94,6 +94,7 @@ class NewUserSignInTest : H3lpAppTest() {
         intended(hasComponent(SignInActivity::class.java.name))
     }
 
+
     @Test
     fun newUserSignInLaunchesAuthenticationProcess() {
         inputCorrectUsername()
@@ -112,6 +113,11 @@ class NewUserSignInTest : H3lpAppTest() {
 
     private fun clickSignInButton() {
         inputCorrectUsername()
+        onView(withId(R.id.signInButton)).perform(click())
+    }
+
+
+    private fun clickWithoutSignInButton() {
         onView(withId(R.id.signInButton)).perform(click())
     }
 

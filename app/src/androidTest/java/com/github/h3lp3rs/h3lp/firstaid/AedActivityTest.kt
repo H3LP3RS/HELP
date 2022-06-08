@@ -1,8 +1,7 @@
 package com.github.h3lp3rs.h3lp.firstaid
 
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.*
 import androidx.test.espresso.intent.Intents
@@ -50,7 +49,7 @@ class AedActivityTest {
     @Test
     fun backButtonWorks(){
         init()
-        onView(withId(R.id.aed_back_button)).perform(scrollTo(),ViewActions.click())
+        onView(withId(R.id.aed_back_button)).perform(scrollTo(), click())
         Intents.intended(
             Matchers.allOf(
                 IntentMatchers.hasComponent(FirstAidActivity::class.java.name)
