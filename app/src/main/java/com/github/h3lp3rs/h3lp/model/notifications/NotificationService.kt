@@ -33,7 +33,6 @@ class NotificationService {
          * @note If the Notification Channel is already created this function doesn't recreate it
          * and just does nothing
          */
-        @RequiresApi(Build.VERSION_CODES.O)
         fun createNotificationChannel(ctx: Context) {
             val title = ctx.resources.getString(R.string.notification_manager_title)
             val descriptionTxt =

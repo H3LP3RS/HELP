@@ -46,14 +46,12 @@ class SideBarTest : H3lpAppTest<MainPageActivity>() {
         )
         ActivityScenario.launch<MainPageActivity>(intent)
         init()
-
     }
 
     @After
     fun release() {
         Intents.release()
     }
-
 
     private val drawerLayout: ViewInteraction? = onView(withId(R.id.drawer_layout))
 

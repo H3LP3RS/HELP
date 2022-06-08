@@ -1,4 +1,4 @@
-package com.github.h3lp3rs.h3lp
+package com.github.h3lp3rs.h3lp.mainpage
 
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
@@ -10,6 +10,7 @@ import androidx.test.espresso.intent.Intents.init
 import androidx.test.espresso.intent.Intents.release
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.model.database.Database
 import com.github.h3lp3rs.h3lp.model.database.Databases
 import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.databaseOf

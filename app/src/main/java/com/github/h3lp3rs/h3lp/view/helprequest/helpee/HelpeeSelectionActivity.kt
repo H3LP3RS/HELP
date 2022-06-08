@@ -40,7 +40,6 @@ class HelpeeSelectionActivity : AppCompatActivity() {
     private var calledEmergencies = false
     private var locationHelper = LocationHelper()
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_help_parameters)
@@ -95,7 +94,6 @@ class HelpeeSelectionActivity : AppCompatActivity() {
      * @param longitude The helper's current longitude (null if the user didn't activate their
      * location)
      */
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun emergencyCall(latitude: Double?, longitude: Double?) {
         val medicalInfo = storageOf(MEDICAL_INFO)
             .getObjectOrDefault(
@@ -163,7 +161,6 @@ class HelpeeSelectionActivity : AppCompatActivity() {
      * location)
      * @param view The view on which the user specified which medication / kind of help they require
      */
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun searchHelp(latitude: Double, longitude: Double, view: View) {
         val selectionPair = retrieveSelectedMedication(findViewById(R.id.help_params_layout) )
         val meds = selectionPair.first
@@ -195,7 +192,6 @@ class HelpeeSelectionActivity : AppCompatActivity() {
      * @param meds The medication the helpee requires in this emergency
      * @return The id of the emergency in a future
      */
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun sendInfoToDB(
         latitude: Double,
         longitude: Double,

@@ -29,7 +29,6 @@ class CachedForum(private val forum: Forum) : Forum {
     // Entry for all the posts at one path
     private data class CacheEntry(val posts: ArrayList<ForumPostData>)
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun newPost(
         author: String,
         content: String,

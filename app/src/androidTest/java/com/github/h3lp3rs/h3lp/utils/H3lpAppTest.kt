@@ -126,11 +126,22 @@ open class H3lpAppTest<T : Activity> {
             .check(matches(isDisplayed()))
     }
 
+    /**
+     * Launches the activity related to the test, is defined as open to allow for classes
+     * to override it (and thus launch their activity with various intents). Isn't abstract
+     * since not all android tests that extend H3lpAppTest need a launch method
+     * @return An activityScenario that launches the activity
+     */
     open fun launch(): ActivityScenario<T> {
         throw NotImplementedError("This launch method is not implemented")
     }
 
 
+    /**
+     * General method to launch an activity, initialise intents, do the given action (which can
+     * thus use the intents) and release the intents. This makes the tests much prettier
+     * @param action Action to run after the intents are launched
+     */
     open fun launchAndDo(action: () -> Unit) {
         launch().use {
             initIntentAndCheckResponse()
