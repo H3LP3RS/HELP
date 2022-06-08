@@ -24,7 +24,7 @@
             android:name=".view.mainpage.ReportActivity"
             android:exported="false" />
         <activity
-            android:name=".RatingActivity"
+            android:name=".view.mainpage.RatingActivity"
             android:exported="false" />
         <activity
             android:name=".view.professional.ProfessionalTypeSelection"
