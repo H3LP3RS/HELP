@@ -9,7 +9,10 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.widget.doOnTextChanged
 import com.github.h3lp3rs.h3lp.R
+import com.github.h3lp3rs.h3lp.model.signin.AnonymousSignInAdapter
 import com.github.h3lp3rs.h3lp.model.signin.SignIn
 import com.github.h3lp3rs.h3lp.model.signin.SignInInterface
 import com.github.h3lp3rs.h3lp.model.storage.LocalStorage
@@ -19,7 +22,9 @@ import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
 import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToActivity
 import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToMainPage
 import com.github.h3lp3rs.h3lp.view.signin.presentation.PresArrivalActivity
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.AuthResult
+import kotlinx.android.synthetic.main.activity_sign_in.*
 
 class SignInActivity : AppCompatActivity() {
     lateinit var signInClient: SignInInterface<AuthResult>

@@ -20,7 +20,13 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.utils.H3lpAppTest
 import com.github.h3lp3rs.h3lp.view.mainpage.MainPageActivity
+import com.github.h3lp3rs.h3lp.view.mainpage.RatingActivity
 import com.github.h3lp3rs.h3lp.view.profile.MedicalCardActivity
+import com.github.h3lp3rs.h3lp.view.profile.SettingsActivity
+import com.github.h3lp3rs.h3lp.view.signin.SignInActivity
+import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
+import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.userUid
+import com.github.h3lp3rs.h3lp.view.signin.presentation.PresArrivalActivity
 import org.hamcrest.Matchers.*
 import org.junit.After
 import org.junit.Before

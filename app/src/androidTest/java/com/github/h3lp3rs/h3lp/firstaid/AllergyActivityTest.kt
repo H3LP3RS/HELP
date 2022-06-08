@@ -5,6 +5,7 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions
@@ -58,9 +59,9 @@ class AllergyActivityTest: H3lpAppTest<GeneralFirstAidActivity>() {
     @Test
     fun backButtonWorks() {
         launchAndDo {
-            Espresso.onView(ViewMatchers.withId(R.id.allergy_back_button))
-                .perform(ViewActions.scrollTo(), ViewActions.click())
-            Intents.intended(
+            onView(withId(R.id.allergy_back_button))
+                .perform(scrollTo(), click())
+            intended(
                 Matchers.allOf(
                     IntentMatchers.hasComponent(FirstAidActivity::class.java.name)
                 )

@@ -38,6 +38,10 @@ import com.github.h3lp3rs.h3lp.model.storage.Storages.SIGN_IN
 import com.github.h3lp3rs.h3lp.model.signin.SignIn
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.model.signin.SignInInterface
+import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.ERROR_MESSAGE_ON_LONG_USERNAME
+import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.ERROR_MESSAGE_ON_SHORT_USERNAME
+import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.MAX_LENGTH_USERNAME
+import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.MIN_LENGTH_USERNAME
 
 
 @RunWith(AndroidJUnit4::class)

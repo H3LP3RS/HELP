@@ -6,9 +6,9 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.github.h3lp3rs.h3lp.DELAY
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.model.forum.ForumCategory.*
+import com.github.h3lp3rs.h3lp.view.firstaid.DELAY
 
 const val EXTRA_FORUM_CATEGORY = "forum_category"
 

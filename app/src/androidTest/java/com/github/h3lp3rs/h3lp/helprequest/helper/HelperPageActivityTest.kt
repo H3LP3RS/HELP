@@ -17,6 +17,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.GrantPermissionRule
 import androidx.test.uiautomator.UiDevice
+import com.github.h3lp3rs.h3lp.model.database.Databases
 import com.github.h3lp3rs.h3lp.model.database.Databases.*
 import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.setDatabase
@@ -28,6 +29,7 @@ import com.github.h3lp3rs.h3lp.model.messaging.Messenger.HELPER
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.model.storage.Storages
+import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.disableOnlineSync
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.resetStorage
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
 import com.github.h3lp3rs.h3lp.utils.H3lpAppTest

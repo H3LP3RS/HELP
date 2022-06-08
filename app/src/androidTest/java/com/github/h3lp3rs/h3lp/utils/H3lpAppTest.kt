@@ -5,6 +5,7 @@ import android.app.Instrumentation.ActivityResult
 import android.content.Intent
 import android.location.Location
 import android.net.Uri
+import android.view.View
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
@@ -29,7 +30,11 @@ import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
 import com.github.h3lp3rs.h3lp.model.storage.Storages.MEDICAL_INFO
 import com.github.h3lp3rs.h3lp.view.firstaid.EXTRA_FIRST_AID
 import com.github.h3lp3rs.h3lp.view.firstaid.GeneralFirstAidActivity
+import com.google.android.material.textfield.TextInputLayout
 import org.apache.commons.lang3.RandomUtils.nextInt
+import org.hamcrest.Description
+import org.hamcrest.Matcher
+import org.hamcrest.TypeSafeMatcher
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.anyOrNull
 import java.util.*
@@ -40,7 +45,7 @@ import org.mockito.Mockito.`when` as When
  * Super class for tests in this app containing useful constants and functions
  * that are common to many tests
  */
-open class H3lpAppTest<T : Activity?> {
+open class H3lpAppTest<T : Activity> {
     protected val locationManagerMock: LocationManagerInterface =
         mock(LocationManagerInterface::class.java)
     private val locationMock: Location = mock(Location::class.java)
@@ -126,7 +131,7 @@ open class H3lpAppTest<T : Activity?> {
     }
 
 
-    fun launchAndDo(action: () -> Unit) {
+    open fun launchAndDo(action: () -> Unit) {
         launch().use {
             initIntentAndCheckResponse()
             action()

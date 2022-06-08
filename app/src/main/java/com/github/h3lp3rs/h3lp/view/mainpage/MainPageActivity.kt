@@ -26,7 +26,6 @@ import com.github.h3lp3rs.h3lp.model.notifications.EmergencyListener
 import com.github.h3lp3rs.h3lp.model.professional.ProUser
 import com.github.h3lp3rs.h3lp.model.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
-import com.github.h3lp3rs.h3lp.model.storage.Storages.USER_COOKIE
 import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToActivity
 import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToMainPage
 import com.github.h3lp3rs.h3lp.view.firstaid.FirstAidActivity
@@ -40,6 +39,8 @@ import com.github.h3lp3rs.h3lp.view.profile.MedicalCardActivity
 import com.github.h3lp3rs.h3lp.view.profile.MySkillsActivity
 import com.github.h3lp3rs.h3lp.view.profile.SettingsActivity
 import com.github.h3lp3rs.h3lp.model.signin.SignIn
+import com.github.h3lp3rs.h3lp.model.storage.Storages
+import com.github.h3lp3rs.h3lp.model.storage.Storages.*
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.getUid
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
@@ -360,7 +361,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
                 R.id.nav_settings -> goToActivity(SettingsActivity::class.java)
                 R.id.nav_about_us -> goToActivity(PresArrivalActivity::class.java)
                 R.id.nav_logout -> {
-                    val userSignIn = storageOf(Storages.SIGN_IN) // Fetch from storage
+                    val userSignIn = storageOf(SIGN_IN) // Fetch from storage
                     userSignIn.setBoolean(getString(R.string.KEY_USER_SIGNED_IN), false)
                     SignIn.get().signOut()
                     goToActivity(SignInActivity::class.java)

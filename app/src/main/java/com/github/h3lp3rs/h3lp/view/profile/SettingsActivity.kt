@@ -19,6 +19,10 @@ import com.github.h3lp3rs.h3lp.view.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.getUid
 import com.github.h3lp3rs.h3lp.model.storage.Storages.*
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
+import com.github.h3lp3rs.h3lp.view.mainpage.ReportActivity
+import com.github.h3lp3rs.h3lp.view.mainpage.ReportActivity.Companion.bug
+import com.github.h3lp3rs.h3lp.view.mainpage.ReportActivity.Companion.suggestion
+import com.github.h3lp3rs.h3lp.view.signin.presentation.PresArrivalActivity
 import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToActivity
 import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToMainPage
 

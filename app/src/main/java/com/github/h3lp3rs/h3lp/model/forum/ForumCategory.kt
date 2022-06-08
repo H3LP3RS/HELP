@@ -1,8 +1,9 @@
 package com.github.h3lp3rs.h3lp.model.forum
 
+import com.github.h3lp3rs.h3lp.forum.implementation.CachedForum
 import com.github.h3lp3rs.h3lp.model.database.FireDatabase
 import com.github.h3lp3rs.h3lp.model.database.MockDatabase
-import com.github.h3lp3rs.h3lp.model.forum.implementation.CachedForum
+import com.github.h3lp3rs.h3lp.model.forum.data.Forum
 import com.github.h3lp3rs.h3lp.model.forum.implementation.FireDBForum
 import com.github.h3lp3rs.h3lp.model.forum.implementation.MockDBForum
 

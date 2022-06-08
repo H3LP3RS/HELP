@@ -2,11 +2,15 @@ package com.github.h3lp3rs.h3lp.forum.implementation
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.github.h3lp3rs.h3lp.forum.*
-import com.github.h3lp3rs.h3lp.forum.data.ForumPostData
-import com.github.h3lp3rs.h3lp.forum.implementation.SimpleDBForum.Companion.pathToKey
-import com.github.h3lp3rs.h3lp.storage.Storages.*
-import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
+import com.github.h3lp3rs.h3lp.model.forum.ForumCategory
+import com.github.h3lp3rs.h3lp.model.forum.ForumPost
+import com.github.h3lp3rs.h3lp.model.forum.ForumPostData
+import com.github.h3lp3rs.h3lp.model.forum.data.CategoryPosts
+import com.github.h3lp3rs.h3lp.model.forum.data.Forum
+import com.github.h3lp3rs.h3lp.model.forum.data.Path
+import com.github.h3lp3rs.h3lp.model.forum.implementation.SimpleDBForum.Companion.pathToKey
+import com.github.h3lp3rs.h3lp.model.storage.Storages.*
+import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
 import java.util.concurrent.CompletableFuture
 import java.util.stream.Collectors.toList
 

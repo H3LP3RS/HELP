@@ -1,4 +1,4 @@
-package com.github.h3lp3rs.h3lp
+package com.github.h3lp3rs.h3lp.helprequest.helpee
 
 import android.Manifest
 import android.content.Intent
@@ -9,38 +9,43 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ActivityScenario.launch
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents.*
+import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
-import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.RootMatchers.isFocusable
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.GrantPermissionRule
-import com.github.h3lp3rs.h3lp.database.Databases
-import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
-import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
-import com.github.h3lp3rs.h3lp.database.Databases.EMERGENCIES
-import com.github.h3lp3rs.h3lp.database.Databases.PREFERENCES
-import com.github.h3lp3rs.h3lp.database.MockDatabase
-import com.github.h3lp3rs.h3lp.dataclasses.EmergencyInformation
-import com.github.h3lp3rs.h3lp.dataclasses.Helper
-import com.github.h3lp3rs.h3lp.firstaid.AedActivity
-import com.github.h3lp3rs.h3lp.firstaid.AllergyActivity
-import com.github.h3lp3rs.h3lp.firstaid.AsthmaActivity
-import com.github.h3lp3rs.h3lp.firstaid.HeartAttackActivity
-import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
-import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
-import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
+import com.github.h3lp3rs.h3lp.R
+import com.github.h3lp3rs.h3lp.model.database.Databases.*
+import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.databaseOf
+import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.setDatabase
+import com.github.h3lp3rs.h3lp.model.database.MockDatabase
+import com.github.h3lp3rs.h3lp.model.dataclasses.EmergencyInformation
+import com.github.h3lp3rs.h3lp.model.dataclasses.FirstAidHowTo
+import com.github.h3lp3rs.h3lp.model.dataclasses.Helper
+import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.resetStorage
+import com.github.h3lp3rs.h3lp.utils.H3lpAppTest
+import com.github.h3lp3rs.h3lp.view.firstaid.EXTRA_FIRST_AID
+import com.github.h3lp3rs.h3lp.view.firstaid.GeneralFirstAidActivity
+import com.github.h3lp3rs.h3lp.view.helprequest.helpee.AwaitHelpActivity
+import com.github.h3lp3rs.h3lp.view.helprequest.helpee.EXTRA_CALLED_EMERGENCIES
+import com.github.h3lp3rs.h3lp.view.helprequest.helpee.EXTRA_EMERGENCY_KEY
+import com.github.h3lp3rs.h3lp.view.helprequest.helpee.EXTRA_NEEDED_MEDICATION
+import com.github.h3lp3rs.h3lp.view.mainpage.MainPageActivity
+import com.github.h3lp3rs.h3lp.view.signin.SignInActivity
+import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
+import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.userUid
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class AwaitHelpActivityTest : H3lpAppTest() {
+class AwaitHelpActivityTest : H3lpAppTest<AwaitHelpActivity>() {
 
     private val helpId = 1
 
@@ -62,7 +67,7 @@ class AwaitHelpActivityTest : H3lpAppTest() {
         loadValidMedicalDataToStorage()
     }
 
-    private fun launch(popup: Boolean): ActivityScenario<AwaitHelpActivity> {
+    fun launch(popup: Boolean): ActivityScenario<AwaitHelpActivity> {
         // Initialising the activity with default values
         val bundle = Bundle()
         bundle.putInt(EXTRA_EMERGENCY_KEY, helpId)
@@ -78,7 +83,7 @@ class AwaitHelpActivityTest : H3lpAppTest() {
         return launch(intent)
     }
 
-    private fun launchAndDo(popup: Boolean, action: () -> Unit) {
+    fun launchAndDo(popup: Boolean, action: () -> Unit) {
         launch(popup).use {
             init()
             action()
@@ -121,29 +126,47 @@ class AwaitHelpActivityTest : H3lpAppTest() {
         }
     }
 
+
     @Test
-    fun clickingOnHeartAttackButtonWorksAndSendsIntent() {
-        clickingOnButtonWorksAndSendsIntent(
-            HeartAttackActivity::class.java,
-            withId(R.id.heart_attack_tuto_button)
+    fun clickAllergyExpandButtonWorksAndSendsIntent() {
+        clickingOnButtonWorksAndSendsIntentWithExtra(
+            GeneralFirstAidActivity::class.java,
+            withId(R.id.allergy_expand_button),
+            EXTRA_FIRST_AID,
+            FirstAidHowTo.ALLERGY
         )
     }
 
     @Test
-    fun clickingOnEpipenButtonWorksAndSendsIntent() {
-        clickingOnButtonWorksAndSendsIntent(
-            AllergyActivity::class.java,
-            withId(R.id.epipen_tuto_button)
+    fun clickHeartAttackExpandButtonWorksAndSendsIntent() {
+        clickingOnButtonWorksAndSendsIntentWithExtra(
+            GeneralFirstAidActivity::class.java,
+            withId(R.id.heart_attack_expand_button),
+            EXTRA_FIRST_AID,
+            FirstAidHowTo.HEART_ATTACK
         )
     }
 
     @Test
-    fun clickingOnAedButtonWorksAndSendsIntent() {
-        clickingOnButtonWorksAndSendsIntent(
-            AedActivity::class.java,
-            withId(R.id.aed_tuto_button)
+    fun clickAedExpandButtonWorksAndSendsIntent() {
+        clickingOnButtonWorksAndSendsIntentWithExtra(
+            GeneralFirstAidActivity::class.java,
+            withId(R.id.aed_expand_button),
+            EXTRA_FIRST_AID,
+            FirstAidHowTo.AED
         )
     }
+
+    @Test
+    fun clickAsthmaExpandButtonWorksAndSendsIntent() {
+        clickingOnButtonWorksAndSendsIntentWithExtra(
+            GeneralFirstAidActivity::class.java,
+            withId(R.id.asthma_expand_button),
+            EXTRA_FIRST_AID,
+            FirstAidHowTo.ASTHMA
+        )
+    }
+
 
     @Test
     fun cancelButtonWorksAndSendsIntent() {
@@ -251,5 +274,21 @@ class AwaitHelpActivityTest : H3lpAppTest() {
                 )
             )
         }
+    }
+
+
+    private fun clickingOnButtonWorksAndSendsIntentWithExtra(
+        ActivityName: Class<*>?,
+        id: Matcher<View>,
+        extraName: String,
+        firstAidExtra: FirstAidHowTo
+    ) {
+        onView(id).perform(ViewActions.scrollTo(), click())
+        intended(
+            allOf(
+                hasComponent(ActivityName!!.name),
+                IntentMatchers.hasExtra(extraName, firstAidExtra)
+            )
+        )
     }
 }

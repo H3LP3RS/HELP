@@ -4,14 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.R
+import com.github.h3lp3rs.h3lp.model.forum.ForumCategory.Companion.cachedForumOf
+import com.github.h3lp3rs.h3lp.model.forum.ForumCategory.Companion.categoriesMap
 import com.github.h3lp3rs.h3lp.model.forum.data.Forum
-import com.github.h3lp3rs.h3lp.model.forum.ForumCategory
 import com.github.h3lp3rs.h3lp.model.forum.ForumPost
 import com.github.h3lp3rs.h3lp.model.forum.ForumPostData
 import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToActivity
-import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.cachedForumOf
-import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.categoriesMap
-import com.github.h3lp3rs.h3lp.forum.data.ForumPostData
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_forum_answers.*

@@ -21,6 +21,11 @@ import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.resetStorage
 import com.github.h3lp3rs.h3lp.utils.H3lpAppTest
 import com.github.h3lp3rs.h3lp.view.mainpage.MainPageActivity
+import com.github.h3lp3rs.h3lp.view.mainpage.ReportActivity
+import com.github.h3lp3rs.h3lp.view.mainpage.ReportActivity.Companion.bug
+import com.github.h3lp3rs.h3lp.view.mainpage.ReportActivity.Companion.suggestion
+import com.github.h3lp3rs.h3lp.view.profile.EXTRA_REPORT_CATEGORY
+import com.github.h3lp3rs.h3lp.view.signin.presentation.PresArrivalActivity
 import org.hamcrest.Matchers.*
 import org.junit.Before
 import org.junit.Test

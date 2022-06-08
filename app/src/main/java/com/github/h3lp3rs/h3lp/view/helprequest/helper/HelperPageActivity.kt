@@ -1,6 +1,5 @@
 package com.github.h3lp3rs.h3lp.view.helprequest.helper
 
-import LocationHelper
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent

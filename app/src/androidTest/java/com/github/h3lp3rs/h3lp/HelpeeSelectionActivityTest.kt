@@ -16,18 +16,20 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.GrantPermissionRule
-import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
-import com.github.h3lp3rs.h3lp.database.Databases.EMERGENCIES
-import com.github.h3lp3rs.h3lp.database.Databases.NEW_EMERGENCIES
-import com.github.h3lp3rs.h3lp.database.MockDatabase
-import com.github.h3lp3rs.h3lp.dataclasses.MedicalInformation
-import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
-import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
-import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
-import com.github.h3lp3rs.h3lp.storage.Storages
-import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
-import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
-import com.github.h3lp3rs.h3lp.storage.Storages.MEDICAL_INFO
+import com.github.h3lp3rs.h3lp.model.database.Databases
+import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.setDatabase
+import com.github.h3lp3rs.h3lp.model.database.Databases.EMERGENCIES
+import com.github.h3lp3rs.h3lp.model.database.Databases.NEW_EMERGENCIES
+import com.github.h3lp3rs.h3lp.model.database.MockDatabase
+import com.github.h3lp3rs.h3lp.model.storage.Storages
+import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.resetStorage
+import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
+import com.github.h3lp3rs.h3lp.utils.H3lpAppTest
+import com.github.h3lp3rs.h3lp.view.helprequest.helpee.AwaitHelpActivity
+import com.github.h3lp3rs.h3lp.view.helprequest.helpee.HelpeeSelectionActivity
+import com.github.h3lp3rs.h3lp.view.mainpage.MainPageActivity
+import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
+import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.userUid
 import org.hamcrest.Matchers.*
 import org.junit.After
 import org.junit.Before
@@ -36,7 +38,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class HelpParametersActivityTest : H3lpAppTest() {
+class HelpParametersActivityTest : H3lpAppTest<HelpeeSelectionActivity>() {
 
     @get:Rule
     val testRule = ActivityScenarioRule(
@@ -49,8 +51,6 @@ class HelpParametersActivityTest : H3lpAppTest() {
 
     @Before
     fun setup() {
-       // initIntentAndCheckResponse()
-
         globalContext = getApplicationContext()
         userUid = USER_TEST_ID
 
@@ -68,21 +68,13 @@ class HelpParametersActivityTest : H3lpAppTest() {
         )
     }
 
-    private fun launch(): ActivityScenario<MainPageActivity> {
+    override fun launch(): ActivityScenario<HelpeeSelectionActivity> {
         return ActivityScenario.launch(
             Intent(
                 getApplicationContext(),
                 HelpeeSelectionActivity::class.java
             )
         )
-    }
-
-    private fun launchAndDo(action: () -> Unit) {
-        launch().use {
-            initIntentAndCheckResponse()
-            action()
-            release()
-        }
     }
 
     @Test
@@ -177,7 +169,7 @@ class HelpParametersActivityTest : H3lpAppTest() {
             intended(
                 allOf(
                     hasAction(ACTION_DIAL)
-                    // Not cheking actual number because of Cirrus
+                    // Not checking actual number because of Cirrus
                 )
             )
         }
