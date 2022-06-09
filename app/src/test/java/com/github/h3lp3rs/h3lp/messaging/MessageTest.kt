@@ -1,4 +1,4 @@
-package com.github.h3lp3rs.h3lp
+package com.github.h3lp3rs.h3lp.messaging
 
 import com.github.h3lp3rs.h3lp.model.messaging.Message
 import org.hamcrest.CoreMatchers.equalTo
