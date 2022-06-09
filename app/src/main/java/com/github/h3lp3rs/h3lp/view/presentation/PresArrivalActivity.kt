@@ -32,5 +32,5 @@ class PresArrivalActivity : AppCompatActivity() {
     /**
      * Disables the back button on the presentation page.
      */
-    override fun onBackPressed() { }
+    override fun onBackPressed() {}
 }

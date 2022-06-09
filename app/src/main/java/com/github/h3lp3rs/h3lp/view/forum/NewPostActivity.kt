@@ -11,7 +11,6 @@ import com.github.h3lp3rs.h3lp.model.forum.ForumCategory.Companion.cachedForumOf
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.getName
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.activity_new_post.*
-import kotlinx.android.synthetic.main.activity_report.*
 
 /**
  * Activity where a user sends a Posts in the forum
@@ -50,7 +49,8 @@ class NewPostActivity : AppCompatActivity() {
         val category = newPostCategoryDropdown.text.toString()
         val textViewAnswerQuestion = findViewById<TextInputEditText>(R.id.newPostTitleEditTxt)
         val question = textViewAnswerQuestion.text.toString()
-        val forum = ForumCategory.categoriesMap[category]?.let { cachedForumOf(it, applicationContext) }!!
+        val forum =
+            ForumCategory.categoriesMap[category]?.let { cachedForumOf(it, applicationContext) }!!
         // Add post to the database
         val post = getName()?.let { forum.newPost(it, question, true) }
         // Enable notifications on replies to this post if user has activated it

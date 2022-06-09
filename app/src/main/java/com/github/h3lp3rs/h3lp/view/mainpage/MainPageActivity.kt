@@ -24,10 +24,11 @@ import com.github.h3lp3rs.h3lp.model.database.Databases.PRO_USERS
 import com.github.h3lp3rs.h3lp.model.forum.ForumCategory
 import com.github.h3lp3rs.h3lp.model.notifications.EmergencyListener
 import com.github.h3lp3rs.h3lp.model.professional.ProUser
+import com.github.h3lp3rs.h3lp.model.signin.SignIn
 import com.github.h3lp3rs.h3lp.model.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
-import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToActivity
-import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToMainPage
+import com.github.h3lp3rs.h3lp.model.storage.Storages.SIGN_IN
+import com.github.h3lp3rs.h3lp.model.storage.Storages.USER_COOKIE
 import com.github.h3lp3rs.h3lp.view.firstaid.FirstAidActivity
 import com.github.h3lp3rs.h3lp.view.forum.ForumCategoriesActivity
 import com.github.h3lp3rs.h3lp.view.forum.ForumPostsActivity
@@ -38,12 +39,11 @@ import com.github.h3lp3rs.h3lp.view.professional.VerificationActivity
 import com.github.h3lp3rs.h3lp.view.profile.MedicalCardActivity
 import com.github.h3lp3rs.h3lp.view.profile.MySkillsActivity
 import com.github.h3lp3rs.h3lp.view.profile.SettingsActivity
-import com.github.h3lp3rs.h3lp.model.signin.SignIn
-import com.github.h3lp3rs.h3lp.model.storage.Storages
-import com.github.h3lp3rs.h3lp.model.storage.Storages.*
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.getUid
 import com.github.h3lp3rs.h3lp.view.signin.presentation.PresArrivalActivity
+import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToActivity
+import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToMainPage
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main_page.*
@@ -134,7 +134,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
      * Disables the back button on the main page. This is the simplest solution to avoid breaking
      * the sign in tests.
      */
-    override fun onBackPressed() { }
+    override fun onBackPressed() {}
 
     /**
      * Opens a popup asking the user to sign in to continue.

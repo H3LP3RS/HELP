@@ -1,19 +1,14 @@
 package com.github.h3lp3rs.h3lp.view.messaging
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.github.h3lp3rs.h3lp.view.mainpage.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.model.database.Databases
-import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.model.messaging.Conversation
 import com.github.h3lp3rs.h3lp.model.messaging.Message
 import com.github.h3lp3rs.h3lp.model.messaging.Messenger
-import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToActivity
-import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToMainPage
 import com.github.h3lp3rs.h3lp.view.helprequest.helper.EXTRA_USER_ROLE
+import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToMainPage
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
@@ -27,9 +22,9 @@ class ChatActivity : AppCompatActivity() {
 
     private val adapter = GroupAdapter<ViewHolder>()
 
-    var userRole : Messenger? = null
-    private var conversationId : String? = null
-    private lateinit var conversation : Conversation
+    var userRole: Messenger? = null
+    private var conversationId: String? = null
+    private lateinit var conversation: Conversation
 
     private val receiverLayout = R.layout.chat_receiver
     private val senderLayout = R.layout.chat_sender
@@ -121,7 +116,8 @@ class ChatActivity : AppCompatActivity() {
      * Sends back to the MainPageActivity
      */
     private fun backHome() {
-        goToMainPage()    }
+        goToMainPage()
+    }
 
     override fun onPause() {
         super.onPause()

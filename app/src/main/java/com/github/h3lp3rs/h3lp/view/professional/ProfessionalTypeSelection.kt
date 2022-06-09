@@ -1,6 +1,5 @@
 package com.github.h3lp3rs.h3lp.view.professional
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.CheckBox

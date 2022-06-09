@@ -1,33 +1,33 @@
 package com.github.h3lp3rs.h3lp.view.helprequest.helpee
 
 import android.content.Intent
-import android.content.Intent.*
+import android.content.Intent.ACTION_DIAL
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
-import androidx.annotation.RequiresApi
+import android.widget.ImageButton
+import android.widget.TextView
+import android.widget.Toast
+import android.widget.ToggleButton
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.model.database.Database
-import com.github.h3lp3rs.h3lp.model.database.Databases
-import com.github.h3lp3rs.h3lp.model.database.Databases.*
 import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.databaseOf
+import com.github.h3lp3rs.h3lp.model.database.Databases.EMERGENCIES
+import com.github.h3lp3rs.h3lp.model.database.Databases.NEW_EMERGENCIES
 import com.github.h3lp3rs.h3lp.model.dataclasses.EmergencyInformation
 import com.github.h3lp3rs.h3lp.model.dataclasses.HelperSkills
 import com.github.h3lp3rs.h3lp.model.dataclasses.MedicalInformation
 import com.github.h3lp3rs.h3lp.model.helprequestutils.LocalEmergencyCaller
 import com.github.h3lp3rs.h3lp.model.locationmanager.LocationHelper
-import com.github.h3lp3rs.h3lp.model.storage.Storages
-import com.github.h3lp3rs.h3lp.model.storage.Storages.*
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
+import com.github.h3lp3rs.h3lp.model.storage.Storages.EMERGENCIES_RECEIVED
+import com.github.h3lp3rs.h3lp.model.storage.Storages.MEDICAL_INFO
 import kotlinx.android.synthetic.main.activity_help_parameters.*
 import java.util.*
 import java.util.concurrent.CompletableFuture
-import kotlin.collections.ArrayList
 
 const val EXTRA_NEEDED_MEDICATION = "needed_meds_key"
 const val EXTRA_CALLED_EMERGENCIES = "has_called_emergencies"
@@ -153,7 +153,7 @@ class HelpeeSelectionActivity : AppCompatActivity() {
      * @param view The view on which the user specified which medication / kind of help they require
      */
     private fun searchHelp(latitude: Double, longitude: Double, view: View) {
-        val selectionPair = retrieveSelectedMedication(findViewById(R.id.help_params_layout) )
+        val selectionPair = retrieveSelectedMedication(findViewById(R.id.help_params_layout))
         val meds = selectionPair.first
         val skills = selectionPair.second
 

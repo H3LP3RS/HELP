@@ -8,8 +8,8 @@ import com.github.h3lp3rs.h3lp.model.forum.data.CategoryPosts
 import com.github.h3lp3rs.h3lp.model.forum.data.Forum
 import com.github.h3lp3rs.h3lp.model.forum.data.Path
 import com.github.h3lp3rs.h3lp.model.forum.implementation.SimpleDBForum.Companion.pathToKey
-import com.github.h3lp3rs.h3lp.model.storage.Storages.*
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
+import com.github.h3lp3rs.h3lp.model.storage.Storages.FORUM_CACHE
 import java.util.concurrent.CompletableFuture
 import java.util.stream.Collectors.toList
 

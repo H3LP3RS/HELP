@@ -1,9 +1,9 @@
 package com.github.h3lp3rs.h3lp.view.mainpage
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
+import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.model.database.Databases
 import com.github.h3lp3rs.h3lp.model.dataclasses.Report
@@ -55,7 +55,8 @@ class ReportActivity : AppCompatActivity() {
         // to have a link to the user that has a bug and also to keep consistency with other
         // implementations and keep the testing part simple since it's not the most important feature of the app.
         SignInActivity.userUid?.let {
-            Databases.databaseOf(Databases.REPORTS, applicationContext).setObject(it, Report::class.java, report)
+            Databases.databaseOf(Databases.REPORTS, applicationContext)
+                .setObject(it, Report::class.java, report)
         }
         // Clears the text field when the user hits send
         reportEditTxt.text?.clear()

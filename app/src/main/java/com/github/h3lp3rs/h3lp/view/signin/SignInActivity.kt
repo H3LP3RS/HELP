@@ -1,8 +1,6 @@
 package com.github.h3lp3rs.h3lp.view.signin
 
-import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -19,9 +17,9 @@ import com.github.h3lp3rs.h3lp.model.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.model.storage.Storages.*
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.disableOnlineSync
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
+import com.github.h3lp3rs.h3lp.view.signin.presentation.PresArrivalActivity
 import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToActivity
 import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToMainPage
-import com.github.h3lp3rs.h3lp.view.signin.presentation.PresArrivalActivity
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.AuthResult
 import kotlinx.android.synthetic.main.activity_sign_in.*
@@ -62,7 +60,7 @@ class SignInActivity : AppCompatActivity() {
             if (checkUsernameField()) {
                 SignIn.set(AnonymousSignInAdapter)
                 signInClient = SignIn.get()
-                authenticateUser(null, this )
+                authenticateUser(null, this)
 
             } else {
                 displayMessage(
@@ -149,7 +147,7 @@ class SignInActivity : AppCompatActivity() {
      * @param result sign in intent result containing the user account
      * @param activity current activity
      */
-    fun authenticateUser(result: ActivityResult ?, activity: Activity) {
+    fun authenticateUser(result: ActivityResult?, activity: Activity) {
         signInClient.authenticate(result, activity)?.addOnCompleteListener(activity) { task ->
             if (task.isSuccessful) {
 
@@ -181,8 +179,10 @@ class SignInActivity : AppCompatActivity() {
         text_field_username.doOnTextChanged { text, _, _, _ ->
             when {
                 text!!.isEmpty() -> text_layout_username.error = getString(R.string.empty_error_msg)
-                text.length >= MAX_LENGTH_USERNAME -> text_layout_username.error = ERROR_MESSAGE_ON_LONG_USERNAME
-                text.length <= MIN_LENGTH_USERNAME -> text_layout_username.error = ERROR_MESSAGE_ON_SHORT_USERNAME
+                text.length >= MAX_LENGTH_USERNAME -> text_layout_username.error =
+                    ERROR_MESSAGE_ON_LONG_USERNAME
+                text.length <= MIN_LENGTH_USERNAME -> text_layout_username.error =
+                    ERROR_MESSAGE_ON_SHORT_USERNAME
                 else -> text_layout_username.error = null
             }
         }

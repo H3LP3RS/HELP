@@ -15,13 +15,13 @@ import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.model.signin.GoogleSignInAdapter.getCreationDate
 import com.github.h3lp3rs.h3lp.model.signin.GoogleSignInAdapter.signOut
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.getUid
 import com.github.h3lp3rs.h3lp.model.storage.Storages.*
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
 import com.github.h3lp3rs.h3lp.view.mainpage.ReportActivity
 import com.github.h3lp3rs.h3lp.view.mainpage.ReportActivity.Companion.bug
 import com.github.h3lp3rs.h3lp.view.mainpage.ReportActivity.Companion.suggestion
+import com.github.h3lp3rs.h3lp.view.signin.SignInActivity
+import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.getUid
 import com.github.h3lp3rs.h3lp.view.signin.presentation.PresArrivalActivity
 import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToActivity
 import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToMainPage
@@ -71,7 +71,8 @@ class SettingsActivity : AppCompatActivity() {
      * Function for the back button to go back to MainActivity
      */
     fun backHome(view: View) {
-        goToMainPage()    }
+        goToMainPage()
+    }
 
     /**
      * Function for the logout button to disconnect from account
@@ -94,7 +95,7 @@ class SettingsActivity : AppCompatActivity() {
         storageOf(SKILLS, applicationContext).clearOnlineSync()
     }
 
-    fun reportBugOrSuggestion(view: View){
+    fun reportBugOrSuggestion(view: View) {
         val intent = Intent(this, ReportActivity::class.java)
         val category = when (view.id) {
             R.id.buttonBugReport -> bug
@@ -127,8 +128,14 @@ class SettingsActivity : AppCompatActivity() {
      * Save synchronized data
      */
     private fun saveData() {
-        MEDICAL_INFO.setOnlineSync(getBooleanFromSwitch(R.id.medical_info_checkbox), applicationContext)
-        USER_COOKIE.setOnlineSync(getBooleanFromSwitch(R.id.user_cookie_checkbox), applicationContext)
+        MEDICAL_INFO.setOnlineSync(
+            getBooleanFromSwitch(R.id.medical_info_checkbox),
+            applicationContext
+        )
+        USER_COOKIE.setOnlineSync(
+            getBooleanFromSwitch(R.id.user_cookie_checkbox),
+            applicationContext
+        )
         SKILLS.setOnlineSync(getBooleanFromSwitch(R.id.my_skills_checkbox), applicationContext)
     }
 

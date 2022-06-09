@@ -2,7 +2,6 @@ package com.github.h3lp3rs.h3lp.model.database
 
 import android.content.Context
 import android.util.Log
-import com.google.firebase.database.*
 import com.github.h3lp3rs.h3lp.R
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database

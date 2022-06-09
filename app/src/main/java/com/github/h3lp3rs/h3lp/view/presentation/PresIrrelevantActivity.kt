@@ -12,14 +12,12 @@ import android.view.GestureDetector
 import android.view.View
 import android.widget.CheckBox
 import androidx.appcompat.app.AppCompatActivity
-import com.github.h3lp3rs.h3lp.view.mainpage.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.view.signin.presentation.SwipeListener.Companion.SlideDirection.RIGHT
-import com.github.h3lp3rs.h3lp.view.signin.presentation.SwipeListener.Companion.swipeToNextActivity
 import com.github.h3lp3rs.h3lp.model.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.model.storage.Storages
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
-import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToActivity
+import com.github.h3lp3rs.h3lp.view.signin.presentation.SwipeListener.Companion.SlideDirection.RIGHT
+import com.github.h3lp3rs.h3lp.view.signin.presentation.SwipeListener.Companion.swipeToNextActivity
 import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToMainPage
 
 /**

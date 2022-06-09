@@ -6,12 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.model.database.Databases.PRO_USERS
-import com.github.h3lp3rs.h3lp.model.forum.ForumCategory.Companion.categoriesMap
-import com.github.h3lp3rs.h3lp.view.forum.ForumPostsActivity.Companion.selectedPost
-import com.github.h3lp3rs.h3lp.model.forum.data.Forum
 import com.github.h3lp3rs.h3lp.model.forum.ForumCategory
+import com.github.h3lp3rs.h3lp.model.forum.ForumCategory.Companion.categoriesMap
 import com.github.h3lp3rs.h3lp.model.forum.ForumPostData
+import com.github.h3lp3rs.h3lp.model.forum.data.Forum
 import com.github.h3lp3rs.h3lp.model.professional.ProUser
+import com.github.h3lp3rs.h3lp.view.forum.ForumPostsActivity.Companion.selectedPost
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.getName
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.userUid
 import com.xwray.groupie.GroupAdapter
@@ -35,7 +35,8 @@ class ForumAnswersActivity : AppCompatActivity() {
         recycler_view_forum_answers.adapter = adapter
         category = selectedPost.post.category.name
 
-        forum = categoriesMap[category]?.let { ForumCategory.cachedForumOf(it, applicationContext) }!!
+        forum =
+            categoriesMap[category]?.let { ForumCategory.cachedForumOf(it, applicationContext) }!!
 
         val db = databaseOf(PRO_USERS, applicationContext)
 
