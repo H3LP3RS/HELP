@@ -1,8 +1,7 @@
 package com.github.h3lp3rs.h3lp.locationmanager
 
+import com.github.h3lp3rs.h3lp.model.locationmanager.GeneralLocationManager
 import com.github.h3lp3rs.h3lp.model.locationmanager.LocationManagerInterface.Companion.getDistanceFromLatLon
-import com.github.h3lp3rs.h3lp.locationmanager.GeneralLocationManager
-import com.github.h3lp3rs.h3lp.locationmanager.LocationManagerInterface.Companion.getDistanceFromLatLon
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull

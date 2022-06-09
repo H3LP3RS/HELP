@@ -1,7 +1,7 @@
 package com.github.h3lp3rs.h3lp
 
-import com.github.h3lp3rs.h3lp.dataclasses.MedicalType
-import com.github.h3lp3rs.h3lp.forum.ForumCategory
+import com.github.h3lp3rs.h3lp.model.dataclasses.MedicalType
+import com.github.h3lp3rs.h3lp.model.forum.ForumCategory
 import org.junit.Assert
 import org.junit.Test
 
