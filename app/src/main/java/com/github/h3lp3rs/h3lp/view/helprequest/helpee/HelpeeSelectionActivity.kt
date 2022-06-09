@@ -62,10 +62,7 @@ class HelpeeSelectionActivity : AppCompatActivity() {
 
             // Setting up the buttons
             help_params_call_button.setOnClickListener {
-                emergencyCall(
-                    latitude,
-                    longitude
-                )
+                emergencyCall()
             }
             help_params_search_button.setOnClickListener {
                 searchHelp(
@@ -77,10 +74,7 @@ class HelpeeSelectionActivity : AppCompatActivity() {
         }, {
             // If the location is null, we still want to be able to call the emergency
             help_params_call_button.setOnClickListener {
-                emergencyCall(
-                    null,
-                    null
-                )
+                emergencyCall()
             }
         })
     }
@@ -89,12 +83,8 @@ class HelpeeSelectionActivity : AppCompatActivity() {
      * Called when the user presses the emergency call button. Opens a pop-up
      * asking the user to choose whether they want to call local emergency
      * services or their emergency contact, and dials the correct number.
-     * @param latitude The helper's current latitude (null if the user didn't activate their
-     * location)
-     * @param longitude The helper's current longitude (null if the user didn't activate their
-     * location)
      */
-    private fun emergencyCall(latitude: Double?, longitude: Double?) {
+    private fun emergencyCall() {
         val medicalInfo = storageOf(MEDICAL_INFO, applicationContext)
             .getObjectOrDefault(
                 getString(R.string.medical_info_key),
@@ -141,16 +131,17 @@ class HelpeeSelectionActivity : AppCompatActivity() {
      */
     private fun launchEmergencyCall() {
         calledEmergencies = true
-        locationHelper.updateCoordinates(this)
-        val emergencyNumber =
-            LocalEmergencyCaller.getLocalEmergencyNumber(
-                locationHelper.getUserLongitude(),
-                locationHelper.getUserLatitude(),
-                this
-            )
+        locationHelper.requireAndHandleCoordinates(applicationContext) {
+            val emergencyNumber =
+                LocalEmergencyCaller.getLocalEmergencyNumber(
+                    locationHelper.getUserLongitude(),
+                    locationHelper.getUserLatitude(),
+                    this
+                )
 
-        val dial = "tel:$emergencyNumber"
-        startActivity(Intent(ACTION_DIAL, Uri.parse(dial)))
+            val dial = "tel:$emergencyNumber"
+            startActivity(Intent(ACTION_DIAL, Uri.parse(dial)))
+        }
     }
 
     /**
