@@ -4,23 +4,24 @@ import android.content.Context
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider.*
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
-import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.github.h3lp3rs.h3lp.H3lpAppTest
-import com.github.h3lp3rs.h3lp.MainPageActivity
+import com.github.h3lp3rs.h3lp.utils.H3lpAppTest
+import com.github.h3lp3rs.h3lp.view.mainpage.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.database.Databases.*
-import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
-import com.github.h3lp3rs.h3lp.database.MockDatabase
-import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
-import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
-import com.github.h3lp3rs.h3lp.storage.Storages.*
-import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
-import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
+import com.github.h3lp3rs.h3lp.model.database.Databases.*
+import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.setDatabase
+import com.github.h3lp3rs.h3lp.model.database.MockDatabase
+import com.github.h3lp3rs.h3lp.view.signin.presentation.PresArrivalActivity
+import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
+import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.userUid
+import com.github.h3lp3rs.h3lp.model.storage.Storages.*
+import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.resetStorage
+import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
+import com.github.h3lp3rs.h3lp.model.signin.SignIn
+import com.github.h3lp3rs.h3lp.view.signin.SignInActivity
+import com.github.h3lp3rs.h3lp.model.signin.SignInInterface
 import com.google.firebase.auth.AuthResult
 import org.junit.After
 import org.junit.Test
@@ -29,9 +30,9 @@ import org.mockito.Mockito
 import org.mockito.Mockito.`when` as When
 
 @RunWith(AndroidJUnit4::class)
-class SignedInUserTest : H3lpAppTest() {
+class SignedInUserTest : H3lpAppTest<SignInActivity>() {
 
-    private fun setUp(tosAccepted: Boolean){
+    private fun setUp(tosAccepted: Boolean) {
         val intent = Intent(
             getApplicationContext(), SignInActivity::class.java
         )
@@ -46,8 +47,8 @@ class SignedInUserTest : H3lpAppTest() {
         val userSignIn = storageOf(SIGN_IN, getApplicationContext())
         val context = getApplicationContext<Context>()
         userSignIn.setBoolean(context.getString(R.string.KEY_USER_SIGNED_IN), true)
-        userSignIn.setString(context.getString(R.string.KEY_USER_UID), "")
-        userSignIn.setString(context.getString(R.string.KEY_USER_NAME), "")
+        userSignIn.setString(context.getString(R.string.KEY_USER_UID), USER_TEST_ID)
+        userSignIn.setString(context.getString(R.string.KEY_USER_NAME), USER_TEST_NAME)
 
         storageOf(USER_COOKIE, getApplicationContext()).setBoolean(context.getString(R.string.KEY_USER_AGREE), tosAccepted)
 
@@ -71,7 +72,7 @@ class SignedInUserTest : H3lpAppTest() {
     @Test
     fun guestUserMovesToPresentation() {
         setUp(false)
-        userUid = null //TODO: does not actually test guest user...
+        userUid = null
 
         intended(hasComponent(PresArrivalActivity::class.java.name))
     }

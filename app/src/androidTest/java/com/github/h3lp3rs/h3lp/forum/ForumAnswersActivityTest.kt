@@ -10,22 +10,26 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.github.h3lp3rs.h3lp.H3lpAppTest.Companion.USER_TEST_ID
+import com.github.h3lp3rs.h3lp.utils.H3lpAppTest.Companion.USER_TEST_ID
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.database.Database
-import com.github.h3lp3rs.h3lp.database.Databases.PRO_USERS
-import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
-import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
-import com.github.h3lp3rs.h3lp.database.MockDatabase
-import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.forumOf
-import com.github.h3lp3rs.h3lp.forum.ForumCategory.Companion.mockForum
-import com.github.h3lp3rs.h3lp.forum.ForumCategory.TRAUMATOLOGY
-import com.github.h3lp3rs.h3lp.forum.ForumPostsActivity.Companion.selectedPost
-import com.github.h3lp3rs.h3lp.professional.ProUser
-import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.setName
-import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
-import junit.framework.Assert.assertEquals
+import com.github.h3lp3rs.h3lp.model.database.Database
+import com.github.h3lp3rs.h3lp.model.database.Databases.PRO_USERS
+import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.databaseOf
+import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.setDatabase
+import com.github.h3lp3rs.h3lp.model.database.MockDatabase
+import com.github.h3lp3rs.h3lp.model.forum.ForumCategory.Companion.forumOf
+import com.github.h3lp3rs.h3lp.model.forum.ForumCategory.Companion.mockForum
+import com.github.h3lp3rs.h3lp.model.forum.ForumCategory.TRAUMATOLOGY
+import com.github.h3lp3rs.h3lp.view.forum.ForumPostsActivity.Companion.selectedPost
+import com.github.h3lp3rs.h3lp.model.forum.data.Forum
+import com.github.h3lp3rs.h3lp.model.professional.ProUser
+import com.github.h3lp3rs.h3lp.view.forum.EXTRA_FORUM_CATEGORY
+import com.github.h3lp3rs.h3lp.view.forum.ForumAnswersActivity
+import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
+import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.setName
+import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.userUid
 import org.hamcrest.Matchers.not
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -36,8 +40,8 @@ const val ANSWER_TEST = "answer"
 
 @RunWith(AndroidJUnit4::class)
 class ForumAnswersActivityTest {
-    private lateinit var forum : Forum
-    private lateinit var proUsersDb : Database
+    private lateinit var forum: Forum
+    private lateinit var proUsersDb: Database
 
     private val launchIntent = Intent(
         getApplicationContext(), ForumAnswersActivity::class.java
@@ -59,8 +63,8 @@ class ForumAnswersActivityTest {
     fun addNewAnswerWorks() {
         val proUser = ProUser(USER_TEST_ID, USER_TEST_ID, "", "", "", "", "")
         proUsersDb.setObject(USER_TEST_ID, ProUser::class.java, proUser)
-        
-        forum.newPost("", QUESTION_TEST,isPost = false).thenAccept { post ->
+
+        forum.newPost("", QUESTION_TEST, isPost = false).thenAccept { post ->
             selectedPost = post
 
             launch<ForumAnswersActivity>(launchIntent).use {
@@ -82,7 +86,7 @@ class ForumAnswersActivityTest {
     @Test
     fun simpleUserCantAnswerPost() {
         proUsersDb.delete(USER_TEST_ID)
-        forum.newPost("", QUESTION_TEST,isPost = false).thenAccept { post ->
+        forum.newPost(USER_TEST_ID, QUESTION_TEST, isPost = false).thenAccept { post ->
             selectedPost = post
 
             launch<ForumAnswersActivity>(launchIntent).use {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_marginBottom="4dp"
              android:layout_height="wrap_content">
@@ -11,7 +12,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:backgroundTint="@color/light_gray"
-        android:layout_marginLeft="8dp"
         android:text="@string/receiver_s_text"
         android:textColor="@color/black"
         android:background="@drawable/rounded_text_message"
@@ -25,9 +25,9 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="2dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/helper_profile_picture" />
+        app:srcCompat="@drawable/helper_profile_picture"
+        tools:ignore="ContentDescription" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,14 +11,17 @@ import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.github.h3lp3rs.h3lp.H3lpAppTest.Companion.USER_TEST_ID
+import com.github.h3lp3rs.h3lp.utils.H3lpAppTest.Companion.USER_TEST_ID
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
-import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
-import com.github.h3lp3rs.h3lp.database.Databases.PRO_USERS
-import com.github.h3lp3rs.h3lp.database.MockDatabase
-import junit.framework.Assert.assertEquals
+import com.github.h3lp3rs.h3lp.model.database.Databases
+import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.databaseOf
+import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.setDatabase
+import com.github.h3lp3rs.h3lp.model.database.MockDatabase
+import com.github.h3lp3rs.h3lp.model.professional.ProUser
+import com.github.h3lp3rs.h3lp.view.professional.ProProfileActivity
+import com.github.h3lp3rs.h3lp.view.professional.VerificationActivity
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -28,7 +31,7 @@ private const val STATUS_TEST = "doctor"
 private const val DOMAIN_TEST = "humans"
 private const val EXPERIENCE_TEST = "3"
 
-private val proUser = ProUser(USER_TEST_ID, "", "", "", "", "", "")
+private val proUser = ProUser(USER_TEST_ID, "","","", "", "", "")
 
 @RunWith(AndroidJUnit4::class)
 class ProProfileActivityTest {

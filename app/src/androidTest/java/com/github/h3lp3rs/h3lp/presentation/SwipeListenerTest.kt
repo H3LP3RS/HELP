@@ -2,6 +2,7 @@ package com.github.h3lp3rs.h3lp.presentation
 
 import android.view.MotionEvent
 import androidx.test.core.view.MotionEventBuilder.*
+import com.github.h3lp3rs.h3lp.view.signin.presentation.SwipeListener
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertTrue
 import org.junit.Before

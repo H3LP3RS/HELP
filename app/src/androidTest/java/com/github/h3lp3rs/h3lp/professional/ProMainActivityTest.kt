@@ -13,11 +13,15 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.github.h3lp3rs.h3lp.H3lpAppTest
-import com.github.h3lp3rs.h3lp.MainPageActivity
+import com.github.h3lp3rs.h3lp.utils.H3lpAppTest
+import com.github.h3lp3rs.h3lp.view.mainpage.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.forum.ForumCategoriesActivity
-import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
+import com.github.h3lp3rs.h3lp.view.forum.ForumCategoriesActivity
+import com.github.h3lp3rs.h3lp.view.professional.ProMainActivity
+import com.github.h3lp3rs.h3lp.view.professional.ProProfileActivity
+import com.github.h3lp3rs.h3lp.view.professional.ProfessionalTypeSelection
+import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
+import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.userUid
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 import org.junit.After
@@ -27,17 +31,12 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class ProMainActivityTest : H3lpAppTest() {
+class ProMainActivityTest : H3lpAppTest<ProMainActivity>() {
 
     @get:Rule
     val testRule = ActivityScenarioRule(
         ProMainActivity::class.java
     )
-
-    private fun checkIfDisplayed(id: Int){
-        onView(withId(id))
-            .check(matches(isDisplayed()))
-    }
 
     @Before
     fun setup() {

@@ -7,13 +7,13 @@
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:padding="16dp"
-        tools:context=".CprRateActivity">
+        tools:context=".view.mainpage.CprRateActivity">
 
     <ImageView
             android:layout_width="129dp"
             android:layout_height="129dp"
             android:layout_marginTop="150dp"
-            app:srcCompat="@drawable/heart"
+            app:srcCompat="@drawable/cpr_rate"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/heartIcon" />

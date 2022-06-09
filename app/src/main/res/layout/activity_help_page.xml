@@ -5,7 +5,7 @@
         xmlns:map="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".HelperPageActivity"
+        tools:context=".view.helprequest.helper.HelperPageActivity"
         android:orientation="vertical"
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,7 +40,7 @@
                 map:layout_constraintTop_toTopOf="parent">
         <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/mapHelpPage"
-                android:name="com.github.h3lp3rs.h3lp.MapsFragment"
+                android:name="com.github.h3lp3rs.h3lp.view.map.MapsFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
@@ -109,7 +109,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="UseCompoundDrawables">
 
                         <ImageView
                             android:id="@+id/button_reject"
@@ -117,6 +118,7 @@
                             android:layout_height="70dp"
                             android:layout_gravity="start"
                             android:layout_marginHorizontal="70dp"
+                            android:contentDescription="@string/cancel"
                             android:src="@drawable/cancel_button" />
 
                         <TextView
@@ -141,7 +143,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="UseCompoundDrawables">
 
                         <ImageView
                             android:id="@+id/button_accept"
@@ -149,7 +152,8 @@
                             android:layout_height="70dp"
                             android:layout_gravity="end"
                             android:layout_marginHorizontal="70dp"
-                            android:src="@drawable/green_tick" />
+                            android:src="@drawable/green_tick"
+                            android:contentDescription="@string/accept" />
 
                         <TextView
                             android:id="@+id/textView5"

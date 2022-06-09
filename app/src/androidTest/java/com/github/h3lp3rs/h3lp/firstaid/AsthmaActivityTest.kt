@@ -4,23 +4,30 @@ import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.intent.Intents
+import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers
+import androidx.test.espresso.matcher.RootMatchers.isFocusable
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.github.h3lp3rs.h3lp.FirstAidActivity
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.firstaid.FirstAidHowTo.ASTHMA
+import com.github.h3lp3rs.h3lp.model.dataclasses.FirstAidHowTo.ASTHMA
+import com.github.h3lp3rs.h3lp.utils.H3lpAppTest
+import com.github.h3lp3rs.h3lp.view.firstaid.EXTRA_FIRST_AID
+import com.github.h3lp3rs.h3lp.view.firstaid.FirstAidActivity
+import com.github.h3lp3rs.h3lp.view.firstaid.GeneralFirstAidActivity
 import org.hamcrest.Matchers
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class AsthmaActivityTest {
+class AsthmaActivityTest: H3lpAppTest<GeneralFirstAidActivity>() {
 
-    fun launch(): ActivityScenario<GeneralFirstAidActivity> {
+    override fun launch(): ActivityScenario<GeneralFirstAidActivity> {
         // Forge the right intent
         val intent = Intent(
             ApplicationProvider.getApplicationContext(),
@@ -30,16 +37,6 @@ class AsthmaActivityTest {
         }
 
         return ActivityScenario.launch(intent)
-    }
-
-    /**
-     * Check if a component is correctly displayed on the view
-     *
-     * @param id Id of the component
-     */
-    private fun checkIfDisplayed(id: Int) {
-        Espresso.onView(ViewMatchers.withId(id))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
 
     @Test
@@ -68,14 +65,6 @@ class AsthmaActivityTest {
                     IntentMatchers.hasComponent(FirstAidActivity::class.java.name)
                 )
             )
-        }
-    }
-
-    private fun launchAndDo(action: () -> Unit) {
-        launch().use {
-            Intents.init()
-            action()
-            Intents.release()
         }
     }
 }

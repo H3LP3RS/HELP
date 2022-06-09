@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FirstAidActivity"
-    android:background="@color/white">
+    tools:context=".view.firstaid.FirstAidActivity">
     
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,7 +22,8 @@
                 android:layout_centerVertical="true"
                 android:onClick="goToMainActivity"
                 android:padding="15dp"
-                android:src="@drawable/back_icon" />
+                android:src="@drawable/back_icon"
+                tools:ignore="ContentDescription" />
 
 
         </RelativeLayout>
@@ -76,7 +76,8 @@
                 android:layout_height="150dp"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="-30dp"
-                android:src="@drawable/epipen" />
+                android:src="@drawable/epipen"
+                tools:ignore="ContentDescription" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -117,7 +118,8 @@
                 android:layout_height="150dp"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="-26dp"
-                android:src="@drawable/heart_attack" />
+                android:src="@drawable/heart_attack"
+                tools:ignore="ContentDescription" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -157,7 +159,8 @@
                 android:layout_height="150dp"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="-30dp"
-                android:src="@drawable/first_aid_kit" />
+                android:src="@drawable/first_aid_kit"
+                tools:ignore="ContentDescription" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -197,7 +200,8 @@
                 android:layout_height="150dp"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="-25dp"
-                android:src="@drawable/asthma" />
+                android:src="@drawable/asthma"
+                tools:ignore="ContentDescription" />
         </RelativeLayout>
 
 

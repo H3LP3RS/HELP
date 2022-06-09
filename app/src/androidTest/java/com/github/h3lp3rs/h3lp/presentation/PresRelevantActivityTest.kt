@@ -6,6 +6,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.R
+import com.github.h3lp3rs.h3lp.view.signin.presentation.PresRelevantActivity
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
