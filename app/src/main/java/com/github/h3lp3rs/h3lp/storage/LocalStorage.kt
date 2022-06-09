@@ -55,10 +55,10 @@ class LocalStorage(private val path: String, val context: Context) {
                 val future = db.getString("$path/$uid").exceptionally { JSONObject().toString() }
                     .thenAccept {
                         parseOnlinePrefs(it)
-                    }.orTimeout(3, TimeUnit.SECONDS)
+                    }
 
                 if(blocking) {
-                    future.join()
+                    future.orTimeout( 5, TimeUnit.SECONDS).join()
                 }
             } else {
                 throw UserNotAuthenticatedException()
@@ -69,6 +69,7 @@ class LocalStorage(private val path: String, val context: Context) {
     /**
      * Delete online data synchronized with the preferences
      */
+    @RequiresApi(Build.VERSION_CODES.S)
     fun clearOnlineSync() {
         val uid = getUid()!!
         val db = databaseOf(PREFERENCES)
@@ -95,6 +96,7 @@ class LocalStorage(private val path: String, val context: Context) {
     /**
      * Asynchronously pushes the cached updates to the online storage in a JSON format.
      */
+    @RequiresApi(Build.VERSION_CODES.S)
     fun push() {
         if (isOnlineSyncEnabled()) {
             val uid = getUid()!!
