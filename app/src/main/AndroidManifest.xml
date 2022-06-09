@@ -21,65 +21,56 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.H3LP">
         <activity
-            android:name=".ReportActivity"
+            android:name=".view.mainpage.ReportActivity"
             android:exported="false" />
         <activity
-            android:name=".RatingActivity"
+            android:name=".view.mainpage.RatingActivity"
             android:exported="false" />
         <activity
-            android:name=".professional.ProfessionalTypeSelection"
+            android:name=".view.professional.ProfessionalTypeSelection"
             android:exported="false" />
         <activity
-            android:name=".forum.ForumCategoriesActivity"
+            android:name=".view.forum.ForumCategoriesActivity"
             android:exported="false" />
         <activity
-            android:name=".forum.ForumAnswersActivity"
+            android:name=".view.forum.ForumAnswersActivity"
             android:exported="false" />
         <activity
-            android:name=".forum.NewPostActivity"
-            android:exported="true" />
-        <activity
-            android:name=".forum.ForumPostsActivity"
+            android:name=".view.forum.NewPostActivity"
             android:exported="false" />
         <activity
-            android:name=".professional.ProProfileActivity"
+            android:name=".view.forum.ForumPostsActivity"
             android:exported="false" />
         <activity
-            android:name=".SettingsActivity"
+            android:name=".view.professional.ProProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".HelperPageActivity"
-            android:exported="true" />
-        <activity
-            android:name=".messaging.RecentMessagesActivity"
-            android:exported="true" />
-        <activity
-            android:name=".MainPageActivity"
+            android:name=".view.profile.SettingsActivity"
             android:exported="false" />
         <activity
-            android:name=".professional.VerificationActivity"
+            android:name=".view.helprequest.helper.HelperPageActivity"
             android:exported="false" />
         <activity
-            android:name=".professional.ProMainActivity"
+            android:name=".view.messaging.RecentMessagesActivity"
             android:exported="false" />
         <activity
-            android:name=".MySkillsActivity"
+            android:name=".view.mainpage.MainPageActivity"
             android:exported="false" />
         <activity
-            android:name=".firstaid.AsthmaActivity"
+            android:name=".view.professional.VerificationActivity"
             android:exported="false" />
         <activity
-            android:name=".firstaid.AedActivity"
+            android:name=".view.professional.ProMainActivity"
             android:exported="false" />
         <activity
-            android:name=".firstaid.HeartAttackActivity"
+            android:name=".view.profile.MySkillsActivity"
             android:exported="false" />
         <activity
-            android:name=".firstaid.AllergyActivity"
+            android:name=".view.firstaid.GeneralFirstAidActivity"
             android:exported="false" />
         <activity
-            android:name=".FirstAidActivity"
-            android:exported="true" />
+            android:name=".view.firstaid.FirstAidActivity"
+            android:exported="false" />
         <!--
             Note that the API key is linked to the encryption key used to sign the APK.
             You need a different API key for each encryption key, including the release key that is used to
@@ -93,37 +84,37 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity
-            android:name=".NearbyUtilitiesActivity"
+            android:name=".view.map.NearbyUtilitiesActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.ToSActivity"
+            android:name=".view.signin.presentation.ToSActivity"
             android:exported="false" />
         <activity
-            android:name=".MedicalCardActivity"
+            android:name=".view.profile.MedicalCardActivity"
             android:exported="false" />
         <activity
-            android:name=".AwaitHelpActivity"
+            android:name=".view.helprequest.helpee.AwaitHelpActivity"
             android:exported="false" />
         <activity
-            android:name=".HelpeeSelectionActivity"
-            android:exported="true" />
-        <activity
-            android:name=".CprRateActivity"
+            android:name=".view.helprequest.helpee.HelpeeSelectionActivity"
             android:exported="false" />
         <activity
-            android:name=".messaging.ChatActivity"
+            android:name=".view.mainpage.CprRateActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.PresIrrelevantActivity"
+            android:name=".view.messaging.ChatActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.PresRelevantActivity"
+            android:name=".view.signin.presentation.PresIrrelevantActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.PresArrivalActivity"
+            android:name=".view.signin.presentation.PresRelevantActivity"
             android:exported="false" />
         <activity
-            android:name=".signin.SignInActivity"
+            android:name=".view.signin.presentation.PresArrivalActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.signin.SignInActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

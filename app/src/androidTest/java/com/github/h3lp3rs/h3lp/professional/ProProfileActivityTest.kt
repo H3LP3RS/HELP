@@ -10,14 +10,17 @@ import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.github.h3lp3rs.h3lp.H3lpAppTest.Companion.USER_TEST_ID
+import com.github.h3lp3rs.h3lp.utils.H3lpAppTest.Companion.USER_TEST_ID
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.database.Databases
-import com.github.h3lp3rs.h3lp.database.Databases.Companion.databaseOf
-import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
-import com.github.h3lp3rs.h3lp.database.MockDatabase
-import junit.framework.Assert.assertEquals
+import com.github.h3lp3rs.h3lp.model.database.Databases
+import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.databaseOf
+import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.setDatabase
+import com.github.h3lp3rs.h3lp.model.database.MockDatabase
+import com.github.h3lp3rs.h3lp.model.professional.ProUser
+import com.github.h3lp3rs.h3lp.view.professional.ProProfileActivity
+import com.github.h3lp3rs.h3lp.view.professional.VerificationActivity
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -43,7 +46,7 @@ class ProProfileActivityTest {
         VerificationActivity.currentUserId = USER_TEST_ID
         VerificationActivity.currentUserName = ""
         setDatabase(Databases.PRO_USERS, MockDatabase())
-        proUsersDb.setObject(USER_TEST_ID,ProUser::class.java, proUser)
+        proUsersDb.setObject(USER_TEST_ID, ProUser::class.java, proUser)
     }
 
     @After
@@ -79,7 +82,7 @@ class ProProfileActivityTest {
         onView(withId(R.id.proProfileUpdateButton))
             .perform(click())
 
-        val currentProUser = databaseOf(Databases.PRO_USERS).getObject(USER_TEST_ID,ProUser::class.java).get()
+        val currentProUser = databaseOf(Databases.PRO_USERS).getObject(USER_TEST_ID, ProUser::class.java).get()
 
         assertEquals(currentProUser.id, USER_TEST_ID)
         assertEquals(currentProUser.name, "")

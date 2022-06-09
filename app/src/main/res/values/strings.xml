@@ -39,7 +39,7 @@ appropriate authorization, or a name that is otherwise offensive, vulgar or obsc
     <string name="gender">Gender*</string>
     <string name="height">Height*</string>
     <string name="weight">Weight*</string>
-    <string name="yearTooRecent">Invalid year : You can not be born in the future </string>
+    <string name="yearTooRecent">Invalid year : You have to be an adult (and cannot be born in the future) </string>
     <string name="yearTooOld">Invalid year : You seem too old to be alive </string>
     <string name="heightTooShort">Invalid height : You seem too short </string>
     <string name="heightTooBig">Invalid height : You seem too big </string>
