@@ -45,6 +45,7 @@ class ForumPostsActivity : AppCompatActivity() {
             // When the user clicks on add, he is redirected to the new post activity to be able to
             // add a post
             val intent = Intent(view.context, NewPostActivity::class.java)
+            intent.putExtra(EXTRA_FORUM_CATEGORY, category)
             startActivity(intent)
         }
 

@@ -423,15 +423,14 @@
                     android:orientation="vertical">
 
                 <ImageButton
-                        android:id="@+id/button_profile"
-                        android:layout_width="@dimen/image_button_home_page"
-                        android:layout_height="@dimen/image_button_home_page"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="@dimen/margin_image_inside_layout"
-                        android:background="@drawable/profile"
-                        android:contentDescription="@string/profile_button"
-                        android:onClick="goToButtonActivity" />
-                tools:ignore="ImageContrastCheck,ImageContrastCheck" />
+                    android:id="@+id/button_profile"
+                    android:layout_width="@dimen/image_button_home_page"
+                    android:layout_height="@dimen/image_button_home_page"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/margin_image_inside_layout"
+                    android:background="@drawable/profile"
+                    android:contentDescription="@string/profile_button"
+                    android:onClick="goToButtonActivity" />
 
                 <TextView
                         android:layout_width="wrap_content"
@@ -493,20 +492,25 @@
 
 
         <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/HELP_button"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="84dp"
-                android:elevation="4dp"
-                android:fontFamily="sans-serif"
-                android:shadowColor="@color/black"
-                android:shadowRadius="10"
-                android:text="@string/help"
-                android:textColor="@color/white"
-                android:textSize="64sp"
-                android:textStyle="bold" />
+            android:id="@+id/text_help"
+            android:layout_width="184dp"
+            android:layout_height="89dp"
+            android:layout_alignStart="@+id/HELP_button"
+            android:layout_alignTop="@+id/HELP_button"
+            android:layout_alignEnd="@+id/HELP_button"
+            android:layout_alignBottom="@id/HELP_button"
+            android:layout_marginStart="34dp"
+            android:layout_marginTop="90dp"
+            android:layout_marginEnd="35dp"
+            android:layout_marginBottom="77dp"
+            android:elevation="4dp"
+            android:fontFamily="sans-serif"
+            android:shadowColor="@color/black"
+            android:shadowRadius="30"
+            android:text="@string/help"
+            android:textColor="@color/white"
+            android:textSize="64sp"
+            android:textStyle="bold" />
 
     </RelativeLayout>
 

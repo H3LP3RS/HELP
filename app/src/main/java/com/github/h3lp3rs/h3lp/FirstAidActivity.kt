@@ -2,6 +2,8 @@ package com.github.h3lp3rs.h3lp
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
@@ -9,7 +11,10 @@ import com.github.h3lp3rs.h3lp.firstaid.AedActivity
 import com.github.h3lp3rs.h3lp.firstaid.AllergyActivity
 import com.github.h3lp3rs.h3lp.firstaid.AsthmaActivity
 import com.github.h3lp3rs.h3lp.firstaid.HeartAttackActivity
+import com.github.h3lp3rs.h3lp.professional.VerificationActivity
 import kotlinx.android.synthetic.main.activity_first_aid.*
+
+const val DELAY: Long = 1000
 
 class FirstAidActivity : AppCompatActivity() {
     // Maps the clicked button to the activity it should launch to avoid code duplication
@@ -47,6 +52,8 @@ class FirstAidActivity : AppCompatActivity() {
 
     /** Called when the user taps the back button */
     fun goToMainActivity(view: View) {
-        goToActivity(MainPageActivity::class.java)
+        Handler(Looper.getMainLooper()).postDelayed({
+            finish()
+        }, DELAY)
     }
 }

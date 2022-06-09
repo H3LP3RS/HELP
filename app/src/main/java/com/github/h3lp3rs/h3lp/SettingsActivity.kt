@@ -1,5 +1,6 @@
 package com.github.h3lp3rs.h3lp
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
@@ -14,12 +15,19 @@ import android.widget.CompoundButton
 import android.widget.CompoundButton.OnCheckedChangeListener
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import com.github.h3lp3rs.h3lp.ReportActivity.Companion.bug
+import com.github.h3lp3rs.h3lp.ReportActivity.Companion.suggestion
+import com.github.h3lp3rs.h3lp.forum.ForumCategory
+import com.github.h3lp3rs.h3lp.presentation.PresArrivalActivity
 import com.github.h3lp3rs.h3lp.signin.GoogleSignInAdapter.getCreationDate
 import com.github.h3lp3rs.h3lp.signin.GoogleSignInAdapter.signOut
 import com.github.h3lp3rs.h3lp.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.getUid
+import com.github.h3lp3rs.h3lp.storage.Storages
 import com.github.h3lp3rs.h3lp.storage.Storages.*
 import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
+
+const val EXTRA_REPORT_CATEGORY = "bug_category"
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -72,8 +80,15 @@ class SettingsActivity : AppCompatActivity() {
      * Function for the logout button to disconnect from account
      */
     fun logout(view: View) {
+        val userSignIn = storageOf(SIGN_IN)
+        userSignIn.setBoolean(getString(R.string.KEY_USER_SIGNED_IN), false)
         signOut()
         val intent = Intent(this, SignInActivity::class.java)
+        startActivity(intent)
+    }
+
+    fun goToPresentation(view: View) {
+        val intent = Intent(this, PresArrivalActivity::class.java)
         startActivity(intent)
     }
 
@@ -81,6 +96,17 @@ class SettingsActivity : AppCompatActivity() {
         storageOf(MEDICAL_INFO).clearOnlineSync()
         storageOf(USER_COOKIE).clearOnlineSync()
         storageOf(SKILLS).clearOnlineSync()
+    }
+
+    fun reportBugOrSuggestion(view: View){
+        val intent = Intent(this, ReportActivity::class.java)
+        val category = when (view.id) {
+            R.id.buttonBugReport -> bug
+            R.id.buttonSuggestion -> suggestion
+            else -> ""
+        }
+        intent.putExtra(EXTRA_REPORT_CATEGORY, category)
+        startActivity(intent)
     }
 
     /**
@@ -122,6 +148,7 @@ class SettingsActivity : AppCompatActivity() {
     /**
      * Opens a popup asking the user to sign in to continue.
      */
+    @SuppressLint("InflateParams")
     private fun showSignInPopUp() {
         val dialog = Dialog(this)
         val signInPopup =

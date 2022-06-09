@@ -130,7 +130,7 @@
             android:layout_width="@dimen/scroll_view_tuto_layout"
             android:layout_height="@dimen/scroll_view_tuto_layout"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
             android:background="@drawable/round_style"
             android:backgroundTint="@color/white"
             android:orientation="vertical">
@@ -201,7 +201,7 @@
             android:layout_width="@dimen/scroll_view_tuto_layout"
             android:layout_height="@dimen/scroll_view_tuto_layout"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="14dp"
+            android:layout_marginStart="14dp"
             android:background="@drawable/round_style"
             android:backgroundTint="@color/white"
             android:orientation="vertical">
@@ -278,14 +278,14 @@
             android:layout_width="213dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            >
+            tools:ignore="UseCompoundDrawables">
 
             <ImageView
                 android:id="@+id/await_help_call_button"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="36dp"
                 android:contentDescription="@string/phone_icon_description"
                 android:foregroundGravity="center"
                 app:srcCompat="@drawable/emergency_call"
@@ -307,7 +307,8 @@
             android:id="@+id/constraint_layout_contact_helpers"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            tools:ignore="UseCompoundDrawables">
 
             <ImageView
                 android:id="@+id/image_open_latest_messages"
@@ -315,7 +316,8 @@
                 android:layout_height="50dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="50dp"
-                app:srcCompat="@drawable/chat" />
+                app:srcCompat="@drawable/chat"
+                tools:ignore="ContentDescription" />
 
             <TextView
                 android:id="@+id/textview_open_chat"
@@ -324,7 +326,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/visbycf_medium"
-                android:text="Contact the helpers"
+                android:text="@string/contact_the_helpers"
                 android:textAlignment="center"
                 android:textColor="@color/black" />
         </LinearLayout>
@@ -335,7 +337,7 @@
         android:id="@+id/constraintLayout"
         android:layout_width="428dp"
         android:layout_height="71dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
