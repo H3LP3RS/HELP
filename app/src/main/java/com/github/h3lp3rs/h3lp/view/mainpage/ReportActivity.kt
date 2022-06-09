@@ -55,7 +55,7 @@ class ReportActivity : AppCompatActivity() {
         // to have a link to the user that has a bug and also to keep consistency with other
         // implementations and keep the testing part simple since it's not the most important feature of the app.
         SignInActivity.userUid?.let {
-            Databases.databaseOf(Databases.REPORTS).setObject(it, Report::class.java, report)
+            Databases.databaseOf(Databases.REPORTS, applicationContext).setObject(it, Report::class.java, report)
         }
         // Clears the text field when the user hits send
         reportEditTxt.text?.clear()

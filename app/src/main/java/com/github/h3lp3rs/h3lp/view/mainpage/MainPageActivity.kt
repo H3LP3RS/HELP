@@ -43,7 +43,6 @@ import com.github.h3lp3rs.h3lp.model.storage.Storages
 import com.github.h3lp3rs.h3lp.model.storage.Storages.*
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.getUid
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.view.signin.presentation.PresArrivalActivity
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
@@ -362,7 +361,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
                 R.id.nav_settings -> goToActivity(SettingsActivity::class.java)
                 R.id.nav_about_us -> goToActivity(PresArrivalActivity::class.java)
                 R.id.nav_logout -> {
-                    val userSignIn = storageOf(SIGN_IN) // Fetch from storage
+                    val userSignIn = storageOf(SIGN_IN, applicationContext) // Fetch from storage
                     userSignIn.setBoolean(getString(R.string.KEY_USER_SIGNED_IN), false)
                     SignIn.get().signOut()
                     goToActivity(SignInActivity::class.java)

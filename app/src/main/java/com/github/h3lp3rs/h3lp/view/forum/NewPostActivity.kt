@@ -9,7 +9,6 @@ import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.model.forum.ForumCategory
 import com.github.h3lp3rs.h3lp.model.forum.ForumCategory.Companion.cachedForumOf
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.getName
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.activity_new_post.*
 import kotlinx.android.synthetic.main.activity_report.*

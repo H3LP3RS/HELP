@@ -31,7 +31,6 @@ import com.github.h3lp3rs.h3lp.view.professional.ProMainActivity
 import com.github.h3lp3rs.h3lp.model.professional.ProUser
 import com.github.h3lp3rs.h3lp.view.professional.VerificationActivity
 import com.github.h3lp3rs.h3lp.view.profile.MedicalCardActivity
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.model.storage.Storages.*
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.resetStorage

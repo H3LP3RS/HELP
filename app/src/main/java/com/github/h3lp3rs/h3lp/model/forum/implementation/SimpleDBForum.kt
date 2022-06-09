@@ -256,18 +256,18 @@ open class SimpleDBForum(override val path: Path, private val rootForum: Databas
     }
 
     override fun root(): Forum {
-        return SimpleDBForum(emptyList(), rootForum)
+        return SimpleDBForum(emptyList(), rootForum, context)
     }
 
     override fun child(relativePath: Path): Forum {
-        return SimpleDBForum(path + relativePath, rootForum)
+        return SimpleDBForum(path + relativePath, rootForum, context)
     }
 
     override fun parent(): Forum {
         return if (isRoot()) {
             this
         } else {
-            SimpleDBForum(path.dropLast(1), rootForum)
+            SimpleDBForum(path.dropLast(1), rootForum, context)
         }
     }
 

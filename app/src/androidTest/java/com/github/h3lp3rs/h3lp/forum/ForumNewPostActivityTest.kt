@@ -1,5 +1,8 @@
 package com.github.h3lp3rs.h3lp.forum
 
+import android.content.Context
+import android.content.Intent
+import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
@@ -17,7 +20,6 @@ import com.github.h3lp3rs.h3lp.model.forum.ForumCategory.Companion.mockForum
 import com.github.h3lp3rs.h3lp.model.forum.data.Forum
 import com.github.h3lp3rs.h3lp.view.forum.EXTRA_FORUM_CATEGORY
 import com.github.h3lp3rs.h3lp.view.forum.NewPostActivity
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.setName
 import org.junit.Assert.assertEquals
 import org.junit.Before

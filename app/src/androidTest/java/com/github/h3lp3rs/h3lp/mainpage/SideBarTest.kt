@@ -24,7 +24,6 @@ import com.github.h3lp3rs.h3lp.view.mainpage.RatingActivity
 import com.github.h3lp3rs.h3lp.view.profile.MedicalCardActivity
 import com.github.h3lp3rs.h3lp.view.profile.SettingsActivity
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.view.signin.presentation.PresArrivalActivity
 import org.hamcrest.Matchers.*
@@ -39,7 +38,6 @@ class SideBarTest : H3lpAppTest<MainPageActivity>() {
 
     @Before
     fun setup() {
-        globalContext = ApplicationProvider.getApplicationContext()
         userUid = USER_TEST_ID
         val intent = Intent(
             ApplicationProvider.getApplicationContext(), MainPageActivity::class.java

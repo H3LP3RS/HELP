@@ -94,7 +94,7 @@ class LocalStorage(private val path: String, val context: Context) {
                 launch {
                     if (isOnlineSyncEnabled()) {
                         val uid = getUid()!!
-                        val db = databaseOf(PREFERENCES)
+                        val db = databaseOf(PREFERENCES, context)
 
                         val json = JSONObject()
                         for (entry in pref.all.entries) {

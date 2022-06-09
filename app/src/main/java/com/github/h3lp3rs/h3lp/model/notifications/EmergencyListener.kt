@@ -1,6 +1,5 @@
 package com.github.h3lp3rs.h3lp.model.notifications
 
-import LocationHelper
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -13,7 +12,6 @@ import com.github.h3lp3rs.h3lp.model.dataclasses.HelperSkills
 import com.github.h3lp3rs.h3lp.model.notifications.NotificationService.Companion.createNotificationChannel
 import com.github.h3lp3rs.h3lp.model.notifications.NotificationService.Companion.sendIntentNotification
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
 import com.github.h3lp3rs.h3lp.model.storage.Storages.EMERGENCIES_RECEIVED
 import com.github.h3lp3rs.h3lp.model.storage.Storages.SKILLS

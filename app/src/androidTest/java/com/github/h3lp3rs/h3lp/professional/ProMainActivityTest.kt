@@ -20,7 +20,6 @@ import com.github.h3lp3rs.h3lp.view.forum.ForumCategoriesActivity
 import com.github.h3lp3rs.h3lp.view.professional.ProMainActivity
 import com.github.h3lp3rs.h3lp.view.professional.ProProfileActivity
 import com.github.h3lp3rs.h3lp.view.professional.ProfessionalTypeSelection
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.userUid
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers

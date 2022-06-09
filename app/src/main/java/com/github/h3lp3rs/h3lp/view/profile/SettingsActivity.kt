@@ -77,7 +77,7 @@ class SettingsActivity : AppCompatActivity() {
      * Function for the logout button to disconnect from account
      */
     fun logout(view: View) {
-        val userSignIn = storageOf(SIGN_IN)
+        val userSignIn = storageOf(SIGN_IN, applicationContext)
         userSignIn.setBoolean(getString(R.string.KEY_USER_SIGNED_IN), false)
         signOut()
         goToActivity(SignInActivity::class.java)

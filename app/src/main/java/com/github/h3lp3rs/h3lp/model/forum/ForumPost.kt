@@ -8,7 +8,6 @@ import com.github.h3lp3rs.h3lp.model.forum.data.Forum
 import com.github.h3lp3rs.h3lp.model.forum.ForumCategory.*
 import com.github.h3lp3rs.h3lp.model.notifications.NotificationService
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.getName
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.post_forum_row.view.*

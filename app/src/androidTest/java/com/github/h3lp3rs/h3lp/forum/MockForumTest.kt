@@ -1,25 +1,30 @@
 package com.github.h3lp3rs.h3lp.forum
 
-import com.github.h3lp3rs.h3lp.model.forum.data.Forum
-import com.github.h3lp3rs.h3lp.model.forum.ForumCategory.*
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.github.h3lp3rs.h3lp.model.forum.ForumCategory.Companion.mockForum
 import com.github.h3lp3rs.h3lp.model.forum.ForumCategory.Companion.root
+import com.github.h3lp3rs.h3lp.model.forum.ForumCategory.GENERAL
+import com.github.h3lp3rs.h3lp.model.forum.data.Forum
+import org.junit.Assert.assertFalse
+import org.junit.Assert.fail
 import org.junit.Before
 import org.junit.Test
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
-import java.util.concurrent.TimeUnit.*
-import kotlin.test.*
+import java.util.concurrent.TimeUnit.MILLISECONDS
 
+
+// MockForumTest is an android test since it requires an application context to use the storages
 class MockForumTest {
+    // IMPORTANT NOTE: the current gradle version is compatible at most with Java 8 but the method
+    // orTimeout on CompletableFuture was added in Java 9, there is thus unfortunately no way to use
+    // it here
 
     // Useful variables
     private lateinit var forum: Forum
 
     @Before
     fun setup() {
-        mockForum()
-        forum = root().child(GENERAL.name)
+        mockForum(getApplicationContext())
+        forum = root(getApplicationContext()).child(GENERAL.name)
     }
 
     @Test

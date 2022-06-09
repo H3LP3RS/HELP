@@ -15,7 +15,6 @@ import androidx.test.rule.GrantPermissionRule
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.view.mainpage.EXTRA_NEARBY_UTILITIES
 import com.github.h3lp3rs.h3lp.view.map.NearbyUtilitiesActivity
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

@@ -91,12 +91,12 @@
                 android:layout_margin="20dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/visbycf_medium"
-                    android:padding="25dp"
-                    android:text="@string/heart_attack_emergency"
-                    android:textSize="25sp" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/visbycf_medium"
+                        android:padding="25dp"
+                        android:text="@string/heart_attack_emergency"
+                        android:textSize="25sp" />
 
                 <Button
                     android:id="@+id/heart_attack_expand_button"
@@ -133,12 +133,12 @@
                 android:layout_margin="20dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/visbycf_medium"
-                    android:padding="25dp"
-                    android:text="@string/defibrillator_tutorial"
-                    android:textSize="25sp" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/visbycf_medium"
+                        android:padding="25dp"
+                        android:text="@string/defibrillator_tutorial"
+                        android:textSize="25sp" />
 
                 <Button
                     android:id="@+id/aed_expand_button"

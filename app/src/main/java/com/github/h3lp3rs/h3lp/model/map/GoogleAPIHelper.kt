@@ -2,7 +2,6 @@ package com.github.h3lp3rs.h3lp.model.map
 
 import android.content.Context
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.model.parsers.GPathJSONParser
 import com.github.h3lp3rs.h3lp.model.parsers.GPlaceJSONParser
 import com.github.h3lp3rs.h3lp.model.parsers.JSONParserInterface
