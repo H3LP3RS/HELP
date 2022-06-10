@@ -84,7 +84,7 @@ H3LP is concerned about privacy of its users, especially when it comes to sensit
 
 ## How To Use
 
-1. Clone this repositories and open it in any IDE. (Recommended AndroidStudio)
+1. Clone this repository and open it in any IDE. (Recommended AndroidStudio)
 2. Add your own API key for google map in values/google_maps_api.xml
 3. Add your own Firebase URL in com/github/h3lp3rs/h3lp/model/database/FireDatabase.kt
 4. If you want reactivate the Animation for the CPR activity (removed because of continous integration). To do so remove commented line in com/github/h3lp3rs/h3lp/view/mainpage/CprRateActivity.kt
