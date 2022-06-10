@@ -1,5 +1,6 @@
 package com.github.h3lp3rs.h3lp.signin
 
+import android.content.Context
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
@@ -16,7 +17,6 @@ import com.github.h3lp3rs.h3lp.model.database.Databases.PREFERENCES
 import com.github.h3lp3rs.h3lp.model.database.MockDatabase
 import com.github.h3lp3rs.h3lp.model.signin.SignIn
 import com.github.h3lp3rs.h3lp.model.signin.SignInInterface
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.model.storage.Storages
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.resetStorage
@@ -37,23 +37,22 @@ import org.mockito.Mockito.`when` as When
 @RunWith(AndroidJUnit4::class)
 
 class AnonymousSignInTest : H3lpAppTest<SignInActivity>() {
+    val ctx: Context = getApplicationContext()
 
     @Before
     fun setUp() {
-
-        globalContext = getApplicationContext()
         userUid = USER_TEST_ID
 
         setDatabase(PREFERENCES, MockDatabase())
         resetStorage()
-        storageOf(Storages.USER_COOKIE).setBoolean(
-            globalContext.getString(R.string.KEY_USER_AGREE), false
+        storageOf(Storages.USER_COOKIE, ctx).setBoolean(
+            ctx.getString(R.string.KEY_USER_AGREE), false
         )
         val signInMock = mock(SignInInterface::class.java)
         When(signInMock.isSignedIn()).thenReturn(false)
 
-        val userSignIn = storageOf(SIGN_IN)
-        userSignIn.setBoolean(globalContext.getString(R.string.KEY_USER_SIGNED_IN), false)
+        val userSignIn = storageOf(SIGN_IN, ctx)
+        userSignIn.setBoolean(ctx.getString(R.string.KEY_USER_SIGNED_IN), false)
         SignIn.set(signInMock as SignInInterface<AuthResult>)
 
         val taskMock = mock(Task::class.java)

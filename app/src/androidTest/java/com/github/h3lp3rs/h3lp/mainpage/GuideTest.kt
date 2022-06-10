@@ -9,7 +9,6 @@ import com.github.h3lp3rs.h3lp.utils.H3lpAppTest
 import com.github.h3lp3rs.h3lp.model.database.Databases.*
 import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.model.database.MockDatabase
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.model.storage.Storages.*
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.resetStorage
@@ -30,7 +29,6 @@ class GuideTest : H3lpAppTest<MainPageActivity>() {
 
     @Before
     fun setup() {
-        globalContext = getApplicationContext()
         userUid = USER_TEST_ID
         setDatabase(PREFERENCES, MockDatabase())
         resetStorage()
@@ -38,13 +36,13 @@ class GuideTest : H3lpAppTest<MainPageActivity>() {
 
     @Test
     fun checkThatGuideIsLaunched() {
-        launch().use { assertTrue(storageOf(SIGN_IN).getBoolOrDefault(GUIDE_KEY, false)) }
+        launch().use { assertTrue(storageOf(SIGN_IN, getApplicationContext()).getBoolOrDefault(GUIDE_KEY, false)) }
     }
 
     @Test
     fun checkThatGuideIsInitiallyNotLaunched() {
-        storageOf(SIGN_IN).setBoolean(GUIDE_KEY, true)
-        launch().use { assertTrue(storageOf(SIGN_IN).getBoolOrDefault(GUIDE_KEY, false)) }
+        storageOf(SIGN_IN, getApplicationContext()).setBoolean(GUIDE_KEY, true)
+        launch().use { assertTrue(storageOf(SIGN_IN, getApplicationContext()).getBoolOrDefault(GUIDE_KEY, false)) }
     }
 
     @Test

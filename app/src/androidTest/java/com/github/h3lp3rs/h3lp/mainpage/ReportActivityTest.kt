@@ -3,6 +3,7 @@ package com.github.h3lp3rs.h3lp.mainpage
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.replaceText
@@ -39,7 +40,7 @@ class ReportActivityTest {
 
         SignInActivity.userUid = H3lpAppTest.USER_TEST_ID
         setDatabase(Databases.REPORTS, MockDatabase())
-        reportsDb = databaseOf(Databases.REPORTS)
+        reportsDb = databaseOf(Databases.REPORTS, getApplicationContext())
 
         ActivityScenario.launch<ReportActivity>(intent)
         init()

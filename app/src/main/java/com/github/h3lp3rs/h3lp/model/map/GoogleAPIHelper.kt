@@ -2,7 +2,6 @@ package com.github.h3lp3rs.h3lp.model.map
 
 import android.content.Context
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.model.parsers.GPathJSONParser
 import com.github.h3lp3rs.h3lp.model.parsers.GPlaceJSONParser
 import com.github.h3lp3rs.h3lp.model.parsers.JSONParserInterface
@@ -84,7 +83,7 @@ class GoogleAPIHelper(private val apiKey: String, private val context: Context) 
         map: MapsFragment
     ) {
         if (!requestedPlaces.containsKey(utility)) {
-            if (utility == globalContext.resources.getString(R.string.nearby_defibrillators)) {
+            if (utility == context.resources.getString(R.string.nearby_defibrillators)) {
                 requestedPlaces[utility] =
                     AedLocationsRetriever.retrieveFromFile(R.raw.aed_locations_lausanne, context)
                 requestedPlaces[utility]?.let { map.showPlaces(it, utility) }

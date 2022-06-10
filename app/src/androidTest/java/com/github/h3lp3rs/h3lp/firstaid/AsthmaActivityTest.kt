@@ -20,6 +20,7 @@ import com.github.h3lp3rs.h3lp.view.firstaid.EXTRA_FIRST_AID
 import com.github.h3lp3rs.h3lp.view.firstaid.FirstAidActivity
 import com.github.h3lp3rs.h3lp.view.firstaid.GeneralFirstAidActivity
 import org.hamcrest.Matchers
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 

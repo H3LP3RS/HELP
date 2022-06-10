@@ -1,16 +1,16 @@
 package com.github.h3lp3rs.h3lp.view.map
 
-import com.github.h3lp3rs.h3lp.model.locationmanager.LocationHelper
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.getColorStateList
-import com.github.h3lp3rs.h3lp.view.mainpage.EXTRA_NEARBY_UTILITIES
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.databinding.ActivityNearbyUtilitiesBinding
+import com.github.h3lp3rs.h3lp.model.locationmanager.LocationHelper
 import com.github.h3lp3rs.h3lp.model.map.GoogleAPIHelper
+import com.github.h3lp3rs.h3lp.view.mainpage.EXTRA_NEARBY_UTILITIES
 import kotlinx.android.synthetic.main.activity_nearby_utilities.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
@@ -141,9 +141,15 @@ class NearbyUtilitiesActivity : AppCompatActivity(), CoroutineScope by MainScope
      */
     private fun setRequestedButton() {
         when (requestedUtility) {
-            resources.getString(R.string.nearby_phamacies) -> { show_pharmacy_button.callOnClick() }
-            resources.getString(R.string.nearby_hospitals) -> { show_hospital_button.callOnClick() }
-            resources.getString(R.string.nearby_defibrillators) -> { show_defibrillators_button.callOnClick() }
+            resources.getString(R.string.nearby_phamacies) -> {
+                show_pharmacy_button.callOnClick()
+            }
+            resources.getString(R.string.nearby_hospitals) -> {
+                show_hospital_button.callOnClick()
+            }
+            resources.getString(R.string.nearby_defibrillators) -> {
+                show_defibrillators_button.callOnClick()
+            }
         }
     }
 }

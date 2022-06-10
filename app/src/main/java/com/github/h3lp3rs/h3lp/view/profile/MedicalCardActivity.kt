@@ -42,7 +42,7 @@ class MedicalCardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_card)
 
-        storage = storageOf(MEDICAL_INFO)
+        storage = storageOf(MEDICAL_INFO, applicationContext)
         loadData()
 
         // Create the field for the birth year with input check

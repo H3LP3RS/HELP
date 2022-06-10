@@ -1,6 +1,5 @@
 package com.github.h3lp3rs.h3lp.view.professional
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.CheckBox
@@ -22,7 +21,7 @@ class ProfessionalTypeSelection : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_professional_type_selection)
-        storage = storageOf(FORUM_THEMES_NOTIFICATIONS)
+        storage = storageOf(FORUM_THEMES_NOTIFICATIONS, applicationContext)
         loadData()
     }
 

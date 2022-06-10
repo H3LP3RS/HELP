@@ -3,7 +3,6 @@ package com.github.h3lp3rs.h3lp.model.locationmanager
 import android.content.Context
 import android.content.Intent
 import android.location.Location
-import android.location.LocationManager
 import com.github.h3lp3rs.h3lp.view.mainpage.MainPageActivity
 import java.util.concurrent.CompletableFuture
 

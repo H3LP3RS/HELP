@@ -1,9 +1,11 @@
 package com.github.h3lp3rs.h3lp.model.forum
 
-import com.github.h3lp3rs.h3lp.forum.implementation.CachedForum
+
+import android.content.Context
 import com.github.h3lp3rs.h3lp.model.database.FireDatabase
 import com.github.h3lp3rs.h3lp.model.database.MockDatabase
 import com.github.h3lp3rs.h3lp.model.forum.data.Forum
+import com.github.h3lp3rs.h3lp.model.forum.implementation.CachedForum
 import com.github.h3lp3rs.h3lp.model.forum.implementation.FireDBForum
 import com.github.h3lp3rs.h3lp.model.forum.implementation.MockDBForum
 
@@ -26,42 +28,41 @@ enum class ForumCategory {
         /**
          * Returns one of the main pre-defined categories sub-forum
          * @param choice One of the pre-defined main categories
+         * @param context The calling activity's context as required by FireDatabase
          * @return forum The forum of the given category
          */
-        fun forumOf(choice: ForumCategory): Forum {
+        fun forumOf(choice: ForumCategory, context: Context): Forum {
             // The categories are the first sub-level of the forum, thus they lie after root (the
             // empty list)
-            root?.let {
-                return it.child(choice.name)
-            }
-            root = FireDBForum(emptyList(), FireDatabase(ROOT_FORUM_DB_PATH))
-            return root!!.child(choice.name)
+            return root(context).child(choice.name)
         }
 
         /**
          * Returns the cached version of forumOf
          * @see forumOf
          */
-        fun cachedForumOf(choice: ForumCategory): Forum {
-            return CachedForum(forumOf(choice))
+        fun cachedForumOf(choice: ForumCategory, context: Context): Forum {
+            return CachedForum(forumOf(choice, context), context)
         }
 
         /**
          * Returns the root of the forum
+         * @param context The calling activity's context as required by FireDatabase
          */
-        fun root(): Forum {
+        fun root(context: Context): Forum {
             root?.let {
                 return it
             }
-            root = FireDBForum(emptyList(), FireDatabase(ROOT_FORUM_DB_PATH))
+            root = FireDBForum(emptyList(), FireDatabase(ROOT_FORUM_DB_PATH, context), context)
             return root!!
         }
 
         /**
          * Used for testing purposes to activate mocking of the forum
+         * @param context The calling activity's context as required by MockDBForum
          */
-        fun mockForum() {
-            root = MockDBForum(emptyList(), MockDatabase())
+        fun mockForum(context: Context) {
+            root = MockDBForum(emptyList(), MockDatabase(), context)
         }
 
         // The default category for a forum post

@@ -16,7 +16,6 @@ import com.github.h3lp3rs.h3lp.model.database.Databases.CONVERSATION_IDS
 import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.model.database.Databases.EMERGENCIES
 import com.github.h3lp3rs.h3lp.model.dataclasses.EmergencyInformation
-import com.github.h3lp3rs.h3lp.model.dataclasses.FirstAidHowTo
 import com.github.h3lp3rs.h3lp.model.dataclasses.FirstAidHowTo.*
 import com.github.h3lp3rs.h3lp.model.dataclasses.MedicalInformation
 import com.github.h3lp3rs.h3lp.model.helprequestutils.LocalEmergencyCaller
@@ -24,11 +23,11 @@ import com.github.h3lp3rs.h3lp.model.locationmanager.LocationHelper
 import com.github.h3lp3rs.h3lp.model.map.GoogleAPIHelper
 import com.github.h3lp3rs.h3lp.model.notifications.EmergencyListener.activateListeners
 import com.github.h3lp3rs.h3lp.model.storage.Storages
-import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToMainPage
 import com.github.h3lp3rs.h3lp.view.firstaid.EXTRA_FIRST_AID
 import com.github.h3lp3rs.h3lp.view.firstaid.GeneralFirstAidActivity
 import com.github.h3lp3rs.h3lp.view.map.MapsFragment
 import com.github.h3lp3rs.h3lp.view.messaging.RecentMessagesActivity
+import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToMainPage
 import com.google.android.gms.maps.MapsInitializer.initialize
 import kotlinx.android.synthetic.main.activity_await_help.*
 
@@ -67,7 +66,7 @@ class AwaitHelpActivity : AppCompatActivity() {
             }
             // Start listening to potential responses
             val emergencyId = bundle.getInt(EXTRA_EMERGENCY_KEY)
-            val emergencyDb = databaseOf(EMERGENCIES)
+            val emergencyDb = databaseOf(EMERGENCIES, applicationContext)
             emergencyDb.addListener(emergencyId.toString(), EmergencyInformation::class.java) {
                 val helpers = it.helpers
                 for (h in helpers) {
@@ -78,8 +77,13 @@ class AwaitHelpActivity : AppCompatActivity() {
 
             // Initially the contact helpers is hidden, only after a user responds to the request it
             // becomes visible.
-            image_open_latest_messages.setColorFilter(ContextCompat.getColor(this, R.color.light_gray), android.graphics.PorterDuff.Mode.SRC_IN)
-            image_open_latest_messages.isClickable=false
+            image_open_latest_messages.setColorFilter(
+                ContextCompat.getColor(
+                    this,
+                    R.color.light_gray
+                ), android.graphics.PorterDuff.Mode.SRC_IN
+            )
+            image_open_latest_messages.isClickable = false
         }
     }
 
@@ -136,9 +140,13 @@ class AwaitHelpActivity : AppCompatActivity() {
         runOnUiThread {
 
             incomingHelpersNumber.text =
-                resources.getQuantityString(R.plurals.number_of_helpers, helpersId.size, helpersId.size)
+                resources.getQuantityString(
+                    R.plurals.number_of_helpers,
+                    helpersId.size,
+                    helpersId.size
+                )
 
-            if(helpersId.size <= 1){
+            if (helpersId.size <= 1) {
 
                 findViewById<ProgressBar>(R.id.searchProgressBar).visibility = View.GONE
                 findViewById<TextView>(R.id.progressBarText).visibility = View.GONE
@@ -146,8 +154,13 @@ class AwaitHelpActivity : AppCompatActivity() {
 
                 // When the first user agrees to provide help, the user can contact
                 // him via the chat feature.
-                image_open_latest_messages.setColorFilter(ContextCompat.getColor(this, R.color.gray), android.graphics.PorterDuff.Mode.SRC_IN)
-                image_open_latest_messages.isClickable=true
+                image_open_latest_messages.setColorFilter(
+                    ContextCompat.getColor(
+                        this,
+                        R.color.gray
+                    ), android.graphics.PorterDuff.Mode.SRC_IN
+                )
+                image_open_latest_messages.isClickable = true
                 image_open_latest_messages.setOnClickListener {
                     goToRecentMessagesActivity(
                         emergencyId
@@ -179,7 +192,7 @@ class AwaitHelpActivity : AppCompatActivity() {
      * @param longitude The helper's current longitude
      */
     private fun emergencyCall(latitude: Double, longitude: Double) {
-        val medicalInfo = Storages.storageOf(Storages.MEDICAL_INFO)
+        val medicalInfo = Storages.storageOf(Storages.MEDICAL_INFO, applicationContext)
             .getObjectOrDefault(
                 getString(R.string.medical_info_key),
                 MedicalInformation::class.java,
@@ -276,11 +289,11 @@ class AwaitHelpActivity : AppCompatActivity() {
         }
 
         val emergencyId = bundle.getInt(EXTRA_EMERGENCY_KEY)
-        databaseOf(EMERGENCIES).delete(emergencyId.toString())
+        databaseOf(EMERGENCIES, applicationContext).delete(emergencyId.toString())
         // Re-listen to other emergencies
-        activateListeners()
+        activateListeners(applicationContext)
         // Delete the helpee's id
-        databaseOf(CONVERSATION_IDS).delete(emergencyId.toString())
+        databaseOf(CONVERSATION_IDS, applicationContext).delete(emergencyId.toString())
         // Redirect user to the main page after he cancels his emergency
         goToMainPage()
     }

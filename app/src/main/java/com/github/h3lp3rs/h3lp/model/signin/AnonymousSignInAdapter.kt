@@ -16,22 +16,25 @@ import java.util.*
  * This object adapts Firebase anonymous authentication to our general SignInInterface.
  */
 object AnonymousSignInAdapter : SignInInterface<AuthResult> {
-    var auth : FirebaseAuth = Firebase.auth
+    var auth: FirebaseAuth = Firebase.auth
 
-    override fun signIn(currentActivity : Activity) : Intent? {
+    override fun signIn(currentActivity: Activity): Intent? {
         return null
     }
 
-    override fun authenticate( result : ActivityResult ?, currentActivity : Activity) : Task<AuthResult>? {
-            try {
-                // Authenticate account with Firebase anonymously
-                return auth.signInAnonymously()
+    override fun authenticate(
+        result: ActivityResult?,
+        currentActivity: Activity
+    ): Task<AuthResult>? {
+        try {
+            // Authenticate account with Firebase anonymously
+            return auth.signInAnonymously()
 
-            } catch (e : ApiException) {
-                // Firebase authentication failed, display the specific error message to the user
-                Toast.makeText(currentActivity, e.message, Toast.LENGTH_SHORT).show()
+        } catch (e: ApiException) {
+            // Firebase authentication failed, display the specific error message to the user
+            Toast.makeText(currentActivity, e.message, Toast.LENGTH_SHORT).show()
 
-            }
+        }
         return null
     }
 
@@ -39,15 +42,15 @@ object AnonymousSignInAdapter : SignInInterface<AuthResult> {
         auth.signOut()
     }
 
-    override fun isSignedIn() : Boolean {
+    override fun isSignedIn(): Boolean {
         return auth.currentUser != null
     }
 
-    override fun getUid() : String? {
+    override fun getUid(): String? {
         return auth.currentUser?.uid
     }
 
-    override fun getCreationDate() : String? {
+    override fun getCreationDate(): String? {
         val timeStamp = auth.currentUser?.metadata?.creationTimestamp
         return timeStamp?.let { Date(it).toString() }
     }

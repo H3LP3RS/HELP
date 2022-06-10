@@ -1,5 +1,6 @@
 package com.github.h3lp3rs.h3lp.presentation
 
+import android.content.Context
 import android.content.Intent
 import android.view.InputDevice.*
 import android.view.MotionEvent.*
@@ -7,6 +8,7 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ActivityScenario.*
 import androidx.test.core.app.ApplicationProvider.*
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.Press.*
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents.*
@@ -25,7 +27,6 @@ import androidx.test.espresso.action.Press.*
 import com.github.h3lp3rs.h3lp.model.database.Databases.*
 import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.model.database.MockDatabase
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.model.storage.Storages.*
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.resetStorage
@@ -39,7 +40,10 @@ import com.github.h3lp3rs.h3lp.view.signin.presentation.ToSActivity
 class PresIrrelevantActivityTest : H3lpAppTest<PresIrrelevantActivity>() {
 
     private fun alreadyAccepted() {
-        storageOf(USER_COOKIE).setBoolean(globalContext.getString(R.string.KEY_USER_AGREE), true)
+        storageOf(
+            USER_COOKIE,
+            getApplicationContext()
+        ).setBoolean(getApplicationContext<Context>().getString(R.string.KEY_USER_AGREE), true)
     }
 
     // https://stackoverflow.com/questions/42390788/espresso-click-on-specific-words-of-text
@@ -59,7 +63,8 @@ class PresIrrelevantActivityTest : H3lpAppTest<PresIrrelevantActivity>() {
                 val screenY = screenPos[1] + y
                 floatArrayOf(screenX, screenY)
             },
-            FINGER, SOURCE_MOUSE, BUTTON_PRIMARY)
+            FINGER, SOURCE_MOUSE, BUTTON_PRIMARY
+        )
     }
 
     private fun checkIsDisplayed(id: Int) {
@@ -79,7 +84,6 @@ class PresIrrelevantActivityTest : H3lpAppTest<PresIrrelevantActivity>() {
 
     @Before
     fun dataInit() {
-        globalContext = getApplicationContext()
         userUid = USER_TEST_ID
         setDatabase(PREFERENCES, MockDatabase())
         resetStorage()

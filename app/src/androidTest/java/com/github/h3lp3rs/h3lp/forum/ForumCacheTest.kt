@@ -1,13 +1,14 @@
 package com.github.h3lp3rs.h3lp.forum
 
+import android.content.Context
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.github.h3lp3rs.h3lp.model.database.Databases.*
 import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.model.database.MockDatabase
-import com.github.h3lp3rs.h3lp.forum.implementation.CachedForum
+import com.github.h3lp3rs.h3lp.model.forum.implementation.CachedForum
 import com.github.h3lp3rs.h3lp.model.forum.ForumCategory
 import com.github.h3lp3rs.h3lp.model.forum.data.Forum
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.resetStorage
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -21,6 +22,7 @@ import org.junit.Test
  * on mock implementations that immediately return.
  */
 class CacheForumTest {
+    private val ctx: Context = getApplicationContext()
 
     // Useful variables
     private lateinit var rawForum: Forum
@@ -28,18 +30,17 @@ class CacheForumTest {
 
     @Before
     fun setup() {
-        globalContext = ApplicationProvider.getApplicationContext()
         resetStorage()
         setDatabase(PREFERENCES, MockDatabase())
-        ForumCategory.mockForum()
-        rawForum = ForumCategory.root().child(CATEGORY.name)
-        cachedForum = CachedForum(rawForum)
+        ForumCategory.mockForum(ctx)
+        rawForum = ForumCategory.root(ctx).child(CATEGORY.name)
+        cachedForum = CachedForum(rawForum, ctx)
     }
 
     private fun resetOnlineForum() {
-        ForumCategory.mockForum()
-        rawForum = ForumCategory.root().child(CATEGORY.name)
-        cachedForum = CachedForum(rawForum)
+        ForumCategory.mockForum(ctx)
+        rawForum = ForumCategory.root(ctx).child(CATEGORY.name)
+        cachedForum = CachedForum(rawForum, ctx)
     }
 
     @Test

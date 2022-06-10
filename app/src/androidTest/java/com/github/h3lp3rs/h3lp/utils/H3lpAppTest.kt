@@ -2,6 +2,7 @@ package com.github.h3lp3rs.h3lp.utils
 
 import android.app.Activity
 import android.app.Instrumentation.ActivityResult
+import android.content.Context
 import android.content.Intent
 import android.location.Location
 import android.net.Uri
@@ -65,11 +66,12 @@ open class H3lpAppTest<T : Activity> {
     /**
      * Auxiliary function to load a valid medical information to the corresponding
      * storage
+     * @param context Calling context to be able to access the local storage
      */
-    fun loadValidMedicalDataToStorage() {
-        storageOf(MEDICAL_INFO)
+    fun loadValidMedicalDataToStorage(context: Context) {
+        storageOf(MEDICAL_INFO, context)
             .setObject(
-                SignInActivity.globalContext.getString(R.string.medical_info_key),
+                context.getString(R.string.medical_info_key),
                 MedicalInformation::class.java, VALID_MEDICAL_INFO
             )
     }

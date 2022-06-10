@@ -1,10 +1,13 @@
 package com.github.h3lp3rs.h3lp.model.forum.implementation
 
+import android.content.Context
 import com.github.h3lp3rs.h3lp.model.database.Database
 import com.github.h3lp3rs.h3lp.model.forum.ForumCategory
 import com.github.h3lp3rs.h3lp.model.forum.ForumPost
 import com.github.h3lp3rs.h3lp.model.forum.ForumPostData
-import com.github.h3lp3rs.h3lp.model.forum.data.*
+import com.github.h3lp3rs.h3lp.model.forum.data.CategoryPosts
+import com.github.h3lp3rs.h3lp.model.forum.data.Forum
+import com.github.h3lp3rs.h3lp.model.forum.data.Path
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.concurrent.CompletableFuture
@@ -16,8 +19,13 @@ const val DATE_TIME_FORMAT = "MM/dd/yyyy - HH:mm:ss"
  * interface) and uses our key-value database as an underlying data structure.
  *
  * @param rootForum An implementation of the underlying database acting as root of our forum.
+ * @param context The calling context to be able to instantiate a forum
  */
-open class SimpleDBForum(override val path: Path, private val rootForum: Database) : Forum {
+open class SimpleDBForum(
+    override val path: Path,
+    private val rootForum: Database,
+    private val context: Context
+) : Forum {
 
 
     override fun newPost(
@@ -29,7 +37,7 @@ open class SimpleDBForum(override val path: Path, private val rootForum: Databas
             val key = postKey.toString()
             // This hack is to make the cache listener work, since we don't use the repliesKey
             // anywhere else in the SimpleDBForum (replies of replies not allowed)
-            val repliesKey = if(isPost) (postKey + 1).toString() else path.last()
+            val repliesKey = if (isPost) (postKey + 1).toString() else path.last()
 
             val forumPostData = ForumPostData(
                 author,
@@ -106,7 +114,7 @@ open class SimpleDBForum(override val path: Path, private val rootForum: Databas
                 CompletableFuture.completedFuture(emptyList())
             for (category in ForumCategory.values()) {
                 // For all categories, we add them to the list of category posts
-                val categoryForum = ForumCategory.forumOf(category)
+                val categoryForum = ForumCategory.forumOf(category, context)
                 future = future.thenCompose { list ->
                     // Recursively call getAll
                     categoryForum.getAll().handle { it, error ->
@@ -189,7 +197,7 @@ open class SimpleDBForum(override val path: Path, private val rootForum: Databas
             isRoot() -> {
                 // Listen to all categories and to all posts in that category
                 for (category in ForumCategory.values()) {
-                    ForumCategory.forumOf(category).listenToAll(action)
+                    ForumCategory.forumOf(category, context).listenToAll(action)
                 }
             }
             isCategory() -> {
@@ -254,18 +262,18 @@ open class SimpleDBForum(override val path: Path, private val rootForum: Databas
     }
 
     override fun root(): Forum {
-        return SimpleDBForum(emptyList(), rootForum)
+        return SimpleDBForum(emptyList(), rootForum, context)
     }
 
     override fun child(relativePath: Path): Forum {
-        return SimpleDBForum(path + relativePath, rootForum)
+        return SimpleDBForum(path + relativePath, rootForum, context)
     }
 
     override fun parent(): Forum {
         return if (isRoot()) {
             this
         } else {
-            SimpleDBForum(path.dropLast(1), rootForum)
+            SimpleDBForum(path.dropLast(1), rootForum, context)
         }
     }
 

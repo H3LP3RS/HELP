@@ -16,7 +16,6 @@ import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.model.database.MockDatabase
 import com.github.h3lp3rs.h3lp.view.profile.SettingsActivity
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.resetStorage
 import com.github.h3lp3rs.h3lp.utils.H3lpAppTest
@@ -40,7 +39,6 @@ class SettingsActivityTest : H3lpAppTest<SettingsActivity>() {
 
     @Before
     fun dataInit() {
-        globalContext = getApplicationContext()
         userUid = USER_TEST_ID
         setDatabase(PREFERENCES, MockDatabase())
         resetStorage()

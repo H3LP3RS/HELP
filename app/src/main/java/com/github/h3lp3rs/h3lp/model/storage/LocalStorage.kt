@@ -3,12 +3,11 @@ package com.github.h3lp3rs.h3lp.model.storage
 import android.content.Context
 import android.os.Build
 import android.security.keystore.UserNotAuthenticatedException
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
 import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.model.database.Databases.PREFERENCES
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.getUid
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.SyncPref
+import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.getUid
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -52,7 +51,7 @@ class LocalStorage(private val path: String, val context: Context) {
             // Need to be authenticated if online sync is enabled
             val uid = getUid()
             if (uid != null) {
-                val db = databaseOf(PREFERENCES)
+                val db = databaseOf(PREFERENCES, context)
 
                 val future = db.getString("$path/$uid").exceptionally { JSONObject().toString() }
                     .thenAccept {
@@ -75,7 +74,7 @@ class LocalStorage(private val path: String, val context: Context) {
      */
     fun clearOnlineSync() {
         val uid = getUid()!!
-        val db = databaseOf(PREFERENCES)
+        val db = databaseOf(PREFERENCES, context)
         db.delete("$path/$uid")
     }
 
@@ -107,7 +106,7 @@ class LocalStorage(private val path: String, val context: Context) {
                 launch {
                     if (isOnlineSyncEnabled()) {
                         val uid = getUid()!!
-                        val db = databaseOf(PREFERENCES)
+                        val db = databaseOf(PREFERENCES, context)
 
                         val json = JSONObject()
                         for (entry in pref.all.entries) {

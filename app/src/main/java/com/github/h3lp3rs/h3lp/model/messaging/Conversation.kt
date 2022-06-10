@@ -1,5 +1,6 @@
 package com.github.h3lp3rs.h3lp.model.messaging
 
+import android.content.Context
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import android.security.keystore.KeyProperties.KEY_ALGORITHM_RSA
@@ -19,12 +20,15 @@ import javax.crypto.Cipher
  * @param currentMessenger The user that launched the conversation, used to differentiate between
  *  the user that launched the chat and the other user, for example to display the messages with
  *  matching Messenger as sent by the current user
+ * @param context The context of the activity that launched the Conversation (to access the local
+ * storages)
  */
 class Conversation(
     val conversationId: String,
-    private val currentMessenger: Messenger
+    private val currentMessenger: Messenger,
+    private val context: Context
 ) {
-    private val database = databaseOf(MESSAGES)
+    private val database = databaseOf(MESSAGES, context)
     private var publicKey: PublicKey? = null
     private val allMessages: HashMap<String, String> = HashMap()
 
@@ -165,7 +169,7 @@ class Conversation(
      * @warning should be called in onCreate method of the activity
      */
     fun loadChatCache() {
-        val storage = storageOf(Storages.MSG_CACHE)
+        val storage = storageOf(Storages.MSG_CACHE, context)
 
         val cache: HashMap<String, String> = storage.getObjectOrDefault(
             conversationId,
@@ -182,8 +186,8 @@ class Conversation(
      * @warning should be called in the onPause method of the activity
      */
     fun saveChatCache() {
-        Storages.MSG_CACHE.setOnlineSync(false)
-        val storage = storageOf(Storages.MSG_CACHE)
+        Storages.MSG_CACHE.setOnlineSync(false, context)
+        val storage = storageOf(Storages.MSG_CACHE, context)
 
         storage.setObject(conversationId, HashMap::class.java, allMessages)
     }
@@ -193,7 +197,7 @@ class Conversation(
         // for concurrent accesses to always get a new id
         const val UNIQUE_CONVERSATION_ID = "unique conversation id"
         const val ANDROID_KEY_STORE = "AndroidKeyStore"
-        const val KEYS_SUB_PATH = "KEYS"
+        private const val KEYS_SUB_PATH = "KEYS"
         private const val TRANSFORMATION = "RSA/ECB/OAEPwithSHA-1andMGF1Padding"
 
         /**
@@ -220,9 +224,10 @@ class Conversation(
          * Creates a key pair for a given conversation. The public key is sent to
          * the database and the private key remains in Android's keystore.
          * @param conversationId Id of the conversation
-         * @param messengerName name of the messenger creating the key pair
+         * @param messenger Name of the messenger creating the key pair
+         * @param context The calling activity's context (to access the messages database)
          */
-        fun createAndSendKeyPair(conversationId: String, messenger: Messenger) {
+        fun createAndSendKeyPair(conversationId: String, messenger: Messenger, context: Context) {
             val keyStore = KeyStore.getInstance(ANDROID_KEY_STORE).apply { load(null) }
             val aliases = keyStore.aliases().toList()
             val keyAlias = keyAlias(conversationId, messenger.name)
@@ -252,7 +257,7 @@ class Conversation(
 
             // Send public key to the database
             val encodedPublicKey = Base64.encodeToString(pubKey.encoded, Base64.DEFAULT)
-            databaseOf(MESSAGES).setString(
+            databaseOf(MESSAGES, context).setString(
                 publicKeyPath(conversationId, messenger.name),
                 encodedPublicKey
             )

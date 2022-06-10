@@ -24,10 +24,11 @@ import com.github.h3lp3rs.h3lp.model.database.Databases.PRO_USERS
 import com.github.h3lp3rs.h3lp.model.forum.ForumCategory
 import com.github.h3lp3rs.h3lp.model.notifications.EmergencyListener
 import com.github.h3lp3rs.h3lp.model.professional.ProUser
+import com.github.h3lp3rs.h3lp.model.signin.SignIn
 import com.github.h3lp3rs.h3lp.model.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
-import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToActivity
-import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToMainPage
+import com.github.h3lp3rs.h3lp.model.storage.Storages.SIGN_IN
+import com.github.h3lp3rs.h3lp.model.storage.Storages.USER_COOKIE
 import com.github.h3lp3rs.h3lp.view.firstaid.FirstAidActivity
 import com.github.h3lp3rs.h3lp.view.forum.ForumCategoriesActivity
 import com.github.h3lp3rs.h3lp.view.forum.ForumPostsActivity
@@ -38,13 +39,11 @@ import com.github.h3lp3rs.h3lp.view.professional.VerificationActivity
 import com.github.h3lp3rs.h3lp.view.profile.MedicalCardActivity
 import com.github.h3lp3rs.h3lp.view.profile.MySkillsActivity
 import com.github.h3lp3rs.h3lp.view.profile.SettingsActivity
-import com.github.h3lp3rs.h3lp.model.signin.SignIn
-import com.github.h3lp3rs.h3lp.model.storage.Storages
-import com.github.h3lp3rs.h3lp.model.storage.Storages.*
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.getUid
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.view.signin.presentation.PresArrivalActivity
+import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToActivity
+import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToMainPage
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main_page.*
@@ -98,7 +97,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         setContentView(R.layout.activity_main_page)
 
         // Load the storage
-        storage = storageOf(USER_COOKIE)
+        storage = storageOf(USER_COOKIE, applicationContext)
 
         // Set the toolbar
         setSupportActionBar(findViewById(R.id.toolbar))
@@ -123,19 +122,20 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         }
 
         // Start listening to forum posts
-        ForumCategory.root().sendIntentNotificationOnNewPosts(
-            globalContext, ForumPostsActivity::class.java
+        ForumCategory.root(applicationContext).sendIntentNotificationOnNewPosts(
+            applicationContext, ForumPostsActivity::class.java
         )
 
-        EmergencyListener.activateListeners()
+        EmergencyListener.activateListeners(applicationContext)
 
         startAppGuide()
     }
 
     /**
-     * Disables the back button on the main page. This is the simplest solution to avoid breaking the sign in tests.
+     * Disables the back button on the main page. This is the simplest solution to avoid breaking
+     * the sign in tests.
      */
-    override fun onBackPressed() { }
+    override fun onBackPressed() {}
 
     /**
      * Opens a popup asking the user to sign in to continue.
@@ -212,7 +212,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
      * Starts the application guide.
      */
     private fun startAppGuide() {
-        val signInStorage = storageOf(SIGN_IN)
+        val signInStorage = storageOf(SIGN_IN, applicationContext)
         if (!signInStorage.getBoolOrDefault(GUIDE_KEY, false)) {
             signInStorage.setBoolean(GUIDE_KEY, true)
 
@@ -370,7 +370,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
                 R.id.nav_settings -> goToActivity(SettingsActivity::class.java)
                 R.id.nav_about_us -> goToActivity(PresArrivalActivity::class.java)
                 R.id.nav_logout -> {
-                    val userSignIn = storageOf(SIGN_IN) // Fetch from storage
+                    val userSignIn = storageOf(SIGN_IN, applicationContext) // Fetch from storage
                     userSignIn.setBoolean(getString(R.string.KEY_USER_SIGNED_IN), false)
                     SignIn.get().signOut()
                     goToActivity(SignInActivity::class.java)
@@ -512,7 +512,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
         if (getUid() == null) {
             showSignInPopUp()
         } else {
-            val db = databaseOf(PRO_USERS)
+            val db = databaseOf(PRO_USERS, applicationContext)
             db.getObject(SignInActivity.userUid.toString(), ProUser::class.java).handle { _, err ->
                 if (err != null) {
                     // If there is no proof of the status of the current user in the database, launch the verification process

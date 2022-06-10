@@ -1,8 +1,9 @@
 package com.github.h3lp3rs.h3lp.model.notifications
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import com.github.h3lp3rs.h3lp.*
+import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.databaseOf
 import com.github.h3lp3rs.h3lp.model.database.Databases.EMERGENCIES
 import com.github.h3lp3rs.h3lp.model.database.Databases.NEW_EMERGENCIES
@@ -10,8 +11,6 @@ import com.github.h3lp3rs.h3lp.model.dataclasses.EmergencyInformation
 import com.github.h3lp3rs.h3lp.model.dataclasses.HelperSkills
 import com.github.h3lp3rs.h3lp.model.notifications.NotificationService.Companion.createNotificationChannel
 import com.github.h3lp3rs.h3lp.model.notifications.NotificationService.Companion.sendIntentNotification
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
 import com.github.h3lp3rs.h3lp.model.storage.Storages.EMERGENCIES_RECEIVED
 import com.github.h3lp3rs.h3lp.model.storage.Storages.SKILLS
@@ -28,24 +27,26 @@ object EmergencyListener {
 
     /**
      * Activates all listeners for helpees the helper may help
+     * @param context The context of the activity which activated the listeners (to instantiate
+     * the skills and emergencies local storages)
      */
-    fun activateListeners() {
-        val skillStorage = storageOf(SKILLS)
+    fun activateListeners(context: Context) {
+        val skillStorage = storageOf(SKILLS, context)
         val skills = skillStorage.getObjectOrDefault(
-            SignInActivity.globalContext.getString(R.string.my_skills_key),
+            context.getString(R.string.my_skills_key),
             HelperSkills::class.java,
             null
         )
         if (skills == null) return
         else {
-            val db = databaseOf(NEW_EMERGENCIES)
+            val db = databaseOf(NEW_EMERGENCIES, context)
 
             // Utility function to add a specific listener to a specific key if present
             fun activateListener(isPresent: Boolean, key: String) {
                 if (isPresent) {
                     db.addListenerIfNotPresent(key, Int::class.java) { id ->
                         // Look if we already encountered this id
-                        val emergencyStorage = storageOf(EMERGENCIES_RECEIVED)
+                        val emergencyStorage = storageOf(EMERGENCIES_RECEIVED, context)
                         if (emergencyStorage.getBoolOrDefault(id.toString(), false)) {
                             return@addListenerIfNotPresent
                         }
@@ -53,12 +54,12 @@ object EmergencyListener {
                         emergencyStorage.setBoolean(id.toString(), true)
 
                         // Send notification only if the associated object still exists
-                        databaseOf(EMERGENCIES)
+                        databaseOf(EMERGENCIES, context)
                             .getObject(id.toString(), EmergencyInformation::class.java)
                             .thenAccept {
-                                createNotificationChannel(globalContext)
+                                createNotificationChannel(context)
                                 val intent = Intent(
-                                    globalContext,
+                                    context,
                                     HelperPageActivity::class.java
                                 )
 
@@ -71,9 +72,9 @@ object EmergencyListener {
                                 intent.putExtras(bundle)
 
                                 sendIntentNotification(
-                                    globalContext,
-                                    globalContext.getString(R.string.emergency),
-                                    globalContext.getString(R.string.need_help),
+                                    context,
+                                    context.getString(R.string.emergency),
+                                    context.getString(R.string.need_help),
                                     intent
                                 )
                             }
@@ -83,25 +84,25 @@ object EmergencyListener {
             // Chain of listener instantiations
             activateListener(
                 skills.hasVentolin,
-                SignInActivity.globalContext.getString(R.string.asthma_med)
+                context.getString(R.string.asthma_med)
             )
             activateListener(
                 skills.isMedicalPro,
-                SignInActivity.globalContext.getString(R.string.med_pro)
+                context.getString(R.string.med_pro)
             )
             activateListener(
                 skills.hasEpipen,
-                SignInActivity.globalContext.getString(R.string.epipen)
+                context.getString(R.string.epipen)
             )
             activateListener(
                 skills.hasInsulin,
-                SignInActivity.globalContext.getString(R.string.Insulin)
+                context.getString(R.string.Insulin)
             )
             activateListener(
                 skills.hasFirstAidKit,
-                SignInActivity.globalContext.getString(R.string.first_aid_kit)
+                context.getString(R.string.first_aid_kit)
             )
-            activateListener(skills.knowsCPR, SignInActivity.globalContext.getString(R.string.cpr))
+            activateListener(skills.knowsCPR, context.getString(R.string.cpr))
         }
     }
 }

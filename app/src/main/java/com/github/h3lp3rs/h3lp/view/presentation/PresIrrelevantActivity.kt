@@ -12,14 +12,12 @@ import android.view.GestureDetector
 import android.view.View
 import android.widget.CheckBox
 import androidx.appcompat.app.AppCompatActivity
-import com.github.h3lp3rs.h3lp.view.mainpage.MainPageActivity
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.view.signin.presentation.SwipeListener.Companion.SlideDirection.RIGHT
-import com.github.h3lp3rs.h3lp.view.signin.presentation.SwipeListener.Companion.swipeToNextActivity
 import com.github.h3lp3rs.h3lp.model.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.model.storage.Storages
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
-import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToActivity
+import com.github.h3lp3rs.h3lp.view.signin.presentation.SwipeListener.Companion.SlideDirection.RIGHT
+import com.github.h3lp3rs.h3lp.view.signin.presentation.SwipeListener.Companion.swipeToNextActivity
 import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToMainPage
 
 /**
@@ -37,7 +35,7 @@ class PresIrrelevantActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_presentation_irrelevant)
-        userCookie = storageOf(Storages.USER_COOKIE)
+        userCookie = storageOf(Storages.USER_COOKIE, applicationContext)
 
         // 1. Set right box tick
         val checkBox = findViewById<View>(R.id.pres3_checkBox) as CheckBox

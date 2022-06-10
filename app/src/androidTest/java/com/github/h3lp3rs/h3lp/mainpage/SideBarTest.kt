@@ -4,6 +4,7 @@ import android.content.Intent
 import android.view.Gravity
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -28,7 +29,6 @@ import com.github.h3lp3rs.h3lp.view.mainpage.RatingActivity
 import com.github.h3lp3rs.h3lp.view.profile.MedicalCardActivity
 import com.github.h3lp3rs.h3lp.view.profile.SettingsActivity
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.view.signin.presentation.PresArrivalActivity
 import org.hamcrest.Matchers.*
@@ -43,13 +43,12 @@ class SideBarTest : H3lpAppTest<MainPageActivity>() {
 
     @Before
     fun setup() {
-        globalContext = ApplicationProvider.getApplicationContext()
         userUid = USER_TEST_ID
         val intent = Intent(
             ApplicationProvider.getApplicationContext(), MainPageActivity::class.java
         )
         ActivityScenario.launch<MainPageActivity>(intent)
-        storageOf(SIGN_IN).setBoolean(GUIDE_KEY, true)
+        storageOf(SIGN_IN, getApplicationContext()).setBoolean(GUIDE_KEY, true)
         init()
     }
 

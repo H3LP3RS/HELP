@@ -1,6 +1,7 @@
 package com.github.h3lp3rs.h3lp
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.test.core.app.ActivityScenario
@@ -26,7 +27,6 @@ import com.github.h3lp3rs.h3lp.model.dataclasses.EmergencyInformation
 import com.github.h3lp3rs.h3lp.model.dataclasses.HelperSkills
 import com.github.h3lp3rs.h3lp.model.messaging.Conversation.Companion.publicKeyPath
 import com.github.h3lp3rs.h3lp.model.messaging.Messenger.HELPER
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.model.storage.Storages
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.disableOnlineSync
@@ -63,7 +63,6 @@ class HelpPageActivityTest : H3lpAppTest<HelperPageActivity>() {
     fun setup() {
         mockLocationToCoordinates(SWISS_LAT, SWISS_LONG)
 
-        globalContext = getApplicationContext()
         userUid = USER_TEST_ID
 
         for(db in Databases.values()) {
@@ -139,7 +138,7 @@ class HelpPageActivityTest : H3lpAppTest<HelperPageActivity>() {
         setupEmergencyAndDo {
             // Accept
             onView(withId(R.id.button_accept)).perform(click())
-            val updatedEmergency = databaseOf(EMERGENCIES).getObject(
+            val updatedEmergency = databaseOf(EMERGENCIES, getApplicationContext()).getObject(
                 helpId.toString(),
                 EmergencyInformation::class.java
             )
@@ -155,13 +154,13 @@ class HelpPageActivityTest : H3lpAppTest<HelperPageActivity>() {
             // Accept
             onView(withId(R.id.button_accept)).perform(click())
 
-            val conversationIds = databaseOf(CONVERSATION_IDS).getObjectsList(
+            val conversationIds = databaseOf(CONVERSATION_IDS, getApplicationContext()).getObjectsList(
                 TEST_EMERGENCY_ID,
                 Int::class.java
             ).get()
 
             // retrieve the public key sent on the database
-            databaseOf(MESSAGES)
+            databaseOf(MESSAGES, getApplicationContext())
                 .getString(publicKeyPath(conversationIds[conversationIds.size - 1].toString(), HELPER.name))
                 .thenAccept(TestCase::assertNotNull).join()
 
@@ -183,7 +182,8 @@ class HelpPageActivityTest : H3lpAppTest<HelperPageActivity>() {
     fun showsPopUpWhenNotSignedIn(){
         // Not signed in
         userUid = null
-        disableOnlineSync()
+        Storages.disableOnlineSync(getApplicationContext())
+
         launchAndDo {
 
             // We can close the popup => It's displayed :)
@@ -223,7 +223,8 @@ class HelpPageActivityTest : H3lpAppTest<HelperPageActivity>() {
         setDatabase(EMERGENCIES, emergencyDb)
 
         // Setup skills storage accordingly
-        storageOf(Storages.SKILLS).setObject(globalContext.getString(R.string.my_skills_key),
+        storageOf(Storages.SKILLS, getApplicationContext()).setObject(
+            getApplicationContext<Context>().getString(R.string.my_skills_key),
             HelperSkills::class.java, skills)
         launch<HelperPageActivity>(intent).use {
             action()

@@ -2,6 +2,7 @@ package com.github.h3lp3rs.h3lp.mainpage
 
 import android.view.Gravity
 import android.view.View
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions.click
@@ -41,7 +42,7 @@ class ToolbarTest : H3lpAppTest<MainPageActivity>() {
     @Before
     fun setup() {
         initIntentAndCheckResponse()
-        storageOf(SIGN_IN).setBoolean(GUIDE_KEY, true)
+        storageOf(SIGN_IN, getApplicationContext()).setBoolean(GUIDE_KEY, true)
 
     }
 

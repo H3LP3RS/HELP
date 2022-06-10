@@ -22,7 +22,6 @@ import com.github.h3lp3rs.h3lp.model.messaging.Conversation.Companion.createAndS
 import com.github.h3lp3rs.h3lp.view.messaging.EXTRA_CONVERSATION_ID
 import com.github.h3lp3rs.h3lp.model.messaging.Messenger.HELPEE
 import com.github.h3lp3rs.h3lp.model.messaging.Messenger.HELPER
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.resetStorage
 import com.github.h3lp3rs.h3lp.view.helprequest.helper.EXTRA_USER_ROLE
@@ -57,7 +56,6 @@ class ChatUiTest {
             putExtra(EXTRA_USER_ROLE, HELPEE)
         }
 
-        globalContext = getApplicationContext()
         userUid = USER_TEST_ID
 
         setDatabase(MESSAGES, MockDatabase())
@@ -68,11 +66,11 @@ class ChatUiTest {
         keyStore.deleteEntry(Conversation.keyAlias(CONVERSATION_ID, HELPEE.name))
         keyStore.deleteEntry(Conversation.keyAlias(CONVERSATION_ID, HELPER.name))
 
-        createAndSendKeyPair(CONVERSATION_ID, HELPEE)
-        createAndSendKeyPair(CONVERSATION_ID, HELPER)
+        createAndSendKeyPair(CONVERSATION_ID, HELPEE, getApplicationContext())
+        createAndSendKeyPair(CONVERSATION_ID, HELPER, getApplicationContext())
 
-        conversationFrom = Conversation(CONVERSATION_ID, currentMessenger)
-        conversationTo = Conversation(CONVERSATION_ID,toMessenger)
+        conversationFrom = Conversation(CONVERSATION_ID, currentMessenger, getApplicationContext())
+        conversationTo = Conversation(CONVERSATION_ID,toMessenger, getApplicationContext())
 
         ActivityScenario.launch<ChatActivity>(intent)
 

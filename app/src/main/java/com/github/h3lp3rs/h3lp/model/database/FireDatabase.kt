@@ -1,8 +1,8 @@
 package com.github.h3lp3rs.h3lp.model.database
 
+import android.content.Context
 import android.util.Log
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
@@ -15,10 +15,11 @@ import java.util.concurrent.CompletableFuture
  * @param path The path to the Firebase database (we use several databases as defined in Databases),
  * in actuality, they are all on the same Firebase database but are different children on it to
  * allow us to separate the database into its different uses
+ * @param context The context of the activity using the Database to have access to the resources
  */
-class FireDatabase(path: String) : Database {
+class FireDatabase(private val path: String, private val context: Context) : Database {
     private val db: DatabaseReference = Firebase
-        .database(globalContext.resources.getString(R.string.firebase_url))
+        .database(context.resources.getString(R.string.firebase_url))
         .reference.child(path)
     private val openValueListeners = HashMap<String, List<ValueEventListener>>()
     private val openEventListeners = HashMap<String, List<ChildEventListener>>()

@@ -15,13 +15,13 @@ import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.model.signin.GoogleSignInAdapter.getCreationDate
 import com.github.h3lp3rs.h3lp.model.signin.GoogleSignInAdapter.signOut
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.getUid
 import com.github.h3lp3rs.h3lp.model.storage.Storages.*
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
 import com.github.h3lp3rs.h3lp.view.mainpage.ReportActivity
 import com.github.h3lp3rs.h3lp.view.mainpage.ReportActivity.Companion.bug
 import com.github.h3lp3rs.h3lp.view.mainpage.ReportActivity.Companion.suggestion
+import com.github.h3lp3rs.h3lp.view.signin.SignInActivity
+import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.getUid
 import com.github.h3lp3rs.h3lp.view.signin.presentation.PresArrivalActivity
 import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToActivity
 import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToMainPage
@@ -71,13 +71,14 @@ class SettingsActivity : AppCompatActivity() {
      * Function for the back button to go back to MainActivity
      */
     fun backHome(view: View) {
-        goToMainPage()    }
+        goToMainPage()
+    }
 
     /**
      * Function for the logout button to disconnect from account
      */
     fun logout(view: View) {
-        val userSignIn = storageOf(SIGN_IN)
+        val userSignIn = storageOf(SIGN_IN, applicationContext)
         userSignIn.setBoolean(getString(R.string.KEY_USER_SIGNED_IN), false)
         signOut()
         goToActivity(SignInActivity::class.java)
@@ -89,12 +90,12 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     fun clearSync(view: View) {
-        storageOf(MEDICAL_INFO).clearOnlineSync()
-        storageOf(USER_COOKIE).clearOnlineSync()
-        storageOf(SKILLS).clearOnlineSync()
+        storageOf(MEDICAL_INFO, applicationContext).clearOnlineSync()
+        storageOf(USER_COOKIE, applicationContext).clearOnlineSync()
+        storageOf(SKILLS, applicationContext).clearOnlineSync()
     }
 
-    fun reportBugOrSuggestion(view: View){
+    fun reportBugOrSuggestion(view: View) {
         val intent = Intent(this, ReportActivity::class.java)
         val category = when (view.id) {
             R.id.buttonBugReport -> bug
@@ -109,9 +110,9 @@ class SettingsActivity : AppCompatActivity() {
      * Load synch data
      */
     private fun loadSyncPref() {
-        check(MEDICAL_INFO.getOnlineSync(), R.id.medical_info_checkbox)
-        check(USER_COOKIE.getOnlineSync(), R.id.user_cookie_checkbox)
-        check(SKILLS.getOnlineSync(), R.id.my_skills_checkbox)
+        check(MEDICAL_INFO.getOnlineSync(applicationContext), R.id.medical_info_checkbox)
+        check(USER_COOKIE.getOnlineSync(applicationContext), R.id.user_cookie_checkbox)
+        check(SKILLS.getOnlineSync(applicationContext), R.id.my_skills_checkbox)
     }
 
     /**
@@ -127,9 +128,15 @@ class SettingsActivity : AppCompatActivity() {
      * Save synchronized data
      */
     private fun saveData() {
-        MEDICAL_INFO.setOnlineSync(getBooleanFromSwitch(R.id.medical_info_checkbox))
-        USER_COOKIE.setOnlineSync(getBooleanFromSwitch(R.id.user_cookie_checkbox))
-        SKILLS.setOnlineSync(getBooleanFromSwitch(R.id.my_skills_checkbox))
+        MEDICAL_INFO.setOnlineSync(
+            getBooleanFromSwitch(R.id.medical_info_checkbox),
+            applicationContext
+        )
+        USER_COOKIE.setOnlineSync(
+            getBooleanFromSwitch(R.id.user_cookie_checkbox),
+            applicationContext
+        )
+        SKILLS.setOnlineSync(getBooleanFromSwitch(R.id.my_skills_checkbox), applicationContext)
     }
 
     /**

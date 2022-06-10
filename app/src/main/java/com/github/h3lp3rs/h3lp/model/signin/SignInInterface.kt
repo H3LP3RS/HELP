@@ -30,7 +30,7 @@ interface SignInInterface<T> {
      * @return A task which finishes the authentication and returns
      *      information about the authentication succeeding or failing
      */
-    fun authenticate(result: ActivityResult ?, currentActivity: Activity): Task<T>?
+    fun authenticate(result: ActivityResult?, currentActivity: Activity): Task<T>?
 
     /**
      * Signs the current user out

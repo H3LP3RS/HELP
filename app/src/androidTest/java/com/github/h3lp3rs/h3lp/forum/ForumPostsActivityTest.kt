@@ -14,7 +14,6 @@ import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.view.forum.EXTRA_FORUM_CATEGORY
 import com.github.h3lp3rs.h3lp.view.forum.ForumPostsActivity
 import com.github.h3lp3rs.h3lp.view.forum.NewPostActivity
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.userUid
 import org.hamcrest.Matchers.*
 import org.junit.After
@@ -26,7 +25,6 @@ import org.junit.runner.RunWith
 class ForumPostsActivityTest {
     @Before
     fun setup() {
-        globalContext = ApplicationProvider.getApplicationContext()
         userUid = USER_TEST_ID
         val intent = Intent(
             ApplicationProvider.getApplicationContext(),

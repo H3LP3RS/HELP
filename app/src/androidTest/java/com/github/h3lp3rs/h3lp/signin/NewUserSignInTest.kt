@@ -1,6 +1,7 @@
 package com.github.h3lp3rs.h3lp.signin
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import androidx.activity.result.ActivityResult
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
@@ -19,7 +20,6 @@ import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.model.database.Databases.*
 import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.model.database.MockDatabase
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.model.storage.Storages
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.resetStorage
@@ -61,7 +61,6 @@ class NewUserSignInTest : H3lpAppTest<SignInActivity>() {
     fun setUp() {
         init()
 
-        globalContext = getApplicationContext()
         userUid = USER_TEST_ID
 
         setDatabase(PREFERENCES, MockDatabase())
@@ -70,8 +69,8 @@ class NewUserSignInTest : H3lpAppTest<SignInActivity>() {
         val signInMock = mock(SignInInterface::class.java)
         When(signInMock.isSignedIn()).thenReturn(false)
 
-        val userSignIn = Storages.storageOf(SIGN_IN)
-        userSignIn.setBoolean(globalContext.getString(R.string.KEY_USER_SIGNED_IN), false)
+        val userSignIn = Storages.storageOf(SIGN_IN, getApplicationContext())
+        userSignIn.setBoolean(getApplicationContext<Context>().getString(R.string.KEY_USER_SIGNED_IN), false)
 
         testRule.scenario.onActivity { activity ->
             intent = Intent(getApplicationContext(), activity.javaClass)
