@@ -42,9 +42,11 @@ class LocalStorage(private val path: String, val context: Context) {
 
     /**
      * Update online parameters if needed
-     * @throws UserNotAuthenticatedException if the user is not authenticated AND online sync is enabled.
+     * @param blocking boolean indicating whether this method should block until
+     * the pull is complete or not.
+     * @throws UserNotAuthenticatedException if the user is not authenticated
+     * AND online sync is enabled.
      */
-    @RequiresApi(Build.VERSION_CODES.S)
     fun pull(blocking: Boolean) {
         if (isOnlineSyncEnabled()) {
             // Need to be authenticated if online sync is enabled
@@ -58,7 +60,9 @@ class LocalStorage(private val path: String, val context: Context) {
                     }
 
                 if(blocking) {
-                    future.orTimeout( 5, TimeUnit.SECONDS).join()
+                    // Impossible due to API31 requirement
+                    //future.orTimeout( 5, TimeUnit.SECONDS)
+                    future.join()
                 }
             } else {
                 throw UserNotAuthenticatedException()

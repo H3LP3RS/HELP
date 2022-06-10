@@ -9,7 +9,6 @@ import java.lang.Boolean.parseBoolean
 /**
  * Enumeration of all useful (local) storages in H3LP
  */
-@RequiresApi(Build.VERSION_CODES.S)
 enum class Storages {
     USER_COOKIE, MEDICAL_INFO, SKILLS, EMERGENCIES_RECEIVED, FORUM_THEMES_NOTIFICATIONS, FORUM_CACHE,
     SIGN_IN, MSG_CACHE;

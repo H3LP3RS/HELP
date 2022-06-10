@@ -29,7 +29,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.AuthResult
 import kotlinx.android.synthetic.main.activity_sign_in.*
 
-@RequiresApi(Build.VERSION_CODES.S)
 class SignInActivity : AppCompatActivity() {
 
     lateinit var signInClient: SignInInterface<AuthResult>
