@@ -61,8 +61,9 @@ class LocalStorage(private val path: String, val context: Context) {
             } else {
                 throw UserNotAuthenticatedException()
             }
+        } else {
+            onReady()
         }
-        onReady()
     }
 
     /**
