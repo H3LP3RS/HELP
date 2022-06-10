@@ -18,7 +18,11 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.h3lp3rs.h3lp.R
+import com.github.h3lp3rs.h3lp.model.storage.Storages
+import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
+import com.github.h3lp3rs.h3lp.model.storage.Storages.SIGN_IN
 import com.github.h3lp3rs.h3lp.utils.H3lpAppTest
+import com.github.h3lp3rs.h3lp.view.mainpage.GUIDE_KEY
 import com.github.h3lp3rs.h3lp.view.mainpage.MainPageActivity
 import com.github.h3lp3rs.h3lp.view.mainpage.RatingActivity
 import com.github.h3lp3rs.h3lp.view.profile.MedicalCardActivity
@@ -45,6 +49,7 @@ class SideBarTest : H3lpAppTest<MainPageActivity>() {
             ApplicationProvider.getApplicationContext(), MainPageActivity::class.java
         )
         ActivityScenario.launch<MainPageActivity>(intent)
+        storageOf(SIGN_IN).setBoolean(GUIDE_KEY, true)
         init()
     }
 
