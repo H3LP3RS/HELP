@@ -43,6 +43,7 @@
   <a href="#key-features">Key Features</a> •
   <a href="https://www.youtube.com/watch?v=d6ds5Lch3GA">Presentation video</a> •
   <a href="#how-to-use">How To Use</a> •
+  <a href="#screenshots">Screenshots</a> •
   <a href="#the-team">The team</a>
 </p>
 
@@ -55,7 +56,40 @@ class at EPFL.
 
 ## Key Features
 
+Once the app is downloaded the users can sign in and fill up there information:
+- signe in with Google or anonymously. 
+- Fill up there medical informing, containing useful information in case of emergency like blood type, allergy or current Treatment.
+- Add emergency contact to call in case of emergency.
+- Add there medical skills and the medicine they carry with them.
+
+That's it they are ready to save and be saved.
+
+In case of an emergency the use :
+- tap the H3LP button and select what help he/she need
+- can decide to call the emergency service or her/his emergency contact
+- chat with the helpers that are comming for her/him  to give them more information
+
+
+## Other Features
+
+H3LP is a lot more than that and contains many features to keep you safe:
+- A map to locate nearby hospitals, pharmacies and defibrillators
+- Many tutorials to learn first aid tips with videos
+- A simple tool that gives you the best tempo to do CPR
+- A forum where user can ask medical professional for tips and information by topic
+
+## Privacy Policy
+
+H3LP is concerned about privacy of its user, especially when it comes to sensitive information such as medical information. So H3LP guarantee that all conversation are end-to-end encrypted and let every user choose what data should be synchronised online.
+
 ## How To Use
+
+1. Clone this repositories and open it in any IDE. (Recommended AndroidStudio)
+2. Add your own API key for google map in values/google_maps_api.xml
+3. Add your own Firebase URL in com/github/h3lp3rs/h3lp/model/database/FireDatabase.kt
+4. If you want reactivate the Animation for the CPR activity (removed because of continous integration). To do so remove commented line in com/github/h3lp3rs/h3lp/view/mainpage/CprRateActivity.kt
+
+
 
 
 ## The team
@@ -65,4 +99,31 @@ class at EPFL.
 - Alexis Schlomer (alexis.schlomer@epfl.ch)
 - Alexandre Michel Hayderi (alexandre.hayderi@epfl.ch)
 - Emilien Duc (emilien.duc@epfl.ch)
+
+
+## Screenshots
+
+<p align="center">
+
+  <img src="/screenshots/Intro.png"  width="200"/>
+  <img src="/screenshots/home.png"  width="200"/>
+   <img src="/screenshots/skills.png"  width="200"/>
+  <img src="/screenshots/help.png"  width="200"/>
+  
+</p>
+<p align="center">
+
+  <img src="/screenshots/Helper.png"  width="200"/>
+  <img src="/screenshots/Helpee.png"  width="200"/>
+   <img src="/screenshots/chat.png"  width="200"/>
+  <img src="/screenshots/CPR.png"  width="200"/>
+  
+</p>
+
+<p align="center">
+  <img src="/screenshots/tuto.png"  width="200"/>
+   <img src="/screenshots/Professional.png"  width="200"/>
+  <img src="/screenshots/Forum.png"  width="200"/>
+  
+</p>
 
