@@ -1,4 +1,4 @@
-package com.github.h3lp3rs.h3lp
+package com.github.h3lp3rs.h3lp.helprequest.helpee
 
 import android.Manifest
 import android.content.Context
@@ -17,7 +17,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.GrantPermissionRule
-import com.github.h3lp3rs.h3lp.model.database.Databases
+import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.model.database.Databases.EMERGENCIES
 import com.github.h3lp3rs.h3lp.model.database.Databases.NEW_EMERGENCIES
@@ -28,10 +28,8 @@ import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
 import com.github.h3lp3rs.h3lp.utils.H3lpAppTest
 import com.github.h3lp3rs.h3lp.view.helprequest.helpee.AwaitHelpActivity
 import com.github.h3lp3rs.h3lp.view.helprequest.helpee.HelpeeSelectionActivity
-import com.github.h3lp3rs.h3lp.view.mainpage.MainPageActivity
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.userUid
 import org.hamcrest.Matchers.*
-import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

@@ -131,17 +131,15 @@ class HelpeeSelectionActivity : AppCompatActivity() {
      */
     private fun launchEmergencyCall() {
         calledEmergencies = true
-        locationHelper.requireAndHandleCoordinates(applicationContext) {
-            val emergencyNumber =
-                LocalEmergencyCaller.getLocalEmergencyNumber(
-                    locationHelper.getUserLongitude(),
-                    locationHelper.getUserLatitude(),
-                    this
-                )
+        val emergencyNumber =
+            LocalEmergencyCaller.getLocalEmergencyNumber(
+                locationHelper.getUserLongitude(),
+                locationHelper.getUserLatitude(),
+                this
+            )
 
-            val dial = "tel:$emergencyNumber"
-            startActivity(Intent(ACTION_DIAL, Uri.parse(dial)))
-        }
+        val dial = "tel:$emergencyNumber"
+        startActivity(Intent(ACTION_DIAL, Uri.parse(dial)))
     }
 
     /**
