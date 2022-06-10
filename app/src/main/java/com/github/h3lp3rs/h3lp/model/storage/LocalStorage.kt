@@ -73,7 +73,6 @@ class LocalStorage(private val path: String, val context: Context) {
     /**
      * Delete online data synchronized with the preferences
      */
-    @RequiresApi(Build.VERSION_CODES.S)
     fun clearOnlineSync() {
         val uid = getUid()!!
         val db = databaseOf(PREFERENCES)
@@ -100,7 +99,6 @@ class LocalStorage(private val path: String, val context: Context) {
     /**
      * Asynchronously pushes the cached updates to the online storage in a JSON format.
      */
-    @RequiresApi(Build.VERSION_CODES.S)
     fun push() {
         if (isOnlineSyncEnabled()) {
             runBlocking {
