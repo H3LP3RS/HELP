@@ -6,7 +6,7 @@
   <br>
 </h1>
 
-<h2 align="center">Anyone can be an hero.</h2>
+<h2 align="center">Anyone can be a hero.</h2>
 
 <p align="center">
 
