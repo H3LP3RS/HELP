@@ -4,6 +4,7 @@ import android.content.Intent
 import android.view.Gravity
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -47,7 +48,7 @@ class SideBarTest : H3lpAppTest<MainPageActivity>() {
             ApplicationProvider.getApplicationContext(), MainPageActivity::class.java
         )
         ActivityScenario.launch<MainPageActivity>(intent)
-        storageOf(SIGN_IN).setBoolean(GUIDE_KEY, true)
+        storageOf(SIGN_IN, getApplicationContext()).setBoolean(GUIDE_KEY, true)
         init()
     }
 

@@ -212,7 +212,7 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
      * Starts the application guide.
      */
     private fun startAppGuide() {
-        val signInStorage = storageOf(SIGN_IN)
+        val signInStorage = storageOf(SIGN_IN, applicationContext)
         if (!signInStorage.getBoolOrDefault(GUIDE_KEY, false)) {
             signInStorage.setBoolean(GUIDE_KEY, true)
 
