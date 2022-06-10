@@ -41,8 +41,8 @@ class LocalStorage(private val path: String, val context: Context) {
 
     /**
      * Update online parameters if needed
-     * @param blocki boolean indicating whether this method should block until
-     * the pull is complete or not.
+     * @param onReady callback that can be called once the storage has been
+     * pulled if appropriate. Does nothing by default.
      * @throws UserNotAuthenticatedException if the user is not authenticated
      * AND online sync is enabled.
      */
