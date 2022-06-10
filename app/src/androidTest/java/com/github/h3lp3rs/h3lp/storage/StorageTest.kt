@@ -1,6 +1,5 @@
 package com.github.h3lp3rs.h3lp.storage
 
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.github.h3lp3rs.h3lp.model.database.Databases.*
 import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.setDatabase
@@ -87,7 +86,7 @@ class StorageTest : H3lpAppTest<MainPageActivity>() {
         resetStorage()
         assertEquals(-1, storage.getIntOrDefault(TEST_KEY, -1))
 
-        storage.pull(false)
+        storage.pull()
         assertEquals(0, storage.getIntOrDefault(TEST_KEY, -1))
     }
 }

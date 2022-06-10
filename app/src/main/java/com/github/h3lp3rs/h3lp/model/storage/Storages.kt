@@ -30,7 +30,7 @@ enum class Storages {
             choice.ls = choice.ls ?: LocalStorage(choice.name, context)
 
             if (!choice.isFresh) {
-                choice.ls?.pull(false)
+                choice.ls?.pull()
                 choice.isFresh = true
             }
             return choice.ls!!
