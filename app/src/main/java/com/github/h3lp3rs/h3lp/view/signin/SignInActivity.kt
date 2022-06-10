@@ -1,15 +1,11 @@
 package com.github.h3lp3rs.h3lp.view.signin
 
 import android.app.Activity
-import android.content.Context
-import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
@@ -93,12 +89,13 @@ class SignInActivity : AppCompatActivity() {
     private fun checkToSAndLaunchIfNotAcceptedElseMain() {
         // Check ToS agreement
         userCookie = storageOf(USER_COOKIE, applicationContext) // Fetch from storage
-        userCookie.pull(true) // Block until it's updated
-        if (!userCookie.getBoolOrDefault(getString(R.string.KEY_USER_AGREE), false)) {
-            goToActivity(PresArrivalActivity::class.java)
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-        } else {
-            goToMainPage()
+        userCookie.pull {
+            if (!userCookie.getBoolOrDefault(getString(R.string.KEY_USER_AGREE), false)) {
+                goToActivity(PresArrivalActivity::class.java)
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+            } else {
+                goToMainPage()
+            }
         }
     }
 
