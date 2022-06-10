@@ -1,133 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:map="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        map:layout_constraintTop_toTopOf="parent">
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            map:layout_constraintTop_toTopOf="parent">
 
         <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/mapNearbyUtilities"
-            android:name="com.github.h3lp3rs.h3lp.MapsFragment"
-            android:layout_width="match_parent"
-            android:layout_height="500dp"
-            android:layout_gravity="top"
-            map:mapId="@string/map_id"
-            tools:context=".NearbyUtilitiesActivity" />
+                android:id="@+id/mapNearbyUtilities"
+                android:name="com.github.h3lp3rs.h3lp.view.map.MapsFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="top"
+                map:mapId="@string/map_id"
+                tools:context=".view.map.NearbyUtilitiesActivity" />
 
     </LinearLayout>
 
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="0dp"
-        android:backgroundTint="@color/white"
-        android:fontFamily="@font/visbycf_medium"
-        android:gravity="center_horizontal"
-        tools:layout_editor_absoluteX="0dp">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="60dp"
+            android:backgroundTint="@color/white"
+            android:fontFamily="@font/visbycf_medium"
+            android:gravity="center_horizontal"
+            tools:layout_editor_absoluteX="0dp"
+            map:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
-            android:id="@+id/show_hospital_button_layout"
-            android:layout_width="@dimen/map_utilities_button_layout"
-            android:layout_height="@dimen/map_utilities_button_layout"
-            android:layout_marginEnd="5dp"
-            android:background="@drawable/round_style"
-            android:backgroundTint="@color/dark_persimmon"
-            android:orientation="vertical">
+                android:id="@+id/show_hospital_button_layout"
+                android:layout_width="@dimen/map_utilities_button_layout"
+                android:layout_height="@dimen/map_utilities_button_layout"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/round_style"
+                android:backgroundTint="@color/dark_persimmon"
+                android:orientation="vertical">
 
             <ImageButton
-                android:id="@+id/show_hospital_button"
-                android:layout_width="@dimen/image_button_map_page"
-                android:layout_height="@dimen/image_button_map_page"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/margin_image_inside_layout"
-                android:background="@drawable/hospital"
-                android:contentDescription="@string/hospital_button" />
+                    android:id="@+id/show_hospital_button"
+                    android:layout_width="@dimen/image_button_map_page"
+                    android:layout_height="@dimen/image_button_map_page"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/margin_image_inside_layout"
+                    android:background="@drawable/hospital"
+                    android:contentDescription="@string/hospital_button" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/scroll_view_margin_text"
-                android:text="@string/map_hospital"
-                android:textColor="@color/white"
-                android:fontFamily="@font/visbycf_medium"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/scroll_view_margin_text"
+                    android:text="@string/map_hospital"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/visbycf_medium"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/show_defibrillators_button_layout"
-            android:layout_width="@dimen/map_utilities_button_layout"
-            android:layout_height="@dimen/map_utilities_button_layout"
-            android:layout_marginEnd="5dp"
-            android:background="@drawable/round_style"
-            android:backgroundTint="@color/dark_persimmon"
-            android:orientation="vertical">
+                android:id="@+id/show_defibrillators_button_layout"
+                android:layout_width="@dimen/map_utilities_button_layout"
+                android:layout_height="@dimen/map_utilities_button_layout"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/round_style"
+                android:backgroundTint="@color/dark_persimmon"
+                android:orientation="vertical">
 
             <ImageButton
-                android:id="@+id/show_defibrillators_button"
-                android:layout_width="@dimen/image_button_map_page"
-                android:layout_height="@dimen/image_button_map_page"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/margin_image_inside_layout"
-                android:background="@drawable/defibrillator"
-                android:contentDescription="@string/defibrillator_button" />
+                    android:id="@+id/show_defibrillators_button"
+                    android:layout_width="@dimen/image_button_map_page"
+                    android:layout_height="@dimen/image_button_map_page"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/margin_image_inside_layout"
+                    android:background="@drawable/defibrillator"
+                    android:contentDescription="@string/defibrillator_button" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/scroll_view_margin_text"
-                android:text="@string/map_defibrillator"
-                android:textColor="@color/white"
-                android:fontFamily="@font/visbycf_medium"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/scroll_view_margin_text"
+                    android:text="@string/map_defibrillator"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/visbycf_medium"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/show_pharmacy_button_layout"
-            android:layout_width="@dimen/map_utilities_button_layout"
-            android:layout_height="@dimen/map_utilities_button_layout"
-            android:layout_marginEnd="5dp"
-            android:background="@drawable/round_style"
-            android:backgroundTint="@color/dark_persimmon"
-            android:orientation="vertical">
+                android:id="@+id/show_pharmacy_button_layout"
+                android:layout_width="@dimen/map_utilities_button_layout"
+                android:layout_height="@dimen/map_utilities_button_layout"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/round_style"
+                android:backgroundTint="@color/dark_persimmon"
+                android:orientation="vertical">
 
             <ImageButton
-                android:id="@+id/show_pharmacy_button"
-                android:layout_width="@dimen/image_button_map_page"
-                android:layout_height="@dimen/image_button_map_page"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/margin_image_inside_layout"
-                android:background="@drawable/pharmacy"
-                android:contentDescription="@string/pharmacy_button"
-                tools:ignore="TooDeepLayout,ImageContrastCheck" />
+                    android:id="@+id/show_pharmacy_button"
+                    android:layout_width="@dimen/image_button_map_page"
+                    android:layout_height="@dimen/image_button_map_page"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/margin_image_inside_layout"
+                    android:background="@drawable/pharmacy"
+                    android:contentDescription="@string/pharmacy_button"
+                    tools:ignore="TooDeepLayout,ImageContrastCheck" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/scroll_view_margin_text"
-                android:text="@string/map_pharmacy"
-                android:textColor="@color/white"
-                android:fontFamily="@font/visbycf_medium"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/scroll_view_margin_text"
+                    android:text="@string/map_pharmacy"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/visbycf_medium"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
         </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

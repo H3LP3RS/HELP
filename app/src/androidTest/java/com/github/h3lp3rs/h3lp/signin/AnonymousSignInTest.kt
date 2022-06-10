@@ -10,17 +10,20 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents.release
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.github.h3lp3rs.h3lp.H3lpAppTest
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.database.Databases.Companion.setDatabase
-import com.github.h3lp3rs.h3lp.database.Databases.PREFERENCES
-import com.github.h3lp3rs.h3lp.database.MockDatabase
-import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.globalContext
-import com.github.h3lp3rs.h3lp.signin.SignInActivity.Companion.userUid
-import com.github.h3lp3rs.h3lp.storage.Storages
-import com.github.h3lp3rs.h3lp.storage.Storages.Companion.resetStorage
-import com.github.h3lp3rs.h3lp.storage.Storages.Companion.storageOf
-import com.github.h3lp3rs.h3lp.storage.Storages.SIGN_IN
+import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.setDatabase
+import com.github.h3lp3rs.h3lp.model.database.Databases.PREFERENCES
+import com.github.h3lp3rs.h3lp.model.database.MockDatabase
+import com.github.h3lp3rs.h3lp.model.signin.SignIn
+import com.github.h3lp3rs.h3lp.model.signin.SignInInterface
+import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
+import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.userUid
+import com.github.h3lp3rs.h3lp.model.storage.Storages
+import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.resetStorage
+import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
+import com.github.h3lp3rs.h3lp.model.storage.Storages.SIGN_IN
+import com.github.h3lp3rs.h3lp.utils.H3lpAppTest
+import com.github.h3lp3rs.h3lp.view.signin.SignInActivity
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import org.junit.Before
@@ -33,7 +36,7 @@ import org.mockito.Mockito.`when` as When
 
 @RunWith(AndroidJUnit4::class)
 
-class AnonymousSignInTest : H3lpAppTest() {
+class AnonymousSignInTest : H3lpAppTest<SignInActivity>() {
 
     @Before
     fun setUp() {
@@ -62,19 +65,7 @@ class AnonymousSignInTest : H3lpAppTest() {
         }
     }
 
-    private fun launchAndDo(action: () -> Unit) {
-        launch().use {
-            initIntentAndCheckResponse()
-            action()
-            end()
-        }
-    }
-
-    private fun end() {
-        release()
-    }
-
-    private fun launch(): ActivityScenario<SignInActivity> {
+    override fun launch(): ActivityScenario<SignInActivity> {
         return ActivityScenario.launch(
             Intent(
                 getApplicationContext(), SignInActivity::class.java
