@@ -1,6 +1,7 @@
 package com.github.h3lp3rs.h3lp.helprequest.helpee
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.Intent.ACTION_DIAL
 import android.os.Bundle
@@ -37,7 +38,6 @@ import com.github.h3lp3rs.h3lp.view.helprequest.helpee.EXTRA_CALLED_EMERGENCIES
 import com.github.h3lp3rs.h3lp.view.helprequest.helpee.EXTRA_EMERGENCY_KEY
 import com.github.h3lp3rs.h3lp.view.helprequest.helpee.EXTRA_NEEDED_MEDICATION
 import com.github.h3lp3rs.h3lp.view.mainpage.MainPageActivity
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.userUid
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
@@ -46,6 +46,7 @@ import org.junit.Rule
 import org.junit.Test
 
 class AwaitHelpActivityTest : H3lpAppTest<AwaitHelpActivity>() {
+    private val ctx: Context = getApplicationContext()
 
     private val helpId = 1
 
@@ -57,14 +58,13 @@ class AwaitHelpActivityTest : H3lpAppTest<AwaitHelpActivity>() {
     fun setup() {
         mockEmptyLocation()
 
-        globalContext = getApplicationContext()
         userUid = USER_TEST_ID
 
         setDatabase(PREFERENCES, MockDatabase())
         setDatabase(EMERGENCIES, MockDatabase())
         resetStorage()
 
-        loadValidMedicalDataToStorage()
+        loadValidMedicalDataToStorage(ctx)
     }
 
     fun launch(popup: Boolean): ActivityScenario<AwaitHelpActivity> {
@@ -167,7 +167,7 @@ class AwaitHelpActivityTest : H3lpAppTest<AwaitHelpActivity>() {
     @Test
     fun samePersonComingToHelpTwiceNotifiesOnceOnly() {
         val emergency = EPIPEN_EMERGENCY_INFO
-        val emergencyDb = databaseOf(EMERGENCIES)
+        val emergencyDb = databaseOf(EMERGENCIES, ctx)
 
         // Setup the database accordingly
         emergencyDb.setObject(helpId.toString(), EmergencyInformation::class.java, emergency)
@@ -185,7 +185,7 @@ class AwaitHelpActivityTest : H3lpAppTest<AwaitHelpActivity>() {
             onView(withId(R.id.incomingHelpersNumber)).check(
                 matches(
                     withText(
-                        globalContext.resources.getQuantityString(R.plurals.number_of_helpers, 1, 1)
+                        ctx.resources.getQuantityString(R.plurals.number_of_helpers, 1, 1)
                     )
                 )
             )
@@ -196,7 +196,7 @@ class AwaitHelpActivityTest : H3lpAppTest<AwaitHelpActivity>() {
     @Test
     fun getsNotifiedWhenHelpIsComing() {
         val emergency = EPIPEN_EMERGENCY_INFO
-        val emergencyDb = databaseOf(EMERGENCIES)
+        val emergencyDb = databaseOf(EMERGENCIES, ctx)
 
         // Setup the database accordingly
         emergencyDb.setObject(helpId.toString(), EmergencyInformation::class.java, emergency)
@@ -215,7 +215,7 @@ class AwaitHelpActivityTest : H3lpAppTest<AwaitHelpActivity>() {
             onView(withId(R.id.incomingHelpersNumber)).check(
                 matches(
                     withText(
-                        globalContext.resources.getQuantityString(R.plurals.number_of_helpers, 1, 1)
+                        ctx.resources.getQuantityString(R.plurals.number_of_helpers, 1, 1)
                     )
                 )
             )
@@ -233,7 +233,7 @@ class AwaitHelpActivityTest : H3lpAppTest<AwaitHelpActivity>() {
                 matches(
                     withText(
                         String.format(
-                            globalContext.resources.getQuantityString(
+                            ctx.resources.getQuantityString(
                                 R.plurals.number_of_helpers,
                                 2,
                                 2

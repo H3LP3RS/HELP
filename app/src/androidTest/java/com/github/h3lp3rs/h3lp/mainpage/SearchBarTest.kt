@@ -22,7 +22,6 @@ import com.github.h3lp3rs.h3lp.model.database.MockDatabase
 import com.github.h3lp3rs.h3lp.view.map.NearbyUtilitiesActivity
 import com.github.h3lp3rs.h3lp.view.signin.presentation.PresArrivalActivity
 import com.github.h3lp3rs.h3lp.view.profile.MedicalCardActivity
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.model.storage.Storages.*
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.resetStorage
@@ -45,11 +44,10 @@ class SearchBarTest : H3lpAppTest<MainPageActivity>() {
 
     @Before
     fun setup() {
-        globalContext = getApplicationContext()
         userUid = USER_TEST_ID
         setDatabase(PREFERENCES, MockDatabase())
         resetStorage()
-        storageOf(SIGN_IN).setBoolean(GUIDE_KEY, true)
+        storageOf(SIGN_IN, getApplicationContext()).setBoolean(GUIDE_KEY, true)
     }
 
     @Test

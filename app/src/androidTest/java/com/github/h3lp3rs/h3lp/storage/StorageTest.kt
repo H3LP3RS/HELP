@@ -1,10 +1,10 @@
 package com.github.h3lp3rs.h3lp.storage
 
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.github.h3lp3rs.h3lp.model.database.Databases.*
 import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.model.database.MockDatabase
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.model.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.model.storage.Storages.*
@@ -31,13 +31,14 @@ class StorageTest : H3lpAppTest<MainPageActivity>() {
 
     @Before
     fun setup() {
-        globalContext = ApplicationProvider.getApplicationContext()
         userUid = USER_TEST_ID
         setDatabase(PREFERENCES, MockDatabase())
         resetStorage()
+
         // Will start empty
-        USER_COOKIE.setOnlineSync(true)
-        storage = storageOf(USER_COOKIE)
+        USER_COOKIE.setOnlineSync(true, getApplicationContext())
+        storage = storageOf(USER_COOKIE, getApplicationContext())
+
     }
 
     @Test

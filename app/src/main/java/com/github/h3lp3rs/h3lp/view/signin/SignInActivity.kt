@@ -1,6 +1,5 @@
 package com.github.h3lp3rs.h3lp.view.signin
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -22,9 +21,9 @@ import com.github.h3lp3rs.h3lp.model.storage.LocalStorage
 import com.github.h3lp3rs.h3lp.model.storage.Storages.*
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.disableOnlineSync
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
+import com.github.h3lp3rs.h3lp.view.signin.presentation.PresArrivalActivity
 import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToActivity
 import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToMainPage
-import com.github.h3lp3rs.h3lp.view.signin.presentation.PresArrivalActivity
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.AuthResult
 import kotlinx.android.synthetic.main.activity_sign_in.*
@@ -41,9 +40,6 @@ class SignInActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Store the context for local storage use
-        globalContext = this
-
         setContentView(R.layout.activity_sign_in)
         // Initialize Firebase Auth
         signInButton.setOnClickListener {
@@ -54,7 +50,7 @@ class SignInActivity : AppCompatActivity() {
         textview_no_sign_in.setOnClickListener {
             if (checkUsernameField()) {
                 username = text_field_username.text.toString()
-                disableOnlineSync()
+                disableOnlineSync(applicationContext)
                 checkToSAndLaunchIfNotAcceptedElseMain()
 
             } else {
@@ -69,7 +65,7 @@ class SignInActivity : AppCompatActivity() {
             if (checkUsernameField()) {
                 SignIn.set(AnonymousSignInAdapter)
                 signInClient = SignIn.get()
-                authenticateUser(null, this )
+                authenticateUser(null, this)
 
             } else {
                 displayMessage(
@@ -96,7 +92,7 @@ class SignInActivity : AppCompatActivity() {
      */
     private fun checkToSAndLaunchIfNotAcceptedElseMain() {
         // Check ToS agreement
-        userCookie = storageOf(USER_COOKIE) // Fetch from storage
+        userCookie = storageOf(USER_COOKIE, applicationContext) // Fetch from storage
         userCookie.pull(true) // Block until it's updated
         if (!userCookie.getBoolOrDefault(getString(R.string.KEY_USER_AGREE), false)) {
             goToActivity(PresArrivalActivity::class.java)
@@ -110,7 +106,7 @@ class SignInActivity : AppCompatActivity() {
      * Check if the current user is already signed in and update activity accordingly
      */
     private fun offlineCheckIfSignedIn() {
-        userSignIn = storageOf(SIGN_IN) // Fetch from storage
+        userSignIn = storageOf(SIGN_IN, applicationContext) // Fetch from storage
         if (userSignIn.getBoolOrDefault(keyUserSignedIn, false)) {
             userUid = userSignIn.getStringOrDefault(keyUID, "")
             username = userSignIn.getStringOrDefault(keyUsername, "")
@@ -157,7 +153,7 @@ class SignInActivity : AppCompatActivity() {
      * @param result sign in intent result containing the user account
      * @param activity current activity
      */
-    fun authenticateUser(result: ActivityResult ?, activity: Activity) {
+    fun authenticateUser(result: ActivityResult?, activity: Activity) {
         signInClient.authenticate(result, activity)?.addOnCompleteListener(activity) { task ->
             if (task.isSuccessful) {
 
@@ -167,9 +163,9 @@ class SignInActivity : AppCompatActivity() {
                 saveAuthentication()
 
                 // Enable online sync for meaningful storages:
-                SKILLS.setOnlineSync(true)
-                MEDICAL_INFO.setOnlineSync(true)
-                USER_COOKIE.setOnlineSync(true)
+                SKILLS.setOnlineSync(true, applicationContext)
+                MEDICAL_INFO.setOnlineSync(true, applicationContext)
+                USER_COOKIE.setOnlineSync(true, applicationContext)
 
                 checkToSAndLaunchIfNotAcceptedElseMain()
             } else {
@@ -189,8 +185,10 @@ class SignInActivity : AppCompatActivity() {
         text_field_username.doOnTextChanged { text, _, _, _ ->
             when {
                 text!!.isEmpty() -> text_layout_username.error = getString(R.string.empty_error_msg)
-                text.length >= MAX_LENGTH_USERNAME -> text_layout_username.error = ERROR_MESSAGE_ON_LONG_USERNAME
-                text.length <= MIN_LENGTH_USERNAME -> text_layout_username.error = ERROR_MESSAGE_ON_SHORT_USERNAME
+                text.length >= MAX_LENGTH_USERNAME -> text_layout_username.error =
+                    ERROR_MESSAGE_ON_LONG_USERNAME
+                text.length <= MIN_LENGTH_USERNAME -> text_layout_username.error =
+                    ERROR_MESSAGE_ON_SHORT_USERNAME
                 else -> text_layout_username.error = null
             }
         }
@@ -220,21 +218,12 @@ class SignInActivity : AppCompatActivity() {
      * storages
      */
     companion object {
-        @SuppressLint("StaticFieldLeak")
-        lateinit var globalContext: Context
         var userUid: String? = null
         private var username: String? = null
         const val MAX_LENGTH_USERNAME = 15
         const val ERROR_MESSAGE_ON_LONG_USERNAME = "Invalid username: your username is too long."
         const val MIN_LENGTH_USERNAME = 2
         const val ERROR_MESSAGE_ON_SHORT_USERNAME = "Invalid username: your username is too short."
-
-        /**
-         * Getter on the global context
-         */
-        fun getGlobalCtx(): Context {
-            return globalContext
-        }
 
         /**
          * Getter on the userUid

@@ -11,12 +11,13 @@ import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.model.database.Databases
+import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.databaseOf
+import com.github.h3lp3rs.h3lp.model.database.Databases.PRO_USERS
 import com.github.h3lp3rs.h3lp.model.professional.CloudStorage
 import com.github.h3lp3rs.h3lp.model.professional.ProUser
-import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToActivity
 import com.github.h3lp3rs.h3lp.model.signin.GoogleSignInAdapter
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity
+import com.github.h3lp3rs.h3lp.view.utils.ActivityUtils.goToActivity
 import com.google.firebase.storage.StorageReference
 import com.squareup.picasso.Picasso
 
@@ -29,9 +30,6 @@ class VerificationActivity : AppCompatActivity() {
     companion object {
         // Uri of the image file = proof of status
         var imgUri: Uri? = null
-
-        // Database representing the professional users authenticated
-        private val db = Databases.databaseOf(Databases.PRO_USERS)
 
         // Reference to the Firebase cloud storage
         private lateinit var storageRef: StorageReference
@@ -143,7 +141,11 @@ class VerificationActivity : AppCompatActivity() {
                     proDomain = currentUserDomain,
                     proExperience = currentUserExperience
                 )
-                db.setObject(proUser.id, ProUser::class.java, proUser)
+                databaseOf(PRO_USERS, applicationContext).setObject(
+                    proUser.id,
+                    ProUser::class.java,
+                    proUser
+                )
 
                 goToActivity(ProMainActivity::class.java)
             }.addOnFailureListener {

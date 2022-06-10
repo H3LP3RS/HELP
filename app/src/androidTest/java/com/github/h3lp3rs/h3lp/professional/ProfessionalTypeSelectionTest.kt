@@ -23,7 +23,6 @@ import com.github.h3lp3rs.h3lp.model.database.MockDatabase
 import com.github.h3lp3rs.h3lp.model.dataclasses.MedicalType
 import com.github.h3lp3rs.h3lp.model.forum.ForumCategory
 import com.github.h3lp3rs.h3lp.model.storage.Storages
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.resetStorage
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
@@ -44,11 +43,10 @@ class ProfessionalTypeSelectionTest : H3lpAppTest<MySkillsActivity>() {
 
     @Before
     fun dataInit() {
-        globalContext = getApplicationContext()
         userUid = USER_TEST_ID
         setDatabase(PREFERENCES, MockDatabase())
         resetStorage()
-        val storage = storageOf(Storages.FORUM_THEMES_NOTIFICATIONS)
+        val storage = storageOf(Storages.FORUM_THEMES_NOTIFICATIONS, getApplicationContext())
         val categoriesList = emptyList<ForumCategory?>() +
                 ForumCategory.GENERAL + ForumCategory.GYNECOLOGY
         val theme = MedicalType(categoriesList.filterNotNull())

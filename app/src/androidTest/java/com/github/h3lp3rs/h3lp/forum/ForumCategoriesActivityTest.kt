@@ -16,7 +16,6 @@ import com.github.h3lp3rs.h3lp.utils.H3lpAppTest.Companion.USER_TEST_ID
 import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.view.forum.ForumCategoriesActivity
 import com.github.h3lp3rs.h3lp.view.forum.ForumPostsActivity
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.userUid
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
@@ -37,7 +36,6 @@ class ForumCategoriesActivityTest {
 
     @Before
     fun setup() {
-        globalContext = ApplicationProvider.getApplicationContext()
         userUid = USER_TEST_ID
         init()
     }

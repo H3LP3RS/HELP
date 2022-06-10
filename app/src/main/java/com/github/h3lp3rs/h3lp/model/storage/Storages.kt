@@ -1,9 +1,7 @@
 package com.github.h3lp3rs.h3lp.model.storage
 
-import android.os.Build
-import androidx.annotation.RequiresApi
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.getGlobalCtx
 import java.lang.Boolean.parseBoolean
 
 /**
@@ -13,7 +11,7 @@ enum class Storages {
     USER_COOKIE, MEDICAL_INFO, SKILLS, EMERGENCIES_RECEIVED, FORUM_THEMES_NOTIFICATIONS, FORUM_CACHE,
     SIGN_IN, MSG_CACHE;
 
-    private val ls = LocalStorage(name, getGlobalCtx())
+    private var ls: LocalStorage? = null
     private var isFresh = false
 
     companion object {
@@ -25,14 +23,17 @@ enum class Storages {
          * If the storage has enabled online sync, it will fetch the data online at the first call
          * The storage is only pushed to the database after a push() call
          * @param choice The chosen database
+         * @param context The context with which the storage is initialized
          * @return The instantiated storage of the required type
          */
-        fun storageOf(choice: Storages): LocalStorage {
+        fun storageOf(choice: Storages, context: Context): LocalStorage {
+            choice.ls = choice.ls ?: LocalStorage(choice.name, context)
+
             if (!choice.isFresh) {
-                choice.ls.pull(false)
+                choice.ls?.pull(false)
                 choice.isFresh = true
             }
-            return choice.ls
+            return choice.ls!!
         }
 
         /**
@@ -40,35 +41,38 @@ enum class Storages {
          */
         fun resetStorage() {
             for (storage in values()) {
-                storage.ls.clearAll()
+                storage.ls?.clearAll()
             }
         }
 
         /**
          * Disables online sync for all storages. Typically used for guests.
+         * @param context The context to have access to the shared preferences
          */
-        fun disableOnlineSync() {
+        fun disableOnlineSync(context: Context) {
             for (s in values()) {
-                s.setOnlineSync(false)
+                s.setOnlineSync(false, context)
             }
         }
     }
 
     /**
      * Set the online synchronization for a given storage
-     * @param isSyncEnabled if the synchronization must be enabled
+     * @param isSyncEnabled If the synchronization must be enabled
+     * @param context The context to have access to the shared preferences
      */
-    fun setOnlineSync(isSyncEnabled: Boolean) {
-        getGlobalCtx().getSharedPreferences("SyncPref", AppCompatActivity.MODE_PRIVATE)
+    fun setOnlineSync(isSyncEnabled: Boolean, context: Context) {
+        context.getSharedPreferences("SyncPref", AppCompatActivity.MODE_PRIVATE)
             .edit().putString(name, isSyncEnabled.toString()).apply()
     }
 
     /**
      * Get the online synchronization for a given storage
+     * @param context The context to have access to the shared preferences
      */
-    fun getOnlineSync(): Boolean {
+    fun getOnlineSync(context: Context): Boolean {
         return parseBoolean(
-            getGlobalCtx().getSharedPreferences("SyncPref", AppCompatActivity.MODE_PRIVATE)
+            context.getSharedPreferences("SyncPref", AppCompatActivity.MODE_PRIVATE)
                 .getString(name, "true")
         )
     }

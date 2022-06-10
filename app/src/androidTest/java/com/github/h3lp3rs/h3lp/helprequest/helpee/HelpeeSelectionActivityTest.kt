@@ -1,6 +1,7 @@
-package com.github.h3lp3rs.h3lp
+package com.github.h3lp3rs.h3lp.helprequest.helpee
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.Intent.*
 import android.net.Uri
@@ -16,7 +17,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.GrantPermissionRule
-import com.github.h3lp3rs.h3lp.model.database.Databases
+import com.github.h3lp3rs.h3lp.R
 import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.model.database.Databases.EMERGENCIES
 import com.github.h3lp3rs.h3lp.model.database.Databases.NEW_EMERGENCIES
@@ -27,11 +28,8 @@ import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
 import com.github.h3lp3rs.h3lp.utils.H3lpAppTest
 import com.github.h3lp3rs.h3lp.view.helprequest.helpee.AwaitHelpActivity
 import com.github.h3lp3rs.h3lp.view.helprequest.helpee.HelpeeSelectionActivity
-import com.github.h3lp3rs.h3lp.view.mainpage.MainPageActivity
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.userUid
 import org.hamcrest.Matchers.*
-import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -39,6 +37,7 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class HelpParametersActivityTest : H3lpAppTest<HelpeeSelectionActivity>() {
+    private val ctx: Context = getApplicationContext()
 
     @get:Rule
     val testRule = ActivityScenarioRule(
@@ -51,19 +50,18 @@ class HelpParametersActivityTest : H3lpAppTest<HelpeeSelectionActivity>() {
 
     @Before
     fun setup() {
-        globalContext = getApplicationContext()
         userUid = USER_TEST_ID
 
         setDatabase(NEW_EMERGENCIES, MockDatabase())
 
         val emergencyDb = MockDatabase()
-        emergencyDb.setInt(globalContext.getString(R.string.EMERGENCY_UID_KEY), 0)
+        emergencyDb.setInt(ctx.getString(R.string.EMERGENCY_UID_KEY), 0)
         setDatabase(EMERGENCIES, emergencyDb)
 
         resetStorage()
 
-        storageOf(Storages.USER_COOKIE).setBoolean(
-            globalContext.getString(R.string.KEY_USER_AGREE),
+        storageOf(Storages.USER_COOKIE, ctx).setBoolean(
+            ctx.getString(R.string.KEY_USER_AGREE),
             true
         )
     }
@@ -103,7 +101,7 @@ class HelpParametersActivityTest : H3lpAppTest<HelpeeSelectionActivity>() {
     @Test
     fun clickPhoneButtonAndContactButtonDialsEmergencyContactNumber() {
         mockEmptyLocation()
-        loadValidMedicalDataToStorage()
+        loadValidMedicalDataToStorage(ctx)
 
         launchAndDo {
             // Clicking on the call for emergency button
@@ -130,7 +128,7 @@ class HelpParametersActivityTest : H3lpAppTest<HelpeeSelectionActivity>() {
     @Test
     fun clickPhoneButtonDialsCorrectEmergencyNumber() {
         mockLocationToCoordinates(SWISS_LONG, SWISS_LAT)
-        loadValidMedicalDataToStorage()
+        loadValidMedicalDataToStorage(ctx)
 
         launchAndDo {
             // Clicking on the call for emergency button
@@ -156,7 +154,7 @@ class HelpParametersActivityTest : H3lpAppTest<HelpeeSelectionActivity>() {
 
     @Test
     fun clickPhoneButtonWithNoLocationDialsDefaultEmergencyNumber() {
-        loadValidMedicalDataToStorage()
+        loadValidMedicalDataToStorage(ctx)
         mockFailingLocation()
 
         launchAndDo {

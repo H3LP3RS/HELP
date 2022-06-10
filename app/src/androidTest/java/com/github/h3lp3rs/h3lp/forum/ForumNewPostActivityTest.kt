@@ -20,7 +20,6 @@ import com.github.h3lp3rs.h3lp.model.forum.ForumCategory.Companion.mockForum
 import com.github.h3lp3rs.h3lp.model.forum.data.Forum
 import com.github.h3lp3rs.h3lp.view.forum.EXTRA_FORUM_CATEGORY
 import com.github.h3lp3rs.h3lp.view.forum.NewPostActivity
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.setName
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -36,10 +35,10 @@ class ForumNewPostActivityTest {
 
     @Before
     fun setup() {
-        globalContext = getApplicationContext()
         setName(USER_TEST_ID)
-        mockForum()
-        forum = forumOf(TRAUMATOLOGY)
+        mockForum(getApplicationContext())
+        forum = forumOf(TRAUMATOLOGY, getApplicationContext())
+
         val intent = Intent(
             getApplicationContext(),
             NewPostActivity::class.java

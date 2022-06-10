@@ -3,14 +3,13 @@ package com.github.h3lp3rs.h3lp.model.forum.data
 import android.content.Context
 import android.content.Intent
 import com.github.h3lp3rs.h3lp.model.dataclasses.MedicalType
-import com.github.h3lp3rs.h3lp.view.forum.EXTRA_FORUM_CATEGORY
 import com.github.h3lp3rs.h3lp.model.forum.ForumPost
 import com.github.h3lp3rs.h3lp.model.forum.ForumPostData
 import com.github.h3lp3rs.h3lp.model.notifications.NotificationService
 import com.github.h3lp3rs.h3lp.model.notifications.NotificationService.Companion.sendIntentNotification
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.getName
 import com.github.h3lp3rs.h3lp.model.storage.Storages
+import com.github.h3lp3rs.h3lp.view.forum.EXTRA_FORUM_CATEGORY
+import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.getName
 import java.util.concurrent.CompletableFuture
 
 /**
@@ -95,14 +94,15 @@ interface Forum {
     /**
      * Sends a notification when there's a new post at this level. Upon clicking this
      * notification, the intent will be triggered
-     * @param ctx The context of the app
+     * @param ctx The context of the calling activity
      * @param activityName The activity to launch
      */
     fun sendIntentNotificationOnNewPosts(
         ctx: Context, activityName: Class<*>?
     ) {
-        NotificationService.createNotificationChannel(SignInActivity.globalContext)
-        val enabledCategoriesNotifications = Storages.storageOf(Storages.FORUM_THEMES_NOTIFICATIONS)
+        NotificationService.createNotificationChannel(ctx)
+        val enabledCategoriesNotifications =
+            Storages.storageOf(Storages.FORUM_THEMES_NOTIFICATIONS, ctx)
 
         listenToAll { postData ->
             val medicalType = enabledCategoriesNotifications.getObjectOrDefault(

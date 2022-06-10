@@ -1,5 +1,6 @@
 package com.github.h3lp3rs.h3lp.signin
 
+import android.content.Context
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider.*
@@ -13,7 +14,6 @@ import com.github.h3lp3rs.h3lp.model.database.Databases.*
 import com.github.h3lp3rs.h3lp.model.database.Databases.Companion.setDatabase
 import com.github.h3lp3rs.h3lp.model.database.MockDatabase
 import com.github.h3lp3rs.h3lp.view.signin.presentation.PresArrivalActivity
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.model.storage.Storages.*
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.resetStorage
@@ -36,7 +36,6 @@ class SignedInUserTest : H3lpAppTest<SignInActivity>() {
             getApplicationContext(), SignInActivity::class.java
         )
 
-        globalContext = getApplicationContext()
         userUid = USER_TEST_ID
 
         setDatabase(PREFERENCES, MockDatabase())
@@ -44,15 +43,13 @@ class SignedInUserTest : H3lpAppTest<SignInActivity>() {
 
         val signInMock = Mockito.mock(SignInInterface::class.java)
         When(signInMock.isSignedIn()).thenReturn(true)
-        val userSignIn = storageOf(SIGN_IN)
-        userSignIn.setBoolean(globalContext.getString(R.string.KEY_USER_SIGNED_IN), true)
-        userSignIn.setString(globalContext.getString(R.string.KEY_USER_UID), USER_TEST_ID)
-        userSignIn.setString(globalContext.getString(R.string.KEY_USER_NAME), USER_TEST_NAME)
+        val userSignIn = storageOf(SIGN_IN, getApplicationContext())
+        val context = getApplicationContext<Context>()
+        userSignIn.setBoolean(context.getString(R.string.KEY_USER_SIGNED_IN), true)
+        userSignIn.setString(context.getString(R.string.KEY_USER_UID), USER_TEST_ID)
+        userSignIn.setString(context.getString(R.string.KEY_USER_NAME), USER_TEST_NAME)
 
-        storageOf(USER_COOKIE).setBoolean(
-            globalContext.getString(R.string.KEY_USER_AGREE),
-            tosAccepted
-        )
+        storageOf(USER_COOKIE, getApplicationContext()).setBoolean(context.getString(R.string.KEY_USER_AGREE), tosAccepted)
 
         SignIn.set(signInMock as SignInInterface<AuthResult>)
         init()

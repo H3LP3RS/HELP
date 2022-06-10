@@ -1,9 +1,7 @@
 package com.github.h3lp3rs.h3lp.view.utils
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import androidx.core.content.ContextCompat.startActivity
 import com.github.h3lp3rs.h3lp.view.mainpage.MainPageActivity
 
 // Object that defines utility functions that are useful in many activities to avoid code

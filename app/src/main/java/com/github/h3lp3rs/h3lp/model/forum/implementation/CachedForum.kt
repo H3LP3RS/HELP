@@ -1,7 +1,6 @@
-package com.github.h3lp3rs.h3lp.forum.implementation
+package com.github.h3lp3rs.h3lp.model.forum.implementation
 
-import android.os.Build
-import androidx.annotation.RequiresApi
+import android.content.Context
 import com.github.h3lp3rs.h3lp.model.forum.ForumCategory
 import com.github.h3lp3rs.h3lp.model.forum.ForumPost
 import com.github.h3lp3rs.h3lp.model.forum.ForumPostData
@@ -9,8 +8,8 @@ import com.github.h3lp3rs.h3lp.model.forum.data.CategoryPosts
 import com.github.h3lp3rs.h3lp.model.forum.data.Forum
 import com.github.h3lp3rs.h3lp.model.forum.data.Path
 import com.github.h3lp3rs.h3lp.model.forum.implementation.SimpleDBForum.Companion.pathToKey
-import com.github.h3lp3rs.h3lp.model.storage.Storages.*
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.storageOf
+import com.github.h3lp3rs.h3lp.model.storage.Storages.FORUM_CACHE
 import java.util.concurrent.CompletableFuture
 import java.util.stream.Collectors.toList
 
@@ -21,10 +20,11 @@ import java.util.stream.Collectors.toList
  * NOTE: This cache behaves according to the ForumProtocol.md limitations (subset of FireForum
  * interface)
  * @param forum The wrapped forum we want to cache
+ * @param context The calling context to be able to instantiate a forum
  */
-class CachedForum(private val forum: Forum) : Forum {
+class CachedForum(private val forum: Forum, private val context: Context) : Forum {
     override val path = forum.path
-    private val cache = storageOf(FORUM_CACHE)
+    private val cache = storageOf(FORUM_CACHE, context)
 
     // Entry for all the posts at one path
     private data class CacheEntry(val posts: ArrayList<ForumPostData>)
@@ -36,7 +36,7 @@ class CachedForum(private val forum: Forum) : Forum {
     ): CompletableFuture<ForumPost> {
         // Cache the post if successfully returned
         return forum.newPost(author, content, isPost).thenApply {
-            val post = ForumPost(CachedForum(it.forum), it.post, it.replies)
+            val post = ForumPost(CachedForum(it.forum, context), it.post, it.replies)
             updateCacheWithPost(post.post)
             post
         }
@@ -45,12 +45,12 @@ class CachedForum(private val forum: Forum) : Forum {
     override fun getPost(relativePath: Path): CompletableFuture<ForumPost> {
         // Cache the post if successfully found
         return forum.getPost(relativePath).thenApply {
-            val post = ForumPost(CachedForum(it.forum), it.post, it.replies)
+            val post = ForumPost(CachedForum(it.forum, context), it.post, it.replies)
             updateCacheWithPost(relativePath.dropLast(1), post.post)
             post
         }.exceptionally { exc -> // Fetch cache for post if not found
             // Get the pointer of the category just above the required post
-            val cacheLoc = CachedForum(forum.child(relativePath).parent())
+            val cacheLoc = CachedForum(forum.child(relativePath).parent(), context)
             // Get the post unique key
             val key = relativePath.last()
 
@@ -77,12 +77,12 @@ class CachedForum(private val forum: Forum) : Forum {
             // Transform the list to make it recursively cache compatible
             val cachedList = it.stream().map { l ->
                 CategoryPosts(l.first, l.second.stream().map { p ->
-                    ForumPost(CachedForum(p.forum), p.post, p.replies)
+                    ForumPost(CachedForum(p.forum, context), p.post, p.replies)
                 }.collect(toList()))
             }.collect(toList())
 
             for (categoryPosts in cachedList) {
-                val subForum = CachedForum(forum.root().child(categoryPosts.first))
+                val subForum = CachedForum(forum.root().child(categoryPosts.first), context)
                 for (post in categoryPosts.second) {
                     subForum.updateCacheWithPost(post.post)
                     // Add replies
@@ -101,7 +101,7 @@ class CachedForum(private val forum: Forum) : Forum {
             // In case we are in the root forum, get the CategoryPosts from all categories
             val ls = mutableListOf<CategoryPosts>()
             for (category in ForumCategory.values()) {
-                val categoryForum = CachedForum(forum.child(category.name))
+                val categoryForum = CachedForum(forum.child(category.name), context)
                 ls.addAll(categoryForum.getAllAux())
             }
 
@@ -169,7 +169,7 @@ class CachedForum(private val forum: Forum) : Forum {
             // Impossible to listen for replies, would need to heavy design changes
             val path =
                 listOf(it.category.name) + (if (it.isPost) emptyList() else listOf(it.repliesKey))
-            CachedForum(forum.root()).updateCacheWithPost(path, it)
+            CachedForum(forum.root(), context).updateCacheWithPost(path, it)
             // Execute previous action
             action(it)
         }
@@ -177,14 +177,14 @@ class CachedForum(private val forum: Forum) : Forum {
     }
 
     override fun root(): Forum {
-        return CachedForum(forum.root())
+        return CachedForum(forum.root(), context)
     }
 
     override fun child(relativePath: Path): Forum {
-        return CachedForum(forum.child(relativePath))
+        return CachedForum(forum.child(relativePath), context)
     }
 
     override fun parent(): Forum {
-        return CachedForum(forum.parent())
+        return CachedForum(forum.parent(), context)
     }
 }

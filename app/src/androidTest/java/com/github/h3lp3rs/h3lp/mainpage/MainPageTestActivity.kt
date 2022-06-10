@@ -1,6 +1,7 @@
 package com.github.h3lp3rs.h3lp.mainpage
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.view.View
 import androidx.test.core.app.ActivityScenario
@@ -30,7 +31,6 @@ import com.github.h3lp3rs.h3lp.view.professional.ProMainActivity
 import com.github.h3lp3rs.h3lp.model.professional.ProUser
 import com.github.h3lp3rs.h3lp.view.professional.VerificationActivity
 import com.github.h3lp3rs.h3lp.view.profile.MedicalCardActivity
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.userUid
 import com.github.h3lp3rs.h3lp.model.storage.Storages.*
 import com.github.h3lp3rs.h3lp.model.storage.Storages.Companion.resetStorage
@@ -56,16 +56,15 @@ class MainPageTestActivity : H3lpAppTest<MainPageActivity>() {
 
     @Before
     fun setup() {
-        globalContext = getApplicationContext()
         userUid = USER_TEST_ID
 
         setDatabase(PREFERENCES, MockDatabase())
         setDatabase(PRO_USERS, MockDatabase())
 
-        proUsersDb = databaseOf(PRO_USERS)
+        proUsersDb = databaseOf(PRO_USERS, getApplicationContext())
 
         resetStorage()
-        storageOf(SIGN_IN).setBoolean(GUIDE_KEY, true)
+        storageOf(SIGN_IN, getApplicationContext()).setBoolean(GUIDE_KEY, true)
 
         mockLocationToCoordinates(SWISS_LONG, SWISS_LAT)
     }
@@ -95,7 +94,7 @@ class MainPageTestActivity : H3lpAppTest<MainPageActivity>() {
     fun pushingHelpButtonWithoutSignInShowsPopUp() {
         // Not signed in:
         userUid = null
-        USER_COOKIE.setOnlineSync(false)
+        USER_COOKIE.setOnlineSync(false, getApplicationContext())
 
         launchAndDo {
             onView(withId(R.id.HELP_button)).perform(click())
@@ -245,11 +244,12 @@ class MainPageTestActivity : H3lpAppTest<MainPageActivity>() {
         setDatabase(EMERGENCIES, emergenciesDb)
 
         val newEmergenciesDb = MockDatabase()
-        newEmergenciesDb.setInt(globalContext.getString(R.string.epipen), TEST_EMERGENCY_ID.toInt())
+        newEmergenciesDb.setInt(getApplicationContext<Context>().getString(R.string.epipen), TEST_EMERGENCY_ID.toInt())
 
         setDatabase(NEW_EMERGENCIES, newEmergenciesDb)
         // Add to storage the skills
-        storageOf(SKILLS).setObject(globalContext.getString(R.string.my_skills_key),
+        storageOf(SKILLS, getApplicationContext()).setObject(
+            getApplicationContext<Context>().getString(R.string.my_skills_key),
             HelperSkills::class.java, EPIPEN_SKILL)
 
         // To track notifications

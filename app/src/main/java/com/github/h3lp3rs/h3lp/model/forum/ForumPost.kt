@@ -3,12 +3,11 @@ package com.github.h3lp3rs.h3lp.model.forum
 import android.content.Context
 import android.content.Intent
 import com.github.h3lp3rs.h3lp.R
-import com.github.h3lp3rs.h3lp.view.forum.EXTRA_FORUM_CATEGORY
-import com.github.h3lp3rs.h3lp.model.forum.data.Forum
 import com.github.h3lp3rs.h3lp.model.forum.ForumCategory.*
+import com.github.h3lp3rs.h3lp.model.forum.data.Forum
 import com.github.h3lp3rs.h3lp.model.notifications.NotificationService
+import com.github.h3lp3rs.h3lp.view.forum.EXTRA_FORUM_CATEGORY
 import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.getName
-import com.github.h3lp3rs.h3lp.view.signin.SignInActivity.Companion.globalContext
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.post_forum_row.view.*
@@ -95,7 +94,7 @@ class ForumPost(
     fun sendIntentNotificationOnNewReplies(
         ctx: Context, activityName: Class<*>?
     ) {
-        NotificationService.createNotificationChannel(globalContext)
+        NotificationService.createNotificationChannel(ctx)
 
         listen { postData ->
 

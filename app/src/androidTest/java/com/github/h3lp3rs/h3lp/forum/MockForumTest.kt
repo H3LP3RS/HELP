@@ -1,25 +1,29 @@
 package com.github.h3lp3rs.h3lp.forum
 
-import com.github.h3lp3rs.h3lp.model.forum.data.Forum
-import com.github.h3lp3rs.h3lp.model.forum.ForumCategory.*
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.github.h3lp3rs.h3lp.model.forum.ForumCategory.Companion.mockForum
 import com.github.h3lp3rs.h3lp.model.forum.ForumCategory.Companion.root
+import com.github.h3lp3rs.h3lp.model.forum.ForumCategory.GENERAL
+import com.github.h3lp3rs.h3lp.model.forum.data.Forum
+import org.junit.Assert.assertFalse
+import kotlin.test.*
 import org.junit.Before
 import org.junit.Test
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
-import java.util.concurrent.TimeUnit.*
-import kotlin.test.*
 
+
+// MockForumTest is an android test since it requires an application context to use the storages
 class MockForumTest {
+    // IMPORTANT NOTE: the current gradle version is compatible at most with Java 8 but the method
+    // orTimeout on CompletableFuture was added in Java 9, there is thus unfortunately no way to use
+    // it here
 
     // Useful variables
     private lateinit var forum: Forum
 
     @Before
     fun setup() {
-        mockForum()
-        forum = root().child(GENERAL.name)
+        mockForum(getApplicationContext())
+        forum = root(getApplicationContext()).child(GENERAL.name)
     }
 
     @Test
@@ -27,7 +31,7 @@ class MockForumTest {
         forum.newPost(AUTHOR, CONTENT, isPost = true).thenApply { p ->
             assertEquals(p.post.content, CONTENT)
             assertEquals(p.post.author, AUTHOR)
-        }.orTimeout(TIMEOUT, MILLISECONDS).exceptionally { fail(TIMEOUT_FAIL_MSG) }
+        }.exceptionally { fail(TIMEOUT_FAIL_MSG) }
             .join()
     }
 
@@ -38,7 +42,7 @@ class MockForumTest {
                 assertEquals(r.post.content, CONTENT)
                 assertEquals(r.post.author, AUTHOR)
             }.join()
-        }.orTimeout(TIMEOUT, MILLISECONDS).exceptionally { fail(TIMEOUT_FAIL_MSG) }
+        }.exceptionally { fail(TIMEOUT_FAIL_MSG) }
             .join()
     }
 
@@ -46,7 +50,7 @@ class MockForumTest {
     fun getNonExistentPostFails() {
         forum.getPost(emptyList()).thenApply {
             assertFalse(true) // For type checking, we cannot use fail()
-        }.orTimeout(TIMEOUT, MILLISECONDS).exceptionally {
+        }.exceptionally {
             assertTrue(true) // succeed() doesn't exist
         }.join()
     }
@@ -58,16 +62,16 @@ class MockForumTest {
                 assertEquals(p1.post.author, p2.post.author)
                 assertEquals(p1.post.content, p2.post.content)
             }.join()
-        }.orTimeout(TIMEOUT, MILLISECONDS).exceptionally { fail(TIMEOUT_FAIL_MSG) }
+        }.exceptionally { fail(TIMEOUT_FAIL_MSG) }
             .join()
     }
 
     @Test
     fun listenerWorksWhenPostsBefore() {
         var counter = 0
-        forum.newPost(AUTHOR, CONTENT, isPost = true).orTimeout(TIMEOUT, MILLISECONDS)
+        forum.newPost(AUTHOR, CONTENT, isPost = true)
             .exceptionally { fail(TIMEOUT_FAIL_MSG) }.join()
-        forum.newPost(AUTHOR, CONTENT, isPost = true).orTimeout(TIMEOUT, MILLISECONDS)
+        forum.newPost(AUTHOR, CONTENT, isPost = true)
             .exceptionally { fail(TIMEOUT_FAIL_MSG) }.join()
         forum.listenToAll { counter++ }
         assertEquals(2, counter)
@@ -77,7 +81,7 @@ class MockForumTest {
     fun listenerWorksWhenPostsAfter() {
         var counter = 0
         forum.listenToAll { counter++ }
-        forum.newPost(AUTHOR, CONTENT, isPost = true).orTimeout(TIMEOUT, MILLISECONDS)
+        forum.newPost(AUTHOR, CONTENT, isPost = true)
             .exceptionally { fail(TIMEOUT_FAIL_MSG) }.join()
         assertEquals(1, counter)
     }
@@ -85,7 +89,7 @@ class MockForumTest {
     @Test
     fun listenToReplyWorks() {
         var counter = 0
-        val p = forum.newPost(AUTHOR, CONTENT, isPost = true).orTimeout(TIMEOUT, MILLISECONDS)
+        val p = forum.newPost(AUTHOR, CONTENT, isPost = true)
             .exceptionally { fail(TIMEOUT_FAIL_MSG) }.join()
         p.listen {
             assertEquals(AUTHOR, it.author)
