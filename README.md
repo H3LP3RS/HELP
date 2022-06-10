@@ -75,7 +75,7 @@ In case of an emergency:
 H3LP is a lot more than that and contains many features to keep you safe:
 - A map to locate nearby hospitals, pharmacies and defibrillators
 - Many tutorials to learn first aid tips with videos
-- A simple tool that gives you the best tempo to do CPR
+- A simple tool that gives you the best tempo to perform CPR
 - A forum where user can ask medical professional for tips and information by topic
 
 ## Privacy Policy
