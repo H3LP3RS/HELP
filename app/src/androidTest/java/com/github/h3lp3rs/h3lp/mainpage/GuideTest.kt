@@ -36,13 +36,13 @@ class GuideTest : H3lpAppTest<MainPageActivity>() {
 
     @Test
     fun checkThatGuideIsLaunched() {
-        launch().use { assertTrue(storageOf(USER_COOKIE, getApplicationContext()).getBoolOrDefault(GUIDE_KEY, false)) }
+        launch().use { assertTrue(storageOf(SIGN_IN, getApplicationContext()).getBoolOrDefault(GUIDE_KEY, false)) }
     }
 
     @Test
     fun checkThatGuideIsInitiallyNotLaunched() {
-        storageOf(USER_COOKIE, getApplicationContext()).setBoolean(GUIDE_KEY, true)
-        launch().use { assertTrue(storageOf(USER_COOKIE, getApplicationContext()).getBoolOrDefault(GUIDE_KEY, false)) }
+        storageOf(SIGN_IN, getApplicationContext()).setBoolean(GUIDE_KEY, true)
+        launch().use { assertTrue(storageOf(SIGN_IN, getApplicationContext()).getBoolOrDefault(GUIDE_KEY, false)) }
     }
 
     @Test

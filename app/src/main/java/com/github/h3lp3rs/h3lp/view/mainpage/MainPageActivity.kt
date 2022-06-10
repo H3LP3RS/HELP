@@ -62,7 +62,7 @@ const val TUTORIAL = "Tutorial"
 const val HOSPITALS = "Hospitals"
 const val PHARMACIES = "Pharmacies"
 
-private val mainPageButton = listOf(
+private val mainPageButtons = listOf(
     MainPageButton(R.id.button_profile, false, R.string.profile_guide_prompt),
     MainPageButton(R.id.button_tutorial, false, R.string.tuto_guide_prompt),
     MainPageButton(R.id.button_my_skills, false, R.string.skills_guide_prompt),
@@ -80,6 +80,7 @@ private val mainPageButton = listOf(
 class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback {
     private lateinit var toggle: ActionBarDrawerToggle
     private var locPermissionDenied = false
+    private var isGuideEnabled = false
 
     private lateinit var searchView: SearchView
     private lateinit var listView: ListView
@@ -211,11 +212,19 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
      * Starts the application guide.
      */
     private fun startAppGuide() {
-        if (!storage.getBoolOrDefault(GUIDE_KEY, false)) {
-            storage.setBoolean(GUIDE_KEY, true)
+        val signInStorage = storageOf(SIGN_IN)
+        if (!signInStorage.getBoolOrDefault(GUIDE_KEY, false)) {
+            signInStorage.setBoolean(GUIDE_KEY, true)
+
+            // Disable buttons so that the guide can be seen to completion
+            isGuideEnabled = true
+
             // Starts the guide of main page buttons. Once it finishes, it shows the
             // prompt for the search bar by executing the showSearchBarPrompt.
-            showButtonPrompt(mainPageButton) { showSearchBarPrompt() }
+            showButtonPrompt(mainPageButtons) { showSearchBarPrompt() }
+
+            // Re-enable the buttons
+            isGuideEnabled = false
         }
     }
 
@@ -477,22 +486,25 @@ class MainPageActivity : AppCompatActivity(), OnRequestPermissionsResultCallback
      * @param view The button that was clicked
      */
     fun goToButtonActivity(view: View) {
-        // If the view isn't one of the buttons, stays on the main page
-        goToActivity(
-            when (view.id) {
-                R.id.button_profile -> MedicalCardActivity::class.java
-                R.id.button_my_skills -> MySkillsActivity::class.java
-                R.id.button_first_aid -> FirstAidActivity::class.java
-                R.id.button_cpr -> CprRateActivity::class.java
-                R.id.HELP_button -> HelpeeSelectionActivity::class.java
-                R.id.button_forum -> ForumCategoriesActivity::class.java
-                R.id.button_tutorial -> PresArrivalActivity::class.java
-                R.id.toolbar_settings -> SettingsActivity::class.java
-                else -> {
-                    MainPageActivity::class.java
+        // If guide is showing, we disable the buttons
+        if(!isGuideEnabled) {
+            // If the view isn't one of the buttons, stays on the main page
+            goToActivity(
+                when (view.id) {
+                    R.id.button_profile -> MedicalCardActivity::class.java
+                    R.id.button_my_skills -> MySkillsActivity::class.java
+                    R.id.button_first_aid -> FirstAidActivity::class.java
+                    R.id.button_cpr -> CprRateActivity::class.java
+                    R.id.HELP_button -> HelpeeSelectionActivity::class.java
+                    R.id.button_forum -> ForumCategoriesActivity::class.java
+                    R.id.button_tutorial -> PresArrivalActivity::class.java
+                    R.id.toolbar_settings -> SettingsActivity::class.java
+                    else -> {
+                        MainPageActivity::class.java
+                    }
                 }
-            }
-        )
+            )
+        }
     }
 
     /** Called when the user taps the professional portal  button */

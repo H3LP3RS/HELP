@@ -64,7 +64,7 @@ class MainPageTestActivity : H3lpAppTest<MainPageActivity>() {
         proUsersDb = databaseOf(PRO_USERS, getApplicationContext())
 
         resetStorage()
-        storageOf(USER_COOKIE, getApplicationContext()).setBoolean(GUIDE_KEY, true)
+        storageOf(SIGN_IN, getApplicationContext()).setBoolean(GUIDE_KEY, true)
 
         mockLocationToCoordinates(SWISS_LONG, SWISS_LAT)
     }
