@@ -80,7 +80,7 @@ H3LP is a lot more than that and contains many features to keep you safe:
 
 ## Privacy Policy
 
-H3LP is concerned about privacy of its user, especially when it comes to sensitive information such as medical information. So H3LP guarantee that all conversation are end-to-end encrypted and let every user choose what data should be synchronised online.
+H3LP is concerned about privacy of its users, especially when it comes to sensitive information such as medical data. Therefore H3LP guarantees that all conversations are end-to-end encrypted and let every user choose what data should be synchronised online.
 
 ## How To Use
 
