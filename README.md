@@ -58,8 +58,8 @@ class at EPFL.
 
 Once the app is downloaded the users can sign in and fill up their information:
 - sign in with Google or anonymously. 
-- Fill up there medical informing, containing useful information in case of emergency like blood type, allergy or current Treatment.
-- Add emergency contact to call in case of emergency.
+- Fill up their medical information, containing useful information in case of emergency like blood type, allergy or current Treatment.
+- Add  an emergency contact to call in case of emergency.
 - Add there medical skills and the medicine they carry with them.
 
 That's it they are ready to save and be saved.
