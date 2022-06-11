@@ -66,7 +66,7 @@ That's it they are ready to save and be saved.
 
 In case of an emergency:
 - tap the H3LP button and select what help he/she needs
-- can decide to call the emergency service or her/his emergency contact
+- can decide to call the emergency service or your emergency contact
 - chat with the helpers that are coming to give them more information
 
 
