@@ -97,7 +97,7 @@ H3LP is concerned about privacy of its users, especially when it comes to sensit
 - Hind El Bouchrifi (hind.elbouchrifi@epfl.ch)
 - Adrien Nelson Rey (adrien.rey@epfl.ch)
 - Alexis Schlomer (alexis.schlomer@epfl.ch)
-- Alexandre Michel Hayderi (alexandre.hayderi@epfl.ch)
+- Alexandre Michael Hayderi (alexandre.hayderi@epfl.ch)
 - Emilien Duc (emilien.duc@epfl.ch)
 
 
