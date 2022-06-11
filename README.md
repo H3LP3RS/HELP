@@ -65,7 +65,7 @@ Once the app is downloaded the users can sign in and fill in their information:
 That's it they are ready to save and be saved.
 
 In case of an emergency:
-- tap the H3LP button and select what help he/she needs
+- tap the H3LP button and select what help you need
 - can decide to call the emergency service or your emergency contact
 - chat with the helpers that are coming to give them more information
 
