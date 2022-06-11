@@ -57,7 +57,7 @@ class at EPFL.
 ## Key Features
 
 Once the app is downloaded the users can sign in and fill in their information:
-- sign in with Google or anonymously. 
+- Sign in with Google or anonymously. 
 - Fill in their medical information, containing useful information in case of an emergency like blood type, allergy, or their current treatment.
 - Add  an emergency contact to call in case of emergency.
 - Add their medical skills and the medicine they carry with them.
